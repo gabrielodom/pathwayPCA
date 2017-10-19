@@ -1,6 +1,9 @@
 # pathwayPCA
 A Bioconductor package for extracting principal components from expressed pathways
 
+Authors: Gabriel J. Odom, Yuguang Ban, and Xi Chen.
+Date: 2017-10-19
+
 
 
 ## Introduction
@@ -42,9 +45,41 @@ We require a list of pathway information. This list must be composed of the foll
 "ALDH1B1" "ALDH2" "UGDH" "ALDH9A1" "ALDH3A2" "ALDH7A1" "UGT2B10" "UGT2A3" "UGT2B15"
 ```
 which is the name of nine genes in a particular pathway as a character vector.
-2. `TERMS`: a character vector of the names of the list elements in `pathways`. For example, the name of the pathway considered in the previous example is `KEGG_ASCORBATE_AND_ALDARATE_METABOLISM`
+
+2. `TERMS`: a character vector of the names of the list elements in `pathways`. For example, the name of the pathway considered in the previous example is `KEGG_ASCORBATE_AND_ALDARATE_METABOLISM`.
+
+3. `setsize`: a named integer vector of the number of genes or proteins in each pathway. For example, the entry for the `KEGG_ASCORBATE_AND_ALDARATE_METABOLISM` pathway is 9.
+
+While we encourage the end-users to supply a pathway, this argument will default to either the "GO" or "MSigDB" pathways. This default gene set is a topic of further discussion. In future versions of this package, we will attempt to have these pathways automatically update from a web source as the package is loaded or attached via the `.onLoad()` or `.onAttach()` namespace hooks, respectively. 
+
+### Additional Developer Arguments
+We allow additional arguments to be passed to internal function calls via `...` ("dots") functionality. These additional arguments are available to developers and data scientists who have the requisite knowledge of this package's internal function design to make modifications to internal function defaults. We do not expect the common end-user to have any need for this.
+
+One exception would be the choice of PCA variant. While I strongly believe this should be hidden or defaulted (at minimum, it should appear after the `...` in the arguments list, preculding any partial match possibilities), it should *at least* be addressed in the user-facing help documentation.
 
 
 
+## Main Function(s) Outputs
+Our aim in this package is for the end-user to have little knowledge of this code or `R`'s inner workings and still be able to analyze his/her data.
+
+### A New Class for Returned Objects
+With user ease in mind, we plan to have our user-facing functions return objects of a specific class, say `pathwayPCA_object` for instance. [To keep with our core value of simplicity, this class name choice obviously needs some work.] We will then develop methods for common functions which apply to objects of our class via the `UseMethod()` function. For example, we may want to return a model summary from a function output, so we will create a method for the common `summary()` function in `base::` `R`. This ensures that end-users can call functions to which they are already comfortable, such as `plot()`, `print()`, and others, while we already prescribe the behavior of these functions when called on objects of our class.
+
+### Summary Graphics
+We will create plotting functions that produce annotated horizontal bar charts showing the significant pathways related to the response vector. The vertical axis will be specific pathways ranked by their negative log adjusted $p$-values, and the horizontal axis will be these $p$-values. We will annotate the bars themselves with summary statistics concerning the number of genes in that pathway.
+
+The above graphics can be created irrespective of the type of response. However, we will also have a response-specific suite of graphics. This is a topic of further discussion
+
+### Summary Tables
+Because of the flexibility of the `UseMethod()` function, we can return a single object that is handled differently by the `plot()` and `print()` functions. One main benefit to this is that we can create extractor functions to print summary tables from the pathway analysis. This table would include information such as the pathway name, raw $p$-value, adjusted $p$-value, significane ranking, number of genes in the pathway, number of genes expressed in the data, and potentially many more measurements.
+
+### List of PC Matrices
+We also plan to return pathway-specific extracted PCs, either as a named list or as a column-concatenated matrix. I think that the class object would contain all this information in it anyway, but we would have an extractor function to access this list or matrix.
+
+### Developer Specifics
+We can also return model calls, model return specifics, and a report on algorithm convergence. This information would not ever be seen by the common end-user, but it would be available to data scientists or developers interested in debugging or troubleshooting an analysis pipeline.
 
 
+
+## The Internal Function Outline
+This is where I'm picking up next. I plan to write an analysis pipeline based on the requirements listed above. My next steps are: draft outlines for each of the necessary external and internal functions, piece out the existing code into these outlines, modify the outline documentation and existing code to match, and workflow test.
