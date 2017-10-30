@@ -7,7 +7,7 @@ Date: 2017-10-19
 
 
 ## Introduction
-We aim to write a package to collect, organize, and document a suite of existing `R` scripts and files. The purpose of this is to ensure that biologists and bioinformaticians will be easily able to apply our work to their existing data. Our core values for this project are as follows:
+We aim to write a package to collect, organize, and document a suite of existing `R` scripts and files. The purpose of this is to ensure that biologists and bioinformaticians will be easily able to apply our work to their existing data. After a discussion with Prof. Chen, we will not include any support for prediction; this package will address pathway to response attribution only. Our core values for this project are as follows:
 
   - Rely on as few external packages as possbile. This will require more development work at the beginning, but it will make future development, bug fixes, patches, and enhancements much easier.
 - Document *everything*. Once again, this will require more up-front work, but it will yield more informed end-users and make transitioning between development teams seamless.
@@ -29,13 +29,13 @@ The `pathwayPCA` package exists to extract principal components (PCs) from pre-d
 ## User Supplied Inputs
 We expect the end-user to input the following information:
 
-### Predictor Matrix
-We require a predictor matrix, $\textbf{X}$. This data frame or matrix is expected to be in [tidy form](https://www.jstatsoft.org/article/view/v059i10): $\textbf{X}$ has $n$ rows, one for each observation, and $p$ columns, one for each gene or protein measured. Moreover, because the point of this package is to extract PCs from pathways, we need to know the names of the genes or proteins. Therefore, $\textbf{x}$ must include the names of the genes or proteins as column names.
+### Gene / Protein Input Matrix
+We require an input matrix, $\textbf{X}$. This data frame or matrix is expected to be in [tidy form](https://www.jstatsoft.org/article/view/v059i10): $\textbf{X}$ has $n$ rows, one for each observation, and $p$ columns, one for each gene or protein measured. Moreover, because the point of this package is to extract PCs from pathways, we need to know the names of the genes or proteins. Therefore, $\textbf{x}$ must include the names of the genes or proteins as column names.
 
 For data input into an `R` environment, we recommend the end-user consider the [`readr::`](https://cran.r-project.org/web/packages/readr/readr.pdf), [`readxl::`](https://cran.r-project.org/web/packages/readxl/readxl.pdf) (both part of the [Tidyverse](https://www.tidyverse.org/)) and [`data.table::`](https://cran.r-project.org/web/packages/data.table/data.table.pdf) packages. See this [white paper](https://csgillespie.github.io/efficientR/5-3-importing-data.html#fast-data-reading) for a comparison of speed and robustness of these packages. See this [Stack Overflow discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly) for comments on the strengths and weaknesses of the `data.table::` and Tidyverse packages. An anecdotal comparison could be that SQL users prefer `data.table::`, while most other users find the Tidyverse syntax easier to learn.
 
 ### Response Matrix
-We request a response matrix, $\textbf{Y}$. This data frame or matrix should have one column if the analysis expected is regression or classification and two columns (event time and censoring indicator) for survival. If $\textbf{Y}$ is `NULL`, then we assume that the end user requests PCs extracted from the pathways without any analysis. We further require that the row order of the response matrix matches the row order of the predictor matrix.
+We request a response matrix, $\textbf{Y}$. This data frame or matrix should have one column if the analysis expected is regression or classification and two columns (event time and censoring indicator) for survival. If $\textbf{Y}$ is `NULL`, then we assume that the end user requests PCs extracted from the pathways without any analysis or attribution ranking. We further require that the row order of the response matrix matches the row order of the gene / protein matrix.
 
 ### Gene Set List
 We require a list of pathway information. This list must be composed of the following three elements
@@ -63,23 +63,36 @@ One exception would be the choice of PCA variant. While I strongly believe this 
 Our aim in this package is for the end-user to have little knowledge of this code or `R`'s inner workings and still be able to analyze his/her data.
 
 ### A New Class for Returned Objects
-With user ease in mind, we plan to have our user-facing functions return objects of a specific class, say `pathwayPCA_object` for instance. [To keep with our core value of simplicity, this class name choice obviously needs some work.] We will then develop methods for common functions which apply to objects of our class via the `UseMethod()` function. For example, we may want to return a model summary from a function output, so we will create a method for the common `summary()` function in `base::` `R`. This ensures that end-users can call functions to which they are already comfortable, such as `plot()`, `print()`, and others, while we already prescribe the behavior of these functions when called on objects of our class.
+With user ease in mind, we plan to have our user-facing functions return objects of a specific class, say `pathwayPCA_object` for instance. [To keep with our core value of simplicity, this class name choice obviously needs some work.] We will then develop methods for common functions which apply to objects of our class via the `UseMethod()` function. For example, we may want to return a model summary from a function output, so we will create a method for the common `summary()` function in `base::` `R`. This ensures that end-users can call functions to which they are already comfortable, such as `plot()`, `print()`, `table()`, and others, while we already prescribe the behavior of these functions when called on objects of our class.
 
 ### Summary Graphics
 We will create plotting functions that produce annotated horizontal bar charts showing the significant pathways related to the response vector. The vertical axis will be specific pathways ranked by their negative log adjusted $p$-values, and the horizontal axis will be these $p$-values. We will annotate the bars themselves with summary statistics concerning the number of genes in that pathway.
 
-The above graphics can be created irrespective of the type of response. However, we will also have a response-specific suite of graphics. This is a topic of further discussion
+The above graphics can be created irrespective of the type of response. However, we will also have a response-specific suite of graphics. This is a topic of further discussion.
 
 ### Summary Tables
-Because of the flexibility of the `UseMethod()` function, we can return a single object that is handled differently by the `plot()` and `print()` functions. One main benefit to this is that we can create extractor functions to print summary tables from the pathway analysis. This table would include information such as the pathway name, raw $p$-value, adjusted $p$-value, significane ranking, number of genes in the pathway, number of genes expressed in the data, and potentially many more measurements.
+Because of the flexibility of the `UseMethod()` function, we can return a single object that is handled differently by the `plot()` and `print()` functions. One main benefit to this is that we can create extractor functions to print summary tables from the pathway analysis. This table would include information such as the pathway name, raw $p$-value, adjusted $p$-value, significance ranking, number of genes in the pathway, number of genes expressed in the data, and potentially many more measurements (including measurements of model-specific importance: $p$-values of independence tests on the Schoenfeld residuals of a Cox Proportional Hazards model when $\textbf{Y}$ is a survival-type response).
 
 ### List of PC Matrices
-We also plan to return pathway-specific extracted PCs, either as a named list or as a column-concatenated matrix. I think that the class object would contain all this information in it anyway, but we would have an extractor function to access this list or matrix.
+We also plan to return pathway-specific extracted PCs, either as a named list or as a column-concatenated matrix. I think that the class object would contain all this information in it anyway, but we would have an extractor function to access this as a list or matrix.
 
 ### Developer Specifics
 We can also return model calls, model return specifics, and a report on algorithm convergence. This information would not ever be seen by the common end-user, but it would be available to data scientists or developers interested in debugging or troubleshooting an analysis pipeline.
 
 
 
-## The Internal Function Outline
+## Current Work
 This is where I'm picking up next. I plan to write an analysis pipeline based on the requirements listed above. My next steps are: draft outlines for each of the necessary external and internal functions, piece out the existing code into these outlines, modify the outline documentation and existing code to match, and workflow test.
+
+### The Function Outline
+This is where we will document the inputs and outputs of the internal and external functions. We will decide which functions will be internal later.
+
+  - A function to create an input object: take in $\textbf{X}$, $\text{Y}$, and the geneset list. Perform necessary compatability checks. Return an S4 object with class called (for the sake of argument) `pathwayExpression`. This is the function that will issue errors and warnings of the data or geneset has the wrong form, including a warning for a `NULL` response matrix.
+  - Split the `pathwayExpression` object into a list of matrices by pathway. Remove all the pathway list matrices with fewer than $k = 3$ columns. Return (silently?) a character vector of all the annihilated gene pathways (this should probably be accessible to developers). Honestly, this function should probably be called internally within the function that creates the `pathwayExpression` objects.
+  - Test each pathway in the `pathwayExpression` object for significance with the response, $\textbf{Y}$. Inputs:
+
+### Piecing in Existing Code
+
+### Outline Revisions
+
+### Workflow Tests
