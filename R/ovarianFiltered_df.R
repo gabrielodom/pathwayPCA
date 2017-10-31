@@ -1,0 +1,10 @@
+#'  Ovarian Cancer Proteomics Data
+#'
+#' @description Preprocessed ovarian CPTAC2 PNNL global proteomics data set
+#'
+#' @format A data frame with 14279 genes measured on 58 female subjects with
+#'   Grade 3 tumours: 43 subjects with cancer in Stage IIIC and 15 in Stage IV.
+#'   There are two sample and subject identifier columns included as well.
+#'
+#' @source Pei Wang at Mount Sinai School of Medicine via Xi Steven Chen
+"ovarianFiltered_df"
