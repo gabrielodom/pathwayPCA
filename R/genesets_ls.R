@@ -1,17 +1,18 @@
 #'  Gene Pathway Sets
 #'
-#' @description Gene Pathway Sets from <WEBSITE HERE>
+#' @description A Canonical Pathways Gene Sets from the Broad Institute: File:
+#'   c2.cp.v6.0.symbols.gmt.
 #'
 #' @format A list of three elements:
 #' \itemize{
-#'   \item{pathways : }{A list of 1304 character vectors. Each vector contains
+#'   \item{pathways : }{A list of 1329 character vectors. Each vector contains
 #'     the names of the individual genes within that pathway as a vector of
 #'     character strings.}
-#'   \item{TERMS : }{A character vector of length 1304 containing the names of
+#'   \item{TERMS : }{A character vector of length 1329 containing the names of
 #'     the gene pathways.}
-#'   \item{setsize : }{A named integer vector of length 1304 containing the
+#'   \item{setsize : }{A named integer vector of length 1329 containing the
 #'     number of genes in each gene pathway.}
 #' }
 #'
-#' @source SOURCE HERE
+#' @source http://software.broadinstitute.org/gsea/msigdb/collections.jsp
 "genesets_ls"
