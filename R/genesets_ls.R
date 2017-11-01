@@ -14,5 +14,5 @@
 #'     number of genes in each gene pathway.}
 #' }
 #'
-#' @source http://software.broadinstitute.org/gsea/msigdb/collections.jsp
+#' @source \url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp}
 "genesets_ls"
