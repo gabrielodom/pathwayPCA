@@ -17,6 +17,17 @@ To see the current work on the project, please visit [our package site](https://
 
 
 
+### A Vocabulary Primer
+For a tutorial on genomics, proteomics, lipidomics, and metabolomics, collectively known as "-omics" or "MS-omics" (mass spectrometry), from a computer scientist's persepctive, see [this BMC Bioinformatics paper](https://doi.org/10.1186/1471-2105-15-S7-S9).
+
+  - Proteomics: the study of biological processes via the analysis of protein expression or state in cells or tissue. Proteins are built on peptides, which are amino acid chains constructed by mRNA translation.
+  - Lipidomics: the systems-level study of lipids and their interactions. Lipids are often clustered into [eight categories](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3995129/) sharing certain chemical or physical properties: fatty acyls, glycerolipids, glycerophospholipids, sphingolipids, saccharolipids, polyketides, sterol lipids, and prenol lipids. According to [Feng and Prestwich (2005)](https://www.crcpress.com/Functional-Lipidomics/Feng-Prestwich/p/book/9781574444674), lipids that occur rarely or in small quantities are often the most effectual lipids in biological processes, meaning they are particularly important in disease diagnostics and in understanding pathology.
+  - Metabolomics: the study of small molecular end products (called metabolomes) from cellular regulatory pathways. 
+  - Gemomics: the study of the complete set of DNA within a single cell of a living organism. As of 2013, this field of study was far and away the largest and best developed field of study of all the -omics branches.
+  
+
+
+
 ## Overview
 The `pathwayPCA` package exists to extract principal components (PCs) from pre-defined gene or protein sets (called pathways) expressed in the users' data. As shown in [Chen et al (2008)](https://academic.oup.com/bioinformatics/article/24/21/2474/191290), [Chen et al (2010)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3480088/), and [Chen (2011)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3215429/), modelling outcomes based on PCs extracted from pathways yields superior results to modelling outcomes on all genes. This package will enable users to extract pathway PCs for outcome association or prediction via three principal component analysis (PCA) modifications
 
