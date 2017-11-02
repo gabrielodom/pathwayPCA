@@ -3,7 +3,6 @@
 \docType{class}
 \name{OmicsPathway-class}
 \alias{OmicsPathway-class}
-\alias{create_OmicsPath}
 \title{An S4 class for mass spectronomy data and gene pathway lists}
 \description{
 An S4 class for mass spectronomy data and gene pathway lists

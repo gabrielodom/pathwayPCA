@@ -3,7 +3,6 @@
 \docType{class}
 \name{OmicsSurv-class}
 \alias{OmicsSurv-class}
-\alias{create_OmicsSurv}
 \title{An S4 class for survival responses within an "OmicsPathway" object}
 \description{
 This creates the "OmicsSurv" class which extends the
