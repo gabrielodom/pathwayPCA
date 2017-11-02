@@ -25,7 +25,7 @@ create_OmicsSurv <- setClass("OmicsSurv",
 Y_time <- rnorm(58, mean = 78, sd = 6)
 Y_event <- sample(c(FALSE, TRUE), 58, replace = TRUE, prob = c(0.2, 1 - 0.2))
 testOmicsSurv <- create_OmicsSurv(massSpec = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = pathways,
+                                  pathwaySet = genesets_ls,
                                   eventTime = Y_time,
                                   eventObserved = Y_event)
 # getClass(testOmicsSurv)
@@ -36,7 +36,7 @@ create_OmicsReg <- setClass("OmicsReg",
                             contains = "OmicsPathway")
 Y_reg <- rnorm(58)
 testOmicsReg <- create_OmicsReg(massSpec = ovarianFiltered_df[, -(1:3)],
-                                pathwaySet = pathways,
+                                pathwaySet = genesets_ls,
                                 response = Y_reg)
 
 # Classification (factor response)
@@ -45,12 +45,12 @@ create_OmicsClassif <- setClass("OmicsClassif",
                                 contains = "OmicsPathway")
 Y_class <- factor(sample(c("A", "B", "C"), 58, replace = TRUE))
 testOmicsClassif <- create_OmicsClassif(massSpec = ovarianFiltered_df[, -(1:3)],
-                                        pathwaySet = pathways,
+                                        pathwaySet = genesets_ls,
                                         response = Y_class)
 
 # Pathway Extraction only
 testOmicsPath <- create_OmicsPath(massSpec = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = pathways)
+                                  pathwaySet = genesets_ls)
 
 
 ######  Create Functions for these S4 Classes  ################################
