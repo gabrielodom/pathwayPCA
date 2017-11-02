@@ -18,13 +18,3 @@ setClass("OmicsReg",
          slots = c(response = "numeric"),
          validity = valid_OmicsReg,
          contains = "OmicsPathway")
-
-#' @export
-create_OmicsReg <- function(massSpec_df,
-                            pathwaySet_ls,
-                            response_vec){
-  new("OmicsReg",
-      massSpec = massSpec_df,
-      pathwaySet = pathwaySet_ls,
-      response = response_vec)
-}

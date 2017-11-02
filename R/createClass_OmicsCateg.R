@@ -11,6 +11,7 @@
 #' @importFrom methods new
 #'
 #' @include createClass_OmicsPath.R validClass_Omics.R
+#'
 #' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"}
 #'
 #' @export
@@ -18,13 +19,3 @@ setClass("OmicsCateg",
          slots = c(response = "factor"),
          validity = valid_OmicsCateg,
          contains = "OmicsPathway")
-
-#' @export
-create_OmicsCateg <- function(massSpec_df,
-                              pathwaySet_ls,
-                              response_vec){
-  new("OmicsCateg",
-      massSpec = massSpec_df,
-      pathwaySet = pathwaySet_ls,
-      response = response_vec)
-}
