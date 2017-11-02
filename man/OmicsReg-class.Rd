@@ -3,7 +3,6 @@
 \docType{class}
 \name{OmicsReg-class}
 \alias{OmicsReg-class}
-\alias{create_OmicsReg}
 \title{An S4 class for continuous responses within an "OmicsPathway" object}
 \description{
 This creates the "OmicsReg" class which extends the

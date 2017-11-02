@@ -17,9 +17,20 @@
 #' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"}
 #'
 #' @export
+setClass("OmicsSurv",
+         slots = c(eventTime = "numeric",
+                   eventObserved = "logical"),
+         validity = valid_OmicsSurv,
+         contains = "OmicsPathway")
 
-create_OmicsSurv <- setClass("OmicsSurv",
-                             slots = c(eventTime = "numeric",
-                                       eventObserved = "logical"),
-                             validity = valid_OmicsSurv,
-                             contains = "OmicsPathway")
+#' @export
+create_OmicsSurv <- function(massSpec_df,
+                             pathwaySet_ls,
+                             eventTime_vec,
+                             eventObserved_vec){
+  new("OmicsSurv",
+      massSpec = massSpec_df,
+      pathwaySet = pathwaySet_ls,
+      eventTime = eventTime_vec,
+      eventObserved = eventObserved_vec)
+}

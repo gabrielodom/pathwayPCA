@@ -3,7 +3,6 @@
 \docType{class}
 \name{OmicsCateg-class}
 \alias{OmicsCateg-class}
-\alias{create_OmicsCateg}
 \title{An S4 class for categorical responses within an "OmicsPathway" object}
 \description{
 This creates the "OmicsCateg" class which extends the

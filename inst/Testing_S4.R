@@ -64,6 +64,10 @@ valid_OmicsCateg <- function(object){
 
 ###  Now initialise creator functions for each of the SRC data types  ###
 
+# Pathway Extraction only
+testOmicsPath <- create_OmicsPath(massSpec = ovarianFiltered_df[, -(1:3)],
+                                  pathwaySet = genesets_ls)
+
 # Survival (numeric and factor response)
 create_OmicsSurv <- setClass("OmicsSurv",
                              slots = c(eventTime = "numeric",
@@ -105,16 +109,12 @@ create_OmicsClassif <- setClass("OmicsClassif",
                                 validity = valid_OmicsCateg,
                                 contains = "OmicsPathway")
 Y_class <- factor(sample(c("A", "B", "C"), 58, replace = TRUE))
-testOmicsClassif <- create_OmicsClassif(massSpec = ovarianFiltered_df[, -(1:3)],
-                                        pathwaySet = genesets_ls,
-                                        response = Y_class)
-testOmicsClassif <- create_OmicsClassif(massSpec = ovarianFiltered_df[, -(1:3)],
-                                        pathwaySet = genesets_ls,
-                                        response = Y_class[-1])
-
-# Pathway Extraction only
-testOmicsPath <- create_OmicsPath(massSpec = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = genesets_ls)
+testOmicsCateg <- create_OmicsCateg(massSpec = ovarianFiltered_df[, -(1:3)],
+                                    pathwaySet = genesets_ls,
+                                    response = Y_class)
+testOmicsCateg <- create_OmicsCateg(massSpec = ovarianFiltered_df[, -(1:3)],
+                                    pathwaySet = genesets_ls,
+                                    response = Y_class[-1])
 
 
 ######  Create Functions for these S4 Classes  ################################
