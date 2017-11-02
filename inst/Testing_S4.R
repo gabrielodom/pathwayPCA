@@ -133,8 +133,15 @@ testOmicsCateg <- create_OmicsCateg(massSpec = ovarianFiltered_df[, -(1:3)],
 #
 #             nullPaths <- which(sapply(newPaths_trim, is.null))
 #             paths_ls <- newPaths_trim[-nullPaths]
-#             attr(paths_ls, "missingPaths") <- names(newPaths_trim)[nullPaths]
-#             paths_ls
+#
+#             extractedMatrix_ls <- lapply(paths_ls, function(x){
+#               object@massSpec[x]
+#             })
+#
+#
+#             attr(extractedMatrix_ls,
+#                  "missingPaths") <- names(newPaths_trim)[nullPaths]
+#             extractedMatrix_ls
 #
 #           })
 
@@ -147,3 +154,6 @@ identical(testRedPath, testRedPath2)
 identical(testRedPath, testRedPath3)
 identical(testRedPath, testRedPath4)
 # It works
+
+
+######  PC Extraction with SVD  ###############################################
