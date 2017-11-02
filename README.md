@@ -123,6 +123,12 @@ Functions will be as follows:
 
   - If you document classes that extend another class or depend on another file, make sure to list those dependencies in the `@include` field of the file documentation. Multiple files are listed with space delimiter. This field then updated the `Collates:` field of the `DESCRIPTION` file.
   - If you document multiple functions in one file, follow the template in `validClass_Omics.R`. Use the `@rdname` to link the multiple functions together (all with the same function name after the tag). Also use colons to seperate section headers from section bodies -- a line break isn't enough.
+  
+#### Completed and Documented Functions
+
+  - `createClass_Omics.*`: class declarations
+  - `validClass_Omics.*()`: validity functions
+  - `create_Omics.*()`: generation functions for each class
 
 ### Piecing in Existing Code
 

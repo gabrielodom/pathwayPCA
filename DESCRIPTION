@@ -18,5 +18,6 @@ Collate:
     'createClass_OmicsCateg.R'
     'createClass_OmicsReg.R'
     'createClass_OmicsSurv.R'
+    'create_Omics_All.R'
     'genesets_ls.R'
     'ovarianFiltered_df.R'
