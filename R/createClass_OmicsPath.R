@@ -8,4 +8,5 @@
 #' @export
 setClass("OmicsPathway",
          slots = c(massSpec = "data.frame", pathwaySet = "list"))
+# so my create.*() functions don't throw a fit when they see a tibble:
 setOldClass(c("tbl_df", "tbl", "data.frame"))
