@@ -69,7 +69,14 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
             nullPaths <- which(sapply(newPaths_trim, is.null))
             paths_ls <- newPaths_trim[-nullPaths]
-            attr(paths_ls, "missingPaths") <- names(newPaths_trim)[nullPaths]
-            paths_ls
+
+            extractedMatrix_ls <- lapply(paths_ls, function(x){
+              object@massSpec[x]
+            })
+
+
+            attr(extractedMatrix_ls,
+                 "missingPaths") <- names(newPaths_trim)[nullPaths]
+            extractedMatrix_ls
 
           })

@@ -130,7 +130,7 @@ Functions will be as follows:
   - `createClass_Omics.*`: class declarations
   - `validClass_Omics.*()`: validity functions
   - `create_Omics.*()`: generation functions for each class
-  - `expressedOmes()`: given a pathway list, extract the -omes from the data matrix which are in this pathway list.
+  - `expressedOmes()`: given a pathway list, extract the -ome names from the data matrix which are in this pathway list. Then extract the matching columns from the MS design matrix.
 
 ### Piecing in Existing Code
 
