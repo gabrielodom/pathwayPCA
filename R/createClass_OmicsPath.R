@@ -6,7 +6,7 @@
 #' @importFrom methods new
 #'
 #' @export
-
 create_OmicsPath <- setClass("OmicsPathway",
                              slots = c(massSpec = "data.frame",
                                        pathwaySet = "list"))
+setOldClass(c("tbl_df", "tbl", "data.frame"))

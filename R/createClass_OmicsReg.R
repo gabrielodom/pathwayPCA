@@ -10,11 +10,12 @@
 #'
 #' @importFrom methods new
 #'
-#' @include createClass_OmicsPath.R
+#' @include createClass_OmicsPath.R validClass_Omics.R
 #' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"}
 #'
 #' @export
 
 create_OmicsReg <- setClass("OmicsReg",
                             slots = c(response = "numeric"),
+                            validity = valid_OmicsReg,
                             contains = "OmicsPathway")

@@ -5,6 +5,9 @@
 library(methods)
 load("data/ovarianFiltered_df.rda")
 load("data/genesets_ls.rda")
+# X_df <- ovarianFiltered_df[, -(1:3)]
+# rm(ovarianFiltered_df)
+
 
 # Create a Master Class for all experiments
 
@@ -15,12 +18,57 @@ create_OmicsPath <- setClass("OmicsPathway",
                              slots = c(massSpec = "data.frame",
                                        pathwaySet = "list"))
 
+###  Set Validity  ###
+valid_OmicsSurv <- function(object){
+
+  nX <- nrow(object@massSpec)
+  nY <- length(object@eventTime)
+  nDelta <- length(object@eventObserved)
+
+  if(nY != nX){
+    return("Number of massSpec rows must match number of response times.")
+  } else if(nDelta != nX){
+    return("Number of massSpec rows must match number of response censoring indicators.")
+  } else {
+    return(TRUE)
+  }
+
+}
+
+valid_OmicsReg <- function(object){
+
+  nX <- nrow(object@massSpec)
+  nY <- length(object@response)
+
+  if(nY != nX){
+    return("Number of massSpec rows must match number of responses.")
+  } else {
+    return(TRUE)
+  }
+
+}
+
+valid_OmicsCateg <- function(object){
+
+  nX <- nrow(object@massSpec)
+  nY <- length(object@response)
+
+  if(nY != nX){
+    return("Number of massSpec rows must match number of responses.")
+  } else {
+    return(TRUE)
+  }
+
+}
+
+
 ###  Now initialise creator functions for each of the SRC data types  ###
 
 # Survival (numeric and factor response)
 create_OmicsSurv <- setClass("OmicsSurv",
                              slots = c(eventTime = "numeric",
                                        eventObserved = "logical"),
+                             validity = valid_OmicsSurv,
                              contains = "OmicsPathway")
 Y_time <- rnorm(58, mean = 78, sd = 6)
 Y_event <- sample(c(FALSE, TRUE), 58, replace = TRUE, prob = c(0.2, 1 - 0.2))
@@ -28,25 +76,41 @@ testOmicsSurv <- create_OmicsSurv(massSpec = ovarianFiltered_df[, -(1:3)],
                                   pathwaySet = genesets_ls,
                                   eventTime = Y_time,
                                   eventObserved = Y_event)
+testOmicsSurv <- create_OmicsSurv(massSpec = ovarianFiltered_df[, -(1:3)],
+                                  pathwaySet = genesets_ls,
+                                  eventTime = Y_time[-1],
+                                  eventObserved = Y_event)
+testOmicsSurv <- create_OmicsSurv(massSpec = ovarianFiltered_df[, -(1:3)],
+                                  pathwaySet = genesets_ls,
+                                  eventTime = Y_time,
+                                  eventObserved = Y_event[-1])
 # getClass(testOmicsSurv)
 
 # Regression (continuous response)
 create_OmicsReg <- setClass("OmicsReg",
                             slots = c(response = "numeric"),
+                            validity = valid_OmicsReg,
                             contains = "OmicsPathway")
 Y_reg <- rnorm(58)
 testOmicsReg <- create_OmicsReg(massSpec = ovarianFiltered_df[, -(1:3)],
                                 pathwaySet = genesets_ls,
                                 response = Y_reg)
+testOmicsReg <- create_OmicsReg(massSpec = ovarianFiltered_df[, -(1:3)],
+                                pathwaySet = genesets_ls,
+                                response = Y_reg[-1])
 
 # Classification (factor response)
 create_OmicsClassif <- setClass("OmicsClassif",
                                 slots = c(response = "factor"),
+                                validity = valid_OmicsCateg,
                                 contains = "OmicsPathway")
 Y_class <- factor(sample(c("A", "B", "C"), 58, replace = TRUE))
 testOmicsClassif <- create_OmicsClassif(massSpec = ovarianFiltered_df[, -(1:3)],
                                         pathwaySet = genesets_ls,
                                         response = Y_class)
+testOmicsClassif <- create_OmicsClassif(massSpec = ovarianFiltered_df[, -(1:3)],
+                                        pathwaySet = genesets_ls,
+                                        response = Y_class[-1])
 
 # Pathway Extraction only
 testOmicsPath <- create_OmicsPath(massSpec = ovarianFiltered_df[, -(1:3)],

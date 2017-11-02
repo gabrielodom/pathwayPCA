@@ -118,6 +118,11 @@ Functions will be as follows:
   - Graphics: take in a sorted table from above, and create the following graphics
     + Horizontal Bar Chart: $x$-axis will be $-\log(p_{adj})$, $y$-axis will be the pathways with the smallest 20-30 adjusted $p$-values with labels as the pathway names, the box colour will be the percentage of genes expressed out of genes included in the pathway; mark each horizontal bar with an $a / b$ fraction, where $a$ is the number of expressed genes / proteins / lipids in the pathway, and $b$ is the total number of genes / proteins / lipids in the pathway.
     + Some other graphs?
+    
+#### Notes on Documentation
+
+  - If you document classes that extend another class or depend on another file, make sure to list those dependencies in the `@include` field of the file documentation. Multiple files are listed with space delimiter. This field then updated the `Collates:` field of the `DESCRIPTION` file.
+  - If you document multiple functions in one file, follow the template in `validClass_Omics.R`. Use the `@rdname` to link the multiple functions together (all with the same function name after the tag). Also use colons to seperate section headers from section bodies -- a line break isn't enough.
 
 ### Piecing in Existing Code
 

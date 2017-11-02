@@ -13,7 +13,7 @@
 #'
 #' @importFrom methods new
 #'
-#' @include createClass_OmicsPath.R
+#' @include createClass_OmicsPath.R validClass_Omics.R
 #' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"}
 #'
 #' @export
@@ -21,4 +21,5 @@
 create_OmicsSurv <- setClass("OmicsSurv",
                              slots = c(eventTime = "numeric",
                                        eventObserved = "logical"),
+                             validity = valid_OmicsSurv,
                              contains = "OmicsPathway")
