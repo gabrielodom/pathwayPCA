@@ -1,7 +1,7 @@
 #' Generation Functions for -Omics.* Class Objects
 #'
-#' These functions create valid objects of the "OmicsSurv", "OmicsReg", and
-#'   "OmicsCateg" classes.
+#' These functions create valid objects of the "OmicsPathway", "OmicsSurv",
+#'   "OmicsReg", and "OmicsCateg" classes.
 #'
 #' @section OmicsPathway:
 #' Valid OmicsPathawy objects will have no response information, just the mass

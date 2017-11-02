@@ -1,79 +1,67 @@
 
-
-######  Create S4 Classes  ####################################################
+######  Load Package and Data  ################################################
 
 library(methods)
+library(pathwayPCA)
 load("data/ovarianFiltered_df.rda")
 load("data/genesets_ls.rda")
-# X_df <- ovarianFiltered_df[, -(1:3)]
-# rm(ovarianFiltered_df)
 
 
-# Create a Master Class for all experiments
 
-# so my create.*() functions don't throw a fit when they see a tibble:
-setOldClass(c("tbl_df", "tbl", "data.frame"))
-
-create_OmicsPath <- setClass("OmicsPathway",
-                             slots = c(massSpec = "data.frame",
-                                       pathwaySet = "list"))
-
-###  Set Validity  ###
-valid_OmicsSurv <- function(object){
-
-  nX <- nrow(object@massSpec)
-  nY <- length(object@eventTime)
-  nDelta <- length(object@eventObserved)
-
-  if(nY != nX){
-    return("Number of massSpec rows must match number of response times.")
-  } else if(nDelta != nX){
-    return("Number of massSpec rows must match number of response censoring indicators.")
-  } else {
-    return(TRUE)
-  }
-
-}
-
-valid_OmicsReg <- function(object){
-
-  nX <- nrow(object@massSpec)
-  nY <- length(object@response)
-
-  if(nY != nX){
-    return("Number of massSpec rows must match number of responses.")
-  } else {
-    return(TRUE)
-  }
-
-}
-
-valid_OmicsCateg <- function(object){
-
-  nX <- nrow(object@massSpec)
-  nY <- length(object@response)
-
-  if(nY != nX){
-    return("Number of massSpec rows must match number of responses.")
-  } else {
-    return(TRUE)
-  }
-
-}
+######  Set Validity  #########################################################
+# # MIGRATED TO validClass_Omics.R FILE
+# valid_OmicsSurv <- function(object){
+#
+#   nX <- nrow(object@massSpec)
+#   nY <- length(object@eventTime)
+#   nDelta <- length(object@eventObserved)
+#
+#   if(nY != nX){
+#     return("Number of massSpec rows must match number of response times.")
+#   } else if(nDelta != nX){
+#     return("Number of massSpec rows must match number of response censoring indicators.")
+#   } else {
+#     return(TRUE)
+#   }
+#
+# }
+#
+# valid_OmicsReg <- function(object){
+#
+#   nX <- nrow(object@massSpec)
+#   nY <- length(object@response)
+#
+#   if(nY != nX){
+#     return("Number of massSpec rows must match number of responses.")
+#   } else {
+#     return(TRUE)
+#   }
+#
+# }
+#
+# valid_OmicsCateg <- function(object){
+#
+#   nX <- nrow(object@massSpec)
+#   nY <- length(object@response)
+#
+#   if(nY != nX){
+#     return("Number of massSpec rows must match number of responses.")
+#   } else {
+#     return(TRUE)
+#   }
+#
+# }
 
 
-###  Now initialise creator functions for each of the SRC data types  ###
+
+######  Load S4 Classes  ######################################################
 
 # Pathway Extraction only
 testOmicsPath <- create_OmicsPath(massSpec = ovarianFiltered_df[, -(1:3)],
                                   pathwaySet = genesets_ls)
 
+
 # Survival (numeric and factor response)
-create_OmicsSurv <- setClass("OmicsSurv",
-                             slots = c(eventTime = "numeric",
-                                       eventObserved = "logical"),
-                             validity = valid_OmicsSurv,
-                             contains = "OmicsPathway")
 Y_time <- rnorm(58, mean = 78, sd = 6)
 Y_event <- sample(c(FALSE, TRUE), 58, replace = TRUE, prob = c(0.2, 1 - 0.2))
 testOmicsSurv <- create_OmicsSurv(massSpec = ovarianFiltered_df[, -(1:3)],
@@ -88,13 +76,9 @@ testOmicsSurv <- create_OmicsSurv(massSpec = ovarianFiltered_df[, -(1:3)],
                                   pathwaySet = genesets_ls,
                                   eventTime = Y_time,
                                   eventObserved = Y_event[-1])
-# getClass(testOmicsSurv)
+
 
 # Regression (continuous response)
-create_OmicsReg <- setClass("OmicsReg",
-                            slots = c(response = "numeric"),
-                            validity = valid_OmicsReg,
-                            contains = "OmicsPathway")
 Y_reg <- rnorm(58)
 testOmicsReg <- create_OmicsReg(massSpec = ovarianFiltered_df[, -(1:3)],
                                 pathwaySet = genesets_ls,
@@ -103,11 +87,8 @@ testOmicsReg <- create_OmicsReg(massSpec = ovarianFiltered_df[, -(1:3)],
                                 pathwaySet = genesets_ls,
                                 response = Y_reg[-1])
 
+
 # Classification (factor response)
-create_OmicsClassif <- setClass("OmicsClassif",
-                                slots = c(response = "factor"),
-                                validity = valid_OmicsCateg,
-                                contains = "OmicsPathway")
 Y_class <- factor(sample(c("A", "B", "C"), 58, replace = TRUE))
 testOmicsCateg <- create_OmicsCateg(massSpec = ovarianFiltered_df[, -(1:3)],
                                     pathwaySet = genesets_ls,
@@ -119,48 +100,49 @@ testOmicsCateg <- create_OmicsCateg(massSpec = ovarianFiltered_df[, -(1:3)],
 
 ######  Create Functions for these S4 Classes  ################################
 
-###  Geneset Extraction Function  ###
-setGeneric("expressedOmes",
-           function(object, ...){
-             standardGeneric("expressedOmes")
-             }
-           )
-setMethod(f = "expressedOmes", signature = "OmicsPathway",
-          definition = function(object, trim = 3){
-            genelist <- colnames(object@massSpec)
-
-            # Delete the genes from the pathways if they aren't recorded in our
-            #   data matrix
-            newPaths <- sapply(object@pathwaySet, function(x){
-              x[x %in% genelist]
-            })
-
-            # Remove any pathway that now has fewer than "trim" genes
-            newPaths_trim <- sapply(seq_along(newPaths), function(i){
-
-              shortPath <- length(newPaths[[i]]) < trim
-              if(shortPath){
-                NULL
-              } else {
-                newPaths[[i]]
-              }
-
-            })
-
-            names(newPaths_trim) <- names(object@pathwaySet)
-
-            nullPaths <- which(sapply(newPaths_trim, is.null))
-            paths_ls <- newPaths_trim[-nullPaths]
-            attr(paths_ls, "missingPaths") <- names(newPaths_trim)[nullPaths]
-            paths_ls
-
-          })
+# ###  Geneset Extraction Function  ###
+# # MIGRATED TO subsetExpressed-omes.R FILE
+# setGeneric("expressedOmes",
+#            function(object, ...){
+#              standardGeneric("expressedOmes")
+#              }
+#            )
+# setMethod(f = "expressedOmes", signature = "OmicsPathway",
+#           definition = function(object, trim = 3){
+#             genelist <- colnames(object@massSpec)
+#
+#             # Delete the genes from the pathways if they aren't recorded in our
+#             #   data matrix
+#             newPaths <- sapply(object@pathwaySet, function(x){
+#               x[x %in% genelist]
+#             })
+#
+#             # Remove any pathway that now has fewer than "trim" genes
+#             newPaths_trim <- sapply(seq_along(newPaths), function(i){
+#
+#               shortPath <- length(newPaths[[i]]) < trim
+#               if(shortPath){
+#                 NULL
+#               } else {
+#                 newPaths[[i]]
+#               }
+#
+#             })
+#
+#             names(newPaths_trim) <- names(object@pathwaySet)
+#
+#             nullPaths <- which(sapply(newPaths_trim, is.null))
+#             paths_ls <- newPaths_trim[-nullPaths]
+#             attr(paths_ls, "missingPaths") <- names(newPaths_trim)[nullPaths]
+#             paths_ls
+#
+#           })
 
 # Test:
 testRedPath <- expressedOmes(testOmicsPath)
 testRedPath2 <- expressedOmes(testOmicsSurv)
 testRedPath3 <- expressedOmes(testOmicsReg)
-testRedPath4 <- expressedOmes(testOmicsClassif)
+testRedPath4 <- expressedOmes(testOmicsCateg)
 identical(testRedPath, testRedPath2)
 identical(testRedPath, testRedPath3)
 identical(testRedPath, testRedPath4)

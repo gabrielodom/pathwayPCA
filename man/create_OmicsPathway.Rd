@@ -38,13 +38,13 @@ An object of classes "OmicsPathway", "OmicsSurv", "OmicsReg", or
   "OmicsCateg".
 }
 \description{
-These functions create valid objects of the "OmicsSurv", "OmicsReg", and
-  "OmicsCateg" classes.
+These functions create valid objects of the "OmicsPathway", "OmicsSurv",
+  "OmicsReg", and "OmicsCateg" classes.
 }
 \section{OmicsPathway}{
 
 Valid OmicsPathawy objects will have no response information, just the mass
-  spectroscopy (gene "design") matrix and the pathway list. OmicsPathway
+  spectrometry (gene "design") matrix and the pathway list. OmicsPathway
   objects should be created only when unsupervised pathway extraction is
   needed. Because of the missing response, no pathway testing can be
   performed on an OmicsPathway object.

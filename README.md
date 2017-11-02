@@ -122,6 +122,7 @@ Functions will be as follows:
 #### Notes on Documentation
 
   - If you document classes that extend another class or depend on another file, make sure to list those dependencies in the `@include` field of the file documentation. Multiple files are listed with space delimiter. This field then updated the `Collates:` field of the `DESCRIPTION` file.
+  - When you add a dataset to your package via `devtools::use_data()`, the name of the object should match the name of the file in the data/ directory.
   - If you document multiple functions in one file, follow the template in `validClass_Omics.R`. Use the `@rdname` to link the multiple functions together (all with the same function name after the tag). Also use colons to seperate section headers from section bodies -- a line break isn't enough.
   
 #### Completed and Documented Functions
@@ -129,6 +130,7 @@ Functions will be as follows:
   - `createClass_Omics.*`: class declarations
   - `validClass_Omics.*()`: validity functions
   - `create_Omics.*()`: generation functions for each class
+  - `expressedOmes()`: given a pathway list, extract the -omes from the data matrix which are in this pathway list.
 
 ### Piecing in Existing Code
 
