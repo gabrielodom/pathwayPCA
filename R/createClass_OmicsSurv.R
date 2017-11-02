@@ -13,6 +13,7 @@
 #'
 #' @importFrom methods new
 #'
+#' @include createClass_OmicsPath.R
 #' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"}
 #'
 #' @export
