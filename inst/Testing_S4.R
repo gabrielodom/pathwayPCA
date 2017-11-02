@@ -157,3 +157,15 @@ identical(testRedPath, testRedPath4)
 
 
 ######  PC Extraction with SVD  ###############################################
+testRedPath <- expressedOmes(testOmicsPath)
+
+# Notes: the symmetric = TRUE argument saves about 0.7 sec
+
+a <- Sys.time()
+# covs_ls <- lapply(testRedPath, cov) # 0.98 seconds
+eigen_ls <- lapply(covs_ls, eigen, symmetric = TRUE)  # 2.67 seconds
+Sys.time() - a # 3.43 sec
+
+a <- Sys.time()
+svd_ls <- lapply(testRedPath, svd)
+Sys.time() - a # 1.53 sec
