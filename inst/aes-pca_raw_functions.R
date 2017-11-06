@@ -150,8 +150,8 @@ aes.pca <- function(x, n, d = 1,
 
 
 ######  Utility Functions  ######
-# The matrix trace function
-tr <- function(x) sum(diag(x))
+# # The matrix trace function
+# tr <- function(x) sum(diag(x))
 
 # The matrix square root function
 rootmatrix <- function(x) {
