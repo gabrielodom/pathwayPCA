@@ -101,7 +101,7 @@ aespca <- function(X, n, d = 1,
   II <- diag(p) * n       # The diag() function breaks if p = 1
   k <- 0
   diff <- 1
-  tr.x <- tr(xtx)
+  # tr.x <- tr(xtx)  # Not called anywhere.
 
   ###  The while() Loop  ###
   while((k < max.iter) & (diff > eps.conv)){

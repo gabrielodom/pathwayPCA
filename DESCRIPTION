@@ -6,7 +6,7 @@ Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL-2
 Depends: R (>= 2.10)
 Imports: methods
 Encoding: UTF-8
@@ -14,6 +14,7 @@ LazyData: true
 RoxygenNote: 6.0.1
 Collate: 
     'calculate_AESPCA.R'
+    'calculate_matrixRoot.R'
     'validClass_Omics.R'
     'createClass_OmicsPath.R'
     'createClass_OmicsCateg.R'
