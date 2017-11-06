@@ -228,4 +228,5 @@ Sys.time() - a # 1.45 sec
 
 ######  (TEST) PC Extraction with AES-PCA  ####################################
 # ** Source the functions in the aes_pca.R file first **
-aes.pca(testRedPath[[1]], n = nrow(testRedPath[[1]]))
+aespca(testRedPath[[1]], n = nrow(testRedPath[[1]]), d = 3, type = "predictor")
+aespca(testRedPath[[2]], n = nrow(testRedPath[[2]]), type = "predictor")
