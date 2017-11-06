@@ -306,9 +306,9 @@ lars.lsa <- function(Sigma0, b0, n,
     }
 
     # backsolve is from base, while backsolvet is from lars::
-    Gi1 <- lars::backsolvet(R, lars::backsolvet(R, Sign))
+    Gi1 <- backsolve(R, lars::backsolvet(R, Sign))
     dropouts <- NULL
-    A <- 1 / sqrt(sum(Gi1 * Sign))
+    A <- 1 / sqrt(sum(Gi1 * Sign))  # This can easily be NaN
     w <- A * Gi1
 
     if (length(active) >= m) {
@@ -322,7 +322,8 @@ lars.lsa <- function(Sigma0, b0, n,
     }
 
     ###  Restart Inspection HERE  ###
-    browser()
+    # browser()
+    # # The issue is that A can be a vector of NaNs, and there's no escape
 
     if(type == "lasso"){
 
@@ -357,7 +358,7 @@ lars.lsa <- function(Sigma0, b0, n,
 
       for(id in rev(dropid)){
         # lars::downdateR
-        R <- downdateR(R, id)
+        R <- lars::downdateR(R, id)
       }
 
       dropid <- active[drops]

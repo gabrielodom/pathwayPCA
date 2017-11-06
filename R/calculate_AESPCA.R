@@ -3,17 +3,25 @@
 #' @description A function to perform adaptive, elastic-net principal component
 #'   analysis (AES-PCA).
 #'
-#' @param x
-#' @param d
-#' @param max.iter
-#' @param adaptive
-#' @param para
-#' @param seed
-#' @param n
-#' @param type
-#' @param method
-#' @param corr
-#' @param lambda
+#' @param X A pathway design matrix: either the data matrix itself (when
+#'   \code{type = "predictor"}) or the Gram matrix (when \code{type = "Gram"}).
+#'   The data matrix should be $n x p$, where $n$ is the sample size and $p$ is
+#'   the number of variables included in the pathway.
+#' @param n The sample size. Needed when \code{X} is the Gram matrix (for
+#'    computing BIC). Due to a coding error, it is a required argument even
+#'    when \code{X} is not a Grammian. FIX THIS.
+#' @param d The number of PCs to extract from the pathway. Defaults to 1.
+#' @param lambda The ridge regression penalty. Defaults to 10 ^ -4.
+#' @param type Is \code{X} a pathway design matrix or a Grammian? Defaults to
+#'    both: \code{c("predictor", "Gram")}. FIX THIS TOO.
+#' @param corr If \code{type = Gram}, is the matrix \code{X} actually a
+#'    correlation matrix? Defaults to FALSE.
+#' @param max.iter The maximum number of times an internal \code{while()} loop
+#'    can make calls to the \code{lars.lsa()} function. Defaults to 10.
+#' @param adaptive Internal argument of the \code{lars.lsa()} function. Defaults
+#'    to TRUE.
+#' @param para Internal argument of the \code{lars.lsa()} function. Defaults to
+#'    NULL.
 #'
 #' @return What does the function return?
 #'
@@ -23,34 +31,32 @@
 #'
 #' @examples
 #'    NULL
-aes.pca <- function(x, n, d = 1,
-                    type = c("predictor", "Gram"),
-                    max.iter = 10,
-                    method = "SPCA",
-                    adaptive = TRUE,
-                    para = NULL,
-                    corr = FALSE,
-                    seed = NULL,
-                    lambda = 0.0001){
+aespca <- function(X, n, d = 1,
+                   lambda = 0.0001,
+                   type = c("predictor", "Gram"),
+                   corr = FALSE,
+                   max.iter = 10,
+                   adaptive = TRUE,
+                   para = NULL){
 
   # browser()
 
   eps.conv <- 1e-3
   call <- match.call()
   type <- match.arg(type)      # Why?
-  method <- match.arg(method)  # Again, why?
-  vn <- dimnames(x)[[2]]       # colnames()
-  p <- dim(x)[2]               # ncol()
+  # method <- match.arg(method)  # Again, why?
+  vn <- dimnames(X)[[2]]       # colnames()
+  p <- dim(X)[2]               # ncol()
 
   # Calculate the regularized Grammian
   xtx <- switch(type,
                 predictor = {
                   # This overwrites the original data
-                  x <- scale(x, center = TRUE, scale = TRUE)
-                  xtx <- (t(x) %*% x + diag(lambda, p, p)) / (1 + lambda)
+                  X <- scale(X, center = TRUE, scale = TRUE)
+                  xtx <- (t(X) %*% X + diag(lambda, p, p)) / (1 + lambda)
                 },
                 Gram = {
-                  xtx <- x + diag(lamda,p,p)
+                  xtx <- X + diag(lambda,p,p)
                 }
   )
   # Calculate the SVD of the Grammian. Why? it's more efficient to calculate
@@ -67,7 +73,7 @@ aes.pca <- function(x, n, d = 1,
     A[, i] <- A[, i] * sign(A[1, i])
   }
   # ASIDE: this "sign flipping" thing changes the eigenvectors of xtx into the
-  #   eigenvectors of scale(x). What about this: instead of calculating the
+  #   eigenvectors of scale(X). What about this: instead of calculating the
   #   Grammian, regularising it, taking the SVD of it, and extracting the first
   #   d eigenvectors, why don't we just extract the first d singular vectors
   #   directly from the scaled data matrix itself? The regularisation effect
@@ -76,6 +82,11 @@ aes.pca <- function(x, n, d = 1,
   #   values anywhere in this code, so this whole process is supurfluous
   # EDIT: It doesn't even matter, because the damned lars code requires an
   #   estimate of the covariance matrix. Ugh.
+  # EDIT 2: The lars::lars() function *can* take in the full data, instead of
+  #   just a Grammian. As an enhancement, we should either update our copy of
+  #   the lars() function, or make a call to the exported lars() function. We
+  #   will worry about getting the rest of the package running before we spend
+  #   times optimising.
 
   ###  Initial Values for while() Loop  ###
   # Initialize matrices of eigenvectors
@@ -100,11 +111,12 @@ aes.pca <- function(x, n, d = 1,
 
     for(i in 1:d){
 
-      # One switch? Shouldn't this be an ifelse or if()?
-      xtx1 <- switch(method,
-                     SPCA = {
-                       xtx1 <- xtx.1
-                     })
+      # # One switch? Shouldn't this be an ifelse or if()?
+      # xtx1 <- switch(method,
+      #                SPCA = {
+      #                  xtx1 <- xtx.1
+      #                })
+      xtx1 <- xtx.1
       lfit <- lars.lsa(Sigma0 = xtx1,
                        b0 = A[, i],
                        n = n,
@@ -133,15 +145,15 @@ aes.pca <- function(x, n, d = 1,
   dimnames(B) <- list(vn, paste("PC", 1:d, sep = "")) # use paste0() instead
   dimnames(A0) <- list(vn, paste("PC", 1:d, sep = ""))
   # Initialise an empty score array. Why not initialise oldscore here too?
-  score <- array(0, dim = c(dim(x)[1], d))
+  score <- array(0, dim = c(dim(X)[1], d))
 
   for(i in 1:d){
-    score[, i] <- x %*% B[, i]
+    score[, i] <- X %*% B[, i]
   }
 
-  oldscore <- array(0, dim = c(dim(x)[1], d))
+  oldscore <- array(0, dim = c(dim(X)[1], d))
   for(i in 1:d){
-    oldscore[, i] <- x %*% A0[, i]
+    oldscore[, i] <- X %*% A0[, i]
   }
 
   ###  Return  ###
