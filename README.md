@@ -131,8 +131,19 @@ Functions will be as follows:
   - `validClass_Omics.*()`: validity functions
   - `create_Omics.*()`: generation functions for each class
   - `expressedOmes()`: given a pathway list, extract the -ome names from the data matrix which are in this pathway list. Then extract the matching columns from the MS design matrix.
+  - The `aespca()` functions and utilities:
+    + `matrixRoot()`: in the `calculate_matrixRoot.R` file. Take the $r^{th}$ root of a matrix, for $r > 0$.
+    + `normalize()`: in the `unknown_matrixNorm.R` file. I am still at a loss for what this function does, but it modifies the output of the `lars.lsa()` function.
+    + `lars.lsa()`: in the `calculate_LARS.R` file. Least Angle and LASSO Regression (modified from the `lars::` package.)
+    + `aespca()`: in the `calculate_AESPCA.R` file. Perform adaptive, elastic-net PCA on a pathway design matrix.
 
 ### Piecing in Existing Code
+
+#### AES-PCA
+We have adapted and documented code in the `aes.pca.R` file to our package. We still need to modify this code heavily to make it more efficient.
+
+#### Supervised PCA
+Add this code.
 
 ### Outline Revisions
 
