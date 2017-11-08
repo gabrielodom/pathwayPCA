@@ -253,3 +253,61 @@ Sys.time() - a
 
 
 ######  (TEST) PC Extraction with Supervised PCA  #############################
+# setwd("C:/Users/gjo15/Dropbox (BBSR)/Ban and Odom - Bioconductor Package")
+# # Pathway Load
+# load("Original Chen Code/gene_expression/geneset.RData")  # [5,299] 4,266 pathways
+# # load("Code/Supervised PCA/geneset_20171108.RData")      # [2,179] 7,949 pathways
+# # Data Load
+# # NOTE: data is p x n!
+# load("Original Chen Code/gene_expression/array.RData")
+# patInfo_df <- read.csv("Original Chen Code/gene_expression/pinfo.csv")
+
+###  Load Data  ###
+data("supervised_Tumors_df")
+array <- supervised_Tumors_df
+data("supervised_patInfo_df")
+data("supervised_Genesets_ls")
+geneset <- supervised_Genesets_ls
+
+
+## run superpc test
+source("inst/superpc.txt")
+
+## This example is survival analysis, thus pinfo have both survival time annd censor status,
+
+survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
+
+tscore <- array(0, dim = c(length(geneset$pathways), 20))
+rownames(tscore) <- names(geneset$pathways)
+
+
+for(i in 1:3){
+  # for(i in 1:length(geneset$pathways)){                    # 1 hour, 13 minutes
+  # browser()
+
+  genenames <- geneset$pathways[[i]]
+  # pathway<-array[genename,]
+  # y<-pinfo$SurvivalTime
+  # censor<-pinfo$disease_event
+  # pathwaysize=dim(pathway)[1]
+
+  data <- list(x = array[genenames, ],
+               y = survY_df$SurvivalTime,
+               censoring.status = survY_df$disease_event,
+               featurenames = genenames)
+  ## if binary or continuous outcome
+  ## data<-list(x=pathway,y=y, featurenames=genename)
+
+  train <- superpc.train(data, type = "survival")
+  ## if binary outcome: train<-superpc.train(data, type="binary")
+  ## if continuous outcome: train<-superpc.train(data, type="continuous")
+
+  st.obj <- superpc.st(fit = train,
+                       data = data,
+                       n.components = 1,
+                       min.features = 3,
+                       n.threshold = 20)
+
+  tscore[i,] <- st.obj$tscor
+
+}
