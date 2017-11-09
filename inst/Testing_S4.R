@@ -294,9 +294,9 @@ rownames(tscore) <- names(geneset$pathways)
 #      pathway attribution exercise, check the significance of the pathway based
 #      on the k PCs.)
 
-
-for(i in 1:3){
-  # for(i in 1:length(geneset$pathways)){                    # 1 hour, 13 minutes
+a <- Sys.time()
+for(i in 1:100){
+  # for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
   # browser()
 
   genenames <- geneset$pathways[[i]]
@@ -319,9 +319,53 @@ for(i in 1:3){
   st.obj <- superpc.st(fit = train,
                        data = data,
                        n.components = 1,
-                       min.features = 3,
+                       min.features = 2,
                        n.threshold = 20)
 
   tscore[i,] <- st.obj$tscor
 
 }
+Sys.time() - a   # 90 sec for first 100 pathways
+
+library(plyr)
+a <- Sys.time()
+wrapper1_fun <- function(path){
+  # browser()
+
+  data <- list(x = array[path, ],
+               y = survY_df$SurvivalTime,
+               censoring.status = survY_df$disease_event,
+               featurenames = path)
+
+  train <- superpc.train(data, type = "survival")
+
+  st.obj <- superpc.st(fit = train,
+                       data = data,
+                       n.components = 1,
+                       min.features = 2,
+                       n.threshold = 20)
+
+  st.obj$tscor  # This is where we break things: we need to change from tall
+  #   to wide data to take advantage of the clean plyr approach.
+  # EDIT: transposing here makes the data tidy, but we want it wide.
+
+}
+tScores_ls <- sapply(geneset$pathways[1:100], wrapper1_fun)
+Sys.time() - a   # 89.1 seconds, but we have a list instead of a matrix. But,
+#   now we can run it in parallel! Using plyr::ldply returns a tall data frame
+#   in 88.5 seconds, but we have to use plyr's parallel setup. Because the plyr
+#   parallel options are difficult to set up, we changed to an sapply() call,
+#   which returns a wide matrix with gene names as the column names. This takes
+#   88.9 seconds to run, which is on par with plyr, but without the new package
+#   call (it works smoothly with the clusterApply() syntax as well.)
+
+###  Parallel Supervised PCA  ###
+library(parallel)
+clus <- makeCluster(detectCores() - 2)
+clusterExport(cl = clus, varlist = ls())
+clusterEvalQ(cl = clus, library(pathwayPCA))
+a <- Sys.time()
+tScores_mat <- parSapply(cl = clus, geneset$pathways, wrapper1_fun)
+Sys.time() - a # 8 sec for parSapply, 7.71 sec for Load Balancing parSapplyLB
+#   for first 100 pathways. 9 min, 15 seconds for all ~8k pathways with LB; 9
+#   min, 12 seconds for all pathways without LB.
