@@ -136,6 +136,11 @@ Functions will be as follows:
     + `normalize()`: in the `unknown_matrixNorm.R` file. I am still at a loss for what this function does, but it modifies the output of the `lars.lsa()` function.
     + `lars.lsa()`: in the `calculate_LARS.R` file. Least Angle and LASSO Regression (modified from the `lars::` package.)
     + `aespca()`: in the `calculate_AESPCA.R` file. Perform adaptive, elastic-net PCA on a pathway design matrix.
+  - The Cox PH Supervised PCA functions (in the `superPC_CoxPH_model.R` file):
+    + `coxTrain_fun()`: Takes in data, a vector of response times, and a censor vector. Return a scaled score vector.
+    + `.coxscor()`: internal - returns score vectors
+    + `.coxvar()`: internal - returns variances
+    + `.coxstuff()`: internal
 
 ### Piecing in Existing Code
 

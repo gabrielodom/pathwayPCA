@@ -2,10 +2,10 @@
  balanced.folds <- function(y, nfolds = min(min(table(y)), 10)) {
    totals <- table(y)
    fmax <- max(totals)
-   nfolds <- min(nfolds, fmax)     
+   nfolds <- min(nfolds, fmax)
                                         # makes no sense to have more folds than the max class size
    folds <- as.list(seq(nfolds))
-   yids <- split(seq(y), y)        
+   yids <- split(seq(y), y)
                                         # nice we to get the ids in a list, split by class
 ###Make a big matrix, with enough rows to get in all the folds per class
    bigmat <- matrix(NA, ceiling(fmax/nfolds) * nfolds, length(totals))
@@ -29,7 +29,7 @@ superpc.predict.red.cv <- function(fitred, fitcv, data, threshold, num.reduced.m
 
  # try reduced predictor on cv folds, via prevalidation
 
-                           
+
   this.call=match.call()
 
   type=fitred$type
@@ -47,7 +47,7 @@ superpc.predict.red.cv <- function(fitred, fitcv, data, threshold, num.reduced.m
     cat(j,fill=TRUE)
     fit.temp<-list(feature.scores=fitcv$featurescores.fold[,j], type=type)
     ii<-fitcv$folds[[j]]
-    
+
     data1<-list(x=data$x[,-ii],y=data$y[-ii],censoring.status=data$censoring.status[-ii])
     data2<-list(x=data$x[,ii],y=data$y[ii],censoring.status=data$censoring.status[ii])
     junk<- superpc.predict.red(fit.temp, data1,data2, threshold, num.reduced.models=num.reduced.models, n.components=n.components,compute.lrtest=FALSE, sign.wt=sign.wt)
@@ -81,11 +81,11 @@ permute.rows <-function(x)
 }
 
 superpc.cv=
-function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL, 
-    n.components = 3, min.features = 5, max.features = nrow(data$x), 
-    compute.fullcv = TRUE, compute.preval = TRUE, xl.mode = c("regular", 
-        "firsttime", "onetime", "lasttime"), xl.time = NULL, 
-    xl.prevfit = NULL) 
+function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
+    n.components = 3, min.features = 5, max.features = nrow(data$x),
+    compute.fullcv = TRUE, compute.preval = TRUE, xl.mode = c("regular",
+        "firsttime", "onetime", "lasttime"), xl.time = NULL,
+    xl.prevfit = NULL)
 {
     this.call <- match.call()
     xl.mode = match.arg(xl.mode)
@@ -109,27 +109,27 @@ function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
             n.fold = length(folds)
         }
         if (is.null(folds)) {
-            if (type == "survival" & sum(data$censoring.status == 
+            if (type == "survival" & sum(data$censoring.status ==
                 0) > 0) {
-                folds = balanced.folds(data$censoring.status, 
+                folds = balanced.folds(data$censoring.status,
                   nfolds = n.fold)
-                folds = c(folds, balanced.folds(data$censoring.status, 
+                folds = c(folds, balanced.folds(data$censoring.status,
                   nfolds = n.fold))
-                folds = c(folds, balanced.folds(data$censoring.status, 
+                folds = c(folds, balanced.folds(data$censoring.status,
                   nfolds = n.fold))
-                folds = c(folds, balanced.folds(data$censoring.status, 
+                folds = c(folds, balanced.folds(data$censoring.status,
                   nfolds = n.fold))
-                folds = c(folds, balanced.folds(data$censoring.status, 
+                folds = c(folds, balanced.folds(data$censoring.status,
                   nfolds = n.fold))
                 n.fold = length(folds)
             }
             else {
                 folds <- vector("list", n.fold)
-                breaks <- round(seq(from = 1, to = (n + 1), length = (n.fold + 
+                breaks <- round(seq(from = 1, to = (n + 1), length = (n.fold +
                   1)))
                 cv.order <- sample(1:n)
                 for (j in 1:n.fold) {
-                  folds[[j]] <- cv.order[(breaks[j]):(breaks[j + 
+                  folds[[j]] <- cv.order[(breaks[j]):(breaks[j +
                     1] - 1)]
                 }
             }
@@ -178,7 +178,7 @@ function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
     for (j in first:last) {
         cat("", fill = TRUE)
         cat(c("fold=", j), fill = TRUE)
-        data.temp = list(x = data$x[, -folds[[j]]], y = data$y[-folds[[j]]], 
+        data.temp = list(x = data$x[, -folds[[j]]], y = data$y[-folds[[j]]],
             censoring.status = data$censoring.status[-folds[[j]]])
         cur.tt <- superpc.train(data.temp, type = type, s0.perc = fit$s0.perc)$feature.scores
         featurescores.folds[, j] <- cur.tt
@@ -187,12 +187,12 @@ function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
             cur.features <- (abs(cur.tt) > thresholds[i])
             if (sum(cur.features) > 1) {
                 nonzero[i] <- nonzero[i] + sum(cur.features)/n.fold
-                cur.svd <- mysvd(data$x[cur.features, -folds[[j]]], 
+                cur.svd <- mysvd(data$x[cur.features, -folds[[j]]],
                   n.components = n.components)
                 xtemp = data$x[cur.features, folds[[j]], drop = FALSE]
-                xtemp <- t(scale(t(xtemp), center = cur.svd$feature.means, 
+                xtemp <- t(scale(t(xtemp), center = cur.svd$feature.means,
                   scale = F))
-                cur.v.all <- scale(t(xtemp) %*% cur.svd$u, center = FALSE, 
+                cur.v.all <- scale(t(xtemp) %*% cur.svd$u, center = FALSE,
                   scale = cur.svd$d)
                 n.components.eff <- min(sum(cur.features), n.components)
                 cur.v <- cur.v.all[, 1:n.components.eff]
@@ -201,13 +201,13 @@ function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
                   for (k in 1:ncol(cur.v)) {
                     if (type == "survival") {
                       require(survival)
-                      junk <- coxph(Surv(data$y[folds[[j]]], 
-                        data$censoring.status[folds[[j]]]) ~ 
+                      junk <- coxph(Surv(data$y[folds[[j]]],
+                        data$censoring.status[folds[[j]]]) ~
                         cur.v[, 1:k], control = coxph.control(iter.max = 10))$loglik
                       scor[k, i, j] <- 2 * (junk[2] - junk[1])
                     }
                     else {
-                      junk <- summary(lm(data$y[folds[[j]]] ~ 
+                      junk <- summary(lm(data$y[folds[[j]]] ~
                         cur.v[, 1:k]))
                       scor[k, i, j] <- junk$fstat[1]
                     }
@@ -239,12 +239,12 @@ function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
                   if (sum(is.na(v.preval[, 1:j, i])) == 0) {
                     if (type == "survival") {
                       require(survival)
-                      junk <- coxph(Surv(data$y, data$censoring.status) ~ 
+                      junk <- coxph(Surv(data$y, data$censoring.status) ~
                         v.preval[, 1:j, i])$loglik
                       scor.preval[j, i] <- 2 * (junk[2] - junk[1])
                     }
                     else {
-                      junk <- summary(lm(data$y ~ v.preval[, 
+                      junk <- summary(lm(data$y ~ v.preval[,
                         1:j, i]))
                       scor.preval[j, i] <- junk$fstat[1]
                     }
@@ -253,11 +253,11 @@ function (fit, data, n.threshold = 20, n.fold = NULL, folds = NULL,
             }
         }
     }
-    junk <- list(thresholds = thresholds, n.threshold = n.threshold, 
-        nonzero = nonzero, scor.preval = scor.preval, scor = scor, 
-        scor.lower = scor.lower, scor.upper = scor.upper, folds = folds, 
-        n.fold = n.fold, featurescores.folds = featurescores.folds, 
-        v.preval = v.preval, compute.fullcv = compute.fullcv, 
+    junk <- list(thresholds = thresholds, n.threshold = n.threshold,
+        nonzero = nonzero, scor.preval = scor.preval, scor = scor,
+        scor.lower = scor.lower, scor.upper = scor.upper, folds = folds,
+        n.fold = n.fold, featurescores.folds = featurescores.folds,
+        v.preval = v.preval, compute.fullcv = compute.fullcv,
         compute.preval = compute.preval, type = type, call = this.call)
     class(junk) <- "superpc.cv"
     return(junk)
@@ -271,8 +271,8 @@ return(foo)
 
 
 superpc.st=
-function (fit, data, n.threshold = 20,  
-n.components = 1, min.features = 5, max.features = nrow(data$x)) 
+function (fit, data, n.threshold = 20,
+n.components = 1, min.features = 5, max.features = nrow(data$x))
 {
 	type <- fit$type
 	if (n.components > 5) {
@@ -285,22 +285,22 @@ n.components = 1, min.features = 5, max.features = nrow(data$x))
 	upper <- quantile(abs(cur.tt), 1 - (min.features/nrow(data$x)))
 	u95<-quantile(abs(cur.tt),0.95)
 	if (length(cur.tt)<500) { if (u95>upper) {cur.tt1<-cur.tt
-		cur.tt1[cur.tt1>upper]<-upper} else 
+		cur.tt1[cur.tt1>upper]<-upper} else
 		{cur.tt1<-cur.tt}
 		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) } else
 	{ cur.tt1<-sort(cur.tt, decreasing=TRUE)
 		cur.tt1<-cur.tt1[1:500]
-		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) }	
-	
+		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) }
+
 ## thresholds <- seq(from = lower, to = upper, length = n.threshold)
-    
+
 	scor <- array(NA, c(n.components, n.threshold))
 	tscor<- array(NA, c(n.components, n.threshold))
 	scor.preval <- matrix(NA, nrow = n.components, ncol = n.threshold)
 	scor.lower = NULL
 	scor.upper = NULL
 	v.preval <- array(NA, c(n, n.components, n.threshold))
-    
+
 	for (i in 1:n.threshold) {
 		cat(i)
 		cur.features <- (abs(cur.tt) +0.000001> thresholds[i])
@@ -310,12 +310,12 @@ n.components = 1, min.features = 5, max.features = nrow(data$x))
 		cur.v.all<-scale(t(xtemp) %*% cur.svd$u, center=FALSE, scale=cur.svd$d)
 		n.components.eff<-min(sum(cur.features),n.components)
 		cur.v <-as.matrix(cur.v.all[,1:n.components.eff])
-		
+
 		for (k in 1:n.components) {
 			if (type == "survival") {
 				require(survival)
-				junk <- coxph(Surv(data$y, 
-								   data$censoring.status) ~ 
+				junk <- coxph(Surv(data$y,
+								   data$censoring.status) ~
 							  cur.v[,1:k], control = coxph.control(iter.max = 10))
 				scor[k, i] <- 2 * (junk$loglik[2] - junk$loglik[1])
 				tscor[k,i] <- summary(junk)$coef[k,4]
@@ -325,14 +325,14 @@ n.components = 1, min.features = 5, max.features = nrow(data$x))
 				scor[k, i] <- junk$fstat[1]
 				tscor[k,i] <- junk$coef[k+1,3]
 			}
-			if (type=="binary") { 
+			if (type=="binary") {
 				junk<- summary(glm(data$y ~ cur.v[,1:k],family=binomial ))
 				scor[k,i] <- junk$null.deviance-junk$deviance
 				tscor[k,i] <- junk$coef[k+1,3]
 			}
 		}
 	}
-	junk <- list(thresholds = thresholds, n.threshold = n.threshold, 
+	junk <- list(thresholds = thresholds, n.threshold = n.threshold,
 				 scor = scor, tscor =tscor, type = type)
     class(junk) <- "superpc.st"
     return(junk)
@@ -530,12 +530,12 @@ superpc.lrtest.curv <- function (object, data, newdata, n.components=1, threshol
     cat(ii)
 
     object.temp<- superpc.predict(object, data, newdata,threshold=threshold[ii], n.components=n.pc)
-    
+
     num.features[ii]<- sum(object.temp$which.features)
-    
+
     v.pred<-object.temp$v.pred
-    
-    
+
+
     if(type=="survival"){
       require(survival)
       junk<- coxph(Surv(newdata$y, newdata$censoring.status) ~v.pred)$loglik
@@ -553,7 +553,7 @@ superpc.lrtest.curv <- function (object, data, newdata, n.components=1, threshol
 }
 
 logistic.func<-function(x,y,s0.perc)
- { 
+ {
     myfun<-function(x) { glm(y ~x, family=binomial)$coef[2]}
     tt<-apply(x,1, myfun )
     return(list(tt=tt))
@@ -562,9 +562,9 @@ logistic.func<-function(x,y,s0.perc)
 
 
 
-cor.func<- 
+cor.func<-
 
-function (x, y, s0.perc ) 
+function (x, y, s0.perc )
 {
     n <- length(y)
     xbar <- x %*% rep(1/n, n)
@@ -588,176 +588,143 @@ if(!is.null(s0.perc)){
     return(list(tt = tt, numer = numer, sd = sd, fudge=fudge ))
 }
 
-coxfunc <- 
-function(x, y, censoring.status, s0.perc)
-{
-
-        junk <- coxscor(x, y, censoring.status)
-        scor<-junk$scor
-        sd <- sqrt(coxvar(x, y, censoring.status, coxstuff.obj=junk$coxstuff.obj))
-
-if(is.null(s0.perc)){ fudge=median(sd)}
-if(!is.null(s0.perc)){
-if(s0.perc>=0){
-  fudge=quantile(sd,s0.perc)
-  }
- if(s0.perc<0){
-   fudge=0
-  }
-
-
-}
-
-        tt <- scor/(sd + fudge)
-
-        return(list(tt = tt, numer = scor, sd = sd, fudge=fudge ))
-}
-
-
-coxscor <- 
-function(x, y, ic, offset = rep(0., length(y)))
-{
-        # computes cox scor function for rows of nx by n matrix  x
- # first put everything in time order
-        n <- length(y)
-        nx <- nrow(x)
-        yy <- y + (ic == 0.) * (1e-05)
-        otag <- order(yy)
-        y <- y[otag]
-        ic <- ic[otag]
-        x <- x[, otag, drop = F]
-        #compute  unique failure times, d=# of deaths at each failure time, 
-        #dd= expanded version of d to length n, s=sum of covariates at each
-        # failure time, nn=#obs in each risk set, nno=sum(exp(offset)) at each failure time
-        offset <- offset[otag]
-        a <- coxstuff(x, y, ic, offset = offset)
-        nf <- a$nf
-        fail.times <- a$fail.times
-        s <- a$s
-        d <- a$d
-        dd <- a$dd
-        nn <- a$nn
-        nno <- a$nno
-        w <- rep(0., nx)
-        for(i in (1.:nf)) {
-                w <- w + s[, i]
-                oo<- (1.:n)[y >= fail.times[i]]
-                r<-rowSums(x[, oo, drop = F] * exp(offset[oo]))
-                w<- w - (d[i]/nno[i])*r 
-        }
-        return(list(scor = w, coxstuff.obj = a))
-}
+#coxfunc <-
+#function(x, y, censoring.status, s0.perc)
+#{
+#
+#        junk <- coxscor(x, y, censoring.status)
+#        scor<-junk$scor
+#        sd <- sqrt(coxvar(x, y, censoring.status, coxstuff.obj=junk$coxstuff.obj))
+#
+#if(is.null(s0.perc)){ fudge=median(sd)}
+#if(!is.null(s0.perc)){
+#if(s0.perc>=0){
+#  fudge=quantile(sd,s0.perc)
+#  }
+# if(s0.perc<0){
+#   fudge=0
+#  }
+#
+#
+#}
+#
+#        tt <- scor/(sd + fudge)
+#
+#        return(list(tt = tt, numer = scor, sd = sd, fudge=fudge ))
+#}
 
 
-
- coxvar <- 
-function(x, y, ic, offset = rep(0., length(y)), coxstuff.obj = NULL)
-{
-        # computes information elements (var) for cox
-        # x is nx by n matrix of expression  values
-        nx <- nrow(x)
-        n <- length(y)
-        yy <- y + (ic == 0.) * (1e-06)
-        otag <- order(yy)
-        y <- y[otag]
-        ic <- ic[otag]
-        x <- x[, otag, drop = F]
-        offset <- offset[otag]
-        if(is.null(coxstuff.obj)) {
-                coxstuff.obj <- coxstuff(x, y, ic, offset = offset)
-        }
-        nf <- coxstuff.obj$nf
-        fail.times <- coxstuff.obj$fail.times
-        s <- coxstuff.obj$s
-        d <- coxstuff.obj$d
-        dd <- coxstuff.obj$dd
-        nn <- coxstuff.obj$nn
-        nno <- coxstuff.obj$nno
-
-x2<- x^2
-oo <- (1.:n)[y >= fail.times[1] ]
-sx<-(1/nno[1])*rowSums(x[, oo] * exp(offset[oo]))
-s<-(1/nno[1])*rowSums(x2[, oo] * exp(offset[oo]))
-w <-  d[1] * (s - sx * sx)
-
-
-       for(i in 2.:nf) {
-           oo <- (1.:n)[y >= fail.times[i-1] & y < fail.times[i] ]
-      sx<-(1/nno[i])*(nno[i-1]*sx-rowSums(x[, oo,drop=F] * exp(offset[oo])))
-         s<-(1/nno[i])*(nno[i-1]*s-rowSums(x2[, oo,drop=F] * exp(offset[oo])))
-       w <- w + d[i] * (s - sx * sx)
-        }
-        return(w)
-}
+#coxscor <-
+#function(x, y, ic, offset = rep(0., length(y)))
+#{
+#        # computes cox scor function for rows of nx by n matrix  x
+# # first put everything in time order
+#        n <- length(y)
+#        nx <- nrow(x)
+#        yy <- y + (ic == 0.) * (1e-05)
+#        otag <- order(yy)
+#        y <- y[otag]
+#        ic <- ic[otag]
+#        x <- x[, otag, drop = F]
+#        #compute  unique failure times, d=# of deaths at each failure time,
+#        #dd= expanded version of d to length n, s=sum of covariates at each
+#        # failure time, nn=#obs in each risk set, nno=sum(exp(offset)) at each failure time
+#        offset <- offset[otag]
+#        a <- coxstuff(x, y, ic, offset = offset)
+#        nf <- a$nf
+#        fail.times <- a$fail.times
+#        s <- a$s
+#        d <- a$d
+#        dd <- a$dd
+#        nn <- a$nn
+#        nno <- a$nno
+#        w <- rep(0., nx)
+#        for(i in (1.:nf)) {
+#                w <- w + s[, i]
+#                oo<- (1.:n)[y >= fail.times[i]]
+#                r<-rowSums(x[, oo, drop = F] * exp(offset[oo]))
+#                w<- w - (d[i]/nno[i])*r
+#        }
+#        return(list(scor = w, coxstuff.obj = a))
+#}
 
 
 
+# coxvar <-
+#function(x, y, ic, offset = rep(0., length(y)), coxstuff.obj = NULL)
+#{
+#        # computes information elements (var) for cox
+#        # x is nx by n matrix of expression  values
+#        nx <- nrow(x)
+#        n <- length(y)
+#        yy <- y + (ic == 0.) * (1e-06)
+#        otag <- order(yy)
+#        y <- y[otag]
+#        ic <- ic[otag]
+#        x <- x[, otag, drop = F]
+#        offset <- offset[otag]
+#        if(is.null(coxstuff.obj)) {
+#                coxstuff.obj <- coxstuff(x, y, ic, offset = offset)
+#        }
+#        nf <- coxstuff.obj$nf
+#        fail.times <- coxstuff.obj$fail.times
+#        s <- coxstuff.obj$s
+#        d <- coxstuff.obj$d
+#        dd <- coxstuff.obj$dd
+#        nn <- coxstuff.obj$nn
+#        nno <- coxstuff.obj$nno
+#
+#x2<- x^2
+#oo <- (1.:n)[y >= fail.times[1] ]
+#sx<-(1/nno[1])*rowSums(x[, oo] * exp(offset[oo]))
+#s<-(1/nno[1])*rowSums(x2[, oo] * exp(offset[oo]))
+#w <-  d[1] * (s - sx * sx)
+#
+#
+#       for(i in 2.:nf) {
+#           oo <- (1.:n)[y >= fail.times[i-1] & y < fail.times[i] ]
+#      sx<-(1/nno[i])*(nno[i-1]*sx-rowSums(x[, oo,drop=F] * exp(offset[oo])))
+#         s<-(1/nno[i])*(nno[i-1]*s-rowSums(x2[, oo,drop=F] * exp(offset[oo])))
+#       w <- w + d[i] * (s - sx * sx)
+#        }
+#        return(w)
+#}
 
-coxstuff<-
-function(x, y, ic, offset = rep(0., length(y)))
-{
-        fail.times <- unique(y[ic == 1.])
-        nf <- length(fail.times)
-        n <- length(y)
-        nn <- rep(0., nf)
-        nno <- rep(0., nf)
-        for(i in 1.:nf) {
-                nn[i] <- sum(y >= fail.times[i])
-                nno[i] <- sum(exp(offset)[y >= fail.times[i]])
-        }
-        s <- matrix(0., ncol = nf, nrow = nrow(x))
-        d <- rep(0., nf)
-        #expand d out to a vector of length n
-        for(i in 1.:nf) {
-                o <- (1.:n)[(y == fail.times[i]) & (ic == 1.)]
-                d[i] <- length(o)
-}
-         oo <- match(y, fail.times)
-         oo[ic==0]<-NA
-         oo[is.na(oo)]<- max(oo[!is.na(oo)])+1
-         s<-t(rowsum(t(x),oo))
-       if(ncol(s)> nf){s<-s[,-ncol(s)]}
-        dd <- rep(0., n)
-        for(j in 1.:nf) {
-                dd[(y == fail.times[j]) & (ic == 1.)] <- d[j]
-        }
-        return(list(fail.times=fail.times, s=s, d=d, dd=dd, nf=nf, nn=nn, nno=nno))
-}
 
 
- ocoxvar <-
-function(x, y, ic, offset = rep(0., length(y)), coxstuff.obj = NULL)
-{
-        # computes information elements (var) for cox
-        # x is nx by n matrix of expression  values
-        nx <- nrow(x)
-        n <- length(y)
-        yy <- y + (ic == 0.) * (1e-06)
-        otag <- order(yy)
-        y <- y[otag]
-        ic <- ic[otag]
-        x <- x[, otag, drop = F]
-        offset <- offset[otag]
-        if(is.null(coxstuff.obj)) {
-                coxstuff.obj <- coxstuff(x, y, ic, offset = offset)
-        }
-        nf <- coxstuff.obj$nf
-        fail.times <- coxstuff.obj$fail.times
-        s <- coxstuff.obj$s
-        d <- coxstuff.obj$d
-        dd <- coxstuff.obj$dd
-        nn <- coxstuff.obj$nn
-        nno <- coxstuff.obj$nno
-        w <- rep(0., nx)
- x2<- x^2
-        for(i in 1.:nf) {
-                oo <- (1.:n)[y >= fail.times[i]]
-      sx<-(1/nno[i])*rowSums(x[, oo] * exp(offset[oo]))
-         s<-(1/nno[i])*rowSums(x2[, oo] * exp(offset[oo]))
-       w <- w + d[i] * (s - sx * sx)
-        }
-        return(w)
-}
+
+#coxstuff<-
+#function(x, y, ic, offset = rep(0., length(y)))
+#{
+#        fail.times <- unique(y[ic == 1.])
+#        nf <- length(fail.times)
+#        n <- length(y)
+#        nn <- rep(0., nf)
+#        nno <- rep(0., nf)
+#        for(i in 1.:nf) {
+#                nn[i] <- sum(y >= fail.times[i])
+#                nno[i] <- sum(exp(offset)[y >= fail.times[i]])
+#        }
+#        s <- matrix(0., ncol = nf, nrow = nrow(x))
+#        d <- rep(0., nf)
+#        #expand d out to a vector of length n
+#        for(i in 1.:nf) {
+#                o <- (1.:n)[(y == fail.times[i]) & (ic == 1.)]
+#                d[i] <- length(o)
+#}
+#         oo <- match(y, fail.times)
+#         oo[ic==0]<-NA
+#         oo[is.na(oo)]<- max(oo[!is.na(oo)])+1
+#         s<-t(rowsum(t(x),oo))
+#       if(ncol(s)> nf){s<-s[,-ncol(s)]}
+#        dd <- rep(0., n)
+#        for(j in 1.:nf) {
+#                dd[(y == fail.times[j]) & (ic == 1.)] <- d[j]
+#        }
+#        return(list(fail.times=fail.times, s=s, d=d, dd=dd, nf=nf, nn=nn, nno=nno))
+#}
+
+# The ocoxvar() function was defined here, but it is never called.
 
 
 mysvd<-function(x,  n.components=NULL){
@@ -772,7 +739,7 @@ x<- t(scale(t(x),center=feature.means,scale=F))
 
 
   if(is.null(n.components)){n.components=min(n,p)}
-  
+
 
       junk<-corpcor::fast.svd(x)
       nc=min(ncol(junk$u), n.components)
@@ -789,7 +756,7 @@ if(call.win.metafile) {win.metafile()}
 if(call.win.metafile) {dev.off()}
 
 }
-  
+
 superpc.plotcv=
 function (object, cv.type=c("full","preval"),smooth = TRUE, smooth.df = 10, call.win.metafile=FALSE, ...)
 {
@@ -882,7 +849,7 @@ function(x)
 
 
 superpc.plotred.lrtest<- function(object.lrtestred, call.win.metafile=FALSE){
-  
+
 if(call.win.metafile) {win.metafile()}
 
 n.components=object.lrtestred$n.components
@@ -913,7 +880,7 @@ mtext("Number of genes", 3, 4, cex = 0.8)
 }
 
 
-  
+
 
 if(call.win.metafile){dev.off()}
 return(TRUE)
@@ -932,27 +899,27 @@ error.bars <-function(x, upper, lower, width = 0.005, ...) {
 
 superpc.predict <- function (object, data, newdata, threshold, n.components=3,  prediction.type=c("continuous", "discrete","nonzero"),  n.class=2)
 {
-  
+
 #thresholds the feature scores at "threshold", computes svd based on "data", and then predicts based on  "newdata"
 
-  
+
   this.call <- match.call()
 
   prediction.type <- match.arg(prediction.type)
-  
+
  if(n.class>3){ stop("Maximum number of survival classes is 3")}
-  
+
   which.features <- (abs(object$feature.scores) >= threshold)
   x.sml <- data$x[which.features, ]
   n.pc <- n.components
 
-  
+
     x.sml.svd <- mysvd(x.sml, n.components=n.components)
-  
-  
 
 
-  
+
+
+
   if (prediction.type=="nonzero") {
     if (!is.null(data$featurenames)) {
       out<- data$featurenames[which.features]
@@ -981,11 +948,11 @@ xtemp0=t(scale(t(xtemp0),center=x.sml.svd$feature.means,scale=F))
 
     }
 
-    
+
  #here we obtain the regression coefs of y on the latent factors
  # and flip the sign of the factors if the coef is negative
 
-  
+
       result<-superpc.fit.to.outcome(object, data, cur.v0,  print=FALSE)$results
 
       if(object$type=="survival"){coef=result$coef}
@@ -998,15 +965,15 @@ xtemp0=t(scale(t(xtemp0),center=x.sml.svd$feature.means,scale=F))
 v.pred.1df=apply(scale(out, center=FALSE,scale= 1/abs(coef)),1,sum)
       }
       else if (prediction.type=="discrete") {
-        
-        
+
+
 out0<-scale(cur.v0, center=FALSE,scale= sign(coef))
 v.pred0.1df=apply(scale(out0, center=FALSE,scale= 1/abs(coef)),1,sum)
-        
+
         out<-scale(cur.v, center=FALSE,scale= sign(coef))
 v.pred.1df=apply(scale(out, center=FALSE,scale= 1/abs(coef)),1,sum)
 
-      # compute quantile cutpoints on training set; apply to test set  
+      # compute quantile cutpoints on training set; apply to test set
 
         for(j in 1:ncol(out)){
           br=quantile(cur.v0[,j], (0:n.class)/n.class)
@@ -1020,13 +987,13 @@ v.pred.1df[is.na(v.pred.1df)]<-1
 
 }
 
-if(is.matrix(out)){  
+if(is.matrix(out)){
    dimnames(out)=list(NULL,rep(prediction.type,ncol(out)))
  }
 
 
 
-  junk <- list(v.pred=out, u = x.sml.svd$u, d = x.sml.svd$d, 
+  junk <- list(v.pred=out, u = x.sml.svd$u, d = x.sml.svd$d,
                which.features = which.features, v.pred.1df=v.pred.1df,
                n.components = n.pc, coef=result$coef,
                call = this.call, prediction.type=prediction.type)
@@ -1037,12 +1004,12 @@ if(is.matrix(out)){
 superpc.predict.red <- function(fit, data, data.test, threshold, n.components=3, n.shrinkage=20, shrinkages=NULL, compute.lrtest=TRUE, sign.wt="both", prediction.type=c("continuous","discrete"), n.class=2){
 # try reduced predictor on test set
 
-  
+
   soft.thresh<- function(x,tt){ sign(x)*(abs(x)-tt)*(abs(x)>tt)}
 
 
   this.call<- match.call()
-  
+
   prediction.type=match.arg(prediction.type)
 
   type=fit$type
@@ -1050,7 +1017,7 @@ superpc.predict.red <- function(fit, data, data.test, threshold, n.components=3,
   if(!is.null(shrinkages)){ n.shrinkage=length(shrinkages)}
 
   lrtest.reduced<- matrix(NA,ncol=n.components,nrow=n.shrinkage)
-  
+
   cur.vall<- array(NA,c(n.shrinkage,ncol(data$x),n.components))
   cur.vall.test<- array(NA, c(n.shrinkage,ncol(data.test$x),n.components))
   cur.vall.test.groups<- array(NA, c(n.shrinkage,ncol(data.test$x),n.components))
@@ -1077,7 +1044,7 @@ scal=apply(scale(abs(x.svd$u),center=F,scale=x.svd$d),2,sum)
   train.means=apply(data$x,1,mean)
   xcen=t(scale(t(data$x), center=train.means,scale=F))
   xtest.cen=t(scale(t(data.test$x), center=train.means,scale=F))
-  
+
 #  import<-cor(t(data$x), cur.v)
 
   sc= xcen%*%cur.v
@@ -1087,21 +1054,21 @@ import=sc
 
 
 
-                                        # don't shrink all of the way to zero 
+                                        # don't shrink all of the way to zero
   maxshrink=max(abs(sc))
 
   if(sign.wt=="positive"){ maxshrink=max(abs(sc[sc>0]))}
-  
+
   if(sign.wt=="negative"){ maxshrink=max(abs(sc[sc<0]))}
 
-  
+
   if(is.null(shrinkages)){
     shrinkages<- seq(0,maxshrink,length=n.shrinkage+1)
     shrinkages= shrinkages[-(n.shrinkage+1)]
   }
 
   num.features<-matrix(NA,nrow=n.shrinkage, ncol=n.components)
-  
+
   feature.list<-vector("list", n.shrinkage)
 
 
@@ -1111,10 +1078,10 @@ import=sc
     if(sign.wt=="positive"){sc2[sc2<0]<-0}
     if(sign.wt=="negative"){sc2[sc2>0]<-0}
     nonzero<-sc2!=0
-    
+
 
     num.features[i,]<- apply(nonzero,2,sum)
-    
+
     junk=vector("list",n.components)
     for(ii in 1:n.components){
       junk[[ii]]<- (1:nrow(xcen))[nonzero[,ii]]
@@ -1135,11 +1102,11 @@ import=sc
         }
         else{ cur.vall.test.groups[i,,ii]<-1}
       }
-    }   
-    
+    }
+
     cur.vall.1df[i,]=apply( scale(cur.vall[i,,],center=F,scale=1/coef),1,mean)
     cur.vall.test.1df[i,]=apply( scale(cur.vall.test[i,,],center=F,scale=1/coef),1,mean)
-    
+
 
     if(prediction.type=="discrete") {
       if(sum(is.na(cur.vall.1df[i,]))==0){
@@ -1149,8 +1116,8 @@ import=sc
         cur.vall.test.1df[i,o]<-1
       }
   else{cur.vall.test.1df[i,]<-1}
-     
-   
+
+
        }
 
   }
@@ -1168,12 +1135,12 @@ import=sc
   cat("",fill=TRUE)
 
 
-  if(compute.lrtest){ 
+  if(compute.lrtest){
 for(ii in 1:n.components){
     for(i in 1:n.shrinkage){
       if(type=="survival"){
         require(survival)
-        
+
 # with too much shrinkage,
 # all predictors may be shrunk to zero and Cox model bombs. I check for this first
 
@@ -1191,12 +1158,12 @@ junk=superpc.fit.to.outcome(fit, data.test, cur.vall.test[i,,1:ii], print=FALSE)
     }
   }
 }
-  
 
-  return(list(shrinkages=shrinkages, lrtest.reduced=lrtest.reduced, 
+
+  return(list(shrinkages=shrinkages, lrtest.reduced=lrtest.reduced,
 num.features=num.features, feature.list=feature.list, import=import,  v.test=cur.vall.test, coef=coef, v.test.1df= cur.vall.test.1df,
               n.components=n.components, sign.wt=sign.wt, type=type,call=this.call))
-  
+
 }
 
 
@@ -1205,7 +1172,7 @@ superpc.predict.red.cv <- function(fitred, fitcv, data, threshold,  sign.wt="bot
 
  # try reduced predictor on cv folds, via full cross-validation
 
-                           
+
   this.call=match.call()
 
   type=fitred$type
@@ -1227,7 +1194,7 @@ import.cv=array(NA,c(nrow(data$x), n.fold,n.components))
     cat(j,fill=TRUE)
     fit.temp<-list(feature.scores=fitcv$featurescores.fold[,j], type=type)
     ii<-fitcv$folds[[j]]
-    
+
     data1<-list(x=data$x[,-ii],y=data$y[-ii],censoring.status=data$censoring.status[-ii])
     data2<-list(x=data$x[,ii],y=data$y[ii],censoring.status=data$censoring.status[ii])
     junk<- superpc.predict.red(fit.temp, data1,data2, threshold, shrinkages=shrinkages, n.components=n.components,  compute.lrtest=TRUE, sign.wt=sign.wt)
@@ -1257,14 +1224,14 @@ return(list(shrinkages=shrinkages, lrtest.reduced=lrtest.reduced,  lrtest.reduce
 }
 superpc.predictionplot <- function (train.obj, data, data.test,  threshold, n.components=3,  n.class=2, shrinkage=NULL, call.win.metafile=FALSE)
 {
-  
+
 
 
 
 BIG=1000
-  
+
 this.call=match.call()
-  
+
 if(n.components>3){
      stop("n.components cannot be bigger than 3")
 }
@@ -1272,7 +1239,7 @@ if(n.components>3){
 if(is.null(shrinkage)){ fit.cts=superpc.predict(train.obj, data, data.test, threshold=threshold, n.components=n.components, prediction.type="continuous")
 
 
-  pred.cts=superpc.fit.to.outcome(train.obj, data.test, fit.cts$v.pred[,1:n.components], print=FALSE)$results 
+  pred.cts=superpc.fit.to.outcome(train.obj, data.test, fit.cts$v.pred[,1:n.components], print=FALSE)$results
 
 
 pred.cts.1df=superpc.fit.to.outcome(train.obj, data.test, fit.cts$v.pred.1df, print=FALSE)$results
@@ -1316,7 +1283,7 @@ pred.groups.1df=superpc.fit.to.outcome(train.obj,  data.test, fit.groups$v.pred.
 
 }
  else{
-   
+
  fit.groups<- superpc.predict.red(train.obj, data, data.test, threshold=threshold, n.components=n.components, shrinkage=shrinkage, prediction.type="discrete", n.class=n.class)
 
 
@@ -1418,7 +1385,7 @@ for(j in 1:3){
 
 if(n.components>1){
 # write out 2nd block of results
-plot(0,0,xlim=c(0,1),ylim=c(0,1),type="n",axes=F,xlab="",ylab="")  
+plot(0,0,xlim=c(0,1),ylim=c(0,1),type="n",axes=F,xlab="",ylab="")
  for(j in 4:6){
  text(leftcol,yc[j-3],rownames[j], pos=4, col=4)
 }
@@ -1429,7 +1396,7 @@ for(j in 4:6){
 
  if(n.components>2){
 # write out 3rd block of results
-plot(0,0,xlim=c(0,1),ylim=c(0,1),type="n",axes=F,xlab="",ylab="")  
+plot(0,0,xlim=c(0,1),ylim=c(0,1),type="n",axes=F,xlab="",ylab="")
  for(j in 7:9){
  text(leftcol,yc[j-6],rownames[j], pos=4, col=4)
 }
@@ -1443,8 +1410,8 @@ if(n.components>1){
 #  for(i in 1:(n.components-1)){
 #  plot(0,0,type="n",axes=F,xlab="",ylab="")
 #}
- plot(0,0,xlim=c(0,1),ylim=c(0,1),type="n",axes=F,xlab="",ylab="") 
-  
+ plot(0,0,xlim=c(0,1),ylim=c(0,1),type="n",axes=F,xlab="",ylab="")
+
   nrows=3
   yc=1-(1:nrows)*yinc
   for(j in 1:nrows){
@@ -1487,7 +1454,7 @@ yc=1-(1:nrows)*yinc
 for(j in 1:nrows){
  text(leftcol,yc[j],rownames[j], pos=4, col=4)
 }
-   
+
 text(midcol,1, "Intcpt", pos=4, col=4)
 
 if(n.components==1){
@@ -1513,7 +1480,7 @@ ylast=yc[nrows]
 
 fstat=junk[1]
 pvalue=1-pf(fstat,junk[2],junk[3])
- 
+
 
 text(leftcol,ylast-2*yinc, "F-stat",pos=4,col=4)
 text(midcol2,ylast-2*yinc, round(fstat,5),pos=4)
@@ -1600,7 +1567,7 @@ if(col=="gray"){
 if(col=="red"){cols=reds[rank(x)]}
 if(col=="green"){cols=greens[rank(x)]}
 if(col=="blue"){cols=blues[rank(x)]}
- nc=4 
+ nc=4
  temp=quantile(x,c(0.25, .5, .75, 1))
  values.legend=paste("<",round(temp,2),sep="")
  cols.legend=sort(cols[trunc(n*c(0.25,.5,.75,1))])
@@ -1610,11 +1577,11 @@ if(col=="blue"){cols=blues[rank(x)]}
    nc= length(unique(x))
    values.legend=sort(unique(x))
   }
-  
+
 }
 
 if(type=="discrete"){
- palette("default") 
+ palette("default")
 dd=sort(names(table(x)))
 nc=length(dd)
 cols=match(x,dd)
@@ -1623,7 +1590,7 @@ cols.legend=1:nc
 }
 
 par(mar=c(0,0,0,0))
- 
+
 plot(0,0,xlim=c(0,1),ylim=c(0,1/n),type="n",axes=F,xlab="",ylab="")
 xval=c(0,1/n,1/n,0)
 yval=c(0,0,1/n,1/n)
@@ -1651,7 +1618,7 @@ return()
 
 
 
-surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens) 
+surv.to.class2 <- function (y, icens, cutoffs=NULL, n.class=NULL,  class.names=NULL, newy=y, newic=icens)
 
 # this is the function "pamr.surv.to.class2" from the pamr libarary
 # the auxiliary functions below are also from pamr
@@ -1743,7 +1710,7 @@ gen.y.mat2 <- function(surv.data, cutoffs, class.names=NULL, newdata=surv.data)
          y.mat
 }
 
-get.surv.q <- function(surv.obj, quantile) 
+get.surv.q <- function(surv.obj, quantile)
 {
     ndx <- sum(surv.obj$surv > quantile)
     if (ndx==0)
@@ -1751,12 +1718,12 @@ get.surv.q <- function(surv.obj, quantile)
     else
         return(surv.obj$time[ndx])
 }
-find.surv.ndx <- function(newtimes, oldtimes) 
+find.surv.ndx <- function(newtimes, oldtimes)
 {
 	first <- apply(as.matrix(newtimes), 1, function(e1,e2) (e1>=e2), e2=oldtimes)
 	as.vector(apply(first, 2, sum))
 }
-get.mle.class <- function(y.row) 
+get.mle.class <- function(y.row)
 {
 	i <- 1+sum((max(y.row)>cummax(y.row)))
 	if (!is.null(names(y.row)[i])) {
@@ -1765,45 +1732,45 @@ get.mle.class <- function(y.row)
 	else return(i)
 }
 
-superpc.train<-
-  function (data, type=c("survival","regression","binary"), s0.perc=NULL){
-    
-# computes feature scores for supervised pc analysis
-    
-  this.call <- match.call()
- type <- match.arg(type)
-
-  
-  if (is.null(data$censoring.status) & type=="survival") {
- stop("Error: survival specified but  censoring.status is null")
-  }
-  
- if (!is.null(data$censoring.status) & type=="regression") {
- stop("Error: regression specified but  censoring.status is  non-null")
-  }
-
-  if (type=="survival") {
-junk<- coxfunc(data$x, data$y, data$censoring.status, s0.perc=s0.perc)
-feature.scores<-junk$tt
-   }
-  if (type=="regression") {
-junk<- cor.func(data$x, data$y, s0.perc=s0.perc)
-feature.scores<-junk$tt
-  }
-  if (type=="binary") {
-junk<- logistic.func(data$x,data$y,s0.perc=s0.perc)
-feature.scores<-junk$tt
-  for (m in 1:length(feature.scores)) { if (is.na(feature.scores[m])==TRUE) {feature.scores[m]<-0} }
-   }
-  junk <- list( feature.scores=feature.scores, 
-               type=type, s0.perc=s0.perc, 
-               call = this.call)
-
-  
-  class(junk) <- "superpc"
-  return(junk)
-
-}
+#superpc.train<-
+#  function (data, type=c("survival","regression","binary"), s0.perc=NULL){
+#
+## computes feature scores for supervised pc analysis
+#
+#  this.call <- match.call()
+# type <- match.arg(type)
+#
+#
+#  if (is.null(data$censoring.status) & type=="survival") {
+# stop("Error: survival specified but  censoring.status is null")
+#  }
+#
+# if (!is.null(data$censoring.status) & type=="regression") {
+# stop("Error: regression specified but  censoring.status is  non-null")
+#  }
+#
+#  if (type=="survival") {
+#junk<- coxfunc(data$x, data$y, data$censoring.status, s0.perc=s0.perc)
+#feature.scores<-junk$tt
+#   }
+#  if (type=="regression") {
+#junk<- cor.func(data$x, data$y, s0.perc=s0.perc)
+#feature.scores<-junk$tt
+#  }
+#  if (type=="binary") {
+#junk<- logistic.func(data$x,data$y,s0.perc=s0.perc)
+#feature.scores<-junk$tt
+#  for (m in 1:length(feature.scores)) { if (is.na(feature.scores[m])==TRUE) {feature.scores[m]<-0} }
+#   }
+#  junk <- list( feature.scores=feature.scores,
+#               type=type, s0.perc=s0.perc,
+#               call = this.call)
+#
+#
+#  class(junk) <- "superpc"
+#  return(junk)
+#
+#}
 
 superpc.xl.get.threshold.range  <- function(train.obj) {
 
@@ -1884,4 +1851,4 @@ return(foo)
 
 
 
-  
+

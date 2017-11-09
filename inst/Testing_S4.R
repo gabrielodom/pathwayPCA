@@ -276,9 +276,23 @@ source("inst/superpc.txt")
 ## This example is survival analysis, thus pinfo have both survival time annd censor status,
 
 survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
+rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 
 tscore <- array(0, dim = c(length(geneset$pathways), 20))
 rownames(tscore) <- names(geneset$pathways)
+
+###  The Basic Idea  ###
+# Supervised PCA works like this:
+#   1. Compute univariate model regression coefficients for each feature. That
+#      is, given a candidate model y ~ f(x) + e, fit p independent models - one
+#      for each gene in X. (For the pathway version, that's each gene in the
+#      current pathway.)
+#   2. Construct a reduced data matrix from genes / features whose univariate
+#      model statistics exceed a certain threshold (estimated by CV).
+#   3. Compute the first k PCs from this reduced data matrix.
+#   4. Estimate a prediction model for y based on these first k PCs. (For the
+#      pathway attribution exercise, check the significance of the pathway based
+#      on the k PCs.)
 
 
 for(i in 1:3){
