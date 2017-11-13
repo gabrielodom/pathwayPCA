@@ -270,73 +270,73 @@ return(foo)
 }
 
 
-superpc.st=
-function (fit, data, n.threshold = 20,
-n.components = 1, min.features = 5, max.features = nrow(data$x))
-{
-	type <- fit$type
-	if (n.components > 5) {
-		cat("Max # of components is 5", fill = TRUE)
-	}
-	n.components <- min(5, n.components)
-	n <- ncol(data$x)
-	cur.tt <- fit$feature.scores
-## lower <- quantile(abs(cur.tt), 1 - (max.features/nrow(data$x)))
-	upper <- quantile(abs(cur.tt), 1 - (min.features/nrow(data$x)))
-	u95<-quantile(abs(cur.tt),0.95)
-	if (length(cur.tt)<500) { if (u95>upper) {cur.tt1<-cur.tt
-		cur.tt1[cur.tt1>upper]<-upper} else
-		{cur.tt1<-cur.tt}
-		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) } else
-	{ cur.tt1<-sort(cur.tt, decreasing=TRUE)
-		cur.tt1<-cur.tt1[1:500]
-		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) }
-
-## thresholds <- seq(from = lower, to = upper, length = n.threshold)
-
-	scor <- array(NA, c(n.components, n.threshold))
-	tscor<- array(NA, c(n.components, n.threshold))
-	scor.preval <- matrix(NA, nrow = n.components, ncol = n.threshold)
-	scor.lower = NULL
-	scor.upper = NULL
-	v.preval <- array(NA, c(n, n.components, n.threshold))
-
-	for (i in 1:n.threshold) {
-		cat(i)
-		cur.features <- (abs(cur.tt) +0.000001> thresholds[i])
-		cur.svd <- mysvd(data$x[cur.features,],n.components=n.components)
-		xtemp=data$x[cur.features,,drop=FALSE]
-		xtemp<-t(scale(t(xtemp),center=cur.svd$feature.means,scale=F))
-		cur.v.all<-scale(t(xtemp) %*% cur.svd$u, center=FALSE, scale=cur.svd$d)
-		n.components.eff<-min(sum(cur.features),n.components)
-		cur.v <-as.matrix(cur.v.all[,1:n.components.eff])
-
-		for (k in 1:n.components) {
-			if (type == "survival") {
-				require(survival)
-				junk <- coxph(Surv(data$y,
-								   data$censoring.status) ~
-							  cur.v[,1:k], control = coxph.control(iter.max = 10))
-				scor[k, i] <- 2 * (junk$loglik[2] - junk$loglik[1])
-				tscor[k,i] <- summary(junk)$coef[k,4]
-			}
-			if (type=="regression") {
-				junk <- summary(lm(data$y ~ cur.v[,1:k]))
-				scor[k, i] <- junk$fstat[1]
-				tscor[k,i] <- junk$coef[k+1,3]
-			}
-			if (type=="binary") {
-				junk<- summary(glm(data$y ~ cur.v[,1:k],family=binomial ))
-				scor[k,i] <- junk$null.deviance-junk$deviance
-				tscor[k,i] <- junk$coef[k+1,3]
-			}
-		}
-	}
-	junk <- list(thresholds = thresholds, n.threshold = n.threshold,
-				 scor = scor, tscor =tscor, type = type)
-    class(junk) <- "superpc.st"
-    return(junk)
-}
+#superpc.st=
+#function (fit, data, n.threshold = 20,
+#n.components = 1, min.features = 5, max.features = nrow(data$x))
+#{
+#	type <- fit$type
+#	if (n.components > 5) {
+#		cat("Max # of components is 5", fill = TRUE)
+#	}
+#	n.components <- min(5, n.components)
+#	n <- ncol(data$x)
+#	cur.tt <- fit$feature.scores
+### lower <- quantile(abs(cur.tt), 1 - (max.features/nrow(data$x)))
+#	upper <- quantile(abs(cur.tt), 1 - (min.features/nrow(data$x)))
+#	u95<-quantile(abs(cur.tt),0.95)
+#	if (length(cur.tt)<500) { if (u95>upper) {cur.tt1<-cur.tt
+#		cur.tt1[cur.tt1>upper]<-upper} else
+#		{cur.tt1<-cur.tt}
+#		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) } else
+#	{ cur.tt1<-sort(cur.tt, decreasing=TRUE)
+#		cur.tt1<-cur.tt1[1:500]
+#		thresholds<-quantile(cur.tt1, probs=seq(0,0.95, by=0.05)) }
+#
+### thresholds <- seq(from = lower, to = upper, length = n.threshold)
+#
+#	scor <- array(NA, c(n.components, n.threshold))
+#	tscor<- array(NA, c(n.components, n.threshold))
+#	scor.preval <- matrix(NA, nrow = n.components, ncol = n.threshold)
+#	scor.lower = NULL
+#	scor.upper = NULL
+#	v.preval <- array(NA, c(n, n.components, n.threshold))
+#
+#	for (i in 1:n.threshold) {
+#		cat(i)
+#		cur.features <- (abs(cur.tt) +0.000001> thresholds[i])
+#		cur.svd <- mysvd(data$x[cur.features,],n.components=n.components)
+#		xtemp=data$x[cur.features,,drop=FALSE]
+#		xtemp<-t(scale(t(xtemp),center=cur.svd$feature.means,scale=F))
+#		cur.v.all<-scale(t(xtemp) %*% cur.svd$u, center=FALSE, scale=cur.svd$d)
+#		n.components.eff<-min(sum(cur.features),n.components)
+#		cur.v <-as.matrix(cur.v.all[,1:n.components.eff])
+#
+#		for (k in 1:n.components) {
+#			if (type == "survival") {
+#				require(survival)
+#				junk <- coxph(Surv(data$y,
+#								   data$censoring.status) ~
+#							  cur.v[,1:k], control = coxph.control(iter.max = 10))
+#				scor[k, i] <- 2 * (junk$loglik[2] - junk$loglik[1])
+#				tscor[k,i] <- summary(junk)$coef[k,4]
+#			}
+#			if (type=="regression") {
+#				junk <- summary(lm(data$y ~ cur.v[,1:k]))
+#				scor[k, i] <- junk$fstat[1]
+#				tscor[k,i] <- junk$coef[k+1,3]
+#			}
+#			if (type=="binary") {
+#				junk<- summary(glm(data$y ~ cur.v[,1:k],family=binomial ))
+#				scor[k,i] <- junk$null.deviance-junk$deviance
+#				tscor[k,i] <- junk$coef[k+1,3]
+#			}
+#		}
+#	}
+#	junk <- list(thresholds = thresholds, n.threshold = n.threshold,
+#				 scor = scor, tscor =tscor, type = type)
+#    class(junk) <- "superpc.st"
+#    return(junk)
+#}
 
 
 "superpc.decorrelate" <- function (x, competing.predictors) {

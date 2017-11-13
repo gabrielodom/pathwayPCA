@@ -59,30 +59,29 @@ superpc.train <- function(data,
   }
 
   ###  Model Switch  ###
-  if(type == "survival"){
+  switch(type,
+         survival = {
 
-    junk <- coxTrain_fun(data$x, data$y, data$censoring.status,
-                         s0.perc = s0.perc)
-    feature.scores <- junk$tt
+           junk <- coxTrain_fun(data$x, data$y, data$censoring.status,
+                                s0.perc = s0.perc)
+           feature.scores <- junk$tt
 
-  }
+         },
+         regression = {
 
-  if(type == "regression"){
+           junk <- cor.func(data$x, data$y, s0.perc = s0.perc)
+           feature.scores <- junk$tt
 
-    junk <- cor.func(data$x, data$y, s0.perc = s0.perc)
-    feature.scores <- junk$tt
+         },
+         binary = {
 
-  }
+           junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
+           feature.scores <- junk$tt
+           for(m in 1:length(feature.scores)){
+             if(is.na(feature.scores[m]) == TRUE) feature.scores[m] <- 0
+           }
 
-  if(type == "binary"){
-
-    junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
-    feature.scores <- junk$tt
-    for(m in 1:length(feature.scores)){
-      if(is.na(feature.scores[m]) == TRUE) feature.scores[m] <- 0
-    }
-
-  }
+         })
 
   junk <- list(feature.scores = feature.scores,
                type = type,
@@ -95,32 +94,27 @@ superpc.train <- function(data,
 
 }
 
-# modelSwitch <- function(data, s0.perc, switchType){
+# if(type == "survival"){
 #
-#   switch(switchType,
-#          survival = {
-#
-#            junk <- coxTrain_fun(data$x, data$y, data$censoring.status,
-#                                 s0.perc = s0.perc)
-#            feature.scores <- junk$tt
-#
-#          },
-#          regression = {
-#
-#            junk <- cor.func(data$x, data$y, s0.perc = s0.perc)
-#            feature.scores <- junk$tt
-#
-#          },
-#          binary = {
-#
-#            junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
-#            feature.scores <- junk$tt
-#            for(m in 1:length(feature.scores)){
-#              if(is.na(feature.scores[m]) == TRUE) feature.scores[m] <- 0
-#            }
-#
-#          })
+#   junk <- coxTrain_fun(data$x, data$y, data$censoring.status,
+#                        s0.perc = s0.perc)
+#   feature.scores <- junk$tt
 #
 # }
 #
-# modelSwitch(data = data, s0.perc = s0.perc, switchType = type)
+# if(type == "regression"){
+#
+#   junk <- cor.func(data$x, data$y, s0.perc = s0.perc)
+#   feature.scores <- junk$tt
+#
+# }
+#
+# if(type == "binary"){
+#
+#   junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
+#   feature.scores <- junk$tt
+#   for(m in 1:length(feature.scores)){
+#     if(is.na(feature.scores[m]) == TRUE) feature.scores[m] <- 0
+#   }
+#
+# }

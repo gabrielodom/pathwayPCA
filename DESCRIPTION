@@ -10,7 +10,8 @@ License: GPL-2
 Depends: R (>= 2.10)
 Imports:
     lars,
-    methods
+    methods,
+    survival
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -31,5 +32,6 @@ Collate:
     'data_supervised_tumors.R'
     'subsetExpressed-omes.R'
     'superPC_CoxPH_model.R'
+    'superPC_model_tStats.R'
     'superPC_train.R'
     'unknown_matrixNorm.R'
