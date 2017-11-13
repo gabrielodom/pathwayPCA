@@ -63,6 +63,7 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc){
 
 
 .coxscor <- function(x, y, ic, offset = rep(0, length(y))){
+  # browser()
 
   # computes cox scor function for rows of nx by n matrix  x
   # first put everything in time order
@@ -169,6 +170,9 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc){
   #expand d out to a vector of length n
   for(i in 1:nf){
 
+    # Try this:
+    # d[i] <- sum((y == fail.times[i]) & (ic == 1))
+    # At each even time, we want to count the number of events
     o <- (1:n)[(y == fail.times[i]) & (ic == 1)]
     d[i] <- length(o)
 

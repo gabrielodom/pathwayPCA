@@ -249,7 +249,87 @@ aespca2_ls <- parLapply(cl = clus, testRedPath, function(x){
 })
 Sys.time() - a
 # 9 min, 41 sec for 1323 screened pathways over 18 cores, and we still have to
-#  extract (but not subset) the score matrix.
+#  extract (but not subset) the score matrix [that's fixed now]. 9 min, 47 sec
+#  for full extraction and subsetting.
+pathway_AESPCs_1323_ls <- aespca2_ls
+# devtools::use_data(pathway_AESPCs_1323_ls)
+
+
+
+######  (TEST) Permutation Test Timing  #######################################
+respIIIC <- ovarianFiltered_df$Tumor_Stage_Ovary_FIGO == "IIIC"
+data("pathway_AESPCs_1323_ls")
+
+logisticAIC <- function(response, predictor, permute = FALSE){
+
+  if(permute){
+    response <- sample(response)
+  }
+
+  glm(response ~ predictor, family = binomial(link = "logit"))$aic
+
+}
+
+# trueAIC <- logisticAIC(response = respIIIC,
+#                        predictor = pathway_AESPCs_1323_ls[[1]])
+#
+# a <- Sys.time()
+# distAIC2 <- replicate(10000, logisticAIC(response = respIIIC,
+#                                      predictor = pathway_AESPCs_1323_ls[[1]],
+#                                      permute = TRUE))
+# Sys.time() - a # 18.55 sec for 10k; 3 min, 1 sec for 100k
+#
+# # The p-vaue (smaller AIC = better AIC)
+# mean(trueAIC < distAIC)  # p = 0.34062
+# mean(trueAIC < distAIC2) # p = 0.3379
+# # I think those are close enough to warrant using 10k reps
+
+a <- Sys.time()
+pathwayAIC_p <- sapply(aespca2_ls[1:10], function(path){
+
+  trueAIC <- logisticAIC(response = respIIIC, predictor = path)
+
+  AIC_perm <- replicate(10000,
+                        logisticAIC(response = respIIIC,
+                                    predictor = path,
+                                    permute = TRUE))
+
+  # The p-vaue (smaller AIC = better AIC)
+  mean(trueAIC < AIC_perm)
+
+})
+Sys.time() - a # 3 min, 6 sec for first 10 pathways;
+
+
+library(parallel)
+clus <- makeCluster(detectCores() - 2)
+clusterExport(cl = clus, varlist = ls())
+clusterEvalQ(cl = clus, library(pathwayPCA))
+a <- Sys.time()
+pathwayAIC_p <- parSapply(cl = clus,
+                          pathway_AESPCs_1323_ls,
+                          function(path){
+
+  trueAIC <- logisticAIC(response = respIIIC, predictor = path)
+
+  AIC_perm <- replicate(10000,
+                        logisticAIC(response = respIIIC,
+                                    predictor = path,
+                                    permute = TRUE))
+
+  # The p-vaue (smaller AIC = better AIC)
+  mean(trueAIC < AIC_perm)
+
+})
+Sys.time() - a # 3 min, 5 sec for first 132 pathways (10%). 29 min, 21 sec for
+#   the whole pathway set.
+
+# Adjust the p-values
+aespca_pValues_df <- data.frame(PathNames = names(pathwayAIC_p),
+                                raw_pVal = pathwayAIC_p,
+                                adj_pVal = p.adjust(pathwayAIC_p, "BH"))
+# devtools::use_data(aespca_pValues_df)
+
 
 
 ######  (TEST) PC Extraction with Supervised PCA  #############################
@@ -278,8 +358,8 @@ source("inst/superpc.txt")
 survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
 rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 
-tscore <- array(0, dim = c(length(geneset$pathways), 20))
-rownames(tscore) <- names(geneset$pathways)
+# tscore <- array(0, dim = c(length(geneset$pathways), 20))
+# rownames(tscore) <- names(geneset$pathways)
 
 ###  The Basic Idea  ###
 # Supervised PCA works like this:
@@ -295,8 +375,8 @@ rownames(tscore) <- names(geneset$pathways)
 #      on the k PCs.)
 
 a <- Sys.time()
-for(i in 1:100){
-  # for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
+for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
+  # for(i in 1:100){
   # browser()
 
   genenames <- geneset$pathways[[i]]
@@ -325,9 +405,16 @@ for(i in 1:100){
   tscore[i,] <- st.obj$tscor
 
 }
-Sys.time() - a   # 90 sec for first 100 pathways
+Sys.time() - a   # 90 sec for first 100 pathways; 1 hr, 47 min for 7,949 pathways
+#   My hypothesis is that it's not the number of pathways, but the number of
+#   pathways in the tail that have a lot of genes in them. For the set of 7,949
+#   pathways, we cut off the pathways with more than 180 genes. We expected the
+#   calculations to take ~8k / ~1.3k = 6x longer, but they look only about 1.5x
+#   longer [1.776612 / (13 / 60 + 1) ~= 1.46]. The main reason is the huge
+#   pathways with 45+ (95th percentile) genes in them. The more of these "whale"
+#   pathways we have, the longer the computation will take.
 
-library(plyr)
+# library(plyr)
 a <- Sys.time()
 wrapper1_fun <- function(path){
   # browser()
@@ -341,15 +428,16 @@ wrapper1_fun <- function(path){
 
   st.obj <- superpc.st(fit = train,
                        data = data,
-                       n.components = 1,
+                       num_PCs = 1,      # number of rows of tscor
                        min.features = 2,
-                       n.threshold = 20)
+                       n.threshold = 20) # number of columns
 
   st.obj$tscor  # This is where we break things: we need to change from tall
   #   to wide data to take advantage of the clean plyr approach.
   # EDIT: transposing here makes the data tidy, but we want it wide.
 
 }
+wrapper1_fun(geneset$pathways[[1]])
 tScores_ls <- sapply(geneset$pathways[1:100], wrapper1_fun)
 Sys.time() - a   # 89.1 seconds, but we have a list instead of a matrix. But,
 #   now we can run it in parallel! Using plyr::ldply returns a tall data frame
