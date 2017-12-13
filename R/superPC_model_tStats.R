@@ -17,6 +17,10 @@
 #'  }
 #' @param n.threshold The number of bins into which to split the feature scores
 #'    returned in the \code{fit} object.
+#' @param threshold.ignore Calculate the model for feature scores above this
+#'    percentile of the threshold. We have seen that the smalles threshold
+#'    values (0\% - 40\%) largely have no effect on model t-scores. Defaults to
+#'    0.00 (0\%).
 #' @param n.PCs The number of PCs to extract from the significant pathway
 #' @param min.features What is the smallest number of genes allowed in each
 #'    pathway? This argument must be kept constant across all calls to this
@@ -62,6 +66,7 @@
 superpc.st <- function(fit,
                        data,
                        n.threshold = 20,
+                       threshold.ignore = 0.00,
                        n.PCs = 1,
                        min.features = 5,
                        epsilon = 0.000001){
@@ -121,7 +126,9 @@ superpc.st <- function(fit,
   scor.upper  <- NULL
   v.preval <- array(NA, c(n, n.PCs, n.threshold))
 
-  for(i in 1:n.threshold){
+  kept.thresholds <- which(thresh_probs >= threshold.ignore)
+
+  for(i in kept.thresholds){
     # browser()
 
     # cat(i)
