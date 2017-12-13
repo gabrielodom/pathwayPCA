@@ -2,7 +2,7 @@
 % Please edit documentation in R/superPC_modifiedSVD.R
 \name{mysvd}
 \alias{mysvd}
-\title{Function Title}
+\title{Singular Value Decomposition Wrapper}
 \usage{
 mysvd(mat, n.components = NULL)
 }

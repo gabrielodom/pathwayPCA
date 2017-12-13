@@ -9,6 +9,7 @@ Description: More about what it does (maybe more than one line)
 License: GPL-2
 Depends: R (>= 2.10)
 Imports:
+    corpcor,
     lars,
     methods,
     survival
