@@ -142,6 +142,12 @@ Functions will be as follows:
     + `.coxvar()`: internal - returns variances
     + `.coxstuff()`: internal
     + `mysvd()`: Takes in "tall" -omics data matrix, and returns it's centered SVD and centering vector.
+    
+#### Functions Still to Build
+These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.
+
+  - The suite of functions included and related to `cor.func()`
+  - Same stuff for `logistic.func()`
 
 ### Piecing in Existing Code
 

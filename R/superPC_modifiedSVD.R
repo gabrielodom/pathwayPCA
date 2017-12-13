@@ -1,4 +1,4 @@
-#' Function Title
+#' Singular Value Decomposition Wrapper
 #'
 #' @param mat A matrix of data frame in "tall" format (p x n)
 #' @param n.components How many singular values / vectors to return? Must be an
