@@ -141,6 +141,7 @@ Functions will be as follows:
     + `.coxscor()`: internal - returns score vectors
     + `.coxvar()`: internal - returns variances
     + `.coxstuff()`: internal
+    + `mysvd()`: Takes in "tall" -omics data matrix, and returns it's centered SVD and centering vector.
 
 ### Piecing in Existing Code
 
