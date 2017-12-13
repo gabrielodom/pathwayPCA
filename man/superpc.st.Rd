@@ -4,8 +4,8 @@
 \alias{superpc.st}
 \title{Extract and Test Supervised PCs}
 \usage{
-superpc.st(fit, data, n.threshold = 20, n.PCs = 1, min.features = 5,
-  epsilon = 1e-06)
+superpc.st(fit, data, n.threshold = 20, threshold.ignore = 0, n.PCs = 1,
+  min.features = 5, epsilon = 1e-06)
 }
 \arguments{
 \item{fit}{An object of class \code{superpc} returned by the function
@@ -23,6 +23,11 @@ superpc.st(fit, data, n.threshold = 20, n.PCs = 1, min.features = 5,
 
 \item{n.threshold}{The number of bins into which to split the feature scores
 returned in the \code{fit} object.}
+
+\item{threshold.ignore}{Calculate the model for feature scores above this
+percentile of the threshold. We have seen that the smalles threshold
+values (0\% - 40\%) largely have no effect on model t-scores. Defaults to
+0.00 (0\%).}
 
 \item{n.PCs}{The number of PCs to extract from the significant pathway}
 

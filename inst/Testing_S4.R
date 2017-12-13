@@ -377,7 +377,7 @@ rownames(tscore) <- names(geneset$pathways)
 
 a <- Sys.time()
 # for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
-for(i in 1:500){
+for(i in 1:5){
 
   # browser()
 
@@ -407,7 +407,7 @@ for(i in 1:500){
   tscore[i,] <- st.obj$tscor
 
 }
-Sys.time() - a   # 90 sec for first 100 pathways; 6 in, 42 sec for 500 pathways.
+Sys.time() - a   # 90 sec for first 100 pathways; 6 min 42 sec for 500 pathways
 #   1 hr, 47 min for 7,949 pathways
 # My hypothesis is that it's not the number of pathways, but the number of
 #   pathways in the tail that have a lot of genes in them. For the set of 7,949
@@ -416,11 +416,23 @@ Sys.time() - a   # 90 sec for first 100 pathways; 6 in, 42 sec for 500 pathways.
 #   longer [1.776612 / (13 / 60 + 1) ~= 1.46]. The main reason is the huge
 #   pathways with 45+ (95th percentile) genes in them. The more of these "whale"
 #   pathways we have, the longer the computation will take.
+# Further, I added the threshold.ignore component: the first half of the
+#   threshold values yield the exact same t-scores for most pathways. To speed
+#   up computation, we should be able to skip these. The first 500 took 5 min
+#   45 sec, barely a minute faster. Probably not worth it. We'll change the
+#   default to 0%.
 
 plot(tscore[1, ], ylim = c(min(tscore), max(tscore)), type = "l", lwd = 3)
 for(i in 2:500){
   lines(tscore[i, ], col = colours()[i], lwd = 3)
 }
+first10 <- sapply(1:500, function(row){
+  var(tscore[row, 1:10])
+})
+last10 <- sapply(1:500, function(row){
+  var(tscore[row, 11:20])
+})
+boxplot(first10, last10)
 # We really don't see a thresholding effect until the last half of the threshold
 #   values. We could add a "greedy" option to ignore the quantiles below 50%.
 
@@ -449,7 +461,7 @@ wrapper1_fun <- function(path){
 
 }
 wrapper1_fun(geneset$pathways[[1]])
-tScores_ls <- sapply(geneset$pathways[1:100], wrapper1_fun)
+tScores_mat <- sapply(geneset$pathways[1:100], wrapper1_fun)
 Sys.time() - a   # 89.1 seconds, but we have a list instead of a matrix. But,
 #   now we can run it in parallel! Using plyr::ldply returns a tall data frame
 #   in 88.5 seconds, but we have to use plyr's parallel setup. Because the plyr
@@ -468,3 +480,17 @@ tScores_mat <- parSapply(cl = clus, geneset$pathways, wrapper1_fun)
 Sys.time() - a # 8 sec for parSapply, 7.71 sec for Load Balancing parSapplyLB
 #   for first 100 pathways. 9 min, 15 seconds for all ~8k pathways with LB; 9
 #   min, 12 seconds for all pathways without LB.
+
+# Transpose the matrix to return it to "tall" form
+tScores_mat <- t(tScores_mat)
+
+
+###  Control t-Scores  ###
+# We know that the t-scores don't actually follow a t-distribution anymore:
+plot(density(rt(150000, df = 177)))
+lines(density(as.vector(tScores_mat)))
+# lines(density(rt(150000, df = 3)))
+tScores_sd <- sd(as.vector(tScores_mat))
+tScores_mean <- mean(as.vector(tScores_mat))
+lines(density(rnorm(150000, mean = tScores_mean, sd = tScores_sd)))
+# THey do follow a Normal distribution pretty well though.
