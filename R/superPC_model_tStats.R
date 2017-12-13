@@ -17,7 +17,7 @@
 #'  }
 #' @param n.threshold The number of bins into which to split the feature scores
 #'    returned in the \code{fit} object.
-#' @param num_PCs The number of PCs to extract from the significant pathway
+#' @param n.PCs The number of PCs to extract from the significant pathway
 #' @param min.features What is the smallest number of genes allowed in each
 #'    pathway? This argument must be kept constant across all calls to this
 #'    function which use the same pathway list. Defaults to 5
@@ -42,6 +42,9 @@
 #' }
 #'
 #' @details See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}
+#'   An issue, the number of thresholds at which to test (\code{n.threshold}),
+#'   can be larger than the number of features to bin. This is why so many of
+#'   the t-statistics are constant - because the model isn't changing.
 #'
 #' @export
 #'
@@ -59,15 +62,16 @@
 superpc.st <- function(fit,
                        data,
                        n.threshold = 20,
-                       num_PCs = 1,
+                       n.PCs = 1,
                        min.features = 5,
                        epsilon = 0.000001){
+  # browser()
 
   type <- fit$type
   n <- ncol(data$x)
   p <- nrow(data$x)
 
-  # This code had the survival object defined n.threshold * num_PCs
+  # This code had the survival object defined n.threshold * n.PCs
   #   times. This is unnecessary. Extract that code to here
   response <- switch(type,
                      survival = {
@@ -80,10 +84,10 @@ superpc.st <- function(fit,
                        data$y
                      })
 
-  if(num_PCs > min.features){
+  if(n.PCs > min.features){
     cat("Max # of components is min.features", fill = TRUE)
   }
-  num_PCs <- min(min.features, num_PCs)
+  n.PCs <- min(min.features, n.PCs)
 
   cur.tt <- fit$feature.scores
   upper <- quantile(abs(cur.tt), 1 - (min.features / p))
@@ -110,28 +114,30 @@ superpc.st <- function(fit,
 
   }
 
-
-  scor <- array(NA, c(num_PCs, n.threshold))
-  tscor<- array(NA, c(num_PCs, n.threshold))
-  scor.preval <- matrix(NA, nrow = num_PCs, ncol = n.threshold)
-  scor.lower <- NULL
-  scor.upper <- NULL
-  v.preval <- array(NA, c(n, num_PCs, n.threshold))
+  scor  <- array(NA, c(n.PCs, n.threshold))
+  tscor <- array(NA, c(n.PCs, n.threshold))
+  scor.preval <- matrix(NA, nrow = n.PCs, ncol = n.threshold)
+  scor.lower  <- NULL
+  scor.upper  <- NULL
+  v.preval <- array(NA, c(n, n.PCs, n.threshold))
 
   for(i in 1:n.threshold){
+    # browser()
 
     # cat(i)
     cur.features <- (abs(cur.tt) + epsilon > thresholds[i])
-    cur.svd <- mysvd(data$x[cur.features, ], n.components = num_PCs)
+    cur.svd <- mysvd(data$x[cur.features, ], n.components = n.PCs)
     xtemp <- data$x[cur.features, , drop = FALSE]
     xtemp <- t(scale(t(xtemp),
-                     center = cur.svd$feature.means, scale = FALSE))
+                     center = cur.svd$feature.means,
+                     scale = FALSE))
     cur.v.all <- scale(t(xtemp) %*% cur.svd$u,
-                       center = FALSE, scale = cur.svd$d)
-    num_PCs.eff <- min(sum(cur.features), num_PCs)
-    cur.v <- as.matrix(cur.v.all[, 1:num_PCs.eff])
+                       center = FALSE,
+                       scale = cur.svd$d)
+    n.PCs.eff <- min(sum(cur.features), n.PCs)
+    cur.v <- as.matrix(cur.v.all[, 1:n.PCs.eff])
 
-    for(k in 1:num_PCs){
+    for(k in 1:n.PCs){
 
       switch(type,
              survival = {
@@ -139,6 +145,7 @@ superpc.st <- function(fit,
                junk <- coxph(response ~ cur.v[, 1:k],
                              control = coxph.control(iter.max = 10))
                scor[k, i]  <- 2 * (junk$loglik[2] - junk$loglik[1])
+               # Technically a z-score
                tscor[k, i] <- summary(junk)$coef[k, 4]
 
              },

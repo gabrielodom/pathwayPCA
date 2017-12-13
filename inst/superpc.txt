@@ -727,26 +727,26 @@ if(!is.null(s0.perc)){
 # The ocoxvar() function was defined here, but it is never called.
 
 
-mysvd<-function(x,  n.components=NULL){
-# finds PCs of matrix x
-  p<-nrow(x)
-  n<-ncol(x)
-
-# center the observations (rows)
-
- feature.means<-rowMeans(x)
-x<- t(scale(t(x),center=feature.means,scale=F))
-
-
-  if(is.null(n.components)){n.components=min(n,p)}
-
-
-      junk<-corpcor::fast.svd(x)
-      nc=min(ncol(junk$u), n.components)
-      return(list(u=junk$u[,1:nc],d=junk$d[1:nc],
-                  v=junk$v[,1:nc], feature.means=feature.means))
-
-}
+# mysvd<-function(x,  n.components=NULL){
+# # finds PCs of matrix x
+#   p<-nrow(x)
+#   n<-ncol(x)
+#
+# # center the observations (rows)
+#
+#  feature.means<-rowMeans(x)
+# x<- t(scale(t(x),center=feature.means,scale=F))
+#
+#
+#   if(is.null(n.components)){n.components=min(n,p)}
+#
+#
+#       junk<-corpcor::fast.svd(x)
+#       nc=min(ncol(junk$u), n.components)
+#       return(list(u=junk$u[,1:nc],d=junk$d[1:nc],
+#                   v=junk$v[,1:nc], feature.means=feature.means))
+#
+# }
 superpc.plot.lrtest<- function(object.lrtestcurv, call.win.metafile=FALSE){
 
 if(call.win.metafile) {win.metafile()}

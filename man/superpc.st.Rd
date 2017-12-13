@@ -4,7 +4,7 @@
 \alias{superpc.st}
 \title{Extract and Test Supervised PCs}
 \usage{
-superpc.st(fit, data, n.threshold = 20, num_PCs = 1, min.features = 5,
+superpc.st(fit, data, n.threshold = 20, n.PCs = 1, min.features = 5,
   epsilon = 1e-06)
 }
 \arguments{
@@ -24,7 +24,7 @@ superpc.st(fit, data, n.threshold = 20, num_PCs = 1, min.features = 5,
 \item{n.threshold}{The number of bins into which to split the feature scores
 returned in the \code{fit} object.}
 
-\item{num_PCs}{The number of PCs to extract from the significant pathway}
+\item{n.PCs}{The number of PCs to extract from the significant pathway}
 
 \item{min.features}{What is the smallest number of genes allowed in each
 pathway? This argument must be kept constant across all calls to this
@@ -58,6 +58,9 @@ Identify significant features, extract PCs from those specific
 }
 \details{
 See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}
+  An issue, the number of thresholds at which to test (\code{n.threshold}),
+  can be larger than the number of features to bin. This is why so many of
+  the t-statistics are constant - because the model isn't changing.
 }
 \examples{
   NULL

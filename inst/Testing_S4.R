@@ -351,15 +351,16 @@ geneset <- supervised_Genesets_ls
 
 
 ## run superpc test
-source("inst/superpc.txt")
+# Leave this commented out, to see what pieces we still need to code
+# source("inst/superpc.txt")
 
 ## This example is survival analysis, thus pinfo have both survival time annd censor status,
 
 survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
 rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 
-# tscore <- array(0, dim = c(length(geneset$pathways), 20))
-# rownames(tscore) <- names(geneset$pathways)
+tscore <- array(0, dim = c(length(geneset$pathways), 20))
+rownames(tscore) <- names(geneset$pathways)
 
 ###  The Basic Idea  ###
 # Supervised PCA works like this:
@@ -375,8 +376,9 @@ rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 #      on the k PCs.)
 
 a <- Sys.time()
-for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
-  # for(i in 1:100){
+# for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
+for(i in 1:500){
+
   # browser()
 
   genenames <- geneset$pathways[[i]]
@@ -398,21 +400,30 @@ for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
 
   st.obj <- superpc.st(fit = train,
                        data = data,
-                       n.components = 1,
+                       n.PCs = 1,
                        min.features = 2,
                        n.threshold = 20)
 
   tscore[i,] <- st.obj$tscor
 
 }
-Sys.time() - a   # 90 sec for first 100 pathways; 1 hr, 47 min for 7,949 pathways
-#   My hypothesis is that it's not the number of pathways, but the number of
+Sys.time() - a   # 90 sec for first 100 pathways; 6 in, 42 sec for 500 pathways.
+#   1 hr, 47 min for 7,949 pathways
+# My hypothesis is that it's not the number of pathways, but the number of
 #   pathways in the tail that have a lot of genes in them. For the set of 7,949
 #   pathways, we cut off the pathways with more than 180 genes. We expected the
 #   calculations to take ~8k / ~1.3k = 6x longer, but they look only about 1.5x
 #   longer [1.776612 / (13 / 60 + 1) ~= 1.46]. The main reason is the huge
 #   pathways with 45+ (95th percentile) genes in them. The more of these "whale"
 #   pathways we have, the longer the computation will take.
+
+plot(tscore[1, ], ylim = c(min(tscore), max(tscore)), type = "l", lwd = 3)
+for(i in 2:500){
+  lines(tscore[i, ], col = colours()[i], lwd = 3)
+}
+# We really don't see a thresholding effect until the last half of the threshold
+#   values. We could add a "greedy" option to ignore the quantiles below 50%.
+
 
 # library(plyr)
 a <- Sys.time()
@@ -428,7 +439,7 @@ wrapper1_fun <- function(path){
 
   st.obj <- superpc.st(fit = train,
                        data = data,
-                       num_PCs = 1,      # number of rows of tscor
+                       n.PCs = 1,      # number of rows of tscor
                        min.features = 2,
                        n.threshold = 20) # number of columns
 
