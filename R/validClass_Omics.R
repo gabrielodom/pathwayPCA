@@ -61,3 +61,10 @@ valid_OmicsCateg <- function(object){
   }
 
 }
+
+
+
+# library(methods)
+# library(pathwayPCA)
+# load("data/ovarianFiltered_df.rda")
+# load("data/genesets_ls.rda")

@@ -80,3 +80,21 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             extractedMatrix_ls
 
           })
+
+
+# # Test:
+
+# library(methods)
+# library(pathwayPCA)
+# load("data/ovarianFiltered_df.rda")
+# load("data/genesets_ls.rda")
+#
+#
+# testRedPath <- expressedOmes(testOmicsPath)
+# testRedPath2 <- expressedOmes(testOmicsSurv)
+# testRedPath3 <- expressedOmes(testOmicsReg)
+# testRedPath4 <- expressedOmes(testOmicsCateg)
+# identical(testRedPath, testRedPath2)
+# identical(testRedPath, testRedPath3)
+# identical(testRedPath, testRedPath4)
+# # It works
