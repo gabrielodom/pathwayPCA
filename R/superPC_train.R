@@ -42,7 +42,7 @@ superpc.train <- function(data,
                           type = c("survival", "regression", "binary"),
                           s0.perc = NULL){
 
-  # browser
+  # browser()
 
   this.call <- match.call()
   type <- match.arg(type)

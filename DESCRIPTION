@@ -31,6 +31,8 @@ Collate:
     'data_supervised_genesets.R'
     'data_supervised_patInfo.R'
     'data_supervised_tumors.R'
+    'data_tControl.R'
+    'data_tScores.R'
     'subsetExpressed-omes.R'
     'superPC_CoxPH_model.R'
     'superPC_model_tStats.R'
