@@ -27,8 +27,18 @@ geneset <- supervised_Genesets_ls
 survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
 rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 
-tscore <- array(0, dim = c(length(geneset$pathways), 20))
-rownames(tscore) <- names(geneset$pathways)
+
+###  Remove Small and Large Pathway Sets  ###
+which(geneset$setsize >= 300) # No large pathways
+max(geneset$setsize)
+which(geneset$setsize < 5) # ~3,700 small pathways
+smallpaths_ind <- which(geneset$setsize < 5)
+genesetReduced <- list(pathways = geneset$pathways[-smallpaths_ind],
+                       TERMS = geneset$TERMS[-smallpaths_ind],
+                       setsize = geneset$setsize[-smallpaths_ind])
+# Steven's original gene set list included setsize values in [175, 300], so his
+#   list has 4266 pathways. Ours has 4240.
+
 
 ###  The Basic Idea  ###
 # Supervised PCA works like this:
@@ -43,9 +53,12 @@ rownames(tscore) <- names(geneset$pathways)
 #      pathway attribution exercise, check the significance of the pathway based
 #      on the k PCs.)
 
+tscore <- array(0, dim = c(length(geneset$pathways), 20))
+rownames(tscore) <- names(geneset$pathways)
+
 a <- Sys.time()
 # for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
-for(i in 1:5){
+for(i in 1:500){
 
   # browser()
 
@@ -75,7 +88,7 @@ for(i in 1:5){
   tscore[i,] <- st.obj$tscor
 
 }
-Sys.time() - a   # 90 sec for first 100 pathways; 6 min 42 sec for 500 pathways
+Sys.time() - a   # 90 sec for first 100 pathways; 6 min 32 sec for 500 pathways
 #   1 hr, 47 min for 7,949 pathways
 # My hypothesis is that it's not the number of pathways, but the number of
 #   pathways in the tail that have a lot of genes in them. For the set of 7,949
@@ -94,13 +107,24 @@ plot(tscore[1, ], ylim = c(min(tscore), max(tscore)), type = "l", lwd = 3)
 for(i in 2:500){
   lines(tscore[i, ], col = colours()[i], lwd = 3)
 }
-first10 <- sapply(1:500, function(row){
-  var(tscore[row, 1:10])
+
+# ASIDE: STOP USING sapply() OVER ROWS / COLUMNS. That's what apply() is for.
+# first10 <- sapply(1:500, function(row){
+#   var(tscore[row, 1:10])
+# })
+first <- apply(tscore[1:500, ], MARGIN = 1, function(x){
+  var(x[1:10])
 })
-last10 <- sapply(1:500, function(row){
-  var(tscore[row, 11:20])
+
+# last10 <- sapply(1:500, function(row){
+#   var(tscore[row, 11:20])
+# })
+last <- apply(tscore[1:500, ], MARGIN = 1, function(x){
+  var(x[11:20])
 })
-boxplot(first10, last10)
+
+# boxplot(first10, last10)
+boxplot(first, last)
 # We really don't see a thresholding effect until the last half of the threshold
 #   values. We could add a "greedy" option to ignore the quantiles below 50%.
 
@@ -140,11 +164,11 @@ Sys.time() - a   # 89.1 seconds, but we have a list instead of a matrix. But,
 #   call (it works smoothly with the clusterApply() syntax as well.)
 
 library(parallel)
-clus <- makeCluster(detectCores() - 2)
-clusterExport(cl = clus, varlist = ls())
-clusterEvalQ(cl = clus, library(pathwayPCA))
+clust <- makeCluster(detectCores() - 2)
+clusterExport(cl = clust, varlist = ls())
+clusterEvalQ(cl = clust, library(pathwayPCA))
 a <- Sys.time()
-tScores_mat <- parSapply(cl = clus, geneset$pathways, wrapper1_fun)
+tScores_mat <- parSapply(cl = clust, geneset$pathways, wrapper1_fun)
 Sys.time() - a # 8 sec for parSapply, 7.71 sec for Load Balancing parSapplyLB
 #   for first 100 pathways. 9 min, 15 seconds for all ~8k pathways with LB; 9
 #   min, 12 seconds for all pathways without LB.
@@ -152,6 +176,12 @@ Sys.time() - a # 8 sec for parSapply, 7.71 sec for Load Balancing parSapplyLB
 # Transpose the matrix to return it to "tall" form
 tScores_mat <- t(tScores_mat)
 # devtools::use_data(tScores_mat)
+
+a <- Sys.time()
+tScores2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapper1_fun)
+Sys.time() - a # 4.929381 min
+tScores2_mat <- t(tScores2_mat)
+
 
 
 ######  Control t-Scores  #####################################################
@@ -262,16 +292,22 @@ tControl_mat <- sapply(geneset$pathways[1:500], wrapperCtrl_fun)
 Sys.time() - a # 1min 47 sec for first 100 pathways, 7 min 50 sec for first 500
 
 library(parallel)
-clus <- makeCluster(detectCores() - 2)
-clusterExport(cl = clus, varlist = ls())
-clusterEvalQ(cl = clus, library(pathwayPCA))
+clust <- makeCluster(detectCores() - 2)
+clusterExport(cl = clust, varlist = ls())
+clusterEvalQ(cl = clust, library(pathwayPCA))
 a <- Sys.time()
-tControl_mat <- parSapply(cl = clus, geneset$pathways, wrapperCtrl_fun)
+tControl_mat <- parSapply(cl = clust, geneset$pathways, wrapperCtrl_fun)
 Sys.time() - a # 9 min 3 sec
 
 tControl_mat <- t(tControl_mat)
 # Now we have the t-scores if the responses were random.
 # devtools::use_data(tControl_mat)
+
+a <- Sys.time()
+tControl2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapperCtrl_fun)
+Sys.time() - a # 4.824962 min
+
+tControl2_mat <- t(tControl2_mat)
 
 
 ######  Extreme Distribution and p-Values  ####################################
@@ -286,91 +322,283 @@ data("tControl_mat")
 rm(supervised_Tumors_df, supervised_Genesets_ls)
 
 
-glen <- unlist(geneset$setsize)
+###  Find the largest and smallest t-scores  ###
 
-# Find the largest and smallest t-scores
-aa <- apply(tScores_mat, 1, max)
-bb <- apply(tScores_mat, 1, min)
-
-an1 <- sqrt(2 * log(glen))
-top <- log(4 * pi) + log(log(glen))
-bottom <- 2 * log(glen)
-bn1 <- an1 * (1 - 0.5 * top / bottom)
-
-newt <- aa
-# If the negative number is larger in absolute value than the positive number,
-#   then replace the positive value with the negative value
-for(i in 1:length(aa)){
-  if(abs(aa[i]) < abs(bb[i])){
-    newt[i] <- bb[i]
-  }
-}
+# # Scores matrix
+# aa <- apply(tScores_mat, 1, max)
+# bb <- apply(tScores_mat, 1, min)
+#
+# newt <- aa
+# # If the negative number is larger in absolute value than the positive number,
+# #   then replace the positive value with the negative value
+# for(i in 1:length(aa)){
+#   if(abs(aa[i]) < abs(bb[i])){
+#     newt[i] <- bb[i]
+#   }
+# }
 
 # There has seriously got to be an easier way to do this...
+# My version
+absMax <- function(vec){
+  vec[which.max(abs(vec))]
+}
+tScore_max <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
+
+# I've never really used the apply() function itself. Boy howdy!
+# tScore_max <- sapply(1:nrow(tScores_mat), function(row){
+#   absMax(tScores_mat[row, ])
+# })
+# names(tScore_max) <- rownames(tScores_mat)
+# plot(tScore_max, ylim = c(-6, 5))
 
 
-aa<-apply(tscore_control,1,max)
-bb<-apply(tscore_control,1,min)
+# # Control Matrix
+# aa<-apply(tscore_control,1,max)
+# bb<-apply(tscore_control,1,min)
+#
+#
+# newc<-aa
+# for ( i in 1: length(aa) ) {
+#   if ( abs(aa[i])< abs(bb[i]) ) { newc[i]<-bb[i] }
+# }
+
+tControl_max <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+# tControl_max <- sapply(1:nrow(tControl_mat), function(row){
+#   absMax(tControl_mat[row, ])
+# })
+# names(tControl_max) <- rownames(tControl_mat)
+# plot(tControl_max, ylim = c(-6, 5))
+
+tScore2_max <- apply(tScores2_mat, MARGIN = 1, FUN = absMax)
+tControl2_max <- apply(tControl2_mat, MARGIN = 1, FUN = absMax)
 
 
-newc<-aa
-for ( i in 1: length(aa) ) {
-  if ( abs(aa[i])< abs(bb[i]) ) { newc[i]<-bb[i] }
+
+###  Setup for Big Derivative Calculation  ###
+# # I honestly have no idea what this is for...
+# glen <- unlist(geneset$setsize)
+# an1 <- sqrt(2 * log(glen))
+# top <- log(4 * pi) + log(log(glen))
+# bottom <- 2 * log(glen)
+# bn1 <- an1 * (1 - 0.5 * top / bottom)
+
+# Let's make this a function of the length vector
+calc_anbn <- function(length_vec){
+
+  an1 <- sqrt(2 * log(length_vec))
+  top <- log(4 * pi) + log(log(length_vec))
+  bottom <- 2 * log(length_vec)
+  bn1 <- an1 * (1 - 0.5 * top / bottom)
+
+  list(an = an1, bn = bn1)
+
 }
 
+# Test
+pathwaylength_vec <- unlist(geneset$setsize)
+abn_ls <- calc_anbn(pathwaylength_vec)
+# all.equal(abn_ls$an, an1)
+# all.equal(abn_ls$bn, bn1)
+# # We're good, just remember to replace an1 and bn1 in later calculations
+
+pathway2length_vec <- unlist(genesetReduced$setsize)
+abn2_ls <- calc_anbn(pathway2length_vec)
 
 
 
+###  Some Other Function  ###
+
+# I have no idea where these numbers come from:
+p0 <- c(p = 0.5, u1 = 1, s1 = 0.5, u2 = 1, s2 = 0.5)
+# but they appear to be the arguments of the function we're trying to minimize.
+
+# I don't know what this does either, but it's the "innard_formula" object
+#   written as a function and coded slightly differently
+mix.obj <- function(p_vec, maxt_vec, an_vec, bn_vec){
+  # browser()
+
+  z1 <- (maxt_vec - bn_vec - p_vec["u1"]) * an_vec * p_vec["s1"]
+  z2 <- (maxt_vec + bn_vec + p_vec["u2"]) * an_vec * p_vec["s2"]
+  e  <- (p_vec["p"] * an_vec * p_vec["s1"]) *
+          exp(-z1 - exp(-z1)) +
+        ((1 - p_vec["p"]) * an_vec * p_vec["s2"]) *
+          exp(z2 - exp(z2))
+  # if(any(e <= 0)) Inf else -sum(log(e))
+  ifelse(test = any(e <= 0), yes = Inf, no = -sum(log(e)))
+
+}
+# Test?
+mix.obj(p_vec = p0,
+        maxt_vec = tControl_max,
+        an_vec = abn_ls$an,
+        bn_vec = abn_ls$bn)
+# I don't know what this mean, but it runs. I think it's a liklihood value at a
+#   certain point
+mix.obj(p_vec = p0,
+        maxt_vec = tControl2_max,
+        an_vec = abn2_ls$an,
+        bn_vec = abn2_ls$bn)
+# 17077.14
 
 
+# # There aren't any values identically 0, but I guess we don't know that couldn't
+# #   happen.
+# pp <- tControl_max[tControl_max > 0]
+# nn <- tControl_max[tControl_max < 0]
+# # just kidding, we never use these values at all
 
 
+###  Take the gradient of some hella complex formula  ###
+mix.gradient <- function(p_vec, maxt_vec, an_vec, bn_vec){
+  # browser()
+
+  # The deriv() syntax expects
+  #   deriv(expr, namevec, function.arg, ...)
+  # We are inputting some god-awful long formula for expr. The namevec argument
+  #   should be a character vector of the variables we will derive expr with
+  #   respect to; we input c("p","u1","s1","u2","s2"). The function.arg argument
+  #   "must be specified and non-NULL", so I'm not sure what we're doing there,
+  #   seeing as we supplied a NULL function.
+
+  innard_formula <- as.formula(~ -log(
+      (p * an * s1) *
+        exp(-((x - bn - u1) * an * s1) - exp(-(x - bn - u1) * an * s1)) +
+      ((1 - p) * an * s2) *
+        exp(((x + bn + u2) * an * s2) - exp((x + bn + u2) * an * s2))
+                                     )
+                              )
+
+  lmix_fun <- deriv(innard_formula,
+                    c("p", "u1", "s1", "u2", "s2"),
+                    function(x, an, bn, p, u1, s1, u2, s2) NULL)
+
+  gradient <- lmix_fun(x = maxt_vec,
+                       an = an_vec, bn = bn_vec,
+                       p = p_vec["p"],
+                       u1 = p_vec["u1"], s1 = p_vec["s1"],
+                       u2 = p_vec["u2"], s2 = p_vec["s2"])
+  # Extract the gradient matrix from the gradient vector, then find the column
+  #   sums of that matrix
+  colSums(attr(gradient,"gradient"))
+
+}
+# Test? I still don't get what the point is though
+mix.gradient(p_vec = p0,
+             maxt_vec = tControl_max,
+             an_vec = abn_ls$an,
+             bn_vec = abn_ls$bn)
+
+mix.gradient(p_vec = p0,
+             maxt_vec = tControl2_max,
+             an_vec = abn2_ls$an,
+             bn_vec = abn2_ls$bn)
+#           p          u1          s1          u2          s2
+#    68.56648  9826.18810 30719.46106  8915.99482 27638.08031
+
+# This is the parameter value that optimizes the mix.obj function
+pOptim <- optim(par = p0,
+                fn = mix.obj,
+                gr = mix.gradient,
+                maxt_vec = tControl_max,
+                an_vec = abn_ls$an,
+                bn_vec = abn_ls$bn,
+                method = "BFGS")$par
+# So this optimization routine *must* have a NAMED VECTOR OF PARAMETERS, not a
+#   list. Gradient specification required for method "BFGS".
+# ISSUE: this value doesn't match what the original code yields. The unedited
+#   code yields par =  0.4731049 -0.4838454  0.6289701 -0.4176837  0.6277370.
+#   We probably won't hit this exactly, but we absolutely must have p in [0, 1].
+pOptim2 <- optim(par = p0,
+                 fn = mix.obj,
+                 gr = mix.gradient,
+                 maxt_vec = tControl2_max,
+                 an_vec = abn2_ls$an,
+                 bn_vec = abn2_ls$bn,
+                 method = "BFGS")$par
+# After changing the pathway set to (nearly) match Steven's original results, I
+#   get very close to the same output from the test values of mix.obj() and
+#   mix.gradient(), but the optimal parameters are still waaaaay off for p.
+# I've checked the inputs: an, bn, and p0 are the exact same, but tControl_max
+#   and tControl2_max (for the reduced gene set list) are totally different
+#   from newc and each other. That said, the values returned by mix.obj() and
+#   mix.gradient() are really close.
 
 
+# RESUME WORK HERE:
+# Figure out why p-value calculation is different in the Supervised PCA directory
 
-mix.obj<-function(p,x,an, bn)
-{
-  z1<-(x-bn-p[2])*an*p[3]
-  z2<-(x+bn+p[4])*an*p[5]
-  e<-(p[1]*an*p[3])*exp(-z1-exp(-z1))+((1-p[1])*an*p[5])*exp(z2-exp(z2))
-  if (any(e<=0)) Inf else -sum(log(e))
+
+# pOptim <- aa$par
+# formerly known as "par". Change this below as well. These object names are
+#   killing me
+
+
+###  Do Things with the t-Scores  ###
+# What things? No idea.
+
+# # Original Code:
+# # pOptim = par; tScore_max = tt; abn_ls = (an1, bn1)
+# tt<-newt
+#
+# newp<-rep(0,length(tt))
+#
+# for ( i in 1:length(tt)) {
+#   tt1<-par[1]*(1-exp(-exp(-(tt[i]-bn1[i]-par[2])*an1[i]*par[3])))+(1-par[1])*(exp(-exp((tt[i]+bn1[i]+par[4])*an1[i]*par[5])))
+#   tt2<- 1-par[1]*(1-exp(-exp(-(tt[i]-bn1[i]-par[2])*an1[i]*par[3])))-(1-par[1])*(exp(-exp((tt[i]+bn1[i]+par[4])*an1[i]*par[5])))
+#   newp[i]<-min(tt1,tt2)
+# }
+
+
+# # Cleaned-up code
+# tt <- tScore_max
+# newp <- rep(0, length(tt))
+# names(newp) <- names(tScore_max)
+#
+# for(i in 1:length(tt)){
+#
+#   A <- 1 - exp(-exp(-(tt[i] - abn_ls$bn[i] - pOptim["u1"]) * abn_ls$an[i] * pOptim["s1"]))
+#   B <- exp(-exp((tt[i] + abn_ls$bn[i] + pOptim["u2"]) * abn_ls$an[i] * pOptim["s2"]))
+#
+#   tt1 <- pOptim["p"] * A + (1 - pOptim["p"]) * B
+#   tt2 <- 1 - tt1
+#
+#   newp[i] <- min(tt1, tt2)
+#
+# }
+# It's the last piece which isn't vectorised:
+# all.equal(newp, min(tt1, tt2))
+# all.equal(newp, apply(cbind(tt1, tt2), MARGIN = 1, FUN = min))
+# It works
+
+# # Clean, vectorised, and functional code
+newP_fun <- function(tScore_vec, optimParams_vec, abCounts_ls){
+  browser()
+
+  an_s1 <- abCounts_ls$an * optimParams_vec["s1"]
+  arg_A <- -(tScore_vec - abCounts_ls$bn - optimParams_vec["u1"]) * an_s1
+  A <- 1 - exp(-exp(arg_A)) # in [0, 1]
+
+  an_s2 <- abCounts_ls$an * optimParams_vec["s2"]
+  arg_B <- (tScore_vec + abCounts_ls$bn + optimParams_vec["u2"]) * an_s2
+  B <- exp(-exp(arg_B)) # also in [0, 1]
+
+  # These values will be between 0 and 1 if the "p" value is in [0, 1]
+  tt1 <- optimParams_vec["p"] * A + (1 - optimParams_vec["p"]) * B
+  tt2 <- 1 - tt1
+
+  apply(cbind(tt1, tt2), MARGIN = 1, FUN = min)
+
 }
 
-pp<-newc[newc>0]
-nn<-newc[newc<0]
-
-p0<-c(p=0.5,u1=1,s1=0.5 ,u2=1,s2=0.5)
-
-lmix<-deriv(
-  ~-log((p*an*s1)*exp(-((x-bn-u1)*an*s1)-exp(-(x-bn-u1)*an*s1))+((1-p)*an*s2)*exp(((x+bn+u2)*an*s2)-exp((x+bn+u2)*an*s2))),
-  c("p","u1","s1","u2","s2"),
-  function(x,an,bn,p,u1,s1,u2,s2) NULL)
-
-mix.gr<-function(p,x,an,bn) {
-  u1<-p[2]
-  s1<-p[3]
-  u2<-p[4]
-  s2<-p[5]
-  p<-p[1]
-  colSums(attr(lmix(x,an,bn,p,u1,s1,u2,s2),"gradient"))}
-
-aa<-optim(p0,mix.obj,mix.gr,x=newc,an=an1, bn=bn1, method="BFGS")
-
-par<-aa$par
+# Because pOptim was calculated using the tControl_max vector, that is how we
+#   adjust our tScores_max vector by the control data set.
+newp <- newP_fun(tScore_vec = tScore_max,
+                 optimParams_vec = pOptim,
+                 abCounts_ls = abn_ls)
 
 
 
-tt<-newt
-
-newp<-rep(0,length(tt))
-
-for ( i in 1:length(tt)) {
-  tt1<-par[1]*(1-exp(-exp(-(tt[i]-bn1[i]-par[2])*an1[i]*par[3])))+(1-par[1])*(exp(-exp((tt[i]+bn1[i]+par[4])*an1[i]*par[5])))
-  tt2<- 1-par[1]*(1-exp(-exp(-(tt[i]-bn1[i]-par[2])*an1[i]*par[3])))-(1-par[1])*(exp(-exp((tt[i]+bn1[i]+par[4])*an1[i]*par[5])))
-  newp[i]<-min(tt1,tt2)
-}
-
-ntest<-data.frame(names(geneset$pathways),glen, newp)
+ntest <- data.frame(names(geneset$pathways), pathwaylength_vec, newp)
 
 bh<-mt.rawp2adjp(ntest$newp, "BH")
 ## by<-mt.rawp2adjp(all$p, "BY")
