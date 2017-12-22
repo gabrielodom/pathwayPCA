@@ -369,8 +369,9 @@ tControl_max <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
 # names(tControl_max) <- rownames(tControl_mat)
 # plot(tControl_max, ylim = c(-6, 5))
 
-tScore2_max <- apply(tScores2_mat, MARGIN = 1, FUN = absMax)
-tControl2_max <- apply(tControl2_mat, MARGIN = 1, FUN = absMax)
+###  Use for Comparing against Supervised PCA Results  ###
+# tScore2_max <- apply(tScores2_mat, MARGIN = 1, FUN = absMax)
+# tControl2_max <- apply(tControl2_mat, MARGIN = 1, FUN = absMax)
 
 
 
@@ -385,9 +386,10 @@ tControl2_max <- apply(tControl2_mat, MARGIN = 1, FUN = absMax)
 # Let's make this a function of the length vector
 calc_anbn <- function(length_vec){
 
-  an1 <- sqrt(2 * log(length_vec))
-  top <- log(4 * pi) + log(log(length_vec))
-  bottom <- 2 * log(length_vec)
+  logn <- log(length_vec)
+  an1 <- sqrt(2 * logn)
+  top <- log(4 * pi) + log(logn)
+  bottom <- 2 * logn
   bn1 <- an1 * (1 - 0.5 * top / bottom)
 
   list(an = an1, bn = bn1)
@@ -401,8 +403,9 @@ abn_ls <- calc_anbn(pathwaylength_vec)
 # all.equal(abn_ls$bn, bn1)
 # # We're good, just remember to replace an1 and bn1 in later calculations
 
-pathway2length_vec <- unlist(genesetReduced$setsize)
-abn2_ls <- calc_anbn(pathway2length_vec)
+###  More Supervised PCA Comparison  ###
+# pathway2length_vec <- unlist(genesetReduced$setsize)
+# abn2_ls <- calc_anbn(pathway2length_vec)
 
 
 
@@ -414,6 +417,17 @@ p0 <- c(p = 0.5, u1 = 1, s1 = 0.5, u2 = 1, s2 = 0.5)
 
 # I don't know what this does either, but it's the "innard_formula" object
 #   written as a function and coded slightly differently
+# Ok, so this function is equation (4) Chen et al (2008). It's a density, and
+#   therefore should NEVER be negative. The formulation here is different from
+#   the paper in the following
+#   1. They define zi = (t - mu_i) / sigma_i
+#   2. They divide p and (1 - p) by sigma 1 and 2, respectively.
+# Further, p is a mixing proportion between two Gumbel Extreme Value pdfs, not
+#   a p-value. This makes more sense, but it does not explain how the optimum
+#   mixing proportion is outise [0,1]. The values u and s are placeholders for
+#   the mean and standard deviation, respectively, but they are not used as
+#   they should be: the s values are used more as precision (being multiplied
+#   instead of used as a divisor).
 mix.obj <- function(p_vec, maxt_vec, an_vec, bn_vec){
   # browser()
 
@@ -424,7 +438,9 @@ mix.obj <- function(p_vec, maxt_vec, an_vec, bn_vec){
         ((1 - p_vec["p"]) * an_vec * p_vec["s2"]) *
           exp(z2 - exp(z2))
   # if(any(e <= 0)) Inf else -sum(log(e))
-  ifelse(test = any(e <= 0), yes = Inf, no = -sum(log(e)))
+  ifelse(test = any(e <= 0), yes = 10 ^ 200, no = -sum(log(e)))
+  # if(any(e <= 0)) e <- e + min(e[e != 0])
+  # -sum(log(e))
 
 }
 # Test?
@@ -432,13 +448,33 @@ mix.obj(p_vec = p0,
         maxt_vec = tControl_max,
         an_vec = abn_ls$an,
         bn_vec = abn_ls$bn)
-# I don't know what this mean, but it runs. I think it's a liklihood value at a
-#   certain point
-mix.obj(p_vec = p0,
-        maxt_vec = tControl2_max,
-        an_vec = abn2_ls$an,
-        bn_vec = abn2_ls$bn)
-# 17077.14
+# I don't know what this means, but it runs. I think it's a liklihood value at
+#   a certain point
+
+###  More Supervised PCA Comparison  ###
+# mix.obj(p_vec = p0,
+#         maxt_vec = tControl2_max,
+#         an_vec = abn2_ls$an,
+#         bn_vec = abn2_ls$bn)
+# # 17077.14
+# # These values are the optimal values returned by the optim() function in the
+# #   Supervised PCA directory. We get different values in ours.
+p_supr <- c(p = 0.4731049,
+            u1 = -0.4838454,
+            s1 = 0.6289701,
+            u2 = -0.4176837,
+            s2 = 0.6277370)
+mix.obj(p_vec = p_supr,
+        maxt_vec = tControl_max,
+        an_vec = abn_ls$an,
+        bn_vec = abn_ls$bn)
+# Something is off. This value is 7,627.002 in the other directory, but nearly
+#   twice that here: 13,702.79.
+# What is different? an and bn are identically the same. tControl_max is totally
+#   different from newc. The issue is that while these numbers are different,
+#   their histograms are almost the same, meaning that the values I get here are
+#   well-within the realm of possibility. How does I still get a p-value outside
+#   [0,1]?
 
 
 # # There aren't any values identically 0, but I guess we don't know that couldn't
@@ -488,12 +524,13 @@ mix.gradient(p_vec = p0,
              an_vec = abn_ls$an,
              bn_vec = abn_ls$bn)
 
-mix.gradient(p_vec = p0,
-             maxt_vec = tControl2_max,
-             an_vec = abn2_ls$an,
-             bn_vec = abn2_ls$bn)
-#           p          u1          s1          u2          s2
-#    68.56648  9826.18810 30719.46106  8915.99482 27638.08031
+### More Supervised PCA Comparison  ###
+# mix.gradient(p_vec = p0,
+#              maxt_vec = tControl2_max,
+#              an_vec = abn2_ls$an,
+#              bn_vec = abn2_ls$bn)
+# #           p          u1          s1          u2          s2
+# #    68.56648  9826.18810 30719.46106  8915.99482 27638.08031
 
 # This is the parameter value that optimizes the mix.obj function
 pOptim <- optim(par = p0,
@@ -526,6 +563,52 @@ pOptim2 <- optim(par = p0,
 
 # RESUME WORK HERE:
 # Figure out why p-value calculation is different in the Supervised PCA directory
+
+mix.obj(p_vec = pOptim,
+        maxt_vec = tControl_max,
+        an_vec = abn_ls$an,
+        bn_vec = abn_ls$bn)
+# [1] -64246.66
+# WHAT? This value is huge - and negative? The other values we've seen so far
+#   have been positive. What gives? Am I missing a negative sign somewhere?
+# First, define the mix.obj function from the Test_supervisedPCA_pvalues.R file
+mix.obj(p = pOptim,
+        x = tControl_max,
+        an = abn_ls$an,
+        bn = abn_ls$bn)
+# [1] -64246.66
+# The results are identical, so I didn't miss a sign anywhere. That means it's
+#   not my code that's different, but the data.
+# Redefine mix.obj
+
+# Try putting a constraint on the bounds of p
+pOptim3 <- optim(par = p0,
+                 fn = mix.obj,
+                 gr = mix.gradient,
+                 maxt_vec = tControl_max,
+                 an_vec = abn_ls$an,
+                 bn_vec = abn_ls$bn,
+                 method = "L-BFGS-B",
+                 lower = c(0, -Inf, 0, -Inf, 0),
+                 upper = c(1, Inf, Inf, Inf, Inf))$par
+# This errors because fn yields Inf values. It's a proper density, so I have no
+#   idea why that ifelse() statement in the mix.obj function would ever pror at
+#   all. Someone put it there for a reason though
+
+# The new bounds work!!!! I'm getting results very similar to the optimised
+#   values from the Supervised PCA directory:
+# Ours:
+# p         u1         s1         u2         s2
+# 0.4821345 -0.4448527  0.7056764 -0.3878479  0.6742516
+# Supervised PCA directory:
+# p         u1         s1         u2         s2
+# 0.4731049 -0.4838454  0.6289701 -0.4176837  0.6277370
+# Praise the Lord!!
+# Anyway, I had to change the ifelse() statement to return 10 ^ 200 instead of
+#   Inf, because the "L-BFGS-B" optimisation routine (the one allowing you to
+#   constrain the parameters) requires the function argument supplied to fn =
+#   to be uniformally bounded.
+
 
 
 # pOptim <- aa$par
