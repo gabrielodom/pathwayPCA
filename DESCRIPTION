@@ -28,6 +28,7 @@ Collate:
     'create_Omics_All.R'
     'data_genesets.R'
     'data_ovarianFiltered.R'
+    'data_supervised_adjPvals.R'
     'data_supervised_genesets.R'
     'data_supervised_patInfo.R'
     'data_supervised_tumors.R'
