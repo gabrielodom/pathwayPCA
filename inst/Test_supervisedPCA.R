@@ -312,6 +312,8 @@ tControl2_mat <- t(tControl2_mat)
 
 ######  Extreme Distribution and p-Values  ####################################
 
+# RESUME HERE 20180102
+
 # Load the data files we need
 data("supervised_Tumors_df")
 array <- supervised_Tumors_df
@@ -592,8 +594,9 @@ pOptim3 <- optim(par = p0,
                  lower = c(0, -Inf, 0, -Inf, 0),
                  upper = c(1, Inf, Inf, Inf, Inf))$par
 # This errors because fn yields Inf values. It's a proper density, so I have no
-#   idea why that ifelse() statement in the mix.obj function would ever pror at
+#   idea why that ifelse() statement in the mix.obj function would ever proc at
 #   all. Someone put it there for a reason though
+pOptim3
 
 # The new bounds work!!!! I'm getting results very similar to the optimised
 #   values from the Supervised PCA directory:
@@ -655,7 +658,7 @@ pOptim3 <- optim(par = p0,
 
 # # Clean, vectorised, and functional code
 newP_fun <- function(tScore_vec, optimParams_vec, abCounts_ls){
-  browser()
+  # browser()
 
   an_s1 <- abCounts_ls$an * optimParams_vec["s1"]
   arg_A <- -(tScore_vec - abCounts_ls$bn - optimParams_vec["u1"]) * an_s1
@@ -672,25 +675,29 @@ newP_fun <- function(tScore_vec, optimParams_vec, abCounts_ls){
   apply(cbind(tt1, tt2), MARGIN = 1, FUN = min)
 
 }
+# I don't really know what this function does, but I know that the output matches
+#   Steven's original code.
 
 # Because pOptim was calculated using the tControl_max vector, that is how we
 #   adjust our tScores_max vector by the control data set.
 newp <- newP_fun(tScore_vec = tScore_max,
-                 optimParams_vec = pOptim,
+                 optimParams_vec = pOptim3,
                  abCounts_ls = abn_ls)
 
 
+# These are the p-values per pathway as returned by the newP_fun() function
+ntest <- data.frame(goterms = names(geneset$pathways),
+                    setsize = pathwaylength_vec,
+                    rawp = newp)
+rownames(ntest) <- NULL
 
-ntest <- data.frame(names(geneset$pathways), pathwaylength_vec, newp)
+bh <- multtest::mt.rawp2adjp(ntest$rawp, "BH")
+adjustedP <- bh$adjp[order(bh$index), ]
 
-bh<-mt.rawp2adjp(ntest$newp, "BH")
-## by<-mt.rawp2adjp(all$p, "BY")
-adjustedP<-bh$adjp[order(bh$index),]
-all<-cbind(ntest, adjustedP)
-all1<-cbind(all,unlist(geneset$TERMS))
-all1<-all1[order(all1$BH,all1$rawp),]
-all1<-all1[,-3]
-names(all1)<-c("goterms"," setsize", "rawp", "FDR", "terms")
+ntest$FDR <- adjustedP[, 2]
+ntest$terms <- unlist(geneset$TERMS)
+ntest <- ntest[order(ntest$FDR, ntest$rawp), ]
+spcaPathwayPvals_df <- ntest
 
-
-write.csv(all1, "results.csv")
+devtools::use_data(spcaPathwayPvals_df)
+# write.csv(ntest, "results.csv")
