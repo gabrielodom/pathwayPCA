@@ -368,9 +368,18 @@ a <- Sys.time()
 tControl_mat <- parSapply(cl = clust, geneset$pathways, wrapperCtrl_fun)
 Sys.time() - a # 9 min 3 sec
 
-tControl_mat <- t(tControl_mat)
+a <- Sys.time()
+tControl_mat <- parSapply(cl = clust,
+                          geneset$pathways,
+                          pathway_tControl,
+                          geneArray_df = array,
+                          response_mat = survY_df)
+Sys.time() - a # 4.948044 min for reduced pathway set
+
+
+tControl4240_mat <- t(tControl_mat)
 # Now we have the t-scores if the responses were random.
-# devtools::use_data(tControl_mat)
+# devtools::use_data(tControl4240_mat)
 
 # a <- Sys.time()
 # tControl2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapperCtrl_fun)
@@ -381,16 +390,16 @@ tControl_mat <- t(tControl_mat)
 
 ######  Extreme Distribution and p-Values  ####################################
 
-# RESUME HERE 20180102
+# RESUME HERE 20180103
 
 # Load the data files we need
 data("supervised_Tumors_df")
 array <- supervised_Tumors_df
-data("supervised_Genesets_ls")
-geneset <- supervised_Genesets_ls
-data("tScores_mat")
-data("tControl_mat")
-rm(supervised_Tumors_df, supervised_Genesets_ls)
+data("supervised_Genesets4240_ls")
+geneset <- supervised_Genesets4240_ls
+data("tScores4240_mat")
+data("tControl4240_mat")
+rm(supervised_Tumors_df, supervised_Genesets4240_ls)
 
 
 ###  Find the largest and smallest t-scores  ###
@@ -413,7 +422,7 @@ rm(supervised_Tumors_df, supervised_Genesets_ls)
 absMax <- function(vec){
   vec[which.max(abs(vec))]
 }
-tScore_max <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
+tScore_max <- apply(tScores4240_mat, MARGIN = 1, FUN = absMax)
 
 # I've never really used the apply() function itself. Boy howdy!
 # tScore_max <- sapply(1:nrow(tScores_mat), function(row){
@@ -433,7 +442,7 @@ tScore_max <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
 #   if ( abs(aa[i])< abs(bb[i]) ) { newc[i]<-bb[i] }
 # }
 
-tControl_max <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+tControl_max <- apply(tControl4240_mat, MARGIN = 1, FUN = absMax)
 # tControl_max <- sapply(1:nrow(tControl_mat), function(row){
 #   absMax(tControl_mat[row, ])
 # })
