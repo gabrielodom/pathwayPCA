@@ -61,8 +61,9 @@ This is a wrapper function to call \code{\link{superpc.train}}
    This wrapper is designed to facilitate apply calls (in parallel or
    serially) of these two functions over a list of gene pathways. When
    \code{numPCs} is equal to 1, we recommend using a simplify-style apply
-   variant, such as \code{\link[base]{sapply}} or
-   \code{\link[parallel]{parSapply}}, then transposing the resulting matrix.
+   variant, such as \code{sapply} (\code{\link[base]{lapply}}) or
+   \code{parSapply} (\code{\link[parallel]{clusterApply}}), then transposing
+   the resulting matrix.
 }
 \examples{
    NULL

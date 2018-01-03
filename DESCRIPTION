@@ -12,6 +12,7 @@ Imports:
     corpcor,
     lars,
     methods,
+    multtest,
     survival
 Suggests: parallel
 Encoding: UTF-8
@@ -42,6 +43,8 @@ Collate:
     'superPC_CoxPH_model.R'
     'superPC_model_tStats.R'
     'superPC_modifiedSVD.R'
+    'superPC_optimWeibullParams.R'
+    'superPC_pathway_pValues.R'
     'superPC_pathway_tControl.R'
     'superPC_pathway_tScores.R'
     'superPC_permuteSamples.R'
