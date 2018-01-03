@@ -35,6 +35,7 @@ Collate:
     'data_supervised_reducedGenesets.R'
     'data_supervised_tumors.R'
     'data_tControl.R'
+    'data_tControl4240.R'
     'data_tScores.R'
     'data_tScores4240.R'
     'subsetExpressed-omes.R'
