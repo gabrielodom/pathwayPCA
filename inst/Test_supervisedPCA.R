@@ -28,7 +28,7 @@ geneset <- supervised_Genesets4240_ls
 #   censor status
 
 survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
-rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
+rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 
 
 ###  Remove Small and Large Pathway Sets  ###
@@ -326,145 +326,30 @@ Sys.time() - a # 1min 47 sec for first 100 pathways, 7 min 50 sec for first 500
 #   based on the type of the response. Each function will
 
 ###  Survival  ###
-control_Survivalresp <- function(eventTime_vec,
-                                 censor_vec,
-                                 parametric = FALSE){
+# Exported to superPC_permuteSamples.R
 
-  # browser()
-  n <- length(censor_vec)
-
-  # Set up event time sample: parametric bootstrap or non-parametric permutation
-  if(parametric){
-
-    # Estimate the null model
-    surv_obj <- survival::Surv(eventTime_vec, censor_vec)
-    null_mod <- survival::survreg(surv_obj ~ 1, dist = "weibull")
-
-    times_vec <- rweibull(n,
-                          shape = 1 / null_mod$scale,
-                          scale = exp(null_mod$coef))
-
-    # Randomly censor some of the observations
-    pCensor <- mean(censor_vec == 1)
-    censor_ind <- runif(n) < pCensor
-    for(m in 1:n){
-
-      if(censor_ind[m]){
-        times_vec[m] <- runif(1, min = 0, max = times_vec[m])
-      }
-
-    }
-
-  } else {
-
-    randIdx <- sample.int(n, n)
-    times_vec <- eventTime_vec[randIdx]
-    censor_ind <- censor_vec[randIdx]
-
-  }
-
-  # Return the bootstrapped / permuted survival data
-  list(eventTime_vec = times_vec, censor_vec = censor_ind)
-
-}
 # Test
-control_Survivalresp(eventTime_vec = survY_df$SurvivalTime,
-                     censor_vec = survY_df$disease_event)
+sample_Survivalresp(response_vec = survY_df$SurvivalTime,
+                    censor_vec = survY_df$disease_event)
 
 ###  Regression  ###
-control_Regresp <- function(response_vec,
-                            parametric = FALSE){
+# Exported to superPC_permuteSamples.R
 
-  # browser()
-  n <- length(response_vec)
-
-  # Set up event time sample: parametric bootstrap or non-parametric permutation
-  if(parametric){
-    rand_vec <- rnorm(n, mean = mean(response_vec), sd = sd(response_vec))
-  } else {
-    rand_vec <- sample(response_vec)
-  }
-
-  # Return the bootstrapped / permuted regression response data
-  rand_vec
-
-}
 # Test
-control_Regresp(response_vec = survY_df$SurvivalTime)
+sample_Regresp(response_vec = survY_df$SurvivalTime)
 
 
 ###  Classification  ###
-control_Classifresp <- function(response_vec,
-                                parametric = FALSE){
+# Exported to superPC_permuteSamples.R
 
-  # browser()
-  n <- length(response_vec)
-  x <- as.factor(response_vec)
-  classes <- unique(x)
-  classProbs <- summary(x) / length(x)
-
-  # Set up event time sample: parametric bootstrap or non-parametric permutation
-  if(parametric){
-    rand_vec <- sample(classes, size = n, replace = TRUE, prob = classProbs)
-  } else {
-    rand_vec <- sample(x)
-  }
-
-  # Return the bootstrapped / permuted regression response data
-  rand_vec
-
-}
 # Test
-control_Classifresp(response_vec = survY_df$disease_event)
-control_Classifresp(response_vec = c(rep("A", 20), rep("B", 10), rep("C", 15)))
+sample_Classifresp(response_vec = survY_df$disease_event)
+sample_Classifresp(response_vec = c(rep("A", 20), rep("B", 10), rep("C", 15)))
+sample_Classifresp(response_vec = as.factor(survY_df$disease_event))
 
 
 ###  The Control Data  ###
-pathway_tControl <- function(pathway_vec,
-                             geneArray_df,
-                             response_mat,
-                             responseType = "survival",
-                             parametric = FALSE,
-                             n.threshold = 20,
-                             numPCs = 1,
-                             min.features = 5){
-  # browser()
-
-
-  data_ls <- switch(responseType,
-                    survival = {
-
-                      surv_ls <- control_Survivalresp(eventTime_vec = response_mat[, 1],
-                                                      censor_vec = response_mat[, 2],
-                                                      parametric = parametric)
-                      list(x = geneArray_df[pathway_vec, ],
-                           y = surv_ls$eventTime_vec,
-                           censoring.status = surv_ls$censor_vec,
-                           featurenames = pathway_vec)
-
-                    },
-                    regression = {
-                      list(x = geneArray_df[pathway_vec, ],
-                           y = control_Regresp(response_vec = response_mat[, 1]),
-                           featurenames = pathway_vec)
-                    },
-                    binary = {
-                      list(x = geneArray_df[pathway_vec, ],
-                           y = control_Classifresp(response_vec = response_mat[, 1]),
-                           featurenames = pathway_vec)
-                    })
-
-  train <- superpc.train(data_ls, type = responseType)
-
-  st.obj <- superpc.st(fit = train,
-                       data = data_ls,
-                       n.PCs = numPCs,
-                       min.features = min.features,
-                       n.threshold = n.threshold)
-
-  st.obj$tscor
-
-}
+# Exported to superPC_pathway_tControl.R
 
 # Test
 pathway_tControl(pathway_vec = geneset$pathways[[1]],
