@@ -16,8 +16,8 @@ data("supervised_patInfo_df")
 # data("supervised_Genesets_ls")
 # geneset <- supervised_Genesets_ls
 
-data("geneset4240_ls")
-geneset <- geneset4240_ls
+data("supervised_Genesets4240_ls")
+geneset <- supervised_Genesets4240_ls
 
 
 ## run superpc test
@@ -41,8 +41,8 @@ rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 #                        setsize = geneset$setsize[-smallpaths_ind])
 # # Steven's original gene set list included setsize values in [175, 300], so his
 # #   list has 4266 pathways. Ours has 4240.
-# # geneset4240_ls <- genesetReduced
-# # devtools::use_data(geneset4240_ls)
+# # supervised_Genesets4240_ls <- genesetReduced
+# # devtools::use_data(supervised_Genesets4240_ls)
 
 
 ###  The Basic Idea  ###
