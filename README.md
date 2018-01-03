@@ -142,6 +142,10 @@ Functions will be as follows:
     + `.coxvar()`: internal - returns variances
     + `.coxstuff()`: internal
     + `mysvd()`: Takes in "tall" -omics data matrix, and returns it's centered SVD and centering vector.
+  - Supervised PCA Wrapper Functions:
+    + `superpc.train()`: Train the supervised PCA model.
+    + `superpc.st()`: Given a fit object returned by `superpc.train()`, extract and test the PCs for significance.
+    + `pathway_tScores()`: a wrapper function that allows the user to apply both the training and extract/test functions across a list of pathways.
     
 #### Functions Still to Build
 These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.

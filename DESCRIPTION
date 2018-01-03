@@ -13,6 +13,7 @@ Imports:
     lars,
     methods,
     survival
+Suggests: parallel
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -38,5 +39,6 @@ Collate:
     'superPC_CoxPH_model.R'
     'superPC_model_tStats.R'
     'superPC_modifiedSVD.R'
+    'superPC_pathway_tScores.R'
     'superPC_train.R'
     'unknown_matrixNorm.R'

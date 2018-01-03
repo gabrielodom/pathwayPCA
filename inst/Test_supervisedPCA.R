@@ -13,8 +13,11 @@
 data("supervised_Tumors_df")
 array <- supervised_Tumors_df
 data("supervised_patInfo_df")
-data("supervised_Genesets_ls")
-geneset <- supervised_Genesets_ls
+# data("supervised_Genesets_ls")
+# geneset <- supervised_Genesets_ls
+
+data("geneset4240_ls")
+geneset <- geneset4240_ls
 
 
 ## run superpc test
@@ -29,15 +32,17 @@ rm(supervised_Tumors_df, supervised_Genesets_ls, supervised_patInfo_df)
 
 
 ###  Remove Small and Large Pathway Sets  ###
-which(geneset$setsize >= 300) # No large pathways
-max(geneset$setsize)
-which(geneset$setsize < 5) # ~3,700 small pathways
-smallpaths_ind <- which(geneset$setsize < 5)
-genesetReduced <- list(pathways = geneset$pathways[-smallpaths_ind],
-                       TERMS = geneset$TERMS[-smallpaths_ind],
-                       setsize = geneset$setsize[-smallpaths_ind])
-# Steven's original gene set list included setsize values in [175, 300], so his
-#   list has 4266 pathways. Ours has 4240.
+# which(geneset$setsize >= 300) # No large pathways
+# max(geneset$setsize)
+# which(geneset$setsize < 5) # ~3,700 small pathways
+# smallpaths_ind <- which(geneset$setsize < 5)
+# genesetReduced <- list(pathways = geneset$pathways[-smallpaths_ind],
+#                        TERMS = geneset$TERMS[-smallpaths_ind],
+#                        setsize = geneset$setsize[-smallpaths_ind])
+# # Steven's original gene set list included setsize values in [175, 300], so his
+# #   list has 4266 pathways. Ours has 4240.
+# # geneset4240_ls <- genesetReduced
+# # devtools::use_data(geneset4240_ls)
 
 
 ###  The Basic Idea  ###
@@ -53,81 +58,81 @@ genesetReduced <- list(pathways = geneset$pathways[-smallpaths_ind],
 #      pathway attribution exercise, check the significance of the pathway based
 #      on the k PCs.)
 
-tscore <- array(0, dim = c(length(geneset$pathways), 20))
-rownames(tscore) <- names(geneset$pathways)
-
-a <- Sys.time()
-# for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
-for(i in 1:500){
-
-  # browser()
-
-  genenames <- geneset$pathways[[i]]
-  # pathway<-array[genename,]
-  # y<-pinfo$SurvivalTime
-  # censor<-pinfo$disease_event
-  # pathwaysize=dim(pathway)[1]
-
-  data <- list(x = array[genenames, ],
-               y = survY_df$SurvivalTime,
-               censoring.status = survY_df$disease_event,
-               featurenames = genenames)
-  ## if binary or continuous outcome
-  ## data<-list(x=pathway,y=y, featurenames=genename)
-
-  train <- superpc.train(data, type = "survival")
-  ## if binary outcome: train<-superpc.train(data, type="binary")
-  ## if continuous outcome: train<-superpc.train(data, type="continuous")
-
-  st.obj <- superpc.st(fit = train,
-                       data = data,
-                       n.PCs = 1,
-                       min.features = 2,
-                       n.threshold = 20)
-
-  tscore[i,] <- st.obj$tscor
-
-}
-Sys.time() - a   # 90 sec for first 100 pathways; 6 min 32 sec for 500 pathways
-#   1 hr, 47 min for 7,949 pathways
-# My hypothesis is that it's not the number of pathways, but the number of
-#   pathways in the tail that have a lot of genes in them. For the set of 7,949
-#   pathways, we cut off the pathways with more than 180 genes. We expected the
-#   calculations to take ~8k / ~1.3k = 6x longer, but they look only about 1.5x
-#   longer [1.776612 / (13 / 60 + 1) ~= 1.46]. The main reason is the huge
-#   pathways with 45+ (95th percentile) genes in them. The more of these "whale"
-#   pathways we have, the longer the computation will take.
-# Further, I added the threshold.ignore component: the first half of the
-#   threshold values yield the exact same t-scores for most pathways. To speed
-#   up computation, we should be able to skip these. The first 500 took 5 min
-#   45 sec, barely a minute faster. Probably not worth it. We'll change the
-#   default to 0%.
-
-plot(tscore[1, ], ylim = c(min(tscore), max(tscore)), type = "l", lwd = 3)
-for(i in 2:500){
-  lines(tscore[i, ], col = colours()[i], lwd = 3)
-}
-
-# ASIDE: STOP USING sapply() OVER ROWS / COLUMNS. That's what apply() is for.
-# first10 <- sapply(1:500, function(row){
-#   var(tscore[row, 1:10])
+# tscore <- array(0, dim = c(length(geneset$pathways), 20))
+# rownames(tscore) <- names(geneset$pathways)
+#
+# a <- Sys.time()
+# # for(i in 1:length(geneset$pathways)){ # 1 hour, 13 minutes for ~1,300 pathways
+# for(i in 1:500){
+#
+#   # browser()
+#
+#   genenames <- geneset$pathways[[i]]
+#   # pathway<-array[genename,]
+#   # y<-pinfo$SurvivalTime
+#   # censor<-pinfo$disease_event
+#   # pathwaysize=dim(pathway)[1]
+#
+#   data <- list(x = array[genenames, ],
+#                y = survY_df$SurvivalTime,
+#                censoring.status = survY_df$disease_event,
+#                featurenames = genenames)
+#   ## if binary or continuous outcome
+#   ## data<-list(x=pathway,y=y, featurenames=genename)
+#
+#   train <- superpc.train(data, type = "survival")
+#   ## if binary outcome: train<-superpc.train(data, type="binary")
+#   ## if continuous outcome: train<-superpc.train(data, type="continuous")
+#
+#   st.obj <- superpc.st(fit = train,
+#                        data = data,
+#                        n.PCs = 1,
+#                        min.features = 2,
+#                        n.threshold = 20)
+#
+#   tscore[i,] <- st.obj$tscor
+#
+# }
+# Sys.time() - a   # 90 sec for first 100 pathways; 6 min 32 sec for 500 pathways
+# #   1 hr, 47 min for 7,949 pathways
+# # My hypothesis is that it's not the number of pathways, but the number of
+# #   pathways in the tail that have a lot of genes in them. For the set of 7,949
+# #   pathways, we cut off the pathways with more than 180 genes. We expected the
+# #   calculations to take ~8k / ~1.3k = 6x longer, but they look only about 1.5x
+# #   longer [1.776612 / (13 / 60 + 1) ~= 1.46]. The main reason is the huge
+# #   pathways with 45+ (95th percentile) genes in them. The more of these "whale"
+# #   pathways we have, the longer the computation will take.
+# # Further, I added the threshold.ignore component: the first half of the
+# #   threshold values yield the exact same t-scores for most pathways. To speed
+# #   up computation, we should be able to skip these. The first 500 took 5 min
+# #   45 sec, barely a minute faster. Probably not worth it. We'll change the
+# #   default to 0%.
+#
+# plot(tscore[1, ], ylim = c(min(tscore), max(tscore)), type = "l", lwd = 3)
+# for(i in 2:500){
+#   lines(tscore[i, ], col = colours()[i], lwd = 3)
+# }
+#
+# # ASIDE: STOP USING sapply() OVER ROWS / COLUMNS. That's what apply() is for.
+# # first10 <- sapply(1:500, function(row){
+# #   var(tscore[row, 1:10])
+# # })
+# first <- apply(tscore[1:500, ], MARGIN = 1, function(x){
+#   var(x[1:10])
 # })
-first <- apply(tscore[1:500, ], MARGIN = 1, function(x){
-  var(x[1:10])
-})
-
-# last10 <- sapply(1:500, function(row){
-#   var(tscore[row, 11:20])
+#
+# # last10 <- sapply(1:500, function(row){
+# #   var(tscore[row, 11:20])
+# # })
+# last <- apply(tscore[1:500, ], MARGIN = 1, function(x){
+#   var(x[11:20])
 # })
-last <- apply(tscore[1:500, ], MARGIN = 1, function(x){
-  var(x[11:20])
-})
-
-# boxplot(first10, last10)
-boxplot(first, last)
-# We really don't see a thresholding effect until the last half of the threshold
-#   values. We could add a "greedy" option to ignore the quantiles below 50%.
-
+#
+# # boxplot(first10, last10)
+# boxplot(first, last)
+# # We really don't see a thresholding effect until the last half of the threshold
+# #   values. We could add a "greedy" option to ignore the quantiles below 50%.
+#
 
 
 ######  Parallel Supervised PCA  ##############################################
@@ -163,24 +168,46 @@ Sys.time() - a   # 89.1 seconds, but we have a list instead of a matrix. But,
 #   88.9 seconds to run, which is on par with plyr, but without the new package
 #   call (it works smoothly with the clusterApply() syntax as well.)
 
+
+###  Make the wrapper a true function  ###
+# Extracted to superPC_pathway_tScores.R
+
+# Test
+pathway_tScores(pathway_vec = geneset$pathways[[1]],
+                geneArray_df = array,
+                response_mat = survY_df)
+# It works.
+
+
 library(parallel)
 clust <- makeCluster(detectCores() - 2)
 clusterExport(cl = clust, varlist = ls())
 clusterEvalQ(cl = clust, library(pathwayPCA))
 a <- Sys.time()
-tScores_mat <- parSapply(cl = clust, geneset$pathways, wrapper1_fun)
+tScores_mat <- parSapply(cl = clust, geneset$pathways, pathway_tScores)
 Sys.time() - a # 8 sec for parSapply, 7.71 sec for Load Balancing parSapplyLB
 #   for first 100 pathways. 9 min, 15 seconds for all ~8k pathways with LB; 9
 #   min, 12 seconds for all pathways without LB.
 
+a <- Sys.time()
+tScores_mat <- parSapply(cl = clust,
+                         geneset$pathways,
+                         pathway_tScores,
+                         geneArray_df = array,
+                         response_mat = survY_df)
+Sys.time() - a # 4.926993 min for the 4,240 pathways with sizes in [5, 175]
+
+
 # Transpose the matrix to return it to "tall" form
 tScores_mat <- t(tScores_mat)
 # devtools::use_data(tScores_mat)
+tScores4240_mat <- tScores_mat
+# devtools::use_data(tScores4240_mat)
 
-a <- Sys.time()
-tScores2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapper1_fun)
-Sys.time() - a # 4.929381 min
-tScores2_mat <- t(tScores2_mat)
+# a <- Sys.time()
+# tScores2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapper1_fun)
+# Sys.time() - a # 4.929381 min
+# tScores2_mat <- t(tScores2_mat)
 
 
 
@@ -291,6 +318,163 @@ a <- Sys.time()
 tControl_mat <- sapply(geneset$pathways[1:500], wrapperCtrl_fun)
 Sys.time() - a # 1min 47 sec for first 100 pathways, 7 min 50 sec for first 500
 
+
+###  Make the wrapper a true function  ###
+## Extracted to superPC_pathway_tControls.R
+
+# After looking at this, pathway_tControl needs to call three distinct functions
+#   based on the type of the response. Each function will
+
+###  Survival  ###
+control_Survivalresp <- function(eventTime_vec,
+                                 censor_vec,
+                                 parametric = FALSE){
+
+  # browser()
+  n <- length(censor_vec)
+
+  # Set up event time sample: parametric bootstrap or non-parametric permutation
+  if(parametric){
+
+    # Estimate the null model
+    surv_obj <- survival::Surv(eventTime_vec, censor_vec)
+    null_mod <- survival::survreg(surv_obj ~ 1, dist = "weibull")
+
+    times_vec <- rweibull(n,
+                          shape = 1 / null_mod$scale,
+                          scale = exp(null_mod$coef))
+
+    # Randomly censor some of the observations
+    pCensor <- mean(censor_vec == 1)
+    censor_ind <- runif(n) < pCensor
+    for(m in 1:n){
+
+      if(censor_ind[m]){
+        times_vec[m] <- runif(1, min = 0, max = times_vec[m])
+      }
+
+    }
+
+  } else {
+
+    randIdx <- sample.int(n, n)
+    times_vec <- eventTime_vec[randIdx]
+    censor_ind <- censor_vec[randIdx]
+
+  }
+
+  # Return the bootstrapped / permuted survival data
+  list(eventTime_vec = times_vec, censor_vec = censor_ind)
+
+}
+# Test
+control_Survivalresp(eventTime_vec = survY_df$SurvivalTime,
+                     censor_vec = survY_df$disease_event)
+
+###  Regression  ###
+control_Regresp <- function(response_vec,
+                            parametric = FALSE){
+
+  # browser()
+  n <- length(response_vec)
+
+  # Set up event time sample: parametric bootstrap or non-parametric permutation
+  if(parametric){
+    rand_vec <- rnorm(n, mean = mean(response_vec), sd = sd(response_vec))
+  } else {
+    rand_vec <- sample(response_vec)
+  }
+
+  # Return the bootstrapped / permuted regression response data
+  rand_vec
+
+}
+# Test
+control_Regresp(response_vec = survY_df$SurvivalTime)
+
+
+###  Classification  ###
+control_Classifresp <- function(response_vec,
+                                parametric = FALSE){
+
+  # browser()
+  n <- length(response_vec)
+  x <- as.factor(response_vec)
+  classes <- unique(x)
+  classProbs <- summary(x) / length(x)
+
+  # Set up event time sample: parametric bootstrap or non-parametric permutation
+  if(parametric){
+    rand_vec <- sample(classes, size = n, replace = TRUE, prob = classProbs)
+  } else {
+    rand_vec <- sample(x)
+  }
+
+  # Return the bootstrapped / permuted regression response data
+  rand_vec
+
+}
+# Test
+control_Classifresp(response_vec = survY_df$disease_event)
+control_Classifresp(response_vec = c(rep("A", 20), rep("B", 10), rep("C", 15)))
+
+
+###  The Control Data  ###
+pathway_tControl <- function(pathway_vec,
+                             geneArray_df,
+                             response_mat,
+                             responseType = "survival",
+                             parametric = FALSE,
+                             n.threshold = 20,
+                             numPCs = 1,
+                             min.features = 5){
+  # browser()
+
+
+  data_ls <- switch(responseType,
+                    survival = {
+
+                      surv_ls <- control_Survivalresp(eventTime_vec = response_mat[, 1],
+                                                      censor_vec = response_mat[, 2],
+                                                      parametric = parametric)
+                      list(x = geneArray_df[pathway_vec, ],
+                           y = surv_ls$eventTime_vec,
+                           censoring.status = surv_ls$censor_vec,
+                           featurenames = pathway_vec)
+
+                    },
+                    regression = {
+                      list(x = geneArray_df[pathway_vec, ],
+                           y = control_Regresp(response_vec = response_mat[, 1]),
+                           featurenames = pathway_vec)
+                    },
+                    binary = {
+                      list(x = geneArray_df[pathway_vec, ],
+                           y = control_Classifresp(response_vec = response_mat[, 1]),
+                           featurenames = pathway_vec)
+                    })
+
+  train <- superpc.train(data_ls, type = responseType)
+
+  st.obj <- superpc.st(fit = train,
+                       data = data_ls,
+                       n.PCs = numPCs,
+                       min.features = min.features,
+                       n.threshold = n.threshold)
+
+  st.obj$tscor
+
+}
+
+# Test
+pathway_tControl(pathway_vec = geneset$pathways[[1]],
+                 geneArray_df = array,
+                 response_mat = survY_df)
+
+# TO DO FOR 20180103: WRITE THESE FUNCTIONS TO A FILE IN R/
+#   THEN RUN THE PARALLEL CODE FOR THE CONTROL DATA AND SAVE THE RESULTS TO DATA/
+
+
 library(parallel)
 clust <- makeCluster(detectCores() - 2)
 clusterExport(cl = clust, varlist = ls())
@@ -303,11 +487,11 @@ tControl_mat <- t(tControl_mat)
 # Now we have the t-scores if the responses were random.
 # devtools::use_data(tControl_mat)
 
-a <- Sys.time()
-tControl2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapperCtrl_fun)
-Sys.time() - a # 4.824962 min
-
-tControl2_mat <- t(tControl2_mat)
+# a <- Sys.time()
+# tControl2_mat <- parSapply(cl = clust, genesetReduced$pathways, wrapperCtrl_fun)
+# Sys.time() - a # 4.824962 min
+#
+# tControl2_mat <- t(tControl2_mat)
 
 
 ######  Extreme Distribution and p-Values  ####################################
