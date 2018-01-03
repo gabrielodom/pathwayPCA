@@ -146,12 +146,18 @@ Functions will be as follows:
     + `superpc.train()`: Train the supervised PCA model.
     + `superpc.st()`: Given a fit object returned by `superpc.train()`, extract and test the PCs for significance.
     + `pathway_tScores()`: a wrapper function that allows the user to apply both the training and extract/test functions across a list of pathways.
+    + `pathway_tScores()`: Find the pathway-specific Student's-$t$scores.
+    + The `randomControlSample` functions: `sample_Survivalresp()`, `sample_Regresp()`, and `sample_Classifresp()`. These functions either take a parametric bootstrap sample or permuted sample of the response input. For survival data, the response input is a set of event time and censoring vectors, while the response vector is "as is" for regression and classification.
+    + `pathway_tControl()`: Find the pathway-specific control for the Student's-$t$ scores. This function calls the `randomControlSample` functions to find a comparative null-distribution Student's-$t$ score for each pathway.
+    + `weibullMix_optimParams()`: Given control the $t$ scores and the number of parameters in each pathway, find the estimated parameter values that minimize the Weibull mixture log-likelihood function.
+    + `pathway_pValues()`: Given a set of optimal Weibull mixture parameters and a vector of control $t$ scores, calculated the associated $p$-values for each pathway. This function will also ajdust these $p$-values for multiple comparisons if requested (FDR correction by the Benjamini & Hochberg (1995) step-up FDR-controlling procedure is the default).
     
 #### Functions Still to Build
 These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.
 
   - The suite of functions included and related to `cor.func()`
   - Same stuff for `logistic.func()`
+  - Graphs
 
 ### Piecing in Existing Code
 
