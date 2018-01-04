@@ -5,10 +5,10 @@ use_bioc: true
 bioc_required: true
 r:
   - bioc-release
-  - bioc-devel
+#  - bioc-devel    # Errors as of 20180104
   - oldrel
   - release
-  - devel
+#  - devel    # Errors as of 20180104
 
 sudo: true
 cache: packages
