@@ -30,8 +30,8 @@ pathway when under the alternative model (the response vector as is).}
 Defaults to \code{TRUE}.}
 
 \item{multTestProc}{If the p-values should be adjusted, which procedure will
-you use? Options are passed to the \code{\link[multtest]{mt.rawp2adjp}}
-function. Defaults to "BH".}
+you use? Options are passed to the \code{\link{adjustRaw_pVals}} function.
+Specify multiple procedures via \code{c(...)}. Defaults to "BH".}
 }
 \value{
 A data frame

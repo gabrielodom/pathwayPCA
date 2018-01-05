@@ -68,7 +68,12 @@
 #'    }
 #'
 #'
-#' @return A list with components:
+#' @return A vector of the same length and order as \code{rawp}, unless the user
+#'    specifies that the output should match the output from the \code{multtest}
+#'    package. In that case, the use should specify \code{as.multtest.out = TRUE}
+#'    and this function will return output identical to that of the
+#'    \code{mt.rawp2adjp} function from package \code{multtest}. That output is
+#'    as follows:
 #'    \itemize{
 #'      \item{\code{adjp} : }{A matrix of adjusted p-values, with rows
 #'         corresponding to hypotheses and columns to multiple testing
@@ -102,7 +107,8 @@ adjustRaw_pVals <- function (rawp,
                                       "ABH",
                                       "TSBH"),
                              alpha = 0.05,
-                             na.rm = FALSE){
+                             na.rm = FALSE,
+                             as.multtest.out = FALSE){
 
   ###  Proc Setup  ###
   m <- length(rawp)
@@ -296,9 +302,17 @@ adjustRaw_pVals <- function (rawp,
   }
 
   ###  Return  ###
-  list(adjp = adjp,
-       index = index,
-       h0.ABH = h0.ABH[1],
-       h0.TSBH = h0.TSBH[1:length(alpha)])
+  # The multtest package has the mt.rawp2adjp() function return
+  if(as.multtest.out){
+
+    list(adjp = adjp,
+         index = index,
+         h0.ABH = h0.ABH[1],
+         h0.TSBH = h0.TSBH[1:length(alpha)])
+
+  } else {
+    adjp[order(index), ]
+  }
+
 
 }

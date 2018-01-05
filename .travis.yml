@@ -5,18 +5,18 @@ use_bioc: true
 bioc_required: true
 r:
   - bioc-release
-  - bioc-devel    # Errors as of 20180105
+#  - bioc-devel    # Errors as of 20180105. Something off with devtools.
   - oldrel
   - release
-  - devel    # Errors as of 20180105
+#  - devel    # Errors as of 20180105
 
 sudo: true
 cache: packages
 
-r_github_packages:
-  - hadley/devtools@efa894ffa
+# r_github_packages:
+#   - hadley/devtools@efa894ffa
 # I found a comment on using the CRAN version of devtools (which I thought I
-#   was...), so I added this. Let's see if it works.
+#   was...), so I added this. Let's see if it works. It doesn't.
 
 notifications:
   email:
