@@ -21,8 +21,8 @@
 #' @param FDRadjust Should the p-values be adjusted for multiple comparisons?
 #'    Defaults to \code{TRUE}.
 #' @param multTestProc If the p-values should be adjusted, which procedure will
-#'    you use? Options are passed to the \code{\link[multtest]{mt.rawp2adjp}}
-#'    function. Defaults to "BH".
+#'    you use? Options are passed to the \code{\link{adjustRaw_pVals}} function.
+#'    Specify multiple procedures via \code{c(...)}. Defaults to "BH".
 #'
 #' @return A data frame
 #'
@@ -94,13 +94,12 @@ pathway_pValues <- function(optimParams_vec,
   ###  p-Value Adjustment  ###
 
   if(FDRadjust){
+    # browser()
 
     adjustedP <- adjustRaw_pVals(ntest$rawp, multTestProc)
-    adjustedP <- adjustedP$adjp[order(adjustedP$index), ]
 
-    ntest$FDR <- adjustedP[, 2]
+    ntest <- cbind(ntest, adjustedP[, -1, drop = FALSE])
     ntest$terms <- genelist_ls$TERMS
-    ntest <- ntest[order(ntest$FDR, ntest$rawp), ]
 
   }
 

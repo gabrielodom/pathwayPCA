@@ -58,8 +58,50 @@ spcaPathwayPvals_df <- pathway_pValues(optimParams_vec = pOptim,
                                        genelist_ls = geneset,
                                        FDRadjust = TRUE,
                                        multTestProc = "BH")
+# # Reorder the rows by p-value
+# spcaPathwayPvals_df[order(spcaPathwayPvals_df$BH, spcaPathwayPvals_df$rawp), ]
 
 # devtools::use_data(spcaPathwayPvals_df)
 
 
 ######  Graphics  #############################################################
+head(spcaPathwayPvals_df)
+library(magrittr)
+library(tidyverse)
+spcaPathwayPvals_df %<>% mutate(pathScoreRaw = -log(rawp))
+spcaPathwayPvals_df %<>% mutate(pathScoreFDR = -log(FDR))
+spcaPathwayPvals_df$rank <- 1:nrow(spcaPathwayPvals_df)
+head(spcaPathwayPvals_df)
+tail(spcaPathwayPvals_df)
+
+library(ggplot2)
+###  p-Values  ###
+ggplot(data = spcaPathwayPvals_df,
+       aes(x = rank, y = pathScoreRaw)) +
+  geom_bar(stat = "identity")
+ggplot(data = spcaPathwayPvals_df,
+       aes(x = rank, y = pathScoreFDR)) +
+  geom_bar(stat = "identity")
+
+###  p-Values by Pathway Size  ###
+ggplot(data = spcaPathwayPvals_df,
+       aes(x = setsize, y = pathScoreRaw)) +
+  geom_point()
+ggplot(data = spcaPathwayPvals_df,
+       aes(x = setsize, y = pathScoreFDR)) +
+  geom_point()
+# No relationship - good.
+
+###  Top p-Values  ###
+ggplot(data = spcaPathwayPvals_df,
+       aes(x = rank, y = pathScoreRaw, colour = FDR)) +
+  geom_bar(stat = "identity")
+ggplot(data = spcaPathwayPvals_df[1:500,],
+       aes(x = rank, y = pathScoreRaw, colour = FDR)) +
+  geom_bar(stat = "identity")
+ggplot(data = spcaPathwayPvals_df[1:100,],
+       aes(x = rank, y = pathScoreRaw, colour = FDR)) +
+  geom_bar(stat = "identity")
+
+# I don't think I'll be able to build great graphs until I have som results
+#   thank are actually significant. I'll ask James about this.

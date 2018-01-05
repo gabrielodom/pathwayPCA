@@ -5,7 +5,8 @@
 \title{Adjust p-Values for Simple Multiple-Testing Procedures}
 \usage{
 adjustRaw_pVals(rawp, proc = c("Bonferroni", "Holm", "Hochberg", "SidakSS",
-  "SidakSD", "BH", "BY", "ABH", "TSBH"), alpha = 0.05, na.rm = FALSE)
+  "SidakSD", "BH", "BY", "ABH", "TSBH"), alpha = 0.05, na.rm = FALSE,
+  as.multtest.out = FALSE)
 }
 \arguments{
 \item{rawp}{A vector of raw (unadjusted) p-values for each hypothesis under
@@ -28,7 +29,12 @@ vector of raw p-values. Otherwise, if \code{TRUE}, the number of
 hypotheses is the number of raw p-values which were not \code{NA}s.}
 }
 \value{
-A list with components:
+A vector of the same length and order as \code{rawp}, unless the user
+   specifies that the output should match the output from the \code{multtest}
+   package. In that case, the use should specify \code{as.multtest.out = TRUE}
+   and this function will return output identical to that of the
+   \code{mt.rawp2adjp} function from package \code{multtest}. That output is
+   as follows:
    \itemize{
      \item{\code{adjp} : }{A matrix of adjusted p-values, with rows
         corresponding to hypotheses and columns to multiple testing
