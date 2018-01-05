@@ -5,13 +5,18 @@ use_bioc: true
 bioc_required: true
 r:
   - bioc-release
-  - bioc-devel    # Errors as of 20180104
+#  - bioc-devel    # Errors as of 20180105
   - oldrel
   - release
-  - devel    # Errors as of 20180104
+#  - devel    # Errors as of 20180105
 
 sudo: true
 cache: packages
+
+ r_github_packages:
+  - hadley/devtools@efa894ffa    # I found a comment on using the CRAN version
+                                 #   of devtools (which I thought I was...), so
+                                 #   I added this. Let's see if it works.
 
 notifications:
   email:

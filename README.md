@@ -151,6 +151,7 @@ Functions will be as follows:
     + `pathway_tControl()`: Find the pathway-specific control for the Student's-$t$ scores. This function calls the `randomControlSample` functions to find a comparative null-distribution Student's-$t$ score for each pathway.
     + `weibullMix_optimParams()`: Given control the $t$ scores and the number of parameters in each pathway, find the estimated parameter values that minimize the Weibull mixture log-likelihood function.
     + `pathway_pValues()`: Given a set of optimal Weibull mixture parameters and a vector of control $t$ scores, calculated the associated $p$-values for each pathway. This function will also ajdust these $p$-values for multiple comparisons if requested (FDR correction by the Benjamini & Hochberg (1995) step-up FDR-controlling procedure is the default).
+    + `adjustRaw_pVals()`: The $p$-value adjustment function. This is a direct copy of `multtest::mt.rawp2adjp()` from Bioconductor. I ported it to our package because I was having some `devel` and `bioc-devel` build issues on Travis. Unfortunately, those problems persisted even after this port, but I think I'll leave it in anyway (one less package dependency).
     
 #### Functions Still to Build
 These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.
