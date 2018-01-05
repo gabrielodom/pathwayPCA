@@ -12,7 +12,6 @@ Imports:
     corpcor,
     lars,
     methods,
-    multtest,
     survival
 Suggests: parallel
 Encoding: UTF-8
@@ -22,6 +21,7 @@ Collate:
     'calculate_AESPCA.R'
     'calculate_LARS.R'
     'calculate_matrixRoot.R'
+    'calculate_multtest_pvalues.R'
     'validClass_Omics.R'
     'createClass_OmicsPath.R'
     'createClass_OmicsCateg.R'

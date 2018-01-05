@@ -37,8 +37,6 @@
 #'
 #' @export
 #'
-#' @importFrom multtest mt.rawp2adjp
-#'
 #' @examples
 #'    NULL
 pathway_pValues <- function(optimParams_vec,
@@ -97,7 +95,7 @@ pathway_pValues <- function(optimParams_vec,
 
   if(FDRadjust){
 
-    adjustedP <- mt.rawp2adjp(ntest$rawp, multTestProc)
+    adjustedP <- adjustRaw_pVals(ntest$rawp, multTestProc)
     adjustedP <- adjustedP$adjp[order(adjustedP$index), ]
 
     ntest$FDR <- adjustedP[, 2]
