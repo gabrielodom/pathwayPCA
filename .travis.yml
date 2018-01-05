@@ -13,10 +13,10 @@ r:
 sudo: true
 cache: packages
 
- r_github_packages:
-  - hadley/devtools@efa894ffa    # I found a comment on using the CRAN version
-                                 #   of devtools (which I thought I was...), so
-                                 #   I added this. Let's see if it works.
+r_github_packages:
+  - hadley/devtools@efa894ffa
+# I found a comment on using the CRAN version of devtools (which I thought I
+#   was...), so I added this. Let's see if it works.
 
 notifications:
   email:
