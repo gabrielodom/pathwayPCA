@@ -24,6 +24,9 @@
 #'    \code{FALSE}, the number of hypotheses considered is the length of the
 #'    vector of raw p-values. Otherwise, if \code{TRUE}, the number of
 #'    hypotheses is the number of raw p-values which were not \code{NA}s.
+#' @param as.multtest.out Should the output match the output from the
+#'    \code{mt.rawp2adjp} function? If not, the output will match the input (a
+#'    vector). Defaults to \code{FALSE}.
 #'
 #' @details This function computes adjusted p-values for simple multiple testing
 #'    procedures from a vector of raw (unadjusted) p-values. The procedures
