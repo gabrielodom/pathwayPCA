@@ -4,7 +4,7 @@
 \alias{superpc.train}
 \title{Train Supervised PC Model}
 \usage{
-superpc.train(data, type = c("survival", "regression", "binary"),
+superpc.train(data, type = c("survival", "regression", "classification"),
   s0.perc = NULL)
 }
 \arguments{
@@ -19,8 +19,8 @@ superpc.train(data, type = c("survival", "regression", "binary"),
 }}
 
 \item{type}{What model relates \code{y} and \code{x}? Options are
-\code{"survival"}, \code{"regression"}, or \code{"binary"} (for logistic
-regression).}
+\code{"survival"}, \code{"regression"}, or \code{"classification"} (for
+(potentially multinomial)logistic  regression).}
 
 \item{s0.perc}{A stabilization parameter on the interval [0,1]. This is an
 internal argument to each of the called functions. The default NULL value
@@ -44,7 +44,7 @@ Computes feature scores for supervised pc analysis
 }
 \details{
 This function is a switch call to \code{\link{coxTrain_fun}},
-   \code{cor.func}, or \code{logistic.func}, respectively.
+   \code{\link{olsTrain_fun}}, or \code{logistic.func}, respectively.
 }
 \examples{
    NULL

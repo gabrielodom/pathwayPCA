@@ -5,8 +5,8 @@
 \title{Calculate Pathway-Specific Student's t Scores}
 \usage{
 pathway_tScores(pathway_vec, geneArray_df, response_mat,
-  responseType = "survival", n.threshold = 20, numPCs = 1,
-  min.features = 5)
+  responseType = c("survival", "regression", "classification"),
+  n.threshold = 20, numPCs = 1, min.features = 5)
 }
 \arguments{
 \item{pathway_vec}{A character vector of the measured -omes in the chosen

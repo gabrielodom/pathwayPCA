@@ -175,7 +175,8 @@ Sys.time() - a   # 89.1 seconds, but we have a list instead of a matrix. But,
 # Test
 pathway_tScores(pathway_vec = geneset$pathways[[1]],
                 geneArray_df = array,
-                response_mat = survY_df)
+                response_mat = survY_df,
+                responseType = "survival")
 # It works.
 
 
@@ -354,7 +355,8 @@ sample_Classifresp(response_vec = as.factor(survY_df$disease_event))
 # Test
 pathway_tControl(pathway_vec = geneset$pathways[[1]],
                  geneArray_df = array,
-                 response_mat = survY_df)
+                 response_mat = survY_df,
+                 responseType = "survival")
 
 # TO DO FOR 20180103: WRITE THESE FUNCTIONS TO A FILE IN R/
 #   THEN RUN THE PARALLEL CODE FOR THE CONTROL DATA AND SAVE THE RESULTS TO DATA/

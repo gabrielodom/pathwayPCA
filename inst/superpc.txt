@@ -562,31 +562,31 @@ logistic.func<-function(x,y,s0.perc)
 
 
 
-cor.func<-
-
-function (x, y, s0.perc )
-{
-    n <- length(y)
-    xbar <- x %*% rep(1/n, n)
-    sxx <- ((x - as.vector(xbar))^2) %*% rep(1, n)
-    sxy <- (x - as.vector(xbar)) %*% (y - mean(y))
-    syy <- sum((y - mean(y))^2)
-    numer <- sxy/sxx
-    sd <- sqrt((syy/sxx - numer^2)/(n - 2))
-
-if(is.null(s0.perc)){ fudge=median(sd)}
-if(!is.null(s0.perc)){
- if(s0.perc>=0){
-  fudge=quantile(sd,s0.perc)
-  }
- if(s0.perc<0){
-   fudge=0
-  }
-}
-    tt <- numer/(sd + fudge)
-
-    return(list(tt = tt, numer = numer, sd = sd, fudge=fudge ))
-}
+# cor.func<-
+#
+# function (x, y, s0.perc )
+# {
+#    n <- length(y)
+#    xbar <- x %*% rep(1/n, n)
+#    sxx <- ((x - as.vector(xbar))^2) %*% rep(1, n)
+#    sxy <- (x - as.vector(xbar)) %*% (y - mean(y))
+#    syy <- sum((y - mean(y))^2)
+#    numer <- sxy/sxx
+#    sd <- sqrt((syy/sxx - numer^2)/(n - 2))
+#
+# if(is.null(s0.perc)){ fudge=median(sd)}
+# if(!is.null(s0.perc)){
+# if(s0.perc>=0){
+#  fudge=quantile(sd,s0.perc)
+#  }
+# if(s0.perc<0){
+#   fudge=0
+#  }
+# }
+#    tt <- numer/(sd + fudge)
+#
+#    return(list(tt = tt, numer = numer, sd = sd, fudge=fudge ))
+# }
 
 #coxfunc <-
 #function(x, y, censoring.status, s0.perc)
