@@ -12,8 +12,8 @@
 #'     \code{x}.}
 #' }
 #' @param type What model relates \code{y} and \code{x}? Options are
-#'    \code{"survival"}, \code{"regression"}, or \code{"binary"} (for logistic
-#'    regression).
+#'    \code{"survival"}, \code{"regression"}, or \code{"classification"} (for
+#'    (potentially multinomial)logistic  regression).
 #' @param s0.perc A stabilization parameter on the interval [0,1]. This is an
 #'    internal argument to each of the called functions. The default NULL value
 #'    will ensure an appropriate value is determined internally.
@@ -31,7 +31,7 @@
 #' }
 #'
 #' @details This function is a switch call to \code{\link{coxTrain_fun}},
-#'    \code{cor.func}, or \code{logistic.func}, respectively.
+#'    \code{\link{olsTrain_fun}}, or \code{logistic.func}, respectively.
 #'
 #' @export
 #'
@@ -39,7 +39,7 @@
 #'    NULL
 
 superpc.train <- function(data,
-                          type = c("survival", "regression", "binary"),
+                          type = c("survival", "regression", "classification"),
                           s0.perc = NULL){
 
   # browser()
@@ -69,11 +69,12 @@ superpc.train <- function(data,
          },
          regression = {
 
-           junk <- cor.func(data$x, data$y, s0.perc = s0.perc)
+           junk <- olsTrain_fun(as.matrix(data$x), data$y, s0.perc = s0.perc)
            feature.scores <- junk$tt
 
          },
-         binary = {
+         classification = {
+           # Add a further split here for binary v n-ary classification
 
            junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
            feature.scores <- junk$tt

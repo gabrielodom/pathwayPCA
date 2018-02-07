@@ -46,7 +46,9 @@
 pathway_tScores <- function(pathway_vec,
                             geneArray_df,
                             response_mat,
-                            responseType = "survival",
+                            responseType = c("survival",
+                                             "regression",
+                                             "classification"),
                             n.threshold = 20,
                             numPCs = 1,
                             min.features = 5){
@@ -61,12 +63,12 @@ pathway_tScores <- function(pathway_vec,
                     },
                     regression = {
                       list(x = geneArray_df[pathway_vec, ],
-                           y = response_mat[, 1],
+                           y = response_mat,
                            featurenames = pathway_vec)
                     },
-                    binary = {
+                    classification = {
                       list(x = geneArray_df[pathway_vec, ],
-                           y = response_mat[, 1],
+                           y = response_mat,
                            featurenames = pathway_vec)
                     })
 

@@ -141,7 +141,7 @@ Functions will be as follows:
     + `.coxscor()`: internal - returns score vectors
     + `.coxvar()`: internal - returns variances
     + `.coxstuff()`: internal
-    + `mysvd()`: Takes in "tall" -omics data matrix, and returns it's centered SVD and centering vector.
+    + `mysvd()`: Takes in "tall" -omics data matrix, and returns its centered SVD and centering vector.
   - Supervised PCA Wrapper Functions:
     + `superpc.train()`: Train the supervised PCA model.
     + `superpc.st()`: Given a fit object returned by `superpc.train()`, extract and test the PCs for significance.
