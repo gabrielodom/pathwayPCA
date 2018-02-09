@@ -31,7 +31,7 @@
 #' }
 #'
 #' @details This function is a switch call to \code{\link{coxTrain_fun}},
-#'    \code{\link{olsTrain_fun}}, or \code{logistic.func}, respectively.
+#'    \code{\link{olsTrain_fun}}, or \code{glmTrain_fun}, respectively.
 #'
 #' @export
 #'
@@ -74,13 +74,36 @@ superpc.train <- function(data,
 
          },
          classification = {
-           # Add a further split here for binary v n-ary classification
 
-           junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
-           feature.scores <- junk$tt
-           for(m in 1:length(feature.scores)){
-             if(is.na(feature.scores[m]) == TRUE) feature.scores[m] <- 0
+           resp <- data$y
+           if(!(is.integer(resp) | is.factor(resp))){
+             stop("Response must be an integer or factor for classification.")
            }
+
+           if(is.ordered(resp)){
+
+             stop("Ordered Logistic Regression not currently implemented.")
+             type <- "ordered"
+             # MASS::polr implementation
+
+           } else if(length(unique(resp)) > 2){
+
+             stop("Multinomial Regression not currently implemented.")
+             type <- "n_ary"
+             # nnet::multinom implementation
+
+           } else if(length(unique(resp)) == 2){
+
+             type <- "binary"
+             junk <- glmTrain_fun(data$x, resp, family = binomial)
+             feature.scores <- junk$tt
+             feature.scores[is.na(feature.scores)] <- 0
+
+           } else {
+             stop("Response requires two or more distinct values for classification.")
+           }
+
+
 
          })
 

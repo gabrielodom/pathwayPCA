@@ -320,5 +320,32 @@ regTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
 Sys.time() - a # 2.704036 min
 # It works
 
-# I need to test passing some arguments to the optim() function, but this looks
-#   good overall.
+# I need to test passing some arguments to the weibullMix_optimParams() function,
+#   but this looks good overall. As a note, I don't want people passing any
+#   arguments to the internal optim() function, because it is very sensitive.
+a <- Sys.time()
+regTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
+                                        geneArray_df = array,
+                                        response_mat = survY_df$SurvivalTime,
+                                        responseType = "regression",
+                                        parallel = TRUE,
+                                        numCores = detectCores() - 2,
+                                        adjustpValues = TRUE,
+                                        adjustment = c("BH", "Hoch"),
+                                        initialVals = c(p = 0.02,
+                                                        mu1 = 1, s1 = 0.5,
+                                                        mu2 = 1, s2 = 0.5))
+Sys.time() - a # 2.704036 min
+# Dots work
+
+
+a <- Sys.time()
+classifTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
+                                            geneArray_df = array,
+                                            response_mat = survY_df$disease_event,
+                                            responseType = "classification",
+                                            parallel = TRUE,
+                                            numCores = detectCores() - 2,
+                                            adjustpValues = TRUE,
+                                            adjustment = c("BH", "SidakSS"))
+Sys.time() - a # 3.700761 min

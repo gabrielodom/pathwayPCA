@@ -44,7 +44,7 @@ Computes feature scores for supervised pc analysis
 }
 \details{
 This function is a switch call to \code{\link{coxTrain_fun}},
-   \code{\link{olsTrain_fun}}, or \code{logistic.func}, respectively.
+   \code{\link{olsTrain_fun}}, or \code{glmTrain_fun}, respectively.
 }
 \examples{
    NULL
