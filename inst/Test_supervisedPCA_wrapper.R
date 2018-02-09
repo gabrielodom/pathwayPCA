@@ -1,0 +1,324 @@
+# Extract a Wrapper Function from Test_supervisedPCA_regression.R
+
+
+######  Load Data  ############################################################
+data("supervised_Tumors_df")
+array <- supervised_Tumors_df
+data("supervised_patInfo_df")
+data("supervised_Genesets4240_ls")
+geneset <- supervised_Genesets4240_ls
+
+# Note that the data is p x n
+survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
+rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
+
+
+
+######  Create Wrapper Function  ##############################################
+calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
+                                      geneArray_df,
+                                      response_mat,
+                                      responseType = c("survival",
+                                                       "regression",
+                                                       "classification"),
+                                      parallel = FALSE,
+                                      numCores = NULL,
+                                      adjustpValues = TRUE,
+                                      adjustment = c("Bonferroni",
+                                                     "Holm",
+                                                     "Hochberg",
+                                                     "SidakSS",
+                                                     "SidakSD",
+                                                     "BH",
+                                                     "BY",
+                                                     "ABH",
+                                                     "TSBH"),
+                                      ...){
+  # browser()
+
+  ###  Parallel Computing Setup  ###
+  print("Initializing Cluster")
+  require(parallel)
+  clust <- makeCluster(numCores)
+  paths_ls <- pathwayGeneSets_ls$pathways
+  clustVars_vec <- c(deparse(quote(paths_ls)),
+                     deparse(quote(geneArray_df)),
+                     deparse(quote(response_mat)))
+  clusterExport(cl = clust,
+                varlist = clustVars_vec,
+                envir = environment())
+  invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+  print("DONE")
+
+
+  ###  Matrix of Student's t Scores and Controls  ###
+  print("Calculating Pathway Test Statistics")
+  tScores_mat <- parSapply(cl = clust,
+                           paths_ls,
+                           pathway_tScores,
+                           geneArray_df = geneArray_df,
+                           response_mat = response_mat,
+                           responseType = responseType)
+  tScores_mat <- t(tScores_mat)
+  print("DONE")
+
+  print("Calculating Pathway Critical Values")
+  tControl_mat <- parSapply(cl = clust,
+                            paths_ls,
+                            pathway_tControl,
+                            geneArray_df = geneArray_df,
+                            response_mat = response_mat,
+                            responseType = responseType)
+  tControl_mat <- t(tControl_mat)
+  print("DONE")
+  stopCluster(clust)
+
+
+  ###  Maximum t-Score for each Gene Pathway  ###
+  absMax <- function(vec){
+    vec[which.max(abs(vec))]
+  }
+  tScoreMax_vec <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
+  tControlMax_vec <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+
+
+  ###  Calculate Raw Pathway p-Values  ###
+  print("Calculating Pathway p-Values")
+  genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
+  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
+                                   pathwaySize_vec = genesPerPathway_vec)
+  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
+                                    pathwaySize_vec = genesPerPathway_vec,
+                                    optimParams_vec = optParams_vec)
+
+  out_df <- data.frame(goterms = names(pathwayGeneSets_ls$pathways),
+                       terms = unlist(pathwayGeneSets_ls$TERMS),
+                       setsize = genesPerPathway_vec,
+                       rawp = pvalues_vec,
+                       stringsAsFactors = FALSE)
+  rownames(out_df) <- NULL
+  print("DONE")
+
+
+  ###  Adjust Pathway p-Values for Multiple Comparisons  ###
+  print("Adjusting Pathway p-Values for Multiple Comparisons")
+  adjusted_df <- data.frame(adjustRaw_pVals(out_df$rawp, adjustment))
+  adjusted_df <- adjusted_df[, -1, drop = FALSE]
+  out_df <- cbind(out_df, adjusted_df)
+
+  out_df <- out_df[order(out_df[, adjustment[1]], out_df$rawp), ]
+  print("DONE")
+
+
+  ###  Return  ###
+  out_df
+
+}
+
+###  Tests  ###
+calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
+                          geneArray_df = array,
+                          response_mat = survY_df,
+                          responseType = "survival",
+                          parallel = TRUE,
+                          numCores = detectCores() - 2,
+                          adjustpValues = TRUE,
+                          adjustment = "BH")
+# It works
+
+calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
+                          geneArray_df = array,
+                          response_mat = survY_df$SurvivalTime,
+                          responseType = "regression",
+                          parallel = TRUE,
+                          numCores = detectCores() - 2,
+                          adjustpValues = TRUE,
+                          adjustment = "BH")
+# It works
+
+
+######  Wrapper Function v 2  #################################################
+calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
+                                      geneArray_df,
+                                      response_mat,
+                                      responseType = c("survival",
+                                                       "regression",
+                                                       "classification"),
+                                      n.threshold = 20,
+                                      numPCs = 1,
+                                      min.features = 5,
+                                      parallel = FALSE,
+                                      numCores = NULL,
+                                      adjustpValues = TRUE,
+                                      adjustment = c("Bonferroni",
+                                                     "Holm",
+                                                     "Hochberg",
+                                                     "SidakSS",
+                                                     "SidakSD",
+                                                     "BH",
+                                                     "BY",
+                                                     "ABH",
+                                                     "TSBH"),
+                                      alpha = 0.05,
+                                      ...){
+  # browser()
+
+  responseType <- match.arg(responseType)
+  if(adjustpValues){
+    adjustment <- match.arg(adjustment, several.ok = TRUE)
+  }
+
+  if(parallel){
+
+    ###  Parallel Computing Setup  ###
+    message("Initializing Cluster")
+    require(parallel)
+    clust <- makeCluster(numCores)
+    paths_ls <- pathwayGeneSets_ls$pathways
+    clustVars_vec <- c(deparse(quote(paths_ls)),
+                       deparse(quote(geneArray_df)),
+                       deparse(quote(response_mat)))
+    clusterExport(cl = clust,
+                  varlist = clustVars_vec,
+                  envir = environment())
+    invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+    message("DONE")
+
+
+    ###  Matrix of Student's t Scores and Controls  ###
+    message("Calculating Pathway Test Statistics in Parallel")
+    tScores_mat <- parSapply(cl = clust,
+                             paths_ls,
+                             pathway_tScores,
+                             geneArray_df = geneArray_df,
+                             response_mat = response_mat,
+                             responseType = responseType,
+                             n.threshold = n.threshold,
+                             numPCs = numPCs,
+                             min.features = min.features)
+    tScores_mat <- t(tScores_mat)
+    message("DONE")
+
+    message("Calculating Pathway Critical Values in Parallel")
+    tControl_mat <- parSapply(cl = clust,
+                              paths_ls,
+                              pathway_tControl,
+                              geneArray_df = geneArray_df,
+                              response_mat = response_mat,
+                              responseType = responseType,
+                              n.threshold = n.threshold,
+                              numPCs = numPCs,
+                              min.features = min.features)
+    tControl_mat <- t(tControl_mat)
+    message("DONE")
+    stopCluster(clust)
+
+  } else {
+
+    ###  Matrix of Student's t Scores and Controls  ###
+    message("Calculating Pathway Test Statistics Serially")
+    tScores_mat <- sapply(paths_ls,
+                          pathway_tScores,
+                          geneArray_df = geneArray_df,
+                          response_mat = response_mat,
+                          responseType = responseType,
+                          n.threshold = n.threshold,
+                          numPCs = numPCs,
+                          min.features = min.features)
+    tScores_mat <- t(tScores_mat)
+    message("DONE")
+
+    message("Calculating Pathway Critical Values Serially")
+    tControl_mat <- sapply(paths_ls,
+                           pathway_tControl,
+                           geneArray_df = geneArray_df,
+                           response_mat = response_mat,
+                           responseType = responseType,
+                           n.threshold = n.threshold,
+                           numPCs = numPCs,
+                           min.features = min.features)
+    tControl_mat <- t(tControl_mat)
+    message("DONE")
+
+  }
+
+
+
+
+  ###  Maximum t-Score for each Gene Pathway  ###
+  absMax <- function(vec){
+    vec[which.max(abs(vec))]
+  }
+  tScoreMax_vec <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
+  tControlMax_vec <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+
+
+  ###  Calculate Raw Pathway p-Values  ###
+  message("Calculating Pathway p-Values")
+  genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
+  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
+                                          pathwaySize_vec = genesPerPathway_vec,
+                                          ...)
+  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
+                                    pathwaySize_vec = genesPerPathway_vec,
+                                    optimParams_vec = optParams_vec)
+
+  out_df <- data.frame(goterms = names(pathwayGeneSets_ls$pathways),
+                       terms = unlist(pathwayGeneSets_ls$TERMS),
+                       setsize = genesPerPathway_vec,
+                       rawp = pvalues_vec,
+                       stringsAsFactors = FALSE)
+  rownames(out_df) <- NULL
+  message("DONE")
+
+
+  if(adjustpValues){
+
+    ###  Adjust Pathway p-Values for Multiple Comparisons  ###
+    message("Adjusting Pathway p-Values for Multiple Comparisons")
+    adjusted_df <- data.frame(adjustRaw_pVals(out_df$rawp,
+                                              adjustment,
+                                              alpha = alpha))
+    adjusted_df <- adjusted_df[, -1, drop = FALSE]
+    out_df <- cbind(out_df, adjusted_df)
+
+    out_df <- out_df[order(out_df[, adjustment[1]], out_df$rawp), ]
+    message("DONE")
+
+  } else {
+    out_df <- out_df[order(out_df$rawp), ]
+  }
+
+
+  ###  Return  ###
+  out_df
+
+}
+
+###  Tests  ###
+a <- Sys.time()
+survTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
+                                         geneArray_df = array,
+                                         response_mat = survY_df,
+                                         responseType = "survival",
+                                         parallel = TRUE,
+                                         numCores = detectCores() - 2,
+                                         adjustpValues = TRUE,
+                                         adjustment = c("BH", "Hoch"))
+Sys.time() - a # 10.19451 min
+# It works
+
+a <- Sys.time()
+regTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
+                                        geneArray_df = array,
+                                        response_mat = survY_df$SurvivalTime,
+                                        responseType = "regression",
+                                        parallel = TRUE,
+                                        numCores = detectCores() - 2,
+                                        adjustpValues = TRUE,
+                                        adjustment = c("BH", "Hoch"))
+Sys.time() - a # 2.704036 min
+# It works
+
+# I need to test passing some arguments to the optim() function, but this looks
+#   good overall.

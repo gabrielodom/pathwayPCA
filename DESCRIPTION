@@ -45,6 +45,7 @@ Collate:
     'superPC_model_tStats.R'
     'superPC_modifiedSVD.R'
     'superPC_optimWeibullParams.R'
+    'superPC_optimWeibull_pValues.R'
     'superPC_pathway_pValues.R'
     'superPC_pathway_tControl.R'
     'superPC_pathway_tScores.R'
