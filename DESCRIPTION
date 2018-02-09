@@ -41,6 +41,7 @@ Collate:
     'data_tScores4240.R'
     'subsetExpressed-omes.R'
     'superPC_model_CoxPH.R'
+    'superPC_model_GLM.R'
     'superPC_model_OLS.R'
     'superPC_model_tStats.R'
     'superPC_modifiedSVD.R'

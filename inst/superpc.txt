@@ -552,12 +552,12 @@ superpc.lrtest.curv <- function (object, data, newdata, n.components=1, threshol
 
 }
 
-logistic.func<-function(x,y,s0.perc)
- {
-    myfun<-function(x) { glm(y ~x, family=binomial)$coef[2]}
-    tt<-apply(x,1, myfun )
-    return(list(tt=tt))
-}
+#logistic.func<-function(x,y,s0.perc)
+# {
+#    myfun<-function(x) { glm(y ~x, family=binomial)$coef[2]}
+#    tt<-apply(x,1, myfun )
+#    return(list(tt=tt))
+#}
 
 
 

@@ -78,16 +78,11 @@ superpc.st <- function(fit,
 
   # This code had the survival object defined n.threshold * n.PCs
   #   times. This is unnecessary. Extract that code to here
-  response <- switch(type,
-                     survival = {
-                       Surv(data$y, data$censoring.status)
-                     },
-                     regression = {
-                       data$y
-                     },
-                     binary = {
-                       data$y
-                     })
+  if(type == "survival"){
+    response <- Surv(data$y, data$censoring.status)
+  } else {
+    response <- data$y
+  }
 
   if(n.PCs > min.features){
     cat("Max # of components is min.features", fill = TRUE)
@@ -170,6 +165,12 @@ superpc.st <- function(fit,
                scor[k, i]  <- junk$null.deviance - junk$deviance
                tscor[k, i] <- junk$coef[k + 1, 3]
 
+             },
+             n_ary = {
+               stop("Multinomial Regression not currently implemented.")
+             },
+             ordered = {
+               stop("Ordered Logistic Regression not currently implemented.")
              })
 
     } # END for k
@@ -186,6 +187,18 @@ superpc.st <- function(fit,
   return(junk)
 }
 
+
+
+# response <- switch(type,
+#                    survival = {
+#                      Surv(data$y, data$censoring.status)
+#                    },
+#                    regression = {
+#                      data$y
+#                    },
+#                    binary = {
+#                      data$y
+#                    })
 
 # if(type == "survival"){
 #

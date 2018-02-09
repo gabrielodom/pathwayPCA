@@ -142,6 +142,8 @@ Functions will be as follows:
     + `.coxvar()`: internal - returns variances
     + `.coxstuff()`: internal
     + `mysvd()`: Takes in "tall" -omics data matrix, and returns its centered SVD and centering vector.
+  - The Regression Supervised PCA function: `olsTrain_fun()`
+  - The Classification Supervised PCA function: `glmTrain_fun()`
   - Supervised PCA Wrapper Functions:
     + `superpc.train()`: Train the supervised PCA model.
     + `superpc.st()`: Given a fit object returned by `superpc.train()`, extract and test the PCs for significance.
@@ -156,9 +158,9 @@ Functions will be as follows:
 #### Functions Still to Build
 These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.
 
-  - The suite of functions included and related to `cor.func()`
-  - Same stuff for `logistic.func()`
-  - Graphs
+  - The additions to `glmTrain_fun()`, `superpc.train()`, and `superpc.st()` for n-ary and ordered responses. Currently I have a `stop()` command for these two.
+  - Export the second `calculate_pathway_pvalues()` function (the one with the `if()` statements and error checks) from the `Test_supervisedPCA_wrapper.R` file to a proper function file in `R/`.
+  - Graphs: check out the link between `Cytoscape` and `R`. Apparently the `Cytoscape` grapics are nice.
 
 ### Piecing in Existing Code
 

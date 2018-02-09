@@ -61,6 +61,7 @@ weibullMix_optimParams <- function(max_tControl_vec,
                                    optimMethod = "L-BFGS-B",
                                    lowerBD = c(0, -Inf, 0, -Inf, 0),
                                    upperBD = c(1, Inf, Inf, Inf, Inf)){
+  # browser()
 
   ###  Pathway Cardinality  ###
   # Don't know what this does
