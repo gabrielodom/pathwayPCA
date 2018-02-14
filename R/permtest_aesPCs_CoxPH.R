@@ -1,0 +1,150 @@
+#' Permutation Test for Pathway PCs for Survival Response
+#'
+#' @description Given an \code{OmicsSurv} object and a list of pathway PCs from
+#'   the \code{\link{extract_aesPCs}} function, test if each expressed pathway
+#'   in the MS design matrix is significantly related to the survival output.
+#'
+#' @param OmicsSurv A data object of class \code{OmicsSurv}, created by the
+#'   \code{\link{create_OmicsSurv}} function.
+#' @param pathwayPCs_ls A list of pathway PC matrices returned by the
+#'   \code{\link{extract_aesPCs}} function.
+#' @param numReps How many permuted models to fit? Defaults to 1000
+#' @param parallel Should the comuptation be completed in parallel? Defaults to
+#'   \code{FALSE}.
+#' @param numCores If \code{parallel = TRUE}, how many cores should be used for
+#'   computation?
+#' @param ... Dots for additional internal arguments (currently unused)
+#'
+#' @return A named vector of pathway permutation \eqn{p}-values.
+#'
+#' @details This function takes in a list of the first principal components
+#'   from each pathway and an object of class `OmicsSurv`. This function will
+#'   then calculate the AIC of a Cox Proportional Hazards model (via the
+#'   \code{\link[survival]{coxph}} function) with the original observations as
+#'   response and the pathway principal components as the predictor matrix.
+#'
+#'   Then, this function will create \code{numReps} permutations of the survival
+#'   response, fit models to each of these premuted responses (holding the path
+#'   predictor matrix fixed), and calculate the AIC of each model. This function
+#'   will return a named vector of permutation \eqn{p}-values, where the value
+#'   for each pathway is the proportion of models for which the AIC of the
+#'   permuted response model is less than the AIC of the original model.
+#'
+#' @seealso \code{\link{create_OmicsSurv}}; \code{\link{extract_aesPCs}};
+#'   \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}
+#'
+#' @export
+#'
+#' @include validClass_Omics.R
+#' @include createClass_OmicsSurv.R
+#' @include extract_aesPCs_from_OmicsPath.R
+#'
+#' @importFrom methods setGeneric
+#'
+#' @rdname permTest_OmicsSurv
+setGeneric("permTest_OmicsSurv",
+           function(OmicsSurv,
+                    pathwayPCs_ls,
+                    numReps = 1000,
+                    parallel = FALSE,
+                    numCores = NULL,
+                    ...){
+             standardGeneric("permTest_OmicsSurv")
+           }
+)
+
+#' @importFrom survival Surv
+#' @importFrom survival coxph
+#' @importFrom stats AIC
+#' @importFrom parallel makeCluster
+#' @importFrom parallel clusterExport
+#' @importFrom parallel clusterEvalQ
+#' @importFrom parallel parSapply
+#' @importFrom parallel stopCluster
+#'
+#' @rdname permTest_OmicsSurv
+setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
+          definition = function(OmicsSurv,
+                                pathwayPCs_ls,
+                                numReps = 1000,
+                                parallel = FALSE,
+                                numCores = NULL,
+                                ...){
+
+            ###  Function Setup  ###
+            permute_SurvFit <- function(pathwayPCs_mat,
+                                        obj_OmicsSurv,
+                                        numReps = numReps,
+                                        parametric = FALSE){
+              # browser()
+
+              ###  True Model  ###
+              # I know I'm doing this more than once, but I don't know how to
+              #   rewrite the sample_Survivalresp() function to take in a
+              #   Surv object
+              response <- Surv(time = obj_OmicsSurv@eventTime,
+                               event = obj_OmicsSurv@eventObserved)
+              trueAIC <- AIC(coxph(response ~ pathwayPCs_mat))
+
+
+              ###  Permuted Model  ###
+              permuteAIC_fun <- function(){
+
+                perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
+                                                 censor_vec = obj_OmicsSurv@eventObserved,
+                                                 parametric = parametric)
+                perm_Surv <- Surv(time = perm_resp$response_vec,
+                                  event = perm_resp$censor_vec)
+                AIC(coxph(perm_Surv ~ pathwayPCs_mat))
+
+              }
+
+              permAIC <- replicate(n = numReps, expr = permuteAIC_fun())
+
+              ###  Return  ###
+              mean(trueAIC < permAIC)
+
+            }
+
+            ###  Computation  ###
+            # browser()
+
+            if(parallel){
+              # browser()
+
+              ###  Parallel Computing Setup  ###
+              message("Initializing Cluster")
+              # require(parallel)
+              clust <- makeCluster(numCores)
+              clustVars_vec <- c(deparse(quote(OmicsSurv)),
+                                 deparse(quote(numReps)))
+              clusterExport(cl = clust,
+                            varlist = clustVars_vec,
+                            envir = environment())
+              invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+              message("DONE")
+
+              ###  Extract PCs  ###
+              message("Extracting Pathway p-Values in Parallel")
+              pValues_vec <- parSapply(cl = clust,
+                                       pathwayPCs_ls,
+                                       permute_SurvFit,
+                                       obj_OmicsSurv = OmicsSurv,
+                                       numReps = numReps)
+              stopCluster(clust)
+              message("DONE")
+
+            } else {
+
+              message("Extracting Pathway p-Values Serially")
+              pValues_vec <- sapply(pathwayPCs_ls,
+                                    permute_SurvFit,
+                                    obj_OmicsSurv = OmicsSurv,
+                                    numReps = numReps)
+              message("DONE")
+
+            }
+
+            pValues_vec
+
+          })

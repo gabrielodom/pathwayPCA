@@ -131,6 +131,10 @@ Functions will be as follows:
   - `validClass_Omics.*()`: validity functions
   - `create_Omics.*()`: generation functions for each class
   - `expressedOmes()`: given a pathway list, extract the -ome names from the data matrix which are in this pathway list. Then extract the matching columns from the MS design matrix.
+  - `extract_aesPCs()`: given the list of pathway gene expression matrices, extract the AES-PCA principal components from each pathway.
+  - `permTest_OmicsSurv()`: given the list of pathway PCs, fit each pathway PC matrix to a given survival response via the Cox Proportional Hazards model, and record the AIC of the true model. Then, permute the response some thousands of times, fit Cox PH models to each, and record the AICs of these permuted-response models. Compare the true model AIC to the permuted-response model AIC, and record the proportion of models for which the the AIC of the permuted-response model is less than the AIC of the true model. This proportion is the $p$-value for the specific pathway. The `permTest_OmicsSurv()` function returns a named vector of all pathway permuted $p$-values.
+  - `permTest_OmicsReg()`: IN PROGRESS
+  - `permTest_OmicsClassif()`: IN PROGRESS
   - The `aespca()` functions and utilities:
     + `matrixRoot()`: in the `calculate_matrixRoot.R` file. Take the $r^{th}$ root of a matrix, for $r > 0$.
     + `normalize()`: in the `unknown_matrixNorm.R` file. I am still at a loss for what this function does, but it modifies the output of the `lars.lsa()` function.

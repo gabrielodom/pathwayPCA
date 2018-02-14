@@ -21,13 +21,13 @@
 #'   then iterate over the list of pathways, extract columns from the MS design
 #'   matrix which match the genes listed in that pathway, and remove any
 #'   pathways with fewer than \code{trim} expressed genes. These matrices are
-#'   returned as a named list. Note thatsome genes will be included in more than
-#'   one pathway, so these pathways are not mutually exclusive. Further note
-#'   that there may be many genes in the MS design matrix that are not included
-#'   in the pathway sets, so these will not be extracted to the list. It is then
-#'   vitally important to use either a very broad and generic pathway set list
-#'   or a pathway set list that is appropriate for the mass spectrometry data
-#'   supplied.
+#'   returned as a named list. Note that some genes will be included in more
+#'   than one pathway, so these pathways are not mutually exclusive. Further
+#'   note that there may be many genes in the MS design matrix that are not
+#'   included in the pathway sets, so these will not be extracted to the list.
+#'   It is then vitally important to use either a very broad and generic pathway
+#'   set list or a pathway set list that is appropriate for the mass
+#'   spectrometry data supplied.
 #'
 #' @export
 #'
@@ -45,11 +45,14 @@ setGeneric("expressedOmes",
 #' @rdname expressedOmes
 setMethod(f = "expressedOmes", signature = "OmicsPathway",
           definition = function(object, trim = 3, ...){
+
+            # browser()
+
             genelist <- colnames(object@massSpec)
 
             # Delete the genes from the pathways if they aren't recorded in our
             #   data matrix
-            newPaths <- sapply(object@pathwaySet, function(x){
+            newPaths <- sapply(object@pathwaySet$pathways, function(x){
               x[x %in% genelist]
             })
 
@@ -65,10 +68,15 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
             })
 
-            names(newPaths_trim) <- names(object@pathwaySet)
-
+            names(newPaths_trim) <- names(object@pathwaySet$pathways)
+            # # If nullPaths resolves to int(0) (because the which() function
+            # #   didn't find anything), then subsetting by -nullPaths will
+            # #   give us an empty list. Filter(), however, can handle NULL and
+            # #   integer(0) / character(0) list entries. We still need the
+            # #   nullPaths object for later.
             nullPaths <- which(sapply(newPaths_trim, is.null))
-            paths_ls <- newPaths_trim[-nullPaths]
+            # paths_ls <- newPaths_trim[-nullPaths]
+            paths_ls <- Filter(length, newPaths_trim)
 
             extractedMatrix_ls <- lapply(paths_ls, function(x){
               object@massSpec[x]

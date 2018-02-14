@@ -40,6 +40,8 @@ Collate:
     'data_tScores.R'
     'data_tScores4240.R'
     'subsetExpressed-omes.R'
+    'extract_aesPCs_from_OmicsPath.R'
+    'permtest_aesPCs_CoxPH.R'
     'superPC_model_CoxPH.R'
     'superPC_model_GLM.R'
     'superPC_model_OLS.R'

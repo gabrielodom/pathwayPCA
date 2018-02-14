@@ -37,11 +37,11 @@ This function takes in a data frame with named columns and a pathway
   then iterate over the list of pathways, extract columns from the MS design
   matrix which match the genes listed in that pathway, and remove any
   pathways with fewer than \code{trim} expressed genes. These matrices are
-  returned as a named list. Note thatsome genes will be included in more than
-  one pathway, so these pathways are not mutually exclusive. Further note
-  that there may be many genes in the MS design matrix that are not included
-  in the pathway sets, so these will not be extracted to the list. It is then
-  vitally important to use either a very broad and generic pathway set list
-  or a pathway set list that is appropriate for the mass spectrometry data
-  supplied.
+  returned as a named list. Note that some genes will be included in more
+  than one pathway, so these pathways are not mutually exclusive. Further
+  note that there may be many genes in the MS design matrix that are not
+  included in the pathway sets, so these will not be extracted to the list.
+  It is then vitally important to use either a very broad and generic pathway
+  set list or a pathway set list that is appropriate for the mass
+  spectrometry data supplied.
 }
