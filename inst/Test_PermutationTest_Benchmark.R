@@ -93,3 +93,68 @@ aespcaPathwaypVals_df <- cbind(aespcaPathwaypVals_df, adjustedP)
 aespcaPathwaypVals_df <- aespcaPathwaypVals_df[order(aespcaPathwaypVals_df$BH,
                                                      aespcaPathwaypVals_df$rawp), ]
 # devtools::use_data(aespcaPathwaypVals_df)
+
+
+######  Make it a Function  ###################################################
+# permute_SurvFit <- function(pathwayPCs_mat,
+#                             obj_OmicsSurv,
+#                             numReps = 1000,
+#                             parametric = FALSE){
+#   # browser()
+#
+#   ###  True Model  ###
+#   response <- survival::Surv(time = obj_OmicsSurv@eventTime,
+#                    event = obj_OmicsSurv@eventObserved)
+#   trueAIC <- AIC(survival::coxph(response ~ pathwayPCs_mat))
+#
+#
+#   ###  Permuted Model  ###
+#   permuteAIC_fun <- function(){
+#
+#     perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
+#                                      censor_vec = obj_OmicsSurv@eventObserved,
+#                                      parametric = parametric)
+#     perm_Surv <- survival::Surv(time = perm_resp$response_vec,
+#                                 event = perm_resp$censor_vec)
+#     AIC(survival::coxph(perm_Surv ~ pathwayPCs_mat))
+#
+#   }
+#
+#   permAIC <- replicate(n = numReps, expr = permuteAIC_fun())
+#
+#   ###  Return  ###
+#   mean(trueAIC < permAIC)
+#
+# }
+#
+# # Test
+# test_time <- rnorm(58, mean = 65, sd = 3)
+# test_censor <- ovarianFiltered_df$Tumor_Stage_Ovary_FIGO == "IIIC"
+# ovarian_OmicsSurv <- create_OmicsSurv(massSpec_df = ovarianFiltered_df[, -(1:3)],
+#                                       pathwaySet_ls = aespca_Genesets_ls,
+#                                       eventTime_vec = test_time,
+#                                       eventObserved_vec = test_censor)
+#
+# a <- Sys.time()
+# permute_SurvFit(pathwayPCs_mat = pcs2_ls[[1]],
+#                 obj_OmicsSurv = ovarian_OmicsSurv,
+#                 numReps = 10000)
+# Sys.time() - a
+# # 0.363142 sec for 100; 2.438111 sec for 1000; 25.43178 sec for 10000
+
+# EXPORTED TO permtest_aesPCs.R
+
+# Test
+a <- Sys.time()
+ovarian_pVals <- permTest_OmicsSurv(pathwayPCs_ls = pcs2_ls,
+                                    OmicsSurv = ovarian_OmicsSurv,
+                                    numReps = 10000,
+                                    parallel = TRUE,
+                                    numCores = detectCores() - 2)
+Sys.time() - a
+# 18.6154 sec for 10; 41.19085 sec for 100; 4.239616 min for 1000; 40.19992 min
+#   for 10,000
+
+# First error: the OmicsSurv object has to be the first argument.
+# Second error: I didn't import parLapply, but parLapplyLB. I opted for sapply
+#   after seeing the list output
