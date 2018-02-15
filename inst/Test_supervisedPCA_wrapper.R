@@ -349,3 +349,204 @@ classifTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
                                             adjustpValues = TRUE,
                                             adjustment = c("BH", "SidakSS"))
 Sys.time() - a # 3.700761 min
+
+
+
+######  Wrapper Function v 3  #################################################
+superPCA_pathway_pvals <- function(pathwayGeneSets_ls,
+                                   geneArray_df,
+                                   response_mat,
+                                   responseType = c("survival",
+                                                    "regression",
+                                                    "classification"),
+                                   n.threshold = 20,
+                                   numPCs = 1,
+                                   min.features = 5,
+                                   parallel = FALSE,
+                                   numCores = NULL,
+                                   adjustpValues = TRUE,
+                                   adjustment = c("Bonferroni",
+                                                  "Holm",
+                                                  "Hochberg",
+                                                  "SidakSS",
+                                                  "SidakSD",
+                                                  "BH",
+                                                  "BY",
+                                                  "ABH",
+                                                  "TSBH"),
+                                   alpha = 0.05,
+                                   ...){
+  # browser()
+
+  responseType <- match.arg(responseType)
+  if(adjustpValues){
+    adjustment <- match.arg(adjustment, several.ok = TRUE)
+  }
+
+  if(parallel){
+
+    ###  Parallel Computing Setup  ###
+    message("Initializing Cluster")
+    require(parallel)
+    clust <- makeCluster(numCores)
+    paths_ls <- pathwayGeneSets_ls$pathways
+    clustVars_vec <- c(deparse(quote(paths_ls)),
+                       deparse(quote(geneArray_df)),
+                       deparse(quote(response_mat)))
+    clusterExport(cl = clust,
+                  varlist = clustVars_vec,
+                  envir = environment())
+    invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+    message("DONE")
+
+
+    ###  Matrix of Student's t Scores and Controls  ###
+    message("Calculating Pathway Test Statistics in Parallel")
+    tScores_mat <- parSapply(cl = clust,
+                             paths_ls,
+                             pathway_tScores,
+                             geneArray_df = geneArray_df,
+                             response_mat = response_mat,
+                             responseType = responseType,
+                             n.threshold = n.threshold,
+                             numPCs = numPCs,
+                             min.features = min.features)
+    tScores_mat <- t(tScores_mat)
+    message("DONE")
+
+    message("Calculating Pathway Critical Values in Parallel")
+    tControl_mat <- parSapply(cl = clust,
+                              paths_ls,
+                              pathway_tControl,
+                              geneArray_df = geneArray_df,
+                              response_mat = response_mat,
+                              responseType = responseType,
+                              n.threshold = n.threshold,
+                              numPCs = numPCs,
+                              min.features = min.features)
+    tControl_mat <- t(tControl_mat)
+    message("DONE")
+    stopCluster(clust)
+
+  } else {
+
+    ###  Matrix of Student's t Scores and Controls  ###
+    message("Calculating Pathway Test Statistics Serially")
+    tScores_mat <- sapply(paths_ls,
+                          pathway_tScores,
+                          geneArray_df = geneArray_df,
+                          response_mat = response_mat,
+                          responseType = responseType,
+                          n.threshold = n.threshold,
+                          numPCs = numPCs,
+                          min.features = min.features)
+    tScores_mat <- t(tScores_mat)
+    message("DONE")
+
+    message("Calculating Pathway Critical Values Serially")
+    tControl_mat <- sapply(paths_ls,
+                           pathway_tControl,
+                           geneArray_df = geneArray_df,
+                           response_mat = response_mat,
+                           responseType = responseType,
+                           n.threshold = n.threshold,
+                           numPCs = numPCs,
+                           min.features = min.features)
+    tControl_mat <- t(tControl_mat)
+    message("DONE")
+
+  }
+
+
+
+
+  ###  Maximum t-Score for each Gene Pathway  ###
+  absMax <- function(vec){
+    vec[which.max(abs(vec))]
+  }
+  tScoreMax_vec <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
+  tControlMax_vec <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+
+
+  ###  Calculate Raw Pathway p-Values  ###
+  message("Calculating Pathway p-Values")
+  genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
+  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
+                                          pathwaySize_vec = genesPerPathway_vec,
+                                          ...)
+  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
+                                    pathwaySize_vec = genesPerPathway_vec,
+                                    optimParams_vec = optParams_vec)
+
+  if(adjustpValues){
+    message("Adjusting p-Values and Sorting Pathway p-Value Data Frame")
+  } else {
+    message("Sorting Pathway p-Value Data Frame")
+  }
+
+  out_df <- adjust_and_sort(pVals_vec = pvalues_vec,
+                            genesets_ls = pathwayGeneSets_ls,
+                            adjust = adjustpValues,
+                            proc_vec = adjustment,
+                            ...)
+  message("DONE")
+
+  ###  Return  ###
+  out_df
+
+}
+
+###  Tests  ###
+a <- Sys.time()
+survTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
+                                      geneArray_df = array,
+                                      response_mat = survY_df,
+                                      responseType = "survival",
+                                      parallel = TRUE,
+                                      numCores = detectCores() - 2,
+                                      adjustpValues = TRUE,
+                                      adjustment = c("BH", "Hoch"))
+Sys.time() - a # 10.19451 min
+# It works
+
+a <- Sys.time()
+regTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
+                                     geneArray_df = array,
+                                     response_mat = survY_df$SurvivalTime,
+                                     responseType = "regression",
+                                     parallel = TRUE,
+                                     numCores = detectCores() - 2,
+                                     adjustpValues = TRUE,
+                                     adjustment = c("BH", "Hoch"))
+Sys.time() - a # 2.704036 min
+# It works
+
+# I need to test passing some arguments to the weibullMix_optimParams() function,
+#   but this looks good overall. As a note, I don't want people passing any
+#   arguments to the internal optim() function, because it is very sensitive.
+a <- Sys.time()
+regTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
+                                     geneArray_df = array,
+                                     response_mat = survY_df$SurvivalTime,
+                                     responseType = "regression",
+                                     parallel = TRUE,
+                                     numCores = detectCores() - 2,
+                                     adjustpValues = TRUE,
+                                     adjustment = c("BH", "Hoch"),
+                                     initialVals = c(p = 0.02,
+                                                     mu1 = 1, s1 = 0.5,
+                                                     mu2 = 1, s2 = 0.5))
+Sys.time() - a # 2.704036 min
+# Dots work
+
+
+a <- Sys.time()
+classifTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
+                                         geneArray_df = array,
+                                         response_mat = survY_df$disease_event,
+                                         responseType = "classification",
+                                         parallel = TRUE,
+                                         numCores = detectCores() - 2,
+                                         adjustpValues = TRUE,
+                                         adjustment = c("BH", "SidakSS"))
+Sys.time() - a # 3.700761 min

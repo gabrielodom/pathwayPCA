@@ -18,6 +18,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Collate: 
+    'adjust_and_sort_pValues.R'
     'calculate_AESPCA.R'
     'calculate_LARS.R'
     'calculate_matrixRoot.R'
@@ -42,9 +43,11 @@ Collate:
     'subsetExpressed-omes.R'
     'extract_aesPCs_from_OmicsPath.R'
     'permtest_aesPCs_CoxPH.R'
+    'permtest_aesPCs_GLM.R'
+    'permtest_aesPCs_LS.R'
     'superPC_model_CoxPH.R'
     'superPC_model_GLM.R'
-    'superPC_model_OLS.R'
+    'superPC_model_LS.R'
     'superPC_model_tStats.R'
     'superPC_modifiedSVD.R'
     'superPC_optimWeibullParams.R'
