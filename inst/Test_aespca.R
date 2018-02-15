@@ -59,3 +59,13 @@ pcs2_ls <- extract_aesPCs(ovarian_OmicsPath,
                           parallel = TRUE,
                           numCores = detectCores() - 2)
 Sys.time() - a # 3.229954 min; so, it works...
+
+###  Create Ovarian OmicsCateg Object  ###
+tumour_fact <- as.factor(ovarianFiltered_df$Tumor_Stage_Ovary_FIGO)
+ovarian_OmicsCateg <- create_OmicsCateg(massSpec_df = ovarianFiltered_df[, -(1:3)],
+                                        pathwaySet_ls = aespca_Genesets_ls,
+                                        response_fact = tumour_fact)
+
+ovarian_pVals <- permTest_OmicsCateg(OmicsCateg = ovarian_OmicsCateg,
+                                     pathwayPCs_ls = pcs_ls,
+                                     numReps = 5)

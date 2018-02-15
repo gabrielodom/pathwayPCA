@@ -158,12 +158,15 @@ Functions will be as follows:
     + `weibullMix_optimParams()`: Given control the $t$ scores and the number of parameters in each pathway, find the estimated parameter values that minimize the Weibull mixture log-likelihood function.
     + `pathway_pValues()`: Given a set of optimal Weibull mixture parameters and a vector of control $t$ scores, calculated the associated $p$-values for each pathway. This function will also ajdust these $p$-values for multiple comparisons if requested (FDR correction by the Benjamini & Hochberg (1995) step-up FDR-controlling procedure is the default).
     + `adjustRaw_pVals()`: The $p$-value adjustment function. This is a direct copy of `multtest::mt.rawp2adjp()` from Bioconductor. I ported it to our package because I was having some `devel` and `bioc-devel` build issues on Travis. Unfortunately, those problems persisted even after this port, but I think I'll leave it in anyway (one less package dependency).
+  - Adjustment functions:
+    + `adjust_and_sort()`: this function is a nice wrapper around the `adjustRaw_pVals()` function that allows us to simply take in a named vector as returned by the `permTest_OmicsSurv()`, `permTest_OmicsReg()`, or `permTest_OmicsCateg()` functions (for Supervised PCA) or as returned by the `permTest_OmicsCateg()` function (for AES-PCA).
+    + `superPCA_pathway_pvals()`: BUILT BUT NOT YET DOCUMENTED. Currently, this function is still in `Test_supervisedPCA_wrapper.R`.
     
 #### Functions Still to Build
 These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.
 
   - The additions to `glmTrain_fun()`, `superpc.train()`, and `superpc.st()` for n-ary and ordered responses. Currently I have a `stop()` command for these two.
-  - Export the second `calculate_pathway_pvalues()` function (the one with the `if()` statements and error checks) from the `Test_supervisedPCA_wrapper.R` file to a proper function file in `R/`.
+  - Export the second `calculate_pathway_pvalues()` function (the one with the `if()` statements and error checks) from the `Test_supervisedPCA_wrapper.R` file to a proper function file in `R/`. NOTE: This function should call the `adjust_and_sort()` function, rather than have that code defined internally (or maybe have the sorting as an external last step?). Ok, so actually export the third version: `superPCA_pathway_pvals()`. This function calls the `adjust_and_sort()` function.
   - Graphs: check out the link between `Cytoscape` and `R`. Apparently the `Cytoscape` grapics are nice.
 
 ### Piecing in Existing Code
