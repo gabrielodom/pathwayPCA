@@ -113,6 +113,8 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
             } else {
 
+              attr(cleanPaths_ls,
+                   "missingPaths") <- names(newPaths_trim)[nullPaths]
               out <- object
               out@pathwaySet$pathways <- cleanPaths_ls
 

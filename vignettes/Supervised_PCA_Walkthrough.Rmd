@@ -12,15 +12,150 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  cache = FALSE,
   comment = "#>"
 )
 ```
 
-This will provide the steps to perform pathway-level supervised PCA analysis, from data entry to pathway $p$-value graphics. This vignette will give three examples: survival, regression, and binary responses.
+This will provide the steps to perform pathway-level supervised PCA analysis, from data entry to pathway $p$-value graphics. This vignette will give three examples: survival, regression, and binary responses. The main goal of pathway supervised PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
+
+
 
 ## Workflow Setup and Data
+
+### Load Package
 Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
-```{r install_from_github, cache = TRUE}
+```{r install_from_github, eval = FALSE}
 devtools::install_github("gabrielodom/pathwayPCA")
+```
+```{r}
 library(pathwayPCA)
 ```
+
+
+### Load Data and Gene Pathway Set
+For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. **For Supervised PCA, the `pathwayPCA::` does not currently support for analysis of predictors or responses with missingness. Please remove observations and features with missing entries.** We may add support for missing values in a future version.
+
+
+#### Load Tumour Data
+For this example we have a tumour data set. We will load and inspect this data.
+```{r tumour_data_load}
+data("supervised_Tumors_df")
+tumours_df <- supervised_Tumors_df
+rm(supervised_Tumors_df)
+head(rownames(tumours_df))
+head(colnames(tumours_df))
+dim(tumours_df)
+```
+
+We are missing the proper names of the genes, so they are stored as character numbers. We will return to the gene name discussion when we import the gene set list. This data set has 16,688 gene expression measurements on 177 tumour samples. However, this data frame is not in [tidy form](https://www.jstatsoft.org/article/view/v059i10) (a tidy data matrix has $n$ rows, one for each observation, and $p$ columns, one for each gene or protein measured), so we will transpose this data frame. (Note that transposition in `R` will yield an object of class `matrix`, so we use `as.data.frame()` to turn the transpose matrix back into a data frame.)
+```{r tidy_tumours}
+tumours_df <- as.data.frame(t(tumours_df))
+```
+
+
+#### Load Sample Information
+We have an expression design matrix, but no responses. This data frame records data for the patients from which these tumours were excised. We will consider the patient survival time (and corresponding censoring indicator) as our survival response response and age at diagnosis as our regression response. Because we are giving an example, our binary classification response will be gender.
+```{r tumour_patient_load}
+data("supervised_patInfo_df")
+str(supervised_patInfo_df, give.attr = FALSE)
+survTime_num <- supervised_patInfo_df$SurvivalTime
+dead_logi <- as.logical(supervised_patInfo_df$disease_event)
+age_int <- supervised_patInfo_df$AgeAtDiagnosis
+gender_fact <- as.factor(supervised_patInfo_df$Gender)
+rm(supervised_patInfo_df)
+```
+
+Notice that I put the responses in specific classes: survival data is stored in numeric and logical vectors, regression data is stored in a numeric or integer vector, and binary classification data is stored in a factor. This is on purpose: the data creation functions in the `pathwayPCA::` package have very specific requirements about the types of data they take as inputs. We'll come back to this topic when we create our first `Omics*`-class objects.
+
+
+#### Load Gene Set List
+For pathway-based analyses to work, we need a well-defined list of pathways.
+```{r pathway_list_load}
+data("supervised_Genesets4240_ls")
+geneset_ls <- supervised_Genesets4240_ls
+names(geneset_ls)
+str(geneset_ls$setsize)
+str(geneset_ls$TERMS)
+str(geneset_ls$pathways, list.len = 10)
+rm(supervised_Genesets4240_ls)
+```
+
+The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has the following components
+
+  - `pathways`: a list of character vectors. Each character vector contains a subset of column names in the `tumours_df` data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA::` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: as you see above, this gene set list has proteins markers recorded as character numerics, so there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the `tumours_df` data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
+  - `TERMS`: a brief description of the pathways in the `pathways` list, stored as a character vector.
+  - `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The `expressedOmes()` function is useful for extracting the expressed genes from each pathway set.)
+
+
+
+## Create an `Omics*`-class Object for Pathway Analysis
+Now that we have our data loaded, and we have checked that each piece of data is in the correct form, we can create an analysis object for the `pathwayPCA::` package. In this package, all primary input data will by an `Omics*` object. Each response type has a specific creation function:
+
+  - Survival response: Use the `create_OmicsSurv()` function to create an object with class `OmicsSurv`. This object will contain:
+    + `eventTime`: a numeric vector of event times
+    + `eventObserved`: a logical vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
+    + `massSpec`: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
+    + `pathwaySet`: a list of pathway information, as described in the "Load Gene Set List" section. The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `massSpec` object).
+  - Regression response: Use the `create_OmicsReg()` function to create an object with class `OmicsReg`. This object will contain:
+    + `response`: a numeric vector of the response
+    + `massSpec`: a tidy data frame of prediction information, as described above.
+    + `pathwaySet`: a list of pathway information, as described above.
+  - Binary Classification response: Use the `create_OmicsCateg()` function to create an object with class `OmicsCateg`. In future versions, this function will be able to take in n-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
+    + `response`: a factor vector of the response
+    + `massSpec`: a tidy data frame of prediction information, as described above.
+    + `pathwaySet`: a list of pathway information, as described above.
+
+ 
+### Create an `OmicsSurv` Object
+Using the survival response information, we will create a valid `OmicsSurv` object for further analysis with the `pathwayPCA::` functions. Remember, it is vitally important to input your data in the forms described above. Because we are creating an `OmicsSurv` object, we will need event times as a numeric vector and death indicator as a logical vector.
+```{r create_OmicsSurv}
+tumour_OmicsSurv <- create_OmicsSurv(massSpec_df = tumours_df,
+                                     pathwaySet_ls = geneset_ls,
+                                     eventTime_vec = survTime_num,
+                                     eventObserved_vec = dead_logi)
+str(tumour_OmicsSurv, max.level = 2)
+```
+
+Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
+
+
+### Create an `OmicsReg` Object
+Following our previous step in creation of a survival object, we can create a data object for regression response.
+```{r create_OmicsReg}
+tumour_OmicsReg <- create_OmicsReg(massSpec_df = tumours_df,
+                                   pathwaySet_ls = geneset_ls,
+                                   response_num = age_int)
+str(tumour_OmicsReg, max.level = 2)
+```
+
+
+### Create an `OmicsCateg` Object
+And we can also create our data object for binary classification response. As we mentioned previously, we do not yet support other GLM models, but we are working on it.
+```{r create_OmicsCateg}
+tumour_OmicsCateg <- create_OmicsCateg(massSpec_df = tumours_df,
+                                       pathwaySet_ls = geneset_ls,
+                                       response_fact = gender_fact)
+str(tumour_OmicsCateg, max.level = 2)
+```
+
+
+
+## Clean Up the Pathway List
+The analysis functions within the `pathwayPCA::` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren't recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.
+
+However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `expressedOmes()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. We will use this function to clean each of our `Omics*` data objects.
+```{r clean_Omics*}
+tumourClean_OmicsSurv <- expressedOmes(tumour_OmicsSurv)
+tumourClean_OmicsReg <- expressedOmes(tumour_OmicsReg)
+tumourClean_OmicsCateg <- expressedOmes(tumour_OmicsCateg)
+```
+
+If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwaySet` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function. As we can see, none of the pathways we started with have been removed.
+```{r missingPaths}
+attr(tumourClean_OmicsSurv@pathwaySet$pathways, "missingPaths")
+```
+
+
+
+## Calculate Pathway-Specific Model $p$-Values
