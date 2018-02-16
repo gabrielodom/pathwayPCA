@@ -6,7 +6,7 @@
 \usage{
 pathway_tControl(pathway_vec, geneArray_df, response_mat,
   responseType = c("survival", "regression", "classification"),
-  parametric = FALSE, n.threshold = 20, numPCs = 1, min.features = 5)
+  parametric = FALSE, n.threshold = 20, numPCs = 1, min.features = 3)
 }
 \arguments{
 \item{pathway_vec}{A character vector of the measured -omes in the chosen
@@ -37,7 +37,7 @@ function.}
 
 \item{min.features}{What is the smallest number of genes allowed in each
 pathway? This argument must be kept constant across all calls to this
-function which use the same pathway list. Defaults to 5.}
+function which use the same pathway list. Defaults to 3.}
 }
 \value{
 A matrix with \code{numPCs} rows and \code{n.threshold} columns:

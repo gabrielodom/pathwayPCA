@@ -37,6 +37,8 @@ See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf},
    Section 5, for a description of Supervised PCA applied to survival data.
    The internal functions defined in this file are not called anywhere else,
    other than in the \code{coxTrain_fun} function itself.
+
+   NOTE: No missing values allowed.
 }
 \examples{
    NULL

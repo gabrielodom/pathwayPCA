@@ -185,6 +185,7 @@ superpc.st <- function(fit,
                type = type)
   class(junk) <- "superpc.st"
   return(junk)
+
 }
 
 

@@ -1,4 +1,4 @@
-# pathwayPCA
+# `pathwayPCA` Development Notes
 A Bioconductor package for extracting principal components from expressed pathways
 
 Authors: Gabriel J. Odom, Yuguang Ban, and Xi Chen.
@@ -130,8 +130,16 @@ Functions will be as follows:
   - `createClass_Omics.*`: class declarations
   - `validClass_Omics.*()`: validity functions
   - `create_Omics.*()`: generation functions for each class
-  - `expressedOmes()`: given a pathway list, extract the -ome names from the data matrix which are in this pathway list. Then extract the matching columns from the MS design matrix.
-  - `extract_aesPCs()`: given the list of pathway gene expression matrices, extract the AES-PCA principal components from each pathway.
+  - `expressedOmes()`: given a pathway list, extract the -ome names from the data matrix which are in this pathway list. Then extract the matching columns from the MS design matrix.  For supervised PCA, the minimum number of genes per pathway (given by `trim`) should match the `min.features` argument in the `pathway_tScores()` and `pathway_tControl()` functions. Otherwise, you will get this error:
+  ```
+  Error in quantile.default(abs(cur.tt), 1 - (min.features/p)) : 
+  'probs' outside [0,1]
+  ```
+  - `extract_aesPCs()`: given the list of pathway gene expression matrices, extract the AES-PCA principal components from each pathway. For supervised PCA, the minimum number of genes per pathway (given by `trim`) should match the `min.features` argument in the `pathway_tScores()` and `pathway_tControl()` functions. Otherwise, you will get this error:
+  ```
+  Error in quantile.default(abs(cur.tt), 1 - (min.features/p)) : 
+  'probs' outside [0,1]
+  ```
   - `permTest_OmicsSurv()`: given the list of pathway PCs, fit each pathway PC matrix to a given survival response via the Cox Proportional Hazards model, and record the AIC of the true model. Then, permute the response some thousands of times, fit Cox PH models to each, and record the AICs of these permuted-response models. Compare the true model AIC to the permuted-response model AIC, and record the proportion of models for which the the AIC of the permuted-response model is less than the AIC of the true model. This proportion is the $p$-value for the specific pathway. The `permTest_OmicsSurv()` function returns a named vector of all pathway permuted $p$-values.
   - `permTest_OmicsReg()`: IN PROGRESS
   - `permTest_OmicsClassif()`: IN PROGRESS
@@ -151,10 +159,10 @@ Functions will be as follows:
   - Supervised PCA Wrapper Functions:
     + `superpc.train()`: Train the supervised PCA model.
     + `superpc.st()`: Given a fit object returned by `superpc.train()`, extract and test the PCs for significance.
-    + `pathway_tScores()`: a wrapper function that allows the user to apply both the training and extract/test functions across a list of pathways.
+    + `pathway_tScores()`: a wrapper function that allows the user to apply both the training and extract/test functions across a list of pathways. For survival data, no `NA`s are allowed.
     + `pathway_tScores()`: Find the pathway-specific Student's-$t$scores.
     + The `randomControlSample` functions: `sample_Survivalresp()`, `sample_Regresp()`, and `sample_Classifresp()`. These functions either take a parametric bootstrap sample or permuted sample of the response input. For survival data, the response input is a set of event time and censoring vectors, while the response vector is "as is" for regression and classification.
-    + `pathway_tControl()`: Find the pathway-specific control for the Student's-$t$ scores. This function calls the `randomControlSample` functions to find a comparative null-distribution Student's-$t$ score for each pathway.
+    + `pathway_tControl()`: Find the pathway-specific control for the Student's-$t$ scores. This function calls the `randomControlSample` functions to find a comparative null-distribution Student's-$t$ score for each pathway. For survival data, no `NA`s are allowed.
     + `weibullMix_optimParams()`: Given control the $t$ scores and the number of parameters in each pathway, find the estimated parameter values that minimize the Weibull mixture log-likelihood function.
     + `pathway_pValues()`: Given a set of optimal Weibull mixture parameters and a vector of control $t$ scores, calculated the associated $p$-values for each pathway. This function will also ajdust these $p$-values for multiple comparisons if requested (FDR correction by the Benjamini & Hochberg (1995) step-up FDR-controlling procedure is the default).
     + `adjustRaw_pVals()`: The $p$-value adjustment function. This is a direct copy of `multtest::mt.rawp2adjp()` from Bioconductor. I ported it to our package because I was having some `devel` and `bioc-devel` build issues on Travis. Unfortunately, those problems persisted even after this port, but I think I'll leave it in anyway (one less package dependency).

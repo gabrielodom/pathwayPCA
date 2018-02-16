@@ -25,6 +25,8 @@
 #'    The internal functions defined in this file are not called anywhere else,
 #'    other than in the \code{coxTrain_fun} function itself.
 #'
+#'    NOTE: No missing values allowed.
+#'
 #' @importFrom stats median
 #' @importFrom stats quantile
 #'
