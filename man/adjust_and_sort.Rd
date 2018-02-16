@@ -40,6 +40,21 @@ function.}
 }
 \value{
 A data frame with columns
+\itemize{
+  \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
+    object (stored in \code{object@pathwaySet$pathways})
+  \item{\code{setsize} : }{The number of genes in each of the original
+    pathways (as stored in the \code{object@pathwaySet$setsize} object)}
+  \item{\code{terms} : }{The pathway description, as stored in the
+    \code{object@pathwaySet$TERMS} object}
+  \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway}
+  \item{\code{...} : }{Additional columns as specified through the
+    \code{adjustment} argument}
+}
+
+The data frame will be sorted in ascending order by the method specified
+  first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
+  then the data frame will be sorted by the raw \eqn{p}-values.
 }
 \description{
 Adjust the pathway \eqn{p}-values, then return a data frame of

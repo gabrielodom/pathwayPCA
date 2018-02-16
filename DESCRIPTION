@@ -57,4 +57,5 @@ Collate:
     'superPC_pathway_tScores.R'
     'superPC_permuteSamples.R'
     'superPC_train.R'
+    'superPC_wrapper.R'
     'unknown_matrixNorm.R'

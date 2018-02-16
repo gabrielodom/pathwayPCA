@@ -21,7 +21,7 @@
 #' @param numPCs The number of PCs to extract from the significant pathway.
 #' @param min.features What is the smallest number of genes allowed in each
 #'    pathway? This argument must be kept constant across all calls to this
-#'    function which use the same pathway list. Defaults to 5.
+#'    function which use the same pathway list. Defaults to 3.
 #'
 #' @description Randomly permute or parametrically resample the response vector
 #'    before model analysis. Then extract principal components from the gene
@@ -61,7 +61,7 @@ pathway_tControl <- function(pathway_vec,
                              parametric = FALSE,
                              n.threshold = 20,
                              numPCs = 1,
-                             min.features = 5){
+                             min.features = 3){
   # browser()
 
   data_ls <- switch(responseType,

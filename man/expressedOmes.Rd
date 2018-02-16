@@ -6,9 +6,10 @@
 \alias{expressedOmes,OmicsPathway-method}
 \title{Extract expressed -omes matching a gene set from a mass spectrometry matrix}
 \usage{
-expressedOmes(object, trim = 3, ...)
+expressedOmes(object, trim = 3, returnClass = class(object), ...)
 
-\S4method{expressedOmes}{OmicsPathway}(object, trim = 3, ...)
+\S4method{expressedOmes}{OmicsPathway}(object, trim = 3,
+  returnClass = class(object), ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway}, \code{OmicsSurv},
@@ -17,13 +18,26 @@ expressedOmes(object, trim = 3, ...)
 \item{trim}{The minimum cutoff of expressed -ome measures before a pathway
 is excluded. Defaults to 3.}
 
+\item{returnClass}{Should the returned object be of the same \code{Omics*}
+class as \code{object}, or should it be a list of pathway matrices? For
+internal calls from the \code{\link{extract_aesPCs}} function, this will be
+a \code{list} object of each pathway expressed gene matrix. For external
+calls, this defaults to the class of the object, allowing the user to input
+an object of class \code{OmicsSurv}, \code{OmicsReg}, \code{OmicsCateg},
+and have an object of the same class returned.}
+
 \item{...}{Dots for additional internal arguments (as necessary)}
 }
 \value{
-A list of pathways with -ome measures expressed in the MS design
-  matrix. Each element of the list will be named by its pathway, and the
-  elements will be subset matrices of the original MS design matrix. See
-  "details" for more information
+If \code{returnClass = class(object)}: A valid \code{Omics*}-class
+  object. This output object will be identical to the input object, except
+  that any genes present in the pathways list, but not present in the MS
+  design matrix, will have been removed.
+
+  If \code{returnClass = "list"}: A list of pathways with -ome measures
+  expressed in the MS design matrix. Each element of the list will be named
+  by its pathway, and the elements will be subset matrices of the original
+  MS design matrix. See "details" for more information.
 }
 \description{
 Given a mass spectrometry design matrix and a gene pathways
@@ -37,11 +51,14 @@ This function takes in a data frame with named columns and a pathway
   then iterate over the list of pathways, extract columns from the MS design
   matrix which match the genes listed in that pathway, and remove any
   pathways with fewer than \code{trim} expressed genes. These matrices are
-  returned as a named list. Note that some genes will be included in more
-  than one pathway, so these pathways are not mutually exclusive. Further
-  note that there may be many genes in the MS design matrix that are not
-  included in the pathway sets, so these will not be extracted to the list.
-  It is then vitally important to use either a very broad and generic pathway
-  set list or a pathway set list that is appropriate for the mass
-  spectrometry data supplied.
+  returned as a named list (if \code{list} output is requested); or the genes
+  not expressed in the MS design matrix are removed from the pathway list (if
+  \code{class(object)} output is requested).
+
+  Note that some genes will be included in more than one pathway, so these
+  pathways are not mutually exclusive. Further note that there may be many
+  genes in the MS design matrix that are not included in the pathway sets, so
+  these will not be extracted to the list. It is then vitally important to
+  use either a very broad and generic pathway set list or a pathway set list
+  that is appropriate for the mass spectrometry data supplied.
 }

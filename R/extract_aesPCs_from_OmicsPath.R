@@ -73,7 +73,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
                                 ...){
             # browser()
 
-            data_Omes <- expressedOmes(object, trim = trim)
+            data_Omes <- expressedOmes(object, returnClass = "list", trim = trim)
             # data_Omes <- data_Omes[1:18]
             n <- nrow(data_Omes[[1]])
 
