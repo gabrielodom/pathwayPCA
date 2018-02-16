@@ -885,3 +885,6 @@ Sys.time() - a # 2.206281 min
 #                                          adjustpValues = TRUE,
 #                                          adjustment = c("BH", "SidakSS"))
 # Sys.time() - c # 1.851152 min
+
+
+# REQUIRES THE PANG OVARIAN CANCER DATA SET

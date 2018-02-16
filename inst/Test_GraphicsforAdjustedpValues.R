@@ -2,7 +2,7 @@
 
 
 ######  AES-PCA  ######
-load("~/GitHub/pathwayPCA/inst/aespcaPathwaypVals_df.rda")
+load("inst/aespcaPathwaypVals_df.rda")
 
 ###  Data Wrangling  ###
 head(aespcaPathwaypVals_df)
