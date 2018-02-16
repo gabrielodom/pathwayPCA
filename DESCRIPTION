@@ -13,11 +13,13 @@ Imports:
     lars,
     methods,
     survival
-Suggests: parallel
+Suggests: parallel,
+    knitr,
+    rmarkdown
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'adjust_and_sort_pValues.R'
     'calculate_AESPCA.R'
     'calculate_LARS.R'
@@ -59,3 +61,4 @@ Collate:
     'superPC_train.R'
     'superPC_wrapper.R'
     'unknown_matrixNorm.R'
+VignetteBuilder: knitr
