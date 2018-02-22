@@ -181,8 +181,8 @@ These are functions called in functions I have built so far, but I have yet to b
 On 22 Feb, I met with James to discuss this progress. I still need to:
 
 1. Create a wrapper function for the AES-PCA workflow (similar to the wrapper for Supervised PCA)
-2. Finish the Supervised PCA vignette
-3. Find out why `browseVignettes()` can't find the vignette I've written
+2. Finish the Supervised PCA vignette. DONE.
+3. Find out why `browseVignettes()` can't find the vignette I've written. Because when you install a package from GitHub, it doesn't automatically build the vignette. Building vignettes can take a while. If you want this to happen, use `devtools::install_github("gabrielodom/pathwayPCA", build_vignettes = TRUE)`.
 4. Write the AES-PCA vignette
 
 Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and `createClass` file groups.
