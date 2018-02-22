@@ -66,6 +66,10 @@ ovarian_OmicsCateg <- create_OmicsCateg(massSpec_df = ovarianFiltered_df[, -(1:3
                                         pathwaySet_ls = aespca_Genesets_ls,
                                         response_fact = tumour_fact)
 
+b <- Sys.time()
 ovarian_pVals <- permTest_OmicsCateg(OmicsCateg = ovarian_OmicsCateg,
-                                     pathwayPCs_ls = pcs_ls,
-                                     numReps = 5)
+                                     pathwayPCs_ls = pcs2_ls,
+                                     numReps = 1000,
+                                     parallel = TRUE,
+                                     numCores = detectCores() - 2)
+Sys.time() - b # 7.418932 min for 1000 reps on laptop

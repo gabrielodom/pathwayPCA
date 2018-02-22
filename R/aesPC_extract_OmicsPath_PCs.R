@@ -42,7 +42,7 @@
 #'
 #' @export
 #'
-#' @include validClass_Omics.R
+#' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #' @include subsetExpressed-omes.R
 #'

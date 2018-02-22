@@ -15,7 +15,7 @@
 #' @return An object of classes "OmicsPathway", "OmicsSurv", "OmicsReg", or
 #'   "OmicsCateg".
 #'
-#' @include validClass_Omics.R
+#' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #' @include createClass_OmicsSurv.R
 #' @include createClass_OmicsReg.R
