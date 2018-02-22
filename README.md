@@ -141,8 +141,8 @@ Functions will be as follows:
   'probs' outside [0,1]
   ```
   - `permTest_OmicsSurv()`: given the list of pathway PCs, fit each pathway PC matrix to a given survival response via the Cox Proportional Hazards model, and record the AIC of the true model. Then, permute the response some thousands of times, fit Cox PH models to each, and record the AICs of these permuted-response models. Compare the true model AIC to the permuted-response model AIC, and record the proportion of models for which the the AIC of the permuted-response model is less than the AIC of the true model. This proportion is the $p$-value for the specific pathway. The `permTest_OmicsSurv()` function returns a named vector of all pathway permuted $p$-values.
-  - `permTest_OmicsReg()`: IN PROGRESS
-  - `permTest_OmicsClassif()`: IN PROGRESS
+  - `permTest_OmicsReg()`: ~~IN PROGRESS~~ DONE.
+  - `permTest_OmicsClassif()`: ~~IN PROGRESS~~ DONE.
   - The `aespca()` functions and utilities:
     + `matrixRoot()`: in the `calculate_matrixRoot.R` file. Take the $r^{th}$ root of a matrix, for $r > 0$.
     + `normalize()`: in the `unknown_matrixNorm.R` file. I am still at a loss for what this function does, but it modifies the output of the `lars.lsa()` function.
@@ -168,16 +168,24 @@ Functions will be as follows:
     + `adjustRaw_pVals()`: The $p$-value adjustment function. This is a direct copy of `multtest::mt.rawp2adjp()` from Bioconductor. I ported it to our package because I was having some `devel` and `bioc-devel` build issues on Travis. Unfortunately, those problems persisted even after this port, but I think I'll leave it in anyway (one less package dependency).
   - Adjustment functions:
     + `adjust_and_sort()`: this function is a nice wrapper around the `adjustRaw_pVals()` function that allows us to simply take in a named vector as returned by the `permTest_OmicsSurv()`, `permTest_OmicsReg()`, or `permTest_OmicsCateg()` functions (for Supervised PCA) or as returned by the `permTest_OmicsCateg()` function (for AES-PCA).
-    + `superPCA_pathway_pvals()`: BUILT BUT NOT YET DOCUMENTED. Currently, this function is still in `Test_supervisedPCA_wrapper.R`.
+    + `superPCA_pathway_pvals()`: ~~BUILT BUT NOT YET DOCUMENTED. Currently, this function is still in `Test_supervisedPCA_wrapper.R`.~~ This is completed, and in the file `superPC_wrapper.R`.
     
 #### Functions Still to Build
 These are functions called in functions I have built so far, but I have yet to build them. I still need to find an example for regression data and logistic data to test these functions to find out what I'm missing.
 
   - The additions to `glmTrain_fun()`, `superpc.train()`, and `superpc.st()` for n-ary and ordered responses. Currently I have a `stop()` command for these two.
-  - Export the second `calculate_pathway_pvalues()` function (the one with the `if()` statements and error checks) from the `Test_supervisedPCA_wrapper.R` file to a proper function file in `R/`. NOTE: This function should call the `adjust_and_sort()` function, rather than have that code defined internally (or maybe have the sorting as an external last step?). Ok, so actually export the third version: `superPCA_pathway_pvals()`. This function calls the `adjust_and_sort()` function.
+  - Export the second `calculate_pathway_pvalues()` function (the one with the `if()` statements and error checks) from the `Test_supervisedPCA_wrapper.R` file to a proper function file in `R/`. NOTE: This function should call the `adjust_and_sort()` function, rather than have that code defined internally (or maybe have the sorting as an external last step?). Ok, so actually export the third version: `superPCA_pathway_pvals()`. This function calls the `adjust_and_sort()` function. DONE.
   - Graphs: check out the link between `Cytoscape` and `R`. Apparently the `Cytoscape` grapics are nice.
 
-### Piecing in Existing Code
+## Piecing in Existing Code
+On 22 Feb, I met with James to discuss this progress. I still need to:
+
+1. Create a wrapper function for the AES-PCA workflow (similar to the wrapper for Supervised PCA)
+2. Finish the Supervised PCA vignette
+3. Find out why `browseVignettes()` can't find the vignette I've written
+4. Write the AES-PCA vignette
+
+Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and `createClass` file groups.
 
 #### AES-PCA
 We have adapted and documented code in the `aes.pca.R` file to our package. We still need to modify this code heavily to make it more efficient.

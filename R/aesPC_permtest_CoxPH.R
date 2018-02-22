@@ -35,9 +35,9 @@
 #'
 #' @export
 #'
-#' @include validClass_Omics.R
+#' @include createClass_validOmics.R
 #' @include createClass_OmicsSurv.R
-#' @include extract_aesPCs_from_OmicsPath.R
+#' @include aesPC_extract_OmicsPath_PCs.R
 #'
 #' @importFrom methods setGeneric
 #'
