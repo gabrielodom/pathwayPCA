@@ -1,9 +1,11 @@
 Package: pathwayPCA
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Test Pathways for Statistically Significt Relationships
 Version: 0.0.0.9000
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", role = c("aut","cre")),
+  person("James", "Ban", email = "Yuguang.ban@med.miami.edu", role = c("aut")),
+  person("Steven", "Chen", email = "steven.chen@med.miami.edu", role = c("aut")))
+Maintainer: Gabriel Odom <gabriel.odom@med.miami.edu>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL-2
@@ -12,10 +14,13 @@ Imports:
     corpcor,
     lars,
     methods,
+    parallel,
     survival
-Suggests: parallel,
+Suggests:
     knitr,
-    rmarkdown
+    reshape2,
+    rmarkdown,
+    tidyverse
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
