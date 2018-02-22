@@ -4,17 +4,15 @@ author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Supervised PCA with pathwayPCA}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  cache = FALSE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      cache = 2,
+                      comment = "#>")
 ```
 
 This will provide the steps to perform pathway-level supervised PCA analysis, from data entry to pathway $p$-value graphics. This vignette will give three examples: survival, regression, and binary responses. The main goal of pathway supervised PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
@@ -30,6 +28,7 @@ devtools::install_github("gabrielodom/pathwayPCA")
 ```
 ```{r}
 library(pathwayPCA)
+library(parallel)
 ```
 
 
@@ -145,7 +144,7 @@ str(tumour_OmicsCateg, max.level = 2)
 The analysis functions within the `pathwayPCA::` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren't recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.
 
 However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `expressedOmes()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. We will use this function to clean each of our `Omics*` data objects.
-```{r clean_Omics*}
+```{r clean_OmicsObjs}
 tumourClean_OmicsSurv <- expressedOmes(tumour_OmicsSurv)
 tumourClean_OmicsReg <- expressedOmes(tumour_OmicsReg)
 tumourClean_OmicsCateg <- expressedOmes(tumour_OmicsCateg)
@@ -159,3 +158,142 @@ attr(tumourClean_OmicsSurv@pathwaySet$pathways, "missingPaths")
 
 
 ## Calculate Pathway-Specific Model $p$-Values
+We now have a clean set of `Omics*` objects. We will
+
+1. Extract the first principal components from each expressed pathway in the MS design matrix
+2. Test their association with the response matrix or vector
+3. Adjust the pathway $p$-values for False Discovery Rate (FDR)
+4. Return a sorted data frame of the adjusted $p$-values for each pathway
+
+
+### Survival Response
+We will use all but two of our available cores, and use the Bonferroni and Sidak Step-Down FDR-adjustment procedures.
+```{r surv_pvals, cache=TRUE}
+a <- Sys.time()
+surv_pVals_df <- superPCA_pVals(object = tumourClean_OmicsSurv,
+                                parallel = TRUE,
+                                numCores = detectCores() - 2,
+                                adjustpValues = TRUE,
+                                adjustment = c("Hoch", "SidakSD"))
+Sys.time() - a
+```
+
+
+### Regression Response
+We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.
+```{r reg_pvals, cache=TRUE}
+b <- Sys.time()
+reg_pVals_df <- superPCA_pVals(object = tumourClean_OmicsReg,
+                               parallel = TRUE,
+                               numCores = detectCores() - 2,
+                               adjustpValues = TRUE,
+                               adjustment = c("Holm", "BH"))
+Sys.time() - b
+```
+
+
+### Binary Classification Response
+We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.
+```{r categ_pvals, cache=TRUE}
+d <- Sys.time()
+categ_pVals_df <- superPCA_pVals(object = tumourClean_OmicsCateg,
+                                 parallel = TRUE,
+                                 numCores = detectCores() - 2,
+                                 adjustpValues = TRUE,
+                                 adjustment = c("SidakSS", "BY"))
+Sys.time() - d
+```
+
+
+
+## Subset the Top Pathways
+Now that we have the pathway-specific $p$-values, we can inspect the top 25 pathways by significance. We will first subset the data frame returned by the `superPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
+```{r graphcs_packages}
+library(tidyverse)
+library(reshape2)
+```
+
+For each pathway $p$-value data frame, we will select the top 25 pathways, and transform the data for better graphics. Then, we will plot the pathway $p$-values for the top 25 most significant pathways as a horizontal bar chart. The thick vertical black line is at $p = 0.05$, and the thin vertical black line is at $p = 0.10$.
+
+### Significant Survival Pathways
+```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+surv_melt_df <- surv_pVals_df %>%
+  head(25) %>%
+  select(-terms, - setsize) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(surv_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "Hochberg", "SidakSD"),
+                      labels = c("None", "Hochberg", "Sidak SD")) +
+  ggtitle("Top 25 Tumour Pathways by Survival Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+### Significant Regression Pathways
+```{r reg_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+reg_melt_df <- reg_pVals_df %>%
+  head(25) %>%
+  select(-terms, - setsize) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(reg_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "Holm", "BH"),
+                      labels = c("None", "Holm", "BH")) +
+  ggtitle("Top 25 Tumour Pathways by Regression Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+### Significant Binary Classification Pathways
+```{r categ_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+categ_melt_df <- categ_pVals_df %>%
+  head(25) %>%
+  select(-terms, - setsize) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(categ_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "SidakSS", "BY"),
+                      labels = c("None", "Sidak SS", "BY")) +
+  ggtitle("Top 25 Tumour Pathways by Binary Classification Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
