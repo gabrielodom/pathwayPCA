@@ -37,32 +37,23 @@ For our pathway analysis to be meaningful, we need gene expression data (from a 
 
 
 #### Load Tumour Data
-For this example we have a tumour data set. We will load and inspect this data.
+For this example we have a colon cancer data set. We will load and inspect this data. We will return to the gene name discussion when we import the gene set list. 
 ```{r tumour_data_load}
-data("supervised_Tumors_df")
-tumours_df <- supervised_Tumors_df
-rm(supervised_Tumors_df)
-head(rownames(tumours_df))
-head(colnames(tumours_df))
-dim(tumours_df)
+data("colonSurv_df")
+str(colonSurv_df, list.len = 10)
 ```
 
-We are missing the proper names of the genes, so they are stored as character numbers. We will return to the gene name discussion when we import the gene set list. This data set has 16,688 gene expression measurements on 177 tumour samples. However, this data frame is not in [tidy form](https://www.jstatsoft.org/article/view/v059i10) (a tidy data matrix has $n$ rows, one for each observation, and $p$ columns, one for each gene or protein measured), so we will transpose this data frame. (Note that transposition in `R` will yield an object of class `matrix`, so we use `as.data.frame()` to turn the transpose matrix back into a data frame.)
-```{r tidy_tumours}
-tumours_df <- as.data.frame(t(tumours_df))
-```
+This data set has 656 gene expression measurements on 250 colon cancer patients. Notice that this data frame is in [tidy form](https://www.jstatsoft.org/article/view/v059i10) (a tidy data matrix has $n$ rows, one for each observation, and $p$ columns, one for each gene or protein measured). If your data frame is not tidy, you should transpose it. (Note that transposition in `R` will yield an object of class `matrix`, so use `as.data.frame()` to turn the transposed matrix back into a data frame.)
 
 
 #### Load Sample Information
-We have an expression design matrix, but no responses. This data frame records data for the patients from which these tumours were excised. We will consider the patient survival time (and corresponding censoring indicator) as our survival response response and age at diagnosis as our regression response. Because we are giving an example, our binary classification response will be gender.
+We have an expression design matrix with the first two columns as subject response information. We will consider the overall patient survival time (and corresponding censoring indicator) as our survival response response, the event time as our regression response, and event indicator as our binary classification response (these are just for example).
 ```{r tumour_patient_load}
-data("supervised_patInfo_df")
-str(supervised_patInfo_df, give.attr = FALSE)
-survTime_num <- supervised_patInfo_df$SurvivalTime
-dead_logi <- as.logical(supervised_patInfo_df$disease_event)
-age_int <- supervised_patInfo_df$AgeAtDiagnosis
-gender_fact <- as.factor(supervised_patInfo_df$Gender)
-rm(supervised_patInfo_df)
+survTime_num <- colonSurv_df$OS_time
+dead_logi <- as.logical(colonSurv_df$OS_event)
+dead_fact <- as.factor(colonSurv_df$OS_event)
+cancers_df <- colonSurv_df[, -(1:2)]
+rm(colonSurv_df)
 ```
 
 Notice that I put the responses in specific classes: survival data is stored in numeric and logical vectors, regression data is stored in a numeric or integer vector, and binary classification data is stored in a factor. This is on purpose: the data creation functions in the `pathwayPCA::` package have very specific requirements about the types of data they take as inputs. We'll come back to this topic when we create our first `Omics*`-class objects.
@@ -71,20 +62,20 @@ Notice that I put the responses in specific classes: survival data is stored in 
 #### Load Gene Set List
 For pathway-based analyses to work, we need a well-defined list of pathways.
 ```{r pathway_list_load}
-data("supervised_Genesets4240_ls")
-geneset_ls <- supervised_Genesets4240_ls
+data("colonGenesets_ls")
+geneset_ls <- colonGenesets_ls
 names(geneset_ls)
 str(geneset_ls$setsize)
 str(geneset_ls$TERMS)
 str(geneset_ls$pathways, list.len = 10)
-rm(supervised_Genesets4240_ls)
+rm(colonGenesets_ls)
 ```
 
 The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has the following components
 
-  - `pathways`: a list of character vectors. Each character vector contains a subset of column names in the `tumours_df` data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA::` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: as you see above, this gene set list has proteins markers recorded as character numerics, so there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the `tumours_df` data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
+  - `pathways`: a list of character vectors. Each character vector contains a subset of column names in the `cancers_df` data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA::` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the `cancers_df` data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
   - `TERMS`: a brief description of the pathways in the `pathways` list, stored as a character vector.
-  - `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The `expressedOmes()` function is useful for extracting the expressed genes from each pathway set.)
+  - `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The `expressedOmes()` function is useful for extracting the expressed genes from each pathway set, and it is called automatically in the Supervised PCA workflow.)
 
 
 
@@ -109,11 +100,11 @@ Now that we have our data loaded, and we have checked that each piece of data is
 ### Create an `OmicsSurv` Object
 Using the survival response information, we will create a valid `OmicsSurv` object for further analysis with the `pathwayPCA::` functions. Remember, it is vitally important to input your data in the forms described above. Because we are creating an `OmicsSurv` object, we will need event times as a numeric vector and death indicator as a logical vector.
 ```{r create_OmicsSurv}
-tumour_OmicsSurv <- create_OmicsSurv(massSpec_df = tumours_df,
-                                     pathwaySet_ls = geneset_ls,
-                                     eventTime_vec = survTime_num,
-                                     eventObserved_vec = dead_logi)
-str(tumour_OmicsSurv, max.level = 2)
+colon_OmicsSurv <- create_OmicsSurv(massSpec_df = cancers_df,
+                                    pathwaySet_ls = geneset_ls,
+                                    eventTime_vec = survTime_num,
+                                    eventObserved_vec = dead_logi)
+str(colon_OmicsSurv, max.level = 2)
 ```
 
 Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
@@ -122,20 +113,20 @@ Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, 
 ### Create an `OmicsReg` Object
 Following our previous step in creation of a survival object, we can create a data object for regression response.
 ```{r create_OmicsReg}
-tumour_OmicsReg <- create_OmicsReg(massSpec_df = tumours_df,
-                                   pathwaySet_ls = geneset_ls,
-                                   response_num = age_int)
-str(tumour_OmicsReg, max.level = 2)
+colon_OmicsReg <- create_OmicsReg(massSpec_df = cancers_df,
+                                  pathwaySet_ls = geneset_ls,
+                                  response_num = survTime_num)
+str(colon_OmicsReg, max.level = 2)
 ```
 
 
 ### Create an `OmicsCateg` Object
 And we can also create our data object for binary classification response. As we mentioned previously, we do not yet support other GLM models, but we are working on it.
 ```{r create_OmicsCateg}
-tumour_OmicsCateg <- create_OmicsCateg(massSpec_df = tumours_df,
-                                       pathwaySet_ls = geneset_ls,
-                                       response_fact = gender_fact)
-str(tumour_OmicsCateg, max.level = 2)
+colon_OmicsCateg <- create_OmicsCateg(massSpec_df = cancers_df,
+                                      pathwaySet_ls = geneset_ls,
+                                      response_fact = dead_fact)
+str(colon_OmicsCateg, max.level = 2)
 ```
 
 
@@ -173,9 +164,9 @@ We now have a clean set of `Omics*` objects. We will
 We will use all but two of our available cores, and use the Bonferroni and Sidak Step-Down FDR-adjustment procedures.
 ```{r surv_pvals}
 a <- Sys.time()
-surv_pVals_df <- superPCA_pVals(object = tumour_OmicsSurv,
+surv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
                                 parallel = TRUE,
-                                numCores = detectCores() - 2,
+                                numCores = 2,
                                 adjustpValues = TRUE,
                                 adjustment = c("Hoch", "SidakSD"))
 Sys.time() - a
@@ -186,9 +177,9 @@ Sys.time() - a
 We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.
 ```{r reg_pvals}
 b <- Sys.time()
-reg_pVals_df <- superPCA_pVals(object = tumour_OmicsReg,
+reg_pVals_df <- superPCA_pVals(object = colon_OmicsReg,
                                parallel = TRUE,
-                               numCores = detectCores() - 2,
+                               numCores = 2,
                                adjustpValues = TRUE,
                                adjustment = c("Holm", "BH"))
 Sys.time() - b
@@ -199,9 +190,9 @@ Sys.time() - b
 We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.
 ```{r categ_pvals}
 d <- Sys.time()
-categ_pVals_df <- superPCA_pVals(object = tumour_OmicsCateg,
+categ_pVals_df <- superPCA_pVals(object = colon_OmicsCateg,
                                  parallel = TRUE,
-                                 numCores = detectCores() - 2,
+                                 numCores = 2,
                                  adjustpValues = TRUE,
                                  adjustment = c("SidakSS", "BY"))
 Sys.time() - d
@@ -222,7 +213,6 @@ For each pathway $p$-value data frame, we will select the top 25 pathways, and t
 ```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
 surv_melt_df <- surv_pVals_df %>%
-  head(25) %>%
   select(-terms, - setsize) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
@@ -237,7 +227,7 @@ ggplot(surv_melt_df) +
   scale_fill_discrete(name = "FDR Adjustment",
                       breaks = c("rawp", "Hochberg", "SidakSD"),
                       labels = c("None", "Hochberg", "Sidak SD")) +
-  ggtitle("Top 25 Tumour Pathways by Survival Response") +
+  ggtitle("Colon Pathways by Survival Response") +
   xlab("Pathways") +
   ylab("Log p-Value") +
   geom_hline(yintercept = -log(0.05), size = 2) +
@@ -250,7 +240,6 @@ ggplot(surv_melt_df) +
 ```{r reg_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
 reg_melt_df <- reg_pVals_df %>%
-  head(25) %>%
   select(-terms, - setsize) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
@@ -265,7 +254,7 @@ ggplot(reg_melt_df) +
   scale_fill_discrete(name = "FDR Adjustment",
                       breaks = c("rawp", "Holm", "BH"),
                       labels = c("None", "Holm", "BH")) +
-  ggtitle("Top 25 Tumour Pathways by Regression Response") +
+  ggtitle("Colon Pathways by Regression Response") +
   xlab("Pathways") +
   ylab("Log p-Value") +
   geom_hline(yintercept = -log(0.05), size = 2) +
@@ -278,7 +267,6 @@ ggplot(reg_melt_df) +
 ```{r categ_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
 categ_melt_df <- categ_pVals_df %>%
-  head(25) %>%
   select(-terms, - setsize) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
@@ -293,7 +281,7 @@ ggplot(categ_melt_df) +
   scale_fill_discrete(name = "FDR Adjustment",
                       breaks = c("rawp", "SidakSS", "BY"),
                       labels = c("None", "Sidak SS", "BY")) +
-  ggtitle("Top 25 Tumour Pathways by Binary Classification Response") +
+  ggtitle("Colon Pathways by Binary Classification Response") +
   xlab("Pathways") +
   ylab("Log p-Value") +
   geom_hline(yintercept = -log(0.05), size = 2) +
