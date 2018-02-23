@@ -51,11 +51,11 @@
 #'   \code{\link{weibullMix_pValues}}, and \code{\link{adjust_and_sort}}
 #'   functions.
 #'
-#' @seealso \code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
-#'   \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
-#'   \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
-#'   \code{\link{weibullMix_optimParams}}; \code{\link{weibullMix_pValues}};
-#'   \code{\link{adjust_and_sort}}
+#' @seealso \code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
+#'   \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
+#'   \code{\link{create_OmicsCateg}}; \code{\link{pathway_tScores}};
+#'   \code{\link{pathway_tControl}}; \code{\link{weibullMix_optimParams}};
+#'   \code{\link{weibullMix_pValues}}; \code{\link{adjust_and_sort}}
 #'
 #' @export
 #'
@@ -64,6 +64,7 @@
 #' @include createClass_OmicsSurv.R
 #' @include createClass_OmicsReg.R
 #' @include createClass_OmicsCateg.R
+#' @include subsetExpressed-omes.R
 #'
 #' @importFrom methods setGeneric
 #'
@@ -116,6 +117,9 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                                                "TSBH"),
                                 ...){
             # browser()
+
+            ###  Remove Unexpressed Genes from the Pathway Set  ###
+            object <- expressedOmes(object, trim = min.features)
 
             ###  Extract Information from S4 Object  ###
             geneArray_df <- t(object@massSpec)
