@@ -39,6 +39,7 @@ Collate:
     'createClass_OmicsReg.R'
     'aesPC_permtest_LS.R'
     'aesPC_unknown_matrixNorm.R'
+    'aesPC_wrapper.R'
     'calculate_matrixRoot.R'
     'calculate_multtest_pvalues.R'
     'create_Omics_All.R'
