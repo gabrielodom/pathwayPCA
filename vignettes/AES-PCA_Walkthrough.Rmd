@@ -1,0 +1,283 @@
+---
+title: "AES-PCA Walkthrough with pathwayPCA"
+author: "Gabriel Odom"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{AES-PCA with pathwayPCA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      cache = FALSE,
+                      comment = "#>")
+```
+
+This will provide the steps to perform pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) analysis, from data entry to pathway $p$-value graphics. This vignette will give three examples: survival, regression, and binary responses. The main goal of pathway AES-PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
+
+
+
+## Workflow Setup and Data
+
+### Load Package
+Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+```{r install_from_github, eval = FALSE}
+devtools::install_github("gabrielodom/pathwayPCA")
+```
+```{r}
+library(pathwayPCA)
+library(parallel)
+```
+
+
+### Load Data and Gene Pathway Set
+For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. Unlike our current implementation of Supervised PCA, our current implementation of AES-PCA can handle some missingness in the data. However, we still recommend that you impute or remove any missingness.
+
+#### Load Tumour Data
+For this example we have a colon cancer data set. We will load and inspect this data. We will return to the gene name discussion when we import the gene set list. 
+```{r tumour_data_load}
+data("colonSurv_df")
+str(colonSurv_df, list.len = 10)
+```
+
+This data set has 656 gene expression measurements on 250 colon cancer patients. Notice that this data frame is in [tidy form](https://www.jstatsoft.org/article/view/v059i10) (a tidy data matrix has $n$ rows, one for each observation, and $p$ columns, one for each gene or protein measured). If your data frame is not tidy, you should transpose it. (Note that transposition in `R` will yield an object of class `matrix`, so use `as.data.frame()` to turn the transposed matrix back into a data frame.)
+
+
+#### Load Sample Information
+We have an expression design matrix with the first two columns as subject response information. We will consider the overall patient survival time (and corresponding censoring indicator) as our survival response response, the event time as our regression response, and event indicator as our binary classification response (these are just for example).
+```{r tumour_patient_load}
+survTime_num <- colonSurv_df$OS_time
+dead_logi <- as.logical(colonSurv_df$OS_event)
+dead_fact <- as.factor(colonSurv_df$OS_event)
+cancers_df <- colonSurv_df[, -(1:2)]
+rm(colonSurv_df)
+```
+
+Notice that I put the responses in specific classes: survival data is stored in numeric and logical vectors, regression data is stored in a numeric or integer vector, and binary classification data is stored in a factor. This is on purpose: the data creation functions in the `pathwayPCA::` package have very specific requirements about the types of data they take as inputs. We'll come back to this topic when we create our first `Omics*`-class objects.
+
+
+#### Load Gene Set List
+For pathway-based analyses to work, we need a well-defined list of pathways.
+```{r pathway_list_load}
+data("colonGenesets_ls")
+geneset_ls <- colonGenesets_ls
+names(geneset_ls)
+str(geneset_ls$setsize)
+str(geneset_ls$TERMS)
+str(geneset_ls$pathways, list.len = 10)
+rm(colonGenesets_ls)
+```
+
+The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has the following components
+
+  - `pathways`: a list of character vectors. Each character vector contains a subset of column names in the `cancers_df` data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA::` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the `cancers_df` data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
+  - `TERMS`: a brief description of the pathways in the `pathways` list, stored as a character vector.
+  - `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The `expressedOmes()` function is useful for extracting the expressed genes from each pathway set, and it is called automatically in the Supervised PCA workflow.)
+
+
+
+## Create an `Omics*`-class Object for Pathway Analysis
+Now that we have our data loaded, and we have checked that each piece of data is in the correct form, we can create an analysis object for the `pathwayPCA::` package. In this package, all primary input data will by an `Omics*` object. Each response type has a specific creation function:
+
+  - Survival response: Use the `create_OmicsSurv()` function to create an object with class `OmicsSurv`. This object will contain:
+    + `eventTime`: a numeric vector of event times
+    + `eventObserved`: a logical vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
+    + `massSpec`: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
+    + `pathwaySet`: a list of pathway information, as described in the "Load Gene Set List" section. The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `massSpec` object).
+  - Regression response: Use the `create_OmicsReg()` function to create an object with class `OmicsReg`. This object will contain:
+    + `response`: a numeric vector of the response
+    + `massSpec`: a tidy data frame of prediction information, as described above.
+    + `pathwaySet`: a list of pathway information, as described above.
+  - Binary Classification response: Use the `create_OmicsCateg()` function to create an object with class `OmicsCateg`. In future versions, this function will be able to take in n-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
+    + `response`: a factor vector of the response
+    + `massSpec`: a tidy data frame of prediction information, as described above.
+    + `pathwaySet`: a list of pathway information, as described above.
+
+ 
+### Create an `OmicsSurv` Object
+Using the survival response information, we will create a valid `OmicsSurv` object for further analysis with the `pathwayPCA::` functions. Remember, it is vitally important to input your data in the forms described above. Because we are creating an `OmicsSurv` object, we will need event times as a numeric vector and death indicator as a logical vector.
+```{r create_OmicsSurv}
+colon_OmicsSurv <- create_OmicsSurv(massSpec_df = cancers_df,
+                                    pathwaySet_ls = geneset_ls,
+                                    eventTime_vec = survTime_num,
+                                    eventObserved_vec = dead_logi)
+str(colon_OmicsSurv, max.level = 2)
+```
+
+Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
+
+
+### Create an `OmicsReg` Object
+Following our previous step in creation of a survival object, we can create a data object for regression response.
+```{r create_OmicsReg}
+colon_OmicsReg <- create_OmicsReg(massSpec_df = cancers_df,
+                                  pathwaySet_ls = geneset_ls,
+                                  response_num = survTime_num)
+str(colon_OmicsReg, max.level = 2)
+```
+
+
+### Create an `OmicsCateg` Object
+And we can also create our data object for binary classification response. As we mentioned previously, we do not yet support other GLM models, but we are working on it.
+```{r create_OmicsCateg}
+colon_OmicsCateg <- create_OmicsCateg(massSpec_df = cancers_df,
+                                      pathwaySet_ls = geneset_ls,
+                                      response_fact = dead_fact)
+str(colon_OmicsCateg, max.level = 2)
+```
+
+
+
+## Clean Up the Pathway List
+The analysis functions within the `pathwayPCA::` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren't recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.
+
+However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `expressedOmes()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwaySet` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
+
+This function is called and executed within the `superPCA_pVals()` function.
+
+
+
+## Calculate Pathway-Specific Model $p$-Values
+We now have a clean set of `Omics*` objects. We will
+
+1. Extract the first principal components from each expressed pathway in the MS design matrix
+2. Test their association with the response matrix or vector. This step uses a permutation test to estimate the pathway $p$-values.
+3. Adjust the pathway $p$-values for False Discovery Rate (FDR)
+4. Return a sorted data frame of the adjusted $p$-values for each pathway
+
+The accuracy of the permuted $p$-values will depend on how many permutations you call for. The default number in the `AESPCA_pVals()` function is 1000. Be warned, however, that this may be too few permutations to create accurate seperation in pathway significance. You could increase the permutations to a larger value, should your computing resources allow for that. For even moderately-sized data sets (~2000 features) and 1000 pathways, this could take half an hour or more. About 20-25% of the computing costs will be extracting the AES-PCs from each pathway, and the remaining 75-80% of the cost will be the permutation test (for 1000 reps).
+
+
+### Survival Response
+We will use all but two of our available cores, and use the Bonferroni and Sidak Step-Down FDR-adjustment procedures.
+```{r surv_pvals}
+a <- Sys.time()
+surv_pVals_df <- AESPCA_pVals(object = colon_OmicsSurv,
+                              numReps = 1000,
+                              parallel = TRUE,
+                              numCores = 2,
+                              adjustpValues = TRUE,
+                              adjustment = c("Hoch", "SidakSD"))
+Sys.time() - a
+```
+
+
+### Regression Response
+We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.
+```{r reg_pvals}
+b <- Sys.time()
+reg_pVals_df <- AESPCA_pVals(object = colon_OmicsReg,
+                             numReps = 1000,
+                             parallel = TRUE,
+                             numCores = 2,
+                             adjustpValues = TRUE,
+                             adjustment = c("Holm", "BH"))
+Sys.time() - b
+```
+
+
+### Binary Classification Response
+We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.
+```{r categ_pvals}
+d <- Sys.time()
+categ_pVals_df <- AESPCA_pVals(object = colon_OmicsCateg,
+                               numReps = 1000,
+                               parallel = TRUE,
+                               numCores = 2,
+                               adjustpValues = TRUE,
+                               adjustment = c("SidakSS", "BY"))
+Sys.time() - d
+```
+
+
+
+## Subset the Top Pathways
+Now that we have the pathway-specific $p$-values, we can inspect the top 25 pathways by significance. We will first subset the data frame returned by the `superPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
+```{r graphcs_packages}
+library(tidyverse)
+library(reshape2)
+```
+
+For each pathway $p$-value data frame, we will select the top 25 pathways, and transform the data for better graphics. Then, we will plot the pathway $p$-values for the top 25 most significant pathways as a horizontal bar chart. The thick vertical black line is at $p = 0.05$, and the thin vertical black line is at $p = 0.10$.
+
+### Significant Survival Pathways
+```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+surv_melt_df <- surv_pVals_df %>%
+  select(-terms, - setsize) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(surv_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "Hochberg", "SidakSD"),
+                      labels = c("None", "Hochberg", "Sidak SD")) +
+  ggtitle("Colon Pathways by Survival Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+### Significant Regression Pathways
+```{r reg_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+reg_melt_df <- reg_pVals_df %>%
+  select(-terms, - setsize) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(reg_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "Holm", "BH"),
+                      labels = c("None", "Holm", "BH")) +
+  ggtitle("Colon Pathways by Regression Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+### Significant Binary Classification Pathways
+```{r categ_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+categ_melt_df <- categ_pVals_df %>%
+  select(-terms, - setsize) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(categ_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "SidakSS", "BY"),
+                      labels = c("None", "Sidak SS", "BY")) +
+  ggtitle("Colon Pathways by Binary Classification Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
