@@ -180,12 +180,18 @@ These are functions called in functions I have built so far, but I have yet to b
 ## Piecing in Existing Code
 On 22 Feb, I met with James to discuss this progress. I still need to:
 
-1. Create a wrapper function for the AES-PCA workflow (similar to the wrapper for Supervised PCA)
+1. Create a wrapper function for the AES-PCA workflow (similar to the wrapper for Supervised PCA). DONE: this function is in `aesPC_wrapper.R`.
 2. Finish the Supervised PCA vignette. DONE.
 3. Find out why `browseVignettes()` can't find the vignette I've written. Because when you install a package from GitHub, it doesn't automatically build the vignette. Building vignettes can take a while. If you want this to happen, use `devtools::install_github("gabrielodom/pathwayPCA", build_vignettes = TRUE)`.
-4. Write the AES-PCA vignette
+4. Write the AES-PCA vignette. DONE.
+5. Curate a small, example data set and gene pathway set for our examples and vignettes. DONE
 
 Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and `createClass` file groups.
+
+## Still to Do
+
+1. Check the "Functions Still to Build" section: specifically, we have graphics functions to build and we need to add functionality for more GLM variants.
+2. Examples for all the main functions.
 
 #### AES-PCA
 We have adapted and documented code in the `aes.pca.R` file to our package. We still need to modify this code heavily to make it more efficient.
