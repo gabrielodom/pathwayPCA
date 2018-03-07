@@ -5,8 +5,10 @@ Authors: Gabriel J. Odom, Yuguang Ban, and Xi Chen.
 Date: 2017-10-19
 
 
+<br>
 
 ## Introduction
+*******************************************************************************
 We aim to write a package to collect, organize, and document a suite of existing `R` scripts and files. The purpose of this is to ensure that biologists and bioinformaticians will be easily able to apply our work to their existing data. After a discussion with Prof. Chen, we will not include any support for prediction; this package will address pathway to response attribution only. Our core values for this project are as follows:
 
   - Rely on as few external packages as possbile. This will require more development work at the beginning, but it will make future development, bug fixes, patches, and enhancements much easier.
@@ -24,9 +26,12 @@ For a tutorial on genomics, proteomics, lipidomics, and metabolomics, collective
   - Lipidomics: the systems-level study of lipids and their interactions. Lipids are often clustered into [eight categories](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3995129/) sharing certain chemical or physical properties: fatty acyls, glycerolipids, glycerophospholipids, sphingolipids, saccharolipids, polyketides, sterol lipids, and prenol lipids. According to [Feng and Prestwich (2005)](https://www.crcpress.com/Functional-Lipidomics/Feng-Prestwich/p/book/9781574444674), lipids that occur rarely or in small quantities are often the most effectual lipids in biological processes, meaning they are particularly important in disease diagnostics and in understanding pathology.
   - Metabolomics: the study of small molecular end products (called metabolomes) from cellular regulatory pathways. 
   - Gemomics: the study of the complete set of DNA within a single cell of a living organism. As of 2013, this field of study was far and away the largest and best developed field of study of all the -omics branches.
+
+*******************************************************************************
   
 
 
+<br>
 
 ## Overview
 The `pathwayPCA` package exists to extract principal components (PCs) from pre-defined gene or protein sets (called pathways) expressed in the users' data. As shown in [Chen et al (2008)](https://academic.oup.com/bioinformatics/article/24/21/2474/191290), [Chen et al (2010)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3480088/), and [Chen (2011)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3215429/), modelling outcomes based on PCs extracted from pathways yields superior results to modelling outcomes on all genes. This package will enable users to extract pathway PCs for outcome association or prediction via three principal component analysis (PCA) modifications
@@ -35,7 +40,10 @@ The `pathwayPCA` package exists to extract principal components (PCs) from pre-d
 2. Adaptive, Elastic-Net, Sparse PCA ([Zou et al, 2006](http://www.it.dtu.dk/projects/manifold/Papers/sparsepc.pdf); [Zou and Zhang, 2009](https://projecteuclid.org/euclid.aos/1245332831); and [Chen, 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3215429/))
 3. Supervised PCA ([Bair et al, 2006](http://amstat.tandfonline.com/doi/abs/10.1198/016214505000000628#.Wej7y1tSxhE); [Chen et al, 2008](https://academic.oup.com/bioinformatics/article/24/21/2474/191290); and [Chen et al, 2010](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3480088/))
 
+*******************************************************************************
 
+
+<br>
 
 ## User Supplied Inputs
 We expect the end-user to input the following information:
@@ -68,7 +76,10 @@ We allow additional arguments to be passed to internal function calls via `...` 
 
 One exception would be the choice of PCA variant. While I strongly believe this should be hidden or defaulted (at minimum, it should appear after the `...` in the arguments list, preculding any partial match possibilities), it should *at least* be addressed in the user-facing help documentation.
 
+*******************************************************************************
 
+
+<br>
 
 ## Main Function(s) Outputs
 Our aim in this package is for the end-user to have little knowledge of this code or `R`'s inner workings and still be able to analyze his/her data.
@@ -90,7 +101,10 @@ We also plan to return pathway-specific extracted PCs, either as a named list or
 ### Developer Specifics
 We can also return model calls, model return specifics, and a report on algorithm convergence. This information would not ever be seen by the common end-user, but it would be available to data scientists or developers interested in debugging or troubleshooting an analysis pipeline.
 
+*******************************************************************************
 
+
+<br>
 
 ## Current Work
 This is where I'm picking up next. I plan to write an analysis pipeline based on the requirements listed above. My next steps are: draft outlines for each of the necessary external and internal functions, piece out the existing code into these outlines, modify the outline documentation and existing code to match, and workflow test.
@@ -177,7 +191,8 @@ These are functions called in functions I have built so far, but I have yet to b
   - Export the second `calculate_pathway_pvalues()` function (the one with the `if()` statements and error checks) from the `Test_supervisedPCA_wrapper.R` file to a proper function file in `R/`. NOTE: This function should call the `adjust_and_sort()` function, rather than have that code defined internally (or maybe have the sorting as an external last step?). Ok, so actually export the third version: `superPCA_pathway_pvals()`. This function calls the `adjust_and_sort()` function. DONE.
   - Graphs: check out the link between `Cytoscape` and `R`. Apparently the `Cytoscape` grapics are nice.
 
-## Piecing in Existing Code
+
+### Piecing in Existing Code
 On 22 Feb, I met with James to discuss this progress. I still need to:
 
 1. Create a wrapper function for the AES-PCA workflow (similar to the wrapper for Supervised PCA). DONE: this function is in `aesPC_wrapper.R`.
@@ -188,7 +203,7 @@ On 22 Feb, I met with James to discuss this progress. I still need to:
 
 Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and `createClass` file groups.
 
-## Still to Do
+### Still to Do
 
 1. Check the "Functions Still to Build" section: specifically, we have graphics functions to build and we need to add functionality for more GLM variants.
 2. Examples for all the main functions.
@@ -196,9 +211,59 @@ Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and 
 #### AES-PCA
 We have adapted and documented code in the `aes.pca.R` file to our package. We still need to modify this code heavily to make it more efficient.
 
-#### Supervised PCA
-Add this code.
+*******************************************************************************
 
-### Outline Revisions
 
-### Workflow Tests
+<br>
+<br>
+
+# Testing
+James sent me comments as a Word file. I am adding these comments to the file `James_Tests_20180228.Rmd` in the `testing_files/` directory. I will repeat each of his errors / comments here <span style="color:blue"> in  blue </span>, and my fixes / responses below them.
+
+## Installing Package Error
+When James installs the package using `devtools::install_github("gabrielodom/pathwayPCA", build_vignettes = TRUE)`, <span style="color:blue"> he sees the following error: </span>
+```
+Error: processing vignette 'AES-PCA_Walkthrough.Rmd' failed with diagnostics:
+there is no package called 'tidyverse'
+```
+This error is due to the package `tidyverse` being unavailable on his machine. There are three workarounds, as described in [this GitHub thread](https://github.com/lme4/lme4/issues/233):
+
+1. Do not build the vignettes: `devtools::install_github("gabrielodom/pathwayPCA", build_vignettes = FALSE)`
+2. Install the dependencies of the vignettes first, then install the package
+```
+install.packages(c("tidyverse", "reshape2"))
+devtools::install_github("gabrielodom/pathwayPCA", build_vignettes = TRUE)
+```
+3. Install the dependencies in the function call:
+```
+devtools::install_github("gabrielodom/pathwayPCA",
+                         build_vignettes = TRUE,
+                         dependencies = TRUE)
+```
+
+While I do not believe with absolute certainty that all three methods will work, I do believe that *at least one* of the three methods will work.
+
+*******************************************************************************
+
+<br>
+
+## Data Format and Structure:
+
+### Input
+
+<span style="color:blue">
+I think the user input data should be a more general format, e.g. vector, list, data frame, matrix. </span>
+
+1. <span style="color:blue"> less people are familiar with tidy form: can it be data frame or list for input if it would not give us any data cleaning, converting, or computing efficiency issue later in the analysis? Internally use “tibble” to pass data </span>
+2. <span style="color:blue"> can we convert the following input formats internally and provide the message such as “numeric values are coerced to factor...” </span>
+
+I strongly disagree with automatic data wrangling. There is really no way to know that the data we would use to create an `Omics*` object is what the user intended without the user confirming the data creation. At the most crucial juncture of the data analysis, we should force the user to check that their inputs are *exactly* what they intend. Once again, the "garbage in, garbage out" rule applies heavily.
+
+However, I do believe that the creation and inclusion of a *data wrangling* vignette would most likely be beneficial to the average user. Furthermore, we can edit the error messages in the `Omics*` object creation to include a link to the help files, and even some pointers on common problems in the data creation step. Because the data structure of the `Omics*` objects are so crucial to the proper execution of the remainder of the analysis, I should beef up the errors, warnings, and messages at this step.
+
+### Gene Set List
+<span style="color:blue"> Do we need “setsize” at all for input? I think we can calculate this one, and return this plus the ratio of number of available assayed features/genes to input gene set. </span>
+
+This is correct. We do not need the user to supply the `setsize` object. We can request a list of the gene pathways and a vector of the pathway names (if more detail is necessary than the list names -- GOXXXXXX vs "Kegg glycolosis etc pathway"). If the `TERMS` element of the pathway list is `NULL`, then we will copy the list names to the `TERMS` entry. Further, we will calculate the number of genes in each pathway at the outset of analysis, and store this number as a (named?) vector element of the pathway list called `setsize`.
+
+TO DO: the above. Also, finish the documentation in the `Omics*_class` and `create_Omics*` function files. They currently have no information on the restrictions of the `pathwaySet` object.
