@@ -1,0 +1,105 @@
+---
+title: "James_Test_Notes_20180228"
+author: "Gabriel J. Odom, PhD, ThD"
+date: "March 7, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Installing package: 
+
+```
+Error: processing vignette 'AES-PCA_Walkthrough.Rmd' failed with diagnostics:
+there is no package called 'tidyverse'
+```
+
+
+## Data format and structure:
+
+**input**--(I think the user input data should be a more general format, e.g. vector, list, data frame, matrix)
+
+1.	less people are familiar with tidy form: can it be data frame or list for input if it would not give us any data cleaning, converting, or computing efficiency issue later in the analysis? Internally use “tibble” to pass data
+2.	can we convert the following input formats internally and provide the message such as “numeric values are coerced to factor...”
+
+when I used numeric outcomes and matrix of expression as input I got: 
+
+```
+in “OmicsCateg” for invalid class “OmicsCateg” object: 1: invalid object for slot "response" in class "OmicsCateg": got class "numeric", should be or extend class "factor"
+
+invalid class “OmicsCateg” object: 2: invalid object for slot "massSpec" in class "OmicsCateg": got class "matrix", should be or extend class "data.frame"
+```
+
+**Gene set list**—do we need “setsize” at all for input? I think we can calculate this one, and return this plus the ratio of number of available assayed features/genes to input gene set
+
+**Output**—
+
+1. Do we allow return model as an option? or can we optionally return model estimates when using superPCA_pVals?
+2. Should we include a local fdr (q value) as an option?
+
+
+## Functionality:
+
+create_OmicsSurv()—
+
+1. can we return data validity summary, for example,
+
+    a. percent matched features between measured genes and genes in the pathways, 
+    b. number/percent of pathways would be disregarded/analyzed, as in “missingPaths”?
+    c. percent of deaths/lives for events, 
+    
+2. can we change the name ‘massSpec’ to ‘assayData’ or something more general terms that include data generated from mass spectrum, gene expression, and other types of genomic data.
+3. is it possible to simplify or hide the values of the return object that is printed on the screen?
+
+create_OmicsCateg()—should we change it to OmicsBinary since we only support binary response at the moment?
+
+AESPCA_pVals()—
+
+1. can we add first k PCs option in the example? Or set it to k=2.
+2. is it possible to add returning per gene score/association (association of PCs with features, we need to talk with Dr. Chen about this)
+3. Also, in the return table should we add a column of number of available assayed features/genes in pathways
+
+## Examples:
+OmicsReg—in terms of survival time vs features, should we use only events which occurred (death)?
+
+## Graphics:
+
+Consider a multiple-side-by-side plot: pathway size/core genes, pathway significance, up/down direction of association
+
+## Computational and memory issue:
+Check memory used during the computation, but I think it should not be any issue. 
+
+## Report of errors:
+When checking data validity, we probably need more meaningful error message.
+pathway_tScores()—how do we deal with NA values? Is it allowed? Can we ignore NA value? Or provide a meaningful error message
+
+## Vignettes:
+In “Calculate Pathway-Specific Model”, it was read “use the Bonferroni and Sidak...” but in the code, it shows “Hoch” rather than “bonferroni”
+
+
+## Other thoughts:
+Do we need a short paragraph to describe which method (aespca or superpca) to choose or compare the two methods? We can talk with Dr. Chen about this.
+
+## Testing on different data set:
+Input data:
+cp5.1.ls—500 pathways
+prot.voom.spca—150 rows X 6332 columns
+tumor.ind—vector of 150 binary values
+
+Code and function I used:
+```
+create_OmicsCateg(prot.voom.spca, cp5.1.ls,  tumor.ind)
+AESPCA_pVals
+
+Error in data.frame(pathways = names(pVals_vec), setsize = genesets_ls$setsize,  : 
+arguments imply differing number of rows: 0, 500, 476
+```
+
+using the function superPCA_pVals, I got similar error:
+```
+Error in data.frame(pathways = names(pVals_vec), setsize = genesets_ls$setsize,  : 
+  arguments imply differing number of rows: 0, 500
+```
+
