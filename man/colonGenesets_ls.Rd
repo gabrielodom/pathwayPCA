@@ -3,7 +3,7 @@
 \docType{data}
 \name{colonGenesets_ls}
 \alias{colonGenesets_ls}
-\title{Gene Pathway Sets}
+\title{Gene Pathway Subset}
 \format{A list of three elements:
 \itemize{
   \item{pathways : }{A list of 15 character vectors. Each vector contains
@@ -11,8 +11,6 @@
     character strings.}
   \item{TERMS : }{A character vector of length 15 containing the names of
     the gene pathways.}
-  \item{setsize : }{A named integer vector of length 15 containing the
-    number of genes in each gene pathway.}
 }}
 \source{
 \url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp}
@@ -21,7 +19,7 @@
 colonGenesets_ls
 }
 \description{
-A Canonical Pathways Gene Sets from the Broad Institute: File:
+A Canonical Pathways Gene Subset from the Broad Institute: File:
   c2.cp.v6.0.symbols.gmt.
 }
 \details{

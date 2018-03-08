@@ -18,7 +18,17 @@ create_OmicsCateg(massSpec_df, pathwaySet_ls, response_fact)
 \arguments{
 \item{massSpec_df}{An $N x p$ data frame with named columns}
 
-\item{pathwaySet_ls}{A list of known gene pathways}
+\item{pathwaySet_ls}{A list of known gene pathways with one or two elements:
+\itemize{
+  \item{pathways : }{A named list of character vectors. Each vector contains
+    the names of the individual genes within that pathway as a vector of
+    character strings. The names contained in these vectors must have non-
+    empty overlap with the \emph{column names} of the \code{massSpec} data
+    frame. The names of the pathways (the list elements themselves) should
+    be the a shorthand representation of the full pathway name.}
+  \item{TERMS: }{ A character vector the same length as the
+    \code{pathways} list with the proper names of the pathways.}
+}}
 
 \item{eventTime_vec}{A numeric vector with $N$ observations corresponding to
 the last observed time of follow up}
@@ -63,3 +73,36 @@ Valid OmicsReg and OmicsCateg objects with have one response vector of
   continuous or categorial (as a factor) observations, respectively.
 }
 
+\examples{
+  ###  Load the Example Data  ###
+  data("colonSurv_df")
+  data("colonGenesets_ls")
+
+  ###  Create an OmicsPathway Object  ###
+  colon_OmicsPath <- create_OmicsPath(massSpec_df = colonSurv_df[, -(1:2)],
+                                      pathwaySet_ls = colonGenesets_ls)
+
+  ###  Create an OmicsSurv Object  ###
+  colon_OmicsSurv <- create_OmicsSurv(massSpec_df = colonSurv_df[, -(1:2)],
+                                      pathwaySet_ls = colonGenesets_ls,
+                                      eventTime_vec = colonSurv_df$OS_time,
+                                      eventObserved_vec = as.logical(colonSurv_df$OS_event))
+
+  ###  Create an OmicsReg Object  ###
+  colon_OmicsReg <- create_OmicsReg(massSpec_df = colonSurv_df[, -(1:2)],
+                                    pathwaySet_ls = colonGenesets_ls,
+                                    response_num = colonSurv_df$OS_time)
+
+  ###  Create an OmicsCateg Object  ###
+  colon_OmicsCateg <- create_OmicsCateg(massSpec_df = colonSurv_df[, -(1:2)],
+                                        pathwaySet_ls = colonGenesets_ls,
+                                        response_fact = as.factor(colonSurv_df$OS_event))
+
+
+}
+\seealso{
+\code{"\link[=OmicsPathway-class]{OmicsPathway}"},
+  \code{"\link[=OmicsSurv-class]{OmicsSurv}"},
+  \code{"\link[=OmicsReg-class]{OmicsReg}"},  and
+  \code{"\link[=OmicsCateg-class]{OmicsCateg}"}
+}

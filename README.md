@@ -206,7 +206,11 @@ Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and 
 ### Still to Do
 
 1. Check the "Functions Still to Build" section: specifically, we have graphics functions to build and we need to add functionality for more GLM variants.
-2. Examples for all the main functions.
+2. Examples for all the main functions. Completed functions are
+
+    a) The `create_Omics*()` functions. There is a working example for each.
+    
+3. Replace all `\$ stuff \$` with `\eqn\{ stuff \}` in the R documentation files.
 
 #### AES-PCA
 We have adapted and documented code in the `aes.pca.R` file to our package. We still need to modify this code heavily to make it more efficient.
@@ -266,4 +270,4 @@ However, I do believe that the creation and inclusion of a *data wrangling* vign
 
 This is correct. We do not need the user to supply the `setsize` object. We can request a list of the gene pathways and a vector of the pathway names (if more detail is necessary than the list names -- GOXXXXXX vs "Kegg glycolosis etc pathway"). If the `TERMS` element of the pathway list is `NULL`, then we will copy the list names to the `TERMS` entry. Further, we will calculate the number of genes in each pathway at the outset of analysis, and store this number as a (named?) vector element of the pathway list called `setsize`.
 
-TO DO: the above. Also, finish the documentation in the `Omics*_class` and `create_Omics*` function files. They currently have no information on the restrictions of the `pathwaySet` object.
+TO DO: ~~the above. Also, finish the documentation in the `Omics*_class` and `create_Omics*` function files. They currently have no information on the restrictions of the `pathwaySet` object.~~ DONE: also, I've added hyperlinks between all the S4 classes documentation and the creation functions for the S4 objects. Also, I've removed the `setsize` element from the `colonGenesets_ls` list. All of the documentation is updated to reflect the fact that the `setsize` element of the pathway set list is calculated at object generation.
