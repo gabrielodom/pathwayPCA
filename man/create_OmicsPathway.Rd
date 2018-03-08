@@ -51,6 +51,18 @@ An object of classes "OmicsPathway", "OmicsSurv", "OmicsReg", or
 These functions create valid objects of the "OmicsPathway", "OmicsSurv",
   "OmicsReg", and "OmicsCateg" classes.
 }
+\details{
+Please note that the classes of the parameters are \emph{not}
+  flexible. The -Omics measurement data \emph{must} be a data frame, and the
+  response values (for the survival, regression, and classification object)
+  \emph{must} match their expected classes \emph{exactly}. The reason for
+  this is to force the end user to pay attention to the quality and format
+  of their input data. Because the functions internal to this package have
+  only been tested on the classes described in the Arguments section, these
+  class checks prevent unexpected errors (or worse, incorrect computational
+  results without an error). These draconian input class restrictions
+  protect the accuracy of your data's analysis.
+}
 \section{OmicsPathway}{
 
 Valid OmicsPathawy objects will have no response information, just the mass
