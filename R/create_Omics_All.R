@@ -3,6 +3,17 @@
 #' These functions create valid objects of the "OmicsPathway", "OmicsSurv",
 #'   "OmicsReg", and "OmicsCateg" classes.
 #'
+#' @details Please note that the classes of the parameters are \emph{not}
+#'   flexible. The -Omics measurement data \emph{must} be a data frame, and the
+#'   response values (for the survival, regression, and classification object)
+#'   \emph{must} match their expected classes \emph{exactly}. The reason for
+#'   this is to force the end user to pay attention to the quality and format
+#'   of their input data. Because the functions internal to this package have
+#'   only been tested on the classes described in the Arguments section, these
+#'   class checks prevent unexpected errors (or worse, incorrect computational
+#'   results without an error). These draconian input class restrictions
+#'   protect the accuracy of your data's analysis.
+#'
 #' @section OmicsPathway:
 #' Valid OmicsPathawy objects will have no response information, just the mass
 #'   spectrometry (gene "design") matrix and the pathway list. OmicsPathway
@@ -69,6 +80,17 @@
 #' @rdname create_OmicsPathway
 create_OmicsPath <- function(massSpec_df, pathwaySet_ls){
 
+  if(class(massSpec_df) == "matrix"){
+    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
+    that the pathwayPCA:: package functions require -Omics data as an N x p data
+    frame object: this data frame will have one observation per row and one
+    measurement per column. If your matrix is in 'tall' (p x N) format, please
+    transpose your matrix with the 't()' function (but pay attention to your
+    column names after transposition). Next, you can use the 'as.data.frame()'
+    function to transform your -Omics data matrix to class 'data.frame'. Please
+    see the help information found in ?create_OmicsPath for more details.")
+  }
+
   pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
 
   new("OmicsPathway",
@@ -94,6 +116,17 @@ create_OmicsSurv <- function(massSpec_df,
                              pathwaySet_ls,
                              eventTime_vec,
                              eventObserved_vec){
+
+  if(class(massSpec_df) == "matrix"){
+    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
+    that the pathwayPCA:: package functions require -Omics data as an N x p data
+    frame object: this data frame will have one observation per row and one
+    measurement per column. If your matrix is in 'tall' (p x N) format, please
+    transpose your matrix with the 't()' function (but pay attention to your
+    column names after transposition). Next, you can use the 'as.data.frame()'
+    function to transform your -Omics data matrix to class 'data.frame'. Please
+    see the help information found in ?create_OmicsSurv for more details.")
+  }
 
   pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
 
@@ -121,6 +154,17 @@ create_OmicsReg <- function(massSpec_df,
                             pathwaySet_ls,
                             response_num){
 
+  if(class(massSpec_df) == "matrix"){
+    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
+    that the pathwayPCA:: package functions require -Omics data as an N x p data
+    frame object: this data frame will have one observation per row and one
+    measurement per column. If your matrix is in 'tall' (p x N) format, please
+    transpose your matrix with the 't()' function (but pay attention to your
+    column names after transposition). Next, you can use the 'as.data.frame()'
+    function to transform your -Omics data matrix to class 'data.frame'. Please
+    see the help information found in ?create_OmicsReg for more details.")
+  }
+
   pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
 
   new("OmicsReg",
@@ -137,6 +181,17 @@ create_OmicsReg <- function(massSpec_df,
 create_OmicsCateg <- function(massSpec_df,
                               pathwaySet_ls,
                               response_fact){
+
+  if(class(massSpec_df) == "matrix"){
+    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
+    that the pathwayPCA:: package functions require -Omics data as an N x p data
+    frame object: this data frame will have one observation per row and one
+    measurement per column. If your matrix is in 'tall' (p x N) format, please
+    transpose your matrix with the 't()' function (but pay attention to your
+    column names after transposition). Next, you can use the 'as.data.frame()'
+    function to transform your -Omics data matrix to class 'data.frame'. Please
+    see the help information found in ?create_OmicsCateg for more details.")
+  }
 
   pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
 
