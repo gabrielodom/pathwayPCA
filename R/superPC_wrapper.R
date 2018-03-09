@@ -125,7 +125,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             object <- expressedOmes(object, trim = min.features)
 
             ###  Extract Information from S4 Object  ###
-            geneArray_df <- t(object@massSpec)
+            geneArray_df <- t(object@assayData_df)
             pathwayGeneSets_ls <- object@pathwaySet
             obj_class <- class(object)
             switch (obj_class,

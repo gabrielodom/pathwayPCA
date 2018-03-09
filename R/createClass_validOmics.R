@@ -17,14 +17,14 @@
 #' @rdname valid_OmicsSurv
 valid_OmicsSurv <- function(object){
 
-  nX <- nrow(object@massSpec)
+  nX <- nrow(object@assayData_df)
   nY <- length(object@eventTime)
   nDelta <- length(object@eventObserved)
 
   if(nY != nX){
-    return("Number of massSpec rows must match number of response times.")
+    return("Number of assayData_df rows must match number of response times.")
   } else if(nDelta != nX){
-    return("Number of massSpec rows must match number of response censoring indicators.")
+    return("Number of assayData_df rows must match number of response censoring indicators.")
   } else {
     return(TRUE)
   }
@@ -37,11 +37,11 @@ valid_OmicsSurv <- function(object){
 #' @rdname valid_OmicsSurv
 valid_OmicsReg <- function(object){
 
-  nX <- nrow(object@massSpec)
+  nX <- nrow(object@assayData_df)
   nY <- length(object@response)
 
   if(nY != nX){
-    return("Number of massSpec rows must match number of responses.")
+    return("Number of assayData_df rows must match number of responses.")
   } else {
     return(TRUE)
   }
@@ -51,11 +51,15 @@ valid_OmicsReg <- function(object){
 #' @rdname valid_OmicsSurv
 valid_OmicsCateg <- function(object){
 
-  nX <- nrow(object@massSpec)
+  nX <- nrow(object@assayData_df)
   nY <- length(object@response)
 
+  if(nlevels(object@response) > 2){
+    return("\n The current implementation of the pathwayPCA package permits binary response only.")
+  }
+
   if(nY != nX){
-    return("Number of massSpec rows must match number of responses.")
+    return("Number of assayData_df rows must match number of responses.")
   } else {
     return(TRUE)
   }

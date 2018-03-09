@@ -118,27 +118,3 @@ superpc.train <- function(data,
 
 }
 
-# if(type == "survival"){
-#
-#   junk <- coxTrain_fun(data$x, data$y, data$censoring.status,
-#                        s0.perc = s0.perc)
-#   feature.scores <- junk$tt
-#
-# }
-#
-# if(type == "regression"){
-#
-#   junk <- cor.func(data$x, data$y, s0.perc = s0.perc)
-#   feature.scores <- junk$tt
-#
-# }
-#
-# if(type == "binary"){
-#
-#   junk <- logistic.func(data$x, data$y, s0.perc = s0.perc)
-#   feature.scores <- junk$tt
-#   for(m in 1:length(feature.scores)){
-#     if(is.na(feature.scores[m]) == TRUE) feature.scores[m] <- 0
-#   }
-#
-# }
