@@ -21,7 +21,9 @@
 #' @return If \code{returnClass = class(object)}: A valid \code{Omics*}-class
 #'   object. This output object will be identical to the input object, except
 #'   that any genes present in the pathways list, but not present in the MS
-#'   design matrix, will have been removed.
+#'   design matrix, will have been removed. Additionally, the pathway list will
+#'   have the number of genes in each trimmed pathway stored as the
+#'   \code{trim_setsize} object.
 #'
 #'   If \code{returnClass = "list"}: A list of pathways with -ome measures
 #'   expressed in the MS design matrix. Each element of the list will be named
@@ -49,6 +51,21 @@
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #'
+#' @examples
+#'   ###  Load the Example Data  ###
+#'   data("colonSurv_df")
+#'   data("colonGenesets_ls")
+#'
+#'   ###  Create an OmicsSurv Object  ###
+#'   colon_OmicsSurv <- create_OmicsSurv(massSpec_df = colonSurv_df[, -(1:2)],
+#'                                       pathwaySet_ls = colonGenesets_ls,
+#'                                       eventTime_vec = colonSurv_df$OS_time,
+#'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
+#'
+#'   ###  Extract Expressed Genes  ###
+#'   expressedOmes(colon_OmicsSurv)
+#'
+#'
 #' @importFrom methods setGeneric
 #' @rdname expressedOmes
 setGeneric("expressedOmes",
@@ -71,12 +88,22 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
             genelist <- colnames(object@massSpec)
             paths_ls <- object@pathwaySet$pathways
+            genesInPathway_vec <- unique(do.call(c, paths_ls))
+            trimSetsize <- object@pathwaySet$setsize
 
             # Delete the genes from the pathways if they aren't recorded in our
             #   data matrix
             newPaths <- sapply(paths_ls, function(x){
               x[x %in% genelist]
             })
+
+            trimSetsize <- sapply(seq_along(trimSetsize), function(i){
+
+              size <- length(newPaths[[i]])
+              ifelse(size < trim, 0, size)
+
+            })
+            names(trimSetsize) <- names(object@pathwaySet$setsize)
 
             # Remove any pathway that now has fewer than "trim" genes
             newPaths_trim <- sapply(seq_along(newPaths), function(i){
@@ -91,6 +118,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             })
 
             names(newPaths_trim) <- names(paths_ls)
+            genesInTrimPathway_vec <- unique(do.call(c, newPaths_trim))
             # # If nullPaths resolves to int(0) (because the which() function
             # #   didn't find anything), then subsetting by -nullPaths will
             # #   give us an empty list. Filter(), however, can handle NULL and
@@ -100,6 +128,13 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             # paths_ls <- newPaths_trim[-nullPaths]
             cleanPaths_ls <- Filter(length, newPaths_trim)
 
+            ###  Reporting Gene Overlap  ###
+            missingPaths_char <- names(newPaths_trim)[nullPaths]
+            pRmFeatures <- 1 -
+              length(genesInTrimPathway_vec) / length(genesInPathway_vec)
+            pSelectFeatures <- length(genesInTrimPathway_vec) / length(genelist)
+
+            ###  Create the Return Object  ###
             if(as.character(returnClass) == "list"){
 
               extractedMatrix_ls <- lapply(cleanPaths_ls, function(x){
@@ -108,15 +143,24 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
 
               attr(extractedMatrix_ls,
-                   "missingPaths") <- names(newPaths_trim)[nullPaths]
+                   "missingPaths") <- missingPaths_char
+              attr(extractedMatrix_ls,
+                   "selectedFeature%") <- pSelectFeatures * 100
+              attr(extractedMatrix_ls,
+                   "removedFeature%") <- pRmFeatures * 100
               out <- extractedMatrix_ls
 
             } else {
 
               attr(cleanPaths_ls,
-                   "missingPaths") <- names(newPaths_trim)[nullPaths]
+                   "missingPaths") <- missingPaths_char
+              attr(cleanPaths_ls,
+                   "selectedFeature%") <- pSelectFeatures * 100
+              attr(cleanPaths_ls,
+                   "removedFeature%") <- pRmFeatures * 100
               out <- object
               out@pathwaySet$pathways <- cleanPaths_ls
+              out@pathwaySet$trim_setsize <- trimSetsize
 
             }
 

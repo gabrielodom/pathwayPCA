@@ -254,7 +254,6 @@ While I do not believe with absolute certainty that all three methods will work,
 ## Data Format and Structure:
 
 ### Input
-
 <span style="color:blue">
 I think the user input data should be a more general format, e.g. vector, list, data frame, matrix. </span>
 
@@ -265,9 +264,43 @@ I strongly disagree with automatic data wrangling. There is really no way to kno
 
 However, I do believe that the creation and inclusion of a *data wrangling* vignette would most likely be beneficial to the average user. Furthermore, we can edit the error messages in the `Omics*` object creation to include a link to the help files, and even some pointers on common problems in the data creation step. Because the data structure of the `Omics*` objects are so crucial to the proper execution of the remainder of the analysis, I should beef up the errors, warnings, and messages at this step.
 
+
 ### Gene Set List
 <span style="color:blue"> Do we need “setsize” at all for input? I think we can calculate this one, and return this plus the ratio of number of available assayed features/genes to input gene set. </span>
 
 This is correct. We do not need the user to supply the `setsize` object. We can request a list of the gene pathways and a vector of the pathway names (if more detail is necessary than the list names -- GOXXXXXX vs "Kegg glycolosis etc pathway"). If the `TERMS` element of the pathway list is `NULL`, then we will copy the list names to the `TERMS` entry. Further, we will calculate the number of genes in each pathway at the outset of analysis, and store this number as a (named?) vector element of the pathway list called `setsize`.
 
-TO DO: ~~the above. Also, finish the documentation in the `Omics*_class` and `create_Omics*` function files. They currently have no information on the restrictions of the `pathwaySet` object.~~ DONE: also, I've added hyperlinks between all the S4 classes documentation and the creation functions for the S4 objects. Also, I've removed the `setsize` element from the `colonGenesets_ls` list. All of the documentation is updated to reflect the fact that the `setsize` element of the pathway set list is calculated at object generation.
+TO DO: ~~the above. Also, finish the documentation in the `Omics*_class` and `create_Omics*` function files. They currently have no information on the restrictions of the `pathwaySet` object.~~ DONE: also, I've added hyperlinks between all the S4 classes documentation and the creation functions for the S4 objects. Also, I've removed the `setsize` element from the `colonGenesets_ls` list. All of the documentation is updated to reflect the fact that the `setsize` element of the pathway set list is calculated at object generation. NOTE: the `setsize` object we create within `Omics*` object creation must be a named vector. Also, in the `expressedOmes()` function, I am adding a revised `setsize` object to reflect the number of genes in each pathway after trimming.
+
+
+### Output
+
+1. <span style="color:blue"> Do we allow return model as an option? or can we optionally return model estimates when using superPCA_pVals? </span> NEED CLARIFICATION: I was under the impression that this package would be used for attribution only. If this is the case, the model should not be returned, because it is irrelevant.
+2. <span style="color:blue"> Should we include a local fdr (q value) as an option? </span> I'm assuming you mean to add this option in the `ajustment` argument to the `superPCA_pVals()` and `AESPCA_pVals()` functions? If so, it's a simple fix: we add the method and it's name to the `adjustRaw_pVals()` function (in the `calculate_multtest_pvalues.R` file). All I would need is either the code for the specific LDFR method you want, or a paper wherein the method is descibed in detail.
+
+
+## Functionality:
+
+### `create_OmicsSurv()`
+
+1. <span style="color:blue"> can we return data validity summary, for example, </span>
+
+    a. <span style="color:blue"> percent matched features between measured genes and genes in the pathways, </span>
+    b. <span style="color:blue"> number/percent of pathways would be disregarded/analyzed, as in “missingPaths”? </span>
+    c. <span style="color:blue"> percent of deaths/lives for events, </span>
+    
+I'm adding additional attributes to the output of the `expressedOmes()` function: the percent of columns in the `massSpec` data frame that are *not* mentioned in the pathways (`removedFeatures`) and the percent of genes mentioned in the pathways that are columns in the `massSpec` data frame (`expressedFeatures`). We are already reporting any pathways that are removed due to low raw expression, but adding the other atttributes will paint a clearer picture of the overlap between the pathway set and the provided data. I'm working to add this information as a column of the resulting sorted data frame.
+    
+2. <span style="color:blue"> can we change the name ‘massSpec’ to ‘assayData’ or something more general terms that include data generated from mass spectrum, gene expression, and other types of genomic data. </span>
+3. <span style="color:blue"> is it possible to simplify or hide the values of the return object that is printed on the screen? </span>
+
+
+### `create_OmicsCateg()`
+<span style="color:blue"> should we change it to OmicsBinary since we only support binary response at the moment? <span>
+
+
+### `AESPCA_pVals()`
+
+1. <span style="color:blue"> can we add first k PCs option in the example? Or set it to k=2. </span>
+2. <span style="color:blue"> is it possible to add returning per gene score/association (association of PCs with features, we need to talk with Dr. Chen about this) </span>
+3. <span style="color:blue"> Also, in the return table should we add a column of number of available assayed features/genes in pathways </span>

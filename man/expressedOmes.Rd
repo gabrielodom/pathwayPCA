@@ -32,7 +32,9 @@ and have an object of the same class returned.}
 If \code{returnClass = class(object)}: A valid \code{Omics*}-class
   object. This output object will be identical to the input object, except
   that any genes present in the pathways list, but not present in the MS
-  design matrix, will have been removed.
+  design matrix, will have been removed. Additionally, the pathway list will
+  have the number of genes in each trimmed pathway stored as the
+  \code{trim_setsize} object.
 
   If \code{returnClass = "list"}: A list of pathways with -ome measures
   expressed in the MS design matrix. Each element of the list will be named
@@ -61,4 +63,20 @@ This function takes in a data frame with named columns and a pathway
   these will not be extracted to the list. It is then vitally important to
   use either a very broad and generic pathway set list or a pathway set list
   that is appropriate for the mass spectrometry data supplied.
+}
+\examples{
+  ###  Load the Example Data  ###
+  data("colonSurv_df")
+  data("colonGenesets_ls")
+
+  ###  Create an OmicsSurv Object  ###
+  colon_OmicsSurv <- create_OmicsSurv(massSpec_df = colonSurv_df[, -(1:2)],
+                                      pathwaySet_ls = colonGenesets_ls,
+                                      eventTime_vec = colonSurv_df$OS_time,
+                                      eventObserved_vec = as.logical(colonSurv_df$OS_event))
+
+  ###  Extract Expressed Genes  ###
+  expressedOmes(colon_OmicsSurv)
+
+
 }

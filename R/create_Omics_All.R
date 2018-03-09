@@ -80,7 +80,8 @@
 #' @rdname create_OmicsPathway
 create_OmicsPath <- function(massSpec_df, pathwaySet_ls){
 
-  if(class(massSpec_df) == "matrix"){
+  if("matrix" %in% class(massSpec_df) &
+     !("data.frame" %in% class(massSpec_df))){
     stop("\n You have supplied a matrix object to the massSpec_df argument. Note
     that the pathwayPCA:: package functions require -Omics data as an N x p data
     frame object: this data frame will have one observation per row and one
@@ -91,7 +92,7 @@ create_OmicsPath <- function(massSpec_df, pathwaySet_ls){
     see the help information found in ?create_OmicsPath for more details.")
   }
 
-  pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
+  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsPathway",
       massSpec = massSpec_df,
@@ -117,7 +118,8 @@ create_OmicsSurv <- function(massSpec_df,
                              eventTime_vec,
                              eventObserved_vec){
 
-  if(class(massSpec_df) == "matrix"){
+  if("matrix" %in% class(massSpec_df) &
+     !("data.frame" %in% class(massSpec_df))){
     stop("\n You have supplied a matrix object to the massSpec_df argument. Note
     that the pathwayPCA:: package functions require -Omics data as an N x p data
     frame object: this data frame will have one observation per row and one
@@ -128,7 +130,7 @@ create_OmicsSurv <- function(massSpec_df,
     see the help information found in ?create_OmicsSurv for more details.")
   }
 
-  pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
+  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsSurv",
       massSpec = massSpec_df,
@@ -154,7 +156,8 @@ create_OmicsReg <- function(massSpec_df,
                             pathwaySet_ls,
                             response_num){
 
-  if(class(massSpec_df) == "matrix"){
+  if("matrix" %in% class(massSpec_df) &
+     !("data.frame" %in% class(massSpec_df))){
     stop("\n You have supplied a matrix object to the massSpec_df argument. Note
     that the pathwayPCA:: package functions require -Omics data as an N x p data
     frame object: this data frame will have one observation per row and one
@@ -165,7 +168,7 @@ create_OmicsReg <- function(massSpec_df,
     see the help information found in ?create_OmicsReg for more details.")
   }
 
-  pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
+  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsReg",
       massSpec = massSpec_df,
@@ -182,7 +185,8 @@ create_OmicsCateg <- function(massSpec_df,
                               pathwaySet_ls,
                               response_fact){
 
-  if(class(massSpec_df) == "matrix"){
+  if("matrix" %in% class(massSpec_df) &
+     !("data.frame" %in% class(massSpec_df))){
     stop("\n You have supplied a matrix object to the massSpec_df argument. Note
     that the pathwayPCA:: package functions require -Omics data as an N x p data
     frame object: this data frame will have one observation per row and one
@@ -193,7 +197,7 @@ create_OmicsCateg <- function(massSpec_df,
     see the help information found in ?create_OmicsCateg for more details.")
   }
 
-  pathwaySet_ls$setsize <- unname(sapply(pathwaySet_ls$pathways, length))
+  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsCateg",
       massSpec = massSpec_df,

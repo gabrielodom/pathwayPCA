@@ -64,7 +64,6 @@ For pathway-based analyses to work, we need a well-defined list of pathways.
 data("colonGenesets_ls")
 geneset_ls <- colonGenesets_ls
 names(geneset_ls)
-str(geneset_ls$setsize)
 str(geneset_ls$TERMS)
 str(geneset_ls$pathways, list.len = 10)
 rm(colonGenesets_ls)
@@ -74,7 +73,7 @@ The information stored in the gene set list is very important to our analysis, a
 
   - `pathways`: a list of character vectors. Each character vector contains a subset of column names in the `cancers_df` data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA::` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the `cancers_df` data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
   - `TERMS`: a brief description of the pathways in the `pathways` list, stored as a character vector.
-  - `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The `expressedOmes()` function is useful for extracting the expressed genes from each pathway set, and it is called automatically in the Supervised PCA workflow.)
+  - `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathway set list at `Omics*`-class object creation.* This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The `expressedOmes()` function is useful for extracting the expressed genes from each pathway set, and it is called automatically in the Supervised PCA workflow.)
 
 
 
@@ -106,7 +105,7 @@ colon_OmicsSurv <- create_OmicsSurv(massSpec_df = cancers_df,
 str(colon_OmicsSurv, max.level = 2)
 ```
 
-Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
+Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. Notice that the `pathwaySet` object is a list of 3 now: upon creation, the `setsize` vector is added to the `pathwaySet` object. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
 
 
 ### Create an `OmicsReg` Object
