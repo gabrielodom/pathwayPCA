@@ -17,7 +17,12 @@
 #'     \item{TERMS : }{A character vector the same length as \code{pathways}
 #'       containing the full pathway descriptions.}
 #'     \item{setsize : }{An integer vector the same length as \code{pathways}
-#'       containing the number of genes present in the pathway.}
+#'       containing the number of genes contained in the original the pathway
+#'       set.}
+#'     \item{trim_setsize : }{An integer vector the same length as
+#'       \code{pathways} containing the number of genes present in the pathway
+#'       after trimming. Pathway set trimming is done in the
+#'       \code{\link{expressedOmes}} function.}
 #'   }
 #' @param adjust Should you adjust the \eqn{p}-values for multiple comparisons?
 #'   Defaults to TRUE.
@@ -43,7 +48,10 @@
 #'
 #' The data frame will be sorted in ascending order by the method specified
 #'   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
-#'   then the data frame will be sorted by the raw \eqn{p}-values.
+#'   then the data frame will be sorted by the raw \eqn{p}-values. If you have
+#'   the suggested \code{tidyverse::} package suite loaded, then this data frame
+#'   will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
+#'   simple data frame.
 #'
 #' @details This is a wrapper function for the \code{\link{adjustRaw_pVals}}
 #'   function.
@@ -68,6 +76,7 @@ adjust_and_sort <- function(pVals_vec,
 
   pVals_df <- data.frame(pathways = names(pVals_vec),
                          setsize = genesets_ls$setsize,
+                         trim_size = genesets_ls$trim_setsize,
                          terms = genesets_ls$TERMS,
                          rawp = unname(pVals_vec),
                          stringsAsFactors = FALSE)
@@ -87,6 +96,7 @@ adjust_and_sort <- function(pVals_vec,
     out_df <- pVals_df[order(pVals_df$rawp), ]
   }
 
+  class(out_df) <- c("tbl_df", "tbl", "data.frame")
   out_df
 
 }

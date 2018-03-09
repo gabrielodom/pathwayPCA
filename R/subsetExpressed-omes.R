@@ -152,6 +152,21 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
             } else {
 
+              ###  Print Messages  ###
+              # To display at 80 characters on the screen, our message can run
+              #   from column 30 to 110 in te code.
+              message(sprintf("Of the %i unique genes in the input pathway set, %.1f%% were not expressed in
+  the input data and were therefore removed.",
+                              length(genesInPathway_vec), pRmFeatures * 100))
+
+              message(sprintf("After trimming unexpressed genes from the %i supplied pathways, we removed %i
+  pathway(s) because they contained %i or fewer genes.",
+                              length(paths_ls), length(missingPaths_char), trim))
+
+              message(sprintf("Of the %i measured genes in the input data frame, %.1f%% were included in at
+  least one pathway after trimming. \n",
+                              length(genelist), pSelectFeatures * 100))
+
               attr(cleanPaths_ls,
                    "missingPaths") <- missingPaths_char
               attr(cleanPaths_ls,
