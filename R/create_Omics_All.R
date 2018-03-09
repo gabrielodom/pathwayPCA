@@ -21,15 +21,15 @@
 #'   needed. Because of the missing response, no pathway testing can be
 #'   performed on an OmicsPathway object.
 #'
-#' @param massSpec_df An $N x p$ data frame with named columns
+#' @param assayData_df An $N x p$ data frame with named columns
 #' @param pathwaySet_ls A list of known gene pathways with one or two elements:
 #' \itemize{
 #'   \item{pathways : }{A named list of character vectors. Each vector contains
 #'     the names of the individual genes within that pathway as a vector of
 #'     character strings. The names contained in these vectors must have non-
-#'     empty overlap with the \emph{column names} of the \code{massSpec} data
-#'     frame. The names of the pathways (the list elements themselves) should
-#'     be the a shorthand representation of the full pathway name.}
+#'     empty overlap with the \emph{column names} of the \code{assayData_df}
+#'     data frame. The names of the pathways (the list elements themselves)
+#'     should be the a shorthand representation of the full pathway name.}
 #'   \item{TERMS: }{ A character vector the same length as the
 #'     \code{pathways} list with the proper names of the pathways.}
 #' }
@@ -56,35 +56,35 @@
 #'   data("colonGenesets_ls")
 #'
 #'   ###  Create an OmicsPathway Object  ###
-#'   colon_OmicsPath <- create_OmicsPath(massSpec_df = colonSurv_df[, -(1:2)],
+#'   colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
 #'                                       pathwaySet_ls = colonGenesets_ls)
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(massSpec_df = colonSurv_df[, -(1:2)],
+#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
 #'                                       pathwaySet_ls = colonGenesets_ls,
 #'                                       eventTime_vec = colonSurv_df$OS_time,
 #'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
 #'
 #'   ###  Create an OmicsReg Object  ###
-#'   colon_OmicsReg <- create_OmicsReg(massSpec_df = colonSurv_df[, -(1:2)],
+#'   colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
 #'                                     pathwaySet_ls = colonGenesets_ls,
 #'                                     response_num = colonSurv_df$OS_time)
 #'
 #'   ###  Create an OmicsCateg Object  ###
-#'   colon_OmicsCateg <- create_OmicsCateg(massSpec_df = colonSurv_df[, -(1:2)],
+#'   colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
 #'                                         pathwaySet_ls = colonGenesets_ls,
 #'                                         response_fact = as.factor(colonSurv_df$OS_event))
 #'
 #'
 #' @export
 #' @rdname create_OmicsPathway
-create_OmicsPath <- function(massSpec_df, pathwaySet_ls){
+create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 
-  if("matrix" %in% class(massSpec_df) &
-     !("data.frame" %in% class(massSpec_df))){
-    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
-    that the pathwayPCA:: package functions require -Omics data as an N x p data
-    frame object: this data frame will have one observation per row and one
+  if("matrix" %in% class(assayData_df) &
+     !("data.frame" %in% class(assayData_df))){
+    stop("\n You have supplied a matrix object to the assayData_df argument.
+    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
@@ -95,7 +95,7 @@ create_OmicsPath <- function(massSpec_df, pathwaySet_ls){
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsPathway",
-      massSpec = massSpec_df,
+      assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls)
 
 }
@@ -113,16 +113,16 @@ create_OmicsPath <- function(massSpec_df, pathwaySet_ls){
 #'
 #' @export
 #' @rdname create_OmicsPathway
-create_OmicsSurv <- function(massSpec_df,
+create_OmicsSurv <- function(assayData_df,
                              pathwaySet_ls,
                              eventTime_vec,
                              eventObserved_vec){
 
-  if("matrix" %in% class(massSpec_df) &
-     !("data.frame" %in% class(massSpec_df))){
-    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
-    that the pathwayPCA:: package functions require -Omics data as an N x p data
-    frame object: this data frame will have one observation per row and one
+  if("matrix" %in% class(assayData_df) &
+     !("data.frame" %in% class(assayData_df))){
+    stop("\n You have supplied a matrix object to the assayData_df argument.
+    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
@@ -133,7 +133,7 @@ create_OmicsSurv <- function(massSpec_df,
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsSurv",
-      massSpec = massSpec_df,
+      assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
       eventTime = eventTime_vec,
       eventObserved = eventObserved_vec)
@@ -152,15 +152,15 @@ create_OmicsSurv <- function(massSpec_df,
 #'
 #' @export
 #' @rdname create_OmicsPathway
-create_OmicsReg <- function(massSpec_df,
+create_OmicsReg <- function(assayData_df,
                             pathwaySet_ls,
                             response_num){
 
-  if("matrix" %in% class(massSpec_df) &
-     !("data.frame" %in% class(massSpec_df))){
-    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
-    that the pathwayPCA:: package functions require -Omics data as an N x p data
-    frame object: this data frame will have one observation per row and one
+  if("matrix" %in% class(assayData_df) &
+     !("data.frame" %in% class(assayData_df))){
+    stop("\n You have supplied a matrix object to the assayData_df argument.
+    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
@@ -171,7 +171,7 @@ create_OmicsReg <- function(massSpec_df,
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsReg",
-      massSpec = massSpec_df,
+      assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
       response = response_num)
 
@@ -181,15 +181,15 @@ create_OmicsReg <- function(massSpec_df,
 #'   generalized linear model
 #' @export
 #' @rdname create_OmicsPathway
-create_OmicsCateg <- function(massSpec_df,
+create_OmicsCateg <- function(assayData_df,
                               pathwaySet_ls,
                               response_fact){
 
-  if("matrix" %in% class(massSpec_df) &
-     !("data.frame" %in% class(massSpec_df))){
-    stop("\n You have supplied a matrix object to the massSpec_df argument. Note
-    that the pathwayPCA:: package functions require -Omics data as an N x p data
-    frame object: this data frame will have one observation per row and one
+  if("matrix" %in% class(assayData_df) &
+     !("data.frame" %in% class(assayData_df))){
+    stop("\n You have supplied a matrix object to the assayData_df argument.
+    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
@@ -200,7 +200,7 @@ create_OmicsCateg <- function(massSpec_df,
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
   new("OmicsCateg",
-      massSpec = massSpec_df,
+      assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
       response = response_fact)
 

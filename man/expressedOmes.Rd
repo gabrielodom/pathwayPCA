@@ -70,7 +70,7 @@ This function takes in a data frame with named columns and a pathway
   data("colonGenesets_ls")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(massSpec_df = colonSurv_df[, -(1:2)],
+  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
                                       pathwaySet_ls = colonGenesets_ls,
                                       eventTime_vec = colonSurv_df$OS_time,
                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))

@@ -3,15 +3,15 @@
 #' @description This creates the "OmicsReg" class which extends the
 #'   "OmicsPathway" master class.
 #'
-#' @slot massSpec An $N x p$ data frame with named columns
+#' @slot assayData_df An $N x p$ data frame with named columns
 #' @slot pathwaySet A list of known gene pathways with one or two elements:
 #' \itemize{
 #'   \item{pathways : }{A named list of character vectors. Each vector contains
 #'     the names of the individual genes within that pathway as a vector of
 #'     character strings. The names contained in these vectors must have non-
-#'     empty overlap with the \emph{column names} of the \code{massSpec} data
-#'     frame. The names of the pathways (the list elements themselves) should
-#'     be the a shorthand representation of the full pathway name.}
+#'     empty overlap with the \emph{column names} of the \code{assayData_df}
+#'     data frame. The names of the pathways (the list elements themselves)
+#'     should be the a shorthand representation of the full pathway name.}
 #'   \item{TERMS: }{ A character vector the same length as the
 #'     \code{pathways} list with the proper names of the pathways.}
 #'   \item{setsize : }{A named integer vector the same length as the

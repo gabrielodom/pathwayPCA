@@ -83,35 +83,35 @@ Now that we have our data loaded, and we have checked that each piece of data is
   - Survival response: Use the `create_OmicsSurv()` function to create an object with class `OmicsSurv`. This object will contain:
     + `eventTime`: a numeric vector of event times
     + `eventObserved`: a logical vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
-    + `massSpec`: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
-    + `pathwaySet`: a list of pathway information, as described in the "Load Gene Set List" section. The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `massSpec` object).
+    + `assayData_df`: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
+    + `pathwaySet`: a list of pathway information, as described in the "Load Gene Set List" section. The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `assayData_df` object).
   - Regression response: Use the `create_OmicsReg()` function to create an object with class `OmicsReg`. This object will contain:
     + `response`: a numeric vector of the response
-    + `massSpec`: a tidy data frame of prediction information, as described above.
+    + `assayData_df`: a tidy data frame of prediction information, as described above.
     + `pathwaySet`: a list of pathway information, as described above.
   - Binary Classification response: Use the `create_OmicsCateg()` function to create an object with class `OmicsCateg`. In future versions, this function will be able to take in n-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
     + `response`: a factor vector of the response
-    + `massSpec`: a tidy data frame of prediction information, as described above.
+    + `assayData_df`: a tidy data frame of prediction information, as described above.
     + `pathwaySet`: a list of pathway information, as described above.
 
  
 ### Create an `OmicsSurv` Object
 Using the survival response information, we will create a valid `OmicsSurv` object for further analysis with the `pathwayPCA::` functions. Remember, it is vitally important to input your data in the forms described above. Because we are creating an `OmicsSurv` object, we will need event times as a numeric vector and death indicator as a logical vector.
 ```{r create_OmicsSurv}
-colon_OmicsSurv <- create_OmicsSurv(massSpec_df = cancers_df,
+colon_OmicsSurv <- create_OmicsSurv(assayData_df = cancers_df,
                                     pathwaySet_ls = geneset_ls,
                                     eventTime_vec = survTime_num,
                                     eventObserved_vec = dead_logi)
 str(colon_OmicsSurv, max.level = 2)
 ```
 
-Because the `massSpec` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. Notice that the `pathwaySet` object is a list of 3 now: upon creation, the `setsize` vector is added to the `pathwaySet` object. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
+Because the `assayData_df` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. Notice that the `pathwaySet` object is a list of 3 now: upon creation, the `setsize` vector is added to the `pathwaySet` object. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
 
 
 ### Create an `OmicsReg` Object
 Following our previous step in creation of a survival object, we can create a data object for regression response.
 ```{r create_OmicsReg}
-colon_OmicsReg <- create_OmicsReg(massSpec_df = cancers_df,
+colon_OmicsReg <- create_OmicsReg(assayData_df = cancers_df,
                                   pathwaySet_ls = geneset_ls,
                                   response_num = survTime_num)
 str(colon_OmicsReg, max.level = 2)
@@ -121,7 +121,7 @@ str(colon_OmicsReg, max.level = 2)
 ### Create an `OmicsCateg` Object
 And we can also create our data object for binary classification response. As we mentioned previously, we do not yet support other GLM models, but we are working on it.
 ```{r create_OmicsCateg}
-colon_OmicsCateg <- create_OmicsCateg(massSpec_df = cancers_df,
+colon_OmicsCateg <- create_OmicsCateg(assayData_df = cancers_df,
                                       pathwaySet_ls = geneset_ls,
                                       response_fact = dead_fact)
 str(colon_OmicsCateg, max.level = 2)
@@ -205,7 +205,7 @@ For each pathway $p$-value data frame, we will select the top 25 pathways, and t
 ```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
 surv_melt_df <- surv_pVals_df %>%
-  select(-terms, - setsize) %>%
+  select(-terms, - setsize, -trim_size) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
   mutate(pathways = factor(pathways,
@@ -232,7 +232,7 @@ ggplot(surv_melt_df) +
 ```{r reg_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
 reg_melt_df <- reg_pVals_df %>%
-  select(-terms, - setsize) %>%
+  select(-terms, - setsize, -trim_size) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
   mutate(pathways = factor(pathways,
@@ -259,7 +259,7 @@ ggplot(reg_melt_df) +
 ```{r categ_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
 categ_melt_df <- categ_pVals_df %>%
-  select(-terms, - setsize) %>%
+  select(-terms, - setsize, -trim_size) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
   mutate(pathways = factor(pathways,

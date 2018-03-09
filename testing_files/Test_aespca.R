@@ -36,7 +36,7 @@ load("data/aespca_Genesets_ls.rda")
 
 
 ######  Full Walkthrough  #####################################################
-ovarian_OmicsPath <- create_OmicsPath(massSpec_df = ovarianFiltered_df[, -(1:3)],
+ovarian_OmicsPath <- create_OmicsPath(assayData_df = ovarianFiltered_df[, -(1:3)],
                                       pathwaySet_ls = aespca_Genesets_ls)
 
 ovarian_Omes <- expressedOmes(ovarian_OmicsPath)
@@ -62,7 +62,7 @@ Sys.time() - a # 3.229954 min; so, it works...
 
 ###  Create Ovarian OmicsCateg Object  ###
 tumour_fact <- as.factor(ovarianFiltered_df$Tumor_Stage_Ovary_FIGO)
-ovarian_OmicsCateg <- create_OmicsCateg(massSpec_df = ovarianFiltered_df[, -(1:3)],
+ovarian_OmicsCateg <- create_OmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
                                         pathwaySet_ls = aespca_Genesets_ls,
                                         response_fact = tumour_fact)
 

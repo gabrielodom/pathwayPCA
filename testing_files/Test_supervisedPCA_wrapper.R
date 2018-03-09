@@ -585,7 +585,7 @@ superPCA_pathway_pvals <- function(Omics_object,
   # browser()
 
   ###  Extract Information from S4 Object  ###
-  geneArray_df <- t(Omics_object@massSpec)
+  geneArray_df <- t(Omics_object@assayData_df)
   pathwayGeneSets_ls <- Omics_object@pathwaySet
   obj_class <- class(Omics_object)
   switch (obj_class,
@@ -808,7 +808,7 @@ rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 # REQUIRES THE TUMOUR SURVIVAL DATA SET
 ###  Tests  ###
 
-tumour_OmicsSurv <- create_OmicsSurv(massSpec_df = as.data.frame(t(array)),
+tumour_OmicsSurv <- create_OmicsSurv(assayData_df = as.data.frame(t(array)),
                                      pathwaySet_ls = geneset,
                                      eventTime_vec = survY_df$SurvivalTime,
                                      eventObserved_vec = as.logical(survY_df$disease_event))
@@ -822,7 +822,7 @@ Sys.time() - a # 1.715719 min
 # It works
 
 
-tumour_OmicsReg <- create_OmicsReg(massSpec_df = as.data.frame(t(array)),
+tumour_OmicsReg <- create_OmicsReg(assayData_df = as.data.frame(t(array)),
                                    pathwaySet_ls = geneset,
                                    response_num = survY_df$SurvivalTime)
 a <- Sys.time()
@@ -835,7 +835,7 @@ Sys.time() - a # 1.054811 min
 # It works
 
 
-tumour_OmicsCateg <- create_OmicsCateg(massSpec_df = as.data.frame(t(array)),
+tumour_OmicsCateg <- create_OmicsCateg(assayData_df = as.data.frame(t(array)),
                                        pathwaySet_ls = geneset,
                                        response_fact = as.factor(survY_df$disease_event))
 a <- Sys.time()

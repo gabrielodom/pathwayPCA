@@ -57,7 +57,7 @@
 #'   data("colonGenesets_ls")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(massSpec_df = colonSurv_df[, -(1:2)],
+#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
 #'                                       pathwaySet_ls = colonGenesets_ls,
 #'                                       eventTime_vec = colonSurv_df$OS_time,
 #'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
@@ -86,7 +86,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
             # browser()
 
-            genelist <- colnames(object@massSpec)
+            genelist <- colnames(object@assayData_df)
             paths_ls <- object@pathwaySet$pathways
             genesInPathway_vec <- unique(do.call(c, paths_ls))
             trimSetsize <- object@pathwaySet$setsize
@@ -138,7 +138,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             if(as.character(returnClass) == "list"){
 
               extractedMatrix_ls <- lapply(cleanPaths_ls, function(x){
-                object@massSpec[x]
+                object@assayData_df[x]
               })
 
 
@@ -183,20 +183,3 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
           })
 
-
-# # Test:
-
-# library(methods)
-# library(pathwayPCA)
-# load("data/ovarianFiltered_df.rda")
-# load("data/genesets_ls.rda")
-#
-#
-# testRedPath <- expressedOmes(testOmicsPath)
-# testRedPath2 <- expressedOmes(testOmicsSurv)
-# testRedPath3 <- expressedOmes(testOmicsReg)
-# testRedPath4 <- expressedOmes(testOmicsCateg)
-# identical(testRedPath, testRedPath2)
-# identical(testRedPath, testRedPath3)
-# identical(testRedPath, testRedPath4)
-# # It works
