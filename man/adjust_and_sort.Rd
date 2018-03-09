@@ -24,7 +24,12 @@ contain
   \item{TERMS : }{A character vector the same length as \code{pathways}
     containing the full pathway descriptions.}
   \item{setsize : }{An integer vector the same length as \code{pathways}
-    containing the number of genes present in the pathway.}
+    containing the number of genes contained in the original the pathway
+    set.}
+  \item{trim_setsize : }{An integer vector the same length as
+    \code{pathways} containing the number of genes present in the pathway
+    after trimming. Pathway set trimming is done in the
+    \code{\link{expressedOmes}} function.}
 }}
 
 \item{adjust}{Should you adjust the \eqn{p}-values for multiple comparisons?
@@ -54,7 +59,10 @@ A data frame with columns
 
 The data frame will be sorted in ascending order by the method specified
   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
-  then the data frame will be sorted by the raw \eqn{p}-values.
+  then the data frame will be sorted by the raw \eqn{p}-values. If you have
+  the suggested \code{tidyverse::} package suite loaded, then this data frame
+  will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
+  simple data frame.
 }
 \description{
 Adjust the pathway \eqn{p}-values, then return a data frame of
