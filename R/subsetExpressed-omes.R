@@ -16,6 +16,11 @@
 #'   calls, this defaults to the class of the object, allowing the user to input
 #'   an object of class \code{OmicsSurv}, \code{OmicsReg}, \code{OmicsCateg},
 #'   and have an object of the same class returned.
+#' @param message Should this function return diagnostic messages? Messages
+#'   concern the percentage of genes included in the pathway set but not
+#'   measured in the data, genes measured in the data but not called for in the
+#'   pathways, and the number of pathways ignored due to too few number of genes
+#'   present after trimming. Defaults to \code{TRUE}.
 #' @param ... Dots for additional internal arguments (as necessary)
 #'
 #' @return If \code{returnClass = class(object)}: A valid \code{Omics*}-class
@@ -72,6 +77,7 @@ setGeneric("expressedOmes",
            function(object,
                     trim = 3,
                     returnClass = class(object),
+                    message = TRUE,
                     ...){
              standardGeneric("expressedOmes")
            }
@@ -82,6 +88,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
           definition = function(object,
                                 trim = 3,
                                 returnClass = class(object),
+                                message = TRUE,
                                 ...){
 
             # browser()
@@ -128,11 +135,32 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             # paths_ls <- newPaths_trim[-nullPaths]
             cleanPaths_ls <- Filter(length, newPaths_trim)
 
+
             ###  Reporting Gene Overlap  ###
             missingPaths_char <- names(newPaths_trim)[nullPaths]
             pRmFeatures <- 1 -
               length(genesInTrimPathway_vec) / length(genesInPathway_vec)
             pSelectFeatures <- length(genesInTrimPathway_vec) / length(genelist)
+
+            ###  Print Messages  ###
+            # To display at 80 characters on the screen, our message can run
+            #   from column 30 to 110 in the code.
+            if(message){
+
+              message(sprintf("Of the %i unique genes in the input pathway set, %.1f%% were not expressed in
+  the input data and were therefore removed.",
+                              length(genesInPathway_vec), pRmFeatures * 100))
+
+              message(sprintf("After trimming unexpressed genes from the %i supplied pathways, we removed %i
+  pathway(s) because they contained %i or fewer genes.",
+                              length(paths_ls), length(missingPaths_char), trim))
+
+              message(sprintf("Of the %i measured genes in the input data frame, %.1f%% were included in at
+  least one pathway after trimming. \n",
+                              length(genelist), pSelectFeatures * 100))
+
+            }
+
 
             ###  Create the Return Object  ###
             if(as.character(returnClass) == "list"){
@@ -151,21 +179,6 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
               out <- extractedMatrix_ls
 
             } else {
-
-              ###  Print Messages  ###
-              # To display at 80 characters on the screen, our message can run
-              #   from column 30 to 110 in te code.
-              message(sprintf("Of the %i unique genes in the input pathway set, %.1f%% were not expressed in
-  the input data and were therefore removed.",
-                              length(genesInPathway_vec), pRmFeatures * 100))
-
-              message(sprintf("After trimming unexpressed genes from the %i supplied pathways, we removed %i
-  pathway(s) because they contained %i or fewer genes.",
-                              length(paths_ls), length(missingPaths_char), trim))
-
-              message(sprintf("Of the %i measured genes in the input data frame, %.1f%% were included in at
-  least one pathway after trimming. \n",
-                              length(genelist), pSelectFeatures * 100))
 
               attr(cleanPaths_ls,
                    "missingPaths") <- missingPaths_char

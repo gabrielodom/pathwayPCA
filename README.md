@@ -1,7 +1,7 @@
 # `pathwayPCA` Development Notes
 A Bioconductor package for extracting principal components from expressed pathways
 
-Authors: Gabriel J. Odom, Yuguang Ban, and Xi Chen.
+Authors: Gabriel J. Odom, Yuguang James Ban, and Xi Steven Chen.
 Date: 2017-10-19
 
 
@@ -293,7 +293,7 @@ I'm adding additional attributes to the output of the `expressedOmes()` function
 
 For a, the percent of features removed from the `massSpec` data frame is in the `removedFeature%` attribute, while the percent of features in the pathway that have matching values is in the `selectedFeature%` attribute. These attributes are attached to the pathways in the `pathwaySet` element of the `Omics*` object returned by the `expressedOmes()` function. Further, the count of genes present for analysis in each pathway is returned in the `trim_size` column in the data frame returned by the `*_pVals()` functions. This column should be compared against the `setsize` column, which contains the original gene count for each pathway. For b, the pathways with 0 genes included in the `trim_size` column are the pathways that were removed from the analysis because they had fewer than `trim` genes (as supplied by the `min.features = 3` argument of the two `*_pVals()` functions). I also updated the vignettes to account for this new column in the output data frame. For c, the user supplies this information. I see no reason to return EDA information at the *end* of the pathway analysis. We can consider printing the summary information of created `Omics*` objects at creation (so that the end user sees a visual confirmation that their object was created correctly), but I'm unconvinced that we need to create specific functions for EDA, or return any summary information at the end of analysis. 
 
-I also added messages to the `expressedOmes()` function that print to the screen during function execution (not for the internal `expressedOmes()` call that only cares about returning the list of matrices, but the main call).
+I also added messages to the `expressedOmes()` function that print to the screen during function execution (not for the internal `expressedOmes()` call that only cares about returning the list of matrices, but the main call). I used a new argument called `messages`, which defaults to `TRUE`, to deal with this.
     
 2. <span style="color:blue"> can we change the name ‘massSpec’ to ‘assayData’ or something more general terms that include data generated from mass spectrum, gene expression, and other types of genomic data. </span>
 
@@ -315,5 +315,17 @@ No. Function names should not change when functionality is *added*, only when it
 ### `AESPCA_pVals()`
 
 1. <span style="color:blue"> can we add first k PCs option in the example? Or set it to k=2. </span>
+
+This is governed by the `numPCs` argument in the `*_pVals()` functions. It defaults to 1. We can easily change the default to 2, or any number less than `min.features` (which defaults to 3).
+
 2. <span style="color:blue"> is it possible to add returning per gene score/association (association of PCs with features, we need to talk with Dr. Chen about this) </span>
+
+To me, because this package is designed with pathway *attribution* in mind, specific gene scoring should not be the focus of the package functions. If necessary, we could add some basic feature attribution tests for the genes from the top X pathways, but these functions would necessarily have to preserve the FDR from the pathway calculation. An ad hoc method could be to simply return any genes that appear in more than one of the top X pathways. This would not require any "testing", and it would not inflate the pathway FDR values.
+
+I've created the `topGenes()` function to take in the output $p$-value data frame from either `AESPCA_pVals()` or `superPCA_pVals()` and a valid supervised `Omics*` object. I create a matrix with all pathways as the columns and all genes as the rows, with a 1 in the $i, j$ entry of the matrix if gene $i$ is an element of pathway $j$ (after trimming the pathways to the assay data frame suplied). Then I multiply each pathway membership indicator column by the negative natural logarithm of the $p$-values for that pathway. This function then returns a named numeric vector of the gene sums of these scores, sorted in descending order. This function is built, tested, and documented. Furthermore, I've googled the relationship between the top 5% of genes and colon cancer, and almost all of them have published research papers dedicated to (or at minimum mentioning) their relationship with colon cancer. This was nice to see.
+
+I need to add a `topGenes()` example to the two vignettes.
+
 3. <span style="color:blue"> Also, in the return table should we add a column of number of available assayed features/genes in pathways </span>
+
+That's been handled through the `trim_size` column discussed above.

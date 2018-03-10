@@ -6,10 +6,11 @@
 \alias{expressedOmes,OmicsPathway-method}
 \title{Extract expressed -omes matching a gene set from a mass spectrometry matrix}
 \usage{
-expressedOmes(object, trim = 3, returnClass = class(object), ...)
+expressedOmes(object, trim = 3, returnClass = class(object),
+  message = TRUE, ...)
 
 \S4method{expressedOmes}{OmicsPathway}(object, trim = 3,
-  returnClass = class(object), ...)
+  returnClass = class(object), message = TRUE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway}, \code{OmicsSurv},
@@ -25,6 +26,12 @@ a \code{list} object of each pathway expressed gene matrix. For external
 calls, this defaults to the class of the object, allowing the user to input
 an object of class \code{OmicsSurv}, \code{OmicsReg}, \code{OmicsCateg},
 and have an object of the same class returned.}
+
+\item{message}{Should this function return diagnostic messages? Messages
+concern the percentage of genes included in the pathway set but not
+measured in the data, genes measured in the data but not called for in the
+pathways, and the number of pathways ignored due to too few number of genes
+present after trimming. Defaults to \code{TRUE}.}
 
 \item{...}{Dots for additional internal arguments (as necessary)}
 }
