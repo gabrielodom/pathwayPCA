@@ -201,13 +201,13 @@ Sys.time() - d
 
 
 ## Subset the Top Pathways
-Now that we have the pathway-specific $p$-values, we can inspect the top 25 pathways by significance. We will first subset the data frame returned by the `superPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
+Now that we have the pathway-specific $p$-values, we can inspect the top pathways by significance. We will first subset the data frame returned by the `superPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
 ```{r graphcs_packages}
 library(tidyverse)
 library(reshape2)
 ```
 
-For each pathway $p$-value data frame, we will select the top 25 pathways, and transform the data for better graphics. Then, we will plot the pathway $p$-values for the top 25 most significant pathways as a horizontal bar chart. The thick vertical black line is at $p = 0.05$, and the thin vertical black line is at $p = 0.10$.
+For each pathway $p$-value data frame, we will select the top pathways, and transform the data for better graphics. Then, we will plot the pathway $p$-values for the most significant pathways as a horizontal bar chart. The thick vertical black line is at $p = 0.05$, and the thin vertical black line is at $p = 0.10$.
 
 ### Significant Survival Pathways
 ```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
