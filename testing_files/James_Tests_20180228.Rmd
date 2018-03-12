@@ -65,7 +65,6 @@ AESPCA_pVals()—
 OmicsReg—in terms of survival time vs features, should we use only events which occurred (death)?
 
 ## Graphics:
-
 Consider a multiple-side-by-side plot: pathway size/core genes, pathway significance, up/down direction of association
 
 ## Computational and memory issue:

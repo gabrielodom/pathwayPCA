@@ -14,8 +14,12 @@
 #'   contained in all pathways. Defaults to 0.05.
 #'
 #'
-#' @return A named numeric vector. The names are the genes, and the values are
-#'   the scores for those genes.
+#' @return A list of two named numeric vectors. For both vectors, the names are
+#'   the genes, and the values are the scores for those genes. The first vector
+#'   is the sum of scores across all pathways; the second vector is this score
+#'   sum divided by the number of pathways which contain that particular gene.
+#'   The summed vector does not adjust for genes which appear more frequently
+#'   in pathways, while the averaged vector does.
 #'
 #' @details This function takes in the pathway set information in a valid
 #'   \code{Omics*}-class object and a data frame of ranked pathways (as returned
@@ -28,8 +32,9 @@
 #'   multiplies each pathway membership indicator column by the negative natural
 #'   logarithm of the adjusted \eqn{p}-values for that pathway; if multiple FDR
 #'   adjustment methods are used, then the score is the average of each negative
-#'   logged \eqn{p}-value. This function then returns a named numeric vector of
-#'   the sums of these scores for each gene, sorted in descending order.
+#'   logged \eqn{p}-value. This function then returns two named numeric vectors:
+#'   the sum of these gene scores and the means of the non-zero gene scores,
+#'   sorted in descending order.
 #'
 #' @export
 #'
@@ -55,8 +60,7 @@
 #'                                   adjustment = c("Hoch", "SidakSD"))
 #'
 #'   ###  Rank Genes  ###
-#'   topGenes(object = colon_OmicsSurv,
-#'            pVals_df = surv_pVals_df)
+#'   topGenes(object = colon_OmicsSurv, pVals_df = surv_pVals_df)
 #'
 #'
 #' @importFrom methods setGeneric
@@ -79,14 +83,20 @@ setMethod(f = "topGenes", signature = "OmicsPathway",
             genes_char <- unique(do.call(c, paths_ls))
             rm(object, clean_obj)
 
+            # Because pVals_df is probably a tibble, df[1, 1] will not print
+            #   unless the tidyverse is loaded. Therefore, we need to force
+            #   pVals_df to be a data frame.
+            pVals_df <- as.data.frame(pVals_df)
+
 
             ###  Calculate Pathway Scores  ###
             ranks_df <- pVals_df[, 1, drop = FALSE]
-            # Currently, the first five columns are pathways, setsize, trim_size, terms,
-            #   and rawp. The adjusted p-value columns do not start until column 6.
+            # Currently, the first five columns are pathways, setsize, trim_size,
+            #   terms, and rawp. The adjusted p-value columns do not start until
+            #   column 6.
             adj_pVals_df <- pVals_df[, 6:ncol(pVals_df), drop = FALSE]
-            # Add in a buffer in case one of the p-values is identically 0 (this is
-            #   probable if the number of permutations is 1000 or smaller).
+            # Add in a buffer in case one of the p-values is identically 0 (this
+            #   is probable if the number of permutations is 1000 or smaller).
             minp <- min(unlist(adj_pVals_df)[unlist(adj_pVals_df) > 0])
             ranks_df$score <- rowMeans(-log(adj_pVals_df + minp / 100))
 
@@ -101,9 +111,23 @@ setMethod(f = "topGenes", signature = "OmicsPathway",
 
 
             ###  Return the Top 5% Most Significant Genes  ###
-            geneScores_num <- rowSums(membership_mat)
-            cutoff <- quantile(geneScores_num, 1 - percentile)
-            sort(geneScores_num[geneScores_num > cutoff], decreasing = TRUE)
+            # We will take the average non-zero score. If we had taken the sum,
+            #   then a gene that showed up in a ton of unrelated pathways could
+            #   have a higher score than a gene that shows up only once but in
+            #   a strongly-related pathway. We can count the non-zero scores
+            #   by using !!: the first turns all numbers into FALSE if the
+            #   number does not equal 0 and TRUE otherwise, so we negate that
+            #   again to turn all non-zero numbers into TRUE (which = 1).
+            rawScore <- rowSums(membership_mat)
+            rawCutoff <- quantile(rawScore, 1 - percentile)
+            rawRank <- sort(rawScore[rawScore >= rawCutoff], decreasing = TRUE)
+
+            adjScore <- rawScore / rowSums(!!membership_mat)
+            adjCutoff <- quantile(adjScore, 1 - percentile)
+            adjRank <- sort(adjScore[adjScore >= adjCutoff], decreasing = TRUE)
+
+            list(summedRank = rawRank,
+                 averagedRank = adjRank)
 
           })
 

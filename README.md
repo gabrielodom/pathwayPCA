@@ -316,7 +316,7 @@ No. Function names should not change when functionality is *added*, only when it
 
 1. <span style="color:blue"> can we add first k PCs option in the example? Or set it to k=2. </span>
 
-This is governed by the `numPCs` argument in the `*_pVals()` functions. It defaults to 1. We can easily change the default to 2, or any number less than `min.features` (which defaults to 3).
+This is governed by the `numPCs` argument in the `*_pVals()` functions. It defaults to 1. We can easily change the default to 2, or any number less than `min.features` (which defaults to 3). If you would like more than 
 
 2. <span style="color:blue"> is it possible to add returning per gene score/association (association of PCs with features, we need to talk with Dr. Chen about this) </span>
 
@@ -324,8 +324,65 @@ To me, because this package is designed with pathway *attribution* in mind, spec
 
 I've created the `topGenes()` function to take in the output $p$-value data frame from either `AESPCA_pVals()` or `superPCA_pVals()` and a valid supervised `Omics*` object. I create a matrix with all pathways as the columns and all genes as the rows, with a 1 in the $i, j$ entry of the matrix if gene $i$ is an element of pathway $j$ (after trimming the pathways to the assay data frame suplied). Then I multiply each pathway membership indicator column by the negative natural logarithm of the $p$-values for that pathway. This function then returns a named numeric vector of the gene sums of these scores, sorted in descending order. This function is built, tested, and documented. Furthermore, I've googled the relationship between the top 5% of genes and colon cancer, and almost all of them have published research papers dedicated to (or at minimum mentioning) their relationship with colon cancer. This was nice to see.
 
-I need to add a `topGenes()` example to the two vignettes.
+~~I need to add a `topGenes()` example to the two vignettes.~~ DONE.
 
 3. <span style="color:blue"> Also, in the return table should we add a column of number of available assayed features/genes in pathways </span>
 
 That's been handled through the `trim_size` column discussed above.
+
+
+## Examples
+`OmicsReg` — <span style="color:blue"> in terms of survival time vs features, should we use only events which occurred (death)? </span>
+
+If we were trying to perform some actual analysis, sure. We are not. We are simply showing how the functions work (specifically how to create a continuous-response `Omics` object). For this reason, we could have generated a random normal vector of length 250.
+
+
+## Graphics:
+<span style="color:blue"> Consider a multiple-side-by-side plot: pathway size/core genes, pathway significance, up/down direction of association </span>
+
+
+## Computational and memory issue:
+<span style="color:blue"> Check memory used during the computation, but I think it should not be any issue. </span>
+
+
+## Report of errors:
+### Checking data validity
+<span style="color:blue"> we probably need more meaningful error messages </span>
+
+### `pathway_tScores()`
+<span style="color:blue"> how do we deal with NA values? Is it allowed? Can we ignore NA value? Or provide a meaningful error message </span>
+
+
+## Vignettes:
+<span style="color:blue"> In “Calculate Pathway-Specific Model”, it was read “use the Bonferroni and Sidak...” but in the code, it shows “Hoch” rather than “bonferroni” </span>
+
+FIXED.
+
+
+## Other thoughts:
+<span style="color:blue"> Do we need a short paragraph to describe which method (aespca or superpca) to choose or compare the two methods? We can talk with Dr. Chen about this. </span>
+
+## Testing on different data set:
+<span style="color:blue"> The below comments and code are from James verbatim. </span>
+
+> Input data:
+cp5.1.ls—500 pathways
+prot.voom.spca—150 rows X 6332 columns
+tumor.ind—vector of 150 binary values
+
+> Code and function I used:
+
+```
+create_OmicsCateg(prot.voom.spca, cp5.1.ls,  tumor.ind)
+AESPCA_pVals
+
+Error in data.frame(pathways = names(pVals_vec), setsize = genesets_ls$setsize,  : 
+arguments imply differing number of rows: 0, 500, 476
+```
+
+> using the function superPCA_pVals, I got similar error:
+
+```
+Error in data.frame(pathways = names(pVals_vec), setsize = genesets_ls$setsize,  : 
+  arguments imply differing number of rows: 0, 500
+```

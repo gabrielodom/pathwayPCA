@@ -159,9 +159,11 @@ We now have a clean set of `Omics*` objects. We will
 3. Adjust the pathway $p$-values for False Discovery Rate (FDR)
 4. Return a sorted data frame of the adjusted $p$-values for each pathway
 
+Of note: we use the FDR adjustments executed in the `mt.rawp2adjp` function from the Bioconductor package [`multtest`](https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf). We copied the code from this function into our package, and made some slight modifications. However, we do not depend on this package directly. We acknowledge their work in this area and express our gratitude.
+
 
 ### Survival Response
-We will use all but two of our available cores, and use the Bonferroni and Sidak Step-Down FDR-adjustment procedures.
+We will use all but two of our available cores, and use the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures.
 ```{r surv_pvals}
 a <- Sys.time()
 surv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
@@ -288,3 +290,18 @@ ggplot(categ_melt_df) +
   geom_hline(yintercept = -log(0.1)) +
   coord_flip()
 ```
+
+
+
+## Rank Significant Genes
+Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. Our method is to build a matrix of pathways and their genes: each column is a pathway, and each row is a gene. The $i, j$ entry of this matrix is a 1 if gene $i$ is contained in pathway $j$ (after trimming to the genes measured in the supplied assay). Now consider the adjusted $p$-values of pathway $j$, $p_{1j}, p_{2j}, \ldots, p_{Aj}$, where $a \in \{1, 2, \ldots A\}$ are the FDR adjustment methods; we define the pathway score for this pathway as
+\[
+S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
+\]
+We then mulitply each of the columns in the matrix by its respective score.
+
+Now consider the rows of this matrix. Each row is a gene, and the $j^{th}$ entry in the row is equal to $S_j$, if the gene is included in pathway $j$, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The `topGenes()` function returns the top 5% of both. As we can see, most of the genes included in the `summedRank` vector are the in the list of "usual suspects" for colon cancer.
+```{r topSurvGenes}
+topGenes(object = colon_OmicsSurv, pVals_df = surv_pVals_df, percentile = 0.02)
+```
+

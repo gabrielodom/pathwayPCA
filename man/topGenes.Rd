@@ -21,8 +21,12 @@ topGenes(object, pVals_df, percentile = 0.05)
 contained in all pathways. Defaults to 0.05.}
 }
 \value{
-A named numeric vector. The names are the genes, and the values are
-  the scores for those genes.
+A list of two named numeric vectors. For both vectors, the names are
+  the genes, and the values are the scores for those genes. The first vector
+  is the sum of scores across all pathways; the second vector is this score
+  sum divided by the number of pathways which contain that particular gene.
+  The summed vector does not adjust for genes which appear more frequently
+  in pathways, while the averaged vector does.
 }
 \description{
 Given a supervised \code{Omics.*}-class object and a ranked
@@ -43,8 +47,9 @@ This function takes in the pathway set information in a valid
   multiplies each pathway membership indicator column by the negative natural
   logarithm of the adjusted \eqn{p}-values for that pathway; if multiple FDR
   adjustment methods are used, then the score is the average of each negative
-  logged \eqn{p}-value. This function then returns a named numeric vector of
-  the sums of these scores for each gene, sorted in descending order.
+  logged \eqn{p}-value. This function then returns two named numeric vectors:
+  the sum of these gene scores and the means of the non-zero gene scores,
+  sorted in descending order.
 }
 \examples{
   ###  Load the Example Data  ###
@@ -65,8 +70,7 @@ This function takes in the pathway set information in a valid
                                   adjustment = c("Hoch", "SidakSD"))
 
   ###  Rank Genes  ###
-  topGenes(object = colon_OmicsSurv,
-           pVals_df = surv_pVals_df)
+  topGenes(object = colon_OmicsSurv, pVals_df = surv_pVals_df)
 
 
 }
