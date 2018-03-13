@@ -73,8 +73,22 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
                                 ...){
             # browser()
 
-            data_Omes <- expressedOmes(object, returnClass = "list",
-                                       trim = trim, message = FALSE)
+            # The only way that the trim_setsize element would exist is if the
+            #   list has been trimmed.
+            pathSets_ls <- object@pathwaySet
+            if(is.null(pathSets_ls$trim_setsize)){
+
+              data_Omes <- expressedOmes(object, returnClass = "list",
+                                         trim = trim, message = FALSE)
+
+            } else {
+
+              data_Omes <- lapply(pathSets_ls$pathways, function(x){
+                object@assayData_df[x]
+              })
+
+            }
+
             n <- nrow(data_Omes[[1]])
 
             if(parallel){

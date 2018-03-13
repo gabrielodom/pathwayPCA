@@ -74,11 +74,20 @@ adjust_and_sort <- function(pVals_vec,
                                          "TSBH"),
                             ...){
 
-  pVals_df <- data.frame(pathways = names(pVals_vec),
+  # browser()
+  # If we remove a pathway, then the pValue for that pathway should
+  #   exist, and it should be NA. Right now, if we remove 10 pathways,
+  #   then the pVals_vec will be 10 shorter. We need these vectors to
+  #   be the same size.
+  pValsFull_vec <- rep(NA, length(genesets_ls$TERMS))
+  names(pValsFull_vec) <- names(genesets_ls$TERMS)
+  pValsFull_vec[names(pVals_vec)] <- pVals_vec
+
+  pVals_df <- data.frame(pathways = names(genesets_ls$TERMS),
                          setsize = genesets_ls$setsize,
                          trim_size = genesets_ls$trim_setsize,
                          terms = genesets_ls$TERMS,
-                         rawp = unname(pVals_vec),
+                         rawp = unname(pValsFull_vec),
                          stringsAsFactors = FALSE)
   rownames(pVals_df) <- NULL
 
@@ -86,6 +95,7 @@ adjust_and_sort <- function(pVals_vec,
 
     adjusted_mat <- adjustRaw_pVals(rawp = pVals_df$rawp,
                                     proc = proc_vec,
+                                    na.rm = anyNA(pVals_df$rawp),
                                     ...)
     adjusted_mat <- adjusted_mat[, -1, drop = FALSE]
 
