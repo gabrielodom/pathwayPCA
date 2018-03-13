@@ -54,7 +54,10 @@
 #'   simple data frame.
 #'
 #' @details This is a wrapper function for the \code{\link{adjustRaw_pVals}}
-#'   function.
+#'   function. The number of \eqn{p}-values passed to the \code{pVals_vec}
+#'   argument \emph{must} equal the number of pathways and set size values in
+#'   the \code{genesets_ls} argument. If you trimmed a pathway from \eqn{p}-
+#'   value calculation, then pad this missing value with an \code{NA}.
 #'
 #' @export
 #'
@@ -75,6 +78,7 @@ adjust_and_sort <- function(pVals_vec,
                             ...){
 
   # browser()
+
   # If we remove a pathway, then the pValue for that pathway should
   #   exist, and it should be NA. Right now, if we remove 10 pathways,
   #   then the pVals_vec will be 10 shorter. We need these vectors to

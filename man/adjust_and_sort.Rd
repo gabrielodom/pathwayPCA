@@ -70,7 +70,10 @@ Adjust the pathway \eqn{p}-values, then return a data frame of
 }
 \details{
 This is a wrapper function for the \code{\link{adjustRaw_pVals}}
-  function.
+  function. The number of \eqn{p}-values passed to the \code{pVals_vec}
+  argument \emph{must} equal the number of pathways and set size values in
+  the \code{genesets_ls} argument. If you trimmed a pathway from \eqn{p}-
+  value calculation, then pad this missing value with an \code{NA}.
 }
 \examples{
   NULL

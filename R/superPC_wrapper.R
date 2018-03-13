@@ -249,6 +249,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             ###  Calculate Raw Pathway p-Values  ###
             message("Calculating Pathway p-Values")
             genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
+            genesPerPathway_vec <- genesPerPathway_vec[names(paths_ls)]
             optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
                                                     pathwaySize_vec = genesPerPathway_vec,
                                                     ...)
