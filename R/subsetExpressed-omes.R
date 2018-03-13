@@ -163,22 +163,22 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
 
             ###  Create the Return Object  ###
-            if(as.character(returnClass) == "list"){
-
-              extractedMatrix_ls <- lapply(cleanPaths_ls, function(x){
-                object@assayData_df[x]
-              })
-
-
-              attr(extractedMatrix_ls,
-                   "missingPaths") <- missingPaths_char
-              attr(extractedMatrix_ls,
-                   "selectedFeature%") <- pSelectFeatures * 100
-              attr(extractedMatrix_ls,
-                   "removedFeature%") <- pRmFeatures * 100
-              out <- extractedMatrix_ls
-
-            } else {
+            # if(as.character(returnClass) == "list"){
+            #
+            #   extractedMatrix_ls <- lapply(cleanPaths_ls, function(x){
+            #     object@assayData_df[x]
+            #   })
+            #
+            #
+            #   attr(extractedMatrix_ls,
+            #        "missingPaths") <- missingPaths_char
+            #   attr(extractedMatrix_ls,
+            #        "selectedFeature%") <- pSelectFeatures * 100
+            #   attr(extractedMatrix_ls,
+            #        "removedFeature%") <- pRmFeatures * 100
+            #   out <- extractedMatrix_ls
+            #
+            # } else {
 
               attr(cleanPaths_ls,
                    "missingPaths") <- missingPaths_char
@@ -190,7 +190,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
               out@pathwaySet$pathways <- cleanPaths_ls
               out@pathwaySet$trim_setsize <- trimSetsize
 
-            }
+            # }
 
             out
 

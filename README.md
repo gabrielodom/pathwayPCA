@@ -340,14 +340,21 @@ If we were trying to perform some actual analysis, sure. We are not. We are simp
 ## Graphics:
 <span style="color:blue"> Consider a multiple-side-by-side plot: pathway size/core genes, pathway significance, up/down direction of association </span>
 
+Because we are testing attribution between response and extracted principal components intstead of the genes themselves, "upregulation" and "downregulation" do not make much sense to me. It's possible that the first PC may be positively or negatively associated with an outcome, but the second PC may have a significant relationship of the opposite sign (because PCs are orthogonal, I'd expect this relationship more often than not). I'd prefer to present our work as a way to explore which pathways have a relationship with the outcome, as well as present the contents of these pathways, than attempting to describe the *type* of the relationship.
+
 
 ## Computational and memory issue:
 <span style="color:blue"> Check memory used during the computation, but I think it should not be any issue. </span>
+
+I will test the memory used when I test James' test script / data. At the most memory-expensive part of the AES-PCA workflow (extracting pathway PCs), the software used 1.7 Gb of memory over the baseline. During pathway $p$-value calculation, 1.5 Gb of memory was used over baseline. 
 
 
 ## Report of errors:
 ### Checking data validity
 <span style="color:blue"> we probably need more meaningful error messages </span>
+
+I agree on this. However, we will need to work together to anticipate common errors, and then write helpful messages when those errors trigger. I have added a few, but I don't even know how biologists think. I was hoping that the very detailed vignettes would help.
+
 
 ### `pathway_tScores()`
 <span style="color:blue"> how do we deal with NA values? Is it allowed? Can we ignore NA value? Or provide a meaningful error message </span>
@@ -379,6 +386,29 @@ AESPCA_pVals
 Error in data.frame(pathways = names(pVals_vec), setsize = genesets_ls$setsize,  : 
 arguments imply differing number of rows: 0, 500, 476
 ```
+
+James transformed `prot.voom.spca` to a `tibble` object (which is unnecessary -- updated the vignettes / documentation to explain that the data must be a **`data frame`**; it *can* be a `tibble`, but it doesn't have to be). This is the code he sent me:
+```
+require(tibble) # I dont find it preloaded with pathwayPCA, if we use this
+                #   format we should probably add it as dependency
+prot.voom.tbl = as_tibble(prot.voom.spca)
+tumor_OmicsCateg <- create_OmicsCateg(assayData_df = prot.voom.tbl,
+                                      pathwaySet_ls = cp5.1.ls,
+                                      response_fact = as.factor(tumor.ind))
+```
+This all works fine. Calling `AESPCA_pVals()` on this object errors:
+
+>  Part 1: Calculate Pathway AES-PCs
+>  Error in newPaths[[i]] : subscript out of bounds
+
+The traceback shows the error is in the `expressedOmes()` function, so I browsed into that.
+
+1. The line `missingPaths_char <- names(newPaths_trim)[nullPaths]` returned `NULL` when there were actually 18 missing paths. This is because I'm assuming that the `pathways` list in the `pathwaySet` list is named. I need to create some check for that at object creation. If the names are null, then we add `paste0(pathway, 1:P)` as the pathway names. This also caused the "missing paths" message to print 0 missing paths. I've added a check for `NULL` names in the `Omics*` creation functions.
+2. For the AES-PCA workflow, we call `expressedOmes()` twice. The first time everything is fine (minus the names of the pathways), but the second time has an issue: we are initializing the `trimSetsize` vector as the original `setsize` vector, but these vectors aren't the same length if a pathway has been removed. I really need to split this into two functions. ~~I should have `expressedOmes` call the function to return a list internally.~~ No, because the list version is only ever needed in the `extract_aesPCs()` function in the `aesPC_extract_OmicsPath_PCs.R` file, I removed the "list" option from the `expressedOmes()` function, and I'm creating the list of matrices internally to the `extract_aesPCs()` function. This seems to have solved the second problem.
+3. After fixing these two errors, we have a problem in the `adjust_and_sort()` function call. Somehow, the 18 removed pathways were removed somewhere else. What happened was that the pathways with 0 genes were removed from calculation, but not from tabulation. ~~I'm going to add these genes back in (in the `adjust_and_sort()` function), but give them `NA` $p$-values.~~ That won't work, because we have no way of knowing which NAs belong with which pathways. During `Omics*` creation, I will add names to the `setsize` vector. I'm already checking for names for the `pathways` list, so we can take the names checked / created at that step and attach them to the `TERMS` and `setsize` entries. NOTE: this assumes that *all* the pathways have names. I'm using an `is.null()` check, but I should probably use some check for an empty string too. I'll talk to James about the best way to do this. Maybe hold the supplied names for later? I added checks to each creation function for `NULL` names and missing names; if you name some elements of a list but not others, the unamed elements are named `NA`.
+4. Test what will happen if we say `adjust = TRUE` and `adjustment = character(0)` (or just leave it missing)?
+5. Most of the $p$-values are 0, even after increasing the permutations to 5000.
+6. The `topGenes()` function errors.
 
 > using the function superPCA_pVals, I got similar error:
 

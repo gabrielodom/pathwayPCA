@@ -94,6 +94,32 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
+
+  ###  Pathways List Names Checking  ###
+  # If there are no names, create them. If there are missing names, label them.
+  if(is.null(names(pathwaySet_ls$pathways))){
+
+    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
+    names(pathwaySet_ls$pathways) <- pathNames
+
+  } else if(anyNA(names(pathwaySet_ls$pathways))){
+
+    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
+    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
+                                                           missingNm_idx)
+    pathNames <- names(pathwaySet_ls$pathways)
+
+  } else {
+    pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+
+  ###  Add Name Key to TERMS and setsize  ###
+  names(pathwaySet_ls$TERMS) <- pathNames
+  names(pathwaySet_ls$setsize) <- pathNames
+
+
+  ###  Create Omics Object  ###
   new("OmicsPathway",
       assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls)
@@ -132,6 +158,32 @@ create_OmicsSurv <- function(assayData_df,
 
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
+
+  ###  Pathways List Names Checking  ###
+  # If there are no names, create them. If there are missing names, label them.
+  if(is.null(names(pathwaySet_ls$pathways))){
+
+    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
+    names(pathwaySet_ls$pathways) <- pathNames
+
+  } else if(anyNA(names(pathwaySet_ls$pathways))){
+
+    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
+    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
+                                                           missingNm_idx)
+    pathNames <- names(pathwaySet_ls$pathways)
+
+  } else {
+    pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+
+  ###  Add Name Key to TERMS and setsize  ###
+  names(pathwaySet_ls$TERMS) <- pathNames
+  names(pathwaySet_ls$setsize) <- pathNames
+
+
+  ###  Create Omics Object  ###
   new("OmicsSurv",
       assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
@@ -170,6 +222,32 @@ create_OmicsReg <- function(assayData_df,
 
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
+
+  ###  Pathways List Names Checking  ###
+  # If there are no names, create them. If there are missing names, label them.
+  if(is.null(names(pathwaySet_ls$pathways))){
+
+    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
+    names(pathwaySet_ls$pathways) <- pathNames
+
+  } else if(anyNA(names(pathwaySet_ls$pathways))){
+
+    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
+    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
+                                                           missingNm_idx)
+    pathNames <- names(pathwaySet_ls$pathways)
+
+  } else {
+    pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+
+  ###  Add Name Key to TERMS and setsize  ###
+  names(pathwaySet_ls$TERMS) <- pathNames
+  names(pathwaySet_ls$setsize) <- pathNames
+
+
+  ###  Create Omics Object  ###
   new("OmicsReg",
       assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
@@ -199,6 +277,32 @@ create_OmicsCateg <- function(assayData_df,
 
   pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
 
+
+  ###  Pathways List Names Checking  ###
+  # If there are no names, create them. If there are missing names, label them.
+  if(is.null(names(pathwaySet_ls$pathways))){
+
+    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
+    names(pathwaySet_ls$pathways) <- pathNames
+
+  } else if(anyNA(names(pathwaySet_ls$pathways))){
+
+    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
+    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
+                                                           missingNm_idx)
+    pathNames <- names(pathwaySet_ls$pathways)
+
+  } else {
+    pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+
+  ###  Add Name Key to TERMS and setsize  ###
+  names(pathwaySet_ls$TERMS) <- pathNames
+  names(pathwaySet_ls$setsize) <- pathNames
+
+
+  ###  Create Omics Object  ###
   new("OmicsCateg",
       assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
