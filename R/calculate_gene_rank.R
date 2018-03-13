@@ -9,9 +9,10 @@
 #' @param object An object of class \code{OmicsSurv}, \code{OmicsReg}, or
 #'   \code{OmicsCateg}.
 #' @param pVals_df The ranked pathways data frame returned by either the
-#'   \code{AESPCA_pVals} or \code{superPCA_pVals} functions.
+#'   \code{AESPCA_pVals} or \code{superPCA_pVals} functions. Missing \eqn{p}-
+#'   values (from trimmed pathways) are omitted.
 #' @param percentile Return the most significant percent of the features
-#'   contained in all pathways. Defaults to 0.05.
+#'   contained in all pathways. Defaults to 0.01.
 #'
 #'
 #' @return A list of two named numeric vectors. For both vectors, the names are
@@ -67,16 +68,16 @@
 #' @importFrom stats quantile
 #' @rdname topGenes
 setGeneric("topGenes",
-           function(object, pVals_df, percentile = 0.05){
+           function(object, pVals_df, percentile = 0.01){
              standardGeneric("topGenes")
            }
 )
 
 #' @rdname topGenes
 setMethod(f = "topGenes", signature = "OmicsPathway",
-          definition = function(object, pVals_df, percentile = 0.05){
+          definition = function(object, pVals_df, percentile = 0.01){
 
-            # browser()
+            browser()
 
             clean_obj <- expressedOmes(object, message = FALSE)
             paths_ls <- clean_obj@pathwaySet$pathways
@@ -85,8 +86,9 @@ setMethod(f = "topGenes", signature = "OmicsPathway",
 
             # Because pVals_df is probably a tibble, df[1, 1] will not print
             #   unless the tidyverse is loaded. Therefore, we need to force
-            #   pVals_df to be a data frame.
-            pVals_df <- as.data.frame(pVals_df)
+            #   pVals_df to be a data frame. Also, because trimmed paths will
+            #   have NA p-values, we'll remove these from any ranking.
+            pVals_df <- na.omit(as.data.frame(pVals_df))
 
 
             ###  Calculate Pathway Scores  ###

@@ -14,15 +14,29 @@
 #'   results without an error). These draconian input class restrictions
 #'   protect the accuracy of your data's analysis.
 #'
+#'   Also note the following: if the supplied \code{pathways} object within your
+#'   \code{pathwaySet_ls} list has no names, then this pathway list will be
+#'   named \code{path1}, \code{path2}, \code{path3}, ...; if any of the pathways
+#'   are missing names, then the missing pathways will be named \code{noName}
+#'   followed by the index of the pathway. For example, if the 112th pathway in
+#'   the \code{pathways} list has no name (but other pathways do), then this
+#'   pathway will be named \code{noName112}. Furthermore, if any of the pathway
+#'   names are duplicated, then the duplicates will have \code{.1}, \code{.2},
+#'   \code{.3}, ... appended to the duplicate names until all pathway names are
+#'   unique. Once all pathways have been verified to have unique names, then
+#'   the pathway names are attached as attributes to the \code{TERMS} and
+#'   \code{setsize} vectors (the \code{setsize} vector is calculated at object
+#'   creation).
+#'
 #' @section OmicsPathway:
 #' Valid OmicsPathawy objects will have no response information, just the mass
 #'   spectrometry (gene "design") matrix and the pathway list. OmicsPathway
 #'   objects should be created only when unsupervised pathway extraction is
-#'   needed. Because of the missing response, no pathway testing can be
-#'   performed on an OmicsPathway object.
+#'   needed (not possible with Supervised PCA). Because of the missing response,
+#'   no pathway testing can be performed on an OmicsPathway object.
 #'
 #' @param assayData_df An $N x p$ data frame with named columns
-#' @param pathwaySet_ls A list of known gene pathways with one or two elements:
+#' @param pathwaySet_ls A list of known gene pathways with two elements:
 #' \itemize{
 #'   \item{pathways : }{A named list of character vectors. Each vector contains
 #'     the names of the individual genes within that pathway as a vector of
@@ -92,7 +106,7 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
     see the help information found in ?create_OmicsPath for more details.")
   }
 
-  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
+  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
@@ -111,6 +125,14 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 
   } else {
     pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+
+    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    pathNames <- names(shortSet_df)
+    names(pathwaySet_ls$pathways) <- pathNames
+
   }
 
 
@@ -156,7 +178,7 @@ create_OmicsSurv <- function(assayData_df,
     see the help information found in ?create_OmicsSurv for more details.")
   }
 
-  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
+  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
@@ -175,6 +197,14 @@ create_OmicsSurv <- function(assayData_df,
 
   } else {
     pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+
+    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    pathNames <- names(shortSet_df)
+    names(pathwaySet_ls$pathways) <- pathNames
+
   }
 
 
@@ -220,7 +250,7 @@ create_OmicsReg <- function(assayData_df,
     see the help information found in ?create_OmicsReg for more details.")
   }
 
-  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
+  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
@@ -239,6 +269,14 @@ create_OmicsReg <- function(assayData_df,
 
   } else {
     pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+
+    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    pathNames <- names(shortSet_df)
+    names(pathwaySet_ls$pathways) <- pathNames
+
   }
 
 
@@ -275,11 +313,14 @@ create_OmicsCateg <- function(assayData_df,
     see the help information found in ?create_OmicsCateg for more details.")
   }
 
-  pathwaySet_ls$setsize <- sapply(pathwaySet_ls$pathways, length)
+  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
   # If there are no names, create them. If there are missing names, label them.
+  #   If there are duplicated names (because R is stupid and allows duplicate
+  #   element names in a list -- but not a data frame!), then use the data.frame
+  #   name rule to append a period then integers to the end of the name string.
   if(is.null(names(pathwaySet_ls$pathways))){
 
     pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
@@ -294,6 +335,14 @@ create_OmicsCateg <- function(assayData_df,
 
   } else {
     pathNames <- names(pathwaySet_ls$pathways)
+  }
+
+  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+
+    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    pathNames <- names(shortSet_df)
+    names(pathwaySet_ls$pathways) <- pathNames
+
   }
 
 

@@ -9,13 +9,6 @@
 #'   \code{OmicsReg}, or \code{OmicsCateg}
 #' @param trim The minimum cutoff of expressed -ome measures before a pathway
 #'   is excluded. Defaults to 3.
-#' @param returnClass Should the returned object be of the same \code{Omics*}
-#'   class as \code{object}, or should it be a list of pathway matrices? For
-#'   internal calls from the \code{\link{extract_aesPCs}} function, this will be
-#'   a \code{list} object of each pathway expressed gene matrix. For external
-#'   calls, this defaults to the class of the object, allowing the user to input
-#'   an object of class \code{OmicsSurv}, \code{OmicsReg}, \code{OmicsCateg},
-#'   and have an object of the same class returned.
 #' @param message Should this function return diagnostic messages? Messages
 #'   concern the percentage of genes included in the pathway set but not
 #'   measured in the data, genes measured in the data but not called for in the
@@ -23,26 +16,18 @@
 #'   present after trimming. Defaults to \code{TRUE}.
 #' @param ... Dots for additional internal arguments (as necessary)
 #'
-#' @return If \code{returnClass = class(object)}: A valid \code{Omics*}-class
-#'   object. This output object will be identical to the input object, except
-#'   that any genes present in the pathways list, but not present in the MS
-#'   design matrix, will have been removed. Additionally, the pathway list will
-#'   have the number of genes in each trimmed pathway stored as the
-#'   \code{trim_setsize} object.
-#'
-#'   If \code{returnClass = "list"}: A list of pathways with -ome measures
-#'   expressed in the MS design matrix. Each element of the list will be named
-#'   by its pathway, and the elements will be subset matrices of the original
-#'   MS design matrix. See "details" for more information.
+#' @return A valid \code{Omics*}-class object. This output object will be
+#'   identical to the input object, except that any genes present in the
+#'   pathways list, but not present in the MS design matrix, will have been
+#'   removed. Additionally, the pathway list will have the number of genes in
+#'   each trimmed pathway stored as the \code{trim_setsize} object.
 #'
 #' @details This function takes in a data frame with named columns and a pathway
 #'   list, all through one of the \code{Omics.*} classes. This function will
 #'   then iterate over the list of pathways, extract columns from the MS design
 #'   matrix which match the genes listed in that pathway, and remove any
-#'   pathways with fewer than \code{trim} expressed genes. These matrices are
-#'   returned as a named list (if \code{list} output is requested); or the genes
-#'   not expressed in the MS design matrix are removed from the pathway list (if
-#'   \code{class(object)} output is requested).
+#'   pathways with fewer than \code{trim} expressed genes. The genes not
+#'   expressed in the MS design matrix are removed from the pathway list.
 #'
 #'   Note that some genes will be included in more than one pathway, so these
 #'   pathways are not mutually exclusive. Further note that there may be many
@@ -76,7 +61,6 @@
 setGeneric("expressedOmes",
            function(object,
                     trim = 3,
-                    returnClass = class(object),
                     message = TRUE,
                     ...){
              standardGeneric("expressedOmes")
@@ -87,7 +71,6 @@ setGeneric("expressedOmes",
 setMethod(f = "expressedOmes", signature = "OmicsPathway",
           definition = function(object,
                                 trim = 3,
-                                returnClass = class(object),
                                 message = TRUE,
                                 ...){
 

@@ -6,19 +6,20 @@
 \alias{topGenes,OmicsPathway-method}
 \title{Rank the Top Genes from a Ranked Pathways Data Frame}
 \usage{
-topGenes(object, pVals_df, percentile = 0.05)
+topGenes(object, pVals_df, percentile = 0.01)
 
-\S4method{topGenes}{OmicsPathway}(object, pVals_df, percentile = 0.05)
+\S4method{topGenes}{OmicsPathway}(object, pVals_df, percentile = 0.01)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsSurv}, \code{OmicsReg}, or
 \code{OmicsCateg}.}
 
 \item{pVals_df}{The ranked pathways data frame returned by either the
-\code{AESPCA_pVals} or \code{superPCA_pVals} functions.}
+\code{AESPCA_pVals} or \code{superPCA_pVals} functions. Missing \eqn{p}-
+values (from trimmed pathways) are omitted.}
 
 \item{percentile}{Return the most significant percent of the features
-contained in all pathways. Defaults to 0.05.}
+contained in all pathways. Defaults to 0.01.}
 }
 \value{
 A list of two named numeric vectors. For both vectors, the names are
