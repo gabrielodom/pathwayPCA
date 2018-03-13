@@ -65,6 +65,7 @@
 #'
 #'
 #' @importFrom methods setGeneric
+#' @importFrom stats na.omit
 #' @importFrom stats quantile
 #' @rdname topGenes
 setGeneric("topGenes",
@@ -77,7 +78,7 @@ setGeneric("topGenes",
 setMethod(f = "topGenes", signature = "OmicsPathway",
           definition = function(object, pVals_df, percentile = 0.01){
 
-            browser()
+            # browser()
 
             clean_obj <- expressedOmes(object, message = FALSE)
             paths_ls <- clean_obj@pathwaySet$pathways
