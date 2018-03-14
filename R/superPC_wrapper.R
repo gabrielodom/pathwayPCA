@@ -121,6 +121,8 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                                 ...){
             # browser()
 
+
+
             ###  Remove Unexpressed Genes from the Pathway Set  ###
             object <- expressedOmes(object, trim = min.features)
 
@@ -131,6 +133,11 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             switch (obj_class,
                     OmicsSurv = {
 
+                      if(anyNA(object@eventTime) ||
+                         anyNA(object@eventObserved)){
+                        stop("\n Missing values are not permitted in the response for Supervised PCA.")
+                      }
+
                       eventTime <- matrix(object@eventTime, ncol = 1)
                       eventObserved <- matrix(object@eventObserved, ncol = 1)
                       response_mat <- cbind(eventTime, eventObserved)
@@ -139,11 +146,19 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                     },
                     OmicsReg = {
 
+                      if(anyNA(object@response)){
+                        stop("\n Missing values are not permitted in the response for Supervised PCA.")
+                      }
+
                       response_mat <- matrix(object@response, ncol = 1)
                       responseType <- "regression"
 
                     },
                     OmicsCateg = {
+
+                      if(anyNA(object@response)){
+                        stop("\n Missing values are not permitted in the response for Supervised PCA.")
+                      }
 
                       # Matrices in R cannot be factors, so I'm going to try something
                       #   very hacky: a matrix in R is any atomic vector with a dim
