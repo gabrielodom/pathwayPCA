@@ -79,14 +79,16 @@ pathway_tControl <- function(pathway_vec,
     regression = {
 
       list(x = geneArray_df[pathway_vec, ],
-           y = sample_Regresp(response_vec = response_mat),
+           y = sample_Regresp(response_vec = response_mat,
+                              parametric = parametric),
            featurenames = pathway_vec)
 
       },
     classification = {
 
       list(x = geneArray_df[pathway_vec, ],
-           y = sample_Classifresp(response_vec = response_mat),
+           y = sample_Classifresp(response_vec = response_mat,
+                                  parametric = parametric),
            featurenames = pathway_vec)
 
       }
