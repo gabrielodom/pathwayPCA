@@ -148,6 +148,9 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 
 }
 
+
+
+
 #' @section OmicsSurv:
 #' Valid OmicsSurv objects will have two response vectors: a vector of the most
 #'   recently recorded follow-up times and a logical vector if that time marks
@@ -292,6 +295,9 @@ create_OmicsReg <- function(assayData_df,
       response = response_num)
 
 }
+
+
+
 
 #' @param response_fact A factor vector of length $N$: the dependent variable of a
 #'   generalized linear model

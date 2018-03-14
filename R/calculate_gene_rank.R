@@ -100,8 +100,16 @@ setMethod(f = "topGenes", signature = "OmicsPathway",
             adj_pVals_df <- pVals_df[, 6:ncol(pVals_df), drop = FALSE]
             # Add in a buffer in case one of the p-values is identically 0 (this
             #   is probable if the number of permutations is 1000 or smaller).
-            minp <- min(unlist(adj_pVals_df)[unlist(adj_pVals_df) > 0])
-            ranks_df$score <- rowMeans(-log(adj_pVals_df + minp / 100))
+            adjP_vec <- unlist(adj_pVals_df)
+            if(any(adjP_vec == 0)){
+              minp <- min(adjP_vec[adjP_vec > 0])
+            } else {
+              minp <- 0
+            }
+
+            # By padding the 0 values, we can't take the log of zero. By padding
+            #   the -log(1) values, we can't have a row sum of zero
+            ranks_df$score <- -log(rowMeans(adj_pVals_df + minp / 100)) + 1e-99
 
             ###  Create a Matrix of Pathway Membership  ###
             membership_mat <- sapply(1:nrow(pVals_df), function(path){
