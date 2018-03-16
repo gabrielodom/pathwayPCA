@@ -42,6 +42,7 @@
 #' @include createClass_OmicsPath.R
 #'
 #' @examples
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colonGenesets_ls")
@@ -54,7 +55,7 @@
 #'
 #'   ###  Extract Expressed Genes  ###
 #'   expressedOmes(colon_OmicsSurv)
-#'
+#' }
 #'
 #' @importFrom methods setGeneric
 #' @rdname expressedOmes

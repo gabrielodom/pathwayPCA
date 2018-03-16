@@ -55,6 +55,7 @@ This function takes in a data frame with named columns and a pathway
   that is appropriate for the mass spectrometry data supplied.
 }
 \examples{
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colonGenesets_ls")
@@ -67,6 +68,6 @@ This function takes in a data frame with named columns and a pathway
 
   ###  Extract Expressed Genes  ###
   expressedOmes(colon_OmicsSurv)
-
+}
 
 }

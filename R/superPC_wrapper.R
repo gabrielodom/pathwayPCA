@@ -72,6 +72,7 @@
 #' @importFrom methods setGeneric
 #'
 #' @examples
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colonGenesets_ls")
@@ -88,7 +89,7 @@
 #'                                        numCores = 2,
 #'                                        adjustpValues = TRUE,
 #'                                        adjustment = c("Hoch", "SidakSD"))
-#'
+#' }
 #'
 #' @rdname superPCA_pVals
 setGeneric("superPCA_pVals",
