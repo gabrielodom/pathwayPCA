@@ -209,6 +209,11 @@ Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and 
 2. Examples for all the main functions. Completed functions are
 
     a) The `create_Omics*()` functions. There is a working example for each.
+    b) `superPCA_pVals()`
+    c) `AESPCA_pVals()`
+    d) `topGenes()`
+
+I still need to add "do not touch" examples to the other exported functions. The end user should know that these functions are being called, and how the functions work in detail (should they desire), but should not be encouraged to call them directly.
     
 3. Replace all `\$ stuff \$` with `\eqn\{ stuff \}` in the R documentation files.
 
@@ -433,3 +438,4 @@ In x + bn : longer object length is not a multiple of shorter object length
 
 1. Searching through the package shows that these show up in the `weibullMix_optimParams()` function in the `superPC_optimWeibullParams.R` file. I suspect (because of my experience troubleshooting the AES-PCA wrapper) that the problem is when we call the `weibullMix_optimParams()` function and pass the $p$-values vector (with some pathways trimmed) and the `setsize` vector (without pathways trimmed). These two vectors will not have the same length.
 2. The `superPCA_pVals()` function in the `superPC_wrapper.R` file passes the untrimmed `setsize` vector to the Weibull parameter calculation.
+3. For some data sets, the Supervised PCA $p$-values are too small. James passed a data set where the response was a randomly ordered response from another data set. AES-PCA correctly identified it as noise, but Supervised PCA did not. Also, I dug into the `weibullMix_-_optimParams()` function and found that the `optim()` function is extremely sensitive to the initial values chosen. The constrained optimization routine works for $\mu_1 = 1, \mu_2 = 1$, but not for many values outside the range from $[-1.5, 1]$. In fact, for negative values of these parameters, one optimum point is found, but a second poit is found for positive values. This leads me to believe that the density is bimodal. Further, I am uncomfortable with the mixture of two Weibulls starting with the same initial mean values. Shouldn't they be distinct? However, while optimized values are dependent on the initial values, the resulting $p$-values were nearly identical no matter which of the two "modes" of the distribution were found. Thus, while the optimal mixing parameters may alternate between two points based on intial values, the resulting $p$-values remain unchanged.

@@ -73,6 +73,26 @@
 #'
 #' @importFrom methods setGeneric
 #'
+#' @examples
+#'   ###  Load the Example Data  ###
+#'   data("colonSurv_df")
+#'   data("colonGenesets_ls")
+#'
+#'   ###  Create an OmicsSurv Object  ###
+#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
+#'                                       pathwaySet_ls = colonGenesets_ls,
+#'                                       eventTime_vec = colonSurv_df$OS_time,
+#'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
+#'
+#'   ###  Calculate Pathway p-Values  ###
+#'   colonSurv_pVals_df <- AESPCA_pVals(object = colon_OmicsSurv,
+#'                                      numReps = 500,
+#'                                      parallel = TRUE,
+#'                                      numCores = 2,
+#'                                      adjustpValues = TRUE,
+#'                                      adjustment = c("Hoch", "SidakSD"))
+#'
+#'
 #' @rdname AESPCA_pVals
 setGeneric("AESPCA_pVals",
            function(object,
