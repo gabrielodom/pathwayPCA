@@ -51,6 +51,11 @@ This function takes in a list of the first principal components
   for each pathway is the proportion of models for which the AIC of the
   permuted response model is less than the AIC of the original model.
 }
+\examples{
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
+
+}
 \seealso{
 \code{\link{create_OmicsSurv}}; \code{\link{extract_aesPCs}};
   \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}

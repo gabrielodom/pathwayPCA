@@ -62,7 +62,8 @@
 #' @export
 #'
 #' @examples
-#'   NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() or superPCA_pVals() instead
 adjust_and_sort <- function(pVals_vec,
                             genesets_ls,
                             adjust = TRUE,

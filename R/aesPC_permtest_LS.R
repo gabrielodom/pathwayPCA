@@ -42,6 +42,10 @@
 #'
 #' @importFrom methods setGeneric
 #'
+#' @examples
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() instead
+#'
 #' @rdname permTest_OmicsReg
 setGeneric("permTest_OmicsReg",
            function(OmicsReg,

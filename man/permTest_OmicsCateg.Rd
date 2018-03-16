@@ -58,6 +58,11 @@ This function takes in a list of the first principal components
   logistic regression models, for n-ary and ordered categorical responses,
   respectively.
 }
+\examples{
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
+
+}
 \seealso{
 \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
   \code{\link[stats]{glm}}; \code{\link{sample_Classifresp}}

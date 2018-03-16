@@ -52,6 +52,11 @@ This function takes in a list of the first principal components
   models for which the AIC of the permuted response model is less than the
   AIC of the original model.
 }
+\examples{
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
+
+}
 \seealso{
 \code{\link{create_OmicsReg}}; \code{\link{extract_aesPCs}};
   \code{\link[stats]{lm}}; \code{\link{sample_Regresp}}

@@ -48,6 +48,10 @@
 #'
 #' @importFrom methods setGeneric
 #'
+#' @examples
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() instead
+#'
 #' @rdname extract_aesPCs
 setGeneric("extract_aesPCs",
            function(object, trim = 3, numPCs = 1,
