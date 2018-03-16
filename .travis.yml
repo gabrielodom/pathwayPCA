@@ -21,5 +21,4 @@ cache: packages
 notifications:
   email:
     recipients:
-      - gabriel_odom@baylor.edu
       - gabriel.odom@med.miami.edu

@@ -53,27 +53,7 @@ This function takes in the pathway set information in a valid
   sorted in descending order.
 }
 \examples{
-  ###  Load the Example Data  ###
-  data("colonSurv_df")
-  data("colonGenesets_ls")
-
-  ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colonGenesets_ls,
-                                      eventTime_vec = colonSurv_df$OS_time,
-                                      eventObserved_vec = as.logical(colonSurv_df$OS_event))
-
-  ###  Extract PCs  ###
-  surv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
-                                  parallel = TRUE,
-                                  numCores = 2,
-                                  adjustpValues = TRUE,
-                                  adjustment = c("Hoch", "SidakSD"))
-
-  ###  Rank Genes  ###
-  topGenes(object = colon_OmicsSurv, pVals_df = surv_pVals_df)
-
-
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colonGenesets_ls")
@@ -93,5 +73,6 @@ This function takes in the pathway set information in a valid
 
   ###  Find the Top Genes  ###
   topGenes(object = colon_OmicsSurv, pVals_df = colonSurv_pVals_df)
+}
 
 }

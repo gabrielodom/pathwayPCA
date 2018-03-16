@@ -65,6 +65,7 @@
 #' @importFrom methods new
 #'
 #' @examples
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colonGenesets_ls")
@@ -88,7 +89,7 @@
 #'   colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
 #'                                         pathwaySet_ls = colonGenesets_ls,
 #'                                         response_fact = as.factor(colonSurv_df$OS_event))
-#'
+#' }
 #'
 #' @export
 #' @rdname create_OmicsPathway

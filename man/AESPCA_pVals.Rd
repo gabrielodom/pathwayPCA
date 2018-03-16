@@ -82,6 +82,7 @@ This is a wrapper function for the \code{\link{expressedOmes}},
   functions.
 }
 \examples{
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colonGenesets_ls")
@@ -99,7 +100,7 @@ This is a wrapper function for the \code{\link{expressedOmes}},
                                      numCores = 2,
                                      adjustpValues = TRUE,
                                      adjustment = c("Hoch", "SidakSD"))
-
+}
 
 }
 \seealso{

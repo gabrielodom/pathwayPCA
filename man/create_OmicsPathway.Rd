@@ -100,6 +100,7 @@ Valid OmicsReg and OmicsCateg objects with have one response vector of
 }
 
 \examples{
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colonGenesets_ls")
@@ -123,7 +124,7 @@ Valid OmicsReg and OmicsCateg objects with have one response vector of
   colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
                                         pathwaySet_ls = colonGenesets_ls,
                                         response_fact = as.factor(colonSurv_df$OS_event))
-
+}
 
 }
 \seealso{
