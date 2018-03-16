@@ -13,6 +13,9 @@ r:
 sudo: true
 cache: packages
 
+r_packages
+  - devtools
+
 # r_github_packages:
 #   - hadley/devtools@efa894ffa
 # I found a comment on using the CRAN version of devtools (which I thought I
