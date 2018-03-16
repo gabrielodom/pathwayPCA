@@ -8,14 +8,11 @@ r:
 #  - bioc-devel    # Errors as of 20180105. Something off with devtools.
   - oldrel
   - release
-  - devel    # Errors as of 20180105
+#  - devel    # Errors as of 20180105, 20180316 (devel at this point was 3.4.4)
+# this package builds just fine on 3.4.4
 
 sudo: true
-
-# r_github_packages:
-#   - hadley/devtools@efa894ffa
-# I found a comment on using the CRAN version of devtools (which I thought I
-#   was...), so I added this. Let's see if it works. It doesn't.
+cache: packages
 
 notifications:
   email:
