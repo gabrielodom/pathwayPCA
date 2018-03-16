@@ -8,7 +8,7 @@ r:
 #  - bioc-devel    # Errors as of 20180105. Something off with devtools.
   - oldrel
   - release
-#  - devel    # Errors as of 20180105
+  - devel    # Errors as of 20180105
 
 sudo: true
 cache: packages

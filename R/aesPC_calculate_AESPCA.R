@@ -30,7 +30,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() instead
 aespca <- function(X, n, d = 1,
                    lambda = 0.0001,
                    type = c("predictor", "Gram"),

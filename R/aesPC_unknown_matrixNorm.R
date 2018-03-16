@@ -16,7 +16,8 @@
 #'   eigenvectors returned by the \code{lars.lsa()} function.
 #'
 #' @examples
-#'   NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() instead
 normalize <- function(B, d){
   # browser()
 

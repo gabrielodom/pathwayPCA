@@ -47,5 +47,6 @@ A function to perform adaptive, elastic-net principal component
 A thorough explination of how the function works
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
 }

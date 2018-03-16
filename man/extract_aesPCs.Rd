@@ -58,6 +58,11 @@ This function takes in a data frame with named columns and a pathway
   or a pathway set list that is appropriate for the mass spectrometry data
   supplied.
 }
+\examples{
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
+
+}
 \seealso{
 \code{\link{create_OmicsPath}}; \code{\link{expressedOmes}};
   \code{\link{aespca}}

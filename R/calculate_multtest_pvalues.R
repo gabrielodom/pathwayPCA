@@ -98,7 +98,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() or superPCA_pVals() instead
 adjustRaw_pVals <- function (rawp,
                              proc = c("Bonferroni",
                                       "Holm",

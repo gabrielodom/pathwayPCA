@@ -76,5 +76,6 @@ This is a wrapper function for the \code{\link{adjustRaw_pVals}}
   value calculation, then pad this missing value with an \code{NA}.
 }
 \examples{
-  NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() or superPCA_pVals() instead
 }

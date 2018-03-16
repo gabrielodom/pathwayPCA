@@ -108,7 +108,8 @@ This function computes adjusted p-values for simple multiple testing
    }
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() or superPCA_pVals() instead
 }
 \author{
 Sandrine Dudoit, \url{http://www.stat.berkeley.edu/~sandrine}

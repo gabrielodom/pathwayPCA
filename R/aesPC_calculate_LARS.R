@@ -33,7 +33,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use AESPCA_pVals() instead
 lars.lsa <- function(Sigma0, b0, n,
                      type = c("lar","lasso"),
                      max.steps = NULL,

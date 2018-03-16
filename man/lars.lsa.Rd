@@ -43,7 +43,8 @@ LARS is described in detail in Efron, Hastie, Johnstone and
   covariance or Grammian pathway design matrices.
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
 }
 \seealso{
 \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}

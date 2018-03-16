@@ -27,5 +27,6 @@ I met with James and Steven on 26 September and neither of them
   eigenvectors returned by the \code{lars.lsa()} function.
 }
 \examples{
-  NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use AESPCA_pVals() instead
 }
