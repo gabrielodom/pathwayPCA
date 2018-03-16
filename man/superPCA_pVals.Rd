@@ -82,6 +82,26 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
   \code{\link{weibullMix_pValues}}, and \code{\link{adjust_and_sort}}
   functions.
 }
+\examples{
+  ###  Load the Example Data  ###
+  data("colonSurv_df")
+  data("colonGenesets_ls")
+
+  ###  Create an OmicsSurv Object  ###
+  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
+                                      pathwaySet_ls = colonGenesets_ls,
+                                      eventTime_vec = colonSurv_df$OS_time,
+                                      eventObserved_vec = as.logical(colonSurv_df$OS_event))
+
+  ###  Calculate Pathway p-Values  ###
+  colonSurv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
+                                       parallel = TRUE,
+                                       numCores = 2,
+                                       adjustpValues = TRUE,
+                                       adjustment = c("Hoch", "SidakSD"))
+
+
+}
 \seealso{
 \code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
   \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
