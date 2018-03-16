@@ -68,5 +68,6 @@ See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}
   the t-statistics are constant - because the model isn't changing.
 }
 \examples{
-  NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

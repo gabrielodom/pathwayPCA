@@ -32,5 +32,6 @@ While this function currently supports any GLM family from the
   regression through \code{\link[MASS]{polr}}.
 }
 \examples{
-  NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

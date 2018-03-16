@@ -38,5 +38,6 @@ The \code{mysvd} function takes in a tall -omics data matrix,
   \code{rsvd} package.
 }
 \examples{
-  NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

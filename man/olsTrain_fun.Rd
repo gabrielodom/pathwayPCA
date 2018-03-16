@@ -40,5 +40,6 @@ This function calculates the Sxx, Syy, and Sxy sums from the gene-
   values. Otherwise, \eqn{e} is set equal to \code{quantile(sd, s0.perc)}.
 }
 \examples{
-  NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

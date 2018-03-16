@@ -61,7 +61,8 @@
 #' @importFrom survival Surv
 #'
 #' @examples
-#'   NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 
 superpc.st <- function(fit,
                        data,

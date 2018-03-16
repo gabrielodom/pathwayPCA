@@ -66,7 +66,8 @@ This is a wrapper function to call \code{\link{superpc.train}}
    the resulting matrix.
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }
 \seealso{
 \code{\link{pathway_tScores}}; \code{\link{randomControlSample}}

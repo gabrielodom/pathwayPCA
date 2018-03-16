@@ -51,5 +51,6 @@ This function takes in the optimal parameters returned by the
    controlling procedure as implemented in the \code{multtest} package.
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

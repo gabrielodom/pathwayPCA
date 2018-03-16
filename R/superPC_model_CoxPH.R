@@ -33,7 +33,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 
 coxTrain_fun <- function(x, y, censoring.status, s0.perc){
   # browser()
