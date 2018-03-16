@@ -17,6 +17,10 @@
 #'    likelihood estimates. When \code{parametric = FALSE}, the response vector
 #'    or survival matrix is simply permuted by row.
 #'
+#' @examples
+#'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
+#'   # Use AESPCA_pVals() or superPCA_pVals() instead
+#'
 #' @name randomControlSample
 NULL
 
@@ -29,9 +33,6 @@ NULL
 #' @importFrom stats runif
 #'
 #' @export
-#'
-#' @examples
-#'    NULL
 #' @rdname randomControlSample
 sample_Survivalresp <- function(response_vec,
                                 censor_vec,
@@ -83,9 +84,6 @@ sample_Survivalresp <- function(response_vec,
 #' @importFrom stats sd
 #'
 #' @export
-#'
-#' @examples
-#'    NULL
 #' @rdname randomControlSample
 sample_Regresp <- function(response_vec,
                            parametric = FALSE){
@@ -111,9 +109,6 @@ sample_Regresp <- function(response_vec,
 #' @importFrom methods as
 #'
 #' @export
-#'
-#' @examples
-#'    NULL
 #' @rdname randomControlSample
 sample_Classifresp <- function(response_vec,
                                parametric = FALSE){

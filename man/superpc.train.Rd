@@ -47,5 +47,6 @@ This function is a switch call to \code{\link{coxTrain_fun}},
    \code{\link{olsTrain_fun}}, or \code{glmTrain_fun}, respectively.
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

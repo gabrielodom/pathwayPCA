@@ -30,7 +30,8 @@
 #' @export
 #'
 #' @examples
-#'   NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 olsTrain_fun <- function(x, y, s0.perc = NULL){
   # browser()
 

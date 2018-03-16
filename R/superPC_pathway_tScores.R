@@ -42,7 +42,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 pathway_tScores <- function(pathway_vec,
                             geneArray_df,
                             response_mat,

@@ -31,5 +31,6 @@ The likelihood function is equation (4) Chen et al (2008): a mixture
  @seealso \code{\link[stats]{optim}}
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead
 }

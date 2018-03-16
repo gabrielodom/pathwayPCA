@@ -31,7 +31,8 @@
 #' @importFrom corpcor fast.svd
 #'
 #' @examples
-#'   NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 
 mysvd <- function(mat, n.components = NULL){
 

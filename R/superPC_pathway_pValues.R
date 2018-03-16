@@ -38,7 +38,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 pathway_pValues <- function(optimParams_vec,
                             max_tScores_vec,
                             genelist_ls,

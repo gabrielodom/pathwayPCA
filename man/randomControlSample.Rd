@@ -36,7 +36,7 @@ The distributions (for \code{parametric = TRUE}) are Weibull for
    or survival matrix is simply permuted by row.
 }
 \examples{
-   NULL
-   NULL
-   NULL
+  # DO NOT CALL THESE FUNCTIONS DIRECTLY.
+  # Use AESPCA_pVals() or superPCA_pVals() instead
+
 }

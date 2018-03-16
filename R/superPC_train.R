@@ -36,7 +36,8 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 
 superpc.train <- function(data,
                           type = c("survival", "regression", "classification"),

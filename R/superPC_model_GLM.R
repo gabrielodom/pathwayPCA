@@ -26,7 +26,8 @@
 #' @export
 #'
 #' @examples
-#'   NULL
+#'   # DO NOT CALL THIS FUNCTION DIRECTLY.
+#'   # Use superPCA_pVals() instead
 glmTrain_fun <- function(x, y, family = binomial){
 
   glmCoeffs <- function(x_mat){
