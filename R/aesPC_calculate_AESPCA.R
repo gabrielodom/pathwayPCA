@@ -1,20 +1,20 @@
-#' Adaptive, Elastic-Net PCA
+#' Adaptive, Elastic-Net, Sparse PCA
 #'
-#' @description A function to perform adaptive, elastic-net principal component
-#'   analysis (AES-PCA).
+#' @description A function to perform adaptive, elastic-net, sparse principal
+#'   component analysis (AES-PCA).
 #'
 #' @param X A pathway design matrix: either the data matrix itself (when
 #'   \code{type = "predictor"}) or the Gram matrix (when \code{type = "Gram"}).
-#'   The data matrix should be $n x p$, where $n$ is the sample size and $p$ is
-#'   the number of variables included in the pathway.
+#'   The data matrix should be \eqn{n x p}, where \eqn{n} is the sample size
+#'   and \eqn{p} is the number of variables included in the pathway.
 #' @param n The sample size. Needed when \code{X} is the Gram matrix (for
-#'    computing BIC). Due to a coding error, it is a required argument even
+#'    computing BIC). Due to a design error, it is a required argument even
 #'    when \code{X} is not a Grammian. FIX THIS.
 #' @param d The number of PCs to extract from the pathway. Defaults to 1.
-#' @param lambda The ridge regression penalty. Defaults to 10 ^ -4.
+#' @param lambda The ridge regression penalty. Defaults to \code{10 ^ -4}.
 #' @param type Is \code{X} a pathway design matrix or a Grammian? Defaults to
 #'    both: \code{c("predictor", "Gram")}. FIX THIS TOO.
-#' @param corr If \code{type = Gram}, is the matrix \code{X} actually a
+#' @param corr If \code{type = "Gram"}, is the matrix \code{X} actually a
 #'    correlation matrix? Defaults to FALSE.
 #' @param max.iter The maximum number of times an internal \code{while()} loop
 #'    can make calls to the \code{lars.lsa()} function. Defaults to 10.
@@ -23,15 +23,15 @@
 #' @param para Internal argument of the \code{lars.lsa()} function. Defaults to
 #'    NULL.
 #'
-#' @return What does the function return?
+#' @return What does the function return? DOCUMENT THIS.
 #'
-#' @details A thorough explination of how the function works
+#' @details A thorough explination of how the function works. DOCUMENT THIS.
 #'
 #' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use AESPCA_pVals() instead
+#'   # Call this function through AESPCA_pVals() instead.
 aespca <- function(X, n, d = 1,
                    lambda = 0.0001,
                    type = c("predictor", "Gram"),

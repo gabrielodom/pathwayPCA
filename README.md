@@ -15,7 +15,12 @@ We aim to write a package to collect, organize, and document a suite of existing
 - Document *everything*. Once again, this will require more up-front work, but it will yield more informed end-users and make transitioning between development teams seamless.
 - Simplify. We want object names to have structure and files to be organized. This is more for future developers, but we expect this will help us as well.
 
-To see the current work on the project, please visit [our package site](https://github.com/gabrielodom/pathwayPCA) on GitHub.
+To see the current work on the project, please visit [our package site](https://github.com/gabrielodom/pathwayPCA) on GitHub. We can build the PDF manual via
+```
+path <- find.package("pathwayPCA")
+system(paste(shQuote(file.path(R.home("bin"), "R")),
+    "CMD", "Rd2pdf", shQuote(path)))
+```
 
 
 
@@ -216,9 +221,9 @@ Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and 
 I still need to add "do not touch" examples to the other exported functions. The end user should know that these functions are being called, and how the functions work in detail (should they desire), but should not be encouraged to call them directly.
     
 3. Replace all `\$ stuff \$` with `\eqn\{ stuff \}` in the R documentation files.
+4. Finish documentation for
+    a. `aespca()`
 
-#### AES-PCA
-We have adapted and documented code in the `aes.pca.R` file to our package. We still need to modify this code heavily to make it more efficient.
 
 *******************************************************************************
 
