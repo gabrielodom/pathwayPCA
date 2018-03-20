@@ -1,0 +1,48 @@
+title: pathwayPCA
+url: https://gabrielodom.github.io/pathwayPCA/
+template:
+  params:
+    bootswatch: united
+
+reference:
+  - title: External Functions
+    desc: Functions designed for direct end-user interaction
+    contents:
+      - '`create_OmicsPath`'
+      - '`create_OmicsSurv`'
+      - '`create_OmicsReg`'
+      - '`create_OmicsCateg`'
+      - '`AESPCA_pVals`'
+      - '`topGenes`'
+      - '`expressedOmes`'
+  - title: Internal AES-PCA Functions
+    desc: Functions designed to be called by the AES-PCA wrapper above
+    contents:
+      - '`aespca`'
+      - '`lars.lsa`'
+      - '`extract_aesPCs`'
+      - '`permTest_OmicsSurv`'
+      - '`permTest_OmicsReg`'
+      - '`permTest_OmicsCateg`'
+      - '`normalize`'
+  - title: Internal Supervised PCA Functions
+    desc: Functions designed to be called by the Supervised PCA wrapper above
+    contents:
+      - '`coxTrain_fun`'
+      - '`olsTrain_fun`'
+      - '`glmTrain_fun`'
+      - '`superpc.st`'
+      - '`mysvd`'
+      - '`weibullMix_pValues`'
+      - '`weibullMix_optimParams`'
+      - '`pathway_pValues`'
+      - '`pathway_tControl`'
+      - '`pathway_tScores`'
+      - '`randomControlSample`'
+      - '`superpc.train`'
+  - title: Internal Supplemental Functions
+    desc: Utility functions shared by both the AES-PCA and supervised PCA methods
+    contents:
+      - '`adjust_and_sort`'
+      - '`matrixRoot`'
+      - '`adjustRaw_pVals`'
