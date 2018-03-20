@@ -30,7 +30,7 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'adjust_and_sort_pValues.R'
     'aesPC_calculate_AESPCA.R'
     'aesPC_calculate_LARS.R'
@@ -66,3 +66,5 @@ Collate:
     'superPC_train.R'
     'superPC_wrapper.R'
 VignetteBuilder: knitr
+URL: https://github.com/gabrielodom/pathwayPCA
+BugReports: https://github.com/gabrielodom/pathwayPCA/issues

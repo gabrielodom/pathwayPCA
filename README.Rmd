@@ -1,0 +1,28 @@
+---
+title: "README"
+author: "Gabriel J. Odom, Yuguang James Ban, & Xi Steven Chen"
+date: "March 20, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### `pathwayPCA`: A Bioconductor package for extracting principal components from expressed pathways
+
+Initial Date: 2017-10-19
+
+
+<br>
+
+## Introduction
+*******************************************************************************
+We aim to write a package to collect, organize, and document a suite of existing `R` scripts and files. The purpose of this is to ensure that biologists and bioinformaticians will be easily able to apply our work to their existing data. After a discussion with Prof. Chen, we will not include any support for prediction; this package will address pathway to response attribution only. Our core values for this project are as follows:
+
+  - Rely on as few external packages as possbile. This will require more development work at the beginning, but it will make future development, bug fixes, patches, and enhancements much easier.
+  - Document *everything*. Once again, this will require more up-front work, but it will yield more informed end-users and make transitioning between development teams seamless.
+  - Simplify. We want object names to have structure and files to be organized. This is more for future developers, but we expect this will help us as well.
+
+To see the current work on the project, please visit [our package site](https://github.com/gabrielodom/pathwayPCA) on GitHub.
+
