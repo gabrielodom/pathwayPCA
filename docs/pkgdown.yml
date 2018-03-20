@@ -1,0 +1,8 @@
+urls:
+  reference: https://gabrielodom.github.io/pathwayPCA//reference
+  article: https://gabrielodom.github.io/pathwayPCA//articles
+articles:
+  AES-PCA_Walkthrough: AES-PCA_Walkthrough.html
+  Package_Dev_Notes: Package_Dev_Notes.html
+  Supervised_PCA_Walkthrough: Supervised_PCA_Walkthrough.html
+

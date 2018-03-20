@@ -21,7 +21,7 @@ We aim to write a package to collect, organize, and document a suite of existing
 - Document *everything*. Once again, this will require more up-front work, but it will yield more informed end-users and make transitioning between development teams seamless.
 - Simplify. We want object names to have structure and files to be organized. This is more for future developers, but we expect this will help us as well.
 
-To see the current work on the project, please visit [our package site](https://github.com/gabrielodom/pathwayPCA) on GitHub. We can build the PDF manual via
+To see the current work on the project, please visit [our package development site](https://github.com/gabrielodom/pathwayPCA) on GitHub, and [our package website](https://gabrielodom.github.io/pathwayPCA/). We can build the PDF manual via
 ```
 path <- find.package("pathwayPCA")
 system(paste(shQuote(file.path(R.home("bin"), "R")),
@@ -457,4 +457,4 @@ In x + bn : longer object length is not a multiple of shorter object length
 </br>
 
 # Website
-Please see URL HERE for our hosted vignettes. Update the design of the website by editing the `_pkgdown.yaml` file.
+Please see URL HERE for our hosted vignettes. Update the design of the website by editing the `_pkgdown.yaml` file. Update the content of the website pages by editing the vignettes and / or function documentation. When you update the website, run `pkgdown::clean_site()` then rebuild with `pkgdown::build_site()`.
