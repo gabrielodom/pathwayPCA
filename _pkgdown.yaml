@@ -4,6 +4,12 @@ template:
   params:
     bootswatch: united
 
+authors:
+  Gabriel Odom:
+    href: https://github.com/gabrielodom
+  Steven Chen:
+    href: http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d
+
 reference:
   - title: External Functions
     desc: Functions designed for direct end-user interaction

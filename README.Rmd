@@ -5,10 +5,6 @@ date: "March 20, 2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ### `pathwayPCA`: A Bioconductor package for extracting principal components from expressed pathways
 
 Initial Date: 2017-10-19
@@ -24,5 +20,5 @@ We aim to write a package to collect, organize, and document a suite of existing
   - Document *everything*. Once again, this will require more up-front work, but it will yield more informed end-users and make transitioning between development teams seamless.
   - Simplify. We want object names to have structure and files to be organized. This is more for future developers, but we expect this will help us as well.
 
-To see the current work on the project, please visit [our package site](https://github.com/gabrielodom/pathwayPCA) on GitHub.
+To see the current work on the project, please visit [our package development site](https://github.com/gabrielodom/pathwayPCA) on GitHub, or [our package website](https://gabrielodom.github.io/pathwayPCA/).
 
