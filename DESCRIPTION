@@ -1,13 +1,19 @@
 Package: pathwayPCA
 Type: Package
-Title: Test Pathways for Statistically Significt Relationships
+Title: Test Pathways for Statistically Significant Relationships
 Version: 0.0.0.9000
 Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", role = c("aut","cre")),
   person("James", "Ban", email = "Yuguang.ban@med.miami.edu", role = c("aut")),
   person("Steven", "Chen", email = "steven.chen@med.miami.edu", role = c("aut")))
 Maintainer: Gabriel Odom <gabriel.odom@med.miami.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Apply the Supervised PCA and Adaptive, Elastic-Net, Sparse PCA
+  methods to extract principal components from each pathway. Use these pathway-
+  specific principal components as the design matrix relating the response to
+  each pathway. Return the model fit statistic p-values, and adjust these values
+  for False Discovery Rate. Return a data frame of the pathways sorted by their
+  adjusted p-values.
+    This package has corresponding vignettes hosted at URL HERE, and the website
+  for the development information is hosted at <https://github.com/gabrielodom/pathwayPCA>.
 License: GPL-2
 Depends: R (>= 2.10)
 Imports:

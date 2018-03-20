@@ -2,12 +2,13 @@
 #'
 #' @description Given a supervised \code{OmicsPath} object (one of
 #'   \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the first
-#'   adaptive, elastic-net, sparse principal components from each expressed
-#'   pathway in the MS design matrix, test their association with the response
-#'   matrix, and return a data frame of the adjusted \eqn{p}-values for each
-#'   pathway.
+#'   \eqn{k} adaptive, elastic-net, sparse principal components (PCs) from each
+#'   expressed pathway in the -Omics assay design matrix, test their association
+#'   with the response matrix, and return a data frame of the adjusted \eqn{p}-
+#'   values for each pathway.
 #'
 #' @param object An object of class \code{OmicsPathway} with a response matrix
+#'   or vector.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
 #' @param min.features What is the smallest number of genes allowed in each
 #'   pathway? This argument must be kept constant across all calls to this

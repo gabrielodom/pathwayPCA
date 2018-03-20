@@ -2,7 +2,7 @@
 % Please edit documentation in R/aesPC_calculate_AESPCA.R
 \name{aespca}
 \alias{aespca}
-\title{Adaptive, Elastic-Net PCA}
+\title{Adaptive, Elastic-Net, Sparse PCA}
 \usage{
 aespca(X, n, d = 1, lambda = 1e-04, type = c("predictor", "Gram"),
   corr = FALSE, max.iter = 10, adaptive = TRUE, para = NULL)
@@ -10,21 +10,21 @@ aespca(X, n, d = 1, lambda = 1e-04, type = c("predictor", "Gram"),
 \arguments{
 \item{X}{A pathway design matrix: either the data matrix itself (when
 \code{type = "predictor"}) or the Gram matrix (when \code{type = "Gram"}).
-The data matrix should be $n x p$, where $n$ is the sample size and $p$ is
-the number of variables included in the pathway.}
+The data matrix should be \eqn{n x p}, where \eqn{n} is the sample size
+and \eqn{p} is the number of variables included in the pathway.}
 
 \item{n}{The sample size. Needed when \code{X} is the Gram matrix (for
-computing BIC). Due to a coding error, it is a required argument even
+computing BIC). Due to a design error, it is a required argument even
 when \code{X} is not a Grammian. FIX THIS.}
 
 \item{d}{The number of PCs to extract from the pathway. Defaults to 1.}
 
-\item{lambda}{The ridge regression penalty. Defaults to 10 ^ -4.}
+\item{lambda}{The ridge regression penalty. Defaults to \code{10 ^ -4}.}
 
 \item{type}{Is \code{X} a pathway design matrix or a Grammian? Defaults to
 both: \code{c("predictor", "Gram")}. FIX THIS TOO.}
 
-\item{corr}{If \code{type = Gram}, is the matrix \code{X} actually a
+\item{corr}{If \code{type = "Gram"}, is the matrix \code{X} actually a
 correlation matrix? Defaults to FALSE.}
 
 \item{max.iter}{The maximum number of times an internal \code{while()} loop
@@ -37,16 +37,16 @@ to TRUE.}
 NULL.}
 }
 \value{
-What does the function return?
+What does the function return? DOCUMENT THIS.
 }
 \description{
-A function to perform adaptive, elastic-net principal component
-  analysis (AES-PCA).
+A function to perform adaptive, elastic-net, sparse principal
+  component analysis (AES-PCA).
 }
 \details{
-A thorough explination of how the function works
+A thorough explination of how the function works. DOCUMENT THIS.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use AESPCA_pVals() instead
+  # Call this function through AESPCA_pVals() instead.
 }

@@ -17,7 +17,8 @@ AESPCA_pVals(object, numPCs = 1, min.features = 3, numReps = 1000,
   "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 }
 \arguments{
-\item{object}{An object of class \code{OmicsPathway} with a response matrix}
+\item{object}{An object of class \code{OmicsPathway} with a response matrix
+or vector.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
 
@@ -70,10 +71,10 @@ The data frame will be sorted in ascending order by the method specified
 \description{
 Given a supervised \code{OmicsPath} object (one of
   \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the first
-  adaptive, elastic-net, sparse principal components from each expressed
-  pathway in the MS design matrix, test their association with the response
-  matrix, and return a data frame of the adjusted \eqn{p}-values for each
-  pathway.
+  \eqn{k} adaptive, elastic-net, sparse principal components (PCs) from each
+  expressed pathway in the -Omics assay design matrix, test their association
+  with the response matrix, and return a data frame of the adjusted \eqn{p}-
+  values for each pathway.
 }
 \details{
 This is a wrapper function for the \code{\link{expressedOmes}},

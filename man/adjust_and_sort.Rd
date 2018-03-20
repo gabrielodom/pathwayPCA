@@ -19,16 +19,16 @@ function.}
 \item{genesets_ls}{A list of known gene pathways. This pathway list must
 contain
 \itemize{
-  \item{pathways : }{A named list of character vectors where each vector
-    contains the names of the genes in that specific pathway.}
-  \item{TERMS : }{A character vector the same length as \code{pathways}
-    containing the full pathway descriptions.}
-  \item{setsize : }{An integer vector the same length as \code{pathways}
-    containing the number of genes contained in the original the pathway
-    set.}
-  \item{trim_setsize : }{An integer vector the same length as
-    \code{pathways} containing the number of genes present in the pathway
-    after trimming. Pathway set trimming is done in the
+  \item{\code{pathways} : }{A named list of character vectors where each
+     vector contains the names of the genes in that specific pathway.}
+  \item{\code{TERMS} : }{A character vector the same length as
+     \code{pathways} containing the full pathway descriptions.}
+  \item{\code{setsize} : }{An integer vector the same length as
+     \code{pathways} containing the number of genes contained in the
+     original pathway set.}
+  \item{\code{trim_setsize} : }{An integer vector the same length as
+     \code{pathways} containing the number of genes present in the pathway
+     after trimming. Pathway set trimming is done in the
     \code{\link{expressedOmes}} function.}
 }}
 
@@ -77,5 +77,5 @@ This is a wrapper function for the \code{\link{adjustRaw_pVals}}
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use AESPCA_pVals() or superPCA_pVals() instead
+  # Call this function through AESPCA_pVals() or superPCA_pVals() instead.
 }
