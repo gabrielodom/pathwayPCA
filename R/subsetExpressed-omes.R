@@ -7,7 +7,7 @@
 #'   which are expressed in the assay data frame.
 #'
 #' @param object An object of class \code{OmicsPathway}, \code{OmicsSurv},
-#'   \code{OmicsReg}, or \code{OmicsCateg}
+#'   \code{OmicsReg}, or \code{OmicsCateg}.
 #' @param trim The minimum cutoff of expressed -Ome measures before a pathway
 #'   is excluded. Defaults to 3.
 #' @param message Should this function return diagnostic messages? Messages
@@ -15,7 +15,7 @@
 #'   measured in the data, genes measured in the data but not called for in the
 #'   pathways, and the number of pathways ignored due to too few number of genes
 #'   present after trimming. Defaults to \code{TRUE}.
-#' @param ... Dots for additional internal arguments (as necessary)
+#' @param ... Dots for additional internal arguments (as necessary).
 #'
 #' @return A valid \code{Omics*}-class object. This output object will be
 #'   identical to the input object, except that any genes present in the

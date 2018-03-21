@@ -5,7 +5,7 @@
 \alias{create_OmicsSurv}
 \alias{create_OmicsReg}
 \alias{create_OmicsCateg}
-\title{Generation Functions for \code{-Omics*} Class Objects}
+\title{Generation functions for \code{-Omics*}-class objects}
 \usage{
 create_OmicsPath(assayData_df, pathwaySet_ls)
 
@@ -16,7 +16,7 @@ create_OmicsReg(assayData_df, pathwaySet_ls, response_num)
 create_OmicsCateg(assayData_df, pathwaySet_ls, response_fact)
 }
 \arguments{
-\item{assayData_df}{An \eqn{N \times p} data frame with named columns}
+\item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
 
 \item{pathwaySet_ls}{A list of known gene pathways with two elements:
 \itemize{
@@ -32,17 +32,17 @@ create_OmicsCateg(assayData_df, pathwaySet_ls, response_fact)
 }}
 
 \item{eventTime_vec}{A numeric vector with \eqn{N} observations corresponding
-to the last observed time of follow up}
+to the last observed time of follow up.}
 
 \item{eventObserved_vec}{A logical vector with \eqn{N} observations
 indicating right-censoring. The values will be \code{FALSE} if the
-observation was censored (i.e., we did not observe an event)}
+observation was censored (i.e., we did not observe an event).}
 
 \item{response_num}{A numeric vector of length \eqn{N}: the dependent
-variable in an ordinary regression exercise}
+variable in an ordinary regression exercise.}
 
 \item{response_fact}{A factor vector of length \eqn{N}: the dependent
-variable of a generalized linear regression exercise}
+variable of a generalized linear regression exercise.}
 }
 \value{
 A valid object of class \code{OmicsPathway}, \code{OmicsSurv},

@@ -2,7 +2,7 @@
 % Please edit documentation in R/aesPC_calculate_AESPCA.R
 \name{aespca}
 \alias{aespca}
-\title{Adaptive, Elastic-Net, Sparse PCA}
+\title{Adaptive, elastic-net, sparse principal component analysis}
 \usage{
 aespca(X, n, d = 1, lambda = 1e-04, type = c("predictor", "Gram"),
   corr = FALSE, max.iter = 10, adaptive = TRUE, para = NULL)
@@ -19,7 +19,7 @@ when \code{X} is not a Grammian. FIX THIS.}
 
 \item{d}{The number of PCs to extract from the pathway. Defaults to 1.}
 
-\item{lambda}{The ridge regression penalty. Defaults to \code{10 ^ -4}.}
+\item{lambda}{The ridge regression penalty. Defaults to \eqn{10^{-4}}.}
 
 \item{type}{Is \code{X} a pathway design matrix or a Grammian? Defaults to
 both: \code{c("predictor", "Gram")}. FIX THIS TOO.}

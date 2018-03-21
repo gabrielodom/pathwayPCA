@@ -1,4 +1,4 @@
-#' Generation Functions for \code{-Omics*} Class Objects
+#' Generation functions for \code{-Omics*}-class objects
 #'
 #' These functions create valid objects of class \code{OmicsPathway},
 #'   \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}.
@@ -37,7 +37,7 @@
 #'   the missing response, no pathway testing can be performed on an
 #'   \code{OmicsPathway} object.
 #'
-#' @param assayData_df An \eqn{N \times p} data frame with named columns
+#' @param assayData_df An \eqn{N \times p} data frame with named columns.
 #' @param pathwaySet_ls A list of known gene pathways with two elements:
 #' \itemize{
 #'   \item{\code{pathways} : }{A named list of character vectors. Each vector
@@ -162,10 +162,10 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 #'   censored observation).
 #'
 #' @param eventTime_vec A numeric vector with \eqn{N} observations corresponding
-#'   to the last observed time of follow up
+#'   to the last observed time of follow up.
 #' @param eventObserved_vec A logical vector with \eqn{N} observations
 #'   indicating right-censoring. The values will be \code{FALSE} if the
-#'   observation was censored (i.e., we did not observe an event)
+#'   observation was censored (i.e., we did not observe an event).
 #'
 #' @export
 #' @rdname create_OmicsPathway
@@ -239,7 +239,7 @@ create_OmicsSurv <- function(assayData_df,
 #'   observations, respectively.
 #'
 #' @param response_num A numeric vector of length \eqn{N}: the dependent
-#'   variable in an ordinary regression exercise
+#'   variable in an ordinary regression exercise.
 #'
 #' @export
 #' @rdname create_OmicsPathway
@@ -306,7 +306,7 @@ create_OmicsReg <- function(assayData_df,
 
 
 #' @param response_fact A factor vector of length \eqn{N}: the dependent
-#'   variable of a generalized linear regression exercise
+#'   variable of a generalized linear regression exercise.
 #' @export
 #' @rdname create_OmicsPathway
 create_OmicsCateg <- function(assayData_df,

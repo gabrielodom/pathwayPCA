@@ -14,7 +14,7 @@ extract_aesPCs(object, trim = 3, numPCs = 1, parallel = FALSE,
   parallel = FALSE, numCores = NULL, ...)
 }
 \arguments{
-\item{object}{An object of class \code{OmicsPathway}}
+\item{object}{An object of class \code{OmicsPathway}.}
 
 \item{trim}{The minimum cutoff of expressed -Ome measures before a pathway
 is excluded. Defaults to 3.}
@@ -25,15 +25,15 @@ is excluded. Defaults to 3.}
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation?}
+computation? Defaults to \code{NULL}.}
 
-\item{...}{Dots for additional internal arguments (currently unused)}
+\item{...}{Dots for additional internal arguments (currently unused).}
 }
 \value{
 A list of matrices. Each element of the list will be named
   by its pathway, and the elements will be \eqn{N \times} \code{numPCs}
   matrices containing the first \code{numPCs} principal components from each
-  pathway. See "Details" for more information
+  pathway. See "Details" for more information.
 }
 \description{
 Given a clean \code{OmicsPath} object (cleaned by the

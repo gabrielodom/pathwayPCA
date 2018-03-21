@@ -1,14 +1,14 @@
-#' Gene-Specific Generalized Linear Model Estimates
-#'
-#' @param x An \eqn{p \times n} predictor matrix
-#' @param y A response vector
-#' @param family a description of the error distribution and link function to
-#'   be used in the model. The default is \code{binomial(link = "logit")}.
+#' Gene-specific Generalized Linear Model fit statistics for supervised PCA
 #'
 #' @description Model statistics for Generalized Linear Model (GLM) regression
 #'   by gene
 #'
-#' @return The slope coefficient from the GLM for each gene
+#' @param x An \eqn{p \times n} predictor matrix.
+#' @param y A response vector.
+#' @param family A description of the error distribution and link function to
+#'   be used in the model. The default is \code{binomial(link = "logit")}.
+#'
+#' @return The slope coefficient from the GLM for each gene.
 #'
 #' @details While this function currently supports any GLM family from the
 #'   \code{\link[stats]{family}} function, this function is only called in the
@@ -21,7 +21,6 @@
 #'
 #' @importFrom stats binomial
 #' @importFrom stats glm
-#' @importFrom stats poisson
 #'
 #' @export
 #'

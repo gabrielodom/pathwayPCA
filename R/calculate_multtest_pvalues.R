@@ -1,9 +1,9 @@
-#' Adjust p-Values for Simple Multiple-Testing Procedures
+#' Adjust \eqn{p}-values for simple multiple-testing procedures
 #'
 #' @description This is a modification of the \code{mt.rawp2adjp} function from
 #'   the Bioconductor package \code{multtest}. We did not write the original
 #'   function. For more information, see
-#'   \url{https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf}
+#'   \url{https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf}.
 #'
 #' @author Sandrine Dudoit, \url{http://www.stat.berkeley.edu/~sandrine}
 #' @author Yongchao Ge, \url{yongchao.ge@@mssm.edu}

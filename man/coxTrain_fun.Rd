@@ -2,16 +2,16 @@
 % Please edit documentation in R/superPC_model_CoxPH.R
 \name{coxTrain_fun}
 \alias{coxTrain_fun}
-\title{Train Cox Proportional Hazards Model for Supervised PCA}
+\title{Train Cox Proportional Hazards model for supervised PCA}
 \usage{
 coxTrain_fun(x, y, censoring.status, s0.perc = NULL)
 }
 \arguments{
-\item{x}{A "tall" pathway data frame (\eqn{p \times n})}
+\item{x}{A "tall" pathway data frame (\eqn{p \times n}).}
 
-\item{y}{A response vector of follow-up / event times}
+\item{y}{A response vector of follow-up / event times.}
 
-\item{censoring.status}{A censoring vector}
+\item{censoring.status}{A censoring vector.}
 
 \item{s0.perc}{A stabilization parameter. This is an optional argument to
 each of the functions called internally. Defaults to \code{NULL}.}
@@ -32,7 +32,7 @@ A list containing:
 }
 }
 \description{
-Main and utility functions for training the Cox PH model
+Main and utility functions for training the Cox PH model.
 }
 \details{
 See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf},

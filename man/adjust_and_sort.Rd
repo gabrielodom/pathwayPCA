@@ -2,7 +2,7 @@
 % Please edit documentation in R/adjust_and_sort_pValues.R
 \name{adjust_and_sort}
 \alias{adjust_and_sort}
-\title{Adjust and Sort Pathway \eqn{p}-Values}
+\title{Adjust and sort pathway \eqn{p}-values}
 \usage{
 adjust_and_sort(pVals_vec, genesets_ls, adjust = TRUE,
   proc_vec = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
@@ -17,7 +17,7 @@ named vector of \eqn{p}-values from the \code{\link{weibullMix_pValues}}
 function.}
 
 \item{genesets_ls}{A list of known gene pathways. This pathway list must
-contain
+contain:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors where each
      vector contains the names of the genes in that specific pathway.}
@@ -47,20 +47,20 @@ function.}
 A data frame with columns
 \itemize{
   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-    object (stored in \code{object@pathwaySet$pathways})
+    object (stored in \code{object@pathwaySet$pathways}).
   \item{\code{setsize} : }{The number of genes in each of the original
-    pathways (as stored in the \code{object@pathwaySet$setsize} object)}
+    pathways (as stored in the \code{object@pathwaySet$setsize} object).}
   \item{\code{terms} : }{The pathway description, as stored in the
-    \code{object@pathwaySet$TERMS} object}
-  \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway}
+    \code{object@pathwaySet$TERMS} object.}
+  \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
   \item{\code{...} : }{Additional columns as specified through the
-    \code{adjustment} argument}
+    \code{adjustment} argument.}
 }
 
 The data frame will be sorted in ascending order by the method specified
   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
   then the data frame will be sorted by the raw \eqn{p}-values. If you have
-  the suggested \code{tidyverse::} package suite loaded, then this data frame
+  the suggested \code{tidyverse} package suite loaded, then this data frame
   will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
   simple data frame.
 }

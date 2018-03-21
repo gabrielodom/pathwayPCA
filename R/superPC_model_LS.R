@@ -1,4 +1,4 @@
-#' Gene-Specific Regularized Ordinary Least Squares Estimates
+#' Gene-specific Regularized Ordinary Least Squares fit statistics for supervised PCA
 #'
 #' @param x An \eqn{p \times n} predictor matrix
 #' @param y A response vector

@@ -5,20 +5,20 @@
 #'   \code{\link{expressedOmes}} function), extract the first principal
 #'   components from each expressed pathway in the assay design matrix.
 #'
-#' @param object An object of class \code{OmicsPathway}
+#' @param object An object of class \code{OmicsPathway}.
 #' @param trim The minimum cutoff of expressed -Ome measures before a pathway
 #'   is excluded. Defaults to 3.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
 #' @param parallel Should the comuptation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation?
-#' @param ... Dots for additional internal arguments (currently unused)
+#'   computation? Defaults to \code{NULL}.
+#' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A list of matrices. Each element of the list will be named
 #'   by its pathway, and the elements will be \eqn{N \times} \code{numPCs}
 #'   matrices containing the first \code{numPCs} principal components from each
-#'   pathway. See "Details" for more information
+#'   pathway. See "Details" for more information.
 #'
 #' @details This function takes in a data frame with named columns and a pathway
 #'   list as an \code{OmicsPathway} object which has had unexpressed -Omes

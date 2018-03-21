@@ -1,10 +1,10 @@
-#' Train Cox Proportional Hazards Model for Supervised PCA
+#' Train Cox Proportional Hazards model for supervised PCA
 #'
-#' @description Main and utility functions for training the Cox PH model
+#' @description Main and utility functions for training the Cox PH model.
 #'
-#' @param x A "tall" pathway data frame (\eqn{p \times n})
-#' @param y A response vector of follow-up / event times
-#' @param censoring.status A censoring vector
+#' @param x A "tall" pathway data frame (\eqn{p \times n}).
+#' @param y A response vector of follow-up / event times.
+#' @param censoring.status A censoring vector.
 #' @param s0.perc A stabilization parameter. This is an optional argument to
 #'   each of the functions called internally. Defaults to \code{NULL}.
 #'
