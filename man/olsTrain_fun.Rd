@@ -2,7 +2,7 @@
 % Please edit documentation in R/superPC_model_LS.R
 \name{olsTrain_fun}
 \alias{olsTrain_fun}
-\title{Gene-Specific Regularized Ordinary Least Squares Estimates}
+\title{Gene-specific Regularized Ordinary Least Squares fit statistics for supervised PCA}
 \usage{
 olsTrain_fun(x, y, s0.perc = NULL)
 }

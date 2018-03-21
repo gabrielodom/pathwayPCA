@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_multtest_pvalues.R
 \name{adjustRaw_pVals}
 \alias{adjustRaw_pVals}
-\title{Adjust p-Values for Simple Multiple-Testing Procedures}
+\title{Adjust \eqn{p}-values for simple multiple-testing procedures}
 \usage{
 adjustRaw_pVals(rawp, proc = c("Bonferroni", "Holm", "Hochberg", "SidakSS",
   "SidakSD", "BH", "BY", "ABH", "TSBH"), alpha = 0.05, na.rm = FALSE,
@@ -63,7 +63,7 @@ A vector of the same length and order as \code{rawp}, unless the user
 This is a modification of the \code{mt.rawp2adjp} function from
   the Bioconductor package \code{multtest}. We did not write the original
   function. For more information, see
-  \url{https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf}
+  \url{https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf}.
 }
 \details{
 This function computes adjusted \eqn{p}-values for simple multiple

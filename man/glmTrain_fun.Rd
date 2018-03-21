@@ -2,20 +2,20 @@
 % Please edit documentation in R/superPC_model_GLM.R
 \name{glmTrain_fun}
 \alias{glmTrain_fun}
-\title{Gene-Specific Generalized Linear Model Estimates}
+\title{Gene-specific Generalized Linear Model fit statistics for supervised PCA}
 \usage{
 glmTrain_fun(x, y, family = binomial)
 }
 \arguments{
-\item{x}{An \eqn{p \times n} predictor matrix}
+\item{x}{An \eqn{p \times n} predictor matrix.}
 
-\item{y}{A response vector}
+\item{y}{A response vector.}
 
-\item{family}{a description of the error distribution and link function to
+\item{family}{A description of the error distribution and link function to
 be used in the model. The default is \code{binomial(link = "logit")}.}
 }
 \value{
-The slope coefficient from the GLM for each gene
+The slope coefficient from the GLM for each gene.
 }
 \description{
 Model statistics for Generalized Linear Model (GLM) regression

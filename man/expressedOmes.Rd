@@ -14,7 +14,7 @@ expressedOmes(object, trim = 3, message = TRUE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway}, \code{OmicsSurv},
-\code{OmicsReg}, or \code{OmicsCateg}}
+\code{OmicsReg}, or \code{OmicsCateg}.}
 
 \item{trim}{The minimum cutoff of expressed -Ome measures before a pathway
 is excluded. Defaults to 3.}
@@ -25,7 +25,7 @@ measured in the data, genes measured in the data but not called for in the
 pathways, and the number of pathways ignored due to too few number of genes
 present after trimming. Defaults to \code{TRUE}.}
 
-\item{...}{Dots for additional internal arguments (as necessary)}
+\item{...}{Dots for additional internal arguments (as necessary).}
 }
 \value{
 A valid \code{Omics*}-class object. This output object will be

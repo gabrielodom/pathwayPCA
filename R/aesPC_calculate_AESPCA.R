@@ -1,4 +1,4 @@
-#' Adaptive, Elastic-Net, Sparse PCA
+#' Adaptive, elastic-net, sparse principal component analysis
 #'
 #' @description A function to perform adaptive, elastic-net, sparse principal
 #'   component analysis (AES-PCA).
@@ -11,7 +11,7 @@
 #'    computing BIC). Due to a design error, it is a required argument even
 #'    when \code{X} is not a Grammian. FIX THIS.
 #' @param d The number of PCs to extract from the pathway. Defaults to 1.
-#' @param lambda The ridge regression penalty. Defaults to \code{10 ^ -4}.
+#' @param lambda The ridge regression penalty. Defaults to \eqn{10^{-4}}.
 #' @param type Is \code{X} a pathway design matrix or a Grammian? Defaults to
 #'    both: \code{c("predictor", "Gram")}. FIX THIS TOO.
 #' @param corr If \code{type = "Gram"}, is the matrix \code{X} actually a

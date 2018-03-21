@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adjust and Sort Pathway \(p\)-Values — adjust_and_sort â€¢ pathwayPCA</title>
+<title>Adjust and sort pathway \(p\)-values — adjust_and_sort â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,7 +101,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adjust and Sort Pathway \(p\)-Values</h1>
+    <h1>Adjust and sort pathway \(p\)-values</h1>
     </div>
 
     
@@ -128,7 +128,7 @@ function.</p></td>
     <tr>
       <th>genesets_ls</th>
       <td><p>A list of known gene pathways. This pathway list must
-contain</p><ul>
+contain:</p><ul>
 <li><p><code>pathways</code> : A named list of character vectors where each
      vector contains the names of the genes in that specific pathway.</p></li>
 <li><p><code>TERMS</code> : A character vector the same length as
@@ -165,20 +165,20 @@ function.</p></td>
 
     <p>A data frame with columns</p><ul>
 <li><p><code>pathways</code> : The names of the pathways in the <code>Omics*</code>
-    object (stored in <code>object@pathwaySet$pathways</code>)</p></li>
+    object (stored in <code>object@pathwaySet$pathways</code>).</p></li>
 <li><p><code>setsize</code> : The number of genes in each of the original
-    pathways (as stored in the <code>object@pathwaySet$setsize</code> object)</p></li>
+    pathways (as stored in the <code>object@pathwaySet$setsize</code> object).</p></li>
 <li><p><code>terms</code> : The pathway description, as stored in the
-    <code>object@pathwaySet$TERMS</code> object</p></li>
-<li><p><code>rawp</code> : The unadjusted \(p\)-values of each pathway</p></li>
+    <code>object@pathwaySet$TERMS</code> object.</p></li>
+<li><p><code>rawp</code> : The unadjusted \(p\)-values of each pathway.</p></li>
 <li><p><code>...</code> : Additional columns as specified through the
-    <code>adjustment</code> argument</p></li>
+    <code>adjustment</code> argument.</p></li>
 </ul>
 
 <p>The data frame will be sorted in ascending order by the method specified
   first in the <code>adjustment</code> argument. If <code>adjustpValues = FALSE</code>,
   then the data frame will be sorted by the raw \(p\)-values. If you have
-  the suggested <code>tidyverse::</code> package suite loaded, then this data frame
+  the suggested <code>tidyverse</code> package suite loaded, then this data frame
   will print as a <code><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></code>. Otherwise, it will stay a
   simple data frame.</p>
     
