@@ -45,8 +45,8 @@ sample_Survivalresp <- function(response_vec,
   if(parametric){
 
     # Estimate the null model
-    surv_obj <- survival::Surv(response_vec, censor_vec)
-    null_mod <- survival::survreg(surv_obj ~ 1, dist = "weibull")
+    surv_obj <- Surv(response_vec, censor_vec)
+    null_mod <- survreg(surv_obj ~ 1, dist = "weibull")
 
     times_vec <- rweibull(n,
                           shape = 1 / null_mod$scale,

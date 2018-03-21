@@ -5,3 +5,6 @@
 ^pathwayPCA\.pdf$
 ^C:\\Users\\gjo15\\Documents\\GitHub\\pathwayPCA\\docs$
 ^_pkgdown\.yaml$
+^README\.Rmd$
+^README\.html$
+^docs$
