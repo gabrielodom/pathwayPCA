@@ -39,7 +39,7 @@ LARS is described in detail in Efron, Hastie, Johnstone and
   Tibshirani (2002). With the "lasso" option, it computes the complete lasso
   solution simultaneously for ALL values of the shrinkage parameter in the
   same computational cost as a least squares fit. This function is adapted
-  from the \code{lars()} function in the \code{lars::} package to apply to
+  from the \code{lars()} function in the \code{lars} package to apply to
   covariance or Grammian pathway design matrices.
 }
 \examples{

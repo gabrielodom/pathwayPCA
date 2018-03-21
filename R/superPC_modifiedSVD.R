@@ -51,7 +51,7 @@ mysvd <- function(mat, n.components = NULL){
     n.components <- min(n, p)
   }
 
-  junk <- corpcor::fast.svd(mat)
+  junk <- fast.svd(mat)
   nc <- min(ncol(junk$u), n.components)
 
   return(list(u = junk$u[, 1:nc],

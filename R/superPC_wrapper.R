@@ -45,7 +45,7 @@
 #' The data frame will be sorted in ascending order by the method specified
 #'   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
 #'   then the data frame will be sorted by the raw \eqn{p}-values. If you have
-#'   the suggested \code{tidyverse::} package suite loaded, then this data frame
+#'   the suggested \code{tidyverse} package suite loaded, then this data frame
 #'   will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
 #'   simple data frame.
 #'

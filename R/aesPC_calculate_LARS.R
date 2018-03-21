@@ -21,7 +21,7 @@
 #'   Tibshirani (2002). With the "lasso" option, it computes the complete lasso
 #'   solution simultaneously for ALL values of the shrinkage parameter in the
 #'   same computational cost as a least squares fit. This function is adapted
-#'   from the \code{lars()} function in the \code{lars::} package to apply to
+#'   from the \code{lars()} function in the \code{lars} package to apply to
 #'   covariance or Grammian pathway design matrices.
 #'
 #' @seealso \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}
@@ -135,7 +135,7 @@ lars.lsa <- function(Sigma0, b0, n,
       # END IF(!any(drops)) ELSE
     }
 
-    # backsolve is from base, while backsolvet is from lars::
+    # backsolve is from base, while backsolvet is from lars
     Gi1 <- backsolve(R, backsolvet(R, Sign))
     dropouts <- NULL
     A <- 1 / sqrt(sum(Gi1 * Sign))  # This can easily be NaN

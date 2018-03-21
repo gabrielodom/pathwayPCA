@@ -101,7 +101,7 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
     stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    Note that the pathwayPCA package functions require -Omics data as an N x p
     data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
@@ -177,7 +177,7 @@ create_OmicsSurv <- function(assayData_df,
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
     stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    Note that the pathwayPCA package functions require -Omics data as an N x p
     data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
@@ -250,7 +250,7 @@ create_OmicsReg <- function(assayData_df,
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
     stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    Note that the pathwayPCA package functions require -Omics data as an N x p
     data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
@@ -316,7 +316,7 @@ create_OmicsCateg <- function(assayData_df,
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
     stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA:: package functions require -Omics data as an N x p
+    Note that the pathwayPCA package functions require -Omics data as an N x p
     data frame object: this data frame will have one observation per row and one
     measurement per column. If your matrix is in 'tall' (p x N) format, please
     transpose your matrix with the 't()' function (but pay attention to your
