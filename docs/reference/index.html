@@ -127,13 +127,19 @@
           <td>
             <p><code><a href="create_OmicsPathway.html">create_OmicsPath</a></code> <code><a href="create_OmicsPathway.html">create_OmicsSurv</a></code> <code><a href="create_OmicsPathway.html">create_OmicsReg</a></code> <code><a href="create_OmicsPathway.html">create_OmicsCateg</a></code> </p>
           </td>
-          <td><p>Generation Functions for -Omics.* Class Objects</p></td>
+          <td><p>Generation Functions for <code>-Omics*</code> Class Objects</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="AESPCA_pVals.html">AESPCA_pVals</a></code> </p>
           </td>
           <td><p>Test Pathways with AES-PCA</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="superPCA_pVals.html">superPCA_pVals</a></code> </p>
+          </td>
+          <td><p>Test Pathways with Supervised PCA</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -145,7 +151,52 @@
           <td>
             <p><code><a href="expressedOmes.html">expressedOmes</a></code> </p>
           </td>
-          <td><p>Extract expressed -omes matching a gene set from a mass spectrometry matrix</p></td>
+          <td><p>Extract expressed -Omes matching a gene set from a mass spectrometry or assay
+  data frame</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-s-class-objects" class="hasAnchor"><a href="#section-s-class-objects" class="anchor"></a>S4-Class Objects</h2>
+            <p class="section-desc"><p>Descriptions of the S4 classes in this package</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="OmicsPathway-class.html">OmicsPathway-class</a></code> </p>
+          </td>
+          <td><p>An S4 class for mass spectrometry or bio-assay data and gene pathway lists</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="OmicsSurv-class.html">OmicsSurv-class</a></code> </p>
+          </td>
+          <td><p>An S4 class for survival responses within an "OmicsPathway" object</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="OmicsReg-class.html">OmicsReg-class</a></code> </p>
+          </td>
+          <td><p>An S4 class for continuous responses within an "OmicsPathway" object</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="OmicsCateg-class.html">OmicsCateg-class</a></code> </p>
+          </td>
+          <td><p>An S4 class for categorical responses within an "OmicsPathway" object</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="permTest_OmicsCateg.html">permTest_OmicsCateg</a></code> </p>
+          </td>
+          <td><p>Permutation Test for Pathway PCs for Classification Response</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="valid_OmicsSurv.html">valid_OmicsSurv</a></code> <code><a href="valid_OmicsSurv.html">valid_OmicsReg</a></code> <code><a href="valid_OmicsSurv.html">valid_OmicsCateg</a></code> </p>
+          </td>
+          <td><p>Validity Checking for -Omics.* Classes</p></td>
         </tr>
       </tbody><tbody>
         <tr>
@@ -171,7 +222,8 @@
           <td>
             <p><code><a href="extract_aesPCs.html">extract_aesPCs</a></code> </p>
           </td>
-          <td><p>Extract PCs from pathway-subsets of a mass spectrometry matrix</p></td>
+          <td><p>Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
+  bio-assay data frame</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -209,7 +261,7 @@
           <td>
             <p><code><a href="coxTrain_fun.html">coxTrain_fun</a></code> </p>
           </td>
-          <td><p>Train Cox Proportional Hazards Model</p></td>
+          <td><p>Train Cox Proportional Hazards Model for Supervised PCA</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -280,7 +332,7 @@
       </tbody><tbody>
         <tr>
           <th colspan="2">
-            <h2 id="section-internal-supplemental-functions" class="hasAnchor"><a href="#section-internal-supplemental-functions" class="anchor"></a>Internal Supplemental Functions</h2>
+            <h2 id="section-internal-supplemental-functions-and-data" class="hasAnchor"><a href="#section-internal-supplemental-functions-and-data" class="anchor"></a>Internal Supplemental Functions and Data</h2>
             <p class="section-desc"><p>Utility functions shared by both the AES-PCA and supervised PCA methods</p></p>
           </th>
         </tr>
@@ -302,6 +354,18 @@
             <p><code><a href="adjustRaw_pVals.html">adjustRaw_pVals</a></code> </p>
           </td>
           <td><p>Adjust p-Values for Simple Multiple-Testing Procedures</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="colonGenesets_ls.html">colonGenesets_ls</a></code> </p>
+          </td>
+          <td><p>Gene Pathway Subset</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="colonSurv_df.html">colonSurv_df</a></code> </p>
+          </td>
+          <td><p>Colon Cancer -Omics Data</p></td>
         </tr>
       </tbody>
       </table>
@@ -312,9 +376,10 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-external-functions">External Functions</a></li>
+      <li><a href="#section-s-class-objects">S4-Class Objects</a></li>
       <li><a href="#section-internal-aes-pca-functions">Internal AES-PCA Functions</a></li>
       <li><a href="#section-internal-supervised-pca-functions">Internal Supervised PCA Functions</a></li>
-      <li><a href="#section-internal-supplemental-functions">Internal Supplemental Functions</a></li>
+      <li><a href="#section-internal-supplemental-functions-and-data">Internal Supplemental Functions and Data</a></li>
     </ul>
   </div>
 </div>

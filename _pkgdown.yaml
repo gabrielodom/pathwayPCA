@@ -19,8 +19,18 @@ reference:
       - '`create_OmicsReg`'
       - '`create_OmicsCateg`'
       - '`AESPCA_pVals`'
+      - '`superPCA_pVals`'
       - '`topGenes`'
       - '`expressedOmes`'
+  - title: S4-Class Objects
+    desc: Descriptions of the S4 classes in this package
+    contents:
+      - '`OmicsPathway-class`'
+      - '`OmicsSurv-class`'
+      - '`OmicsReg-class`'
+      - '`OmicsCateg-class`'
+      - '`permTest_OmicsCateg`'
+      - '`valid_OmicsSurv`'
   - title: Internal AES-PCA Functions
     desc: Functions designed to be called by the AES-PCA wrapper above
     contents:
@@ -46,9 +56,11 @@ reference:
       - '`pathway_tScores`'
       - '`randomControlSample`'
       - '`superpc.train`'
-  - title: Internal Supplemental Functions
+  - title: Internal Supplemental Functions and Data
     desc: Utility functions shared by both the AES-PCA and supervised PCA methods
     contents:
       - '`adjust_and_sort`'
       - '`matrixRoot`'
       - '`adjustRaw_pVals`'
+      - '`colonGenesets_ls`'
+      - '`colonSurv_df`'

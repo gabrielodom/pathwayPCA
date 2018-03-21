@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An S4 class for mass spectronomy data and gene pathway lists — OmicsPathway-class â€¢ pathwayPCA</title>
+<title>An S4 class for mass spectrometry or bio-assay data and gene pathway lists — OmicsPathway-class â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,11 +101,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An S4 class for mass spectronomy data and gene pathway lists</h1>
+    <h1>An S4 class for mass spectrometry or bio-assay data and gene pathway lists</h1>
     </div>
 
     
-    <p>An S4 class for mass spectronomy data and gene pathway lists</p>
+    <p>An S4 class for mass spectrometry or bio-assay data and gene pathway lists</p>
     
 
         
@@ -113,21 +113,22 @@
 
     
     <dl class='dl-horizontal'>
-<dt><code>assayData_df</code></dt><dd><p>An $N x p$ data frame with named columns</p></dd>
-    <dt><code>pathwaySet</code></dt><dd><p>A list of known gene pathways with one or two elements:
+<dt><code>assayData_df</code></dt><dd><p>An \(N x p\) data frame with named columns</p></dd>
+    <dt><code>pathwaySet</code></dt><dd><p>A list of known gene pathways with two elements:
 <ul>
-<li><p>pathways : A named list of character vectors. Each vector contains
-    the names of the individual genes within that pathway as a vector of
-    character strings. The names contained in these vectors must have non-
-    empty overlap with the <em>column names</em> of the <code>assayData_df</code>
-    data frame. The names of the pathways (the list elements themselves)
-    should be the a shorthand representation of the full pathway name.</p></li>
-<li><p>TERMS:  A character vector the same length as the
+<li><p><code>pathways</code> : A named list of character vectors. Each vector
+     contains the names of the individual genes within that pathway as a
+     vector of character strings. The names contained in these vectors must
+     have non-empty overlap with the <em>column names</em> of the
+     <code>assayData_df</code> data frame. The names of the pathways (the list
+     elements themselves) should be the a shorthand representation of the
+     full pathway name.</p></li>
+<li><p><code>TERMS</code>: A character vector the same length as the
     <code>pathways</code> list with the proper names of the pathways.</p></li>
-<li><p>setsize : A named integer vector the same length as the
-    <code>pathways</code> list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a <code>create_Omics*()</code>
-    function call.</p></li>
+<li><p><code>setsize</code> :  (CALCULATED ON OBJECT CREATION.) A named integer
+     vector the same length as the <code>pathways</code> list with the number of
+     genes in each pathway. This list item is calculated during the creation
+     step of a <code>create_Omics*()</code> function call.</p></li>
 </ul></p></dd>
 </dl>
     

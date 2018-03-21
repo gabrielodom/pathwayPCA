@@ -1,29 +1,33 @@
-#' Train Cox Proportional Hazards Model
+#' Train Cox Proportional Hazards Model for Supervised PCA
 #'
 #' @description Main and utility functions for training the Cox PH model
 #'
-#' @param x A "tall" pathway data frame ($p * n$)
+#' @param x A "tall" pathway data frame (\eqn{p \times n})
 #' @param y A response vector of follow-up / event times
 #' @param censoring.status A censoring vector
-#' @param s0.perc A stabilization parameter. This is an argument to each of the
-#'    functions called internally.
+#' @param s0.perc A stabilization parameter. This is an optional argument to
+#'   each of the functions called internally. Defaults to \code{NULL}.
 #'
 #' @return A list containing:
 #' \itemize{
-#'   \item{tt : }{The scaled p-dimensional score vector: each value has been
-#'     divided by the respective standard deviation plus the \code{fudge} value.}
-#'   \item{numer : }{The original p-dimensional score vector. From the internal
-#'     \code{.coxscor} function.}
-#'   \item{sd : }{The standard deviations of the scores. From the internal
-#'     \code{.coxvar} function.}
-#'   \item{fudge : }{A regularization scalar added to the standard deviation.
-#'     If \code{s0.perc} is supplied, \code{fudge = quantile(sd, s0.perc)}.}
+#'   \item{\code{tt} : }{The scaled p-dimensional score vector: each value has
+#'      been divided by the respective standard deviation plus the \code{fudge}
+#'      value.}
+#'   \item{\code{numer} : }{The original p-dimensional score vector. From the
+#'      internal \code{.coxscor} function.}
+#'   \item{\code{sd} : }{The standard deviations of the scores. From the
+#'      internal \code{.coxvar} function.}
+#'   \item{\code{fudge} : }{A regularization scalar added to the standard
+#'      deviation. If \code{s0.perc} is supplied,
+#'      \code{fudge = quantile(sd, s0.perc)}.}
 #' }
 #'
 #' @details See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf},
 #'    Section 5, for a description of Supervised PCA applied to survival data.
-#'    The internal functions defined in this file are not called anywhere else,
-#'    other than in the \code{coxTrain_fun} function itself.
+#'    The internal utility functions defined in this file (\code{.coxscor},
+#'    \code{.coxvar}, and \code{.coxstuff}) are not called anywhere else, other
+#'    than in the \code{coxTrain_fun} function itself. Therefore, we do not
+#'    document these functions.
 #'
 #'    NOTE: No missing values allowed.
 #'
@@ -36,7 +40,7 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use superPCA_pVals() instead
 
-coxTrain_fun <- function(x, y, censoring.status, s0.perc){
+coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   # browser()
 
   junk <- .coxscor(x, y, censoring.status)

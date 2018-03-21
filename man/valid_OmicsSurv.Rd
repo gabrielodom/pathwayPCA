@@ -25,7 +25,8 @@ These functions check the validity of the "OmicsSurv", "OmicsReg", and
 }
 \details{
 At the moment, we have currently written checks to make sure the dimensions
-  of the mass spectrometry data matrix and response vectors match.
+  of the mass spectrometry or bio-assay data frame and response vectors
+  match.
 }
 \section{OmicsSurv}{
 

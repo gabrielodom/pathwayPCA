@@ -457,4 +457,4 @@ In x + bn : longer object length is not a multiple of shorter object length
 </br>
 
 # Website
-Please see URL HERE for our hosted vignettes. Update the design of the website by editing the `_pkgdown.yaml` file. Update the content of the website pages by editing the vignettes and / or function documentation. When you update the website, run `pkgdown::clean_site()` then rebuild with `pkgdown::build_site()`.
+Please see the "Articles" page of https://gabrielodom.github.io/pathwayPCA/ for our hosted vignettes. Update the design of the website by editing the `_pkgdown.yaml` file. Update the content of the website pages by editing the vignettes and / or function documentation. When you update the website, run `pkgdown::clean_site()` then rebuild with `pkgdown::build_site()`. In order to check the individual components (like, References, for instance), use `pkgdown::build_reference()` (or whichever section you need). For the available functions, see http://pkgdown.r-lib.org/reference/index.html.

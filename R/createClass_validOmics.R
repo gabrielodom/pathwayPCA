@@ -4,7 +4,8 @@
 #'   "OmicsCateg" classes.
 #'
 #' At the moment, we have currently written checks to make sure the dimensions
-#'   of the mass spectrometry data matrix and response vectors match.
+#'   of the mass spectrometry or bio-assay data frame and response vectors
+#'   match.
 #'
 #' @section OmicsSurv:
 #' Valid OmicsSurv objects will have two response vectors: a vector of the most
