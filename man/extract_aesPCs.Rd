@@ -4,7 +4,8 @@
 \name{extract_aesPCs}
 \alias{extract_aesPCs}
 \alias{extract_aesPCs,OmicsPathway-method}
-\title{Extract PCs from pathway-subsets of a mass spectrometry matrix}
+\title{Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
+  bio-assay data frame}
 \usage{
 extract_aesPCs(object, trim = 3, numPCs = 1, parallel = FALSE,
   numCores = NULL, ...)
@@ -15,7 +16,7 @@ extract_aesPCs(object, trim = 3, numPCs = 1, parallel = FALSE,
 \arguments{
 \item{object}{An object of class \code{OmicsPathway}}
 
-\item{trim}{The minimum cutoff of expressed -ome measures before a pathway
+\item{trim}{The minimum cutoff of expressed -Ome measures before a pathway
 is excluded. Defaults to 3.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
@@ -29,34 +30,34 @@ computation?}
 \item{...}{Dots for additional internal arguments (currently unused)}
 }
 \value{
-A list of pathway PC matrices. Each element of the list will be named
+A list of matrices. Each element of the list will be named
   by its pathway, and the elements will be \eqn{N \times} \code{numPCs}
   matrices containing the first \code{numPCs} principal components from each
-  pathway. See "details" for more information
+  pathway. See "Details" for more information
 }
 \description{
-Given an \code{OmicsPath} object, extract the first principal
-  components from each expressed pathway in the MS design matrix
+Given a clean \code{OmicsPath} object (cleaned by the
+  \code{\link{expressedOmes}} function), extract the first principal
+  components from each expressed pathway in the assay design matrix.
 }
 \details{
 This function takes in a data frame with named columns and a pathway
-  list as an \code{OmicsPathway} object. This function will then call the
-  \code{\link{expressedOmes}} function to iterate over the list of pathways,
-  extracting columns from the MS design matrix which match the genes listed
-  in that pathway and removing any pathways with fewer than \code{trim}
-  expressed genes. This function will then call the \code{\link{aespca}}
-  on the list of pathway-specific data frames returned by the
-  \code{\link{expressedOmes}} function, extracting the first \code{numPCs}
-  from each pathway data frame. These PC matrices are returned as a named
-  list.
+  list as an \code{OmicsPathway} object which has had unexpressed -Omes
+  removed by the \code{\link{expressedOmes}} function. This function will
+  then iterate over the list of pathways, extracting columns from the assay
+  design matrix which match the genes listed in that pathway as a sub-matrix
+  (as a \code{data.frame} object). This function will then call the
+  \code{\link{aespca}} on each data frame in the list of pathway-specific
+  design matrices, extracting the first \code{numPCs} AES principal
+  components from each pathway data frame. These PC matrices are returned as
+  a named list.
 
   NOTE: some genes will be included in more than one pathway, so these
-  pathways are not a partition of the MS matrix supplied. Further, note that
-  there may be many genes in the MS design matrix that are not included in
-  the pathway sets, so these will not be extracted to the list. It is then
-  vitally important to use either a very broad and generic pathway set list
-  or a pathway set list that is appropriate for the mass spectrometry data
-  supplied.
+  pathways are not mutually exclusive. Further note that there may be many
+  genes in the assay design matrix that are not included in the pathway sets,
+  so these will not be extracted to the list. It is then vitally important to
+  use either a very broad and generic pathway set list or a pathway set list
+  that is appropriate for the assay data supplied.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.

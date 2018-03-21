@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract PCs from pathway-subsets of a mass spectrometry matrix — extract_aesPCs â€¢ pathwayPCA</title>
+<title>Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
+  bio-assay data frame — extract_aesPCs â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +102,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract PCs from pathway-subsets of a mass spectrometry matrix</h1>
+    <h1>Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
+  bio-assay data frame</h1>
     </div>
 
     
-    <p>Given an <code>OmicsPath</code> object, extract the first principal
-  components from each expressed pathway in the MS design matrix</p>
+    <p>Given a clean <code>OmicsPath</code> object (cleaned by the
+  <code><a href='expressedOmes.html'>expressedOmes</a></code> function), extract the first principal
+  components from each expressed pathway in the assay design matrix.</p>
     
 
     <pre class="usage"><span class='fu'>extract_aesPCs</span>(<span class='no'>object</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -125,7 +128,7 @@
     </tr>
     <tr>
       <th>trim</th>
-      <td><p>The minimum cutoff of expressed -ome measures before a pathway
+      <td><p>The minimum cutoff of expressed -Ome measures before a pathway
 is excluded. Defaults to 3.</p></td>
     </tr>
     <tr>
@@ -150,30 +153,29 @@ computation?</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of pathway PC matrices. Each element of the list will be named
+    <p>A list of matrices. Each element of the list will be named
   by its pathway, and the elements will be \(N \times\) <code>numPCs</code>
   matrices containing the first <code>numPCs</code> principal components from each
-  pathway. See "details" for more information</p>
+  pathway. See "Details" for more information</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function takes in a data frame with named columns and a pathway
-  list as an <code>OmicsPathway</code> object. This function will then call the
-  <code><a href='expressedOmes.html'>expressedOmes</a></code> function to iterate over the list of pathways,
-  extracting columns from the MS design matrix which match the genes listed
-  in that pathway and removing any pathways with fewer than <code>trim</code>
-  expressed genes. This function will then call the <code><a href='aespca.html'>aespca</a></code>
-  on the list of pathway-specific data frames returned by the
-  <code><a href='expressedOmes.html'>expressedOmes</a></code> function, extracting the first <code>numPCs</code>
-  from each pathway data frame. These PC matrices are returned as a named
-  list.</p>
+  list as an <code>OmicsPathway</code> object which has had unexpressed -Omes
+  removed by the <code><a href='expressedOmes.html'>expressedOmes</a></code> function. This function will
+  then iterate over the list of pathways, extracting columns from the assay
+  design matrix which match the genes listed in that pathway as a sub-matrix
+  (as a <code>data.frame</code> object). This function will then call the
+  <code><a href='aespca.html'>aespca</a></code> on each data frame in the list of pathway-specific
+  design matrices, extracting the first <code>numPCs</code> AES principal
+  components from each pathway data frame. These PC matrices are returned as
+  a named list.</p>
 <p>NOTE: some genes will be included in more than one pathway, so these
-  pathways are not a partition of the MS matrix supplied. Further, note that
-  there may be many genes in the MS design matrix that are not included in
-  the pathway sets, so these will not be extracted to the list. It is then
-  vitally important to use either a very broad and generic pathway set list
-  or a pathway set list that is appropriate for the mass spectrometry data
-  supplied.</p>
+  pathways are not mutually exclusive. Further note that there may be many
+  genes in the assay design matrix that are not included in the pathway sets,
+  so these will not be extracted to the list. It is then vitally important to
+  use either a very broad and generic pathway set list or a pathway set list
+  that is appropriate for the assay data supplied.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

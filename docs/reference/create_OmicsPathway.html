@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generation Functions for -Omics.* Class Objects — create_OmicsPath â€¢ pathwayPCA</title>
+<title>Generation Functions for <code>-Omics*</code> Class Objects — create_OmicsPath â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +101,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generation Functions for -Omics.* Class Objects</h1>
+    <h1>Generation Functions for <code>-Omics*</code> Class Objects</h1>
     </div>
 
     
-    <p>These functions create valid objects of the "OmicsPathway", "OmicsSurv",
-  "OmicsReg", and "OmicsCateg" classes.</p>
+    <p>These functions create valid objects of class <code>OmicsPathway</code>,
+  <code>OmicsSurv</code>, <code>OmicsReg</code>, or <code>OmicsCateg</code>.</p>
     
 
     <pre class="usage"><span class='fu'>create_OmicsPath</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>)
@@ -122,61 +122,63 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>assayData_df</th>
-      <td><p>An $N x p$ data frame with named columns</p></td>
+      <td><p>An \(N \times p\) data frame with named columns</p></td>
     </tr>
     <tr>
       <th>pathwaySet_ls</th>
       <td><p>A list of known gene pathways with two elements:</p><ul>
-<li><p>pathways : A named list of character vectors. Each vector contains
-    the names of the individual genes within that pathway as a vector of
-    character strings. The names contained in these vectors must have non-
-    empty overlap with the <em>column names</em> of the <code>assayData_df</code>
-    data frame. The names of the pathways (the list elements themselves)
-    should be the a shorthand representation of the full pathway name.</p></li>
-<li><p>TERMS:  A character vector the same length as the
-    <code>pathways</code> list with the proper names of the pathways.</p></li>
+<li><p><code>pathways</code> : A named list of character vectors. Each vector
+     contains the names of the individual genes within that pathway as a
+     vector of character strings. The names contained in these vectors must
+     have non-empty overlap with the <em>column names</em> of the
+     <code>assayData_df</code> data frame. The names of the pathways (the list
+     elements themselves) should be the a shorthand representation of the
+     full pathway name.</p></li>
+<li><p><code>TERMS</code>:  A character vector the same length as the
+     <code>pathways</code> list with the proper names of the pathways.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>eventTime_vec</th>
-      <td><p>A numeric vector with $N$ observations corresponding to
-the last observed time of follow up</p></td>
+      <td><p>A numeric vector with \(N\) observations corresponding
+to the last observed time of follow up</p></td>
     </tr>
     <tr>
       <th>eventObserved_vec</th>
-      <td><p>A logical vector with $N$ observations indicating
-right censoring. The values will be FALSE if the observation was censored
-(i.e., we did not observe an event).</p></td>
+      <td><p>A logical vector with \(N\) observations
+indicating right-censoring. The values will be <code>FALSE</code> if the
+observation was censored (i.e., we did not observe an event)</p></td>
     </tr>
     <tr>
       <th>response_num</th>
-      <td><p>A numeric vector of length $N$: the dependent variable
-in a regression exercise</p></td>
+      <td><p>A numeric vector of length \(N\): the dependent
+variable in an ordinary regression exercise</p></td>
     </tr>
     <tr>
       <th>response_fact</th>
-      <td><p>A factor vector of length $N$: the dependent variable of a
-generalized linear model</p></td>
+      <td><p>A factor vector of length \(N\): the dependent
+variable of a generalized linear regression exercise</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of classes "OmicsPathway", "OmicsSurv", "OmicsReg", or
-  "OmicsCateg".</p>
+    <p>A valid object of class <code>OmicsPathway</code>, <code>OmicsSurv</code>,
+  <code>OmicsReg</code>, or <code>OmicsCateg</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Please note that the classes of the parameters are <em>not</em>
-  flexible. The -Omics measurement data <em>must</em> be a data frame, and the
-  response values (for the survival, regression, and classification object)
-  <em>must</em> match their expected classes <em>exactly</em>. The reason for
-  this is to force the end user to pay attention to the quality and format
-  of their input data. Because the functions internal to this package have
-  only been tested on the classes described in the Arguments section, these
-  class checks prevent unexpected errors (or worse, incorrect computational
-  results without an error). These draconian input class restrictions
-  protect the accuracy of your data's analysis.</p>
+  flexible. The -Omics measurement data <em>must</em> be or extend the class
+  <code>data.frame</code>, and the response values (for a survival, regression,
+  or classification object) <em>must</em> match their expected classes
+  <em>exactly</em>. The reason for this is to encourage the end user to pay
+  attention to the quality and format of their input data. Because the
+  functions internal to this package have only been tested on the classes
+  described in the Arguments section, these class checks prevent unexpected
+  errors (or worse, incorrect computational results without an error). These
+  draconian input class restrictions protect the accuracy of your data
+  analysis.</p>
 <p>Also note the following: if the supplied <code>pathways</code> object within your
   <code>pathwaySet_ls</code> list has no names, then this pathway list will be
   named <code>path1</code>, <code>path2</code>, <code>path3</code>, ...; if any of the pathways
@@ -194,31 +196,34 @@ generalized linear model</p></td>
     <h2 class="hasAnchor" id="omicspathway"><a class="anchor" href="#omicspathway"></a>OmicsPathway</h2>
 
     
-    <p>Valid OmicsPathawy objects will have no response information, just the mass
-  spectrometry (gene "design") matrix and the pathway list. OmicsPathway
-  objects should be created only when unsupervised pathway extraction is
-  needed (not possible with Supervised PCA). Because of the missing response,
-  no pathway testing can be performed on an OmicsPathway object.</p>
+    <p>Valid <code>OmicsPathway</code> objects will have no response information, just the
+  mass spectrometry or bio-assay ("design") matrix and the pathway list.
+  <code>OmicsPathway</code> objects should be created only when unsupervised
+  pathway extraction is needed (not possible with Supervised PCA). Because of
+  the missing response, no pathway testing can be performed on an
+  <code>OmicsPathway</code> object.</p>
     
     <h2 class="hasAnchor" id="omicssurv"><a class="anchor" href="#omicssurv"></a>OmicsSurv</h2>
 
     
-    <p>Valid OmicsSurv objects will have two response vectors: a vector of the most
-  recently recorded follow-up times and a logical vector if that time marks
-  an event (TRUE = observed event; FALSE = right-censored observation).</p>
+    <p>Valid <code>OmicsSurv</code> objects will have two response vectors: a vector of
+  the most recently recorded follow-up times and a logical vector if that
+  time marks an event (<code>TRUE</code>: observed event; <code>FALSE</code>: right-
+  censored observation).</p>
     
     <h2 class="hasAnchor" id="omicsreg-and-omicscateg"><a class="anchor" href="#omicsreg-and-omicscateg"></a>OmicsReg and OmicsCateg</h2>
 
     
-    <p>Valid OmicsReg and OmicsCateg objects with have one response vector of
-  continuous or categorial (as a factor) observations, respectively.</p>
+    <p>Valid <code>OmicsReg</code> and <code>OmicsCateg</code> objects with have one response
+  vector of continuous (<code>numeric</code>) or categorial (<code>factor</code>)
+  observations, respectively.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code>"<a href='OmicsPathway-class.html'>OmicsPathway</a>"</code>,
-  <code>"<a href='OmicsSurv-class.html'>OmicsSurv</a>"</code>,
-  <code>"<a href='OmicsReg-class.html'>OmicsReg</a>"</code>,  and
-  <code>"<a href='OmicsCateg-class.html'>OmicsCateg</a>"</code></p>
+    <p><code><a href='OmicsPathway-class.html'>OmicsPathway</a></code>,
+  <code><a href='OmicsSurv-class.html'>OmicsSurv</a></code>,
+  <code><a href='OmicsReg-class.html'>OmicsReg</a></code>,  and
+  <code><a href='OmicsCateg-class.html'>OmicsCateg</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

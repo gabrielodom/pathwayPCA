@@ -1,18 +1,19 @@
-#' Generation Functions for -Omics.* Class Objects
+#' Generation Functions for \code{-Omics*} Class Objects
 #'
-#' These functions create valid objects of the "OmicsPathway", "OmicsSurv",
-#'   "OmicsReg", and "OmicsCateg" classes.
+#' These functions create valid objects of class \code{OmicsPathway},
+#'   \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}.
 #'
 #' @details Please note that the classes of the parameters are \emph{not}
-#'   flexible. The -Omics measurement data \emph{must} be a data frame, and the
-#'   response values (for the survival, regression, and classification object)
-#'   \emph{must} match their expected classes \emph{exactly}. The reason for
-#'   this is to force the end user to pay attention to the quality and format
-#'   of their input data. Because the functions internal to this package have
-#'   only been tested on the classes described in the Arguments section, these
-#'   class checks prevent unexpected errors (or worse, incorrect computational
-#'   results without an error). These draconian input class restrictions
-#'   protect the accuracy of your data's analysis.
+#'   flexible. The -Omics measurement data \emph{must} be or extend the class
+#'   \code{data.frame}, and the response values (for a survival, regression,
+#'   or classification object) \emph{must} match their expected classes
+#'   \emph{exactly}. The reason for this is to encourage the end user to pay
+#'   attention to the quality and format of their input data. Because the
+#'   functions internal to this package have only been tested on the classes
+#'   described in the Arguments section, these class checks prevent unexpected
+#'   errors (or worse, incorrect computational results without an error). These
+#'   draconian input class restrictions protect the accuracy of your data
+#'   analysis.
 #'
 #'   Also note the following: if the supplied \code{pathways} object within your
 #'   \code{pathwaySet_ls} list has no names, then this pathway list will be
@@ -29,27 +30,29 @@
 #'   creation).
 #'
 #' @section OmicsPathway:
-#' Valid OmicsPathawy objects will have no response information, just the mass
-#'   spectrometry (gene "design") matrix and the pathway list. OmicsPathway
-#'   objects should be created only when unsupervised pathway extraction is
-#'   needed (not possible with Supervised PCA). Because of the missing response,
-#'   no pathway testing can be performed on an OmicsPathway object.
+#' Valid \code{OmicsPathway} objects will have no response information, just the
+#'   mass spectrometry or bio-assay ("design") matrix and the pathway list.
+#'   \code{OmicsPathway} objects should be created only when unsupervised
+#'   pathway extraction is needed (not possible with Supervised PCA). Because of
+#'   the missing response, no pathway testing can be performed on an
+#'   \code{OmicsPathway} object.
 #'
-#' @param assayData_df An $N x p$ data frame with named columns
+#' @param assayData_df An \eqn{N \times p} data frame with named columns
 #' @param pathwaySet_ls A list of known gene pathways with two elements:
 #' \itemize{
-#'   \item{pathways : }{A named list of character vectors. Each vector contains
-#'     the names of the individual genes within that pathway as a vector of
-#'     character strings. The names contained in these vectors must have non-
-#'     empty overlap with the \emph{column names} of the \code{assayData_df}
-#'     data frame. The names of the pathways (the list elements themselves)
-#'     should be the a shorthand representation of the full pathway name.}
-#'   \item{TERMS: }{ A character vector the same length as the
-#'     \code{pathways} list with the proper names of the pathways.}
+#'   \item{\code{pathways} : }{A named list of character vectors. Each vector
+#'      contains the names of the individual genes within that pathway as a
+#'      vector of character strings. The names contained in these vectors must
+#'      have non-empty overlap with the \emph{column names} of the
+#'      \code{assayData_df} data frame. The names of the pathways (the list
+#'      elements themselves) should be the a shorthand representation of the
+#'      full pathway name.}
+#'   \item{\code{TERMS}: }{ A character vector the same length as the
+#'      \code{pathways} list with the proper names of the pathways.}
 #' }
 #'
-#' @return An object of classes "OmicsPathway", "OmicsSurv", "OmicsReg", or
-#'   "OmicsCateg".
+#' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
+#'   \code{OmicsReg}, or \code{OmicsCateg}.
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
@@ -57,10 +60,10 @@
 #' @include createClass_OmicsReg.R
 #' @include createClass_OmicsCateg.R
 #'
-#' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"},
-#'   \code{"\link[=OmicsSurv-class]{OmicsSurv}"},
-#'   \code{"\link[=OmicsReg-class]{OmicsReg}"},  and
-#'   \code{"\link[=OmicsCateg-class]{OmicsCateg}"}
+#' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
+#'   \code{\link[=OmicsSurv-class]{OmicsSurv}},
+#'   \code{\link[=OmicsReg-class]{OmicsReg}},  and
+#'   \code{\link[=OmicsCateg-class]{OmicsCateg}}
 #'
 #' @importFrom methods new
 #'
@@ -153,15 +156,16 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 
 
 #' @section OmicsSurv:
-#' Valid OmicsSurv objects will have two response vectors: a vector of the most
-#'   recently recorded follow-up times and a logical vector if that time marks
-#'   an event (TRUE = observed event; FALSE = right-censored observation).
+#' Valid \code{OmicsSurv} objects will have two response vectors: a vector of
+#'   the most recently recorded follow-up times and a logical vector if that
+#'   time marks an event (\code{TRUE}: observed event; \code{FALSE}: right-
+#'   censored observation).
 #'
-#' @param eventTime_vec A numeric vector with $N$ observations corresponding to
-#'   the last observed time of follow up
-#' @param eventObserved_vec A logical vector with $N$ observations indicating
-#'   right censoring. The values will be FALSE if the observation was censored
-#'   (i.e., we did not observe an event).
+#' @param eventTime_vec A numeric vector with \eqn{N} observations corresponding
+#'   to the last observed time of follow up
+#' @param eventObserved_vec A logical vector with \eqn{N} observations
+#'   indicating right-censoring. The values will be \code{FALSE} if the
+#'   observation was censored (i.e., we did not observe an event)
 #'
 #' @export
 #' @rdname create_OmicsPathway
@@ -230,11 +234,12 @@ create_OmicsSurv <- function(assayData_df,
 
 
 #' @section OmicsReg and OmicsCateg:
-#' Valid OmicsReg and OmicsCateg objects with have one response vector of
-#'   continuous or categorial (as a factor) observations, respectively.
+#' Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
+#'   vector of continuous (\code{numeric}) or categorial (\code{factor})
+#'   observations, respectively.
 #'
-#' @param response_num A numeric vector of length $N$: the dependent variable
-#'   in a regression exercise
+#' @param response_num A numeric vector of length \eqn{N}: the dependent
+#'   variable in an ordinary regression exercise
 #'
 #' @export
 #' @rdname create_OmicsPathway
@@ -300,8 +305,8 @@ create_OmicsReg <- function(assayData_df,
 
 
 
-#' @param response_fact A factor vector of length $N$: the dependent variable of a
-#'   generalized linear model
+#' @param response_fact A factor vector of length \eqn{N}: the dependent
+#'   variable of a generalized linear regression exercise
 #' @export
 #' @rdname create_OmicsPathway
 create_OmicsCateg <- function(assayData_df,

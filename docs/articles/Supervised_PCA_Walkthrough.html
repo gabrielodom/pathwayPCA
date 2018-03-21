@@ -81,7 +81,7 @@
       <h1>Supervised PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-03-20</h4>
+            <h4 class="date">2018-03-21</h4>
           </div>
 
     
@@ -308,7 +308,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 6.089083 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.929515 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -336,7 +336,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 5.151146 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 4.971463 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -364,7 +364,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 7.931924 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 7.859636 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -479,61 +479,19 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 51.82878 51.82878 47.76706 47.04540 47.04540 47.04540 47.04540 47.04540 </span>
-<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     RAF1     SHC1   MAP2K2     AKT2     SOS1 </span>
-<span class="co">#&gt; 47.04540 42.41970 42.41970 38.35798 37.63632 37.63632 37.63632 37.63632 </span>
-<span class="co">#&gt;      CRK </span>
-<span class="co">#&gt; 37.63632 </span>
+<span class="co">#&gt; 36.05251 36.05251 31.21168 30.85596 30.85596 30.85596 30.85596 30.85596 </span>
+<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
+<span class="co">#&gt; 30.85596 29.14705 29.14705 24.86413 24.86413 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;     SOS2     PAK3    PRKCB      BTC     SHC1    PRKCA     ELK1     NRG1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;     MTOR     PAK4 EIF4EBP1      BAD    PRKCG     NRG3    MAPK9    ERBB4 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;   MAPK10    ERBB2    ERBB3   MAP2K2     TGFA     BRAF   MAP2K1     ABL1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;     NRG2     AKT1     ABL2     AKT2     SHC4  RPS6KB1  RPS6KB2     AKT3 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;     NRAS     GRB2     AREG   STAT5B    MAPK3   STAT5A     PAK6     SOS1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;      MYC     NCK1     NRG4     HRAS     EGFR    GSK3B     CBLB     KRAS </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;      CBL     SHC3   CDKN1B   CDKN1A      EGF     EREG     ARAF     NCK2 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;   CAMK2A   CAMK2B   CAMK2D   CAMK2G     CBLC      CRK     CRKL     GAB1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    PLCG1    PLCG2     SHC2    HBEGF    CASP9     E2F1     RARB     RXRB </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    PDPK1     RXRG     RXRA   RASSF1   CDKN2A   RASSF5     FHIT     STK4 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    CCND1    FOXO3     CDK4     TP53     E2F3     E2F2     CDK6    EPHB4 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3    EFNB1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1    RAP1B </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    EFNB2     WASL       TF    KALRN    RASA1     FRS2    THEM4      KLB </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;     DOK1    EIF4B    EIF4E   EIF4G1     FGF1     FGF2     FGF3     FGF4 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;     FGF5     FGF6     FGF7     FGF8     FGF9    FGF10    FGFR1    FGFR3 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    FGFR2    FGFR4    FGF20    FGF22    GRB10      INS     INSR     IRS1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    PDE3B   PRKAG2    CAB39   PRKAG3     TLR9    PPM1A   STRADB   PRKAA1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;   PRKAA2   PRKAB1   PRKAB2   PRKAG1    RPTOR    TRIB3     RHEB     RPS6 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    MLST8    STK11     TSC1     TSC2    YWHAB    FGF23   CAB39L     IRS2 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt;    FGF18    FGF17   STRADA       KL     CDK1    FGF19   TCIRG1 ATP6V1G3 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt; ATP6V0A2 ATP6V0D2 ATP6V1C2 ATP6V0A4  ATP6V1D  ATP6V1H  ATP6V1A ATP6V1B1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt; ATP6V1B2  ATP6V0C ATP6V1C1 ATP6V1E1  ATP6V0B ATP6V1G2 ATP6V0E1 ATP6V1E2 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908  9.40908 </span>
-<span class="co">#&gt; ATP6V0D1  ATP6V1F ATP6V1G1 </span>
-<span class="co">#&gt;  9.40908  9.40908  9.40908</span></code></pre></div>
+<span class="co">#&gt;    PAK3     BTC    ELK1    NRG1    PAK4    NRG3   MAPK9   ERBB4  MAPK10 </span>
+<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 </span>
+<span class="co">#&gt;   ERBB3    ABL1    NRG2    ABL2    SHC4 RPS6KB2    AREG  STAT5B  STAT5A </span>
+<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 </span>
+<span class="co">#&gt;    PAK6     MYC    NRG4   GSK3B    CBLB     CBL  CDKN1B  CDKN1A    EREG </span>
+<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 </span>
+<span class="co">#&gt;    NCK2  CAMK2A  CAMK2B  CAMK2D  CAMK2G    CBLC    CRKL   HBEGF </span>
+<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952</span></code></pre></div>
 </div>
 </div>
   </div>
