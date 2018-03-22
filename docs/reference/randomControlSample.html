@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parametric Bootstrap and Non-parametric Permutations of a Response — randomControlSample â€¢ pathwayPCA</title>
+<title>Parametric bootstrap and non-parametric permutations of a response vector or
+   matrix — randomControlSample â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,7 +102,8 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parametric Bootstrap and Non-parametric Permutations of a Response</h1>
+    <h1>Parametric bootstrap and non-parametric permutations of a response vector or
+   matrix</h1>
     </div>
 
     
@@ -109,7 +111,7 @@
    the input response vector or matrix (for survival outcomes).</p>
     
 
-    <pre class="usage"><span class='fu'>sample_Survivalresp</span>(<span class='no'>response_vec</span>, <span class='no'>censor_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>sample_Survivalresp</span>(<span class='no'>response_vec</span>, <span class='no'>event_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>sample_Regresp</span>(<span class='no'>response_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -125,9 +127,10 @@ response, this is the vector of event times. For regression or n-ary
 classification, this is the vector of responses.</p></td>
     </tr>
     <tr>
-      <th>censor_vec</th>
-      <td><p>The censoring indicator vector for survival response. This
-is coded as 1 for a right-censoring occurence and 0 for a recorded event.</p></td>
+      <th>event_vec</th>
+      <td><p>The death / event observation indicator vector for survival
+response. This is coded as 0 for a right-censoring occurence and 1 for a
+recorded event.</p></td>
     </tr>
     <tr>
       <th>parametric</th>

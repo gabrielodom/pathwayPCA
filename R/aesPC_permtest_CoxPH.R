@@ -96,10 +96,10 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
               permuteAIC_fun <- function(){
 
                 perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
-                                                 censor_vec = obj_OmicsSurv@eventObserved,
+                                                 event_vec = obj_OmicsSurv@eventObserved,
                                                  parametric = parametric)
                 perm_Surv <- Surv(time = perm_resp$response_vec,
-                                  event = perm_resp$censor_vec)
+                                  event = perm_resp$event_vec)
                 AIC(coxph(perm_Surv ~ pathwayPCs_mat))
 
               }

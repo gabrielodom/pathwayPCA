@@ -71,11 +71,11 @@ pathway_tControl <- function(pathway_vec,
     survival = {
 
       surv_ls <- sample_Survivalresp(response_vec = response_mat[, 1],
-                                     censor_vec = response_mat[, 2],
+                                     event_vec = response_mat[, 2],
                                      parametric = parametric)
       list(x = geneArray_df[pathway_vec, ],
            y = surv_ls$response_vec,
-           censoring.status = surv_ls$censor_vec,
+           censoring.status = surv_ls$event_vec,
            featurenames = pathway_vec)
 
       },
