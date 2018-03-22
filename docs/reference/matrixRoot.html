@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Positive Root of a Symmetric Matrix — matrixRoot â€¢ pathwayPCA</title>
+<title>Positive root of a symmetric matrix — matrixRoot â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,7 +101,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Positive Root of a Symmetric Matrix</h1>
+    <h1>Positive root of a symmetric matrix</h1>
     </div>
 
     
@@ -116,11 +116,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A symmetric (necessarily square) matrix</p></td>
+      <td><p>A symmetric (necessarily square) matrix.</p></td>
     </tr>
     <tr>
       <th>root</th>
-      <td><p>A positive number</p></td>
+      <td><p>A positive real number.</p></td>
     </tr>
     </table>
     
@@ -131,10 +131,11 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function decomposes <code>x</code> into $V x D x V^T$ via the
-  <code>eigen()</code> function, sets any numerically negative eigenvalues to 0,
-  calculates the root of these eigenvalues as D^*, then returns the matrix
-  $V x D^* x V^T$.</p>
+    <p>This function decomposes <code>x</code> into \(V \times D \times V^T\)
+  via the <code><a href='http://www.rdocumentation.org/packages/base/topics/eigen'>eigen</a></code> function, sets any numerically negative
+  eigenvalues to 0, calculates the root of these eigenvalues as \(D^r\),
+  then returns the matrix \(V \times D^r \times V^T\).</p>
+<p>See <a href='https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix'>https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix</a>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

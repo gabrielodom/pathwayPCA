@@ -229,6 +229,7 @@ I still need to add "do not touch" examples to the other exported functions. The
 3. Replace all `\$ stuff \$` with `\eqn\{ stuff \}` in the R documentation files.
 4. Finish documentation for
     a. `aespca()`
+    b. `normalize()`
 
 
 *******************************************************************************

@@ -1,19 +1,18 @@
-#' Normalize a Matrix
+#' Normalize a matrix for supervised PCA
 #'
-#' @param B A matrix?
-#' @param d The number of columns of \code{B} to normalize
+#' @param B A matrix.
+#' @param d The number of columns of \code{B} to normalize.
 #'
 #' @description A function that norms a matrix, but I don't understand any of
 #'   it.
 #'
-#' @return A modified version of the \code{B} matrix
+#' @return A modified version of the \code{B} matrix.
 #'
 #' @details I met with James and Steven on 26 September and neither of them
 #'   understood the sign reversal in the last line of the internal \code{for()}
-#'   loop. Before this function can be extracted and documented, I need to
-#'   understand why it's doing what it's doing. Based on how it's called in the
-#'   \code{aespca()} function, it has something to do with adjusting the aes-pca
-#'   eigenvectors returned by the \code{lars.lsa()} function.
+#'   loop. Based on how it's called in the \code{\link{aespca}} function, it has
+#'   something to do with adjusting the AES-PCA eigenvectors returned by the
+#'   \code{\link{lars.lsa}} function. DOCUMENT THIS.
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.

@@ -12,8 +12,9 @@ Description: Apply the Supervised PCA and Adaptive, Elastic-Net, Sparse PCA
   each pathway. Return the model fit statistic p-values, and adjust these values
   for False Discovery Rate. Return a data frame of the pathways sorted by their
   adjusted p-values.
-    This package has corresponding vignettes hosted at URL HERE, and the website
-  for the development information is hosted at <https://github.com/gabrielodom/pathwayPCA>.
+    This package has corresponding vignettes hosted in the "Articles" page of
+    https://gabrielodom.github.io/pathwayPCA/index.html, and the website for the
+    development information is hosted at <https://github.com/gabrielodom/pathwayPCA>.
 License: GPL-2
 Depends: R (>= 2.10)
 Imports:
