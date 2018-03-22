@@ -5,9 +5,10 @@
 \alias{sample_Survivalresp}
 \alias{sample_Regresp}
 \alias{sample_Classifresp}
-\title{Parametric Bootstrap and Non-parametric Permutations of a Response}
+\title{Parametric bootstrap and non-parametric permutations of a response vector or
+   matrix}
 \usage{
-sample_Survivalresp(response_vec, censor_vec, parametric = FALSE)
+sample_Survivalresp(response_vec, event_vec, parametric = FALSE)
 
 sample_Regresp(response_vec, parametric = FALSE)
 
@@ -18,8 +19,9 @@ sample_Classifresp(response_vec, parametric = FALSE)
 response, this is the vector of event times. For regression or n-ary
 classification, this is the vector of responses.}
 
-\item{censor_vec}{The censoring indicator vector for survival response. This
-is coded as 1 for a right-censoring occurence and 0 for a recorded event.}
+\item{event_vec}{The death / event observation indicator vector for survival
+response. This is coded as 0 for a right-censoring occurence and 1 for a
+recorded event.}
 
 \item{parametric}{Should the random sample be taken using a parametric
 bootstrap sample? Defaults to \code{FALSE}.}

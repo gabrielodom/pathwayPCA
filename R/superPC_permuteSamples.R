@@ -1,13 +1,15 @@
-#' Parametric Bootstrap and Non-parametric Permutations of a Response
+#' Parametric bootstrap and non-parametric permutations of a response vector or
+#'    matrix
 #'
-#' Create a random parametric bootstrap sample or a permutation of
+#' @description Create a random parametric bootstrap sample or a permutation of
 #'    the input response vector or matrix (for survival outcomes).
 #'
 #' @param response_vec The dependent vector to sample from. For survival
 #'    response, this is the vector of event times. For regression or n-ary
 #'    classification, this is the vector of responses.
-#' @param censor_vec The censoring indicator vector for survival response. This
-#'    is coded as 1 for a right-censoring occurence and 0 for a recorded event.
+#' @param event_vec The death / event observation indicator vector for survival
+#'    response. This is coded as 0 for a right-censoring occurence and 1 for a
+#'    recorded event.
 #' @param parametric Should the random sample be taken using a parametric
 #'    bootstrap sample? Defaults to \code{FALSE}.
 #'
@@ -35,17 +37,17 @@ NULL
 #' @export
 #' @rdname randomControlSample
 sample_Survivalresp <- function(response_vec,
-                                censor_vec,
+                                event_vec,
                                 parametric = FALSE){
 
   # browser()
-  n <- length(censor_vec)
+  n <- length(event_vec)
 
   # Set up event time sample: parametric bootstrap or non-parametric permutation
   if(parametric){
 
     # Estimate the null model
-    surv_obj <- Surv(response_vec, censor_vec)
+    surv_obj <- Surv(response_vec, event_vec)
     null_mod <- survreg(surv_obj ~ 1, dist = "weibull")
 
     times_vec <- rweibull(n,
@@ -53,11 +55,11 @@ sample_Survivalresp <- function(response_vec,
                           scale = exp(null_mod$coef))
 
     # Randomly censor some of the observations
-    pCensor <- mean(censor_vec == 1)
-    censor_ind <- runif(n) < pCensor
+    pCensor <- mean(event_vec == 0)
+    event_ind <- runif(n) >= pCensor
     for(m in 1:n){
 
-      if(censor_ind[m]){
+      if(!event_ind[m]){
         times_vec[m] <- runif(1, min = 0, max = times_vec[m])
       }
 
@@ -67,12 +69,12 @@ sample_Survivalresp <- function(response_vec,
 
     randIdx <- sample.int(n, n)
     times_vec <- response_vec[randIdx]
-    censor_ind <- censor_vec[randIdx]
+    event_ind <- event_vec[randIdx]
 
   }
 
   # Return the bootstrapped / permuted survival data
-  list(response_vec = times_vec, censor_vec = censor_ind)
+  list(response_vec = times_vec, event_vec = event_ind)
 
 }
 
