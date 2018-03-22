@@ -3,38 +3,39 @@
 \docType{class}
 \name{OmicsSurv-class}
 \alias{OmicsSurv-class}
-\title{An S4 class for survival responses within an "OmicsPathway" object}
+\title{An S4 class for survival responses within an \code{OmicsPathway} object}
 \description{
-This creates the "OmicsSurv" class which extends the
-  "OmicsPathway" master class.
+This creates the \code{OmicsSurv} class which extends the
+  \code{OmicsPathway} master class.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{assayData_df}}{An $N x p$ data frame with named columns}
+\item{\code{assayData_df}}{An \eqn{N \times p} data frame with named columns.}
 
-\item{\code{pathwaySet}}{A list of known gene pathways with one or two elements:
+\item{\code{pathwaySet}}{A list of known gene pathways with two elements:
 \itemize{
-  \item{pathways : }{A named list of character vectors. Each vector contains
-    the names of the individual genes within that pathway as a vector of
-    character strings. The names contained in these vectors must have non-
-    empty overlap with the \emph{column names} of the \code{assayData_df}
-    data frame. The names of the pathways (the list elements themselves)
-    should be the a shorthand representation of the full pathway name.}
-  \item{TERMS: }{ A character vector the same length as the
+  \item{\code{pathways} : }{A named list of character vectors. Each vector
+     contains the names of the individual genes within that pathway as a
+     vector of character strings. The names contained in these vectors must
+     have non-empty overlap with the \emph{column names} of the
+     \code{assayData_df} data frame. The names of the pathways (the list
+     elements themselves) should be the a shorthand representation of the
+     full pathway name.}
+  \item{\code{TERMS} : }{A character vector the same length as the
     \code{pathways} list with the proper names of the pathways.}
-  \item{setsize : }{A named integer vector the same length as the
+  \item{\code{setsize} : }{A named integer vector the same length as the
     \code{pathways} list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a \code{create_Omics*()}
+    item is calculated during the creation step of a \code{create_OmicsSurv}
     function call.}
 }}
 
-\item{\code{eventTime}}{A numeric vector with $N$ observations corresponding to the
-last observed time of follow up}
+\item{\code{eventTime}}{A \code{numeric} vector with \eqn{N} observations
+corresponding to the last observed time of follow up.}
 
-\item{\code{eventObserved}}{A logical vector with $N$ observations indicating right
-censoring. The values will be FALSE if the observation was censored (i.e.,
-we did not observe an event).}
+\item{\code{eventObserved}}{A \code{logical} vector with \eqn{N} observations
+indicating right-censoring. The values will be \code{FALSE} if the
+observation was censored (i.e., we did not observe an event).}
 }}
 
 \seealso{
