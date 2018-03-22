@@ -4,7 +4,7 @@
 \name{permTest_OmicsReg}
 \alias{permTest_OmicsReg}
 \alias{permTest_OmicsReg,OmicsReg-method}
-\title{Permutation Test for Pathway PCs for Regression Response}
+\title{AES-PCA permutation test of continuous response for pathway PCs}
 \usage{
 permTest_OmicsReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
   numCores = NULL, ...)
@@ -19,15 +19,15 @@ permTest_OmicsReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
 \code{\link{extract_aesPCs}} function.}
 
-\item{numReps}{How many permuted models to fit? Defaults to 1000}
+\item{numReps}{How many permuted models to fit? Defaults to 1000.}
 
 \item{parallel}{Should the comuptation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation?}
+computation? Defaults to \code{NULL}.}
 
-\item{...}{Dots for additional internal arguments (currently unused)}
+\item{...}{Dots for additional internal arguments (currently unused).}
 }
 \value{
 A named vector of pathway permutation \eqn{p}-values.
@@ -35,12 +35,13 @@ A named vector of pathway permutation \eqn{p}-values.
 \description{
 Given an \code{OmicsReg} object and a list of pathway PCs from
   the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-  in the MS design matrix is significantly related to the regression output.
+  in the bio-assay design matrix is significantly related to the continuous
+  response.
 }
 \details{
 This function takes in a list of the first principal components
-  from each pathway and an object of class `OmicsReg`. This function will
-  then calculate the AIC of a multivariate linear model (via the
+  from each pathway and an object of class \code{OmicsReg}. This function
+  will then calculate the AIC of a multivariate linear model (via the
   \code{\link[stats]{lm}} function) with the original observations as
   response and the pathway principal components as the predictor matrix.
 

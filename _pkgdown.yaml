@@ -29,7 +29,6 @@ reference:
       - '`OmicsSurv-class`'
       - '`OmicsReg-class`'
       - '`OmicsCateg-class`'
-      - '`permTest_OmicsCateg`'
       - '`valid_OmicsSurv`'
   - title: Internal AES-PCA Functions
     desc: Functions designed to be called by the AES-PCA wrapper above
@@ -48,19 +47,19 @@ reference:
       - '`olsTrain_fun`'
       - '`glmTrain_fun`'
       - '`superpc.st`'
+      - '`superpc.train`'
       - '`mysvd`'
       - '`weibullMix_pValues`'
       - '`weibullMix_optimParams`'
       - '`pathway_pValues`'
       - '`pathway_tControl`'
       - '`pathway_tScores`'
-      - '`randomControlSample`'
-      - '`superpc.train`'
   - title: Internal Supplemental Functions and Data
     desc: Utility functions shared by both the AES-PCA and supervised PCA methods
     contents:
       - '`adjust_and_sort`'
-      - '`matrixRoot`'
       - '`adjustRaw_pVals`'
+      - '`matrixRoot`'
+      - '`randomControlSample`'
       - '`colonGenesets_ls`'
       - '`colonSurv_df`'

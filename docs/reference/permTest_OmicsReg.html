@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Permutation Test for Pathway PCs for Regression Response — permTest_OmicsReg â€¢ pathwayPCA</title>
+<title>AES-PCA permutation test of continuous response for pathway PCs — permTest_OmicsReg â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,13 +101,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Permutation Test for Pathway PCs for Regression Response</h1>
+    <h1>AES-PCA permutation test of continuous response for pathway PCs</h1>
     </div>
 
     
     <p>Given an <code>OmicsReg</code> object and a list of pathway PCs from
   the <code><a href='extract_aesPCs.html'>extract_aesPCs</a></code> function, test if each expressed pathway
-  in the MS design matrix is significantly related to the regression output.</p>
+  in the bio-assay design matrix is significantly related to the continuous
+  response.</p>
     
 
     <pre class="usage"><span class='fu'>permTest_OmicsReg</span>(<span class='no'>OmicsReg</span>, <span class='no'>pathwayPCs_ls</span>, <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -132,7 +133,7 @@
     </tr>
     <tr>
       <th>numReps</th>
-      <td><p>How many permuted models to fit? Defaults to 1000</p></td>
+      <td><p>How many permuted models to fit? Defaults to 1000.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -142,11 +143,11 @@
     <tr>
       <th>numCores</th>
       <td><p>If <code>parallel = TRUE</code>, how many cores should be used for
-computation?</p></td>
+computation? Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Dots for additional internal arguments (currently unused)</p></td>
+      <td><p>Dots for additional internal arguments (currently unused).</p></td>
     </tr>
     </table>
     
@@ -157,8 +158,8 @@ computation?</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function takes in a list of the first principal components
-  from each pathway and an object of class `OmicsReg`. This function will
-  then calculate the AIC of a multivariate linear model (via the
+  from each pathway and an object of class <code>OmicsReg</code>. This function
+  will then calculate the AIC of a multivariate linear model (via the
   <code><a href='http://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code> function) with the original observations as
   response and the pathway principal components as the predictor matrix.</p>
 <p>Then, this function will create <code>numReps</code> permutations of the

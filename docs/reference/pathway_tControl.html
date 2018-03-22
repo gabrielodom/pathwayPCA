@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Pathway-Specific Student's t Scores — pathway_tControl â€¢ pathwayPCA</title>
+<title>Calculate pathway-specific Student's \(t\)-scores from a null distribution
+   for supervised PCA — pathway_tControl â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,13 +102,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Pathway-Specific Student's t Scores</h1>
+    <h1>Calculate pathway-specific Student's \(t\)-scores from a null distribution
+   for supervised PCA</h1>
     </div>
 
     
     <p>Randomly permute or parametrically resample the response vector
-   before model analysis. Then extract principal components from the gene
-   pathway, and return the test statistics associated with the first
+   before model analysis. Then extract principal components (PCs) from the
+   gene pathway, and return the test statistics associated with the first
    <code>numPCs</code> principal components at a set of threshold values based on
    the permuted values of the response.</p>
     
@@ -121,23 +123,23 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pathway_vec</th>
-      <td><p>A character vector of the measured -omes in the chosen
+      <td><p>A character vector of the measured -Omes in the chosen
 gene pathway. These should match a subset of the rownames of the gene
 array.</p></td>
     </tr>
     <tr>
       <th>geneArray_df</th>
-      <td><p>A "tall" pathway data frame ($p * n$). Each subject or
-tissue sample is a column, and the rows are the -ome measurements for that
-sample.</p></td>
+      <td><p>A "tall" pathway data frame (\(p \times N\)). Each
+subject or tissue sample is a column, and the rows are the -Ome
+measurements for that sample.</p></td>
     </tr>
     <tr>
       <th>response_mat</th>
       <td><p>A response matrix corresponding to <code>responseType</code>.
 For <code>"regression"</code> and <code>"classification"</code>, this will be an
-$n * 1$ matrix of response values. For <code>"survival"</code>, this will be an
-$n * 2$ matrix with event times in the first column and censoring
-indicator in the second.</p></td>
+\(N \times 1\) matrix of response values. For <code>"survival"</code>, this
+will be an \(N \times 2\) matrix with event times in the first column
+and observed event indicator in the second.</p></td>
     </tr>
     <tr>
       <th>responseType</th>
@@ -152,12 +154,12 @@ bootstrap sample? Defaults to <code>FALSE</code>.</p></td>
     <tr>
       <th>n.threshold</th>
       <td><p>The number of bins into which to split the feature scores
-in the <code>fit</code> object returned internally by the <code>superpc.train</code>
-function.</p></td>
+in the <code>fit</code> object returned internally by the
+<code><a href='superpc.train.html'>superpc.train</a></code> function.</p></td>
     </tr>
     <tr>
       <th>numPCs</th>
-      <td><p>The number of PCs to extract from the significant pathway.</p></td>
+      <td><p>The number of PCs to extract from the pathway.</p></td>
     </tr>
     <tr>
       <th>min.features</th>
@@ -169,9 +171,9 @@ function which use the same pathway list. Defaults to 3.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with <code>numPCs</code> rows and <code>n.threshold</code> columns:
-   model t-statisics for each PC included (rows) at each threshold level
-   (columns).</p>
+    <p>A matrix with <code>numPCs</code> rows and <code>n.threshold</code> columns.
+   The matrix values are model \(t\)-statisics for each PC included (rows)
+   at each threshold level (columns).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -183,13 +185,14 @@ function which use the same pathway list. Defaults to 3.</p></td>
 <p>This wrapper is designed to facilitate apply calls (in parallel or
    serially) of these two functions over a list of gene pathways. When
    <code>numPCs</code> is equal to 1, we recommend using a simplify-style apply
-   variant, such as <code>sapply</code> (<code><a href='http://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></code>) or
-   <code>parSapply</code> (<code><a href='http://www.rdocumentation.org/packages/parallel/topics/clusterApply'>clusterApply</a></code>), then transposing
-   the resulting matrix.</p>
+   variant, such as <code>sapply</code> (shown in <code><a href='http://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></code>) or
+   <code>parSapply</code> (shown in <code><a href='http://www.rdocumentation.org/packages/parallel/topics/clusterApply'>clusterApply</a></code>), then
+   transposing the resulting matrix.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='pathway_tScores.html'>pathway_tScores</a></code>; <code><a href='randomControlSample.html'>randomControlSample</a></code></p>
+    <p><code><a href='pathway_tScores.html'>pathway_tScores</a></code>; <code><a href='randomControlSample.html'>randomControlSample</a></code>;
+   <code><a href='superpc.train.html'>superpc.train</a></code>; <code><a href='superpc.st.html'>superpc.st</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

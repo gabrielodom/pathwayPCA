@@ -1,39 +1,46 @@
-#' Calculate the p-Values from a Mixture if Weibull Extreme Value Distributions
+#' Calculate the \eqn{p}-values from a mixture of Weibull Extreme Value
+#'    Distributions for supervised PCA
 #'
-#' @description Calculate the pathway-specific p-values and their associated
-#'    False Discovery Rates (FDR).
+#' @description Calculate pathway-specific \eqn{p}-values for supervised PCA
+#'    and their associated False Discovery Rates (FDR).
 #'
 #' @param optimParams_vec A named vector of the estimated values for the
 #'    parameters which minimize the likelihood as returned by the function
 #'    \code{\link{weibullMix_optimParams}}.
-#' @param max_tScores_vec A vector of the maximum absolute t-scores for each
-#'    pathway when under the alternative model (the response vector as is).
+#' @param max_tScores_vec A vector of the maximum absolute \eqn{t}-scores for
+#'    each pathway when under the alternative model (the response vector as is).
 #' @param genelist_ls A list of three elements:
 #'   \itemize{
-#'     \item{pathways : }{A list of character vectors such that each vector
-#'        contains the ID numbers (as a character) of the individual genes
-#'        within that pathway as a vector of character strings.}
-#'     \item{TERMS : }{A character vector containing the names of the gene
-#'        pathways.}
-#'     \item{setsize : }{A named integer vector containing the number of genes
-#'        in each gene pathway.}
+#'     \item{\code{pathways} : }{A list of character vectors such that each
+#'        vector contains the ID numbers (as a character) of the individual
+#'        genes within that pathway as a vector of character strings.}
+#'     \item{\code{TERMS} : }{A character vector containing the names of the
+#'        gene pathways.}
+#'     \item{\code{setsize} : }{A named integer vector containing the number of
+#'        genes in each gene pathway.}
 #'   }
-#' @param FDRadjust Should the p-values be adjusted for multiple comparisons?
-#'    Defaults to \code{TRUE}.
-#' @param multTestProc If the p-values should be adjusted, which procedure will
-#'    you use? Options are passed to the \code{\link{adjustRaw_pVals}} function.
-#'    Specify multiple procedures via \code{c(...)}. Defaults to "BH".
+#' @param FDRadjust Should the \eqn{p}-values be adjusted for multiple
+#'    comparisons? Defaults to \code{TRUE}.
+#' @param multTestProc If the \eqn{p}-values should be adjusted, which procedure
+#'    should be used? Options are passed to the \code{\link{adjustRaw_pVals}}
+#'    function. Specify multiple procedures via \code{c(...)}. Defaults to
+#'    \code{"BH"}.
 #'
-#' @return A data frame
+#' @return A data frame with columns for the pathway names, pathway set sizes,
+#'    raw pathway \eqn{p}-values, and a column of FDR-adjusted \eqn{p}-values
+#'    for each adjustment method specified.
 #'
 #' @details This function takes in the optimal parameters returned by the
-#'    \code{\link{weibullMix_optimParams}} function, the maximum t-Scores for
-#'    each gene pathway, and the list of gene pathway information. This function
-#'    will calculate the p-value for each t-Score given the Gumbel Extreme Value
-#'    mixture distribution parametrized by the values of \code{optimParams}. If
+#'    \code{\link{weibullMix_optimParams}} function, the maximum \eqn{t}-scores
+#'    for each gene pathway, and the list of gene pathway information. This
+#'    function will calculate the \eqn{p}-value for each \eqn{t}-score given the
+#'    Gumbel Extreme Value mixture distribution parametrized by the values
+#'    returned by the \code{\link{weibullMix_optimParams}} function. If
 #'    requested, this function will also calculate the FDR associated with all
-#'    pathway p-values via the Benjamini & Hochberg (1995) step-up FDR-
-#'    controlling procedure as implemented in the \code{multtest} package.
+#'    pathway \eqn{p}-values via requested FDR-adjustment procedure. The default
+#'    procedure is the Benjamini & Hochberg (1995) step-up FDR-controlling
+#'    procedure, but any procedure implemented in the
+#'    \code{\link{adjustRaw_pVals}} function is available.
 #'
 #' @export
 #'
