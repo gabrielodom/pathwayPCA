@@ -21,7 +21,7 @@ is excluded. Defaults to 3.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
 
-\item{parallel}{Should the comuptation be completed in parallel? Defaults to
+\item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for

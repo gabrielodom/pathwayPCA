@@ -4,7 +4,7 @@
 \name{AESPCA_pVals}
 \alias{AESPCA_pVals}
 \alias{AESPCA_pVals,OmicsPathway-method}
-\title{Test pathways with AES-PCA}
+\title{Test pathway association with AES-PCA}
 \usage{
 AESPCA_pVals(object, numPCs = 1, min.features = 3, numReps = 1000,
   parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
@@ -29,11 +29,11 @@ function which use the same pathway list. Defaults to 3.}
 \item{numReps}{The number of permutations to take of the data to calculate a
 \eqn{p}-value for each pathway. Defaults to 1000.}
 
-\item{parallel}{Should the comuptation be completed in parallel? Defaults to
+\item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation?}
+computation? Defaults to \code{NULL}.}
 
 \item{adjustpValues}{Should you adjust the \eqn{p}-values for multiple
 comparisons? Defaults to TRUE.}
@@ -45,36 +45,41 @@ selected, then it is necessarily the first procedure. See the documentation
 for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
 definitions and citations.}
 
-\item{...}{Dots for additional internal arguments}
+\item{...}{Dots for additional internal arguments.}
 }
 \value{
-A data frame with columns
+A data frame with columns:
 \itemize{
   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-    object (stored in \code{object@pathwaySet$pathways}.)
+    object (given in \code{object@pathwaySet$pathways}.)
   \item{\code{setsize} : }{The number of genes in each of the original
-    pathways (as stored in the \code{object@pathwaySet$setsize} object).}
-  \item{\code{terms} : }{The pathway description, as stored in the
+    pathways (given in the \code{object@pathwaySet$setsize} object).}
+  \item{\code{terms} : }{The pathway description, as given in the
     \code{object@pathwaySet$TERMS} object.}
   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
   \item{\code{...} : }{Additional columns as specified through the
     \code{adjustment} argument.}
 }
 
+Some of the pathways in the supplied pathway set list will be removed, or
+   "trimmed", during function execution. These trimmed pathways will have
+   \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
+   see the documentation for the \code{\link{expressedOmes}} function.
+
 The data frame will be sorted in ascending order by the method specified
   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
   then the data frame will be sorted by the raw \eqn{p}-values. If you have
   the suggested \code{tidyverse} package suite loaded, then this data frame
-  will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
-  simple data frame.
+  will print as a \code{\link[tibble]{tibble}}. Otherwise, it will print as
+  a data frame.
 }
 \description{
 Given a supervised \code{OmicsPath} object (one of
-  \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the first
-  \eqn{k} adaptive, elastic-net, sparse principal components (PCs) from each
-  expressed pathway in the -Omics assay design matrix, test their association
-  with the response matrix, and return a data frame of the adjusted \eqn{p}-
-  values for each pathway.
+   \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the
+   first \eqn{k} adaptive, elastic-net, sparse principal components (PCs)
+   from each expressed pathway in the -Omics assay design matrix, test their
+   association with the response matrix, and return a data frame of the
+   adjusted \eqn{p}-values for each pathway.
 }
 \details{
 This is a wrapper function for the \code{\link{expressedOmes}},

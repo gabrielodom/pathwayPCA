@@ -9,7 +9,7 @@
 #' @param trim The minimum cutoff of expressed -Ome measures before a pathway
 #'   is excluded. Defaults to 3.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
-#' @param parallel Should the comuptation be completed in parallel? Defaults to
+#' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
 #'   computation? Defaults to \code{NULL}.

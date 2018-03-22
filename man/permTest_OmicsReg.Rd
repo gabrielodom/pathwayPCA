@@ -21,7 +21,7 @@ permTest_OmicsReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
 
 \item{numReps}{How many permuted models to fit? Defaults to 1000.}
 
-\item{parallel}{Should the comuptation be completed in parallel? Defaults to
+\item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for

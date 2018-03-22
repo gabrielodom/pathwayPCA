@@ -10,7 +10,7 @@
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{extract_aesPCs}} function.
 #' @param numReps How many permuted models to fit? Defaults to 1000.
-#' @param parallel Should the comuptation be completed in parallel? Defaults to
+#' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
 #'   computation? Defaults to \code{NULL}.

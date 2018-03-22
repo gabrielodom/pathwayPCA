@@ -2,22 +2,23 @@
 % Please edit documentation in R/superPC_model_tStats.R
 \name{superpc.st}
 \alias{superpc.st}
-\title{Extract and Test Supervised PCs}
+\title{Extract and test principal components from supervised PCA}
 \usage{
 superpc.st(fit, data, n.threshold = 20, threshold.ignore = 0, n.PCs = 1,
-  min.features = 5, epsilon = 1e-06)
+  min.features = 3, epsilon = 1e-06)
 }
 \arguments{
 \item{fit}{An object of class \code{superpc} returned by the function
-\code{superpc.train}}
+\code{\link{superpc.train}}.}
 
-\item{data}{A list of testing data:
+\item{data}{A list of test data:
 \itemize{
-  \item{x : }{A "tall" pathway data frame ($p_{path} * n$).}
-  \item{y : }{A response vector corresponding to \code{type}}
-  \item{censoring.status : }{If \code{type = "survival"}, the censoring
-    indicator. Otherwise, \code{NULL}.}
-  \item{featurenames : }{A character vector of the measured -omes in
+  \item{\code{x} : }{A "tall" pathway data frame (\eqn{p_{path} \times N}).}
+  \item{\code{y} : }{A response vector corresponding to \code{type}.}
+  \item{\code{censoring.status} : }{If \code{type = "survival"}, the
+     censoring indicator (\eqn{1 - } the observed event indicator).
+     Otherwise, \code{NULL}.}
+  \item{\code{featurenames} : }{A character vector of the measured -Omes in
     \code{x}.}
  }}
 
@@ -25,49 +26,56 @@ superpc.st(fit, data, n.threshold = 20, threshold.ignore = 0, n.PCs = 1,
 returned in the \code{fit} object.}
 
 \item{threshold.ignore}{Calculate the model for feature scores above this
-percentile of the threshold. We have seen that the smalles threshold
-values (0\% - 40\%) largely have no effect on model t-scores. Defaults to
-0.00 (0\%).}
+percentile of the threshold. We have observed that the smallest threshold
+values (0\% - 40\%) largely have no effect on model \eqn{t}-scores.
+Defaults to 0.00 (0\%).}
 
-\item{n.PCs}{The number of PCs to extract from the significant pathway}
+\item{n.PCs}{The number of PCs to extract from the pathway.}
 
 \item{min.features}{What is the smallest number of genes allowed in each
 pathway? This argument must be kept constant across all calls to this
-function which use the same pathway list. Defaults to 5}
+function which use the same pathway list. Defaults to 3.}
 
 \item{epsilon}{I'm not sure why this is important. It's called when comparing
 the absolute score values to each value of the threshold vector. Defaults
-to 10 ^ -6.}
+to \eqn{10^{-6}}.}
 }
 \value{
 A list containing:
 \itemize{
-  \item{thresholds : }{A labelled vector of quantile values of the score
-    vector in the \code{fit} object.}
-  \item{n.threshold : }{The number of splits to make in the score vector.}
-  \item{scor : }{A matrix of model fit statistics. Each column is the
+  \item{\code{thresholds} : }{A labelled vector of quantile values of the
+     score vector in the \code{fit} object.}
+  \item{\code{n.threshold} : }{The number of splits to make in the score
+     vector.}
+  \item{\code{scor} : }{A matrix of model fit statistics. Each column is the
     threshold level of predictors allowed into the model, and each row is a
     PC included. Which genes are included in the matrix before PC extraction
     is governed by comparing their model score to the quantile value of the
     scores at each threshold value.}
-  \item{tscor : }{A matrix of model t-statisics for each PC included (rows)
-    at each threshold level (columns).}
-  \item{type : }{Which model was called? Options are survival, regression,
-    or binary.}
+  \item{\code{tscor} : }{A matrix of model \eqn{t}-statisics for each PC
+     included (rows) at each threshold level (columns).}
+  \item{\code{type} : }{Which model was called? Options are survival,
+     regression, or binary.}
 }
 }
 \description{
-Identify significant features, extract PCs from those specific
-   features to construct a data matrix, predict the response with this data
-   matrix, and record the model fit statistic of this prediction.
+Identify \eqn{p_{path}} significant features, extract principal
+   components (PCs) from those specific features to construct a data matrix,
+   predict the response with this data matrix, and record the model fit
+   statistic of this prediction.
 }
 \details{
-See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}
-  An issue, the number of thresholds at which to test (\code{n.threshold}),
-  can be larger than the number of features to bin. This is why so many of
-  the t-statistics are constant - because the model isn't changing.
+NOTE: the number of thresholds at which to test (\code{n.threshold})
+  can be larger than the number of features to bin. This will result in
+  constant \eqn{t}-statistics for the first few bins because the model isn't
+  changing.
+
+  See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use superPCA_pVals() instead
+}
+\seealso{
+\code{\link{superpc.train}}; \code{\link{superPCA_pVals}}
 }
