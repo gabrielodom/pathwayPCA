@@ -35,6 +35,6 @@ variable in a regression exercise.}
 }}
 
 \seealso{
-\code{"\link[=OmicsPathway-class]{OmicsPathway}"},
+\code{\link[=OmicsPathway-class]{OmicsPathway}},
   \code{\link{create_OmicsReg}}
 }

@@ -39,6 +39,6 @@ observation was censored (i.e., we did not observe an event).}
 }}
 
 \seealso{
-\code{"\link[=OmicsPathway-class]{OmicsPathway}"},
+\code{\link[=OmicsPathway-class]{OmicsPathway}},
   \code{\link{create_OmicsSurv}}
 }

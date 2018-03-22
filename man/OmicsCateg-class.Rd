@@ -37,6 +37,6 @@ responses in the next package version.}
 }}
 
 \seealso{
-\code{"\link[=OmicsPathway-class]{OmicsPathway}"},
+\code{\link[=OmicsPathway-class]{OmicsPathway}},
   \code{\link{create_OmicsCateg}}
 }
