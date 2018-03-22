@@ -29,7 +29,7 @@
 #' @importFrom methods new
 #'
 #' @include createClass_OmicsPath.R createClass_validOmics.R
-#' @seealso \code{"\link[=OmicsPathway-class]{OmicsPathway}"},
+#' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
 #'   \code{\link{create_OmicsSurv}}
 #'
 #' @export
