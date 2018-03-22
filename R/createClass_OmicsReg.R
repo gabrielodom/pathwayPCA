@@ -1,26 +1,27 @@
-#' An S4 class for continuous responses within an "OmicsPathway" object
+#' An S4 class for continuous responses within an \code{OmicsPathway} object
 #'
-#' @description This creates the "OmicsReg" class which extends the
-#'   "OmicsPathway" master class.
+#' @description This creates the \code{OmicsReg} class which extends the
+#'   \code{OmicsPathway} master class.
 #'
-#' @slot assayData_df An $N x p$ data frame with named columns
-#' @slot pathwaySet A list of known gene pathways with one or two elements:
+#' @slot assayData_df An \eqn{N \times p} data frame with named columns.
+#' @slot pathwaySet A list of known gene pathways with two elements:
 #' \itemize{
-#'   \item{pathways : }{A named list of character vectors. Each vector contains
-#'     the names of the individual genes within that pathway as a vector of
-#'     character strings. The names contained in these vectors must have non-
-#'     empty overlap with the \emph{column names} of the \code{assayData_df}
-#'     data frame. The names of the pathways (the list elements themselves)
-#'     should be the a shorthand representation of the full pathway name.}
-#'   \item{TERMS: }{ A character vector the same length as the
+#'   \item{\code{pathways} : }{A named list of character vectors. Each vector
+#'      contains the names of the individual genes within that pathway as a
+#'      vector of character strings. The names contained in these vectors must
+#'      have non-empty overlap with the \emph{column names} of the
+#'      \code{assayData_df} data frame. The names of the pathways (the list
+#'      elements themselves) should be the a shorthand representation of the
+#'      full pathway name.}
+#'   \item{\code{TERMS} : }{A character vector the same length as the
 #'     \code{pathways} list with the proper names of the pathways.}
-#'   \item{setsize : }{A named integer vector the same length as the
+#'   \item{\code{setsize} : }{A named integer vector the same length as the
 #'     \code{pathways} list with the number of genes in each pathway. This list
-#'     item is calculated during the creation step of a \code{create_Omics*()}
+#'     item is calculated during the creation step of a \code{create_OmicsReg}
 #'     function call.}
 #' }
-#' @slot response A numeric vector of length $N$: the dependent variable in a
-#'   regression exercise
+#' @slot response A \code{numeric} vector of length \eqn{N}: the dependent
+#'    variable in a regression exercise.
 #'
 #' @importFrom methods new
 #'

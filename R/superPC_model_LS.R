@@ -1,21 +1,23 @@
 #' Gene-specific Regularized Ordinary Least Squares fit statistics for supervised PCA
 #'
-#' @param x An \eqn{p \times n} predictor matrix
-#' @param y A response vector
+#' @param x An \eqn{p \times n} predictor matrix.
+#' @param y A response vector.
 #' @param s0.perc Percentile of the standard error of the slope estimate to be
 #'   used for regularization. The Default value of \code{NULL} will use the
 #'   median of this distribution.
 #'
 #' @description Model statistics for Ordinary Least Squares (OLS) regression by
-#'   gene
+#'   gene.
 #'
 #' @return A list of OLS model statistics:
 #' \itemize{
-#'   \item{tt : }{The Student's \eqn{t} test statistic the slopes (\eqn{\beta}).}
-#'   \item{numer : }{The estimate of \eqn{\beta}.}
-#'   \item{sd : }{The standard error of the estimates for \eqn{\beta} (the
-#'   standard error divided by the square root of Sxx).}
-#'   \item{fudge : }{A regularization parameter. See Details for description.}
+#'   \item{\code{tt} : }{The Student's \eqn{t} test statistic the slopes
+#'      (\eqn{\beta}).}
+#'   \item{\code{numer} : }{The estimate of \eqn{\beta}.}
+#'   \item{\code{sd} : }{The standard error of the estimates for \eqn{\beta}
+#'      (the standard error divided by the square root of Sxx).}
+#'   \item{\code{fudge} : }{A regularization parameter. See Details for
+#'      description.}
 #' }
 #'
 #' @details This function calculates the Sxx, Syy, and Sxy sums from the gene-

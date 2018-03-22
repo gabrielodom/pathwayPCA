@@ -161,9 +161,9 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 #'   time marks an event (\code{TRUE}: observed event; \code{FALSE}: right-
 #'   censored observation).
 #'
-#' @param eventTime_vec A numeric vector with \eqn{N} observations corresponding
-#'   to the last observed time of follow up.
-#' @param eventObserved_vec A logical vector with \eqn{N} observations
+#' @param eventTime_vec A \code{numeric} vector with \eqn{N} observations
+#'    corresponding to the last observed time of follow up.
+#' @param eventObserved_vec A \code{logical} vector with \eqn{N} observations
 #'   indicating right-censoring. The values will be \code{FALSE} if the
 #'   observation was censored (i.e., we did not observe an event).
 #'
@@ -238,7 +238,7 @@ create_OmicsSurv <- function(assayData_df,
 #'   vector of continuous (\code{numeric}) or categorial (\code{factor})
 #'   observations, respectively.
 #'
-#' @param response_num A numeric vector of length \eqn{N}: the dependent
+#' @param response_num A \code{numeric} vector of length \eqn{N}: the dependent
 #'   variable in an ordinary regression exercise.
 #'
 #' @export
@@ -305,7 +305,7 @@ create_OmicsReg <- function(assayData_df,
 
 
 
-#' @param response_fact A factor vector of length \eqn{N}: the dependent
+#' @param response_fact A \code{factor} vector of length \eqn{N}: the dependent
 #'   variable of a generalized linear regression exercise.
 #' @export
 #' @rdname create_OmicsPathway

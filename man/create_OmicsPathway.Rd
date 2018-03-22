@@ -31,17 +31,17 @@ create_OmicsCateg(assayData_df, pathwaySet_ls, response_fact)
      \code{pathways} list with the proper names of the pathways.}
 }}
 
-\item{eventTime_vec}{A numeric vector with \eqn{N} observations corresponding
-to the last observed time of follow up.}
+\item{eventTime_vec}{A \code{numeric} vector with \eqn{N} observations
+corresponding to the last observed time of follow up.}
 
-\item{eventObserved_vec}{A logical vector with \eqn{N} observations
+\item{eventObserved_vec}{A \code{logical} vector with \eqn{N} observations
 indicating right-censoring. The values will be \code{FALSE} if the
 observation was censored (i.e., we did not observe an event).}
 
-\item{response_num}{A numeric vector of length \eqn{N}: the dependent
+\item{response_num}{A \code{numeric} vector of length \eqn{N}: the dependent
 variable in an ordinary regression exercise.}
 
-\item{response_fact}{A factor vector of length \eqn{N}: the dependent
+\item{response_fact}{A \code{factor} vector of length \eqn{N}: the dependent
 variable of a generalized linear regression exercise.}
 }
 \value{

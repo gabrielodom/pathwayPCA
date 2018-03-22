@@ -106,7 +106,7 @@
 
     
     <p>Model statistics for Ordinary Least Squares (OLS) regression by
-  gene</p>
+  gene.</p>
     
 
     <pre class="usage"><span class='fu'>olsTrain_fun</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>s0.perc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -116,11 +116,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>An \(p \times n\) predictor matrix</p></td>
+      <td><p>An \(p \times n\) predictor matrix.</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>A response vector</p></td>
+      <td><p>A response vector.</p></td>
     </tr>
     <tr>
       <th>s0.perc</th>
@@ -133,11 +133,13 @@ median of this distribution.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of OLS model statistics:</p><ul>
-<li><p>tt : The Student's \(t\) test statistic the slopes (\(\beta\)).</p></li>
-<li><p>numer : The estimate of \(\beta\).</p></li>
-<li><p>sd : The standard error of the estimates for \(\beta\) (the
-  standard error divided by the square root of Sxx).</p></li>
-<li><p>fudge : A regularization parameter. See Details for description.</p></li>
+<li><p><code>tt</code> : The Student's \(t\) test statistic the slopes
+     (\(\beta\)).</p></li>
+<li><p><code>numer</code> : The estimate of \(\beta\).</p></li>
+<li><p><code>sd</code> : The standard error of the estimates for \(\beta\)
+     (the standard error divided by the square root of Sxx).</p></li>
+<li><p><code>fudge</code> : A regularization parameter. See Details for
+     description.</p></li>
 </ul>
 
     

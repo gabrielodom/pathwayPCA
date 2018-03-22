@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An S4 class for survival responses within an "OmicsPathway" object — OmicsSurv-class â€¢ pathwayPCA</title>
+<title>An S4 class for survival responses within an <code>OmicsPathway</code> object — OmicsSurv-class â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +101,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An S4 class for survival responses within an "OmicsPathway" object</h1>
+    <h1>An S4 class for survival responses within an <code>OmicsPathway</code> object</h1>
     </div>
 
     
-    <p>This creates the "OmicsSurv" class which extends the
-  "OmicsPathway" master class.</p>
+    <p>This creates the <code>OmicsSurv</code> class which extends the
+  <code>OmicsPathway</code> master class.</p>
     
 
         
@@ -114,27 +114,28 @@
 
     
     <dl class='dl-horizontal'>
-<dt><code>assayData_df</code></dt><dd><p>An $N x p$ data frame with named columns</p></dd>
-    <dt><code>pathwaySet</code></dt><dd><p>A list of known gene pathways with one or two elements:
+<dt><code>assayData_df</code></dt><dd><p>An \(N \times p\) data frame with named columns.</p></dd>
+    <dt><code>pathwaySet</code></dt><dd><p>A list of known gene pathways with two elements:
 <ul>
-<li><p>pathways : A named list of character vectors. Each vector contains
-    the names of the individual genes within that pathway as a vector of
-    character strings. The names contained in these vectors must have non-
-    empty overlap with the <em>column names</em> of the <code>assayData_df</code>
-    data frame. The names of the pathways (the list elements themselves)
-    should be the a shorthand representation of the full pathway name.</p></li>
-<li><p>TERMS:  A character vector the same length as the
+<li><p><code>pathways</code> : A named list of character vectors. Each vector
+     contains the names of the individual genes within that pathway as a
+     vector of character strings. The names contained in these vectors must
+     have non-empty overlap with the <em>column names</em> of the
+     <code>assayData_df</code> data frame. The names of the pathways (the list
+     elements themselves) should be the a shorthand representation of the
+     full pathway name.</p></li>
+<li><p><code>TERMS</code> : A character vector the same length as the
     <code>pathways</code> list with the proper names of the pathways.</p></li>
-<li><p>setsize : A named integer vector the same length as the
+<li><p><code>setsize</code> : A named integer vector the same length as the
     <code>pathways</code> list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a <code>create_Omics*()</code>
+    item is calculated during the creation step of a <code>create_OmicsSurv</code>
     function call.</p></li>
 </ul></p></dd>
-    <dt><code>eventTime</code></dt><dd><p>A numeric vector with $N$ observations corresponding to the
-last observed time of follow up</p></dd>
-    <dt><code>eventObserved</code></dt><dd><p>A logical vector with $N$ observations indicating right
-censoring. The values will be FALSE if the observation was censored (i.e.,
-we did not observe an event).</p></dd>
+    <dt><code>eventTime</code></dt><dd><p>A <code>numeric</code> vector with \(N\) observations
+corresponding to the last observed time of follow up.</p></dd>
+    <dt><code>eventObserved</code></dt><dd><p>A <code>logical</code> vector with \(N\) observations
+indicating right-censoring. The values will be <code>FALSE</code> if the
+observation was censored (i.e., we did not observe an event).</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

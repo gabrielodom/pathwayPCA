@@ -113,7 +113,7 @@
 
     
     <dl class='dl-horizontal'>
-<dt><code>assayData_df</code></dt><dd><p>An \(N x p\) data frame with named columns</p></dd>
+<dt><code>assayData_df</code></dt><dd><p>An \(N \times p\) data frame with named columns.</p></dd>
     <dt><code>pathwaySet</code></dt><dd><p>A list of known gene pathways with two elements:
 <ul>
 <li><p><code>pathways</code> : A named list of character vectors. Each vector
@@ -123,12 +123,12 @@
      <code>assayData_df</code> data frame. The names of the pathways (the list
      elements themselves) should be the a shorthand representation of the
      full pathway name.</p></li>
-<li><p><code>TERMS</code>: A character vector the same length as the
+<li><p><code>TERMS</code> : A character vector the same length as the
     <code>pathways</code> list with the proper names of the pathways.</p></li>
-<li><p><code>setsize</code> :  (CALCULATED ON OBJECT CREATION.) A named integer
-     vector the same length as the <code>pathways</code> list with the number of
-     genes in each pathway. This list item is calculated during the creation
-     step of a <code>create_Omics*()</code> function call.</p></li>
+<li><p><code>setsize</code> : A named integer vector the same length as the
+    <code>pathways</code> list with the number of genes in each pathway. This list
+    item is calculated during the creation step of a <code>create_OmicsPath</code>
+    function call.</p></li>
 </ul></p></dd>
 </dl>
     
