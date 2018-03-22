@@ -2,26 +2,27 @@
 % Please edit documentation in R/superPC_pathway_tControl.R
 \name{pathway_tControl}
 \alias{pathway_tControl}
-\title{Calculate Pathway-Specific Student's t Scores}
+\title{Calculate pathway-specific Student's \eqn{t}-scores from a null distribution
+   for supervised PCA}
 \usage{
 pathway_tControl(pathway_vec, geneArray_df, response_mat,
   responseType = c("survival", "regression", "classification"),
   parametric = FALSE, n.threshold = 20, numPCs = 1, min.features = 3)
 }
 \arguments{
-\item{pathway_vec}{A character vector of the measured -omes in the chosen
+\item{pathway_vec}{A character vector of the measured -Omes in the chosen
 gene pathway. These should match a subset of the rownames of the gene
 array.}
 
-\item{geneArray_df}{A "tall" pathway data frame ($p * n$). Each subject or
-tissue sample is a column, and the rows are the -ome measurements for that
-sample.}
+\item{geneArray_df}{A "tall" pathway data frame (\eqn{p \times N}). Each
+subject or tissue sample is a column, and the rows are the -Ome
+measurements for that sample.}
 
 \item{response_mat}{A response matrix corresponding to \code{responseType}.
 For \code{"regression"} and \code{"classification"}, this will be an
-$n * 1$ matrix of response values. For \code{"survival"}, this will be an
-$n * 2$ matrix with event times in the first column and censoring
-indicator in the second.}
+\eqn{N \times 1} matrix of response values. For \code{"survival"}, this
+will be an \eqn{N \times 2} matrix with event times in the first column
+and observed event indicator in the second.}
 
 \item{responseType}{A character string. Options are \code{"survival"},
 \code{"regression"}, and \code{"classification"}.}
@@ -30,24 +31,24 @@ indicator in the second.}
 bootstrap sample? Defaults to \code{FALSE}.}
 
 \item{n.threshold}{The number of bins into which to split the feature scores
-in the \code{fit} object returned internally by the \code{superpc.train}
-function.}
+in the \code{fit} object returned internally by the
+\code{\link{superpc.train}} function.}
 
-\item{numPCs}{The number of PCs to extract from the significant pathway.}
+\item{numPCs}{The number of PCs to extract from the pathway.}
 
 \item{min.features}{What is the smallest number of genes allowed in each
 pathway? This argument must be kept constant across all calls to this
 function which use the same pathway list. Defaults to 3.}
 }
 \value{
-A matrix with \code{numPCs} rows and \code{n.threshold} columns:
-   model t-statisics for each PC included (rows) at each threshold level
-   (columns).
+A matrix with \code{numPCs} rows and \code{n.threshold} columns.
+   The matrix values are model \eqn{t}-statisics for each PC included (rows)
+   at each threshold level (columns).
 }
 \description{
 Randomly permute or parametrically resample the response vector
-   before model analysis. Then extract principal components from the gene
-   pathway, and return the test statistics associated with the first
+   before model analysis. Then extract principal components (PCs) from the
+   gene pathway, and return the test statistics associated with the first
    \code{numPCs} principal components at a set of threshold values based on
    the permuted values of the response.
 }
@@ -61,14 +62,15 @@ This is a wrapper function to call \code{\link{superpc.train}}
    This wrapper is designed to facilitate apply calls (in parallel or
    serially) of these two functions over a list of gene pathways. When
    \code{numPCs} is equal to 1, we recommend using a simplify-style apply
-   variant, such as \code{sapply} (\code{\link[base]{lapply}}) or
-   \code{parSapply} (\code{\link[parallel]{clusterApply}}), then transposing
-   the resulting matrix.
+   variant, such as \code{sapply} (shown in \code{\link[base]{lapply}}) or
+   \code{parSapply} (shown in \code{\link[parallel]{clusterApply}}), then
+   transposing the resulting matrix.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use superPCA_pVals() instead
 }
 \seealso{
-\code{\link{pathway_tScores}}; \code{\link{randomControlSample}}
+\code{\link{pathway_tScores}}; \code{\link{randomControlSample}};
+   \code{\link{superpc.train}}; \code{\link{superpc.st}}
 }

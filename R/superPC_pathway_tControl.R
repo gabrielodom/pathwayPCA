@@ -1,37 +1,38 @@
-#' Calculate Pathway-Specific Student's t Scores
+#' Calculate pathway-specific Student's \eqn{t}-scores from a null distribution
+#'    for supervised PCA
 #'
-#' @param pathway_vec A character vector of the measured -omes in the chosen
+#' @description Randomly permute or parametrically resample the response vector
+#'    before model analysis. Then extract principal components (PCs) from the
+#'    gene pathway, and return the test statistics associated with the first
+#'    \code{numPCs} principal components at a set of threshold values based on
+#'    the permuted values of the response.
+#'
+#' @param pathway_vec A character vector of the measured -Omes in the chosen
 #'    gene pathway. These should match a subset of the rownames of the gene
 #'    array.
-#' @param geneArray_df A "tall" pathway data frame ($p * n$). Each subject or
-#'    tissue sample is a column, and the rows are the -ome measurements for that
-#'    sample.
+#' @param geneArray_df A "tall" pathway data frame (\eqn{p \times N}). Each
+#'    subject or tissue sample is a column, and the rows are the -Ome
+#'    measurements for that sample.
 #' @param response_mat A response matrix corresponding to \code{responseType}.
 #'    For \code{"regression"} and \code{"classification"}, this will be an
-#'    $n * 1$ matrix of response values. For \code{"survival"}, this will be an
-#'    $n * 2$ matrix with event times in the first column and censoring
-#'    indicator in the second.
+#'    \eqn{N \times 1} matrix of response values. For \code{"survival"}, this
+#'    will be an \eqn{N \times 2} matrix with event times in the first column
+#'    and observed event indicator in the second.
 #' @param responseType A character string. Options are \code{"survival"},
 #'    \code{"regression"}, and \code{"classification"}.
 #' @param parametric Should the random sample be taken using a parametric
 #'    bootstrap sample? Defaults to \code{FALSE}.
 #' @param n.threshold The number of bins into which to split the feature scores
-#'    in the \code{fit} object returned internally by the \code{superpc.train}
-#'    function.
-#' @param numPCs The number of PCs to extract from the significant pathway.
+#'    in the \code{fit} object returned internally by the
+#'    \code{\link{superpc.train}} function.
+#' @param numPCs The number of PCs to extract from the pathway.
 #' @param min.features What is the smallest number of genes allowed in each
 #'    pathway? This argument must be kept constant across all calls to this
 #'    function which use the same pathway list. Defaults to 3.
 #'
-#' @description Randomly permute or parametrically resample the response vector
-#'    before model analysis. Then extract principal components from the gene
-#'    pathway, and return the test statistics associated with the first
-#'    \code{numPCs} principal components at a set of threshold values based on
-#'    the permuted values of the response.
-#'
-#' @return A matrix with \code{numPCs} rows and \code{n.threshold} columns:
-#'    model t-statisics for each PC included (rows) at each threshold level
-#'    (columns).
+#' @return A matrix with \code{numPCs} rows and \code{n.threshold} columns.
+#'    The matrix values are model \eqn{t}-statisics for each PC included (rows)
+#'    at each threshold level (columns).
 #'
 #' @details This is a wrapper function to call \code{\link{superpc.train}}
 #'    and \code{\link{superpc.st}} after response sampling or permutation with
@@ -42,11 +43,12 @@
 #'    This wrapper is designed to facilitate apply calls (in parallel or
 #'    serially) of these two functions over a list of gene pathways. When
 #'    \code{numPCs} is equal to 1, we recommend using a simplify-style apply
-#'    variant, such as \code{sapply} (\code{\link[base]{lapply}}) or
-#'    \code{parSapply} (\code{\link[parallel]{clusterApply}}), then transposing
-#'    the resulting matrix.
+#'    variant, such as \code{sapply} (shown in \code{\link[base]{lapply}}) or
+#'    \code{parSapply} (shown in \code{\link[parallel]{clusterApply}}), then
+#'    transposing the resulting matrix.
 #'
-#' @seealso \code{\link{pathway_tScores}}; \code{\link{randomControlSample}}
+#' @seealso \code{\link{pathway_tScores}}; \code{\link{randomControlSample}};
+#'    \code{\link{superpc.train}}; \code{\link{superpc.st}}
 #'
 #' @export
 #'

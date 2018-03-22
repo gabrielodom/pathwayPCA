@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Permutation Test for Pathway PCs for Classification Response — permTest_OmicsCateg â€¢ pathwayPCA</title>
+<title>AES-PCA permutation test of categorical response for pathway PCs — permTest_OmicsCateg â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,14 +101,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Permutation Test for Pathway PCs for Classification Response</h1>
+    <h1>AES-PCA permutation test of categorical response for pathway PCs</h1>
     </div>
 
     
     <p>Given an <code>OmicsCateg</code> object and a list of pathway PCs from
   the <code><a href='extract_aesPCs.html'>extract_aesPCs</a></code> function, test if each expressed pathway
-  in the MS design matrix is significantly related to the classification
-  output.</p>
+  in the bio-assay design matrix is significantly related to the categorical
+  response.</p>
     
 
     <pre class="usage"><span class='fu'>permTest_OmicsCateg</span>(<span class='no'>OmicsCateg</span>, <span class='no'>pathwayPCs_ls</span>, <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
@@ -133,7 +133,7 @@
     </tr>
     <tr>
       <th>numReps</th>
-      <td><p>How many permuted models to fit? Defaults to 1000</p></td>
+      <td><p>How many permuted models to fit? Defaults to 1000.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -143,11 +143,11 @@
     <tr>
       <th>numCores</th>
       <td><p>If <code>parallel = TRUE</code>, how many cores should be used for
-computation?</p></td>
+computation? Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Dots for additional internal arguments (currently unused)</p></td>
+      <td><p>Dots for additional internal arguments (currently unused).</p></td>
     </tr>
     </table>
     
@@ -158,10 +158,11 @@ computation?</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function takes in a list of the first principal components
-  from each pathway and an object of class `OmicsCateg`. This function will
-  then calculate the AIC of a multivariate generalized linear model (via the
-  <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code> function) with the original observations as
-  response and the pathway principal components as the predictor matrix.</p>
+  from each pathway and an object of class <code>OmicsCateg</code>. This function
+  will then calculate the AIC of a multivariate generalized linear model (via
+  the <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code> function with a <code><a href='http://www.rdocumentation.org/packages/stats/topics/family'>binomial</a></code>
+  error family) with the original observations as response and the pathway
+  principal components as the predictor matrix.</p>
 <p>Then, this function will create <code>numReps</code> permutations of the
   classification response, fit models to each of these premuted responses
   (holding the path predictor matrix fixed), and calculate the AIC of each
@@ -177,7 +178,8 @@ computation?</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><code><a href='create_OmicsPathway.html'>create_OmicsCateg</a></code>; <code><a href='extract_aesPCs.html'>extract_aesPCs</a></code>;
-  <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code>; <code><a href='randomControlSample.html'>sample_Classifresp</a></code></p>
+  <code><a href='http://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></code>; <code><a href='http://www.rdocumentation.org/packages/stats/topics/family'>binomial</a></code>;
+  <code><a href='randomControlSample.html'>sample_Classifresp</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

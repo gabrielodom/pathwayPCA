@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the p-Values from a Mixture if Weibull Extreme Value Distributions — pathway_pValues â€¢ pathwayPCA</title>
+<title>Calculate the \(p\)-values from a mixture of Weibull Extreme Value
+   Distributions for supervised PCA — pathway_pValues â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +102,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the p-Values from a Mixture if Weibull Extreme Value Distributions</h1>
+    <h1>Calculate the \(p\)-values from a mixture of Weibull Extreme Value
+   Distributions for supervised PCA</h1>
     </div>
 
     
-    <p>Calculate the pathway-specific p-values and their associated
-   False Discovery Rates (FDR).</p>
+    <p>Calculate pathway-specific \(p\)-values for supervised PCA
+   and their associated False Discovery Rates (FDR).</p>
     
 
     <pre class="usage"><span class='fu'>pathway_pValues</span>(<span class='no'>optimParams_vec</span>, <span class='no'>max_tScores_vec</span>, <span class='no'>genelist_ls</span>,
@@ -123,48 +125,54 @@ parameters which minimize the likelihood as returned by the function
     </tr>
     <tr>
       <th>max_tScores_vec</th>
-      <td><p>A vector of the maximum absolute t-scores for each
-pathway when under the alternative model (the response vector as is).</p></td>
+      <td><p>A vector of the maximum absolute \(t\)-scores for
+each pathway when under the alternative model (the response vector as is).</p></td>
     </tr>
     <tr>
       <th>genelist_ls</th>
       <td><p>A list of three elements:</p><ul>
-<li><p>pathways : A list of character vectors such that each vector
-     contains the ID numbers (as a character) of the individual genes
-     within that pathway as a vector of character strings.</p></li>
-<li><p>TERMS : A character vector containing the names of the gene
-     pathways.</p></li>
-<li><p>setsize : A named integer vector containing the number of genes
-     in each gene pathway.</p></li>
+<li><p><code>pathways</code> : A list of character vectors such that each
+     vector contains the ID numbers (as a character) of the individual
+     genes within that pathway as a vector of character strings.</p></li>
+<li><p><code>TERMS</code> : A character vector containing the names of the
+     gene pathways.</p></li>
+<li><p><code>setsize</code> : A named integer vector containing the number of
+     genes in each gene pathway.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>FDRadjust</th>
-      <td><p>Should the p-values be adjusted for multiple comparisons?
-Defaults to <code>TRUE</code>.</p></td>
+      <td><p>Should the \(p\)-values be adjusted for multiple
+comparisons? Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>multTestProc</th>
-      <td><p>If the p-values should be adjusted, which procedure will
-you use? Options are passed to the <code><a href='adjustRaw_pVals.html'>adjustRaw_pVals</a></code> function.
-Specify multiple procedures via <code>c(...)</code>. Defaults to "BH".</p></td>
+      <td><p>If the \(p\)-values should be adjusted, which procedure
+should be used? Options are passed to the <code><a href='adjustRaw_pVals.html'>adjustRaw_pVals</a></code>
+function. Specify multiple procedures via <code>c(...)</code>. Defaults to
+<code>"BH"</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame</p>
+    <p>A data frame with columns for the pathway names, pathway set sizes,
+   raw pathway \(p\)-values, and a column of FDR-adjusted \(p\)-values
+   for each adjustment method specified.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function takes in the optimal parameters returned by the
-   <code><a href='weibullMix_optimParams.html'>weibullMix_optimParams</a></code> function, the maximum t-Scores for
-   each gene pathway, and the list of gene pathway information. This function
-   will calculate the p-value for each t-Score given the Gumbel Extreme Value
-   mixture distribution parametrized by the values of <code>optimParams</code>. If
+   <code><a href='weibullMix_optimParams.html'>weibullMix_optimParams</a></code> function, the maximum \(t\)-scores
+   for each gene pathway, and the list of gene pathway information. This
+   function will calculate the \(p\)-value for each \(t\)-score given the
+   Gumbel Extreme Value mixture distribution parametrized by the values
+   returned by the <code><a href='weibullMix_optimParams.html'>weibullMix_optimParams</a></code> function. If
    requested, this function will also calculate the FDR associated with all
-   pathway p-values via the Benjamini &amp; Hochberg (1995) step-up FDR-
-   controlling procedure as implemented in the <code>multtest</code> package.</p>
+   pathway \(p\)-values via requested FDR-adjustment procedure. The default
+   procedure is the Benjamini &amp; Hochberg (1995) step-up FDR-controlling
+   procedure, but any procedure implemented in the
+   <code><a href='adjustRaw_pVals.html'>adjustRaw_pVals</a></code> function is available.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

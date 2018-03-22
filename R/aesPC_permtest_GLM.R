@@ -1,28 +1,29 @@
-#' Permutation Test for Pathway PCs for Classification Response
+#' AES-PCA permutation test of categorical response for pathway PCs
 #'
 #' @description Given an \code{OmicsCateg} object and a list of pathway PCs from
 #'   the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-#'   in the MS design matrix is significantly related to the classification
-#'   output.
+#'   in the bio-assay design matrix is significantly related to the categorical
+#'   response.
 #'
 #' @param OmicsCateg A data object of class \code{OmicsCateg}, created by the
 #'   \code{\link{create_OmicsCateg}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{extract_aesPCs}} function.
-#' @param numReps How many permuted models to fit? Defaults to 1000
+#' @param numReps How many permuted models to fit? Defaults to 1000.
 #' @param parallel Should the comuptation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation?
-#' @param ... Dots for additional internal arguments (currently unused)
+#'   computation? Defaults to \code{NULL}.
+#' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A named vector of pathway permutation \eqn{p}-values.
 #'
 #' @details This function takes in a list of the first principal components
-#'   from each pathway and an object of class `OmicsCateg`. This function will
-#'   then calculate the AIC of a multivariate generalized linear model (via the
-#'   \code{\link[stats]{glm}} function) with the original observations as
-#'   response and the pathway principal components as the predictor matrix.
+#'   from each pathway and an object of class \code{OmicsCateg}. This function
+#'   will then calculate the AIC of a multivariate generalized linear model (via
+#'   the \code{\link[stats]{glm}} function with a \code{\link[stats]{binomial}}
+#'   error family) with the original observations as response and the pathway
+#'   principal components as the predictor matrix.
 #'
 #'   Then, this function will create \code{numReps} permutations of the
 #'   classification response, fit models to each of these premuted responses
@@ -38,7 +39,8 @@
 #'   respectively.
 #'
 #' @seealso \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
-#'   \code{\link[stats]{glm}}; \code{\link{sample_Classifresp}}
+#'   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
+#'   \code{\link{sample_Classifresp}}
 #'
 #' @export
 #'

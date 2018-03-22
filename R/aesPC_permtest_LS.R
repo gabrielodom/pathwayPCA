@@ -1,25 +1,26 @@
-#' Permutation Test for Pathway PCs for Regression Response
+#' AES-PCA permutation test of continuous response for pathway PCs
 #'
 #' @description Given an \code{OmicsReg} object and a list of pathway PCs from
 #'   the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-#'   in the MS design matrix is significantly related to the regression output.
+#'   in the bio-assay design matrix is significantly related to the continuous
+#'   response.
 #'
 #' @param OmicsReg A data object of class \code{OmicsReg}, created by the
 #'   \code{\link{create_OmicsReg}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{extract_aesPCs}} function.
-#' @param numReps How many permuted models to fit? Defaults to 1000
+#' @param numReps How many permuted models to fit? Defaults to 1000.
 #' @param parallel Should the comuptation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation?
-#' @param ... Dots for additional internal arguments (currently unused)
+#'   computation? Defaults to \code{NULL}.
+#' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A named vector of pathway permutation \eqn{p}-values.
 #'
 #' @details This function takes in a list of the first principal components
-#'   from each pathway and an object of class `OmicsReg`. This function will
-#'   then calculate the AIC of a multivariate linear model (via the
+#'   from each pathway and an object of class \code{OmicsReg}. This function
+#'   will then calculate the AIC of a multivariate linear model (via the
 #'   \code{\link[stats]{lm}} function) with the original observations as
 #'   response and the pathway principal components as the predictor matrix.
 #'

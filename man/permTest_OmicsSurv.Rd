@@ -4,7 +4,7 @@
 \name{permTest_OmicsSurv}
 \alias{permTest_OmicsSurv}
 \alias{permTest_OmicsSurv,OmicsSurv-method}
-\title{Permutation Test for Pathway PCs for Survival Response}
+\title{AES-PCA permutation test of survival response for pathway PCs}
 \usage{
 permTest_OmicsSurv(OmicsSurv, pathwayPCs_ls, numReps = 1000,
   parallel = FALSE, numCores = NULL, ...)
@@ -19,28 +19,29 @@ permTest_OmicsSurv(OmicsSurv, pathwayPCs_ls, numReps = 1000,
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
 \code{\link{extract_aesPCs}} function.}
 
-\item{numReps}{How many permuted models to fit? Defaults to 1000}
+\item{numReps}{How many permuted models to fit? Defaults to 1000.}
 
 \item{parallel}{Should the comuptation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation?}
+computation? Defaults to \code{NULL}.}
 
-\item{...}{Dots for additional internal arguments (currently unused)}
+\item{...}{Dots for additional internal arguments (currently unused).}
 }
 \value{
 A named vector of pathway permutation \eqn{p}-values.
 }
 \description{
-Given an \code{OmicsSurv} object and a list of pathway PCs from
-  the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-  in the MS design matrix is significantly related to the survival output.
+Given an \code{OmicsSurv} object and a list of pathway principal
+   components (PCs) from the \code{\link{extract_aesPCs}} function, test if
+   each expressed pathway in the bio-assay design matrix is significantly
+   related to the survival output.
 }
 \details{
 This function takes in a list of the first principal components
-  from each pathway and an object of class `OmicsSurv`. This function will
-  then calculate the AIC of a Cox Proportional Hazards model (via the
+  from each pathway and an object of class \code{OmicsSurv}. This function
+  will then calculate the AIC of a Cox Proportional Hazards model (via the
   \code{\link[survival]{coxph}} function) with the original observations as
   response and the pathway principal components as the predictor matrix.
 
