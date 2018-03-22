@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract and Test Supervised PCs — superpc.st â€¢ pathwayPCA</title>
+<title>Extract and test principal components from supervised PCA — superpc.st â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,17 +101,18 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract and Test Supervised PCs</h1>
+    <h1>Extract and test principal components from supervised PCA</h1>
     </div>
 
     
-    <p>Identify significant features, extract PCs from those specific
-   features to construct a data matrix, predict the response with this data
-   matrix, and record the model fit statistic of this prediction.</p>
+    <p>Identify \(p_{path}\) significant features, extract principal
+   components (PCs) from those specific features to construct a data matrix,
+   predict the response with this data matrix, and record the model fit
+   statistic of this prediction.</p>
     
 
     <pre class="usage"><span class='fu'>superpc.st</span>(<span class='no'>fit</span>, <span class='no'>data</span>, <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>threshold.ignore</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n.PCs</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>min.features</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>epsilon</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>)</pre>
+  <span class='kw'>min.features</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>epsilon</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -119,16 +120,17 @@
     <tr>
       <th>fit</th>
       <td><p>An object of class <code>superpc</code> returned by the function
-<code>superpc.train</code></p></td>
+<code><a href='superpc.train.html'>superpc.train</a></code>.</p></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>A list of testing data:</p><ul>
-<li><p>x : A "tall" pathway data frame ($p_path * n$).</p></li>
-<li><p>y : A response vector corresponding to <code>type</code></p></li>
-<li><p>censoring.status : If <code>type = "survival"</code>, the censoring
-    indicator. Otherwise, <code>NULL</code>.</p></li>
-<li><p>featurenames : A character vector of the measured -omes in
+      <td><p>A list of test data:</p><ul>
+<li><p><code>x</code> : A "tall" pathway data frame (\(p_{path} \times N\)).</p></li>
+<li><p><code>y</code> : A response vector corresponding to <code>type</code>.</p></li>
+<li><p><code>censoring.status</code> : If <code>type = "survival"</code>, the
+     censoring indicator (\(1 - \) the observed event indicator).
+     Otherwise, <code>NULL</code>.</p></li>
+<li><p><code>featurenames</code> : A character vector of the measured -Omes in
     <code>x</code>.</p></li>
 </ul></td>
     </tr>
@@ -140,52 +142,58 @@ returned in the <code>fit</code> object.</p></td>
     <tr>
       <th>threshold.ignore</th>
       <td><p>Calculate the model for feature scores above this
-percentile of the threshold. We have seen that the smalles threshold
-values (0% - 40%) largely have no effect on model t-scores. Defaults to
-0.00 (0%).</p></td>
+percentile of the threshold. We have observed that the smallest threshold
+values (0% - 40%) largely have no effect on model \(t\)-scores.
+Defaults to 0.00 (0%).</p></td>
     </tr>
     <tr>
       <th>n.PCs</th>
-      <td><p>The number of PCs to extract from the significant pathway</p></td>
+      <td><p>The number of PCs to extract from the pathway.</p></td>
     </tr>
     <tr>
       <th>min.features</th>
       <td><p>What is the smallest number of genes allowed in each
 pathway? This argument must be kept constant across all calls to this
-function which use the same pathway list. Defaults to 5</p></td>
+function which use the same pathway list. Defaults to 3.</p></td>
     </tr>
     <tr>
       <th>epsilon</th>
       <td><p>I'm not sure why this is important. It's called when comparing
 the absolute score values to each value of the threshold vector. Defaults
-to 10 ^ -6.</p></td>
+to \(10^{-6}\).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing:</p><ul>
-<li><p>thresholds : A labelled vector of quantile values of the score
-    vector in the <code>fit</code> object.</p></li>
-<li><p>n.threshold : The number of splits to make in the score vector.</p></li>
-<li><p>scor : A matrix of model fit statistics. Each column is the
+<li><p><code>thresholds</code> : A labelled vector of quantile values of the
+     score vector in the <code>fit</code> object.</p></li>
+<li><p><code>n.threshold</code> : The number of splits to make in the score
+     vector.</p></li>
+<li><p><code>scor</code> : A matrix of model fit statistics. Each column is the
     threshold level of predictors allowed into the model, and each row is a
     PC included. Which genes are included in the matrix before PC extraction
     is governed by comparing their model score to the quantile value of the
     scores at each threshold value.</p></li>
-<li><p>tscor : A matrix of model t-statisics for each PC included (rows)
-    at each threshold level (columns).</p></li>
-<li><p>type : Which model was called? Options are survival, regression,
-    or binary.</p></li>
+<li><p><code>tscor</code> : A matrix of model \(t\)-statisics for each PC
+     included (rows) at each threshold level (columns).</p></li>
+<li><p><code>type</code> : Which model was called? Options are survival,
+     regression, or binary.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <a href='https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf'>https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf</a>
-  An issue, the number of thresholds at which to test (<code>n.threshold</code>),
-  can be larger than the number of features to bin. This is why so many of
-  the t-statistics are constant - because the model isn't changing.</p>
+    <p>NOTE: the number of thresholds at which to test (<code>n.threshold</code>)
+  can be larger than the number of features to bin. This will result in
+  constant \(t\)-statistics for the first few bins because the model isn't
+  changing.</p>
+<p>See <a href='https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf'>https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf</a>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='superpc.train.html'>superpc.train</a></code>; <code><a href='superPCA_pVals.html'>superPCA_pVals</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -201,6 +209,8 @@ to 10 ^ -6.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

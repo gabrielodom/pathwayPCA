@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Supervised PC Model — superpc.train â€¢ pathwayPCA</title>
+<title>Train a supervised PCA model — superpc.train â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,11 +101,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Supervised PC Model</h1>
+    <h1>Train a supervised PCA model</h1>
     </div>
 
     
-    <p>Computes feature scores for supervised pc analysis</p>
+    <p>Computes feature scores for \(p_{path}\) features of a pathway
+   via supervised principal component analysis.</p>
     
 
     <pre class="usage"><span class='fu'>superpc.train</span>(<span class='no'>data</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"survival"</span>, <span class='st'>"regression"</span>, <span class='st'>"classification"</span>),
@@ -116,47 +117,54 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A list of training data:</p><ul>
-<li><p>x : A "tall" pathway data frame ($p_path * n$).</p></li>
-<li><p>y : A response vector corresponding to <code>type</code></p></li>
-<li><p>censoring.status : If <code>type = "survival"</code>, the censoring
-    indicator. Otherwise, <code>NULL</code>.</p></li>
-<li><p>featurenames : A character vector of the measured -omes in
+      <td><p>A list of test data:</p><ul>
+<li><p><code>x</code> : A "tall" pathway data frame (\(p_{path} \times N\)).</p></li>
+<li><p><code>y</code> : A response vector corresponding to <code>type</code>.</p></li>
+<li><p><code>censoring.status</code> : If <code>type = "survival"</code>, the
+     censoring indicator (\(1 - \) the observed event indicator. Otherwise,
+     <code>NULL</code>.</p></li>
+<li><p><code>featurenames</code> : A character vector of the measured -Omes in
     <code>x</code>.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>type</th>
       <td><p>What model relates <code>y</code> and <code>x</code>? Options are
-<code>"survival"</code>, <code>"regression"</code>, or <code>"classification"</code> (for
-(potentially multinomial)logistic  regression).</p></td>
+<code>"survival"</code>, <code>"regression"</code>, or <code>"classification"</code>.</p></td>
     </tr>
     <tr>
       <th>s0.perc</th>
-      <td><p>A stabilization parameter on the interval [0,1]. This is an
-internal argument to each of the called functions. The default NULL value
-will ensure an appropriate value is determined internally.</p></td>
+      <td><p>A stabilization parameter on the interval \([0,1]\). This is
+an internal argument to each of the called functions. The default value is
+<code>NULL</code> to ensure an appropriate value is determined internally.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing:</p><ul>
-<li><p>feature.scores : The scaled p-dimensional score vector: each value
-    has been divided by its respective standard deviation plus epsilon
-    (governed by <code>s0.perc</code>). <code>NA</code> values returned by the logistic
-    model are replaced with 0.</p></li>
-<li><p>type : The argument for <code>type</code>.</p></li>
-<li><p>s0.perc : The user-supplied value of <code>s0.perc</code>, or the
+<li><p><code>feature.scores</code> : The scaled \(p\)-dimensional score
+     vector: each value has been divided by its respective standard deviation
+     plus epsilon (governed by <code>s0.perc</code>). <code>NA</code> values returned by
+     the logistic model are replaced with 0.</p></li>
+<li><p><code>type</code> : The argument for <code>type</code>.</p></li>
+<li><p><code>s0.perc</code> : The user-supplied value of <code>s0.perc</code>, or the
     internally-calculated default value from the chosen model.</p></li>
-<li><p>call : The output of <code>match.call()</code>.</p></li>
+<li><p><code>call</code> : The output of <code>match.call</code> for the user-
+     supplied function arguments.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a switch call to <code><a href='coxTrain_fun.html'>coxTrain_fun</a></code>,
-   <code><a href='olsTrain_fun.html'>olsTrain_fun</a></code>, or <code>glmTrain_fun</code>, respectively.</p>
+    <p>This function is a <code>switch</code> call to
+   <code><a href='coxTrain_fun.html'>coxTrain_fun</a></code> (for <code>type = "survival"</code>),
+   <code><a href='olsTrain_fun.html'>olsTrain_fun</a></code> (for <code>type = "regression"</code>), or
+   <code><a href='glmTrain_fun.html'>glmTrain_fun</a></code> (for <code>type = "classification"</code>).</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='superpc.st.html'>superpc.st</a></code>; <code><a href='superPCA_pVals.html'>superPCA_pVals</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -172,6 +180,8 @@ will ensure an appropriate value is determined internally.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

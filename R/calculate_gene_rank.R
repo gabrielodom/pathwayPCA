@@ -1,41 +1,43 @@
-#' Rank the Top Genes from a Ranked Pathways Data Frame
+#' Rank -Omes by adjusted significance given in a ranked-pathways data frame
 #'
-#' @description Given a supervised \code{Omics.*}-class object and a ranked
-#'   pathways data frame returned by either the \code{\link{AESPCA_pVals}} or
-#'   \code{\link{superPCA_pVals}} functions, rank the genes / proteins / lipids
-#'   / metabolomes contained in each gene pathway by the weighted significance
-#'   of their container pathways.
+#' @description Given a supervised \code{Omics*}-class object and a ranked
+#'    pathways data frame returned by either the \code{\link{AESPCA_pVals}} or
+#'    \code{\link{superPCA_pVals}} functions, calculate the weighted rank the
+#'    genes / proteins / lipids / metabolomes / transcriptomes contained in each
+#'    pathway by the significance of their container pathways.
 #'
 #' @param object An object of class \code{OmicsSurv}, \code{OmicsReg}, or
-#'   \code{OmicsCateg}.
+#'    \code{OmicsCateg}.
 #' @param pVals_df The ranked pathways data frame returned by either the
-#'   \code{AESPCA_pVals} or \code{superPCA_pVals} functions. Missing \eqn{p}-
-#'   values (from trimmed pathways) are omitted.
-#' @param percentile Return the most significant percent of the features
-#'   contained in all pathways. Defaults to 0.01.
+#'    \code{\link{AESPCA_pVals}} or \code{\link{superPCA_pVals}} functions.
+#'    Missing \eqn{p}-values (from trimmed pathways) are omitted.
+#' @param percentile Return the most significant \eqn{q} percent of the features
+#'    contained in all pathways. Defaults to 0.01.
 #'
 #'
 #' @return A list of two named numeric vectors. For both vectors, the names are
-#'   the genes, and the values are the scores for those genes. The first vector
-#'   is the sum of scores across all pathways; the second vector is this score
-#'   sum divided by the number of pathways which contain that particular gene.
-#'   The summed vector does not adjust for genes which appear more frequently
-#'   in pathways, while the averaged vector does.
+#'    the genes, and the values are the scores for those genes. The first vector
+#'    is the sum of scores across all pathways; the second vector is this score
+#'    sum divided by the number of pathways which contain that particular gene.
+#'    The summed vector does not adjust for genes which appear more frequently
+#'    in pathways, while the averaged vector does. See "Details" for more
+#'    information.
 #'
 #' @details This function takes in the pathway set information in a valid
-#'   \code{Omics*}-class object and a data frame of ranked pathways (as returned
-#'   by one of the two \code{*PCA_pVals()} functions). This function creates a
-#'   matrix with pathways as the columns and all genes included in those
-#'   pathways as the rows: the \eqn{i, j} entry of the matrix equals 1 if gene
-#'   \eqn{i} is an element of pathway \eqn{j}. This is created after trimming
-#'   the pathways to the assay data frame supplied using the
-#'   \code{\link{expressedOmes}} function). The \code{topGenes} function then
-#'   multiplies each pathway membership indicator column by the negative natural
-#'   logarithm of the adjusted \eqn{p}-values for that pathway; if multiple FDR
-#'   adjustment methods are used, then the score is the average of each negative
-#'   logged \eqn{p}-value. This function then returns two named numeric vectors:
-#'   the sum of these gene scores and the means of the non-zero gene scores,
-#'   sorted in descending order.
+#'    \code{Omics*}-class object and a data frame of ranked pathways (as
+#'    returned by either the \code{\link{AESPCA_pVals}} or
+#'    \code{\link{superPCA_pVals}} functions). This function creates a matrix
+#'    with pathways as the columns and all genes included in those pathways as
+#'    the rows: the \eqn{i, j} entry of the matrix equals 1 if gene \eqn{i} is
+#'    an element of pathway \eqn{j}. (This is created after trimming the
+#'    pathways to the assay data frame supplied using the
+#'    \code{\link{expressedOmes}} function.) The \code{topGenes} function then
+#'    multiplies each pathway membership indicator column by the negative
+#'    natural logarithm of the adjusted \eqn{p}-values for that pathway; if
+#'    multiple FDR adjustment methods are used, then the score is the average of
+#'    each negative logged \eqn{p}-values. This function then returns two named
+#'    numeric vectors: the sum of these gene scores and the means of the non-
+#'    zero gene scores, sorted in descending order.
 #'
 #' @export
 #'

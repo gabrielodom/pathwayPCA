@@ -4,7 +4,7 @@
 \name{superPCA_pVals}
 \alias{superPCA_pVals}
 \alias{superPCA_pVals,OmicsPathway-method}
-\title{Test Pathways with Supervised PCA}
+\title{Test pathways with supervised PCA}
 \usage{
 superPCA_pVals(object, n.threshold = 20, numPCs = 1, min.features = 3,
   parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
@@ -17,12 +17,15 @@ superPCA_pVals(object, n.threshold = 20, numPCs = 1, min.features = 3,
   "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 }
 \arguments{
-\item{object}{An object of class \code{OmicsPathway} with a response matrix}
+\item{object}{An object of superclass \code{OmicsPathway} with a response
+matrix or vector.}
 
 \item{n.threshold}{The number of bins into which to split the feature scores
 in the fit object returned internally by the \code{\link{superpc.train}}
 function to the \code{\link{pathway_tScores}} and
-\code{\link{pathway_tControl}} functions. Defaults to 20.}
+\code{\link{pathway_tControl}} functions. Defaults to 20. Smaller values
+may result in less accurate pathway \eqn{p}-values while larger values
+increase computation time.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
 
@@ -30,11 +33,11 @@ function to the \code{\link{pathway_tScores}} and
 pathway? This argument must be kept constant across all calls to this
 function which use the same pathway list. Defaults to 3.}
 
-\item{parallel}{Should the comuptation be completed in parallel? Defaults to
+\item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation?}
+computation? Defaults to \code{NULL}.}
 
 \item{adjustpValues}{Should you adjust the \eqn{p}-values for multiple
 comparisons? Defaults to TRUE.}
@@ -46,35 +49,41 @@ selected, then it is necessarily the first procedure. See the documentation
 for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
 definitions and citations.}
 
-\item{...}{Dots for additional internal arguments}
+\item{...}{Dots for additional internal arguments.}
 }
 \value{
-A data frame with columns
+A data frame with columns:
 \itemize{
   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-    object (stored in \code{object@pathwaySet$pathways})
+    object (given in \code{object@pathwaySet$pathways}.)
   \item{\code{setsize} : }{The number of genes in each of the original
-    pathways (as stored in the \code{object@pathwaySet$setsize} object)}
-  \item{\code{terms} : }{The pathway description, as stored in the
-    \code{object@pathwaySet$TERMS} object}
-  \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway}
+    pathways (given in the \code{object@pathwaySet$setsize} object).}
+  \item{\code{terms} : }{The pathway description, as given in the
+    \code{object@pathwaySet$TERMS} object.}
+  \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
   \item{\code{...} : }{Additional columns as specified through the
-    \code{adjustment} argument}
+    \code{adjustment} argument.}
 }
+
+Some of the pathways in the supplied pathway set list will be removed, or
+   "trimmed", during function execution. These trimmed pathways will have
+   \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
+   see the documentation for the \code{\link{expressedOmes}} function.
 
 The data frame will be sorted in ascending order by the method specified
   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
   then the data frame will be sorted by the raw \eqn{p}-values. If you have
   the suggested \code{tidyverse} package suite loaded, then this data frame
-  will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
-  simple data frame.
+  will print as a \code{\link[tibble]{tibble}}. Otherwise, it will print as
+  a data frame.
 }
 \description{
 Given a supervised \code{OmicsPath} object (one of
-  \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the first
-  principal components from each expressed pathway in the MS design matrix,
-  test their association with the response matrix, and return a data frame
-  of the adjusted \eqn{p}-values for each pathway.
+   \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the
+   first \eqn{k} principal components (PCs) from each expressed pathway in
+   the -Omics assay design matrix, test their association with the response
+   matrix, and return a data frame of the adjusted \eqn{p}-values for each
+   pathway.
 }
 \details{
 This is a wrapper function for the \code{\link{pathway_tScores}},

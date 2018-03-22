@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Validity Checking for -Omics.* Classes — valid_OmicsSurv • pathwayPCA</title>
+<title>Check validity of new Omics*-class objects � valid_OmicsSurv • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -101,12 +101,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Validity Checking for -Omics.* Classes</h1>
+    <h1>Check validity of new Omics*-class objects</h1>
     </div>
 
     
-    <p>These functions check the validity of the "OmicsSurv", "OmicsReg", and
-  "OmicsCateg" classes.</p>
+    <p>These functions check the validity of new objects created in
+   the <code>OmicsSurv</code>, <code>OmicsReg</code>, and <code>OmicsCateg</code> classes.</p>
     
 
     <pre class="usage"><span class='fu'>valid_OmicsSurv</span>(<span class='no'>object</span>)
@@ -120,33 +120,37 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An object of classes "OmicsSurv", "OmicsReg", or "OmicsCateg".</p></td>
+      <td><p>An object potentially of class <code>OmicsSurv</code>,
+<code>OmicsReg</code>, or <code>OmicsCateg</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>TRUE if the object is a valid object, else an error message with the
-  rule broken.</p>
+    <p><code>TRUE</code> if the object is a valid object, else an error message
+   with the rule broken.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>At the moment, we have currently written checks to make sure the dimensions
-  of the mass spectrometry or bio-assay data frame and response vectors
-  match.</p>
+    <p>We have currently written checks to make sure the dimensions of the
+   mass spectrometry or bio-assay data frame and response matrices or vectors
+   match. Other checks should be added in response to user feedback during or
+   after beta testing. FIX THIS.</p>
     
     <h2 class="hasAnchor" id="omicssurv"><a class="anchor" href="#omicssurv"></a>OmicsSurv</h2>
 
     
-    <p>Valid OmicsSurv objects will have two response vectors: a vector of the most
-  recently recorded follow-up times and a logical vector if that time marks
-  an event (TRUE = observed event; FALSE = right-censored observation).</p>
+    <p>Valid <code>OmicsSurv</code> objects will have two response vectors: a vector of
+   the most recently recorded follow-up times and a logical vector if that
+   time marks a death or event (<code>TRUE</code>: observed event; <code>FALSE</code>:
+   right-censored observation).</p>
     
     <h2 class="hasAnchor" id="omicsreg-and-omicscateg"><a class="anchor" href="#omicsreg-and-omicscateg"></a>OmicsReg and OmicsCateg</h2>
 
     
-    <p>Valid OmicsReg and OmicsCateg objects with have one response vector of
-  continuous or categorial (as a factor) observations, respectively.</p>
+    <p>Valid <code>OmicsReg</code> and <code>OmicsCateg</code> objects with have one response
+   vector of continuous (<code>numeric</code>) or categorial (<code>factor</code>)
+   observations, respectively.</p>
     
 
   </div>

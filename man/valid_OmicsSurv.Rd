@@ -4,7 +4,7 @@
 \alias{valid_OmicsSurv}
 \alias{valid_OmicsReg}
 \alias{valid_OmicsCateg}
-\title{Validity Checking for -Omics.* Classes}
+\title{Check validity of new Omics*-class objects}
 \usage{
 valid_OmicsSurv(object)
 
@@ -13,31 +13,35 @@ valid_OmicsReg(object)
 valid_OmicsCateg(object)
 }
 \arguments{
-\item{object}{An object of classes "OmicsSurv", "OmicsReg", or "OmicsCateg".}
+\item{object}{An object potentially of class \code{OmicsSurv},
+\code{OmicsReg}, or \code{OmicsCateg}.}
 }
 \value{
-TRUE if the object is a valid object, else an error message with the
-  rule broken.
+\code{TRUE} if the object is a valid object, else an error message
+   with the rule broken.
 }
 \description{
-These functions check the validity of the "OmicsSurv", "OmicsReg", and
-  "OmicsCateg" classes.
+These functions check the validity of new objects created in
+   the \code{OmicsSurv}, \code{OmicsReg}, and \code{OmicsCateg} classes.
 }
 \details{
-At the moment, we have currently written checks to make sure the dimensions
-  of the mass spectrometry or bio-assay data frame and response vectors
-  match.
+We have currently written checks to make sure the dimensions of the
+   mass spectrometry or bio-assay data frame and response matrices or vectors
+   match. Other checks should be added in response to user feedback during or
+   after beta testing. FIX THIS.
 }
 \section{OmicsSurv}{
 
-Valid OmicsSurv objects will have two response vectors: a vector of the most
-  recently recorded follow-up times and a logical vector if that time marks
-  an event (TRUE = observed event; FALSE = right-censored observation).
+Valid \code{OmicsSurv} objects will have two response vectors: a vector of
+   the most recently recorded follow-up times and a logical vector if that
+   time marks a death or event (\code{TRUE}: observed event; \code{FALSE}:
+   right-censored observation).
 }
 
 \section{OmicsReg and OmicsCateg}{
 
-Valid OmicsReg and OmicsCateg objects with have one response vector of
-  continuous or categorial (as a factor) observations, respectively.
+Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
+   vector of continuous (\code{numeric}) or categorial (\code{factor})
+   observations, respectively.
 }
 

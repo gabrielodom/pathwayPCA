@@ -1,37 +1,43 @@
-#' Train Supervised PC Model
+#' Train a supervised PCA model
 #'
-#' @description Computes feature scores for supervised pc analysis
+#' @description Computes feature scores for \eqn{p_{path}} features of a pathway
+#'    via supervised principal component analysis.
 #'
-#' @param data A list of training data:
+#' @param data A list of test data:
 #' \itemize{
-#'   \item{x : }{A "tall" pathway data frame ($p_{path} * n$).}
-#'   \item{y : }{A response vector corresponding to \code{type}}
-#'   \item{censoring.status : }{If \code{type = "survival"}, the censoring
-#'     indicator. Otherwise, \code{NULL}.}
-#'   \item{featurenames : }{A character vector of the measured -omes in
+#'   \item{\code{x} : }{A "tall" pathway data frame (\eqn{p_{path} \times N}).}
+#'   \item{\code{y} : }{A response vector corresponding to \code{type}.}
+#'   \item{\code{censoring.status} : }{If \code{type = "survival"}, the
+#'      censoring indicator (\eqn{1 - } the observed event indicator. Otherwise,
+#'      \code{NULL}.}
+#'   \item{\code{featurenames} : }{A character vector of the measured -Omes in
 #'     \code{x}.}
-#' }
+#'  }
 #' @param type What model relates \code{y} and \code{x}? Options are
-#'    \code{"survival"}, \code{"regression"}, or \code{"classification"} (for
-#'    (potentially multinomial)logistic  regression).
-#' @param s0.perc A stabilization parameter on the interval [0,1]. This is an
-#'    internal argument to each of the called functions. The default NULL value
-#'    will ensure an appropriate value is determined internally.
+#'    \code{"survival"}, \code{"regression"}, or \code{"classification"}.
+#' @param s0.perc A stabilization parameter on the interval \eqn{[0,1]}. This is
+#'    an internal argument to each of the called functions. The default value is
+#'    \code{NULL} to ensure an appropriate value is determined internally.
 #'
 #' @return A list containing:
 #' \itemize{
-#'   \item{feature.scores : }{The scaled p-dimensional score vector: each value
-#'     has been divided by its respective standard deviation plus epsilon
-#'     (governed by \code{s0.perc}). \code{NA} values returned by the logistic
-#'     model are replaced with 0.}
-#'   \item{type : }{The argument for \code{type}.}
-#'   \item{s0.perc : }{The user-supplied value of \code{s0.perc}, or the
+#'   \item{\code{feature.scores} : }{The scaled \eqn{p}-dimensional score
+#'      vector: each value has been divided by its respective standard deviation
+#'      plus epsilon (governed by \code{s0.perc}). \code{NA} values returned by
+#'      the logistic model are replaced with 0.}
+#'   \item{\code{type} : }{The argument for \code{type}.}
+#'   \item{\code{s0.perc} : }{The user-supplied value of \code{s0.perc}, or the
 #'     internally-calculated default value from the chosen model.}
-#'   \item{call : }{The output of \code{match.call()}.}
+#'   \item{\code{call} : }{The output of \code{\link{match.call}} for the user-
+#'      supplied function arguments.}
 #' }
 #'
-#' @details This function is a switch call to \code{\link{coxTrain_fun}},
-#'    \code{\link{olsTrain_fun}}, or \code{glmTrain_fun}, respectively.
+#' @details This function is a \code{\link{switch}} call to
+#'    \code{\link{coxTrain_fun}} (for \code{type = "survival"}),
+#'    \code{\link{olsTrain_fun}} (for \code{type = "regression"}), or
+#'    \code{\link{glmTrain_fun}} (for \code{type = "classification"}).
+#'
+#' @seealso \code{\link{superpc.st}}; \code{\link{superPCA_pVals}}
 #'
 #' @export
 #'

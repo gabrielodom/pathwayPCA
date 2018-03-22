@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test Pathways with Supervised PCA — superPCA_pVals • pathwayPCA</title>
+<title>Test pathways with supervised PCA � superPCA_pVals • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -101,15 +101,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Test Pathways with Supervised PCA</h1>
+    <h1>Test pathways with supervised PCA</h1>
     </div>
 
     
     <p>Given a supervised <code>OmicsPath</code> object (one of
-  <code>OmicsSurv</code>, <code>OmicsReg</code>, or <code>OmicsCateg</code>), extract the first
-  principal components from each expressed pathway in the MS design matrix,
-  test their association with the response matrix, and return a data frame
-  of the adjusted \(p\)-values for each pathway.</p>
+   <code>OmicsSurv</code>, <code>OmicsReg</code>, or <code>OmicsCateg</code>), extract the
+   first \(k\) principal components (PCs) from each expressed pathway in
+   the -Omics assay design matrix, test their association with the response
+   matrix, and return a data frame of the adjusted \(p\)-values for each
+   pathway.</p>
     
 
     <pre class="usage"><span class='fu'>superPCA_pVals</span>(<span class='no'>object</span>, <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>min.features</span> <span class='kw'>=</span> <span class='fl'>3</span>,
@@ -128,14 +129,17 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An object of class <code>OmicsPathway</code> with a response matrix</p></td>
+      <td><p>An object of superclass <code>OmicsPathway</code> with a response
+matrix or vector.</p></td>
     </tr>
     <tr>
       <th>n.threshold</th>
       <td><p>The number of bins into which to split the feature scores
 in the fit object returned internally by the <code><a href='superpc.train.html'>superpc.train</a></code>
 function to the <code><a href='pathway_tScores.html'>pathway_tScores</a></code> and
-<code><a href='pathway_tControl.html'>pathway_tControl</a></code> functions. Defaults to 20.</p></td>
+<code><a href='pathway_tControl.html'>pathway_tControl</a></code> functions. Defaults to 20. Smaller values
+may result in less accurate pathway \(p\)-values while larger values
+increase computation time.</p></td>
     </tr>
     <tr>
       <th>numPCs</th>
@@ -149,13 +153,13 @@ function which use the same pathway list. Defaults to 3.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>Should the comuptation be completed in parallel? Defaults to
+      <td><p>Should the computation be completed in parallel? Defaults to
 <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>numCores</th>
       <td><p>If <code>parallel = TRUE</code>, how many cores should be used for
-computation?</p></td>
+computation? Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>adjustpValues</th>
@@ -173,30 +177,34 @@ definitions and citations.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Dots for additional internal arguments</p></td>
+      <td><p>Dots for additional internal arguments.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with columns</p><ul>
+    <p>A data frame with columns:</p><ul>
 <li><p><code>pathways</code> : The names of the pathways in the <code>Omics*</code>
-    object (stored in <code>object@pathwaySet$pathways</code>)</p></li>
+    object (given in <code>object@pathwaySet$pathways</code>.)</p></li>
 <li><p><code>setsize</code> : The number of genes in each of the original
-    pathways (as stored in the <code>object@pathwaySet$setsize</code> object)</p></li>
-<li><p><code>terms</code> : The pathway description, as stored in the
-    <code>object@pathwaySet$TERMS</code> object</p></li>
-<li><p><code>rawp</code> : The unadjusted \(p\)-values of each pathway</p></li>
+    pathways (given in the <code>object@pathwaySet$setsize</code> object).</p></li>
+<li><p><code>terms</code> : The pathway description, as given in the
+    <code>object@pathwaySet$TERMS</code> object.</p></li>
+<li><p><code>rawp</code> : The unadjusted \(p\)-values of each pathway.</p></li>
 <li><p><code>...</code> : Additional columns as specified through the
-    <code>adjustment</code> argument</p></li>
+    <code>adjustment</code> argument.</p></li>
 </ul>
 
+<p>Some of the pathways in the supplied pathway set list will be removed, or
+   "trimmed", during function execution. These trimmed pathways will have
+   \(p\)-values given as <code>NA</code>. For an explanation of pathway trimming,
+   see the documentation for the <code><a href='expressedOmes.html'>expressedOmes</a></code> function.</p>
 <p>The data frame will be sorted in ascending order by the method specified
   first in the <code>adjustment</code> argument. If <code>adjustpValues = FALSE</code>,
   then the data frame will be sorted by the raw \(p\)-values. If you have
   the suggested <code>tidyverse</code> package suite loaded, then this data frame
-  will print as a <code><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></code>. Otherwise, it will stay a
-  simple data frame.</p>
+  will print as a <code><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></code>. Otherwise, it will print as
+  a data frame.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
