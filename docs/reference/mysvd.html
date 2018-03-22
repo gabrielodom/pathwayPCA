@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Singular Value Decomposition Wrapper — mysvd â€¢ pathwayPCA</title>
+<title>Singular Value Decomposition wrapper for supervised PCA — mysvd â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,11 +101,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Singular Value Decomposition Wrapper</h1>
+    <h1>Singular Value Decomposition wrapper for supervised PCA</h1>
     </div>
 
     
-    <p>Center and compute the fast SVD of the matrix <code>mat</code></p>
+    <p>Center and compute the fast SVD of a matrix</p>
     
 
     <pre class="usage"><span class='fu'>mysvd</span>(<span class='no'>mat</span>, <span class='kw'>n.components</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -115,38 +115,41 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mat</th>
-      <td><p>A matrix of data frame in "tall" format (p x n)</p></td>
+      <td><p>A matrix of data frame in "tall" format (\(p \times n\)).</p></td>
     </tr>
     <tr>
       <th>n.components</th>
       <td><p>How many singular values / vectors to return? Must be an
-integer less than min(p, n). Best performance increase is for values much
-less than min(p, n). Defaults to <code>NULL</code>.</p></td>
+integer less than \(min(p, n)\). Best performance increase is for values
+much less than \(min(p, n)\). Defaults to <code>NULL</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing:</p><ul>
-<li><p>u : The first <code>n.components</code> left singular vectors of
-    <code>mat</code>.</p></li>
-<li><p>d : The largest <code>n.component</code> singular vectors of <code>mat</code>.</p></li>
-<li><p>v : The first <code>n.components</code> right singular vectors of
-    <code>mat</code>.</p></li>
-<li><p>feature.means : A named vector of the feature means of <code>mat</code>.</p></li>
+<li><p><code>u</code> : The first <code>n.components</code> left singular vectors of
+     <code>mat</code>.</p></li>
+<li><p><code>d</code> : The largest <code>n.component</code> singular values of
+     <code>mat</code>.</p></li>
+<li><p><code>v</code> : The first <code>n.components</code> right singular vectors of
+     <code>mat</code>.</p></li>
+<li><p><code>feature.means</code> : A named vector of the feature means of
+     <code>mat</code>.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>mysvd</code> function takes in a tall -omics data matrix,
+    <p>The <code>mysvd</code> function takes in a tall -Omics data matrix,
   extracts the feature means, centers the matrix on this mean vector, and
-  calculates the Singular Value Decomposition of the centered data matrix.
-  Currently, the SVD is calculated via the <code><a href='http://www.rdocumentation.org/packages/corpcor/topics/fast.svd'>fast.svd</a></code>
-  function from <code>corpcor</code> package. However, this function calculates
-  all the singular vectors, even when <code>n.components</code> is non-<code>NULL</code>.
-  We should update this to the <code><a href='http://www.rdocumentation.org/packages/rsvd/topics/rsvd'>rsvd</a></code> function from the
-  <code>rsvd</code> package.</p>
+  calculates the Singular Value Decomposition (SVD) of the centered data
+  matrix. Currently, the SVD is calculated via the
+  <code><a href='http://www.rdocumentation.org/packages/corpcor/topics/fast.svd'>fast.svd</a></code> function from <code>corpcor</code> package.
+  However, this function calculates all the singular vectors, even when
+  <code>n.components</code> is non-<code>NULL</code>. We should experiment with other SVD
+  functions, such as the <code><a href='http://www.rdocumentation.org/packages/rsvd/topics/rsvd'>rsvd</a></code> function from the
+  <code>rsvd</code> package. FIX THIS.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

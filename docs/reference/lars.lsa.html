@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Least Angle and Lasso Regression models — lars.lsa â€¢ pathwayPCA</title>
+<title>Least Angle Regression and LASSO Regression — lars.lsa â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +101,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Least Angle and Lasso Regression models</h1>
+    <h1>Least Angle Regression and LASSO Regression</h1>
     </div>
 
     
-    <p>These are all variants of Lasso, and provide the entire
-  sequence of coefficients and fits, starting from zero, to the least
+    <p>These are all variants of LASSO, and provide the entire
+  sequence of coefficients and fits, starting from zero to the least
   squares fit.</p>
     
 
@@ -118,7 +118,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>Sigma0</th>
-      <td><p>A Grammian / covariance matrix of pathway predictors</p></td>
+      <td><p>A Grammian / covariance matrix of pathway predictors.</p></td>
     </tr>
     <tr>
       <th>b0</th>
@@ -126,11 +126,12 @@
     </tr>
     <tr>
       <th>n</th>
-      <td><p>The sample size</p></td>
+      <td><p>The sample size.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Option between "lar" and "lasso". Defaults to "lasso"</p></td>
+      <td><p>Option between <code>"lar"</code> and <code>"lasso"</code>. Defaults to
+<code>"lasso"</code>.</p></td>
     </tr>
     <tr>
       <th>max.steps</th>
@@ -144,11 +145,11 @@ machine's default error limit for doubles (<code>.Machine$double.eps</code>).</p
     </tr>
     <tr>
       <th>adaptive</th>
-      <td><p>Ignore</p></td>
+      <td><p>Ignore.</p></td>
     </tr>
     <tr>
       <th>para</th>
-      <td><p>Ignore</p></td>
+      <td><p>Ignore.</p></td>
     </tr>
     </table>
     
@@ -159,11 +160,12 @@ machine's default error limit for doubles (<code>.Machine$double.eps</code>).</p
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>LARS is described in detail in Efron, Hastie, Johnstone and
-  Tibshirani (2002). With the "lasso" option, it computes the complete lasso
-  solution simultaneously for ALL values of the shrinkage parameter in the
-  same computational cost as a least squares fit. This function is adapted
-  from the <code>lars()</code> function in the <code>lars</code> package to apply to
-  covariance or Grammian pathway design matrices.</p>
+  Tibshirani (2002). With the <code>"lasso"</code> option, it computes the complete
+  LASSO solution simultaneously for <em>all</em> values of the shrinkage
+  parameter in the same computational cost as a least squares fit. This
+  function is adapted from the <code><a href='http://www.rdocumentation.org/packages/lars/topics/lars'>lars</a></code> function in the
+  <code>lars</code> package to apply to covariance or Grammian pathway design
+  matrices.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

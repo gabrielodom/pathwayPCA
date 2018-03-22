@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normalize a Matrix — normalize â€¢ pathwayPCA</title>
+<title>Normalize a matrix for supervised PCA — normalize â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,7 +101,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normalize a Matrix</h1>
+    <h1>Normalize a matrix for supervised PCA</h1>
     </div>
 
     
@@ -116,26 +116,25 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>B</th>
-      <td><p>A matrix?</p></td>
+      <td><p>A matrix.</p></td>
     </tr>
     <tr>
       <th>d</th>
-      <td><p>The number of columns of <code>B</code> to normalize</p></td>
+      <td><p>The number of columns of <code>B</code> to normalize.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A modified version of the <code>B</code> matrix</p>
+    <p>A modified version of the <code>B</code> matrix.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>I met with James and Steven on 26 September and neither of them
   understood the sign reversal in the last line of the internal <code>for()</code>
-  loop. Before this function can be extracted and documented, I need to
-  understand why it's doing what it's doing. Based on how it's called in the
-  <code><a href='aespca.html'>aespca()</a></code> function, it has something to do with adjusting the aes-pca
-  eigenvectors returned by the <code><a href='lars.lsa.html'>lars.lsa()</a></code> function.</p>
+  loop. Based on how it's called in the <code><a href='aespca.html'>aespca</a></code> function, it has
+  something to do with adjusting the AES-PCA eigenvectors returned by the
+  <code><a href='lars.lsa.html'>lars.lsa</a></code> function. DOCUMENT THIS.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

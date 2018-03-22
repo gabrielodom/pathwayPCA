@@ -2,40 +2,43 @@
 % Please edit documentation in R/superPC_modifiedSVD.R
 \name{mysvd}
 \alias{mysvd}
-\title{Singular Value Decomposition Wrapper}
+\title{Singular Value Decomposition wrapper for supervised PCA}
 \usage{
 mysvd(mat, n.components = NULL)
 }
 \arguments{
-\item{mat}{A matrix of data frame in "tall" format (p x n)}
+\item{mat}{A matrix of data frame in "tall" format (\eqn{p \times n}).}
 
 \item{n.components}{How many singular values / vectors to return? Must be an
-integer less than min(p, n). Best performance increase is for values much
-less than min(p, n). Defaults to \code{NULL}.}
+integer less than \eqn{min(p, n)}. Best performance increase is for values
+much less than \eqn{min(p, n)}. Defaults to \code{NULL}.}
 }
 \value{
 A list containing:
 \itemize{
-  \item{u : }{The first \code{n.components} left singular vectors of
-    \code{mat}.}
-  \item{d : }{The largest \code{n.component} singular vectors of \code{mat}.}
-  \item{v : }{The first \code{n.components} right singular vectors of
-    \code{mat}.}
-  \item{feature.means : }{A named vector of the feature means of \code{mat}.}
+  \item{\code{u} : }{The first \code{n.components} left singular vectors of
+     \code{mat}.}
+  \item{\code{d} : }{The largest \code{n.component} singular values of
+     \code{mat}.}
+  \item{\code{v} : }{The first \code{n.components} right singular vectors of
+     \code{mat}.}
+  \item{\code{feature.means} : }{A named vector of the feature means of
+     \code{mat}.}
 }
 }
 \description{
-Center and compute the fast SVD of the matrix \code{mat}
+Center and compute the fast SVD of a matrix
 }
 \details{
-The \code{mysvd} function takes in a tall -omics data matrix,
+The \code{mysvd} function takes in a tall -Omics data matrix,
   extracts the feature means, centers the matrix on this mean vector, and
-  calculates the Singular Value Decomposition of the centered data matrix.
-  Currently, the SVD is calculated via the \code{\link[corpcor]{fast.svd}}
-  function from \code{corpcor} package. However, this function calculates
-  all the singular vectors, even when \code{n.components} is non-\code{NULL}.
-  We should update this to the \code{\link[rsvd]{rsvd}} function from the
-  \code{rsvd} package.
+  calculates the Singular Value Decomposition (SVD) of the centered data
+  matrix. Currently, the SVD is calculated via the
+  \code{\link[corpcor]{fast.svd}} function from \code{corpcor} package.
+  However, this function calculates all the singular vectors, even when
+  \code{n.components} is non-\code{NULL}. We should experiment with other SVD
+  functions, such as the \code{\link[rsvd]{rsvd}} function from the
+  \code{rsvd} package. FIX THIS.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.

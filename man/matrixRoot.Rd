@@ -2,14 +2,14 @@
 % Please edit documentation in R/calculate_matrixRoot.R
 \name{matrixRoot}
 \alias{matrixRoot}
-\title{Positive Root of a Symmetric Matrix}
+\title{Positive root of a symmetric matrix}
 \usage{
 matrixRoot(x, root = 2)
 }
 \arguments{
-\item{x}{A symmetric (necessarily square) matrix}
+\item{x}{A symmetric (necessarily square) matrix.}
 
-\item{root}{A positive number}
+\item{root}{A positive real number.}
 }
 \value{
 A matrix, that when multiplied by itself \code{root} times, yields
@@ -20,10 +20,12 @@ Calculate the matrix root of a symmetric matrix via the Spectral
   Decomposition.
 }
 \details{
-This function decomposes \code{x} into $V x D x V^T$ via the
-  \code{eigen()} function, sets any numerically negative eigenvalues to 0,
-  calculates the root of these eigenvalues as D^*, then returns the matrix
-  $V x D^* x V^T$.
+This function decomposes \code{x} into \eqn{V \times D \times V^T}
+  via the \code{\link[base]{eigen}} function, sets any numerically negative
+  eigenvalues to 0, calculates the root of these eigenvalues as \eqn{D^r},
+  then returns the matrix \eqn{V \times D^r \times V^T}.
+
+  See \url{https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix}.
 }
 \examples{
   X <- matrix(rnorm(25), ncol = 5);   xTx <- t(X) \%*\% X

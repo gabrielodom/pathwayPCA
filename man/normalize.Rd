@@ -2,17 +2,17 @@
 % Please edit documentation in R/aesPC_unknown_matrixNorm.R
 \name{normalize}
 \alias{normalize}
-\title{Normalize a Matrix}
+\title{Normalize a matrix for supervised PCA}
 \usage{
 normalize(B, d)
 }
 \arguments{
-\item{B}{A matrix?}
+\item{B}{A matrix.}
 
-\item{d}{The number of columns of \code{B} to normalize}
+\item{d}{The number of columns of \code{B} to normalize.}
 }
 \value{
-A modified version of the \code{B} matrix
+A modified version of the \code{B} matrix.
 }
 \description{
 A function that norms a matrix, but I don't understand any of
@@ -21,10 +21,9 @@ A function that norms a matrix, but I don't understand any of
 \details{
 I met with James and Steven on 26 September and neither of them
   understood the sign reversal in the last line of the internal \code{for()}
-  loop. Before this function can be extracted and documented, I need to
-  understand why it's doing what it's doing. Based on how it's called in the
-  \code{aespca()} function, it has something to do with adjusting the aes-pca
-  eigenvectors returned by the \code{lars.lsa()} function.
+  loop. Based on how it's called in the \code{\link{aespca}} function, it has
+  something to do with adjusting the AES-PCA eigenvectors returned by the
+  \code{\link{lars.lsa}} function. DOCUMENT THIS.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.

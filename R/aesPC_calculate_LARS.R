@@ -1,28 +1,30 @@
-#' Least Angle and Lasso Regression models
+#' Least Angle Regression and LASSO Regression
 #'
-#' @description These are all variants of Lasso, and provide the entire
-#'   sequence of coefficients and fits, starting from zero, to the least
+#' @description These are all variants of LASSO, and provide the entire
+#'   sequence of coefficients and fits, starting from zero to the least
 #'   squares fit.
 #'
-#' @param Sigma0 A Grammian / covariance matrix of pathway predictors
+#' @param Sigma0 A Grammian / covariance matrix of pathway predictors.
 #' @param b0 An eigenvector of \code{Sigma0}.
-#' @param n The sample size
-#' @param type Option between "lar" and "lasso". Defaults to "lasso"
+#' @param n The sample size.
+#' @param type Option between \code{"lar"} and \code{"lasso"}. Defaults to
+#'   \code{"lasso"}.
 #' @param max.steps How many steps should the LAR or LASSO algorithms take?
 #'   Defaults to 8 times the pathway dimension.
 #' @param eps What should we consider to be numerically 0? Defaults to the
 #'   machine's default error limit for doubles (\code{.Machine$double.eps}).
-#' @param adaptive Ignore
-#' @param para Ignore
+#' @param adaptive Ignore.
+#' @param para Ignore.
 #'
 #' @return An object of class \code{"lars"}.
 #'
 #' @details LARS is described in detail in Efron, Hastie, Johnstone and
-#'   Tibshirani (2002). With the "lasso" option, it computes the complete lasso
-#'   solution simultaneously for ALL values of the shrinkage parameter in the
-#'   same computational cost as a least squares fit. This function is adapted
-#'   from the \code{lars()} function in the \code{lars} package to apply to
-#'   covariance or Grammian pathway design matrices.
+#'   Tibshirani (2002). With the \code{"lasso"} option, it computes the complete
+#'   LASSO solution simultaneously for \emph{all} values of the shrinkage
+#'   parameter in the same computational cost as a least squares fit. This
+#'   function is adapted from the \code{\link[lars]{lars}} function in the
+#'   \code{lars} package to apply to covariance or Grammian pathway design
+#'   matrices.
 #'
 #' @seealso \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}
 #'

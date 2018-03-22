@@ -1,18 +1,20 @@
-#' Positive Root of a Symmetric Matrix
+#' Positive root of a symmetric matrix
 #'
 #' @description Calculate the matrix root of a symmetric matrix via the Spectral
 #'   Decomposition.
 #'
-#' @param x A symmetric (necessarily square) matrix
-#' @param root A positive number
+#' @param x A symmetric (necessarily square) matrix.
+#' @param root A positive real number.
 #'
 #' @return A matrix, that when multiplied by itself \code{root} times, yields
 #'   \code{x}.
 #'
-#' @details This function decomposes \code{x} into $V x D x V^T$ via the
-#'   \code{eigen()} function, sets any numerically negative eigenvalues to 0,
-#'   calculates the root of these eigenvalues as D^*, then returns the matrix
-#'   $V x D^* x V^T$.
+#' @details This function decomposes \code{x} into \eqn{V \times D \times V^T}
+#'   via the \code{\link[base]{eigen}} function, sets any numerically negative
+#'   eigenvalues to 0, calculates the root of these eigenvalues as \eqn{D^r},
+#'   then returns the matrix \eqn{V \times D^r \times V^T}.
+#'
+#'   See \url{https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix}.
 #'
 #' @export
 #'

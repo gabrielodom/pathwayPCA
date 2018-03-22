@@ -81,7 +81,7 @@
       <h1>Supervised PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-03-21</h4>
+            <h4 class="date">2018-03-22</h4>
           </div>
 
     
@@ -308,7 +308,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 5.929515 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 6.16077 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -336,7 +336,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 4.971463 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.348877 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -364,7 +364,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 7.859636 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 8.157964 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -479,19 +479,21 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 36.05251 36.05251 31.21168 30.85596 30.85596 30.85596 30.85596 30.85596 </span>
+<span class="co">#&gt; 59.20504 59.20504 52.62950 52.29496 52.29496 52.29496 52.29496 52.29496 </span>
 <span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
-<span class="co">#&gt; 30.85596 29.14705 29.14705 24.86413 24.86413 </span>
+<span class="co">#&gt; 52.29496 47.98476 47.98476 42.14048 42.14048 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;    PAK3     BTC    ELK1    NRG1    PAK4    NRG3   MAPK9   ERBB4  MAPK10 </span>
-<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 </span>
-<span class="co">#&gt;   ERBB3    ABL1    NRG2    ABL2    SHC4 RPS6KB2    AREG  STAT5B  STAT5A </span>
-<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 </span>
-<span class="co">#&gt;    PAK6     MYC    NRG4   GSK3B    CBLB     CBL  CDKN1B  CDKN1A    EREG </span>
-<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 </span>
-<span class="co">#&gt;    NCK2  CAMK2A  CAMK2B  CAMK2D  CAMK2G    CBLC    CRKL   HBEGF </span>
-<span class="co">#&gt; 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952 6.91952</span></code></pre></div>
+<span class="co">#&gt;     PAK3      BTC     ELK1     NRG1     PAK4     NRG3    MAPK9    ERBB4 </span>
+<span class="co">#&gt; 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 </span>
+<span class="co">#&gt;   MAPK10    ERBB3     ABL1     NRG2     ABL2     SHC4  RPS6KB2     AREG </span>
+<span class="co">#&gt; 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 </span>
+<span class="co">#&gt;   STAT5B   STAT5A     PAK6      MYC     NRG4    GSK3B     CBLB      CBL </span>
+<span class="co">#&gt; 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 </span>
+<span class="co">#&gt;   CDKN1B   CDKN1A     EREG     NCK2   CAMK2A   CAMK2B   CAMK2D   CAMK2G </span>
+<span class="co">#&gt; 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 11.49914 </span>
+<span class="co">#&gt;     CBLC     CRKL    HBEGF </span>
+<span class="co">#&gt; 11.49914 11.49914 11.49914</span></code></pre></div>
 </div>
 </div>
   </div>
