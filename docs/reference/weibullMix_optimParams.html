@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the Optimal Parameters for a Mixture of Weibull Distributions — weibullMix_optimParams â€¢ pathwayPCA</title>
+<title>Calculate the optimal parameters for a mixture of Weibull Extreme Value
+   Distributions for supervised PCA — weibullMix_optimParams â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +102,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the Optimal Parameters for a Mixture of Weibull Distributions</h1>
+    <h1>Calculate the optimal parameters for a mixture of Weibull Extreme Value
+   Distributions for supervised PCA</h1>
     </div>
 
     
-    <p>Calculate the parameters which minimise the likelihood from a
-   mixture of two Weibull Extreme Value distributions.</p>
+    <p>Calculate the parameters which minimise the negative log-
+   likelihood of a mixture of two Weibull Extreme Value distributions.</p>
     
 
     <pre class="usage"><span class='fu'>weibullMix_optimParams</span>(<span class='no'>max_tControl_vec</span>, <span class='no'>pathwaySize_vec</span>, <span class='kw'>initialVals</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>p</span> <span class='kw'>=</span>
@@ -118,67 +120,82 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>max_tControl_vec</th>
-      <td><p>A vector of the maximum absolute t-scores for each
-pathway when under the null model (the response vector has been randomly
-assigned or parametrically bootstrapped).</p></td>
+      <td><p>A vector of the maximum absolute \(t\)-scores for
+each pathway (returned by the <code><a href='pathway_tControl.html'>pathway_tControl</a></code> function)
+when under the null model. Under the null model, the response vector will
+have been randomly generated or parametrically bootstrapped.</p></td>
     </tr>
     <tr>
       <th>pathwaySize_vec</th>
-      <td><p>A vector of the number of genes in each pathway</p></td>
+      <td><p>A vector of the number of genes in each pathway.</p></td>
     </tr>
     <tr>
       <th>initialVals</th>
-      <td><p>A vector of initial values for the Weibull parameters.
-The values are</p><ul>
-<li><p>p : The mixing proportion between the Gumbel minimum and Gumbel
-     maximum distributions. Defaults to 0.5.</p></li>
-<li><p>mu1 : The mean of the first distribution. Defaults to 1.</p></li>
-<li><p>s1 : The standard deviation (precision?) of the first
-     distribution. Defaults to 0.5.</p></li>
-<li><p>mu2 : The mean of the second distribution. Defaults to 1.</p></li>
-<li><p>s2 : The standard deviation (precision?) of the second
-     distribution. Defaults to 0.5.</p></li>
+      <td><p>A named vector of initial values for the Weibull
+parameters. The values are</p><ul>
+<li><p>\(p\) : The mixing proportion between the Gumbel minimum and
+     Gumbel maximum distributions. This parameter is bounded by
+     \([0, 1]\) and defaults to 0.5.</p></li>
+<li><p>\(\mu_1\) : The mean of the first distribution. This parameter
+     is unbounded and defaults to 1.</p></li>
+<li><p>\(s_1\) : The precision of the first distribution. This
+     parameter is bounded below by 0 and defaults to 0.5.</p></li>
+<li><p>\(\mu_2\) : The mean of the second distribution. This parameter
+     is unbounded and defaults to 1.</p></li>
+<li><p>\(s_2\) : The precision of the second distribution. This
+     parameter is bounded below by 0 and defaults to 0.5.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>optimMethod</th>
       <td><p>Which numerical optimization routine to pass to the
-<code>optim</code> function. Defaults to "L-BFGS-B", which allows for lower and
-upper bound constraints. When this option is selected, lower and upper
-bounds for ALL parameters must be supplied.</p></td>
+<code><a href='http://www.rdocumentation.org/packages/stats/topics/optim'>optim</a></code> function. Defaults to <code>"L-BFGS-B"</code>, which
+allows for lower and upper bound constraints. When this option is
+specified, lower and upper bounds for ALL parameters must be supplied.</p></td>
     </tr>
     <tr>
       <th>lowerBD</th>
-      <td><p>A vector of the lower bounds on the <code>initialVals</code>.</p></td>
+      <td><p>A vector of the lower bounds on the <code>initialVals</code>.
+Defaults to <code>c(0, -Inf, 0, -Inf, 0)</code>.</p></td>
     </tr>
     <tr>
       <th>upperBD</th>
-      <td><p>A vector of the upper bounds on the <code>initialVals</code>.</p></td>
+      <td><p>A vector of the upper bounds on the <code>initialVals</code>.
+Defaults to <code>c(1, Inf, Inf, Inf, Inf)</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A named vector of the estimated values for the parameters which
-   minimize the likelihood.</p>
+   minimize the negative log-likelihood of the mixture Weibull Extreme Value
+   distributions.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The likelihood function is equation (4) Chen et al (2008): a mixture
- of two Gumbel Extreme Value pdfs, with mixing proportion p. The values mu_i
- and s_i, i = 1, 2, within the code of the function are placeholders for the
- mean and standard deviation, respectively.</p>
+    <p>The likelihood function is equation (4) in Chen et al (2008): a
+   mixture of two Gumbel Extreme Value probability density functions, with
+   mixing proportion \(p\). Within the code of this function, the values
+   <code>mu1</code>, <code>mu2</code> and <code>s1</code>, <code>s2</code> are placeholders for the
+   mean and precision, respectively.</p>
 <p>A computational note: the <code>"L-BFGS-B"</code> option within the
- <code><a href='http://www.rdocumentation.org/packages/stats/topics/optim'>optim</a></code> function requires a bounded function or
- likelihood. We therefore replaced <code>Inf</code> with $10 ^ 200$ in the
- check for boundedness. As we are attempting to minimise the likelihood, this
- maximum machine value is effectively Infinity.</p>
-<p>See <a href='https://doi.org/10.1093/bioinformatics/btn458'>https://doi.org/10.1093/bioinformatics/btn458</a> for more information</p>
-<p>@seealso <code><a href='http://www.rdocumentation.org/packages/stats/topics/optim'>optim</a></code></p>
+   <code><a href='http://www.rdocumentation.org/packages/stats/topics/optim'>optim</a></code> function requires a bounded function or
+   likelihood. We therefore replaced <code>Inf</code> with <code>10 ^ 200</code> in the
+   check for boundedness. As we are attempting to minimise the negative log-
+   likelihood, this maximum machine value is effectively <code>+Inf</code>.</p>
+<p>See <a href='https://doi.org/10.1093/bioinformatics/btn458'>https://doi.org/10.1093/bioinformatics/btn458</a> for more
+   information.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/optim'>optim</a></code>; <code><a href='weibullMix_pValues.html'>weibullMix_pValues</a></code>;
+   <code><a href='pathway_tControl.html'>pathway_tControl</a></code>; <code><a href='superPCA_pVals.html'>superPCA_pVals</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>   <span class='kw'>NULL</span></div><div class='output co'>#&gt; NULL</div></pre>
+    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead.
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -188,6 +205,8 @@ bounds for ALL parameters must be supplied.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
