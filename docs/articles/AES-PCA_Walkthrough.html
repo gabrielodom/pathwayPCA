@@ -81,7 +81,7 @@
       <h1>AES-PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-03-22</h4>
+            <h4 class="date">2018-03-23</h4>
           </div>
 
     
@@ -303,7 +303,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 29.6656 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 28.35032 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -337,7 +337,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 16.48111 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 16.29027 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -371,7 +371,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 28.4873 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 26.89987 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -486,17 +486,27 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 23.87712 23.87712 19.57550 19.54004 19.54004 19.54004 19.54004 19.54004 </span>
-<span class="co">#&gt;     KRAS     SHC1      CRK   PIK3CB   PIK3R2 </span>
-<span class="co">#&gt; 19.54004 19.50458 19.50458 14.84910 14.84910 </span>
+<span class="co">#&gt; 21.77699 21.77699 17.51243 17.47818 17.47818 17.47818 17.47818 17.47818 </span>
+<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
+<span class="co">#&gt; 17.47818 17.47818 17.47818 17.44393 17.44393 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3 </span>
-<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
-<span class="co">#&gt;    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1 </span>
-<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
-<span class="co">#&gt;    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 </span>
-<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019</span></code></pre></div>
+<span class="co">#&gt;     FRS2    THEM4      KLB     DOK1    EIF4B    EIF4E   EIF4G1     FGF1 </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;     FGF2     FGF3     FGF4     FGF5     FGF6     FGF7     FGF8     FGF9 </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;    FGF10    FGFR1    FGFR3    FGFR2    FGFR4    FGF20    FGF22    GRB10 </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;      INS     INSR     IRS1    PDE3B   PRKAG2    CAB39   PRKAG3     TLR9 </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;    PPM1A   STRADB   PRKAA1   PRKAA2   PRKAB1   PRKAB2   PRKAG1    RPTOR </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;    TRIB3     RHEB     RPS6    MLST8    STK11     TSC1     TSC2    YWHAB </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;    FGF23   CAB39L     IRS2    FGF18    FGF17   STRADA       KL     CDK1 </span>
+<span class="co">#&gt; 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 5.839461 </span>
+<span class="co">#&gt;    FGF19 </span>
+<span class="co">#&gt; 5.839461</span></code></pre></div>
 </div>
 </div>
   </div>
