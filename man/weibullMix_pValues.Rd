@@ -2,35 +2,45 @@
 % Please edit documentation in R/superPC_optimWeibull_pValues.R
 \name{weibullMix_pValues}
 \alias{weibullMix_pValues}
-\title{Calculate the p-Values from an Optimal Mixture of Weibull Distributions}
+\title{Calculate the \eqn{p}-values from an optimal mixture of Weibull Extreme Value
+   distributions for supervised PCA}
 \usage{
 weibullMix_pValues(tScore_vec, pathwaySize_vec, optimParams_vec)
 }
 \arguments{
-\item{tScore_vec}{A vector of the maximum absolute t-scores for each pathway
-when under the alternative model}
+\item{tScore_vec}{A vector of the maximum absolute \eqn{t}-scores for each
+pathway (returned by the \code{\link{pathway_tScores}} function) when
+under the alternative model.}
 
-\item{pathwaySize_vec}{A vector of the number of genes in each pathway}
+\item{pathwaySize_vec}{A vector of the number of genes in each pathway.}
 
-\item{optimParams_vec}{The NAMED vector of optimal mixture distribution
-parameters returned by the \code{\link{weibullMix_optimParams}} function.}
+\item{optimParams_vec}{The \emph{NAMED} vector of optimal Weibull Extreme
+Value mixture distribution parameters returned by the
+\code{\link{weibullMix_optimParams}} function.}
 }
 \value{
-A named vector of the estimated raw p-values for each gene pathway
+A named vector of the estimated raw \eqn{p}-values for each gene
+   pathway.
 }
 \description{
-Calculate the p-values of test statistics from a mixture of two
-  Weibull Extreme Value distributions.
+Calculate the \eqn{p}-values of test statistics from a mixture
+   of two Weibull Extreme Value distributions.
 }
 \details{
-The likelihood function is equation (4) Chen et al (2008): a mixture
- of two Gumbel Extreme Value pdfs, with mixing proportion p. The values mu_i
- and s_i, i = 1, 2, within the code of the function are placeholders for the
- mean and standard deviation, respectively.
+The likelihood function is equation (4) in Chen et al (2008): a
+   mixture of two Gumbel Extreme Value probability density functions, with
+   mixing proportion \eqn{p}. Within the code of this function, the values
+   \code{mu1}, \code{mu2} and \code{s1}, \code{s2} are placeholders for the
+   mean and precision, respectively.
 
- @seealso \code{\link[stats]{optim}}
+   See \url{https://doi.org/10.1093/bioinformatics/btn458} for more
+   information.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use superPCA_pVals() instead.
+}
+\seealso{
+\code{\link{weibullMix_optimParams}}; \code{\link{pathway_tScores}};
+   \code{\link{superPCA_pVals}}
 }

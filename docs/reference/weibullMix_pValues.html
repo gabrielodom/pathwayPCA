@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the p-Values from an Optimal Mixture of Weibull Distributions — weibullMix_pValues â€¢ pathwayPCA</title>
+<title>Calculate the \(p\)-values from an optimal mixture of Weibull Extreme Value
+   distributions for supervised PCA — weibullMix_pValues â€¢ pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,12 +102,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the p-Values from an Optimal Mixture of Weibull Distributions</h1>
+    <h1>Calculate the \(p\)-values from an optimal mixture of Weibull Extreme Value
+   distributions for supervised PCA</h1>
     </div>
 
     
-    <p>Calculate the p-values of test statistics from a mixture of two
-  Weibull Extreme Value distributions.</p>
+    <p>Calculate the \(p\)-values of test statistics from a mixture
+   of two Weibull Extreme Value distributions.</p>
     
 
     <pre class="usage"><span class='fu'>weibullMix_pValues</span>(<span class='no'>tScore_vec</span>, <span class='no'>pathwaySize_vec</span>, <span class='no'>optimParams_vec</span>)</pre>
@@ -116,36 +118,46 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tScore_vec</th>
-      <td><p>A vector of the maximum absolute t-scores for each pathway
-when under the alternative model</p></td>
+      <td><p>A vector of the maximum absolute \(t\)-scores for each
+pathway (returned by the <code><a href='pathway_tScores.html'>pathway_tScores</a></code> function) when
+under the alternative model.</p></td>
     </tr>
     <tr>
       <th>pathwaySize_vec</th>
-      <td><p>A vector of the number of genes in each pathway</p></td>
+      <td><p>A vector of the number of genes in each pathway.</p></td>
     </tr>
     <tr>
       <th>optimParams_vec</th>
-      <td><p>The NAMED vector of optimal mixture distribution
-parameters returned by the <code><a href='weibullMix_optimParams.html'>weibullMix_optimParams</a></code> function.</p></td>
+      <td><p>The <em>NAMED</em> vector of optimal Weibull Extreme
+Value mixture distribution parameters returned by the
+<code><a href='weibullMix_optimParams.html'>weibullMix_optimParams</a></code> function.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named vector of the estimated raw p-values for each gene pathway</p>
+    <p>A named vector of the estimated raw \(p\)-values for each gene
+   pathway.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The likelihood function is equation (4) Chen et al (2008): a mixture
- of two Gumbel Extreme Value pdfs, with mixing proportion p. The values mu_i
- and s_i, i = 1, 2, within the code of the function are placeholders for the
- mean and standard deviation, respectively.</p>
-<p>@seealso <code><a href='http://www.rdocumentation.org/packages/stats/topics/optim'>optim</a></code></p>
+    <p>The likelihood function is equation (4) in Chen et al (2008): a
+   mixture of two Gumbel Extreme Value probability density functions, with
+   mixing proportion \(p\). Within the code of this function, the values
+   <code>mu1</code>, <code>mu2</code> and <code>s1</code>, <code>s2</code> are placeholders for the
+   mean and precision, respectively.</p>
+<p>See <a href='https://doi.org/10.1093/bioinformatics/btn458'>https://doi.org/10.1093/bioinformatics/btn458</a> for more
+   information.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='weibullMix_optimParams.html'>weibullMix_optimParams</a></code>; <code><a href='pathway_tScores.html'>pathway_tScores</a></code>;
+   <code><a href='superPCA_pVals.html'>superPCA_pVals</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use superPCA_pVals() instead.
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -156,6 +168,8 @@ parameters returned by the <code><a href='weibullMix_optimParams.html'>weibullMi
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

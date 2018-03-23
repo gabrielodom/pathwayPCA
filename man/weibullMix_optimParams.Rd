@@ -2,65 +2,78 @@
 % Please edit documentation in R/superPC_optimWeibullParams.R
 \name{weibullMix_optimParams}
 \alias{weibullMix_optimParams}
-\title{Calculate the Optimal Parameters for a Mixture of Weibull Distributions}
+\title{Calculate the optimal parameters for a mixture of Weibull Extreme Value
+   Distributions for supervised PCA}
 \usage{
 weibullMix_optimParams(max_tControl_vec, pathwaySize_vec, initialVals = c(p =
   0.5, mu1 = 1, s1 = 0.5, mu2 = 1, s2 = 0.5), optimMethod = "L-BFGS-B",
   lowerBD = c(0, -Inf, 0, -Inf, 0), upperBD = c(1, Inf, Inf, Inf, Inf))
 }
 \arguments{
-\item{max_tControl_vec}{A vector of the maximum absolute t-scores for each
-pathway when under the null model (the response vector has been randomly
-assigned or parametrically bootstrapped).}
+\item{max_tControl_vec}{A vector of the maximum absolute \eqn{t}-scores for
+each pathway (returned by the \code{\link{pathway_tControl}} function)
+when under the null model. Under the null model, the response vector will
+have been randomly generated or parametrically bootstrapped.}
 
-\item{pathwaySize_vec}{A vector of the number of genes in each pathway}
+\item{pathwaySize_vec}{A vector of the number of genes in each pathway.}
 
-\item{initialVals}{A vector of initial values for the Weibull parameters.
-The values are
+\item{initialVals}{A named vector of initial values for the Weibull
+parameters. The values are
 \itemize{
-  \item{p : }{The mixing proportion between the Gumbel minimum and Gumbel
-     maximum distributions. Defaults to 0.5.}
-  \item{mu1 : }{The mean of the first distribution. Defaults to 1.}
-  \item{s1 : }{The standard deviation (precision?) of the first
-     distribution. Defaults to 0.5.}
-  \item{mu2 : }{The mean of the second distribution. Defaults to 1.}
-  \item{s2 : }{The standard deviation (precision?) of the second
-     distribution. Defaults to 0.5.}
+  \item{\eqn{p} : }{The mixing proportion between the Gumbel minimum and
+     Gumbel maximum distributions. This parameter is bounded by
+     \eqn{[0, 1]} and defaults to 0.5.}
+  \item{\eqn{\mu_1} : }{The mean of the first distribution. This parameter
+     is unbounded and defaults to 1.}
+  \item{\eqn{s_1} : }{The precision of the first distribution. This
+     parameter is bounded below by 0 and defaults to 0.5.}
+  \item{\eqn{\mu_2} : }{The mean of the second distribution. This parameter
+     is unbounded and defaults to 1.}
+  \item{\eqn{s_2} : }{The precision of the second distribution. This
+     parameter is bounded below by 0 and defaults to 0.5.}
 }}
 
 \item{optimMethod}{Which numerical optimization routine to pass to the
-\code{optim} function. Defaults to "L-BFGS-B", which allows for lower and
-upper bound constraints. When this option is selected, lower and upper
-bounds for ALL parameters must be supplied.}
+\code{\link[stats]{optim}} function. Defaults to \code{"L-BFGS-B"}, which
+allows for lower and upper bound constraints. When this option is
+specified, lower and upper bounds for ALL parameters must be supplied.}
 
-\item{lowerBD}{A vector of the lower bounds on the \code{initialVals}.}
+\item{lowerBD}{A vector of the lower bounds on the \code{initialVals}.
+Defaults to \code{c(0, -Inf, 0, -Inf, 0)}.}
 
-\item{upperBD}{A vector of the upper bounds on the \code{initialVals}.}
+\item{upperBD}{A vector of the upper bounds on the \code{initialVals}.
+Defaults to \code{c(1, Inf, Inf, Inf, Inf)}.}
 }
 \value{
 A named vector of the estimated values for the parameters which
-   minimize the likelihood.
+   minimize the negative log-likelihood of the mixture Weibull Extreme Value
+   distributions.
 }
 \description{
-Calculate the parameters which minimise the likelihood from a
-   mixture of two Weibull Extreme Value distributions.
+Calculate the parameters which minimise the negative log-
+   likelihood of a mixture of two Weibull Extreme Value distributions.
 }
 \details{
-The likelihood function is equation (4) Chen et al (2008): a mixture
- of two Gumbel Extreme Value pdfs, with mixing proportion p. The values mu_i
- and s_i, i = 1, 2, within the code of the function are placeholders for the
- mean and standard deviation, respectively.
+The likelihood function is equation (4) in Chen et al (2008): a
+   mixture of two Gumbel Extreme Value probability density functions, with
+   mixing proportion \eqn{p}. Within the code of this function, the values
+   \code{mu1}, \code{mu2} and \code{s1}, \code{s2} are placeholders for the
+   mean and precision, respectively.
 
- A computational note: the \code{"L-BFGS-B"} option within the
- \code{\link[stats]{optim}} function requires a bounded function or
- likelihood. We therefore replaced \code{Inf} with $10 ^ 200$ in the
- check for boundedness. As we are attempting to minimise the likelihood, this
- maximum machine value is effectively Infinity.
+   A computational note: the \code{"L-BFGS-B"} option within the
+   \code{\link[stats]{optim}} function requires a bounded function or
+   likelihood. We therefore replaced \code{Inf} with \code{10 ^ 200} in the
+   check for boundedness. As we are attempting to minimise the negative log-
+   likelihood, this maximum machine value is effectively \code{+Inf}.
 
- See \url{https://doi.org/10.1093/bioinformatics/btn458} for more information
-
- @seealso \code{\link[stats]{optim}}
+   See \url{https://doi.org/10.1093/bioinformatics/btn458} for more
+   information.
 }
 \examples{
-   NULL
+  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use superPCA_pVals() instead.
+}
+\seealso{
+\code{\link[stats]{optim}}; \code{\link{weibullMix_pValues}};
+   \code{\link{pathway_tControl}}; \code{\link{superPCA_pVals}}
 }
