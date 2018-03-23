@@ -1,18 +1,45 @@
-#' Normalize a matrix for supervised PCA
+#' Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA
 #'
-#' @param B A matrix.
+#' @description Normalize the columns of a project matrix. For each eigenvector,
+#'    swap the signs of the vector elements if the first entry is negative. See
+#'    "Details" for more information.
+#'
+#' @param B A projection matrix: often the matrix of the left singular vectors
+#'    given by the Singular Value Decomposition of a data matrix or Grammian.
 #' @param d The number of columns of \code{B} to normalize.
 #'
-#' @description A function that norms a matrix, but I don't understand any of
-#'   it.
+#' @return A matrix of the eigenvectors or left singular vectors in \code{B}
+#'    transformed to be the left singular values of the original data matrix.
 #'
-#' @return A modified version of the \code{B} matrix.
+#' @details This function is designed to reconstruct the original first \code{d}
+#'    left singular vectors of a data matrix from the first \code{d}
+#'    eigenvectors of the Grammian of that data matrix. Basically, after the
+#'    data matrix has been centred, the left singular vectors of that data
+#'    matrix and the left singular vectors of the Grammian of that data matrix
+#'    are equal up to a sign. This function reverses that sign so that the two
+#'    sets of singular vectors are equal.
 #'
-#' @details I met with James and Steven on 26 September and neither of them
-#'   understood the sign reversal in the last line of the internal \code{for()}
-#'   loop. Based on how it's called in the \code{\link{aespca}} function, it has
-#'   something to do with adjusting the AES-PCA eigenvectors returned by the
-#'   \code{\link{lars.lsa}} function. DOCUMENT THIS.
+#'    Consider the internal workings of the \code{\link{aespca}} function. This
+#'    "sign flipping" changes the eigenvectors of \code{xtx} into the
+#'    left singular vectors of \code{scale(X, , center = TRUE, scale = TRUE)}.
+#'    Instead of calculating the Grammian, regularising it (by adding some small
+#'    \eqn{\lambda} value to the diagonal), taking the SVD of the regularized
+#'    Grammian, and extracting the first \eqn{d} eigenvectors, why don't we just
+#'    extract the first \eqn{d} singular vectors directly from the scaled data
+#'    matrix itself? The regularisation effect only inflates the singular- or
+#'    eigen-values anyway, so it has no effect on the singular vectors in any
+#'    way. Moreover, the \code{\link{aespca}} function does not even call for
+#'    the eigen-values at all, so this whole process is supurfluous. The only
+#'    wrinkle is adapting the \code{\link{lars.lsa}} and \code{\link{aespca}}
+#'    functions to only operate on the data matrix.
+#'
+#'    Furthermore, the \code{\link[lars]{lars}} function \emph{can} take in the
+#'    full data, instead of just a Grammian. As an enhancement, we should either
+#'    update our copy of the lars function in \code{\link{lars.lsa}}, or make a
+#'    call to the exported \code{\link[lars]{lars}} function. This will be an
+#'    enhancement for a the next version.
+#'
+#' @seealso \code{\link{aespca}}; \code{\link{lars.lsa}}; \code{\link{AESPCA_pVals}}
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
@@ -20,7 +47,7 @@
 normalize <- function(B, d){
   # browser()
 
-  # Square root of the column sums of B ^ 2 (the entries squared). Why though?
+  # Square root of the column sums of B ^ 2 (the entries squared).
   normB <- sqrt(apply(B ^ 2, 2, sum))
   # Replace any 0 values with 1. Once again, why? The domain is [0, infty), so
   #   shouldn't we replace 0s with the minimum of the non-zero values? Why 1?
@@ -31,8 +58,7 @@ normalize <- function(B, d){
   B[abs(B) < 1e-6] <- 0
 
   # This loop moves over columns: it swaps the signs of each value in a column
-  #   if the first value in that column is < 0. I still don't get what the point
-  #   is of what we're doing.
+  #   if the first value in that column is < 0.
   for (i in 1:d){
     # browser()
 
@@ -44,9 +70,7 @@ normalize <- function(B, d){
       # we find the indices of these non-small values and
       tmp1 <- B[tmp, i]
       # reverse their sign if the sign of the first non-small entry in B[,i] is
-      #   negative. What is going on?? This is to negate the sign swap from the
-      #   Grammian matrix. Now that we have changed to the svd of the data, we
-      #   should be able to remove it.
+      #   negative.
       B[, i] <- sign(tmp1[1]) * B[, i]
 
     }

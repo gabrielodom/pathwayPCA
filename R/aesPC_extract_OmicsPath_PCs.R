@@ -82,8 +82,6 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               object@assayData_df[x]
             })
 
-            n <- nrow(data_Omes[[1]])
-
             if(parallel){
               # browser()
 
@@ -92,7 +90,6 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(data_Omes)),
-                                 deparse(quote(n)),
                                  deparse(quote(numPCs)))
               clusterExport(cl = clust,
                             varlist = clustVars_vec,
@@ -106,8 +103,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
                                     data_Omes,
                                     function(pathway_df){
                                       aespca(X = pathway_df,
-                                             n = n, d = numPCs,
-                                             type = "predictor")$score
+                                             d = numPCs)$score
                                     })
               stopCluster(clust)
               message("DONE")
@@ -118,8 +114,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               PCs_ls <- lapply(data_Omes,
                                function(path_df){
                                  aespca(X = path_df,
-                                        n = n, d = numPCs,
-                                        type = "predictor")$score
+                                        d = numPCs)$score
                                })
               message("DONE")
 

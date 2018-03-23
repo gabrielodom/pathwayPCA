@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normalize a matrix for supervised PCA — normalize • pathwayPCA</title>
+<title>Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA � normalize • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="..//index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -101,12 +101,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normalize a matrix for supervised PCA</h1>
+    <h1>Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA</h1>
     </div>
 
     
-    <p>A function that norms a matrix, but I don't understand any of
-  it.</p>
+    <p>Normalize the columns of a project matrix. For each eigenvector,
+   swap the signs of the vector elements if the first entry is negative. See
+   "Details" for more information.</p>
     
 
     <pre class="usage"><span class='fu'>normalize</span>(<span class='no'>B</span>, <span class='no'>d</span>)</pre>
@@ -116,7 +117,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>B</th>
-      <td><p>A matrix.</p></td>
+      <td><p>A projection matrix: often the matrix of the left singular vectors
+given by the Singular Value Decomposition of a data matrix or Grammian.</p></td>
     </tr>
     <tr>
       <th>d</th>
@@ -126,15 +128,40 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A modified version of the <code>B</code> matrix.</p>
+    <p>A matrix of the eigenvectors or left singular vectors in <code>B</code>
+   transformed to be the left singular values of the original data matrix.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>I met with James and Steven on 26 September and neither of them
-  understood the sign reversal in the last line of the internal <code>for()</code>
-  loop. Based on how it's called in the <code><a href='aespca.html'>aespca</a></code> function, it has
-  something to do with adjusting the AES-PCA eigenvectors returned by the
-  <code><a href='lars.lsa.html'>lars.lsa</a></code> function. DOCUMENT THIS.</p>
+    <p>This function is designed to reconstruct the original first <code>d</code>
+   left singular vectors of a data matrix from the first <code>d</code>
+   eigenvectors of the Grammian of that data matrix. Basically, after the
+   data matrix has been centred, the left singular vectors of that data
+   matrix and the left singular vectors of the Grammian of that data matrix
+   are equal up to a sign. This function reverses that sign so that the two
+   sets of singular vectors are equal.</p>
+<p>Consider the internal workings of the <code><a href='aespca.html'>aespca</a></code> function. This
+   "sign flipping" changes the eigenvectors of <code>xtx</code> into the
+   left singular vectors of <code>scale(X, , center = TRUE, scale = TRUE)</code>.
+   Instead of calculating the Grammian, regularising it (by adding some small
+   \(\lambda\) value to the diagonal), taking the SVD of the regularized
+   Grammian, and extracting the first \(d\) eigenvectors, why don't we just
+   extract the first \(d\) singular vectors directly from the scaled data
+   matrix itself? The regularisation effect only inflates the singular- or
+   eigen-values anyway, so it has no effect on the singular vectors in any
+   way. Moreover, the <code><a href='aespca.html'>aespca</a></code> function does not even call for
+   the eigen-values at all, so this whole process is supurfluous. The only
+   wrinkle is adapting the <code><a href='lars.lsa.html'>lars.lsa</a></code> and <code><a href='aespca.html'>aespca</a></code>
+   functions to only operate on the data matrix.</p>
+<p>Furthermore, the <code><a href='http://www.rdocumentation.org/packages/lars/topics/lars'>lars</a></code> function <em>can</em> take in the
+   full data, instead of just a Grammian. As an enhancement, we should either
+   update our copy of the lars function in <code><a href='lars.lsa.html'>lars.lsa</a></code>, or make a
+   call to the exported <code><a href='http://www.rdocumentation.org/packages/lars/topics/lars'>lars</a></code> function. This will be an
+   enhancement for a the next version.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='aespca.html'>aespca</a></code>; <code><a href='lars.lsa.html'>lars.lsa</a></code>; <code><a href='AESPCA_pVals.html'>AESPCA_pVals</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -150,6 +177,8 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

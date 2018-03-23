@@ -4,31 +4,22 @@
 \alias{aespca}
 \title{Adaptive, elastic-net, sparse principal component analysis}
 \usage{
-aespca(X, n, d = 1, lambda = 1e-04, type = c("predictor", "Gram"),
-  corr = FALSE, max.iter = 10, adaptive = TRUE, para = NULL)
+aespca(X, d = 1, max.iter = 10, eps.conv = 0.001, adaptive = TRUE,
+  para = NULL)
 }
 \arguments{
-\item{X}{A pathway design matrix: either the data matrix itself (when
-\code{type = "predictor"}) or the Gram matrix (when \code{type = "Gram"}).
-The data matrix should be \eqn{n x p}, where \eqn{n} is the sample size
-and \eqn{p} is the number of variables included in the pathway.}
+\item{X}{A pathway design matrix: the data matrix should be \eqn{n \times p},
+where \eqn{n} is the sample size and \eqn{p} is the number of variables
+included in the pathway.}
 
-\item{n}{The sample size. Needed when \code{X} is the Gram matrix (for
-computing BIC). Due to a design error, it is a required argument even
-when \code{X} is not a Grammian. FIX THIS.}
-
-\item{d}{The number of PCs to extract from the pathway. Defaults to 1.}
-
-\item{lambda}{The ridge regression penalty. Defaults to \eqn{10^{-4}}.}
-
-\item{type}{Is \code{X} a pathway design matrix or a Grammian? Defaults to
-both: \code{c("predictor", "Gram")}. FIX THIS TOO.}
-
-\item{corr}{If \code{type = "Gram"}, is the matrix \code{X} actually a
-correlation matrix? Defaults to FALSE.}
+\item{d}{The number of principal components (PCs) to extract from the
+pathway. Defaults to 1.}
 
 \item{max.iter}{The maximum number of times an internal \code{while()} loop
 can make calls to the \code{lars.lsa()} function. Defaults to 10.}
+
+\item{eps.conv}{A numerical convergence threshold for the same \code{while()}
+loop. Defaults to 0.001.}
 
 \item{adaptive}{Internal argument of the \code{lars.lsa()} function. Defaults
 to TRUE.}
@@ -37,16 +28,38 @@ to TRUE.}
 NULL.}
 }
 \value{
-What does the function return? DOCUMENT THIS.
+A list of four elements containing the loadings and projected
+  predictors:
+  \itemize{
+    \item{\code{loadings} : }{A \eqn{p \times d} projection matrix of the
+       \eqn{d} AES-PCs.}
+    \item{\code{B0} : }{A \eqn{p \times d} projection matrix of the \eqn{d}
+       PCs from the singular value decomposition (SVD).}
+    \item{\code{score} : }{An \eqn{n \times d} predictor matrix: the original
+       \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
+    \item{\code{oldscore} : }{An \eqn{n \times d} predictor matrix: the
+       original \eqn{n} observations loaded onto the \eqn{d} SVD-PCs.}
+  }
 }
 \description{
 A function to perform adaptive, elastic-net, sparse principal
   component analysis (AES-PCA).
 }
 \details{
-A thorough explination of how the function works. DOCUMENT THIS.
+This function calculates the loadings and reduced-dimension
+   predictor matrix using both the Singular Value Decomposition and AES-PCA
+   Decomposition (as described in Efron et al (2003)) of the data matrix.
+
+   See \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}.
+
+   For potential enhancement details, see the comment in the "Details"
+   section of \code{\link{normalize}}.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() instead.
+}
+\seealso{
+\code{\link{normalize}}; \code{\link{lars.lsa}};
+   \code{\link{extract_aesPCs}}; \code{\link{AESPCA_pVals}}
 }

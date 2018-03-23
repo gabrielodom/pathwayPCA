@@ -81,7 +81,7 @@
       <h1>pathwayPCA Package Development Notes</h1>
                         <h4 class="author">Gabriel J. Odom, PhD, ThD</h4>
             
-            <h4 class="date">2018-03-22</h4>
+            <h4 class="date">2018-03-23</h4>
           </div>
 
     
@@ -365,18 +365,23 @@ system(paste(shQuote(file.path(R.home("bin"), "R")),
 <li><code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code></li>
 <li><code><a href="../reference/AESPCA_pVals.html">AESPCA_pVals()</a></code></li>
 <li><code><a href="../reference/topGenes.html">topGenes()</a></code></li>
+<li><code><a href="../reference/expressedOmes.html">expressedOmes()</a></code></li>
 </ol>
 </li>
 </ol>
-<p>I still need to add “do not touch” examples to the other exported functions. The end user should know that these functions are being called, and how the functions work in detail (should they desire), but should not be encouraged to call them directly.</p>
+<p><del>I still need to add “do not touch” examples to the other exported functions. The end user should know that these functions are being called, and how the functions work in detail (should they desire), but should not be encouraged to call them directly.</del> DONE.</p>
 <ol start="3" style="list-style-type: decimal">
-<li>Replace all <code>\$ stuff \$</code> with <code>\eqn\{ stuff \}</code> in the R documentation files.</li>
+<li>
+<del>Replace all <code>\$ stuff \$</code> with <code>\eqn\{ stuff \}</code> in the R documentation files.</del> DONE.</li>
 <li>Finish documentation for
 <ol style="list-style-type: lower-alpha">
-<li><code><a href="../reference/aespca.html">aespca()</a></code></li>
-<li><code><a href="../reference/normalize.html">normalize()</a></code></li>
+<li>
+<del><code><a href="../reference/aespca.html">aespca()</a></code></del> DONE.</li>
+<li>
+<del><code><a href="../reference/normalize.html">normalize()</a></code></del> DONE.</li>
 </ol>
 </li>
+<li>Add an option to <code><a href="../reference/extract_aesPCs.html">extract_aesPCs()</a></code> to ask the <code><a href="../reference/aespca.html">aespca()</a></code> function to return the <code>oldscore</code> matrix instead of the <code>score</code> matrix. This is all we need to add vanilla PCA to the package. Of course, we’ll also have to document this as well, but w/e.</li>
 </ol>
 <hr>
 <p><br><br></p>

@@ -223,13 +223,15 @@ Also after that meeting, I renamed many files to fit my `superPC`, `aesPC`, and 
     b) `superPCA_pVals()`
     c) `AESPCA_pVals()`
     d) `topGenes()`
+    e) `expressedOmes()`
 
-I still need to add "do not touch" examples to the other exported functions. The end user should know that these functions are being called, and how the functions work in detail (should they desire), but should not be encouraged to call them directly.
+~~I still need to add "do not touch" examples to the other exported functions. The end user should know that these functions are being called, and how the functions work in detail (should they desire), but should not be encouraged to call them directly.~~ DONE.
     
-3. Replace all `\$ stuff \$` with `\eqn\{ stuff \}` in the R documentation files.
+3. ~~Replace all `\$ stuff \$` with `\eqn\{ stuff \}` in the R documentation files.~~ DONE.
 4. Finish documentation for
-    a. `aespca()`
-    b. `normalize()`
+    a. ~~`aespca()`~~ DONE.
+    b. ~~`normalize()`~~ DONE.
+5. Add an option to `extract_aesPCs()` to ask the `aespca()` function to return the `oldscore` matrix instead of the `score` matrix. This is all we need to add vanilla PCA to the package. Of course, we'll also have to document this as well, but w/e.
 
 
 *******************************************************************************

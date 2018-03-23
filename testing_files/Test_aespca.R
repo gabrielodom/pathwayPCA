@@ -35,6 +35,23 @@ load("data/aespca_Genesets_ls.rda")
 
 
 
+######  Test aespca() Alone  ##################################################
+# I am testing this function now that the package is complete so that I can
+#   better understand how the function works and what it is returning.
+library(pathwayPCA)
+data("colonSurv_df")
+data("colonGenesets_ls")
+
+colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
+                                    pathwaySet_ls = colonGenesets_ls)
+colonClean_OmicsPath <- expressedOmes(colon_OmicsPath)
+testPathway_vec <- colonClean_OmicsPath@pathwaySet$pathways[[1]]
+testPathway_df <- colonClean_OmicsPath@assayData_df[, testPathway_vec]
+
+aespca(X = testPathway_df, d = 2)
+
+
+
 ######  Full Walkthrough  #####################################################
 ovarian_OmicsPath <- create_OmicsPath(assayData_df = ovarianFiltered_df[, -(1:3)],
                                       pathwaySet_ls = aespca_Genesets_ls)
