@@ -2,7 +2,9 @@
 title: "pathwayPCA Package Development Notes"
 author: "Gabriel J. Odom, PhD, ThD"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{pathwayPCA Development Notes}
   %\VignetteEngine{knitr::rmarkdown}

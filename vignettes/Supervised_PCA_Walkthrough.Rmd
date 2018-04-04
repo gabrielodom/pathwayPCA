@@ -2,7 +2,9 @@
 title: "Supervised PCA Walkthrough with pathwayPCA"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Supervised PCA with pathwayPCA}
   %\VignetteEngine{knitr::rmarkdown}

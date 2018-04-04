@@ -2,7 +2,9 @@
 title: "AES-PCA Walkthrough with pathwayPCA"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{AES-PCA with pathwayPCA}
   %\VignetteEngine{knitr::rmarkdown}
