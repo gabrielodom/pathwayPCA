@@ -45,7 +45,6 @@ transpose_assay <- function(assay_df, firstColIsFeatureNames = TRUE){
     transpose_df <- cbind(sampleNames_df, transpose_df)
 
   } else {
-    browser()
 
     featureNames_vec <- rownames(assay_df)
     sampleNames_vec <- colnames(assay_df)
