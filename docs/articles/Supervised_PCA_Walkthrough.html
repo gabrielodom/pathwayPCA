@@ -84,7 +84,7 @@
       <h1>Supervised PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-04</h4>
+            <h4 class="date">2018-04-05</h4>
           </div>
 
     
@@ -311,7 +311,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 5.849728 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 6.059606 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -339,7 +339,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 4.705522 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.126513 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -367,7 +367,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 6.839824 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 7.708771 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -481,18 +481,22 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <p>Now consider the rows of this matrix. Each row is a gene, and the <span class="math inline">\(j^{th}\)</span> entry in the row is equal to <span class="math inline">\(S_j\)</span>, if the gene is included in pathway <span class="math inline">\(j\)</span>, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The <code><a href="../reference/topGenes.html">topGenes()</a></code> function returns the top 5% of both. As we can see, most of the genes included in the <code>summedRank</code> vector are the in the list of “usual suspects” for colon cancer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
-<span class="co">#&gt;   PIK3CA   PIK3R1   PIK3CB   PIK3R2    MAPK1   MAP2K1     NRAS     GRB2 </span>
-<span class="co">#&gt; 24.67401 24.67401 20.36042 20.36042 20.04292 19.52017 19.52017 19.52017 </span>
-<span class="co">#&gt;    MAPK3     HRAS     KRAS     SHC1      CRK </span>
-<span class="co">#&gt; 19.52017 19.52017 19.52017 15.76274 15.76274 </span>
+<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
+<span class="co">#&gt; 18.16252 18.16252 15.66486 15.34552 15.34552 15.34552 15.34552 15.34552 </span>
+<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
+<span class="co">#&gt; 15.34552 14.76344 14.76344 12.43545 12.43545 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;   MAP4K5    TRAF1     RFFL    STAT1    NSMAF   MAP3K5     TAB2    PRKCZ </span>
-<span class="co">#&gt; 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 </span>
-<span class="co">#&gt;  TNFAIP3     CAV1   MAP3K3    PRKCI    BIRC3      TXN   SQSTM1   MAP4K3 </span>
-<span class="co">#&gt; 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 </span>
-<span class="co">#&gt;   MAP4K2     TAB1     TNIK      NRK   ADAM17     CYLD    BIRC2 </span>
-<span class="co">#&gt; 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565 5.175565</span></code></pre></div>
+<span class="co">#&gt;     PAK3      BTC     ELK1     NRG1     PAK4     NRG3    MAPK9    ERBB4 </span>
+<span class="co">#&gt; 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 </span>
+<span class="co">#&gt;   MAPK10    ERBB3     ABL1     NRG2     ABL2     SHC4  RPS6KB2     AREG </span>
+<span class="co">#&gt; 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 </span>
+<span class="co">#&gt;   STAT5B   STAT5A     PAK6      MYC     NRG4    GSK3B     CBLB      CBL </span>
+<span class="co">#&gt; 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 </span>
+<span class="co">#&gt;   CDKN1B   CDKN1A     EREG     NCK2   CAMK2A   CAMK2B   CAMK2D   CAMK2G </span>
+<span class="co">#&gt; 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 3.410475 </span>
+<span class="co">#&gt;     CBLC     CRKL    HBEGF </span>
+<span class="co">#&gt; 3.410475 3.410475 3.410475</span></code></pre></div>
 </div>
 </div>
   </div>

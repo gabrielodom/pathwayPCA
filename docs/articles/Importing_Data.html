@@ -84,7 +84,7 @@
       <h1>Import and Tidy Data</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-04</h4>
+            <h4 class="date">2018-04-05</h4>
           </div>
 
     
@@ -94,11 +94,24 @@
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
 <p>This vignette will discuss importing Gene Matrix Transposed (<code>.gmt</code>) <a href="https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">gene set files</a> to a list object with class <code>pathwaySet</code> with the <code>read_gmt</code> function. Also, we will discuss importing assay and response data, and how to make your assay data <a href="https://www.jstatsoft.org/article/view/v059i10">tidy</a>.</p>
+<p>First, load the <code>pathwayPCA</code> package and the <code>tidyverse</code> package suite.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="co">#&gt; -- Attaching packages ------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
+<span class="co">#&gt; v ggplot2 2.2.1     v purrr   0.2.4</span>
+<span class="co">#&gt; v tibble  1.4.2     v dplyr   0.7.4</span>
+<span class="co">#&gt; v tidyr   0.8.0     v stringr 1.3.0</span>
+<span class="co">#&gt; v readr   1.1.1     v forcats 0.3.0</span>
+<span class="co">#&gt; -- Conflicts ---------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --</span>
+<span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
+<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
+<span class="kw">library</span>(pathwayPCA)</code></pre></div>
+<hr>
+<p></p>
 </div>
 <div id="importing-gmt-files" class="section level1">
 <h1 class="hasAnchor">
 <a href="#importing-gmt-files" class="anchor"></a>Importing GMT Files</h1>
-<p>GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute.</p>
+<p>GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSigDB Collections</a> page.</p>
 <div id="gmt-format-description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gmt-format-description" class="anchor"></a>GMT Format Description</h2>
@@ -118,7 +131,202 @@
 <h2 class="hasAnchor">
 <a href="#the-read_gmt-function" class="anchor"></a>The <code>read_gmt</code> Function</h2>
 <p>Based on the clearly-organized <code>.gmt</code> data format, we are able to write a very fast function to read <code>.gmt</code> files into R. The <code>read_gmt</code> function takes in a path specifying where your <code>.gmt</code> file is stored, and outputs a list of gene set information.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(<span class="st">"path_to_your_directory/your_file_name.gmt"</span>)</code></pre></div>
+<p>This <code>gene_set_ls</code> object is a list with class <code>pathwaySet</code>. Pathway set lists have three elements:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>pathways</code>: A named list of character vectors. Each vector contains the names of the individual genes within that pathway as a vector of character strings.</li>
+<li>
+<code>TERMS</code>: A character vector the same length as the pathways list with the proper names of the pathways.</li>
+<li>
+<code>GSEA_link</code>: A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway.</li>
+</ol>
+<p>The object itself has the following structure:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gene_set_ls, <span class="dt">max.level =</span> <span class="dv">1</span>)
+<span class="co">#&gt; List of 3</span>
+<span class="co">#&gt;  $ pathways :List of 1329</span>
+<span class="co">#&gt;  $ TERMS    : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" "KEGG_CITRATE_CYCLE_TCA_CYCLE" "KEGG_PENTOSE_PHOSPHATE_PATHWAY" "KEGG_PENTOSE_AND_GLUCURONATE_INTERCONVERSIONS" ...</span>
+<span class="co">#&gt;  $ GSEA_link: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_CITRATE_CYCLE_TCA_CYCLE" "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_PENTOSE_PHOSPHATE_PATHWAY" "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_PENTOSE_AND_GLUCURONATE_INTERCONVERSIONS" ...</span>
+<span class="co">#&gt;  - attr(*, "class")= chr "pathwaySet"</span></code></pre></div>
+<p>This object will be the list supplied to the <code>pathwaySet_ls</code> argument in the <code>create_OmicsPath</code>, <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions.</p>
+<hr>
+<p></p>
 </div>
+</div>
+<div id="import-and-tidy-assay-matrices" class="section level1">
+<h1 class="hasAnchor">
+<a href="#import-and-tidy-assay-matrices" class="anchor"></a>Import and Tidy Assay Matrices</h1>
+<p>We assume that the assay data (be it genomic, proteomic, metabolomic, lipidomic, or transcriptomic data) is either in an Excel file or flat text file. For example, your data may look like this:</p>
+<div class="figure">
+<img src="example_assay_data.PNG">
+</div>
+<p>In this data set, the columns are individual samples, patients, tumors, cell lines, etc. The rows are the -Omic expression measures.</p>
+<div id="import-with-readr" class="section level2">
+<h2 class="hasAnchor">
+<a href="#import-with-readr" class="anchor"></a>Import with <code>readr</code>
+</h2>
+<p>To import these files in <code>.xlsx</code>, <code>.csv</code>, or <code>.txt</code> (tab-delimited), we recommend the <a href="https://readr.tidyverse.org/"><code>readr</code> package</a>. We would read this data via</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_assay.csv"</span>)</code></pre></div>
+<pre><code>#&gt; Warning: Missing column names filled in: 'X1' [1]
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   .default = col_double(),
+#&gt;   X1 = col_character()
+#&gt; )
+#&gt; See spec(...) for full column specifications.</code></pre>
+<p>Let’s inspect our assay data frame.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df
+<span class="co">#&gt; # A tibble: 17 x 37</span>
+<span class="co">#&gt;    X1      T21101311 T21101312 T21101313 T21101314 T21101315 T21101316</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 SOAT1        5.37      5.52      5.89      5.62      5.49      5.58</span>
+<span class="co">#&gt;  2 LSS          9.77      9.78      8.11      8.67      9.83      9.85</span>
+<span class="co">#&gt;  3 SQLE         7.74      8.06      7.00      8.59      8.13      8.55</span>
+<span class="co">#&gt;  4 EBP          4.68      5.12      5.78      5.64      5.73      5.13</span>
+<span class="co">#&gt;  5 CYP51A1      8.27      8.21      8.20      8.07      9.38      9.40</span>
+<span class="co">#&gt;  6 DHCR7        8.32      8.33      8.39      8.64      8.15      8.71</span>
+<span class="co">#&gt;  7 CYP27B1      6.78      6.47      6.57      6.47      6.43      6.56</span>
+<span class="co">#&gt;  8 DHCR24       4.70      5.06      4.89      4.98      5.03      4.87</span>
+<span class="co">#&gt;  9 HSD17B7      7.63      7.63      8.15      8.13      7.70      7.75</span>
+<span class="co">#&gt; 10 MSMO1        7.60      7.33      7.61      5.56      6.30      7.77</span>
+<span class="co">#&gt; 11 FDFT1       10.5      10.6      10.2      10.4       9.99      9.78</span>
+<span class="co">#&gt; 12 SC5DL        9.53      9.35      9.82      9.70      9.50      9.34</span>
+<span class="co">#&gt; 13 LIPA         8.17      6.75      7.36      7.17      6.82      7.82</span>
+<span class="co">#&gt; 14 CEL         10.5       9.85     10.0       9.80     10.6       9.66</span>
+<span class="co">#&gt; 15 TM7SF2       9.83     10.5       9.83     10.0      10.3       9.46</span>
+<span class="co">#&gt; 16 NSDHL        6.88      7.47      7.75      6.16      5.94      6.74</span>
+<span class="co">#&gt; 17 SOAT2        7.79      7.68      8.05      7.79      7.74      7.52</span>
+<span class="co">#&gt; # ... with 30 more variables: T21101317 &lt;dbl&gt;, T21101318 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101319 &lt;dbl&gt;, T21101320 &lt;dbl&gt;, T21101321 &lt;dbl&gt;, T21101322 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101323 &lt;dbl&gt;, T21101324 &lt;dbl&gt;, T21101325 &lt;dbl&gt;, T21101326 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101327 &lt;dbl&gt;, T21101328 &lt;dbl&gt;, T21101329 &lt;dbl&gt;, T21101330 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101331 &lt;dbl&gt;, T21101332 &lt;dbl&gt;, T21101333 &lt;dbl&gt;, T21101334 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101335 &lt;dbl&gt;, T21101336 &lt;dbl&gt;, T21101337 &lt;dbl&gt;, T21101338 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101339 &lt;dbl&gt;, T21101340 &lt;dbl&gt;, T21101341 &lt;dbl&gt;, T21101342 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   T21101343 &lt;dbl&gt;, T21101344 &lt;dbl&gt;, T21101345 &lt;dbl&gt;, T21101346 &lt;dbl&gt;</span></code></pre></div>
+<p>This data import step stored the row names (the gene names) as the first column, and preserved the column names (sample labels) of the data.</p>
+</div>
+<div id="tidy-the-assay-data-frame" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tidy-the-assay-data-frame" class="anchor"></a>Tidy the Assay Data Frame</h2>
+<p>The assay input to the <code>pathwayPCA</code> package must be in <a href="https://www.jstatsoft.org/article/view/v059i10"><em>tidy data</em></a> format. The “Tidy Data” format requires that each observation be its own row, and each measurement its own column. This means that we must transpose our assay data frame, while preserving the row and column names.</p>
+<p>To do this, we can use the <code>transpose_assay</code> function. This function takes in a data frame as imported by the <code>readr</code> function based on data in a format similar to that shown above: genes are the rows, gene names are the first column, samples are are the stored in the subsequent columns, and all values in the assay (other than the single names column) are numeric.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(assayT_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/transpose_assay.html">transpose_assay</a></span>(assay_df))
+<span class="co">#&gt; # A tibble: 36 x 18</span>
+<span class="co">#&gt;    Sample    SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 T21101311  5.37  9.77  7.74  4.68    8.27  8.32    6.78   4.70    7.63</span>
+<span class="co">#&gt;  2 T21101312  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63</span>
+<span class="co">#&gt;  3 T21101313  5.89  8.11  7.00  5.78    8.20  8.39    6.57   4.89    8.15</span>
+<span class="co">#&gt;  4 T21101314  5.62  8.67  8.59  5.64    8.07  8.64    6.47   4.98    8.13</span>
+<span class="co">#&gt;  5 T21101315  5.49  9.83  8.13  5.73    9.38  8.15    6.43   5.03    7.70</span>
+<span class="co">#&gt;  6 T21101316  5.58  9.85  8.55  5.13    9.40  8.71    6.56   4.87    7.75</span>
+<span class="co">#&gt;  7 T21101317  5.32 10.0   6.99  5.86    8.08  9.25    6.86   4.72    7.88</span>
+<span class="co">#&gt;  8 T21101318  5.49  9.72  7.47  5.16    6.67  7.37    6.70   4.92    7.50</span>
+<span class="co">#&gt;  9 T21101319  5.57  9.88  7.97  5.40    7.91  8.06    6.58   5.06    8.16</span>
+<span class="co">#&gt; 10 T21101320  5.16  9.87  7.42  5.50    7.43  8.68    6.55   4.85    8.20</span>
+<span class="co">#&gt; # ... with 26 more rows, and 8 more variables: MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   SOAT2 &lt;dbl&gt;</span></code></pre></div>
+<p>This transposed data frame has the gene names as the column names and the sample names as a column of character (<code>chr</code>) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the <code>assayData_df</code> argument in the <code>create_OmicsPath</code>, <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions.</p>
+<hr>
+<p></p>
+</div>
+</div>
+<div id="import-and-join-response-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#import-and-join-response-data" class="anchor"></a>Import and Join Response Data</h1>
+<p>We now have an appropriate pathway set list and a tidy -Omics assay data frame. We now need to import the response information. We can use the <code>read_csv</code> function once again:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_subject_info.csv"</span>)</code></pre></div>
+<pre><code>#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   Sample = col_character(),
+#&gt;   eventTime = col_double(),
+#&gt;   eventObserved = col_logical()
+#&gt; )</code></pre>
+<p>This data frame has a column for the sample labels (<code>Sample</code>) and the response information. In this case, our response is a survival response with an event time and observation indicator.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_df
+<span class="co">#&gt; # A tibble: 36 x 3</span>
+<span class="co">#&gt;    Sample    eventTime eventObserved</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;lgl&gt;        </span>
+<span class="co">#&gt;  1 T21101311     14.2  TRUE         </span>
+<span class="co">#&gt;  2 T21101312      1.00 TRUE         </span>
+<span class="co">#&gt;  3 T21101313      6.75 FALSE        </span>
+<span class="co">#&gt;  4 T21101314      8.50 TRUE         </span>
+<span class="co">#&gt;  5 T21101315      7.25 FALSE        </span>
+<span class="co">#&gt;  6 T21101316      5.00 TRUE         </span>
+<span class="co">#&gt;  7 T21101317     20.0  TRUE         </span>
+<span class="co">#&gt;  8 T21101318     13.2  FALSE        </span>
+<span class="co">#&gt;  9 T21101319      7.75 FALSE        </span>
+<span class="co">#&gt; 10 T21101320      9.00 FALSE        </span>
+<span class="co">#&gt; # ... with 26 more rows</span></code></pre></div>
+<div id="data-types-and-the-create_omics-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-types-and-the-create_omics-functions" class="anchor"></a>Data Types and the <code>create_Omics*</code> Functions</h2>
+<p>Look at the types of the columns of this data frame (directly under the column names, notice the <code>&lt;chr&gt;</code>, <code>&lt;dbl&gt;</code>, and <code>&lt;logi&gt;</code> tags). These tags tell us that the columns contain “character” (<code>chr</code>), “double / numeric” (<code>dbl</code>), and “logical” (<code>logi</code>) information. These tags are important because they identify the type of data is in each column, and the response fields of the <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions require specific types of data:</p>
+<ul>
+<li>
+<code>create_OmicsSurv</code> requires two response vectors:
+<ul>
+<li>
+<code>eventTime_vec</code> = a <em>numeric</em> vector. The column in your imported data corresponding to the event time should have the <code>&lt;int&gt;</code> or <code>&lt;dbl&gt;</code> tag. If this column is a character column (it has the <code>&lt;char&gt;</code> tag), then the most likely cause is that you had an additional column of character information in your assay data frame before transposing. Remove this extra character information and transpose your assay again.</li>
+<li>
+<code>eventObserved_vec</code> = a <em>logical</em> vector. The column in your imported data corresponding to the event indicator should have the <code>&lt;logi&gt;</code> tag. Also note that this indicator records if an event <strong>was observed</strong>, not if the event was censored. If the event occured at the corresponding event time (i.e. the subject died), then this vector entry will be <code>TRUE</code>. If the subject was right-censored, then this entry will be <code>FALSE</code>.</li>
+</ul>
+</li>
+<li>
+<code>create_OmicsReg</code> and <code>create_OmicsCateg</code> require one response vector:
+<ul>
+<li>
+<code>response_num</code> = regression response as a <em>numeric</em> vector. The column in your imported data corresponding to the regression response should have the <code>&lt;int&gt;</code> or <code>&lt;dbl&gt;</code> tag. See the comment above about the <code>eventTime_vec</code> argument if your column is a character.</li>
+<li>
+<code>response_fact</code> = classification response as a <em>factor</em> vector. The column in your imported data corresponding to the classification / categorical regression response should have the <code>&lt;fct&gt;</code> tag. It is highly likely that the classification response was imported as an integer (if the original values were coded as 0/1) or a character (if the original values were given character names, such as “benign” / “malignent”). Either way, use the <code>as.factor</code> command to transform that column from a character or integer column into a factor column. For example, the <code>as.factor</code> function can turn our censoring indicator from a vector of <code>TRUE</code> and <code>FALSE</code> to a categorical (factor) vector with levels <code>TRUE</code> and <code>FALSE</code>. This will not overwrite the original column, so make sure you save this new factor.</li>
+</ul>
+</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(event_fct &lt;-<span class="st"> </span><span class="kw">as.factor</span>(pInfo_df<span class="op">$</span>eventObserved))
+<span class="co">#&gt;  [1] TRUE  TRUE  FALSE TRUE  FALSE TRUE  TRUE  FALSE FALSE FALSE TRUE </span>
+<span class="co">#&gt; [12] TRUE  FALSE TRUE  TRUE  TRUE  FALSE FALSE TRUE  TRUE  TRUE  TRUE </span>
+<span class="co">#&gt; [23] FALSE TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE </span>
+<span class="co">#&gt; [34] TRUE  TRUE  TRUE </span>
+<span class="co">#&gt; Levels: FALSE TRUE</span></code></pre></div>
+</div>
+<div id="join-the-response-and-assay-data-frames" class="section level2">
+<h2 class="hasAnchor">
+<a href="#join-the-response-and-assay-data-frames" class="anchor"></a>Join the Response and Assay Data Frames</h2>
+<p>This <code>pInfo</code> data frame has the sample names as a column of <code>chr</code> values, just like the transposed assay data frame. This is crucially important for the “joining” step. We can use the <code>inner_join</code> function from the <code>dplyr</code> library to only retain the rows of the <code>assayT_df</code> data frame which have responses in the <code>pInfo</code> data frame and vice versa. This way, every response has matching assay predictors, and every recorded assay sample has a matching response.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(joinedExperiment_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(pInfo_df, assayT_df, <span class="dt">by =</span> <span class="st">"Sample"</span>))
+<span class="co">#&gt; # A tibble: 36 x 20</span>
+<span class="co">#&gt;    Sample    eventTime eventObserved SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;lgl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 T21101311     14.2  TRUE           5.37  9.77  7.74  4.68    8.27  8.32</span>
+<span class="co">#&gt;  2 T21101312      1.00 TRUE           5.52  9.78  8.06  5.12    8.21  8.33</span>
+<span class="co">#&gt;  3 T21101313      6.75 FALSE          5.89  8.11  7.00  5.78    8.20  8.39</span>
+<span class="co">#&gt;  4 T21101314      8.50 TRUE           5.62  8.67  8.59  5.64    8.07  8.64</span>
+<span class="co">#&gt;  5 T21101315      7.25 FALSE          5.49  9.83  8.13  5.73    9.38  8.15</span>
+<span class="co">#&gt;  6 T21101316      5.00 TRUE           5.58  9.85  8.55  5.13    9.40  8.71</span>
+<span class="co">#&gt;  7 T21101317     20.0  TRUE           5.32 10.0   6.99  5.86    8.08  9.25</span>
+<span class="co">#&gt;  8 T21101318     13.2  FALSE          5.49  9.72  7.47  5.16    6.67  7.37</span>
+<span class="co">#&gt;  9 T21101319      7.75 FALSE          5.57  9.88  7.97  5.40    7.91  8.06</span>
+<span class="co">#&gt; 10 T21101320      9.00 FALSE          5.16  9.87  7.42  5.50    7.43  8.68</span>
+<span class="co">#&gt; # ... with 26 more rows, and 11 more variables: CYP27B1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   DHCR24 &lt;dbl&gt;, HSD17B7 &lt;dbl&gt;, MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></code></pre></div>
+<p>It is vitally important that you check your sample IDs. Obviously the expressed genetic data should pair with the subject information, but <strong>it is your responsibility as the user to confirm that the assay rows match the correct responses.</strong> We can show you the proper methods to check your data, but you are ultimately responsible to use this package properly.</p>
+<hr>
+<p></p>
+</div>
+</div>
+<div id="create-an-omics-class-object" class="section level1">
+<h1 class="hasAnchor">
+<a href="#create-an-omics-class-object" class="anchor"></a>Create an <code>Omics*</code>-Class Object</h1>
+<p>Before we move on, we will summarize our steps so far. We have</p>
+<ol style="list-style-type: decimal">
+<li>Imported a <code>.gmt</code> file and saved the gene sets therein as a <code>pathwaySet</code> object using the <code>read_gmt</code> function.</li>
+<li>Imported an assay <code>.csv</code> file with the <code>read_csv</code> function from the <code>readr</code> package, and transposed this data frame into “tidy” form with the <code>transpose_assay</code> function.</li>
+<li>Imported a subject information <code>.csv</code> file, and joined it to the assay data frame with the <code>inner_join</code> function from the <code>dplyr</code> package.</li>
+</ol>
+<p>Now we are prepared to create our first <code>OmicsSurv</code> object for analysis with either AES-PCA or Supervised PCA.</p>
 </div>
 </div>
   </div>
@@ -135,6 +343,19 @@
       <li><a href="#the-read_gmt-function">The <code>read_gmt</code> Function</a></li>
       </ul>
 </li>
+      <li>
+<a href="#import-and-tidy-assay-matrices">Import and Tidy Assay Matrices</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#import-with-readr">Import with <code>readr</code></a></li>
+      <li><a href="#tidy-the-assay-data-frame">Tidy the Assay Data Frame</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#import-and-join-response-data">Import and Join Response Data</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#data-types-and-the-create_omics-functions">Data Types and the <code>create_Omics*</code> Functions</a></li>
+      <li><a href="#join-the-response-and-assay-data-frames">Join the Response and Assay Data Frames</a></li>
+      </ul>
+</li>
+      <li><a href="#create-an-omics-class-object">Create an <code>Omics*</code>-Class Object</a></li>
       </ul>
 </div>
       </div>
