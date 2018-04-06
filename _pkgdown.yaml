@@ -10,10 +10,29 @@ authors:
   Steven Chen:
     href: http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d
 
+navbar:
+  components:
+    home: ~
+    articles:
+      text: User Guides
+      menu:
+      - text: Import Data
+        href: articles/Importing_Data.html
+      - text: Pathway Ranking with AES-PCA
+        href: articles/AES-PCA_Walkthrough.html
+      - text: Pathway Ranking with Supervised PCA
+        href: articles/Supervisde_PCA_Walkthrough.html
+      - text: (Appendix) Package Development Field Notes
+        href: articles/Package_Dev_Notes.html
+    news:
+      text: Version Logs
+
 reference:
   - title: External Functions
     desc: Functions designed for direct end-user interaction
     contents:
+      - '`read_gmt`'
+      - '`transpose_assay`'
       - '`create_OmicsPath`'
       - '`create_OmicsSurv`'
       - '`create_OmicsReg`'

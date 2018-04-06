@@ -67,7 +67,7 @@ read_gmt <- function(file, delim = "\t"){
   out <- list(pathways = genes_ls,
               TERMS = geneset_names,
               GSEA_link = geneset_descr)
-  class(out) <- "pathwaySet"
+  class(out) <- c("pathwaySet", "list")
   out
 
 }

@@ -8,14 +8,17 @@
 <title>AES-PCA Walkthrough with pathwayPCA • pathwayPCA</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="AES-PCA Walkthrough with pathwayPCA">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -24,22 +27,20 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">pathwayPCA</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">pathwayPCA</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="..//index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    User Guides
      
     <span class="caret"></span>
   </a>
@@ -59,7 +60,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -79,17 +80,20 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>AES-PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-05</h4>
-          </div>
+            <h4 class="date">2018-04-06</h4>
+      
+      <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/AES-PCA_Walkthrough.Rmd"><code>vignettes/AES-PCA_Walkthrough.Rmd</code></a></small>
+      <div class="hidden name"><code>AES-PCA_Walkthrough.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <p>This will provide the steps to perform pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) analysis, from data entry to pathway <span class="math inline">\(p\)</span>-value graphics. This vignette will give three examples: survival, regression, and binary responses. The main goal of pathway AES-PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
 <div id="workflow-setup-and-data" class="section level2">
 <h2 class="hasAnchor">
@@ -306,7 +310,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 28.6319 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 26.71469 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -340,7 +344,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 17.10464 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 14.68267 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -374,7 +378,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 27.86755 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 24.44442 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -488,55 +492,18 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <p>Now consider the rows of this matrix. Each row is a gene, and the <span class="math inline">\(j^{th}\)</span> entry in the row is equal to <span class="math inline">\(S_j\)</span>, if the gene is included in pathway <span class="math inline">\(j\)</span>, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The <code><a href="../reference/topGenes.html">topGenes()</a></code> function returns the top 5% of both. As we can see, most of the genes included in the <code>summedRank</code> vector are the in the list of “usual suspects” for colon cancer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
-<span class="co">#&gt;   PIK3CA   PIK3R1   PIK3CB   PIK3R2   PIK3R4   PIK3C3    MAPK1   MAP2K1 </span>
-<span class="co">#&gt; 26.92873 26.92873 22.59285 22.59285 21.27953 21.27953 18.01140 17.97475 </span>
-<span class="co">#&gt;     NRAS     GRB2    MAPK3     HRAS     KRAS </span>
-<span class="co">#&gt; 17.97475 17.97475 17.97475 17.97475 17.97475 </span>
+<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
+<span class="co">#&gt; 24.97246 24.97246 21.89198 21.84484 21.84484 21.84484 21.84484 21.84484 </span>
+<span class="co">#&gt;     KRAS     SHC1      CRK   PIK3CB   PIK3R2 </span>
+<span class="co">#&gt; 21.84484 21.79770 21.79770 16.70565 16.70565 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt; COL4A3BP   LPCAT3    CEPT1     CDS1     PEMT    CDIPT   AGPAT1   AGPAT2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   SPTLC1     NEU3     CHAT  PLA2G16     CHKA     CHKB     MGLL     PLD4 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    DEGS2    ACER1  SLC44A3   MBOAT2     NEU4    SGPP2  CSNK1G2   PIK3R6 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    GPAT2    PPM1L     ARSK   MBOAT1 PHOSPHO1    SGMS2  PIKFYVE     PLD6 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    CERS3  SLC44A5     ARSG   SACM1L    GPD1L    LPIN1  PIP5K1C  SLC44A1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   PITPNB     KDSR   LCLAT1    CERS6   LPCAT4  PLA2G4F     GALC    SUMF2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    SGMS1  PLA2G2D   INPP5J      GLA     GM2A     GPD1  PLA2G4D    SUMF1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    CERS2    HADHA    HADHB     HEXA     HEXB  PLA2G2E    ENPP7     ARSI </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   INPPL1     ARF1     ARF3     ARSA     ARSB      STS     ARSE     ARSF </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    ASAH1     ACHE     MTM1     NEU1     NEU2     OCRL     OSBP   PLA2G3 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   PNPLA8   PCYT1A   INPP5K  PIK3C2A  PIK3C2B  PIK3C2G    PI4KA    PI4KB </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;  PIP4K2A  PLA2G1B  PLA2G2A  PLA2G4A   PLA2G5    CRLS1     CTSA   LPCAT2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    ETNK2   AGPAT5    ACER3   PI4K2A    ETNK1    SMPD3    VAC14    PRKD1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   GPCPD1     PSAP   INPP5E    SPHK2   AGPAT3   AGPAT4    CHPT1   PNPLA2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;  SLC44A2     PTEN     GPAM     GBA2     GBA3    PCYT2   MTMR14  PLA2G2F </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     CERK    LPIN3      TAZ     UGCG   MBOAT7    CERS4     ARSJ    PLBD1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   LPCAT1   PNPLA3  SLC44A4   PTDSS2    SGPP1 PLA2G12A  PIP5K1B  PIP4K2B </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   PLA2G6    GNPAT    DEGS1  PLA2G4C     CDS2    MTMR1   INPP4B    SYNJ2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    SPHK1    SGPL1    MTMR3    MTMR2    CERS5    MTMR6    MTMR7    MTMR4 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     VAPB     VAPA   PCYT1B     PGS1  GAL3ST1   SPTLC2    LPIN2   PTDSS1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     FIG4   LPGAT1 </span>
-<span class="co">#&gt; 8.953972 8.953972</span></code></pre></div>
-</div>
+<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3 </span>
+<span class="co">#&gt; 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 </span>
+<span class="co">#&gt;    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1 </span>
+<span class="co">#&gt; 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 </span>
+<span class="co">#&gt;    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 </span>
+<span class="co">#&gt; 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813</span></code></pre></div>
 </div>
   </div>
 
@@ -563,11 +530,13 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>
