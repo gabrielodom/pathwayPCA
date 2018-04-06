@@ -199,3 +199,4 @@ test_OmicsSurv <- create_OmicsSurv(assayData_df = joinedExperiment_df[, -(1:3)],
 ```
 
 ## Inspect the New Object
+<!-- rm(eventObs_fct, pInfo_df, joinedExperiment_df, assay_df, assayT_df) --->
