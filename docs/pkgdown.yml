@@ -1,8 +1,12 @@
+pandoc: 1.19.2.1
+pkgdown: 0.1.0.9000
+pkgdown_sha: 4e194be97890ace7225932cbc3b4380085aedcf8
+articles:
+  AES-PCA_Walkthrough: AES-PCA_Walkthrough.html
+  Importing_Data: Importing_Data.html
+  Package_Dev_Notes: Package_Dev_Notes.html
+  Supervised_PCA_Walkthrough: Supervised_PCA_Walkthrough.html
 urls:
   reference: https://gabrielodom.github.io/pathwayPCA//reference
   article: https://gabrielodom.github.io/pathwayPCA//articles
-articles:
-  AES-PCA_Walkthrough: AES-PCA_Walkthrough.html
-  Package_Dev_Notes: Package_Dev_Notes.html
-  Supervised_PCA_Walkthrough: Supervised_PCA_Walkthrough.html
 

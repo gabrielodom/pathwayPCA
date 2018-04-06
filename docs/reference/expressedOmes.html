@@ -19,13 +19,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Extract expressed -Omes matching a gene set from a mass spectrometry or assay
+  data frame — expressedOmes" />
+
+<meta property="og:description" content="Given a bio-assay design matrix and a gene pathways list (each
+  within an Omics*-class object), extract the genes / proteins /
+  lipids / metabolomes / transcriptomes contained in each gene pathway set
+  which are expressed in the assay data frame." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -33,6 +43,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -48,28 +60,29 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">pathwayPCA</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">pathwayPCA</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    User Guides
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/AES-PCA_Walkthrough.html">AES-PCA Walkthrough with pathwayPCA</a>
+    </li>
+    <li>
+      <a href="../articles/Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
       <a href="../articles/Package_Dev_Notes.html">pathwayPCA Package Development Notes</a>
@@ -80,8 +93,9 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Version Logs</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -92,6 +106,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -99,11 +114,13 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract expressed -Omes matching a gene set from a mass spectrometry or assay
   data frame</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/subsetExpressed-omes.R'><code>R/subsetExpressed-omes.R</code></a></small>
+    <div class="hidden name"><code>expressedOmes.Rd</code></div>
     </div>
 
     
@@ -119,7 +136,7 @@
 <span class='fu'>expressedOmes</span>(<span class='no'>object</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -208,11 +225,14 @@ present after trimming. Defaults to <code>TRUE</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

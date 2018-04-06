@@ -27,3 +27,5 @@ setClass("OmicsPathway",
          slots = c(assayData_df = "data.frame", pathwaySet = "list"))
 # so my create.*() functions don't throw a fit when they see a tibble:
 setOldClass(c("tbl_df", "tbl", "data.frame"))
+# So the lists imported with the read_gmt function are allowed
+setOldClass(c("pathwaySet", "list"))
