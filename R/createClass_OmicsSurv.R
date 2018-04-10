@@ -26,9 +26,11 @@
 #'   indicating right-censoring. The values will be \code{FALSE} if the
 #'   observation was censored (i.e., we did not observe an event).
 #'
-#' @importFrom methods new
+#' @importFrom methods setClass
 #'
-#' @include createClass_OmicsPath.R createClass_validOmics.R
+#' @include createClass_OmicsPath.R
+#' @include createClass_validOmics.R
+#'
 #' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
 #'   \code{\link{create_OmicsSurv}}
 #'
