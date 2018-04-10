@@ -61,8 +61,13 @@ print(test_OmicsSurv)
 print <- function(x) UseMethod("print")
 
 print.pathwaySet <- function(x){
-  cat("Informal Class 'pathwaySet' [package 'pathwayPCA'] with",
-      length(x), "elements: \n")
+
+  classes_char <- class(gene_set_ls)
+  cat("Object with Class(es) '",
+      paste(class(gene_set_ls), collapse = "', '"),
+      "' [package 'pathwayPCA'] with ",
+      length(x), " elements: \n",
+      sep = "")
   str(x,
       max.level = 1,
       vec.len = 1,
@@ -70,7 +75,9 @@ print.pathwaySet <- function(x){
       no.list = TRUE)
 }
 
+# Test
 print(gene_set_ls)
+gene_set_ls
 
 # print.OmicsPathway <- function(x){
 #   str(x, max.level = 2)

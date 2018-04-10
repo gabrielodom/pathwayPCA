@@ -54,6 +54,7 @@ Collate:
     'create_Omics_All.R'
     'data_colonSubset.R'
     'data_genesetSubset.R'
+    'printClass_Omics_All.R'
     'read_gmt.R'
     'superPC_model_CoxPH.R'
     'superPC_model_GLM.R'

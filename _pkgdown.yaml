@@ -49,6 +49,7 @@ reference:
       - '`OmicsReg-class`'
       - '`OmicsCateg-class`'
       - '`valid_OmicsSurv`'
+      - '`show,OmicsPathway-method`'
   - title: Internal AES-PCA Functions
     desc: Functions designed to be called by the AES-PCA wrapper above
     contents:

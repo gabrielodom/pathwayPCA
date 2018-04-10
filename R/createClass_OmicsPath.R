@@ -20,7 +20,8 @@
 #'
 #' @seealso \code{\link{create_OmicsPath}}
 #'
-#' @importFrom methods new
+#' @importFrom methods setClass
+#' @importFrom methods setOldClass
 #'
 #' @export
 setClass("OmicsPathway",

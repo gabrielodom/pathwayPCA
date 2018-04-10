@@ -82,9 +82,11 @@ In this data set, the columns are individual samples, patients, tumors, cell lin
 To import these files in `.xlsx`, `.csv`, or `.txt` (tab-delimited), we recommend the [`readr` package](https://readr.tidyverse.org/). We would read this data via
 ```{r read_example_assay, eval = FALSE}
 assay_df <- read_csv("path_to_your_directory/your_assay.csv")
+getwd()
 ```
 ```{r read_real_assay, echo = FALSE}
-assay_df <- read_csv("C:/Users/gjo15/Documents/GitHub/pathwayPCA/inst/extdata/ex_assay_subset.csv")
+# Travis requires relative paths
+assay_df <- read_csv("../inst/extdata/ex_assay_subset.csv")
 ```
 
 Let's inspect our assay data frame.
@@ -140,7 +142,7 @@ We now need to import the response information. We can use the `read_csv` functi
 pInfo_df <- read_csv("path_to_your_directory/your_subject_info.csv")
 ```
 ```{r read_real_pinfo, echo = FALSE}
-pInfo_df <- read_csv("C:/Users/gjo15/Documents/GitHub/pathwayPCA/inst/extdata/ex_pInfo_subset.csv")
+pInfo_df <- read_csv("../inst/extdata/ex_pInfo_subset.csv")
 ```
 
 This data frame has a column for the sample labels (`Sample`) and the response information. In this case, our response is a survival response with an event time and observation indicator.

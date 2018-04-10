@@ -25,9 +25,10 @@
 #'    support binary factors only. We expect to extend support to n-ary
 #'    responses in the next package version.
 #'
-#' @importFrom methods new
+#' @importFrom methods setClass
 #'
-#' @include createClass_OmicsPath.R createClass_validOmics.R
+#' @include createClass_OmicsPath.R
+#' @include createClass_validOmics.R
 #'
 #' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
 #'   \code{\link{create_OmicsCateg}}
