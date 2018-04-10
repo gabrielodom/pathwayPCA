@@ -25,7 +25,7 @@ This will provide the steps to perform pathway-level adaptive, elastic-net, spar
 
 ### Load Package
 Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
-```{r install_from_github, eval = FALSE}
+```
 devtools::install_github("gabrielodom/pathwayPCA")
 ```
 ```{r}
@@ -102,7 +102,7 @@ colon_OmicsSurv <- create_OmicsSurv(assayData_df = cancers_df,
                                     pathwaySet_ls = geneset_ls,
                                     eventTime_vec = survTime_num,
                                     eventObserved_vec = dead_logi)
-str(colon_OmicsSurv, max.level = 2)
+colon_OmicsSurv
 ```
 
 Because the `assayData_df` and `pathwaySet` objects contain *a lot* of information, we use the `max.level` option within the `str()` function to prevent recursive structure printing. Notice that the `pathwaySet` object is a list of 3 now: upon creation, the `setsize` vector is added to the `pathwaySet` object. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: **it is vitally important to create your data objects correctly.** As the old computer science saying goes---garbage in, garbage out.
@@ -114,7 +114,7 @@ Following our previous step in creation of a survival object, we can create a da
 colon_OmicsReg <- create_OmicsReg(assayData_df = cancers_df,
                                   pathwaySet_ls = geneset_ls,
                                   response_num = survTime_num)
-str(colon_OmicsReg, max.level = 2)
+colon_OmicsReg
 ```
 
 
@@ -124,7 +124,13 @@ And we can also create our data object for binary classification response. As we
 colon_OmicsCateg <- create_OmicsCateg(assayData_df = cancers_df,
                                       pathwaySet_ls = geneset_ls,
                                       response_fact = dead_fact)
-str(colon_OmicsCateg, max.level = 2)
+colon_OmicsCateg
+```
+
+### Re-inspect the `pathwaySet` List
+As we mentioned above, the gene set list (as a `pathwaySet` object, or a gene set list you've created yourself) will be modified upon `Omics*` object creation. Before, this list only had two elements, `pathways` and `TERMS`. Now, it has a third element: `setsize`---the number of genes contained in each pathway.
+```{r inspect_updated_pathwaySet}
+colon_OmicsSurv@pathwaySet
 ```
 
 

@@ -102,7 +102,7 @@
 <h3 class="hasAnchor">
 <a href="#load-package" class="anchor"></a>Load Package</h3>
 <p>Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"gabrielodom/pathwayPCA"</span>)</code></pre></div>
+<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pathwayPCA)
 <span class="kw">library</span>(parallel)</code></pre></div>
 </div>
@@ -223,7 +223,7 @@ cancers_df &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span
                                     <span class="dt">pathwaySet_ls =</span> geneset_ls,
                                     <span class="dt">eventTime_vec =</span> survTime_num,
                                     <span class="dt">eventObserved_vec =</span> dead_logi)
-<span class="kw">str</span>(colon_OmicsSurv, <span class="dt">max.level =</span> <span class="dv">2</span>)
+colon_OmicsSurv
 <span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
 <span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
 <span class="co">#&gt;   ..@ eventObserved: logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
@@ -239,7 +239,7 @@ cancers_df &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsReg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsReg</a></span>(<span class="dt">assayData_df =</span> cancers_df,
                                   <span class="dt">pathwaySet_ls =</span> geneset_ls,
                                   <span class="dt">response_num =</span> survTime_num)
-<span class="kw">str</span>(colon_OmicsReg, <span class="dt">max.level =</span> <span class="dv">2</span>)
+colon_OmicsReg
 <span class="co">#&gt; Formal class 'OmicsReg' [package "pathwayPCA"] with 3 slots</span>
 <span class="co">#&gt;   ..@ response    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
 <span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
@@ -253,12 +253,22 @@ cancers_df &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsCateg</a></span>(<span class="dt">assayData_df =</span> cancers_df,
                                       <span class="dt">pathwaySet_ls =</span> geneset_ls,
                                       <span class="dt">response_fact =</span> dead_fact)
-<span class="kw">str</span>(colon_OmicsCateg, <span class="dt">max.level =</span> <span class="dv">2</span>)
+colon_OmicsCateg
 <span class="co">#&gt; Formal class 'OmicsCateg' [package "pathwayPCA"] with 3 slots</span>
 <span class="co">#&gt;   ..@ response    : Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 2 1 ...</span>
 <span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
 <span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
 <span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
+</div>
+<div id="re-inspect-the-pathwayset-list" class="section level3">
+<h3 class="hasAnchor">
+<a href="#re-inspect-the-pathwayset-list" class="anchor"></a>Re-inspect the <code>pathwaySet</code> List</h3>
+<p>As we mentioned above, the gene set list (as a <code>pathwaySet</code> object, or a gene set list you’ve created yourself) will be modified upon <code>Omics*</code> object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code>. Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv<span class="op">@</span>pathwaySet
+<span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
+<span class="co">#&gt;  $ pathways:List of 15</span>
+<span class="co">#&gt;  $ TERMS   : Named chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
+<span class="co">#&gt;  $ setsize : Named int [1:15] 27 64 ...</span></code></pre></div>
 </div>
 </div>
 <div id="clean-up-the-pathway-list" class="section level2">
@@ -315,7 +325,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 5.960549 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.505751 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -343,7 +353,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 4.958448 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.042285 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -371,7 +381,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 7.712474 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 7.371436 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -485,22 +495,22 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <p>Now consider the rows of this matrix. Each row is a gene, and the <span class="math inline">\(j^{th}\)</span> entry in the row is equal to <span class="math inline">\(S_j\)</span>, if the gene is included in pathway <span class="math inline">\(j\)</span>, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The <code><a href="../reference/topGenes.html">topGenes()</a></code> function returns the top 5% of both. As we can see, most of the genes included in the <code>summedRank</code> vector are the in the list of “usual suspects” for colon cancer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
-<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 28.20714 28.20714 24.34454 23.78567 23.78567 23.78567 23.78567 23.78567 </span>
-<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
-<span class="co">#&gt; 23.78567 23.03869 23.03869 19.22602 19.22602 </span>
+<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   PIK3CB   PIK3R2   MAP2K1     NRAS     GRB2 </span>
+<span class="co">#&gt; 46.25637 46.25637 38.43132 38.06480 38.06480 38.05810 38.05810 38.05810 </span>
+<span class="co">#&gt;    MAPK3     HRAS     KRAS     SHC1      CRK </span>
+<span class="co">#&gt; 38.05810 38.05810 38.05810 30.64169 30.64169 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
 <span class="co">#&gt;     PAK3      BTC     ELK1     NRG1     PAK4     NRG3    MAPK9    ERBB4 </span>
-<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
+<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
 <span class="co">#&gt;   MAPK10    ERBB3     ABL1     NRG2     ABL2     SHC4  RPS6KB2     AREG </span>
-<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
+<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
 <span class="co">#&gt;   STAT5B   STAT5A     PAK6      MYC     NRG4    GSK3B     CBLB      CBL </span>
-<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
+<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
 <span class="co">#&gt;   CDKN1B   CDKN1A     EREG     NCK2   CAMK2A   CAMK2B   CAMK2D   CAMK2G </span>
-<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
+<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
 <span class="co">#&gt;     CBLC     CRKL    HBEGF </span>
-<span class="co">#&gt; 5.256707 5.256707 5.256707</span></code></pre></div>
+<span class="co">#&gt; 8.272449 8.272449 8.272449</span></code></pre></div>
 </div>
   </div>
 
