@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Colon Cancer -Omics Data — colonSurv_df • pathwayPCA</title>
+<title>Gene Pathway Subset — colon_pathwaySet • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,10 +25,10 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Colon Cancer -Omics Data — colonSurv_df" />
+<meta property="og:title" content="Gene Pathway Subset — colon_pathwaySet" />
 
-<meta property="og:description" content="Subset of a colon cancer survival data set, with subject
-  response and assay values." />
+<meta property="og:description" content="An example Canonical Pathways Gene Subset from the Broad
+  Institute: File: c2.cp.v6.0.symbols.gmt." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,27 +112,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Colon Cancer -Omics Data</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/data_colonSubset.R'><code>R/data_colonSubset.R</code></a></small>
-    <div class="hidden name"><code>colonSurv_df.Rd</code></div>
+    <h1>Gene Pathway Subset</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/data_genesetSubset.R'><code>R/data_genesetSubset.R</code></a></small>
+    <div class="hidden name"><code>colon_pathwaySet.Rd</code></div>
     </div>
 
     
-    <p>Subset of a colon cancer survival data set, with subject
-  response and assay values.</p>
+    <p>An example Canonical Pathways Gene Subset from the Broad
+  Institute: File: <code>c2.cp.v6.0.symbols.gmt</code>.</p>
     
 
-    <pre class="usage"><span class='no'>colonSurv_df</span></pre>
+    <pre class="usage"><span class='no'>colon_pathwaySet</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A subset of a data frame containing 656 of 2022 genes measured on
-  250 subjects. The first two columns are the Overall Survival time
-  (<code>OS_time</code>) and death indicator (<code>OS_event</code>).</p>
+    <p>A <code>pathwaySet</code> list of two elements:</p><ul>
+<li><p><code>pathways</code> : A list of 15 character vectors. Each vector
+     contains the names of the individual genes within that pathway as a
+     vector of character strings.</p></li>
+<li><p><code>TERMS</code> : A character vector of length 15 containing the
+     names of the gene pathways.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Xi Steven Chen</p>
+    <p><a href='http://software.broadinstitute.org/gsea/msigdb/collections.jsp'>http://software.broadinstitute.org/gsea/msigdb/collections.jsp</a></p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This is a subset of 15 pathways from the Broad Institute gene set
+  list. This subset contains seven pathways which are related to the response
+  information in the <code><a href='colonSurv_df.html'>colonSurv_df</a></code> data file.</p>
     
 
   </div>
@@ -143,6 +153,8 @@
       <li><a href="#format">Format</a></li>
 
       <li><a href="#source">Source</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

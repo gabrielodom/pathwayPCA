@@ -1,41 +1,45 @@
 #' Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-#'   data frame
+#'    data frame
 #'
-#' @description Given a bio-assay design matrix and a gene pathways list (each
-#'   within an \code{Omics*}-class object), extract the genes / proteins /
-#'   lipids / metabolomes / transcriptomes contained in each gene pathway set
-#'   which are expressed in the assay data frame.
+#' @description Given a bio-assay design matrix and a \code{pathwaySet} gene
+#'    pathways list (each within an \code{Omics*}-class object), extract the
+#'    genes / proteins / lipids / metabolomes / transcriptomes contained in each
+#'    gene pathway set which are expressed in the assay data frame.
 #'
 #' @param object An object of class \code{OmicsPathway}, \code{OmicsSurv},
-#'   \code{OmicsReg}, or \code{OmicsCateg}.
+#'    \code{OmicsReg}, or \code{OmicsCateg}.
 #' @param trim The minimum cutoff of expressed -Ome measures before a pathway
-#'   is excluded. Defaults to 3.
+#'    is excluded. Defaults to 3.
 #' @param message Should this function return diagnostic messages? Messages
-#'   concern the percentage of genes included in the pathway set but not
-#'   measured in the data, genes measured in the data but not called for in the
-#'   pathways, and the number of pathways ignored due to too few number of genes
-#'   present after trimming. Defaults to \code{TRUE}.
+#'    concern the percentage of genes included in the pathway set but not
+#'    measured in the data, genes measured in the data but not called for in the
+#'    pathways, and the number of pathways ignored due to too few number of
+#'    genes present after trimming. Defaults to \code{TRUE}.
 #' @param ... Dots for additional internal arguments (as necessary).
 #'
 #' @return A valid \code{Omics*}-class object. This output object will be
-#'   identical to the input object, except that any genes present in the
-#'   pathways list, but not present in the MS design matrix, will have been
-#'   removed. Additionally, the pathway list will have the number of genes in
-#'   each trimmed pathway stored as the \code{trim_setsize} object.
+#'    identical to the input object, except that any genes present in the
+#'    pathways list, but not present in the MS design matrix, will have been
+#'    removed. Additionally, the pathway list will have the number of genes in
+#'    each trimmed pathway stored as the \code{trim_setsize} object.
 #'
-#' @details This function takes in a data frame with named columns and a pathway
-#'   list, all through one of the \code{Omics*} classes. This function will then
-#'   iterate over the list of pathways, extract columns from the bio-assay
-#'   design matrix which match the genes listed in that pathway, and remove any
-#'   pathways with fewer than \code{trim} expressed genes. The genes not
-#'   expressed in the bio-assay design matrix are removed from the pathway list.
+#' @details This function takes in a data frame with named columns and a
+#'    \code{pathwaySet} list, all through one of the \code{Omics*} classes.
+#'    This function will then iterate over the list of pathways, extract columns
+#'    from the bio-assay design matrix which match the genes listed in that
+#'    pathway, and remove any pathways with fewer than \code{trim} expressed
+#'    genes. The genes not expressed in the bio-assay design matrix are removed
+#'    from the \code{pathwaySet} list.
 #'
-#'   NOTE: some genes will be included in more than one pathway, so these
-#'   pathways are not mutually exclusive. Further note that there may be many
-#'   genes in the assay design matrix that are not included in the pathway sets,
-#'   so these will not be extracted to the list. It is then vitally important to
-#'   use either a very broad and generic pathway set list or a pathway set list
-#'   that is appropriate for the assay data supplied.
+#'    NOTE: some genes will be included in more than one pathway, so these
+#'    pathways are not mutually exclusive. Further note that there may be many
+#'    genes in the assay design matrix that are not included in the pathway
+#'    sets, so these will not be extracted to the list. It is then vitally
+#'    important to use either a very broad and generic \code{pathwaySet} list
+#'    or a \code{pathwaySet} list that is appropriate for the assay data
+#'    supplied. While you can create your own pathway lists, create proper
+#'    \code{pathwaySet} list objects by importing \code{.gmt} files with the
+#'    \code{\link{read_gmt}} function.
 #'
 #' @export
 #'
@@ -46,11 +50,11 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colonGenesets_ls")
+#'   data("colon_pathwaySet")
 #'
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colonGenesets_ls,
+#'                                       pathwaySet_ls = colon_pathwaySet,
 #'                                       eventTime_vec = colonSurv_df$OS_time,
 #'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
 #'

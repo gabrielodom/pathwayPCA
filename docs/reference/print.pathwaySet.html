@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AES-PCA permutation test of continuous response for pathway PCs — permTest_OmicsReg • pathwayPCA</title>
+<title>Display the Summary of a<code>pathwaySet</code>-class Object. — print.pathwaySet • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,12 +25,10 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="AES-PCA permutation test of continuous response for pathway PCs — permTest_OmicsReg" />
+<meta property="og:title" content="Display the Summary of a<code>pathwaySet</code>-class Object. — print.pathwaySet" />
 
-<meta property="og:description" content="Given an OmicsReg object and a list of pathway PCs from
-  the extract_aesPCs function, test if each expressed pathway
-  in the bio-assay design matrix is significantly related to the continuous
-  response." />
+<meta property="og:description" content="The display method for gene set / pathway set lists as returned
+   by the read_gmt function." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,87 +112,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>AES-PCA permutation test of continuous response for pathway PCs</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/aesPC_permtest_LS.R'><code>R/aesPC_permtest_LS.R</code></a></small>
-    <div class="hidden name"><code>permTest_OmicsReg.Rd</code></div>
+    <h1>Display the Summary of a<code>pathwaySet</code>-class Object.</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/printClass_pathwaySet.R'><code>R/printClass_pathwaySet.R</code></a></small>
+    <div class="hidden name"><code>print.pathwaySet.Rd</code></div>
     </div>
 
     
-    <p>Given an <code>OmicsReg</code> object and a list of pathway PCs from
-  the <code><a href='extract_aesPCs.html'>extract_aesPCs</a></code> function, test if each expressed pathway
-  in the bio-assay design matrix is significantly related to the continuous
-  response.</p>
+    <p>The display method for gene set / pathway set lists as returned
+   by the <code><a href='read_gmt.html'>read_gmt</a></code> function.</p>
     
 
-    <pre class="usage"><span class='fu'>permTest_OmicsReg</span>(<span class='no'>OmicsReg</span>, <span class='no'>pathwayPCs_ls</span>, <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
-
-<span class='co'># S4 method for OmicsReg</span>
-<span class='fu'>permTest_OmicsReg</span>(<span class='no'>OmicsReg</span>, <span class='no'>pathwayPCs_ls</span>,
-  <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for pathwaySet</span>
+<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>OmicsReg</th>
-      <td><p>A data object of class <code>OmicsReg</code>, created by the
-<code><a href='create_OmicsPathway.html'>create_OmicsReg</a></code> function.</p></td>
-    </tr>
-    <tr>
-      <th>pathwayPCs_ls</th>
-      <td><p>A list of pathway PC matrices returned by the
-<code><a href='extract_aesPCs.html'>extract_aesPCs</a></code> function.</p></td>
-    </tr>
-    <tr>
-      <th>numReps</th>
-      <td><p>How many permuted models to fit? Defaults to 1000.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Should the computation be completed in parallel? Defaults to
-<code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>numCores</th>
-      <td><p>If <code>parallel = TRUE</code>, how many cores should be used for
-computation? Defaults to <code>NULL</code>.</p></td>
+      <th>x</th>
+      <td><p>An object of class <code>pathwaySet</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Dots for additional internal arguments (currently unused).</p></td>
+      <td><p>Lazy dots for additional internal arguments (currently unused).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named vector of pathway permutation \(p\)-values.</p>
+    <p><code>x</code>, returned invisibly (with the <code>invisible</code>
+   function).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function takes in a list of the first principal components
-  from each pathway and an object of class <code>OmicsReg</code>. This function
-  will then calculate the AIC of a multivariate linear model (via the
-  <code><a href='http://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code> function) with the original observations as
-  response and the pathway principal components as the predictor matrix.</p>
-<p>Then, this function will create <code>numReps</code> permutations of the
-  regression response, fit models to each of these premuted responses
-  (holding the path predictor matrix fixed), and calculate the AIC of each
-  model. This function will return a named vector of permutation
-  \(p\)-values, where the value for each pathway is the proportion of
-  models for which the AIC of the permuted response model is less than the
-  AIC of the original model.</p>
+    <p>This function sets a <code>print</code> method for <code>pathwaySet</code>
+   objects.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='create_OmicsPathway.html'>create_OmicsReg</a></code>; <code><a href='extract_aesPCs.html'>extract_aesPCs</a></code>;
-  <code><a href='http://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></code>; <code><a href='randomControlSample.html'>sample_Regresp</a></code></p></div>
+    <div class='dont-index'><p><code><a href='read_gmt.html'>read_gmt</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use AESPCA_pVals() instead
+    <pre class="examples"><div class='input'>  <span class='co'>###  Load the Example Data  ###</span>
+  <span class='fu'>data</span>(<span class='st'>"colon_pathwaySet"</span>)
 
+  <span class='co'>###  Print / Show  ###</span>
+  <span class='no'>colon_pathwaySet</span></div><div class='output co'>#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: 
+#&gt;  $ pathways:List of 15
+#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -50,7 +50,7 @@ Based on the clearly-organized `.gmt` data format, we are able to write a very f
 gene_set_ls <- read_gmt("path_to_your_directory/your_file_name.gmt")
 ```
 ```{r read_real_gmt, echo = FALSE}
-gene_set_ls <- read_gmt("C:/Users/gjo15/Documents/GitHub/pathwayPCA/inst/extdata/c2.cp.v6.0.symbols.gmt")
+gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt")
 ```
 
 This `gene_set_ls` object is a list with class `pathwaySet`. Pathway set lists have three elements:
@@ -61,7 +61,7 @@ This `gene_set_ls` object is a list with class `pathwaySet`. Pathway set lists h
 
 The object itself has the following structure:
 ```{r pathwaySet_structure}
-str(gene_set_ls, max.level = 1)
+gene_set_ls
 ```
 
 This object will be the list supplied to the `pathwaySet_ls` argument in the `create_OmicsPath`, `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions.
@@ -201,4 +201,7 @@ test_OmicsSurv <- create_OmicsSurv(assayData_df = joinedExperiment_df[, -(1:3)],
 ```
 
 ## Inspect the New Object
-<!-- rm(eventObs_fct, pInfo_df, joinedExperiment_df, assay_df, assayT_df) --->
+We now print the `OmicsSurv` object we just created. We can see a summary of all the data inputs we used.
+```{r print_omics}
+test_OmicsSurv
+```

@@ -63,15 +63,13 @@ Notice that I put the responses in specific classes: survival data is stored in 
 #### Load Gene Set List
 For pathway-based analyses to work, we need a well-defined list of pathways.
 ```{r pathway_list_load}
-data("colonGenesets_ls")
-geneset_ls <- colonGenesets_ls
-names(geneset_ls)
-str(geneset_ls$TERMS)
+data("colon_pathwaySet")
+(geneset_ls <- colon_pathwaySet)
 str(geneset_ls$pathways, list.len = 10)
-rm(colonGenesets_ls)
+rm(colon_pathwaySet)
 ```
 
-The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has the following components
+The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has class `pathwaySet` and contains the following components
 
   - `pathways`: a list of character vectors. Each character vector contains a subset of column names in the `cancers_df` data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA::` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the `cancers_df` data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
   - `TERMS`: a brief description of the pathways in the `pathways` list, stored as a character vector.

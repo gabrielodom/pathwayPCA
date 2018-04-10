@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read a <code>.gmt</code> file — read_gmt • pathwayPCA</title>
+<title>Read a <code>.gmt</code> file in as a <code>pathwaySet</code> object — read_gmt • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,10 +25,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Read a <code>.gmt</code> file — read_gmt" />
+<meta property="og:title" content="Read a <code>.gmt</code> file in as a <code>pathwaySet</code> object — read_gmt" />
 
 <meta property="og:description" content="Read a gene set file in Gene Matrix Transposed (.gmt)
-   format, with special performance consideration for large files." />
+   format, with special performance consideration for large files. Present
+   this object as a pathwaySet object." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -89,7 +90,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
       
@@ -112,14 +113,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read a <code>.gmt</code> file</h1>
+    <h1>Read a <code>.gmt</code> file in as a <code>pathwaySet</code> object</h1>
     <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/read_gmt.R'><code>R/read_gmt.R</code></a></small>
     <div class="hidden name"><code>read_gmt.Rd</code></div>
     </div>
 
     
     <p>Read a gene set file in Gene Matrix Transposed (<code>.gmt</code>)
-   format, with special performance consideration for large files.</p>
+   format, with special performance consideration for large files. Present
+   this object as a <code>pathwaySet</code> object.</p>
     
 
     <pre class="usage"><span class='fu'>read_gmt</span>(<span class='no'>file</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>"\t"</span>)</pre>
@@ -163,6 +165,10 @@ delimited, this defaults to <code>"\t"</code>.</p></td>
    Gene Matrix Transposed file format:
    <a href='https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29'>https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29</a></p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='print.pathwaySet.html'>print.pathwaySet</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -184,6 +190,8 @@ delimited, this defaults to <code>"\t"</code>.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -13,10 +13,10 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/AESPCA_pVals.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/colonGenesets_ls.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/colonSurv_df.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/colonSurv_df.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/colon_pathwaySet.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/coxTrain_fun.html</loc>
@@ -79,10 +79,16 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/permTest_OmicsSurv.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/print.pathwaySet.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/randomControlSample.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/read_gmt.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/show-OmicsPathway-method.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/superpc.st.html</loc>

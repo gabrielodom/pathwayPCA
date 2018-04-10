@@ -67,11 +67,11 @@ Some of the pathways in the supplied pathway set list will be removed, or
    see the documentation for the \code{\link{expressedOmes}} function.
 
 The data frame will be sorted in ascending order by the method specified
-  first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
-  then the data frame will be sorted by the raw \eqn{p}-values. If you have
-  the suggested \code{tidyverse} package suite loaded, then this data frame
-  will print as a \code{\link[tibble]{tibble}}. Otherwise, it will print as
-  a data frame.
+   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
+   then the data frame will be sorted by the raw \eqn{p}-values. If you have
+   the suggested \code{tidyverse} package suite loaded, then this data frame
+   will print as a \code{\link[tibble]{tibble}}. Otherwise, it will print as
+   a data frame.
 }
 \description{
 Given a supervised \code{OmicsPath} object (one of
@@ -91,11 +91,11 @@ This is a wrapper function for the \code{\link{expressedOmes}},
 \dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
-  data("colonGenesets_ls")
+  data("colon_pathwaySet")
 
   ###  Create an OmicsSurv Object  ###
   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colonGenesets_ls,
+                                      pathwaySet_ls = colon_pathwaySet,
                                       eventTime_vec = colonSurv_df$OS_time,
                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
 
