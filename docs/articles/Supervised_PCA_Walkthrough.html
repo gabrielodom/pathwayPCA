@@ -60,7 +60,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -85,7 +85,7 @@
       <h1>Supervised PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-06</h4>
+            <h4 class="date">2018-04-10</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supervised_PCA_Walkthrough.Rmd"><code>vignettes/Supervised_PCA_Walkthrough.Rmd</code></a></small>
       <div class="hidden name"><code>Supervised_PCA_Walkthrough.Rmd</code></div>
@@ -145,14 +145,11 @@ cancers_df &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span
 <h4 class="hasAnchor">
 <a href="#load-gene-set-list" class="anchor"></a>Load Gene Set List</h4>
 <p>For pathway-based analyses to work, we need a well-defined list of pathways.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colonGenesets_ls"</span>)
-geneset_ls &lt;-<span class="st"> </span>colonGenesets_ls
-<span class="kw">names</span>(geneset_ls)
-<span class="co">#&gt; [1] "pathways" "TERMS"</span>
-<span class="kw">str</span>(geneset_ls<span class="op">$</span>setsize)
-<span class="co">#&gt;  NULL</span>
-<span class="kw">str</span>(geneset_ls<span class="op">$</span>TERMS)
-<span class="co">#&gt;  chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" "KEGG_RETINOL_METABOLISM" ...</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colon_pathwaySet"</span>)
+(geneset_ls &lt;-<span class="st"> </span>colon_pathwaySet)
+<span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: </span>
+<span class="co">#&gt;  $ pathways:List of 15</span>
+<span class="co">#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
 <span class="kw">str</span>(geneset_ls<span class="op">$</span>pathways, <span class="dt">list.len =</span> <span class="dv">10</span>)
 <span class="co">#&gt; List of 15</span>
 <span class="co">#&gt;  $ pathway3   : chr [1:27] "RPE" "RPIA" "PGM2" "PGLS" ...</span>
@@ -166,8 +163,8 @@ geneset_ls &lt;-<span class="st"> </span>colonGenesets_ls
 <span class="co">#&gt;  $ pathway390 : chr [1:29] "JUN" "BAG4" "CASP8" "MAPK8" ...</span>
 <span class="co">#&gt;  $ pathway413 : chr [1:23] "PLD1" "RAF1" "EPHB2" "VAV1" ...</span>
 <span class="co">#&gt;   [list output truncated]</span>
-<span class="kw">rm</span>(colonGenesets_ls)</code></pre></div>
-<p>The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has the following components</p>
+<span class="kw">rm</span>(colon_pathwaySet)</code></pre></div>
+<p>The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has class <code>pathwaySet</code> and contains the following components</p>
 <ul>
 <li>
 <code>pathways</code>: a list of character vectors. Each character vector contains a subset of column names in the <code>cancers_df</code> data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the <code>pathwayPCA::</code> package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. <strong>Important</strong>: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the <code>cancers_df</code> data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. <em>However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.</em> If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. <strong>Make sure your pathway set and data frame are compatible.</strong>
@@ -231,7 +228,8 @@ geneset_ls &lt;-<span class="st"> </span>colonGenesets_ls
 <span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
 <span class="co">#&gt;   ..@ eventObserved: logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
 <span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ pathwaySet   :List of 3</span></code></pre></div>
+<span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
 <p>Because the <code>assayData_df</code> and <code>pathwaySet</code> objects contain <em>a lot</em> of information, we use the <code>max.level</code> option within the <code>str()</code> function to prevent recursive structure printing. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: <strong>it is vitally important to create your data objects correctly.</strong> As the old computer science saying goes—garbage in, garbage out.</p>
 </div>
 <div id="create-an-omicsreg-object" class="section level3">
@@ -245,7 +243,8 @@ geneset_ls &lt;-<span class="st"> </span>colonGenesets_ls
 <span class="co">#&gt; Formal class 'OmicsReg' [package "pathwayPCA"] with 3 slots</span>
 <span class="co">#&gt;   ..@ response    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
 <span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span></code></pre></div>
+<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
 </div>
 <div id="create-an-omicscateg-object" class="section level3">
 <h3 class="hasAnchor">
@@ -258,7 +257,8 @@ geneset_ls &lt;-<span class="st"> </span>colonGenesets_ls
 <span class="co">#&gt; Formal class 'OmicsCateg' [package "pathwayPCA"] with 3 slots</span>
 <span class="co">#&gt;   ..@ response    : Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 2 1 ...</span>
 <span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span></code></pre></div>
+<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
 </div>
 </div>
 <div id="clean-up-the-pathway-list" class="section level2">
@@ -315,7 +315,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 5.561556 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.960549 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -343,7 +343,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 4.83483 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 4.958448 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -371,7 +371,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 7.3073 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 7.712474 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -486,21 +486,21 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 27.12293 27.12293 24.04374 23.54521 23.54521 23.54521 23.54521 23.54521 </span>
+<span class="co">#&gt; 28.20714 28.20714 24.34454 23.78567 23.78567 23.78567 23.78567 23.78567 </span>
 <span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
-<span class="co">#&gt; 23.54521 21.89684 21.89684 18.99700 18.99700 </span>
+<span class="co">#&gt; 23.78567 23.03869 23.03869 19.22602 19.22602 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
 <span class="co">#&gt;     PAK3      BTC     ELK1     NRG1     PAK4     NRG3    MAPK9    ERBB4 </span>
-<span class="co">#&gt; 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 </span>
+<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
 <span class="co">#&gt;   MAPK10    ERBB3     ABL1     NRG2     ABL2     SHC4  RPS6KB2     AREG </span>
-<span class="co">#&gt; 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 </span>
+<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
 <span class="co">#&gt;   STAT5B   STAT5A     PAK6      MYC     NRG4    GSK3B     CBLB      CBL </span>
-<span class="co">#&gt; 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 </span>
+<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
 <span class="co">#&gt;   CDKN1B   CDKN1A     EREG     NCK2   CAMK2A   CAMK2B   CAMK2D   CAMK2G </span>
-<span class="co">#&gt; 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 5.278659 </span>
+<span class="co">#&gt; 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 5.256707 </span>
 <span class="co">#&gt;     CBLC     CRKL    HBEGF </span>
-<span class="co">#&gt; 5.278659 5.278659 5.278659</span></code></pre></div>
+<span class="co">#&gt; 5.256707 5.256707 5.256707</span></code></pre></div>
 </div>
   </div>
 

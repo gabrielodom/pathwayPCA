@@ -32,6 +32,7 @@ reference:
     desc: Functions designed for direct end-user interaction
     contents:
       - '`read_gmt`'
+      - '`print.pathwaySet`'
       - '`transpose_assay`'
       - '`create_OmicsPath`'
       - '`create_OmicsSurv`'
@@ -81,5 +82,5 @@ reference:
       - '`adjustRaw_pVals`'
       - '`matrixRoot`'
       - '`randomControlSample`'
-      - '`colonGenesets_ls`'
+      - '`colon_pathwaySet`'
       - '`colonSurv_df`'

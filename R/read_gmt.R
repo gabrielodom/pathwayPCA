@@ -1,8 +1,9 @@
 
-#' Read a \code{.gmt} file
+#' Read a \code{.gmt} file in as a \code{pathwaySet} object
 #'
 #' @description Read a gene set file in Gene Matrix Transposed (\code{.gmt})
-#'    format, with special performance consideration for large files.
+#'    format, with special performance consideration for large files. Present
+#'    this object as a \code{pathwaySet} object.
 #'
 #' @param file A path to a file or a connection. This file must be a \code{.gmt}
 #'    file, otherwise input will likely be nonsense. See the "Details" section
@@ -31,6 +32,8 @@
 #'    \url{https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29}
 #'
 #' @export
+#'
+#' @seealso \code{\link{print.pathwaySet}}
 #'
 #' @examples
 #' \dontrun{

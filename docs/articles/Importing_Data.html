@@ -85,7 +85,7 @@
       <h1>Import and Tidy Data</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-06</h4>
+            <h4 class="date">2018-04-10</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Importing_Data.Rmd"><code>vignettes/Importing_Data.Rmd</code></a></small>
       <div class="hidden name"><code>Importing_Data.Rmd</code></div>
@@ -147,12 +147,11 @@
 <code>GSEA_link</code>: A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway.</li>
 </ol>
 <p>The object itself has the following structure:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gene_set_ls, <span class="dt">max.level =</span> <span class="dv">1</span>)
-<span class="co">#&gt; List of 3</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene_set_ls
+<span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
 <span class="co">#&gt;  $ pathways :List of 1329</span>
-<span class="co">#&gt;  $ TERMS    : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" "KEGG_CITRATE_CYCLE_TCA_CYCLE" "KEGG_PENTOSE_PHOSPHATE_PATHWAY" "KEGG_PENTOSE_AND_GLUCURONATE_INTERCONVERSIONS" ...</span>
-<span class="co">#&gt;  $ GSEA_link: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_CITRATE_CYCLE_TCA_CYCLE" "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_PENTOSE_PHOSPHATE_PATHWAY" "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_PENTOSE_AND_GLUCURONATE_INTERCONVERSIONS" ...</span>
-<span class="co">#&gt;  - attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
+<span class="co">#&gt;  $ TERMS    : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span>
+<span class="co">#&gt;  $ GSEA_link: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span></code></pre></div>
 <p>This object will be the list supplied to the <code>pathwaySet_ls</code> argument in the <code>create_OmicsPath</code>, <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions.</p>
 <hr>
 <p></p>
@@ -171,7 +170,8 @@
 <a href="#import-with-readr" class="anchor"></a>Import with <code>readr</code>
 </h2>
 <p>To import these files in <code>.xlsx</code>, <code>.csv</code>, or <code>.txt</code> (tab-delimited), we recommend the <a href="https://readr.tidyverse.org/"><code>readr</code> package</a>. We would read this data via</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_assay.csv"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_assay.csv"</span>)
+<span class="kw">getwd</span>()</code></pre></div>
 <pre><code>#&gt; Warning: Missing column names filled in: 'X1' [1]
 #&gt; Parsed with column specification:
 #&gt; cols(
@@ -412,6 +412,14 @@
 <div id="inspect-the-new-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect-the-new-object" class="anchor"></a>Inspect the New Object</h2>
+<p>We now print the <code>OmicsSurv</code> object we just created. We can see a summary of all the data inputs we used.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_OmicsSurv
+<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
+<span class="co">#&gt;   ..@ eventTime    : num [1:36] 14.25 1 6.75 8.5 7.25 ...</span>
+<span class="co">#&gt;   ..@ eventObserved: logi [1:36] TRUE TRUE FALSE TRUE FALSE TRUE ...</span>
+<span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    36 obs. of  17 variables:</span>
+<span class="co">#&gt;   ..@ pathwaySet   :List of 4</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
 </div>
 </div>
   </div>

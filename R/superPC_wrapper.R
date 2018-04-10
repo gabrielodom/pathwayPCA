@@ -84,11 +84,11 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colonGenesets_ls")
+#'   data("colon_pathwaySet")
 #'
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colonGenesets_ls,
+#'                                       pathwaySet_ls = colon_pathwaySet,
 #'                                       eventTime_vec = colonSurv_df$OS_time,
 #'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
 #'

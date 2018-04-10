@@ -89,9 +89,8 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">Version Logs</a>
 </li>
-<li class="dropdown-header">Version Logs</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -140,7 +139,8 @@
     </tr>
     <tr>
       <th>pathwaySet_ls</th>
-      <td><p>A list of known gene pathways with two elements:</p><ul>
+      <td><p>A <code>pathwaySet</code> list of known gene pathways with two
+elements:</p><ul>
 <li><p><code>pathways</code> : A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
      vector of character strings. The names contained in these vectors must
@@ -206,6 +206,9 @@ variable of a generalized linear regression exercise.</p></td>
   the pathway names are attached as attributes to the <code>TERMS</code> and
   <code>setsize</code> vectors (the <code>setsize</code> vector is calculated at object
   creation).</p>
+<p>If your gene pathway set information is stored in a <code>.gmt</code> file, use
+  the <code><a href='read_gmt.html'>read_gmt</a></code> function to import your gene set list as a
+  <code>pathwaySet</code> list object.</p>
     
     <h2 class="hasAnchor" id="omicspathway"><a class="anchor" href="#omicspathway"></a>OmicsPathway</h2>
 
@@ -244,26 +247,26 @@ variable of a generalized linear regression exercise.</p></td>
     <pre class="examples"><span class='co'># NOT RUN {</span>
   <span class='co'>###  Load the Example Data  ###</span>
   <span class='fu'>data</span>(<span class='st'>"colonSurv_df"</span>)
-  <span class='fu'>data</span>(<span class='st'>"colonGenesets_ls"</span>)
+  <span class='fu'>data</span>(<span class='st'>"colon_pathwaySet"</span>)
 
   <span class='co'>###  Create an OmicsPathway Object  ###</span>
   <span class='no'>colon_OmicsPath</span> <span class='kw'>&lt;-</span> <span class='fu'>create_OmicsPath</span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
-                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colonGenesets_ls</span>)
+                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>)
 
   <span class='co'>###  Create an OmicsSurv Object  ###</span>
   <span class='no'>colon_OmicsSurv</span> <span class='kw'>&lt;-</span> <span class='fu'>create_OmicsSurv</span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
-                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colonGenesets_ls</span>,
+                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>,
                                       <span class='kw'>eventTime_vec</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>,
                                       <span class='kw'>eventObserved_vec</span> <span class='kw'>=</span> <span class='fu'>as.logical</span>(<span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>))
 
   <span class='co'>###  Create an OmicsReg Object  ###</span>
   <span class='no'>colon_OmicsReg</span> <span class='kw'>&lt;-</span> <span class='fu'>create_OmicsReg</span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
-                                    <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colonGenesets_ls</span>,
+                                    <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>,
                                     <span class='kw'>response_num</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>)
 
   <span class='co'>###  Create an OmicsCateg Object  ###</span>
   <span class='no'>colon_OmicsCateg</span> <span class='kw'>&lt;-</span> <span class='fu'>create_OmicsCateg</span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
-                                        <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colonGenesets_ls</span>,
+                                        <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>,
                                         <span class='kw'>response_fact</span> <span class='kw'>=</span> <span class='fu'>as.factor</span>(<span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>))
 <span class='co'># }</span><div class='input'>
 </div></pre>

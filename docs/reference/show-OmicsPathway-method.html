@@ -151,11 +151,11 @@ class includes objects of class <code>OmicsSurv</code>, <code>OmicsReg</code>, o
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'>###  Load the Example Data  ###</span>
   <span class='fu'>data</span>(<span class='st'>"colonSurv_df"</span>)
-  <span class='fu'>data</span>(<span class='st'>"colonGenesets_ls"</span>)
+  <span class='fu'>data</span>(<span class='st'>"colon_pathwaySet"</span>)
 
   <span class='co'>###  Create an OmicsSurv Object  ###</span>
   <span class='no'>colon_OmicsSurv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_OmicsPathway.html'>create_OmicsSurv</a></span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
-                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colonGenesets_ls</span>,
+                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>,
                                       <span class='kw'>eventTime_vec</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>,
                                       <span class='kw'>eventObserved_vec</span> <span class='kw'>=</span> <span class='fu'>as.logical</span>(<span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>))
 
@@ -164,7 +164,8 @@ class includes objects of class <code>OmicsSurv</code>, <code>OmicsReg</code>, o
 #&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...
 #&gt;   ..@ eventObserved: logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...
 #&gt;   ..@ assayData_df :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	250 obs. of  656 variables:
-#&gt;   ..@ pathwaySet   :List of 3</div><div class='input'>
+#&gt;   ..@ pathwaySet   :List of 3
+#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

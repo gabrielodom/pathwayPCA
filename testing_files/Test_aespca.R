@@ -40,10 +40,10 @@ load("data/aespca_Genesets_ls.rda")
 #   better understand how the function works and what it is returning.
 library(pathwayPCA)
 data("colonSurv_df")
-data("colonGenesets_ls")
+data("colon_pathwaySet")
 
 colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwaySet_ls = colonGenesets_ls)
+                                    pathwaySet_ls = colon_pathwaySet)
 colonClean_OmicsPath <- expressedOmes(colon_OmicsPath)
 testPathway_vec <- colonClean_OmicsPath@pathwaySet$pathways[[1]]
 testPathway_df <- colonClean_OmicsPath@assayData_df[, testPathway_vec]

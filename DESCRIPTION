@@ -55,6 +55,7 @@ Collate:
     'data_colonSubset.R'
     'data_genesetSubset.R'
     'printClass_Omics_All.R'
+    'printClass_pathwaySet.R'
     'read_gmt.R'
     'superPC_model_CoxPH.R'
     'superPC_model_GLM.R'

@@ -18,7 +18,8 @@ create_OmicsCateg(assayData_df, pathwaySet_ls, response_fact)
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
 
-\item{pathwaySet_ls}{A list of known gene pathways with two elements:
+\item{pathwaySet_ls}{A \code{pathwaySet} list of known gene pathways with two
+elements:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
@@ -78,6 +79,10 @@ Please note that the classes of the parameters are \emph{not}
   the pathway names are attached as attributes to the \code{TERMS} and
   \code{setsize} vectors (the \code{setsize} vector is calculated at object
   creation).
+
+  If your gene pathway set information is stored in a \code{.gmt} file, use
+  the \code{\link{read_gmt}} function to import your gene set list as a
+  \code{pathwaySet} list object.
 }
 \section{OmicsPathway}{
 
@@ -108,26 +113,26 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
 \dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
-  data("colonGenesets_ls")
+  data("colon_pathwaySet")
 
   ###  Create an OmicsPathway Object  ###
   colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colonGenesets_ls)
+                                      pathwaySet_ls = colon_pathwaySet)
 
   ###  Create an OmicsSurv Object  ###
   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colonGenesets_ls,
+                                      pathwaySet_ls = colon_pathwaySet,
                                       eventTime_vec = colonSurv_df$OS_time,
                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
 
   ###  Create an OmicsReg Object  ###
   colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwaySet_ls = colonGenesets_ls,
+                                    pathwaySet_ls = colon_pathwaySet,
                                     response_num = colonSurv_df$OS_time)
 
   ###  Create an OmicsCateg Object  ###
   colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
-                                        pathwaySet_ls = colonGenesets_ls,
+                                        pathwaySet_ls = colon_pathwaySet,
                                         response_fact = as.factor(colonSurv_df$OS_event))
 }
 

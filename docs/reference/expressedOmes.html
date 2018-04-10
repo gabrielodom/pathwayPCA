@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-  data frame — expressedOmes • pathwayPCA</title>
+   data frame — expressedOmes • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,12 +27,12 @@
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 <meta property="og:title" content="Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-  data frame — expressedOmes" />
+   data frame — expressedOmes" />
 
-<meta property="og:description" content="Given a bio-assay design matrix and a gene pathways list (each
-  within an Omics*-class object), extract the genes / proteins /
-  lipids / metabolomes / transcriptomes contained in each gene pathway set
-  which are expressed in the assay data frame." />
+<meta property="og:description" content="Given a bio-assay design matrix and a pathwaySet gene
+   pathways list (each within an Omics*-class object), extract the
+   genes / proteins / lipids / metabolomes / transcriptomes contained in each
+   gene pathway set which are expressed in the assay data frame." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -93,9 +93,8 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">Version Logs</a>
 </li>
-<li class="dropdown-header">Version Logs</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -118,16 +117,16 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-  data frame</h1>
+   data frame</h1>
     <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/subsetExpressed-omes.R'><code>R/subsetExpressed-omes.R</code></a></small>
     <div class="hidden name"><code>expressedOmes.Rd</code></div>
     </div>
 
     
-    <p>Given a bio-assay design matrix and a gene pathways list (each
-  within an <code>Omics*</code>-class object), extract the genes / proteins /
-  lipids / metabolomes / transcriptomes contained in each gene pathway set
-  which are expressed in the assay data frame.</p>
+    <p>Given a bio-assay design matrix and a <code>pathwaySet</code> gene
+   pathways list (each within an <code>Omics*</code>-class object), extract the
+   genes / proteins / lipids / metabolomes / transcriptomes contained in each
+   gene pathway set which are expressed in the assay data frame.</p>
     
 
     <pre class="usage"><span class='fu'>expressedOmes</span>(<span class='no'>object</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
@@ -154,8 +153,8 @@ is excluded. Defaults to 3.</p></td>
       <td><p>Should this function return diagnostic messages? Messages
 concern the percentage of genes included in the pathway set but not
 measured in the data, genes measured in the data but not called for in the
-pathways, and the number of pathways ignored due to too few number of genes
-present after trimming. Defaults to <code>TRUE</code>.</p></td>
+pathways, and the number of pathways ignored due to too few number of
+genes present after trimming. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -166,36 +165,40 @@ present after trimming. Defaults to <code>TRUE</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A valid <code>Omics*</code>-class object. This output object will be
-  identical to the input object, except that any genes present in the
-  pathways list, but not present in the MS design matrix, will have been
-  removed. Additionally, the pathway list will have the number of genes in
-  each trimmed pathway stored as the <code>trim_setsize</code> object.</p>
+   identical to the input object, except that any genes present in the
+   pathways list, but not present in the MS design matrix, will have been
+   removed. Additionally, the pathway list will have the number of genes in
+   each trimmed pathway stored as the <code>trim_setsize</code> object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function takes in a data frame with named columns and a pathway
-  list, all through one of the <code>Omics*</code> classes. This function will then
-  iterate over the list of pathways, extract columns from the bio-assay
-  design matrix which match the genes listed in that pathway, and remove any
-  pathways with fewer than <code>trim</code> expressed genes. The genes not
-  expressed in the bio-assay design matrix are removed from the pathway list.</p>
+    <p>This function takes in a data frame with named columns and a
+   <code>pathwaySet</code> list, all through one of the <code>Omics*</code> classes.
+   This function will then iterate over the list of pathways, extract columns
+   from the bio-assay design matrix which match the genes listed in that
+   pathway, and remove any pathways with fewer than <code>trim</code> expressed
+   genes. The genes not expressed in the bio-assay design matrix are removed
+   from the <code>pathwaySet</code> list.</p>
 <p>NOTE: some genes will be included in more than one pathway, so these
-  pathways are not mutually exclusive. Further note that there may be many
-  genes in the assay design matrix that are not included in the pathway sets,
-  so these will not be extracted to the list. It is then vitally important to
-  use either a very broad and generic pathway set list or a pathway set list
-  that is appropriate for the assay data supplied.</p>
+   pathways are not mutually exclusive. Further note that there may be many
+   genes in the assay design matrix that are not included in the pathway
+   sets, so these will not be extracted to the list. It is then vitally
+   important to use either a very broad and generic <code>pathwaySet</code> list
+   or a <code>pathwaySet</code> list that is appropriate for the assay data
+   supplied. While you can create your own pathway lists, create proper
+   <code>pathwaySet</code> list objects by importing <code>.gmt</code> files with the
+   <code><a href='read_gmt.html'>read_gmt</a></code> function.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
   <span class='co'>###  Load the Example Data  ###</span>
   <span class='fu'>data</span>(<span class='st'>"colonSurv_df"</span>)
-  <span class='fu'>data</span>(<span class='st'>"colonGenesets_ls"</span>)
+  <span class='fu'>data</span>(<span class='st'>"colon_pathwaySet"</span>)
 
   <span class='co'>###  Create an OmicsSurv Object  ###</span>
   <span class='no'>colon_OmicsSurv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_OmicsPathway.html'>create_OmicsSurv</a></span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
-                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colonGenesets_ls</span>,
+                                      <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>,
                                       <span class='kw'>eventTime_vec</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>,
                                       <span class='kw'>eventObserved_vec</span> <span class='kw'>=</span> <span class='fu'>as.logical</span>(<span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>))
 
