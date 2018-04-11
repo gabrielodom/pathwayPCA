@@ -1,4 +1,4 @@
-#' Display the Summary of a\code{pathwaySet}-class Object.
+#' Display the Summary of a \code{pathwaySet}-class Object.
 #'
 #' @description The display method for gene set / pathway set lists as returned
 #'    by the \code{\link{read_gmt}} function.

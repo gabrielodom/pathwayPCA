@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Display the Summary of a <code>pathwaySet</code>-class Object. — print.pathwaySet • pathwayPCA</title>
+<title>Manually Create a <code>pathwaySet</code>-class Object. — create_pathwaySet • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,10 +25,10 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Display the Summary of a <code>pathwaySet</code>-class Object. — print.pathwaySet" />
+<meta property="og:title" content="Manually Create a <code>pathwaySet</code>-class Object. — create_pathwaySet" />
 
-<meta property="og:description" content="The display method for gene set / pathway set lists as returned
-   by the read_gmt function." />
+<meta property="og:description" content="Manually create a pathwaySet list similar to the output
+   of the read_gmt function." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,41 +115,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Display the Summary of a <code>pathwaySet</code>-class Object.</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/printClass_pathwaySet.R'><code>R/printClass_pathwaySet.R</code></a></small>
-    <div class="hidden name"><code>print.pathwaySet.Rd</code></div>
+    <h1>Manually Create a <code>pathwaySet</code>-class Object.</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/create_pathwaySet.R'><code>R/create_pathwaySet.R</code></a></small>
+    <div class="hidden name"><code>create_pathwaySet.Rd</code></div>
     </div>
 
     
-    <p>The display method for gene set / pathway set lists as returned
-   by the <code><a href='read_gmt.html'>read_gmt</a></code> function.</p>
+    <p>Manually create a <code>pathwaySet</code> list similar to the output
+   of the <code><a href='read_gmt.html'>read_gmt</a></code> function.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for pathwaySet</span>
-<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>create_pathwaySet</span>(<span class='no'>pathways</span>, <span class='no'>TERMS</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An object of class <code>pathwaySet</code>.</p></td>
+      <th>pathways</th>
+      <td><p>A named list of character vectors. Each vector should contain
+the names of the individual genes or proteins within that pathway as a
+vector of character strings. The names contained in these vectors should
+have non-empty overlap with the feature names of the assay data frame that
+will be paired with this list in the subsequent analysis. The names of the
+pathways (the list elements themselves) should be the a shorthand
+representation of the full pathway name, but this is not required.</p></td>
+    </tr>
+    <tr>
+      <th>TERMS</th>
+      <td><p>A character vector the same length as the <code>pathways</code> list
+with the proper names of the pathways.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Lazy dots for additional internal arguments (currently unused).</p></td>
+      <td><p>Additional vectors or data components related to the
+<code>pathways</code> list. These values should be passed as a name-value pair.
+See "Details" for more information.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>x</code>, returned invisibly (with the <code>invisible</code>
-   function).</p>
+    <p>A list object with class <code>pathwaySet</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function sets a <code>print</code> method for <code>pathwaySet</code>
-   objects.</p>
+    <p>This function checks the pathwy list and pathway term inputs and
+   then creates a <code>pathwaySet</code> object from them. Pass additional list
+   elements using the form <code>tag = value</code> through the <code>...</code>
+   argument (as in the <code>list</code> function). Because some functions
+   in the <code>pathwayPCA</code> package add and edit elements of
+   <code>pathwaySet</code> objects, please do not create <code>pathwaySet</code> list
+   items named <code>setsize</code> or <code>trim_setsize</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -157,11 +173,10 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'>###  Load the Example Data  ###</span>
-  <span class='fu'>data</span>(<span class='st'>"colon_pathwaySet"</span>)
+    <pre class="examples"><div class='input'>  <span class='fu'>data</span>(<span class='st'>"colon_pathwaySet"</span>)
 
-  <span class='co'>###  Print / Show  ###</span>
-  <span class='no'>colon_pathwaySet</span></div><div class='output co'>#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: 
+  <span class='fu'>create_pathwaySet</span>(<span class='kw'>pathways</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>$<span class='no'>pathways</span>,
+                    <span class='kw'>TERMS</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>$<span class='no'>TERMS</span>)</div><div class='output co'>#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: 
 #&gt;  $ pathways:List of 15
 #&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</div><div class='input'>
 </div></pre>

@@ -52,6 +52,7 @@ Collate:
     'calculate_matrixRoot.R'
     'calculate_multtest_pvalues.R'
     'create_Omics_All.R'
+    'create_pathwaySet.R'
     'data_colonSubset.R'
     'data_genesetSubset.R'
     'printClass_Omics_All.R'
