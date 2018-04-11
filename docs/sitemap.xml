@@ -25,6 +25,9 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/create_OmicsPathway.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/create_pathwaySet.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/expressedOmes.html</loc>
   </url>
   <url>
@@ -116,6 +119,9 @@
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//articles/AES-PCA_Walkthrough.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Create_Omics_Objects.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//articles/Importing_Data.html</loc>

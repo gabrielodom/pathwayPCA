@@ -101,8 +101,8 @@ Using the survival response information, we will create a valid `OmicsSurv` obje
 ```{r create_OmicsSurv}
 colon_OmicsSurv <- create_OmicsSurv(assayData_df = cancers_df,
                                     pathwaySet_ls = geneset_ls,
-                                    eventTime_vec = survTime_num,
-                                    eventObserved_vec = dead_logi)
+                                    eventTime_num = survTime_num,
+                                    eventObserved_lgl = dead_logi)
 colon_OmicsSurv
 ```
 

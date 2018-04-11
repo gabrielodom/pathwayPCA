@@ -3,6 +3,7 @@ pkgdown: 0.1.0.9000
 pkgdown_sha: 4e194be97890ace7225932cbc3b4380085aedcf8
 articles:
   AES-PCA_Walkthrough: AES-PCA_Walkthrough.html
+  Create_Omics_Objects: Create_Omics_Objects.html
   Importing_Data: Importing_Data.html
   Package_Dev_Notes: Package_Dev_Notes.html
   Supervised_PCA_Walkthrough: Supervised_PCA_Walkthrough.html

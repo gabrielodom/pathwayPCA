@@ -810,8 +810,8 @@ rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 
 tumour_OmicsSurv <- create_OmicsSurv(assayData_df = as.data.frame(t(array)),
                                      pathwaySet_ls = geneset,
-                                     eventTime_vec = survY_df$SurvivalTime,
-                                     eventObserved_vec = as.logical(survY_df$disease_event))
+                                     eventTime_num = survY_df$SurvivalTime,
+                                     eventObserved_lgl = as.logical(survY_df$disease_event))
 a <- Sys.time()
 survTest_df <- superPCA_pVals(object = tumour_OmicsSurv,
                               parallel = TRUE,

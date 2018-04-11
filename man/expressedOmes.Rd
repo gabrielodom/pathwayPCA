@@ -68,8 +68,8 @@ This function takes in a data frame with named columns and a
   ###  Create an OmicsSurv Object  ###
   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
                                       pathwaySet_ls = colon_pathwaySet,
-                                      eventTime_vec = colonSurv_df$OS_time,
-                                      eventObserved_vec = as.logical(colonSurv_df$OS_event))
+                                      eventTime_num = colonSurv_df$OS_time,
+                                      eventObserved_lgl = as.logical(colonSurv_df$OS_event))
 
   ###  Extract Expressed Genes  ###
   expressedOmes(colon_OmicsSurv)
