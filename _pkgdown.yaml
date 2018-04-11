@@ -16,10 +16,10 @@ navbar:
     articles:
       text: User Guides
       menu:
-      - text: Quickstart Guide
-        href: articles/Quickstart_Guide.html
       - text: Import Data
         href: articles/Importing_Data.html
+      - text: Create Data Containers
+        href: articles/Create_Omics_Objects.html
       - text: Pathway Ranking with AES-PCA
         href: articles/AES-PCA_Walkthrough.html
       - text: Pathway Ranking with Supervised PCA

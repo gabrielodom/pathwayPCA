@@ -78,6 +78,9 @@
       <a href="../articles/AES-PCA_Walkthrough.html">AES-PCA Walkthrough with pathwayPCA</a>
     </li>
     <li>
+      <a href="../articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+    </li>
+    <li>
       <a href="../articles/Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
@@ -124,7 +127,7 @@
 
     <pre class="usage"><span class='fu'>create_OmicsPath</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>)
 
-<span class='fu'>create_OmicsSurv</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>, <span class='no'>eventTime_vec</span>, <span class='no'>eventObserved_vec</span>)
+<span class='fu'>create_OmicsSurv</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>, <span class='no'>eventTime_num</span>, <span class='no'>eventObserved_lgl</span>)
 
 <span class='fu'>create_OmicsReg</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>, <span class='no'>response_num</span>)
 
@@ -153,12 +156,12 @@ elements:</p><ul>
 </ul></td>
     </tr>
     <tr>
-      <th>eventTime_vec</th>
+      <th>eventTime_num</th>
       <td><p>A <code>numeric</code> vector with \(N\) observations
 corresponding to the last observed time of follow up.</p></td>
     </tr>
     <tr>
-      <th>eventObserved_vec</th>
+      <th>eventObserved_lgl</th>
       <td><p>A <code>logical</code> vector with \(N\) observations
 indicating right-censoring. The values will be <code>FALSE</code> if the
 observation was censored (i.e., we did not observe an event).</p></td>
@@ -256,8 +259,8 @@ variable of a generalized linear regression exercise.</p></td>
   <span class='co'>###  Create an OmicsSurv Object  ###</span>
   <span class='no'>colon_OmicsSurv</span> <span class='kw'>&lt;-</span> <span class='fu'>create_OmicsSurv</span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],
                                       <span class='kw'>pathwaySet_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwaySet</span>,
-                                      <span class='kw'>eventTime_vec</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>,
-                                      <span class='kw'>eventObserved_vec</span> <span class='kw'>=</span> <span class='fu'>as.logical</span>(<span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>))
+                                      <span class='kw'>eventTime_num</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>,
+                                      <span class='kw'>eventObserved_lgl</span> <span class='kw'>=</span> <span class='fu'>as.logical</span>(<span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>))
 
   <span class='co'>###  Create an OmicsReg Object  ###</span>
   <span class='no'>colon_OmicsReg</span> <span class='kw'>&lt;-</span> <span class='fu'>create_OmicsReg</span>(<span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>1</span>:<span class='fl'>2</span>)],

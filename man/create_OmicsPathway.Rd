@@ -9,7 +9,7 @@
 \usage{
 create_OmicsPath(assayData_df, pathwaySet_ls)
 
-create_OmicsSurv(assayData_df, pathwaySet_ls, eventTime_vec, eventObserved_vec)
+create_OmicsSurv(assayData_df, pathwaySet_ls, eventTime_num, eventObserved_lgl)
 
 create_OmicsReg(assayData_df, pathwaySet_ls, response_num)
 
@@ -32,10 +32,10 @@ elements:
      \code{pathways} list with the proper names of the pathways.}
 }}
 
-\item{eventTime_vec}{A \code{numeric} vector with \eqn{N} observations
+\item{eventTime_num}{A \code{numeric} vector with \eqn{N} observations
 corresponding to the last observed time of follow up.}
 
-\item{eventObserved_vec}{A \code{logical} vector with \eqn{N} observations
+\item{eventObserved_lgl}{A \code{logical} vector with \eqn{N} observations
 indicating right-censoring. The values will be \code{FALSE} if the
 observation was censored (i.e., we did not observe an event).}
 
@@ -122,8 +122,8 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
   ###  Create an OmicsSurv Object  ###
   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
                                       pathwaySet_ls = colon_pathwaySet,
-                                      eventTime_vec = colonSurv_df$OS_time,
-                                      eventObserved_vec = as.logical(colonSurv_df$OS_event))
+                                      eventTime_num = colonSurv_df$OS_time,
+                                      eventObserved_lgl = as.logical(colonSurv_df$OS_event))
 
   ###  Create an OmicsReg Object  ###
   colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],

@@ -17,6 +17,12 @@ knitr::opts_chunk$set(collapse = TRUE,
                       comment = "#>")
 ```
 
+IMPORTANT: add to the `_pkgdown.yaml` file once you try to add this to the vignettes again.
+```
+      - text: Quickstart Guide
+        href: articles/Quickstart_Guide.html
+```
+
 
 # Overview
 This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes.

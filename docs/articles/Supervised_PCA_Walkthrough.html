@@ -49,6 +49,9 @@
       <a href="../articles/AES-PCA_Walkthrough.html">AES-PCA Walkthrough with pathwayPCA</a>
     </li>
     <li>
+      <a href="../articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+    </li>
+    <li>
       <a href="../articles/Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
@@ -85,7 +88,7 @@
       <h1>Supervised PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-10</h4>
+            <h4 class="date">2018-04-11</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supervised_PCA_Walkthrough.Rmd"><code>vignettes/Supervised_PCA_Walkthrough.Rmd</code></a></small>
       <div class="hidden name"><code>Supervised_PCA_Walkthrough.Rmd</code></div>
@@ -221,8 +224,8 @@ cancers_df &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span
 <p>Using the survival response information, we will create a valid <code>OmicsSurv</code> object for further analysis with the <code>pathwayPCA::</code> functions. Remember, it is vitally important to input your data in the forms described above. Because we are creating an <code>OmicsSurv</code> object, we will need event times as a numeric vector and death indicator as a logical vector.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsSurv</a></span>(<span class="dt">assayData_df =</span> cancers_df,
                                     <span class="dt">pathwaySet_ls =</span> geneset_ls,
-                                    <span class="dt">eventTime_vec =</span> survTime_num,
-                                    <span class="dt">eventObserved_vec =</span> dead_logi)
+                                    <span class="dt">eventTime_num =</span> survTime_num,
+                                    <span class="dt">eventObserved_lgl =</span> dead_logi)
 colon_OmicsSurv
 <span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
 <span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
@@ -325,7 +328,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 5.505751 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.837791 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -353,7 +356,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 5.042285 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 5.08298 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -381,7 +384,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 7.371436 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 7.363434 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -495,22 +498,22 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <p>Now consider the rows of this matrix. Each row is a gene, and the <span class="math inline">\(j^{th}\)</span> entry in the row is equal to <span class="math inline">\(S_j\)</span>, if the gene is included in pathway <span class="math inline">\(j\)</span>, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The <code><a href="../reference/topGenes.html">topGenes()</a></code> function returns the top 5% of both. As we can see, most of the genes included in the <code>summedRank</code> vector are the in the list of “usual suspects” for colon cancer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
-<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   PIK3CB   PIK3R2   MAP2K1     NRAS     GRB2 </span>
-<span class="co">#&gt; 46.25637 46.25637 38.43132 38.06480 38.06480 38.05810 38.05810 38.05810 </span>
-<span class="co">#&gt;    MAPK3     HRAS     KRAS     SHC1      CRK </span>
-<span class="co">#&gt; 38.05810 38.05810 38.05810 30.64169 30.64169 </span>
+<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
+<span class="co">#&gt; 36.43591 36.43591 31.00945 30.59087 30.59087 30.59087 30.59087 30.59087 </span>
+<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
+<span class="co">#&gt; 30.59087 29.95207 29.95207 24.72225 24.72225 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
 <span class="co">#&gt;     PAK3      BTC     ELK1     NRG1     PAK4     NRG3    MAPK9    ERBB4 </span>
-<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
+<span class="co">#&gt; 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 </span>
 <span class="co">#&gt;   MAPK10    ERBB3     ABL1     NRG2     ABL2     SHC4  RPS6KB2     AREG </span>
-<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
+<span class="co">#&gt; 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 </span>
 <span class="co">#&gt;   STAT5B   STAT5A     PAK6      MYC     NRG4    GSK3B     CBLB      CBL </span>
-<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
+<span class="co">#&gt; 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 </span>
 <span class="co">#&gt;   CDKN1B   CDKN1A     EREG     NCK2   CAMK2A   CAMK2B   CAMK2D   CAMK2G </span>
-<span class="co">#&gt; 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 8.272449 </span>
+<span class="co">#&gt; 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 6.679956 </span>
 <span class="co">#&gt;     CBLC     CRKL    HBEGF </span>
-<span class="co">#&gt; 8.272449 8.272449 8.272449</span></code></pre></div>
+<span class="co">#&gt; 6.679956 6.679956 6.679956</span></code></pre></div>
 </div>
   </div>
 

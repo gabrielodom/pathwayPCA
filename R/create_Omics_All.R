@@ -85,8 +85,8 @@
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
 #'                                       pathwaySet_ls = colon_pathwaySet,
-#'                                       eventTime_vec = colonSurv_df$OS_time,
-#'                                       eventObserved_vec = as.logical(colonSurv_df$OS_event))
+#'                                       eventTime_num = colonSurv_df$OS_time,
+#'                                       eventObserved_lgl = as.logical(colonSurv_df$OS_event))
 #'
 #'   ###  Create an OmicsReg Object  ###
 #'   colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
@@ -166,9 +166,9 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 #'   time marks an event (\code{TRUE}: observed event; \code{FALSE}: right-
 #'   censored observation).
 #'
-#' @param eventTime_vec A \code{numeric} vector with \eqn{N} observations
+#' @param eventTime_num A \code{numeric} vector with \eqn{N} observations
 #'    corresponding to the last observed time of follow up.
-#' @param eventObserved_vec A \code{logical} vector with \eqn{N} observations
+#' @param eventObserved_lgl A \code{logical} vector with \eqn{N} observations
 #'   indicating right-censoring. The values will be \code{FALSE} if the
 #'   observation was censored (i.e., we did not observe an event).
 #'
@@ -176,8 +176,8 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
 #' @rdname create_OmicsPathway
 create_OmicsSurv <- function(assayData_df,
                              pathwaySet_ls,
-                             eventTime_vec,
-                             eventObserved_vec){
+                             eventTime_num,
+                             eventObserved_lgl){
 
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
@@ -230,8 +230,8 @@ create_OmicsSurv <- function(assayData_df,
   new("OmicsSurv",
       assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
-      eventTime = eventTime_vec,
-      eventObserved = eventObserved_vec)
+      eventTime = eventTime_num,
+      eventObserved = eventObserved_lgl)
 
 }
 
