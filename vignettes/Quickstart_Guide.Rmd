@@ -1,0 +1,98 @@
+---
+title: "Quickstart Guide to pathwayPCA"
+author: "Gabriel Odom"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Quickstart Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      cache = FALSE,
+                      comment = "#>")
+```
+
+
+# Overview
+This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes.
+
+0. Download Packages
+1. Import Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html))
+2. Create `Omics` Data Object LINK
+3. Perform Analysis ([*AES-PCA*](https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html) and [*Supervised PCA*](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html) vignettes)
+4. Inspect Results LINK
+
+Before we get started, you need the `pathwayPCA` package to run your analysis. You can install it from GitHub. If you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package. We also recommend the `tidyverse` package to help you run some of the examples in these vignettes. 
+```
+devtools::install_github("gabrielodom/pathwayPCA")
+```
+```{r}
+library(pathwayPCA)
+library(tidyverse)
+library(parallel)
+```
+
+*******************************************************************************
+
+</br>
+
+
+# Import Data
+We will cover three data import steps.
+
+### Import `.gmt` Files
+Use the `read_gmt` function. Create your own with the `create_pathwaySet` function.
+
+### Import and Tidy Assay Data
+Use the `read_csv` function from the `readr` package. Tidy the assay with the `transpose_assay` function.
+
+### Import Patient Info
+Use the `read_csv` function to import the patient data, then the `inner_join` function from the `dplyr` package to match the assay measurements to patient information by subject identifier.
+
+*******************************************************************************
+
+</br>
+
+
+# Create an `Omics` Data Object
+
+### Create an Object
+Create a data container specific to survival, regression, or categorical responses.
+
+
+### Inspect the Object Contents
+Print the object to the screen to see a summary of the data contained therein.
+
+### Modify Object Contents
+Use accessor functions to extract, edit, or replace data contained in the object.
+
+*******************************************************************************
+
+</br>
+
+
+# Test Pathways for Significance
+
+### AES-PCA
+Perform AES-PCA on the object with the `AESPCA_pVals` function.
+
+### Supervised PCA
+Perform Supervised PCA on the object with the `superPCA_pVals` function.
+
+*******************************************************************************
+
+</br>
+
+
+# Inspect Results
+
+### Graph of Top Pathways
+Use `ggplot2` to create summary graphics of the analysis results.
+
+### Extract Genes from the Top Pathways
+Use the `topGenes` function to "score" the genes contained in the top significant pathways.

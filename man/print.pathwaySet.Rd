@@ -2,7 +2,7 @@
 % Please edit documentation in R/printClass_pathwaySet.R
 \name{print.pathwaySet}
 \alias{print.pathwaySet}
-\title{Display the Summary of a\code{pathwaySet}-class Object.}
+\title{Display the Summary of a \code{pathwaySet}-class Object.}
 \usage{
 \method{print}{pathwaySet}(x, ...)
 }

@@ -19,7 +19,15 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # Overview
 
-This vignette will discuss importing Gene Matrix Transposed (`.gmt`) [gene set files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) to a list object with class `pathwaySet` with the `read_gmt` function. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10).
+This vignette will discuss importing Gene Matrix Transposed (`.gmt`) [gene set files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) to a list object with class `pathwaySet` with the `read_gmt` function. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list.
+
+### Outline
+Before we move on, we will outline our steps. We will
+
+1. Import a `.gmt` file and save the gene sets therein as a `pathwaySet` object using the `read_gmt` function.
+2. Import an assay `.csv` file with the `read_csv` function from the `readr` package, and transpose this data frame into "tidy" form with the `transpose_assay` function.
+3. Import a subject information `.csv` file, and join (merge) it to the assay data frame with the `inner_join` function from the `dplyr` package.
+4. Create an `Omics` object to store each of these data components.
 
 First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/). If you don't have the `tidyverse` package suite, install that first.
 ```{r packageLoad}
@@ -32,10 +40,10 @@ library(pathwayPCA)
 
 </br>
 
-# Importing GMT Files
-GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the [MSigDB Collections](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) page.
+# GMT Files
+GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the [MSigDB Collections](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) page. 
 
-## GMT Format Description
+### GMT Format Description
 GMT-formatted files follow a very specific set of rules:
 
 1. Each row of the file represents a gene set, and only one gene set is allowed per line.
@@ -44,7 +52,7 @@ GMT-formatted files follow a very specific set of rules:
 4. The third to the last entry on each row are the genes in the gene set. Eg. `"SOAT1"  "LSS" "SQLE"  "EBP" "CYP51A1" "DHCR7" "CYP27B1" "DHCR24"  "HSD17B7" "MSMO1" "FDFT1" "SC5DL" "LIPA"  "CEL" "TM7SF2"  "NSDHL" "SOAT2"`
 5. Each entry in each line is seperated by a tab.
 
-## The `read_gmt` Function
+### Importing with the `read_gmt` Function
 Based on the clearly-organized `.gmt` data format, we are able to write a very fast function to read `.gmt` files into R. The `read_gmt` function takes in a path specifying where your `.gmt` file is stored, and outputs a list of gene set information.
 ```{r read_example_gmt, eval = FALSE}
 gene_set_ls <- read_gmt("path_to_your_directory/your_file_name.gmt")
@@ -53,11 +61,12 @@ gene_set_ls <- read_gmt("path_to_your_directory/your_file_name.gmt")
 gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt")
 ```
 
-This `gene_set_ls` object is a list with class `pathwaySet`. Pathway set lists have three elements:
+The form of this information must be discussed carefully. This `gene_set_ls` object has class `pathwaySet` and contains the following components:
 
-1. `pathways`: A named list of character vectors. Each vector contains the names of the individual genes within that pathway as a vector of character strings.
+1. `pathways`: A named list of character vectors. Each character vector should contain a subset of the -Omes measured in your assay data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. **Important**: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column in your assay data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the assay data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data frame are compatible.**
 2. `TERMS`: A character vector the same length as the pathways list with the proper names of the pathways.
 3. `GSEA_link`: A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway.
+4. `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathway set list at `Omics`-class object creation.* This information is useful to measure the ratio of the number of genes from each pathway expressed in your assay to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results.
 
 The object itself has the following structure:
 ```{r pathwaySet_structure}
@@ -65,6 +74,20 @@ gene_set_ls
 ```
 
 This object will be the list supplied to the `pathwaySet_ls` argument in the `create_OmicsPath`, `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions.
+
+### Creating a `pathwaySet` List
+Additionally, you can create a `pathwaySet` object from scratch with the `create_pathwaySet` function. This may be useful to users who have their pathway information stored in some other form than a `.gmt` file. You must supply a list of -Omes to the `pathways` argument, and the proper names of the pathways to the `TERMS` argument. You could also store any other pertinant pathway information by passing a "name-value" pair to this function.
+```{r create_test_pathwaySet}
+myPathways_ls <- list(pathway1 = c("Gene1", "Gene2"),
+                      pathway2 = c("Gene3", "Gene4", "Gene5"),
+                      pathway3 = "Gene6")
+myPathway_names <- c("KEGG_IMPORTANT_PATHWAY_1",
+                     "KEGG_IMPORTANT_PATHWAY_2",
+                     "SOME_OTHER_PATHWAY")
+create_pathwaySet(pathways = myPathways_ls,
+                  TERMS = myPathway_names,
+                  website = "URL_TO_PATHWAY_CITATION")
+```
 
 *******************************************************************************
 
@@ -78,11 +101,10 @@ We assume that the assay data (be it genomic, proteomic, metabolomic, lipidomic,
 In this data set, the columns are individual samples, patients, tumors, cell lines, etc. The rows are the -Omic expression measures.
 
 
-## Import with `readr`
+### Import with `readr`
 To import these files in `.xlsx`, `.csv`, or `.txt` (tab-delimited), we recommend the [`readr` package](https://readr.tidyverse.org/). We would read this data via
 ```{r read_example_assay, eval = FALSE}
 assay_df <- read_csv("path_to_your_directory/your_assay.csv")
-getwd()
 ```
 ```{r read_real_assay, echo = FALSE}
 # Travis requires relative paths
@@ -97,7 +119,7 @@ assay_df
 This data import step stored the row names (the gene names) as the first column, and preserved the column names (sample labels) of the data.
 
 
-## Tidy the Assay Data Frame
+### Tidy the Assay Data Frame
 The assay input to the `pathwayPCA` package must be in [*tidy data*](https://www.jstatsoft.org/article/view/v059i10) format. The "Tidy Data" format requires that each observation be its own row, and each measurement its own column. This means that we must transpose our assay data frame, while preserving the row and column names.
 
 To do this, we can use the `transpose_assay` function. This function takes in a data frame as imported by the `readr` function based on data in a format similar to that shown above: genes are the rows, gene names are the first column, samples are are the stored in the subsequent columns, and all values in the assay (other than the single names column) are numeric.
@@ -107,7 +129,7 @@ To do this, we can use the `transpose_assay` function. This function takes in a 
 
 This transposed data frame has the gene names as the column names and the sample names as a column of character (`chr`) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the `assayData_df` argument in the `create_OmicsPath`, `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions.
 
-## Subsetting a Tidy Data Frame
+### Subsetting a Tidy Data Frame
 If ever we need to extract individual components of a tidy data frame, we can use the `assay[row, col]` syntax. If we need entire measurements (columns), then we can call the column by name with the `assay$ColName` syntax. For example
 
 - If we need the second row of `assayT_df`---corresponding to Sample "T21101312"---then we type
@@ -150,7 +172,7 @@ This data frame has a column for the sample labels (`Sample`) and the response i
 pInfo_df
 ```
 
-## Data Types and the `create_Omics*` Functions
+### Data Types and the `create_Omics*` Functions
 Look at the types of the columns of this data frame (directly under the column names, notice the  `<chr>`, `<dbl>`, and `<lgl>` tags). These tags tell us that the columns contain "character" (`chr`), "double / numeric" (`dbl`), and "logical" (`lgl`) information. These tags are important because they identify the type of data is in each column, and the response fields of the `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions require specific types of data:
 
 * `create_OmicsSurv` requires two response vectors:
@@ -164,7 +186,7 @@ Look at the types of the columns of this data frame (directly under the column n
 ```
 
 
-## Join the Response and Assay Data Frames
+### Join the Response and Assay Data Frames
 This `pInfo` data frame has the sample names as a column of `chr` values, just like the transposed assay data frame. This is crucially important for the "joining" step. We can use the `inner_join` function from the `dplyr` library to only retain the rows of the `assayT_df` data frame which have responses in the `pInfo` data frame and vice versa. This way, every response has matching assay predictors, and every recorded assay sample has a matching response.
 ```{r innerJoin}
 (joinedExperiment_df <- inner_join(pInfo_df, assayT_df, by = "Sample"))
@@ -178,14 +200,14 @@ It is vitally important that you check your sample IDs. Obviously the expressed 
 
 # Create an `Omics*`-Class Object
 
-## Review
+### Review
 Before we move on, we will summarize our steps so far. We have
 
 1. Imported a `.gmt` file and saved the gene sets therein as a `pathwaySet` object using the `read_gmt` function.
 2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `transpose_assay` function.
 3. Imported a subject information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
-## Create an `OmicsSurv` Object
+### Create an `OmicsSurv` Object
 Now we are prepared to create our first `OmicsSurv` object for analysis with either AES-PCA or Supervised PCA. Recall that the `joinedExperiment_df` has the sample ID in the first column, the survival time in the second column, the event indicator in the third column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `create_OmicsSurv` function will have the following data objects supplied to them:
 
 - `assayData_df` will be only the *expression columns* of the `joinedExperiment_df` data frame (i.e. all but the first three columns). In R, we can remove the first three columns of the `joinedExperiment_df` data frame by negative subsetting: `joinedExperiment_df[, -(1:3)]`.
@@ -200,7 +222,7 @@ test_OmicsSurv <- create_OmicsSurv(assayData_df = joinedExperiment_df[, -(1:3)],
                                    eventObserved_vec = joinedExperiment_df$eventObserved)
 ```
 
-## Inspect the New Object
+### Inspect the New Object
 We now print the `OmicsSurv` object we just created. We can see a summary of all the data inputs we used.
 ```{r print_omics}
 test_OmicsSurv

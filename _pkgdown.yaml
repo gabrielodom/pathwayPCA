@@ -16,6 +16,8 @@ navbar:
     articles:
       text: User Guides
       menu:
+      - text: Quickstart Guide
+        href: articles/Quickstart_Guide.html
       - text: Import Data
         href: articles/Importing_Data.html
       - text: Pathway Ranking with AES-PCA
@@ -32,6 +34,7 @@ reference:
     desc: Functions designed for direct end-user interaction
     contents:
       - '`read_gmt`'
+      - '`create_pathwaySet`'
       - '`print.pathwaySet`'
       - '`transpose_assay`'
       - '`create_OmicsPath`'
