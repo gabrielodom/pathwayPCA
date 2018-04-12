@@ -124,8 +124,8 @@ As we previously mentioned, the response fields of the `create_OmicsSurv`, `crea
 * `create_OmicsReg` and `create_OmicsCateg` require one response vector:
     - `response_num` = regression response as a *numeric* vector. The column in your imported data corresponding to the regression response should have the `<int>` or `<dbl>` tag. See the comment above about the `eventTime_num` argument if your column is a character.
     - `response_fact` = classification response as a *factor* vector. The column in your imported data corresponding to the classification / categorical regression response should have the `<fct>` tag. It is highly likely that the classification response was imported as an integer (if the original values were coded as 0/1) or a character (if the original values were given character names, such as "benign" / "malignent"). Either way, use the `as.factor` command to transform that column from a character or integer column into a factor column. For example, the `as.factor` function can turn our logical censoring indicator from a vector of `TRUE` and `FALSE` to a categorical (factor) vector with levels `TRUE` and `FALSE`. This will not overwrite the original column, so make sure you save this new factor.
-```{r factors_eg}
-(eventObs_fct <- as.factor(colonSurv_df$OS_event))
+```{r factors_eg, eval = FALSE}
+eventObs_fct <- as.factor(colonSurv_df$OS_event)
 ```
 
 We will consider the overall patient survival time (and corresponding censoring indicator) as our survival response, the event time as our regression response, and event indicator as our binary classification response (these are just for example).

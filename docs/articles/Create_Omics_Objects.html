@@ -58,6 +58,9 @@
       <a href="../articles/Package_Dev_Notes.html">pathwayPCA Package Development Notes</a>
     </li>
     <li>
+      <a href="../articles/Quickstart_Guide.html">Quickstart Guide to pathwayPCA</a>
+    </li>
+    <li>
       <a href="../articles/Supervised_PCA_Walkthrough.html">Supervised PCA Walkthrough with pathwayPCA</a>
     </li>
   </ul>
@@ -88,7 +91,7 @@
       <h1>Creating -Omics Data Objects</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-11</h4>
+            <h4 class="date">2018-04-12</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Create_Omics_Objects.Rmd"><code>vignettes/Create_Omics_Objects.Rmd</code></a></small>
       <div class="hidden name"><code>Create_Omics_Objects.Rmd</code></div>
@@ -300,16 +303,7 @@ colon_pathwaySet
 </ul>
 </li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(eventObs_fct &lt;-<span class="st"> </span><span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event))
-<span class="co">#&gt;   [1] 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 1 0</span>
-<span class="co">#&gt;  [36] 0 0 0 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 1</span>
-<span class="co">#&gt;  [71] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 1 0 0 1 0 0 1 0</span>
-<span class="co">#&gt; [106] 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
-<span class="co">#&gt; [141] 0 0 0 0 1 1 0 1 1 0 0 1 1 1 0 0 1 1 0 1 1 1 1 1 0 0 0 1 0 1 1 1 1 0 0</span>
-<span class="co">#&gt; [176] 0 1 1 0 0 1 1 1 1 0 0 0 0 1 1 0 1 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 0</span>
-<span class="co">#&gt; [211] 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 0 1 1 1</span>
-<span class="co">#&gt; [246] 1 0 1 1 0</span>
-<span class="co">#&gt; Levels: 0 1</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eventObs_fct &lt;-<span class="st"> </span><span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event)</code></pre></div>
 <p>We will consider the overall patient survival time (and corresponding censoring indicator) as our survival response, the event time as our regression response, and event indicator as our binary classification response (these are just for example).</p>
 </div>
 <div id="create-an-omicssurv-survival-data-container" class="section level3">
