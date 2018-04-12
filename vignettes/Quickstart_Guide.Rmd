@@ -17,19 +17,13 @@ knitr::opts_chunk$set(collapse = TRUE,
                       comment = "#>")
 ```
 
-IMPORTANT: add to the `_pkgdown.yaml` file once you try to add this to the vignettes again.
-```
-      - text: Quickstart Guide
-        href: articles/Quickstart_Guide.html
-```
-
 
 # Overview
 This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes.
 
 0. Download Packages
 1. Import Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html))
-2. Create `Omics` Data Object LINK
+2. Create `Omics` Data Object ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html))
 3. Perform Analysis ([*AES-PCA*](https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html) and [*Supervised PCA*](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html) vignettes)
 4. Inspect Results LINK
 

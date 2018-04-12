@@ -58,6 +58,9 @@
       <a href="../articles/Package_Dev_Notes.html">pathwayPCA Package Development Notes</a>
     </li>
     <li>
+      <a href="../articles/Quickstart_Guide.html">Quickstart Guide to pathwayPCA</a>
+    </li>
+    <li>
       <a href="../articles/Supervised_PCA_Walkthrough.html">Supervised PCA Walkthrough with pathwayPCA</a>
     </li>
   </ul>
@@ -88,7 +91,7 @@
       <h1>Import and Tidy Data</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-11</h4>
+            <h4 class="date">2018-04-12</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Importing_Data.Rmd"><code>vignettes/Importing_Data.Rmd</code></a></small>
       <div class="hidden name"><code>Importing_Data.Rmd</code></div>
@@ -268,7 +271,7 @@ myPathway_names &lt;-<span class="st"> </span><span class="kw">c</span>(<span cl
 <span class="co">#&gt; # ... with 26 more rows, and 8 more variables: MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   SOAT2 &lt;dbl&gt;</span></code></pre></div>
-<p>This transposed data frame has the gene names as the column names and the sample names as a column of character (<code>chr</code>) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the <code>assayData_df</code> argument in the <code>create_OmicsPath</code>, <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions. (<em>See the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html">Creating <code>Omics</code> Data Objects</a> vignette for more information on creating <code>Omics*</code>-class objects.</em>)</p>
+<p>This transposed data frame has the gene names as the column names and the sample names as a column of character (<code>chr</code>) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the <code>assayData_df</code> argument in the <code>create_OmicsPath</code>, <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions. (<em>See the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating <code>Omics</code> Data Objects</a> vignette for more information on creating <code>Omics*</code>-class objects.</em>)</p>
 </div>
 <div id="subsetting-a-tidy-data-frame" class="section level3">
 <h3 class="hasAnchor">
@@ -427,38 +430,7 @@ colon_pathwaySet
 <li>Imported an assay <code>.csv</code> file with the <code>read_csv</code> function from the <code>readr</code> package, and transposed this data frame into “tidy” form with the <code>transpose_assay</code> function.</li>
 <li>Imported a subject information <code>.csv</code> file, and joined it to the assay data frame with the <code>inner_join</code> function from the <code>dplyr</code> package.</li>
 </ol>
-<p>Now we are prepared to create our first <code>Omics</code>-class object for analysis with either AES-PCA or Supervised PCA. Please read the next vignette: <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html">Creating <code>Omics</code> Data Objects</a>.</p>
-<div id="create-an-omicssurv-object" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-an-omicssurv-object" class="anchor"></a>Create an <code>OmicsSurv</code> Object</h3>
-<p>Now we are prepared to create our first <code>OmicsSurv</code> object for analysis with either AES-PCA or Supervised PCA. Recall that the <code>joinedExperiment_df</code> has the sample ID in the first column, the survival time in the second column, the event indicator in the third column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the <code>create_OmicsSurv</code> function will have the following data objects supplied to them:</p>
-<ul>
-<li>
-<code>assayData_df</code> will be only the <em>expression columns</em> of the <code>joinedExperiment_df</code> data frame (i.e. all but the first three columns). In R, we can remove the first three columns of the <code>joinedExperiment_df</code> data frame by negative subsetting: <code>joinedExperiment_df[, -(1:3)]</code>.</li>
-<li>
-<code>pathwaySet_ls</code> will be the <code>pathwaySet</code> list object (<code>gene_set_ls</code>) we imported with the <code>read_gmt</code> function earlier.</li>
-<li>
-<code>eventTime_num</code> will be the survival time stored in the <code>eventTime</code> column of the <code>joinedExperiment_df</code> data frame: <code>joinedExperiment_df$eventTime</code>.</li>
-<li>
-<code>eventObserved_lgl</code> will be the event indicator stored in the <code>eventObserved</code> column of the <code>joinedExperiment_df</code> data frame: <code>joinedExperiment_df$eventObserved</code>.</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsSurv</a></span>(<span class="dt">assayData_df =</span> joinedExperiment_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)],
-                                   <span class="dt">pathwaySet_ls =</span> gene_set_ls,
-                                   <span class="dt">eventTime_num =</span> joinedExperiment_df<span class="op">$</span>eventTime,
-                                   <span class="dt">eventObserved_lgl =</span> joinedExperiment_df<span class="op">$</span>eventObserved)</code></pre></div>
-</div>
-<div id="inspect-the-new-object" class="section level3">
-<h3 class="hasAnchor">
-<a href="#inspect-the-new-object" class="anchor"></a>Inspect the New Object</h3>
-<p>We now print the <code>OmicsSurv</code> object we just created. We can see a summary of all the data inputs we used.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_OmicsSurv
-<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
-<span class="co">#&gt;   ..@ eventTime    : num [1:36] 14.25 1 6.75 8.5 7.25 ...</span>
-<span class="co">#&gt;   ..@ eventObserved: logi [1:36] TRUE TRUE FALSE TRUE FALSE TRUE ...</span>
-<span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    36 obs. of  17 variables:</span>
-<span class="co">#&gt;   ..@ pathwaySet   :List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
-</div>
+<p>Now we are prepared to create our first <code>Omics</code>-class object for analysis with either AES-PCA or Supervised PCA. Please read the next vignette: <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating <code>Omics</code> Data Objects</a>.</p>
 </div>
   </div>
 

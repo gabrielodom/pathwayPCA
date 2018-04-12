@@ -127,7 +127,7 @@ To do this, we can use the `transpose_assay` function. This function takes in a 
 (assayT_df <- transpose_assay(assay_df))
 ```
 
-This transposed data frame has the gene names as the column names and the sample names as a column of character (`chr`) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the `assayData_df` argument in the `create_OmicsPath`, `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions. (*See the [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html) vignette for more information on creating `Omics*`-class objects.*)
+This transposed data frame has the gene names as the column names and the sample names as a column of character (`chr`) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the `assayData_df` argument in the `create_OmicsPath`, `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions. (*See the [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignette for more information on creating `Omics*`-class objects.*)
 
 ### Subsetting a Tidy Data Frame
 If ever we need to extract individual components of a tidy data frame, we can use the `assay[row, col]` syntax. If we need entire measurements (columns), then we can call the column by name with the `assay$ColName` syntax. For example,
@@ -210,25 +210,5 @@ We now summarize our steps so far. We have
 2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `transpose_assay` function.
 3. Imported a subject information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
-Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read the next vignette: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html).
+Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read the next vignette: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html).
 
-### Create an `OmicsSurv` Object
-Now we are prepared to create our first `OmicsSurv` object for analysis with either AES-PCA or Supervised PCA. Recall that the `joinedExperiment_df` has the sample ID in the first column, the survival time in the second column, the event indicator in the third column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `create_OmicsSurv` function will have the following data objects supplied to them:
-
-- `assayData_df` will be only the *expression columns* of the `joinedExperiment_df` data frame (i.e. all but the first three columns). In R, we can remove the first three columns of the `joinedExperiment_df` data frame by negative subsetting: `joinedExperiment_df[, -(1:3)]`.
-- `pathwaySet_ls` will be the `pathwaySet` list object (`gene_set_ls`) we imported with the `read_gmt` function earlier.
-- `eventTime_num` will be the survival time stored in the `eventTime` column of the `joinedExperiment_df` data frame: `joinedExperiment_df$eventTime`.
-- `eventObserved_lgl` will be the event indicator stored in the `eventObserved` column of the `joinedExperiment_df` data frame: `joinedExperiment_df$eventObserved`.
-
-```{r create_OmicsSurv_object}
-test_OmicsSurv <- create_OmicsSurv(assayData_df = joinedExperiment_df[, -(1:3)],
-                                   pathwaySet_ls = gene_set_ls,
-                                   eventTime_num = joinedExperiment_df$eventTime,
-                                   eventObserved_lgl = joinedExperiment_df$eventObserved)
-```
-
-### Inspect the New Object
-We now print the `OmicsSurv` object we just created. We can see a summary of all the data inputs we used.
-```{r print_omics}
-test_OmicsSurv
-```
