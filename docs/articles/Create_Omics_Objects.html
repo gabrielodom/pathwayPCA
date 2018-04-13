@@ -91,7 +91,7 @@
       <h1>Creating -Omics Data Objects</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-12</h4>
+            <h4 class="date">2018-04-13</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Create_Omics_Objects.Rmd"><code>vignettes/Create_Omics_Objects.Rmd</code></a></small>
       <div class="hidden name"><code>Create_Omics_Objects.Rmd</code></div>
@@ -107,7 +107,7 @@
 <div id="outline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#outline" class="anchor"></a>Outline</h3>
-<p>Before we move on, we will outline our steps. We will</p>
+<p>Before we move on, we will outline our steps. After reading this vignette, you should be able to</p>
 <ol style="list-style-type: decimal">
 <li>Define the four <code>Omics*</code> classes.</li>
 <li>Create a few <code>Omics*</code> objects</li>
@@ -349,7 +349,7 @@ colon_pathwaySet
 
 colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsCateg</a></span>(<span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],
                                       <span class="dt">pathwaySet_ls =</span> colon_pathwaySet,
-                                      <span class="dt">response_fact =</span> <span class="kw">as.logical</span>(colonSurv_df<span class="op">$</span>OS_event))</code></pre></div>
+                                      <span class="dt">response_fact =</span> <span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event))</code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -357,7 +357,150 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <div id="inspecting-and-editing-omics-class-objects" class="section level1">
 <h1 class="hasAnchor">
 <a href="#inspecting-and-editing-omics-class-objects" class="anchor"></a>Inspecting and Editing <code>Omics*</code>-Class Objects</h1>
-<p>In order to access or edit a specific component of an <code>Omics*</code> object, we need to use specific <em>accessor</em> functions.</p>
+<p>In order to access or edit a specific component of an <code>Omics*</code> object, we need to use specific <em>accessor</em> functions. These functions are named after the component they access.</p>
+<div id="example-get-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-get-function" class="anchor"></a>Example “Get” Function</h3>
+<p>The “get” functions all access the part of the data container you specify. YOu can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame to the screen:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv)
+<span class="co">#&gt; # A tibble: 250 x 656</span>
+<span class="co">#&gt;      JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1 PRKCA  ELK1  NRG1  PAK2  MTOR</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1  9.29  5.48  8.21  8.03  5.49  6.65  8.26  8.94  7.38  7.50  7.32  6.96</span>
+<span class="co">#&gt;  2  9.13  6.35  8.33  7.94  6.26  7.02  8.39  9.61  7.53  7.68  6.80  6.96</span>
+<span class="co">#&gt;  3  9.37  5.67  7.82  7.74  6.05  7.52  8.69  8.40  7.25  7.33  7.48  7.15</span>
+<span class="co">#&gt;  4 10.6   4.94  8.79  7.64  5.37  6.87  7.81  9.80  7.79  8.38  6.16  6.48</span>
+<span class="co">#&gt;  5  8.70  5.60  8.75  8.05  6.07  6.49  8.45  8.21  7.60  6.65  7.04  6.66</span>
+<span class="co">#&gt;  6  9.78  5.36  7.56  8.07  5.90  6.39  8.87  8.22  7.35  7.83  7.39  6.90</span>
+<span class="co">#&gt;  7  9.22  5.05  8.20  7.80  5.55  6.86  8.28  8.97  7.43  7.20  7.04  6.96</span>
+<span class="co">#&gt;  8 10.3   5.33  7.82  7.89  6.27  6.25  8.66  9.71  7.38  7.09  7.22  7.11</span>
+<span class="co">#&gt;  9 10.8   5.07  7.63  7.69  5.48  7.57  8.36  9.69  6.66  7.22  6.99  6.89</span>
+<span class="co">#&gt; 10  9.52  5.50  7.48  7.53  5.71  7.33  8.54  8.14  6.88  7.31  7.01  6.82</span>
+<span class="co">#&gt; # ... with 240 more rows, and 644 more variables: PAK4 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   MAP2K4 &lt;dbl&gt;, EIF4EBP1 &lt;dbl&gt;, BAD &lt;dbl&gt;, PRKCG &lt;dbl&gt;, NRG3 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   MAPK9 &lt;dbl&gt;, ERBB4 &lt;dbl&gt;, MAPK10 &lt;dbl&gt;, PTK2 &lt;dbl&gt;, ERBB2 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ERBB3 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, TGFA &lt;dbl&gt;, BRAF &lt;dbl&gt;, MAP2K1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   MAP2K7 &lt;dbl&gt;, ABL1 &lt;dbl&gt;, NRG2 &lt;dbl&gt;, AKT1 &lt;dbl&gt;, ABL2 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   AKT2 &lt;dbl&gt;, SHC4 &lt;dbl&gt;, RPS6KB1 &lt;dbl&gt;, RPS6KB2 &lt;dbl&gt;, AKT3 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   NRAS &lt;dbl&gt;, GRB2 &lt;dbl&gt;, AREG &lt;dbl&gt;, STAT5B &lt;dbl&gt;, MAPK3 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   STAT5A &lt;dbl&gt;, PAK6 &lt;dbl&gt;, SOS1 &lt;dbl&gt;, MYC &lt;dbl&gt;, MAPK1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   NCK1 &lt;dbl&gt;, PIK3R5 &lt;dbl&gt;, NRG4 &lt;dbl&gt;, HRAS &lt;dbl&gt;, MAPK8 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   EGFR &lt;dbl&gt;, GSK3B &lt;dbl&gt;, CBLB &lt;dbl&gt;, KRAS &lt;dbl&gt;, CBL &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   SHC3 &lt;dbl&gt;, CDKN1B &lt;dbl&gt;, CDKN1A &lt;dbl&gt;, EGF &lt;dbl&gt;, EREG &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ARAF &lt;dbl&gt;, NCK2 &lt;dbl&gt;, SRC &lt;dbl&gt;, PIK3R3 &lt;dbl&gt;, CAMK2A &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   CAMK2B &lt;dbl&gt;, CAMK2D &lt;dbl&gt;, CAMK2G &lt;dbl&gt;, PAK1 &lt;dbl&gt;, CBLC &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   CRK &lt;dbl&gt;, PIK3CA &lt;dbl&gt;, PIK3CB &lt;dbl&gt;, CRKL &lt;dbl&gt;, PIK3CD &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   GAB1 &lt;dbl&gt;, PLCG1 &lt;dbl&gt;, PLCG2 &lt;dbl&gt;, SHC2 &lt;dbl&gt;, HBEGF &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   PIK3CG &lt;dbl&gt;, PIK3R1 &lt;dbl&gt;, PIK3R2 &lt;dbl&gt;, EPHB2 &lt;dbl&gt;, EPHB4 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   EFNA5 &lt;dbl&gt;, PXN &lt;dbl&gt;, CDC42 &lt;dbl&gt;, EFNB3 &lt;dbl&gt;, RRAS &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   GRB7 &lt;dbl&gt;, SYNJ1 &lt;dbl&gt;, EPHB3 &lt;dbl&gt;, EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;, ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;, EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   TF &lt;dbl&gt;, KALRN &lt;dbl&gt;, RASA1 &lt;dbl&gt;, CASP9 &lt;dbl&gt;, ...</span></code></pre></div>
+<p>This function is rather simple: it shows us what object is stored in the <code>assayData_df</code> slot of the <code>colon_OmicsSurv</code> data container. As we should expect, we see all the columns of the <code>colonSurv_df</code> data frame except for the first two.</p>
+</div>
+<div id="example-set-function" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-set-function" class="anchor"></a>Example “Set” Function</h3>
+<p>If we needed to edit the assay data frame in the <code>colon_OmicsSurv</code> container, we can use the “replacement” syntax of the <code>getAssay</code> function. These are the “set” functions, and they use the <code>getSLOT(object) &lt;- value</code> syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original <code>colonSurv_df</code> data frame. The <code>SLOT</code> shorthand name is <code>Assay</code>, and the replacement value is the first ten gene expression columns (in columns three through 12) of the <code>colonSurv_df</code> data frame: <code>colonSurv_df[, (3:12)]</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, (<span class="dv">3</span><span class="op">:</span><span class="dv">12</span>)]</code></pre></div>
+<p>Now, when we inspect the <code>colon_OmicsSurv</code> data container, we see only ten variables measured in the <code>assayData_df</code> slot, instead of our original 656.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
+<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
+<span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
+<span class="co">#&gt;   ..@ eventObserved: logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
+<span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  10 variables:</span>
+<span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
+</div>
+<div id="table-of-accessors" class="section level3">
+<h3 class="hasAnchor">
+<a href="#table-of-accessors" class="anchor"></a>Table of Accessors</h3>
+<p>Here is a table listing each of the “get” and “set” methods for the <code>Omics*</code> classes, and which classes they can access.</p>
+<table class="table">
+<colgroup>
+<col width="30%">
+<col width="16%">
+<col width="52%">
+</colgroup>
+<thead><tr class="header">
+<th>Command</th>
+<th align="center">
+<code>Omics*</code> Classes</th>
+<th>Function</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="../reference/get_set_OmicsPathway.html">getAssay(object)</a></code></td>
+<td align="center">All</td>
+<td>Print the <code>assayData_df</code> data frame stored in <code>object</code>.</td>
+</tr>
+<tr class="even">
+<td><code>getAssay(object) &lt;- value</code></td>
+<td align="center">All</td>
+<td>Set <code>assayData_df</code> stored in <code>object</code> to <code>value</code>.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/get_set_OmicsPathway.html">getPathwaySet(object)</a></code></td>
+<td align="center">All</td>
+<td>Print the <code>pathwaySet</code> list stored in <code>object</code>.</td>
+</tr>
+<tr class="even">
+<td><code>getPathwaySet(object) &lt;- value</code></td>
+<td align="center">All</td>
+<td>Set <code>pathwaySet</code> stored in <code>object</code> to <code>value</code>.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/get_set_OmicsSurv.html">getEventTime(object)</a></code></td>
+<td align="center"><code>Surv</code></td>
+<td>Print the <code>eventTime_num</code> vector stored in <code>object</code>.</td>
+</tr>
+<tr class="even">
+<td><code>getEventTime(object) &lt;- value</code></td>
+<td align="center"><code>Surv</code></td>
+<td>Set <code>eventTime_num</code> stored in <code>object</code> to <code>value</code>.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/get_set_OmicsSurv.html">getEvent(object)</a></code></td>
+<td align="center"><code>Surv</code></td>
+<td>Print the <code>eventObserved_lgl</code> vector stored in <code>object</code>.</td>
+</tr>
+<tr class="even">
+<td><code>getEvent(object) &lt;- value</code></td>
+<td align="center"><code>Surv</code></td>
+<td>Set <code>eventObserved_lgl</code> stored in <code>object</code> to <code>value</code>.</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/get_set_OmicsRegCateg.html">getResponse(object)</a></code></td>
+<td align="center">
+<code>Reg</code> or <code>Categ</code>
+</td>
+<td>Print the <code>response</code> vector stored in <code>object</code>.</td>
+</tr>
+<tr class="even">
+<td><code>getResponse(object) &lt;- value</code></td>
+<td align="center">
+<code>Reg</code> or <code>Categ</code>
+</td>
+<td>Set <code>response</code> stored in <code>object</code> to <code>value</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>response</code> vector accessed or edited with the <code>getResponse</code> method depends on if the <code>object</code> supplied is of class <code>OmicsReg</code> or <code>OmicsCateg</code>. For <code>OmicsReg</code> objects, <code><a href="../reference/get_set_OmicsRegCateg.html">getResponse(object)</a></code> and <code>getResponse(object) &lt;- value</code> get and set, respectively, the <code>response_num</code> slot. However, for <code>OmicsCateg</code> objects, <code><a href="../reference/get_set_OmicsRegCateg.html">getResponse(object)</a></code> and <code>getResponse(object) &lt;- value</code> get and set, respectively, the <code>response_fact</code> slot. This is because regression objects contain <code>numeric</code> response vectors while categorical objects contain <code>factor</code> response vectors.</p>
+<hr>
+<p></p>
+</div>
+</div>
+<div id="review" class="section level1">
+<h1 class="hasAnchor">
+<a href="#review" class="anchor"></a>Review</h1>
+<p>We now summarize our steps so far. We have</p>
+<ol style="list-style-type: decimal">
+<li>Defined the four <code>Omics*</code> classes: <code>OmicsSurv</code>, <code>OmicsReg</code>, <code>OmicsCateg</code>, and their parent class <code>OmicsPathway</code>.</li>
+<li>Created an <code>Omics*</code> object for the first three of these classes.</li>
+<li>Inspected and edited individual elements contained in these objects.</li>
+</ol>
+<p>Now we are prepared to analyze our created data containers with either AES-PCA or Supervised PCA. Because we have two pathway analysis methods to choose from, we have two (shorter) vignettes. Please read the next pair of vignettes: <a href="https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html">AES-PCA</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html">Supervised PCA</a>.</p>
 </div>
   </div>
 
@@ -370,6 +513,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
       <li><a href="#omics-class-objects-defined"><code>Omics*</code>-Class Objects Defined</a></li>
       <li><a href="#create-new-omics-objects">Create New <code>Omics*</code> Objects</a></li>
       <li><a href="#inspecting-and-editing-omics-class-objects">Inspecting and Editing <code>Omics*</code>-Class Objects</a></li>
+      <li><a href="#review">Review</a></li>
       </ul>
 </div>
       </div>
