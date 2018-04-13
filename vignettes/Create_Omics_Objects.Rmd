@@ -22,7 +22,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This guide will outline the major steps needed to create a data container object for analysis with the `pathwayPCA` package. These objects are called `Omics*`-class objects.
 
 ### Outline
-Before we move on, we will outline our steps. We will
+Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
 1. Define the four `Omics*` classes.
 2. Create a few `Omics*` objects
@@ -158,14 +158,14 @@ The `OmicsReg` (regression) and `OmicsCateg` (classification) objects are create
 - `response_num` will be some `numeric` dependent variable for regression.
 - `response_fact` will be some `factor` dependent variable for (currently binomial) classification with a generalized linear model.
 
-```{r create_OmicsReg_object, eval = FALSE}
+```{r create_OmicsReg_object}
 colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
                                   pathwaySet_ls = colon_pathwaySet,
                                   response_num = as.numeric(colonSurv_df$OS_time))
 
 colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
                                       pathwaySet_ls = colon_pathwaySet,
-                                      response_fact = as.logical(colonSurv_df$OS_event))
+                                      response_fact = as.factor(colonSurv_df$OS_event))
 ```
 
 *******************************************************************************
@@ -174,4 +174,53 @@ colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
 
 
 # Inspecting and Editing `Omics*`-Class Objects
-In order to access or edit a specific component of an `Omics*` object, we need to use specific *accessor* functions.
+In order to access or edit a specific component of an `Omics*` object, we need to use specific *accessor* functions. These functions are named after the component they access.
+
+### Example "Get" Function
+The "get" functions all access the part of the data container you specify. YOu can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame to the screen:
+```{r getAssay_get}
+getAssay(colon_OmicsSurv)
+```
+This function is rather simple: it shows us what object is stored in the `assayData_df` slot of the `colon_OmicsSurv` data container. As we should expect, we see all the columns of the `colonSurv_df` data frame except for the first two.
+
+### Example "Set" Function
+If we needed to edit the assay data frame in the `colon_OmicsSurv` container, we can use the "replacement" syntax of the `getAssay` function. These are the "set" functions, and they use the `getSLOT(object) <- value` syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original `colonSurv_df` data frame. The `SLOT` shorthand name is `Assay`, and the replacement value is the first ten gene expression columns (in columns three through 12) of the `colonSurv_df` data frame: `colonSurv_df[, (3:12)]`.
+```{r getAssay_set}
+getAssay(colon_OmicsSurv) <- colonSurv_df[, (3:12)]
+```
+Now, when we inspect the `colon_OmicsSurv` data container, we see only ten variables measured in the `assayData_df` slot, instead of our original 656.
+```{r view_new_colon_OS}
+colon_OmicsSurv
+```
+
+### Table of Accessors
+Here is a table listing each of the "get" and "set" methods for the `Omics*` classes, and which classes they can access.
+
+| Command                          | `Omics*` Classes | Function                                                 |
+|----------------------------------|:----------------:|----------------------------------------------------------|
+| `getAssay(object)`               | All              | Print the `assayData_df` data frame stored in `object`.  |
+| `getAssay(object) <- value`      | All              | Set `assayData_df` stored in `object` to `value`.        |
+| `getPathwaySet(object)`          | All              | Print the `pathwaySet` list stored in `object`.          |
+| `getPathwaySet(object) <- value` | All              | Set `pathwaySet` stored in `object` to `value`.          |
+| `getEventTime(object)`           | `Surv`           | Print the `eventTime_num` vector stored in `object`.     |
+| `getEventTime(object) <- value`  | `Surv`           | Set `eventTime_num` stored in `object` to `value`.       |
+| `getEvent(object)`               | `Surv`           | Print the `eventObserved_lgl` vector stored in `object`. |
+| `getEvent(object) <- value`      | `Surv`           | Set `eventObserved_lgl` stored in `object` to `value`.   |
+| `getResponse(object)`            | `Reg` or `Categ` | Print the `response` vector stored in `object`.          |
+| `getResponse(object) <- value`   | `Reg` or `Categ` | Set `response` stored in `object` to `value`.            |
+
+ The `response` vector accessed or edited with the `getResponse` method depends on if the `object` supplied is of class `OmicsReg` or `OmicsCateg`. For `OmicsReg` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_num` slot. However, for `OmicsCateg` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_fact` slot. This is because regression objects contain `numeric` response vectors while categorical objects contain `factor` response vectors.
+
+*******************************************************************************
+
+</br>
+
+ 
+# Review
+We now summarize our steps so far. We have
+
+1. Defined the four `Omics*` classes: `OmicsSurv`, `OmicsReg`, `OmicsCateg`, and their parent class `OmicsPathway`.
+2. Created an `Omics*` object for the first three of these classes.
+3. Inspected and edited individual elements contained in these objects.
+
+Now we are prepared to analyze our created data containers with either AES-PCA or Supervised PCA. Because we have two pathway analysis methods to choose from, we have two (shorter) vignettes. Please read the next pair of vignettes: [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html) and [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html).
