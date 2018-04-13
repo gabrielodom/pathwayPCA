@@ -19,7 +19,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # Overview
-This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This guide will outline the major steps needed to create a data container object for analysis with the `pathwayPCA` package. These objects are called `Omics*`-class objects.
+This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) vignette. This guide will outline the major steps needed to create a data container object for analysis with the `pathwayPCA` package. These objects are called `Omics*`-class objects.
 
 ### Outline
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
@@ -192,6 +192,10 @@ Now, when we inspect the `colon_OmicsSurv` data container, we see only ten varia
 ```{r view_new_colon_OS}
 colon_OmicsSurv
 ```
+We can go back to the full data by
+```{r getAssay_set2}
+getAssay(colon_OmicsSurv) <- colonSurv_df[, -(1:2)]
+```
 
 ### Table of Accessors
 Here is a table listing each of the "get" and "set" methods for the `Omics*` classes, and which classes they can access.
@@ -210,6 +214,12 @@ Here is a table listing each of the "get" and "set" methods for the `Omics*` cla
 | `getResponse(object) <- value`   | `Reg` or `Categ` | Set `response` stored in `object` to `value`.            |
 
  The `response` vector accessed or edited with the `getResponse` method depends on if the `object` supplied is of class `OmicsReg` or `OmicsCateg`. For `OmicsReg` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_num` slot. However, for `OmicsCateg` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_fact` slot. This is because regression objects contain `numeric` response vectors while categorical objects contain `factor` response vectors.
+ 
+### Inspect the Updated `pathwaySet` List
+As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function) subsection of the previous vignette, the `pathwaySet` object will be modified upon `Omics*` object creation. Before, this list only had two elements, `pathways` and `TERMS`. Now, it has a third element: `setsize`---the number of genes contained in each pathway.
+```{r inspect_updated_pathwaySet}
+getPathwaySet(colon_OmicsSurv)
+```
 
 *******************************************************************************
 
