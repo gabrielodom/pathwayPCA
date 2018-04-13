@@ -26,6 +26,10 @@ recorded event.}
 \item{parametric}{Should the random sample be taken using a parametric
 bootstrap sample? Defaults to \code{FALSE}.}
 }
+\value{
+A permutation of the supplied response (if \code{parametric = TRUE}).
+   Otherwise, a parametric bootstrap sample of the response.
+}
 \description{
 Create a random parametric bootstrap sample or a permutation of
    the input response vector or matrix (for survival outcomes).

@@ -1,4 +1,4 @@
-#' Parametric bootstrap and non-parametric permutations of a response vector or
+#' @title Parametric bootstrap and non-parametric permutations of a response vector or
 #'    matrix
 #'
 #' @description Create a random parametric bootstrap sample or a permutation of
@@ -13,29 +13,38 @@
 #' @param parametric Should the random sample be taken using a parametric
 #'    bootstrap sample? Defaults to \code{FALSE}.
 #'
+#' @return A permutation of the supplied response (if \code{parametric = TRUE}).
+#'    Otherwise, a parametric bootstrap sample of the response.
+#'
 #' @details The distributions (for \code{parametric = TRUE}) are Weibull for
 #'    survival times, Normal for regression, and n-ary Multinomial for
 #'    classification. Distributional parameters are estimated with their maximum
 #'    likelihood estimates. When \code{parametric = FALSE}, the response vector
 #'    or survival matrix is simply permuted by row.
 #'
-#' @examples
-#'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
-#'   # Use AESPCA_pVals() or superPCA_pVals() instead
-#'
-#' @name randomControlSample
-NULL
-
-
-
-#'
 #' @importFrom survival Surv
 #' @importFrom survival survreg
 #' @importFrom stats rweibull
 #' @importFrom stats runif
 #'
+#' @importFrom stats rnorm
+#' @importFrom stats sd
+#'
+#' @importFrom methods as
+#'
+#'
+#' @examples
+#'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
+#'   # Use AESPCA_pVals() or superPCA_pVals() instead
+#'
+#' @name randomControlSample
+#' @rdname permuteSamps
+NULL
+
+
+
 #' @export
-#' @rdname randomControlSample
+#' @rdname permuteSamps
 sample_Survivalresp <- function(response_vec,
                                 event_vec,
                                 parametric = FALSE){
@@ -80,13 +89,8 @@ sample_Survivalresp <- function(response_vec,
 
 
 
-
-#'
-#' @importFrom stats rnorm
-#' @importFrom stats sd
-#'
 #' @export
-#' @rdname randomControlSample
+#' @rdname permuteSamps
 sample_Regresp <- function(response_vec,
                            parametric = FALSE){
 
@@ -107,11 +111,8 @@ sample_Regresp <- function(response_vec,
 
 
 
-#'
-#' @importFrom methods as
-#'
 #' @export
-#' @rdname randomControlSample
+#' @rdname permuteSamps
 sample_Classifresp <- function(response_vec,
                                parametric = FALSE){
 

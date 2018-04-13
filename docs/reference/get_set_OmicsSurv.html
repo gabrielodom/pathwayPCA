@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parametric bootstrap and non-parametric permutations of a response vector or
-   matrix — randomControlSample • pathwayPCA</title>
+<title>Access and Edit Event Time or Indicator in an <code>OmicsSurv</code> Object — getEventTime • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -26,11 +25,10 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Parametric bootstrap and non-parametric permutations of a response vector or
-   matrix — randomControlSample" />
+<meta property="og:title" content="Access and Edit Event Time or Indicator in an <code>OmicsSurv</code> Object — getEventTime" />
 
-<meta property="og:description" content="Create a random parametric bootstrap sample or a permutation of
-   the input response vector or matrix (for survival outcomes)." />
+<meta property="og:description" content=""Get" or "Set" the values of the eventTime_num or
+   eventObserved_lgl slots of an object of class OmicsSurv." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,64 +118,86 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parametric bootstrap and non-parametric permutations of a response vector or
-   matrix</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_permuteSamples.R'><code>R/superPC_permuteSamples.R</code></a></small>
-    <div class="hidden name"><code>randomControlSample.Rd</code></div>
+    <h1>Access and Edit Event Time or Indicator in an <code>OmicsSurv</code> Object</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/accessClass_OmicsSurv.R'><code>R/accessClass_OmicsSurv.R</code></a></small>
+    <div class="hidden name"><code>get_set_OmicsSurv.Rd</code></div>
     </div>
 
     
-    <p>Create a random parametric bootstrap sample or a permutation of
-   the input response vector or matrix (for survival outcomes).</p>
+    <p>"Get" or "Set" the values of the <code>eventTime_num</code> or
+   <code>eventObserved_lgl</code> slots of an object of class <code>OmicsSurv</code>.</p>
     
 
-    <pre class="usage"><span class='fu'>sample_Survivalresp</span>(<span class='no'>response_vec</span>, <span class='no'>event_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>getEventTime</span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
-<span class='fu'>sample_Regresp</span>(<span class='no'>response_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>getEventTime</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
 
-<span class='fu'>sample_Classifresp</span>(<span class='no'>response_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>getEvent</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+
+<span class='fu'>getEvent</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+
+<span class='co'># S4 method for OmicsSurv</span>
+<span class='fu'>getEventTime</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for OmicsSurv</span>
+<span class='fu'>getEventTime</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+
+<span class='co'># S4 method for OmicsSurv</span>
+<span class='fu'>getEvent</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for OmicsSurv</span>
+<span class='fu'>getEvent</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>response_vec</th>
-      <td><p>The dependent vector to sample from. For survival
-response, this is the vector of event times. For regression or n-ary
-classification, this is the vector of responses.</p></td>
+      <th>object</th>
+      <td><p>An object of class <code><a href='OmicsSurv-class.html'>OmicsSurv-class</a></code>.</p></td>
     </tr>
     <tr>
-      <th>event_vec</th>
-      <td><p>The death / event observation indicator vector for survival
-response. This is coded as 0 for a right-censoring occurence and 1 for a
-recorded event.</p></td>
+      <th>...</th>
+      <td><p>Dots for additional internal arguments (currently unused).</p></td>
     </tr>
     <tr>
-      <th>parametric</th>
-      <td><p>Should the random sample be taken using a parametric
-bootstrap sample? Defaults to <code>FALSE</code>.</p></td>
+      <th>value</th>
+      <td><p>The replacement object to be assigned to the specified slot.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A permutation of the supplied response (if <code>parametric = TRUE</code>).
-   Otherwise, a parametric bootstrap sample of the response.</p>
+    <p>The "get" functions return the objects in the slots specified:
+   <code>getEventTime</code> returns the <code>eventTime_num</code> vector object and
+   <code>getEvent</code> returns the <code>eventObserved_lgl</code> vector object. These
+   functions can extract these values from any valid <code>OmicsSurv</code> object.</p>
+<p>The "set" functions enable the user to edit or replace objects in the
+   <code>eventTime_num</code> or <code>eventObserved_lgl</code> slots for any
+   <code>OmicsSurv</code> object, provided that the new values do not violate the
+   validity check of an <code>OmicsSurv</code> object. See "Details" for more
+   information.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The distributions (for <code>parametric = TRUE</code>) are Weibull for
-   survival times, Normal for regression, and n-ary Multinomial for
-   classification. Distributional parameters are estimated with their maximum
-   likelihood estimates. When <code>parametric = FALSE</code>, the response vector
-   or survival matrix is simply permuted by row.</p>
+    <p>These functions can be useful to set or extract the event time or
+   death indicator from an <code>OmicsSurv</code> object. However, we recommend
+   that users simply create a new, valid <code>OmicsSurv</code> object instead of
+   modifying an existing one. The validity of edited objects is checked with
+   the <code><a href='valid_OmicsSurv.html'>valid_OmicsSurv</a></code> function.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='create_OmicsPathway.html'>create_OmicsSurv</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  # DO NOT CALL THESE FUNCTIONS DIRECTLY.
-  # Use AESPCA_pVals() or superPCA_pVals() instead
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+  <span class='fu'>getEventTime</span>(<span class='no'>colon_OmicsSurv</span>)
+  <span class='fu'>getEvent</span>(<span class='no'>colon_OmicsSurv</span>)
 
-</div></pre>
+  <span class='fu'>getEventTime</span>(<span class='no'>colon_OmicsSurv</span>) <span class='kw'>&lt;-</span> <span class='no'>newTime_num</span>
+  <span class='fu'>getEvent</span>(<span class='no'>colon_OmicsSurv</span>) <span class='kw'>&lt;-</span> <span class='no'>newEvent_lgl</span>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -187,6 +207,8 @@ bootstrap sample? Defaults to <code>FALSE</code>.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

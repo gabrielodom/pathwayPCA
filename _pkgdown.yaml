@@ -47,7 +47,7 @@ reference:
       - '`superPCA_pVals`'
       - '`topGenes`'
       - '`expressedOmes`'
-  - title: S4-Class Objects
+  - title: S4-Class Objects and Basic Methods
     desc: Descriptions of the S4 classes in this package
     contents:
       - '`OmicsPathway-class`'
@@ -56,6 +56,16 @@ reference:
       - '`OmicsCateg-class`'
       - '`valid_OmicsSurv`'
       - '`show,OmicsPathway-method`'
+      - '`getAssay`'
+      - '`getAssay<-`'
+      - '`getPathwaySet`'
+      - '`getPathwaySet<-`'
+      - '`getEventTime`'
+      - '`getEventTime<-`'
+      - '`getEvent`'
+      - '`getEvent<-`'
+      - '`getResponse`'
+      - '`getResponse<-`'
   - title: Internal AES-PCA Functions
     desc: Functions designed to be called by the AES-PCA wrapper above
     contents:
