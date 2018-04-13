@@ -58,6 +58,9 @@
       <a href="../articles/Package_Dev_Notes.html">pathwayPCA Package Development Notes</a>
     </li>
     <li>
+      <a href="../articles/Quickstart_Guide.html">Quickstart Guide to pathwayPCA</a>
+    </li>
+    <li>
       <a href="../articles/Supervised_PCA_Walkthrough.html">Supervised PCA Walkthrough with pathwayPCA</a>
     </li>
   </ul>
@@ -88,7 +91,7 @@
       <h1>AES-PCA Walkthrough with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-11</h4>
+            <h4 class="date">2018-04-13</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/AES-PCA_Walkthrough.Rmd"><code>vignettes/AES-PCA_Walkthrough.Rmd</code></a></small>
       <div class="hidden name"><code>AES-PCA_Walkthrough.Rmd</code></div>
@@ -97,190 +100,49 @@
 
     
     
-<p>This will provide the steps to perform pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) analysis, from data entry to pathway <span class="math inline">\(p\)</span>-value graphics. This vignette will give three examples: survival, regression, and binary responses. The main goal of pathway AES-PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
-<div id="workflow-setup-and-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#workflow-setup-and-data" class="anchor"></a>Workflow Setup and Data</h2>
-<div id="load-package" class="section level3">
+<div id="overview" class="section level1">
+<h1 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h1>
+<p>This vignette is half of the third chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">“Import and Tidy Data”</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">“Creating -Omics Data Objects”</a> vignettes. This guide will outline the major steps needed analyze <code>Omics*</code>-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA). We will consider three examples: survival, regression, and binary responses. The main goal of pathway AES-PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
+<div id="outline" class="section level3">
 <h3 class="hasAnchor">
-<a href="#load-package" class="anchor"></a>Load Package</h3>
+<a href="#outline" class="anchor"></a>Outline</h3>
+<p>Before we move on, we will outline our steps. After reading this vignette, you should</p>
+<ol style="list-style-type: decimal">
+<li>Understand the basics of the AES-PCA pathway-significance testing approach.</li>
+<li>Be able to apply AES-PCA to analyze survival (<code>OmicsSurv</code>), regression (<code>OmicsReg</code>), or classification (<code>OmicsCateg</code>) data containers.</li>
+</ol>
+</div>
+<div id="load-packages" class="section level3">
+<h3 class="hasAnchor">
+<a href="#load-packages" class="anchor"></a>Load Packages</h3>
 <p>Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
 <pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pathwayPCA)
 <span class="kw">library</span>(parallel)</code></pre></div>
 </div>
-<div id="load-data-and-gene-pathway-set" class="section level3">
+<div id="load-omics-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#load-data-and-gene-pathway-set" class="anchor"></a>Load Data and Gene Pathway Set</h3>
-<p>For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. Unlike our current implementation of Supervised PCA, our current implementation of AES-PCA can handle some missingness in the data. However, we still recommend that you impute or remove any missingness.</p>
-<div id="load-tumour-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#load-tumour-data" class="anchor"></a>Load Tumour Data</h4>
-<p>For this example we have a colon cancer data set. We will load and inspect this data. We will return to the gene name discussion when we import the gene set list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colonSurv_df"</span>)
-<span class="kw">str</span>(colonSurv_df, <span class="dt">list.len =</span> <span class="dv">10</span>)
-<span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  658 variables:</span>
-<span class="co">#&gt;  $ OS_time : num  64.9 59.8 62.4 54.5 46.3 ...</span>
-<span class="co">#&gt;  $ OS_event: int  0 0 0 0 1 0 0 0 1 0 ...</span>
-<span class="co">#&gt;  $ JUN     : num  9.29 9.13 9.37 10.6 8.7 ...</span>
-<span class="co">#&gt;  $ SOS2    : num  5.48 6.35 5.67 4.94 5.6 ...</span>
-<span class="co">#&gt;  $ PAK3    : num  8.21 8.33 7.82 8.79 8.75 ...</span>
-<span class="co">#&gt;  $ RAF1    : num  8.03 7.94 7.74 7.64 8.05 ...</span>
-<span class="co">#&gt;  $ PRKCB   : num  5.49 6.26 6.05 5.37 6.07 ...</span>
-<span class="co">#&gt;  $ BTC     : num  6.65 7.02 7.52 6.87 6.49 ...</span>
-<span class="co">#&gt;  $ SHC1    : num  8.26 8.39 8.69 7.81 8.45 ...</span>
-<span class="co">#&gt;  $ PRKCA   : num  8.94 9.61 8.4 9.8 8.21 ...</span>
-<span class="co">#&gt;   [list output truncated]</span></code></pre></div>
-<p>This data set has 656 gene expression measurements on 250 colon cancer patients. Notice that this data frame is in <a href="https://www.jstatsoft.org/article/view/v059i10">tidy form</a> (a tidy data matrix has <span class="math inline">\(n\)</span> rows, one for each observation, and <span class="math inline">\(p\)</span> columns, one for each gene or protein measured). If your data frame is not tidy, you should transpose it. (Note that transposition in <code>R</code> will yield an object of class <code>matrix</code>, so use <code>as.data.frame()</code> to turn the transposed matrix back into a data frame.)</p>
-</div>
-<div id="load-sample-information" class="section level4">
-<h4 class="hasAnchor">
-<a href="#load-sample-information" class="anchor"></a>Load Sample Information</h4>
-<p>We have an expression design matrix with the first two columns as subject response information. We will consider the overall patient survival time (and corresponding censoring indicator) as our survival response response, the event time as our regression response, and event indicator as our binary classification response (these are just for example).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survTime_num &lt;-<span class="st"> </span>colonSurv_df<span class="op">$</span>OS_time
-dead_logi &lt;-<span class="st"> </span><span class="kw">as.logical</span>(colonSurv_df<span class="op">$</span>OS_event)
-dead_fact &lt;-<span class="st"> </span><span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event)
-cancers_df &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]
-<span class="kw">rm</span>(colonSurv_df)</code></pre></div>
-<p>Notice that I put the responses in specific classes: survival data is stored in numeric and logical vectors, regression data is stored in a numeric or integer vector, and binary classification data is stored in a factor. This is on purpose: the data creation functions in the <code>pathwayPCA::</code> package have very specific requirements about the types of data they take as inputs. We’ll come back to this topic when we create our first <code>Omics*</code>-class objects.</p>
-</div>
-<div id="load-gene-set-list" class="section level4">
-<h4 class="hasAnchor">
-<a href="#load-gene-set-list" class="anchor"></a>Load Gene Set List</h4>
-<p>For pathway-based analyses to work, we need a well-defined list of pathways.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colon_pathwaySet"</span>)
-(geneset_ls &lt;-<span class="st"> </span>colon_pathwaySet)
-<span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: </span>
-<span class="co">#&gt;  $ pathways:List of 15</span>
-<span class="co">#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
-<span class="kw">str</span>(geneset_ls<span class="op">$</span>pathways, <span class="dt">list.len =</span> <span class="dv">10</span>)
-<span class="co">#&gt; List of 15</span>
-<span class="co">#&gt;  $ pathway3   : chr [1:27] "RPE" "RPIA" "PGM2" "PGLS" ...</span>
-<span class="co">#&gt;  $ pathway60  : chr [1:64] "RPE65" "CYP3A5" "UGT2B28" "CYP4A11" ...</span>
-<span class="co">#&gt;  $ pathway87  : chr [1:87] "JUN" "SOS2" "PAK3" "RAF1" ...</span>
-<span class="co">#&gt;  $ pathway120 : chr [1:89] "HLA-DOA" "HLA-DOB" "KLRC3" "KLRD1" ...</span>
-<span class="co">#&gt;  $ pathway176 : chr [1:54] "CASP9" "SOS2" "E2F1" "PRKCB" ...</span>
-<span class="co">#&gt;  $ pathway177 : chr [1:30] "HLA-DRB4" "HLA-DRB5" "HLA-DOA" "HLA-DOB" ...</span>
-<span class="co">#&gt;  $ pathway187 : chr [1:16] "IKBKG" "CHUK" "EP300" "RELA" ...</span>
-<span class="co">#&gt;  $ pathway266 : chr [1:11] "PRF1" "DFFA" "DFFB" "HMGB2" ...</span>
-<span class="co">#&gt;  $ pathway390 : chr [1:29] "JUN" "BAG4" "CASP8" "MAPK8" ...</span>
-<span class="co">#&gt;  $ pathway413 : chr [1:23] "PLD1" "RAF1" "EPHB2" "VAV1" ...</span>
-<span class="co">#&gt;   [list output truncated]</span>
-<span class="kw">rm</span>(colon_pathwaySet)</code></pre></div>
-<p>The information stored in the gene set list is very important to our analysis, and the form of this information must be discussed carefully. This gene set list has class <code>pathwaySet</code> and contains the following components</p>
-<ul>
-<li>
-<code>pathways</code>: a list of character vectors. Each character vector contains a subset of column names in the <code>cancers_df</code> data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the <code>pathwayPCA::</code> package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame. <strong>Important</strong>: some protein set lists have proteins markers recorded as character numerics, so make sure the column names of your data frame have an overlap with the gene or protein names in the set list. Ensure that there is a non-null set overlap between the names in the pathways and the column names of the predictor data frame. Not every column from the <code>cancers_df</code> data frame will be in a pathway gene set, and not every gene set in each pathway will be recorded in the data frame. <em>However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.</em> If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. <strong>Make sure your pathway set and data frame are compatible.</strong>
-</li>
-<li>
-<code>TERMS</code>: a brief description of the pathways in the <code>pathways</code> list, stored as a character vector.</li>
-<li>
-<code>setsize</code>: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: <em>this information is calculated and added to the pathway set list at <code>Omics*</code>-class object creation.</em> This information is useful to measure the ratio of the number of genes from each pathway expressed in your data to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results results. (The <code><a href="../reference/expressedOmes.html">expressedOmes()</a></code> function is useful for extracting the expressed genes from each pathway set, and it is called automatically in the Supervised PCA workflow.)</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="create-an-omics-class-object-for-pathway-analysis" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-an-omics-class-object-for-pathway-analysis" class="anchor"></a>Create an <code>Omics*</code>-class Object for Pathway Analysis</h2>
-<p>Now that we have our data loaded, and we have checked that each piece of data is in the correct form, we can create an analysis object for the <code>pathwayPCA::</code> package. In this package, all primary input data will by an <code>Omics*</code> object. Each response type has a specific creation function:</p>
-<ul>
-<li>Survival response: Use the <code><a href="../reference/create_OmicsPathway.html">create_OmicsSurv()</a></code> function to create an object with class <code>OmicsSurv</code>. This object will contain:
-<ul>
-<li>
-<code>eventTime</code>: a numeric vector of event times</li>
-<li>
-<code>eventObserved</code>: a logical vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.</li>
-<li>
-<code>assayData_df</code>: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names <em>must</em> match a subset of the genes provided in the gene set list (in the <code>pathwaySet</code> object).</li>
-<li>
-<code>pathwaySet</code>: a list of pathway information, as described in the “Load Gene Set List” section. The names of the genes in these pathways <em>must</em> match a subset of the genes recorded in the prediction data frame (in the <code>assayData_df</code> object).</li>
-</ul>
-</li>
-<li>Regression response: Use the <code><a href="../reference/create_OmicsPathway.html">create_OmicsReg()</a></code> function to create an object with class <code>OmicsReg</code>. This object will contain:
-<ul>
-<li>
-<code>response</code>: a numeric vector of the response</li>
-<li>
-<code>assayData_df</code>: a tidy data frame of prediction information, as described above.</li>
-<li>
-<code>pathwaySet</code>: a list of pathway information, as described above.</li>
-</ul>
-</li>
-<li>Binary Classification response: Use the <code><a href="../reference/create_OmicsPathway.html">create_OmicsCateg()</a></code> function to create an object with class <code>OmicsCateg</code>. In future versions, this function will be able to take in n-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
-<ul>
-<li>
-<code>response</code>: a factor vector of the response</li>
-<li>
-<code>assayData_df</code>: a tidy data frame of prediction information, as described above.</li>
-<li>
-<code>pathwaySet</code>: a list of pathway information, as described above.</li>
-</ul>
-</li>
-</ul>
-<div id="create-an-omicssurv-object" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-an-omicssurv-object" class="anchor"></a>Create an <code>OmicsSurv</code> Object</h3>
-<p>Using the survival response information, we will create a valid <code>OmicsSurv</code> object for further analysis with the <code>pathwayPCA::</code> functions. Remember, it is vitally important to input your data in the forms described above. Because we are creating an <code>OmicsSurv</code> object, we will need event times as a numeric vector and death indicator as a logical vector.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsSurv</a></span>(<span class="dt">assayData_df =</span> cancers_df,
-                                    <span class="dt">pathwaySet_ls =</span> geneset_ls,
-                                    <span class="dt">eventTime_num =</span> survTime_num,
-                                    <span class="dt">eventObserved_lgl =</span> dead_logi)
-colon_OmicsSurv
+<a href="#load-omics-data" class="anchor"></a>Load <code>Omics*</code> Data</h3>
+<p>Because you have already read through the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a> vignettes, we will pick up with the <code>colon_OmicsSurv</code> object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The <code>colon_OmicsSurv</code> data container has all of this.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
 <span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
 <span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
 <span class="co">#&gt;   ..@ eventObserved: logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
 <span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
 <span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
 <span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
-<p>Because the <code>assayData_df</code> and <code>pathwaySet</code> objects contain <em>a lot</em> of information, we use the <code>max.level</code> option within the <code>str()</code> function to prevent recursive structure printing. Notice that the <code>pathwaySet</code> object is a list of 3 now: upon creation, the <code>setsize</code> vector is added to the <code>pathwaySet</code> object. We can also repeat this to create regression and classification objects for further analysis. However, I will mention this again: <strong>it is vitally important to create your data objects correctly.</strong> As the old computer science saying goes—garbage in, garbage out.</p>
-</div>
-<div id="create-an-omicsreg-object" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-an-omicsreg-object" class="anchor"></a>Create an <code>OmicsReg</code> Object</h3>
-<p>Following our previous step in creation of a survival object, we can create a data object for regression response.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsReg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsReg</a></span>(<span class="dt">assayData_df =</span> cancers_df,
-                                  <span class="dt">pathwaySet_ls =</span> geneset_ls,
-                                  <span class="dt">response_num =</span> survTime_num)
-colon_OmicsReg
-<span class="co">#&gt; Formal class 'OmicsReg' [package "pathwayPCA"] with 3 slots</span>
-<span class="co">#&gt;   ..@ response    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
-<span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
-</div>
-<div id="create-an-omicscateg-object" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-an-omicscateg-object" class="anchor"></a>Create an <code>OmicsCateg</code> Object</h3>
-<p>And we can also create our data object for binary classification response. As we mentioned previously, we do not yet support other GLM models, but we are working on it.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_OmicsPathway.html">create_OmicsCateg</a></span>(<span class="dt">assayData_df =</span> cancers_df,
-                                      <span class="dt">pathwaySet_ls =</span> geneset_ls,
-                                      <span class="dt">response_fact =</span> dead_fact)
-colon_OmicsCateg
-<span class="co">#&gt; Formal class 'OmicsCateg' [package "pathwayPCA"] with 3 slots</span>
-<span class="co">#&gt;   ..@ response    : Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 2 1 ...</span>
-<span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
-</div>
-<div id="re-inspect-the-pathwayset-list" class="section level3">
-<h3 class="hasAnchor">
-<a href="#re-inspect-the-pathwayset-list" class="anchor"></a>Re-inspect the <code>pathwaySet</code> List</h3>
-<p>As we mentioned above, the gene set list (as a <code>pathwaySet</code> object, or a gene set list you’ve created yourself) will be modified upon <code>Omics*</code> object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code>. Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv<span class="op">@</span>pathwaySet
-<span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
-<span class="co">#&gt;  $ pathways:List of 15</span>
-<span class="co">#&gt;  $ TERMS   : Named chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
-<span class="co">#&gt;  $ setsize : Named int [1:15] 27 64 ...</span></code></pre></div>
+<p>Unlike our current implementation of <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html">Supervised PCA</a>, our current implementation of AES-PCA can handle some missingness in the response.</p>
+<hr>
+<p></p>
 </div>
 </div>
-<div id="clean-up-the-pathway-list" class="section level2">
-<h2 class="hasAnchor">
-<a href="#clean-up-the-pathway-list" class="anchor"></a>Clean Up the Pathway List</h2>
-<p>The analysis functions within the <code>pathwayPCA::</code> package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren’t recorded in the data frame, then we will necessarily create missing (<code>NA</code>) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.</p>
+<div id="clean-up-the-pathway-list" class="section level1">
+<h1 class="hasAnchor">
+<a href="#clean-up-the-pathway-list" class="anchor"></a>Clean Up the Pathway List</h1>
+<p>The analysis functions within the <code>pathwayPCA</code> package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren’t recorded in the data frame, then we will necessarily create missing (<code>NA</code>) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.</p>
 <p>However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The <code><a href="../reference/expressedOmes.html">expressedOmes()</a></code> function performs these two actions simultaneously. This function takes in a valid <code>Omics*</code>-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same <code>Omics*</code> class as the input. If there are any pathways that are removed due to this execution, the <code>pathways</code> list within the <code>pathwaySet</code> object within each <code>Omics*</code> object will have a character vector of the pathways removed stored as the <code>"missingPaths"</code> attribute. Access this attribute with the <code>attr()</code> function.</p>
 <p>This function is called and executed within the <code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code> function.</p>
-</div>
 <div id="calculate-pathway-specific-model-p-values" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-pathway-specific-model-p-values" class="anchor"></a>Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</h2>
@@ -325,7 +187,7 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 26.45607 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 29.51023 secs</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -359,7 +221,7 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 15.32778 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 15.96279 secs</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
@@ -393,7 +255,7 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
 <span class="co">#&gt; DONE</span>
 <span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 24.78114 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 25.74354 secs</span></code></pre></div>
 </div>
 </div>
 <div id="subset-the-top-pathways" class="section level2">
@@ -508,37 +370,18 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 32.75263 32.75263 28.37873 28.33696 28.33696 28.33696 28.33696 28.33696 </span>
+<span class="co">#&gt; 21.86657 21.86657 18.21665 18.17706 18.17706 18.17706 18.17706 18.17706 </span>
 <span class="co">#&gt;     KRAS     SHC1      CRK   PIK3CB   PIK3R2 </span>
-<span class="co">#&gt; 28.33696 28.29573 28.29573 23.71912 23.71912 </span>
+<span class="co">#&gt; 18.17706 18.13746 18.13746 17.60454 17.60454 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    RAP1B    EFNB2     WASL       TF    KALRN    RASA1     FRS2    THEM4 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;      KLB     DOK1    EIF4B    EIF4E   EIF4G1     FGF1     FGF2     FGF3 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     FGF4     FGF5     FGF6     FGF7     FGF8     FGF9    FGF10    FGFR1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    FGFR3    FGFR2    FGFR4    FGF20    FGF22    GRB10      INS     INSR </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     IRS1    PDE3B   PRKAG2    CAB39   PRKAG3     TLR9    PPM1A   STRADB </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;   PRKAA1   PRKAA2   PRKAB1   PRKAB2   PRKAG1    RPTOR    TRIB3     RHEB </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     RPS6    MLST8    STK11     TSC1     TSC2    YWHAB    FGF23   CAB39L </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     IRS2    FGF18    FGF17   STRADA       KL     CDK1    FGF19   TCIRG1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt; ATP6V1G3 ATP6V0A2 ATP6V0D2 ATP6V1C2 ATP6V0A4  ATP6V1D  ATP6V1H  ATP6V1A </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt; ATP6V1B1 ATP6V1B2  ATP6V0C ATP6V1C1 ATP6V1E1  ATP6V0B ATP6V1G2 ATP6V0E1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt; ATP6V1E2 ATP6V0D1  ATP6V1F ATP6V1G1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516</span></code></pre></div>
+<span class="co">#&gt;   TCIRG1 ATP6V1G3 ATP6V0A2 ATP6V0D2 ATP6V1C2 ATP6V0A4  ATP6V1D  ATP6V1H </span>
+<span class="co">#&gt; 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 </span>
+<span class="co">#&gt;  ATP6V1A ATP6V1B1 ATP6V1B2  ATP6V0C ATP6V1C1 ATP6V1E1  ATP6V0B ATP6V1G2 </span>
+<span class="co">#&gt; 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 </span>
+<span class="co">#&gt; ATP6V0E1 ATP6V1E2 ATP6V0D1  ATP6V1F ATP6V1G1 </span>
+<span class="co">#&gt; 8.880363 8.880363 8.880363 8.880363 8.880363</span></code></pre></div>
+</div>
 </div>
   </div>
 
@@ -547,12 +390,14 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#workflow-setup-and-data">Workflow Setup and Data</a></li>
-      <li><a href="#create-an-omics-class-object-for-pathway-analysis">Create an <code>Omics*</code>-class Object for Pathway Analysis</a></li>
-      <li><a href="#clean-up-the-pathway-list">Clean Up the Pathway List</a></li>
-      <li><a href="#calculate-pathway-specific-model-p-values">Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</a></li>
+<li><a href="#overview">Overview</a></li>
+      <li>
+<a href="#clean-up-the-pathway-list">Clean Up the Pathway List</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#calculate-pathway-specific-model-p-values">Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</a></li>
       <li><a href="#subset-the-top-pathways">Subset the Top Pathways</a></li>
       <li><a href="#rank-significant-genes">Rank Significant Genes</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

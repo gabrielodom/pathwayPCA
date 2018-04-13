@@ -103,7 +103,7 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p>This vignette is the second chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This guide will outline the major steps needed to create a data container object for analysis with the <code>pathwayPCA</code> package. These objects are called <code>Omics*</code>-class objects.</p>
+<p>This vignette is the second chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">“Import and Tidy Data”</a> vignette. This guide will outline the major steps needed to create a data container object for analysis with the <code>pathwayPCA</code> package. These objects are called <code>Omics*</code>-class objects.</p>
 <div id="outline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#outline" class="anchor"></a>Outline</h3>
@@ -412,6 +412,8 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  10 variables:</span>
 <span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
 <span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
+<p>We can go back to the full data by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]</code></pre></div>
 </div>
 <div id="table-of-accessors" class="section level3">
 <h3 class="hasAnchor">
@@ -487,6 +489,16 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 </tbody>
 </table>
 <p>The <code>response</code> vector accessed or edited with the <code>getResponse</code> method depends on if the <code>object</code> supplied is of class <code>OmicsReg</code> or <code>OmicsCateg</code>. For <code>OmicsReg</code> objects, <code><a href="../reference/get_set_OmicsRegCateg.html">getResponse(object)</a></code> and <code>getResponse(object) &lt;- value</code> get and set, respectively, the <code>response_num</code> slot. However, for <code>OmicsCateg</code> objects, <code><a href="../reference/get_set_OmicsRegCateg.html">getResponse(object)</a></code> and <code>getResponse(object) &lt;- value</code> get and set, respectively, the <code>response_fact</code> slot. This is because regression objects contain <code>numeric</code> response vectors while categorical objects contain <code>factor</code> response vectors.</p>
+</div>
+<div id="inspect-the-updated-pathwayset-list" class="section level3">
+<h3 class="hasAnchor">
+<a href="#inspect-the-updated-pathwayset-list" class="anchor"></a>Inspect the Updated <code>pathwaySet</code> List</h3>
+<p>As we mentioned in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function">Importing with the <code>read_gmt</code> Function</a> subsection of the previous vignette, the <code>pathwaySet</code> object will be modified upon <code>Omics*</code> object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code>. Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwaySet</a></span>(colon_OmicsSurv)
+<span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
+<span class="co">#&gt;  $ pathways:List of 15</span>
+<span class="co">#&gt;  $ TERMS   : Named chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
+<span class="co">#&gt;  $ setsize : Named int [1:15] 27 64 ...</span></code></pre></div>
 <hr>
 <p></p>
 </div>
