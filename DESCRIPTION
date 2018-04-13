@@ -33,14 +33,17 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Collate: 
+    'createClass_OmicsPath.R'
+    'createClass_validOmics.R'
+    'accessClass_OmicsPath.R'
+    'accessClass_OmicsRegCateg.R'
+    'createClass_OmicsSurv.R'
+    'accessClass_OmicsSurv.R'
     'adjust_and_sort_pValues.R'
     'aesPC_calculate_AESPCA.R'
     'aesPC_calculate_LARS.R'
-    'createClass_OmicsPath.R'
-    'createClass_validOmics.R'
     'subsetExpressed-omes.R'
     'aesPC_extract_OmicsPath_PCs.R'
-    'createClass_OmicsSurv.R'
     'aesPC_permtest_CoxPH.R'
     'createClass_OmicsCateg.R'
     'aesPC_permtest_GLM.R'
