@@ -56,11 +56,10 @@ colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
                                       pathwaySet_ls = colon_pathwaySet,
                                       response_fact = as.factor(colonSurv_df$OS_event))
 ```
-Because you have already read through the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and [Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes, we will pick up with the `colon_OmicsSurv` object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The `colon_OmicsSurv` data container has all of this.
+Because you have already read through the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and [Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes, we will pick up with the `colon_OmicsSurv` object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The `colon_OmicsSurv` data container we constructed in [Chapter 3](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) has all of this.
 ```{r data_show}
 colon_OmicsSurv
 ```
-Unlike our current implementation of [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html), **our implementation of supervised PCA does not currently support analysis of responses with missingness. Please remove observations with missing entries before supervised PCA analysis.**
 
 *******************************************************************************
 
