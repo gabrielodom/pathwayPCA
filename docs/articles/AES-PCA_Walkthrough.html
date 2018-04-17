@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AES-PCA Walkthrough with pathwayPCA • pathwayPCA</title>
+<title>Test Pathway Significance with pathwayPCA • pathwayPCA</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="AES-PCA Walkthrough with pathwayPCA">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Test Pathway Significance with pathwayPCA">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -46,7 +46,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/AES-PCA_Walkthrough.html">AES-PCA Walkthrough with pathwayPCA</a>
+      <a href="../articles/AES-PCA_Walkthrough.html">Test Pathway Significance with pathwayPCA</a>
     </li>
     <li>
       <a href="../articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a>
@@ -88,10 +88,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>AES-PCA Walkthrough with pathwayPCA</h1>
+      <h1>Test Pathway Significance with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-13</h4>
+            <h4 class="date">2018-04-17</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/AES-PCA_Walkthrough.Rmd"><code>vignettes/AES-PCA_Walkthrough.Rmd</code></a></small>
       <div class="hidden name"><code>AES-PCA_Walkthrough.Rmd</code></div>
@@ -103,14 +103,15 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p>This vignette is half of the third chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">“Import and Tidy Data”</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">“Creating -Omics Data Objects”</a> vignettes. This guide will outline the major steps needed analyze <code>Omics*</code>-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA). We will consider three examples: survival, regression, and binary responses. The main goal of pathway AES-PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
+<p>This vignette is half of the third chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">“Import and Tidy Data”</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">“Creating -Omics Data Objects”</a> vignettes. This guide will outline the major steps needed analyze <code>Omics*</code>-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) or Supervised PCA. We will consider three examples: survival, regression, and binary responses. The main goal of pathway significance testing is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
 <div id="outline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#outline" class="anchor"></a>Outline</h3>
 <p>Before we move on, we will outline our steps. After reading this vignette, you should</p>
 <ol style="list-style-type: decimal">
 <li>Understand the basics of the AES-PCA pathway-significance testing approach.</li>
-<li>Be able to apply AES-PCA to analyze survival (<code>OmicsSurv</code>), regression (<code>OmicsReg</code>), or classification (<code>OmicsCateg</code>) data containers.</li>
+<li>Understand the basics of the Supervised PCA pathway-significance testing approach.</li>
+<li>Be able to apply AES-PCA or Supervised PCA to analyze survival (<code>OmicsSurv</code>), regression (<code>OmicsReg</code>), or classification (<code>OmicsCateg</code>) data containers.</li>
 </ol>
 </div>
 <div id="load-packages" class="section level3">
@@ -124,7 +125,7 @@
 <div id="load-omics-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#load-omics-data" class="anchor"></a>Load <code>Omics*</code> Data</h3>
-<p>Because you have already read through the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a> vignettes, we will pick up with the <code>colon_OmicsSurv</code> object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The <code>colon_OmicsSurv</code> data container has all of this.</p>
+<p>Because you have already read through the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a> vignettes, we will pick up with the <code>colon_OmicsSurv</code> object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The <code>colon_OmicsSurv</code> data container we constructed in <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Chapter 3</a> has all of this.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
 <span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
 <span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
@@ -132,40 +133,116 @@
 <span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
 <span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
 <span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
-<p>Unlike our current implementation of <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html">Supervised PCA</a>, our current implementation of AES-PCA can handle some missingness in the response.</p>
 <hr>
 <p></p>
 </div>
 </div>
-<div id="clean-up-the-pathway-list" class="section level1">
+<div id="pathway-testing-setup" class="section level1">
 <h1 class="hasAnchor">
-<a href="#clean-up-the-pathway-list" class="anchor"></a>Clean Up the Pathway List</h1>
-<p>The analysis functions within the <code>pathwayPCA</code> package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren’t recorded in the data frame, then we will necessarily create missing (<code>NA</code>) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.</p>
-<p>However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The <code><a href="../reference/expressedOmes.html">expressedOmes()</a></code> function performs these two actions simultaneously. This function takes in a valid <code>Omics*</code>-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same <code>Omics*</code> class as the input. If there are any pathways that are removed due to this execution, the <code>pathways</code> list within the <code>pathwaySet</code> object within each <code>Omics*</code> object will have a character vector of the pathways removed stored as the <code>"missingPaths"</code> attribute. Access this attribute with the <code>attr()</code> function.</p>
-<p>This function is called and executed within the <code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code> function.</p>
-<div id="calculate-pathway-specific-model-p-values" class="section level2">
+<a href="#pathway-testing-setup" class="anchor"></a>Pathway Testing Setup</h1>
+<p>In this section, we will describe the workflow of the Supervised PCA (<code>superPCA_pVals</code>) and AES-PCA (<code>AESPCA_pVals</code>) pathway significance-testing methods. <strong>The implementation of Supervised PCA in this package does not currently support analysis of responses with missingness.</strong> If you plan to test yourpathways using the SUpervised PCA method, please remove observations with missing entries beforeanalysis. Unlike the current implementation of Supervised PCA, our current implementation of AES-PCA can handle some missingness in the response.</p>
+<p>Also, when we compare computing times, we use a Dell Precision Tower 5810 with 64-bit Windows 7 Enterprise OS. This machine has 64 GB of RAM and an Intel Xeon E5-2640 v4 2.40 GHz processor with 20 threads. We use two threads for parallel computing. Please adjust your expectations of computing time accordingly.</p>
+<div id="pathway-significance-testing-overview" class="section level2">
 <h2 class="hasAnchor">
-<a href="#calculate-pathway-specific-model-p-values" class="anchor"></a>Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</h2>
-<p>We now have a clean set of <code>Omics*</code> objects. We will</p>
-<ol style="list-style-type: decimal">
-<li>Extract the first principal components from each expressed pathway in the MS design matrix</li>
-<li>Test their association with the response matrix or vector. This step uses a permutation test to estimate the pathway <span class="math inline">\(p\)</span>-values.</li>
-<li>Adjust the pathway <span class="math inline">\(p\)</span>-values for False Discovery Rate (FDR)</li>
-<li>Return a sorted data frame of the adjusted <span class="math inline">\(p\)</span>-values for each pathway</li>
+<a href="#pathway-significance-testing-overview" class="anchor"></a>Pathway Significance Testing Overview</h2>
+<p>Now that we have our data stored in an <code>Omics*</code>-class object, we can test the significance of each pathway with AES- or Supervised PCA. These functions both</p>
+<ol start="0" style="list-style-type: decimal">
+<li>“Trim” the pathway gene set list.</li>
+<li>Extract the first principal components (PCs) from each expressed pathway in the MS design matrix.</li>
+<li>Test their association with the response matrix or vector.</li>
+<li>Adjust the pathway <span class="math inline">\(p\)</span>-values for False Discovery Rate (FDR).</li>
+<li>Return a sorted data frame of the adjusted <span class="math inline">\(p\)</span>-values for each pathway.</li>
 </ol>
-<p>The accuracy of the permuted <span class="math inline">\(p\)</span>-values will depend on how many permutations you call for. The default number in the <code><a href="../reference/AESPCA_pVals.html">AESPCA_pVals()</a></code> function is 1000. Be warned, however, that this may be too few permutations to create accurate seperation in pathway significance. You could increase the permutations to a larger value, should your computing resources allow for that. For even moderately-sized data sets (~2000 features) and 1000 pathways, this could take half an hour or more. About 20-25% of the computing costs will be extracting the AES-PCs from each pathway, and the remaining 75-80% of the cost will be the permutation test (for 1000 reps).</p>
-<p>Another note: we use the FDR adjustments executed in the <code>mt.rawp2adjp</code> function from the Bioconductor package <a href="https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf"><code>multtest</code></a>. We copied the code from this function into our package, and made some slight modifications. However, we do not depend on this package directly. We acknowledge their work in this area and express our gratitude.</p>
+<p>The major differences between the two methods involve the execution of (1) and (2), which we will describe in their methods sections.</p>
+</div>
+<div id="clean-up-the-pathway-list" class="section level2">
+<h2 class="hasAnchor">
+<a href="#clean-up-the-pathway-list" class="anchor"></a>Clean Up the Pathway List</h2>
+<p>The analysis functions within the <code>pathwayPCA</code> package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren’t recorded in the data frame, then we will necessarily create missing (<code>NA</code>) predictors. To circumvent this issue, we check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels. However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a given pathway. Thus, we also check to make sure that each pathway still has some minimum number of genes present (defaulting to three or more) after we have removed the genes without corresponding expression levels.</p>
+<p>The <code><a href="../reference/expressedOmes.html">expressedOmes()</a></code> function performs these two actions simultaneously. This function is called and executed automatically within the setup step. This function takes in a valid <code>Omics*</code>-class object, removes the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than the minimum number of genes allowed, and returns an object of the same <code>Omics*</code> class as the input. If there are any pathways that are removed due to this execution, the <code>pathways</code> list within the <code>pathwaySet</code> object within each <code>Omics*</code> object will have a character vector of the pathways removed stored as the <code>"missingPaths"</code> attribute. Access this attribute with the <code>attr()</code> function.</p>
+</div>
+<div id="extract-pathway-pcs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#extract-pathway-pcs" class="anchor"></a>Extract Pathway PCs</h2>
+<p>The details of this step will depend on the method, but the overall idea remains the same. First, select the columns of the assay data frame that correspond to each of the clean pathways. Then, use the chosen PCA method to extract the first PCs from those pathways.</p>
+</div>
+<div id="test-pathway-association" class="section level2">
+<h2 class="hasAnchor">
+<a href="#test-pathway-association" class="anchor"></a>Test Pathway Association</h2>
+<p>The details of this step will also depend on the method. Now that we have a list of PCs representing the data from each pathway, we apply simple models to test if the PCs are significantly related to the output. For survival output, we use Cox Proportional Hazards (Cox PH) regression. For categorical output, because we only support binary responses in this version, we use logistic regression to test for a relationship between pathway PCs and the response. For continuous output, we use a simple multiple regression model. The AES- and Supervised PCA methods differ on <em>how</em> to calculate <span class="math inline">\(p\)</span>-values from these models, but the end result of this step is a <span class="math inline">\(p\)</span>-value for each of the trimmed pathways.</p>
+</div>
+<div id="adjust-the-pathway-p-values-for-fdr" class="section level2">
+<h2 class="hasAnchor">
+<a href="#adjust-the-pathway-p-values-for-fdr" class="anchor"></a>Adjust the Pathway <span class="math inline">\(p\)</span>-Values for FDR</h2>
+<p>At this step, we have a vector of <span class="math inline">\(p\)</span>-values corresponding to the list of trimmed pathways. We know that repeated comparisons inflate the Type-I error rate, so we adjust these <span class="math inline">\(p\)</span>-values. We use the FDR adjustments executed in the <code>mt.rawp2adjp</code> function from the Bioconductor package <a href="https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf"><code>multtest</code></a>. We copied the code from this function into our package, with some slight modifications in implementation. However, we do not depend on this package directly. We acknowledge their work in this area and express our gratitude. Common adjustment methods to control the family-wise error rate or FDR are the Bonferroni, Sidak, Holm, or Benjamini and Hochberg techniques.</p>
+</div>
+<div id="output-a-sorted-data-frame-tibble" class="section level2">
+<h2 class="hasAnchor">
+<a href="#output-a-sorted-data-frame-tibble" class="anchor"></a>Output a Sorted Data Frame / Tibble</h2>
+<p>The end result of either PCA variant is a data frame. The data frame has the following columns:</p>
+<ul>
+<li>
+<code>pathways</code>: The names of the pathways in the <code>Omics*</code> object (given in <code>object@@pathwaySet$pathways</code>).</li>
+<li>
+<code>setsize</code>: The number of genes in each of the original pathways (given in the <code>object@pathwaySet$setsize</code> object).</li>
+<li>
+<code>terms</code>: The pathway description, as given in the <code>object@pathwaySet$TERMS</code> object.</li>
+<li>
+<code>rawp</code>: The unadjusted <span class="math inline">\(p\)</span>-values of each pathway.</li>
+<li>
+<code>...</code>: Additional columns for each requested FDR adjustment.</li>
+</ul>
+<p>The data frame will have its rows sorted in increasing order by the adjusted <span class="math inline">\(p\)</span>-value corresponding to the first adjustment method requested. Ties are broken by the raw <span class="math inline">\(p\)</span>-values. Additionally, if you use the <code>tidyverse</code> package suite (and have these packages loaded), then the output will be a tibble object, rather than a data frame object. This object class comes with enhanced printing methods and some other benefits.</p>
+<hr>
+<p></p>
+</div>
+</div>
+<div id="aes-pca" class="section level1">
+<h1 class="hasAnchor">
+<a href="#aes-pca" class="anchor"></a>AES-PCA</h1>
+<p>Now that we have described the overview of the pathway analysis methods, we can discuss and give examples in more detail.</p>
+<div id="method-details" class="section level2">
+<h2 class="hasAnchor">
+<a href="#method-details" class="anchor"></a>Method Details</h2>
+<div id="aes-pca-method-sources" class="section level3">
+<h3 class="hasAnchor">
+<a href="#aes-pca-method-sources" class="anchor"></a>AES-PCA Method Sources</h3>
+<p>Adaptive, elastic-net, sparse PCA is a combination of the <a href="https://doi.org/10.1214/08-AOS625">Adaptive Elastic-Net</a> of Zou and Zhang (2009) and <a href="https://doi.org/10.1198/106186006X113430">Sparse PCA</a> of Zou et al. (2006). This method was applied to pathways association testing by <a href="https://doi.org/10.2202/1544-6115.1697">Chen (2011)</a>. Accoding to Chen (2011), the “AES-PCA method removes noisy expression signals and also account[s] for correlation structure between the genes. It is computationally efficient and the estimation of the PCs does not depend on clinical outcomes.” This package uses a legacy version of the <a href="https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf">LARS algorithm</a> of Efron et al. (2003) to calculate the PCs.</p>
+</div>
+<div id="calculate-pathway-specific-model-p-values" class="section level3">
+<h3 class="hasAnchor">
+<a href="#calculate-pathway-specific-model-p-values" class="anchor"></a>Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</h3>
+<p>For the AES-PCA method, pathway <span class="math inline">\(p\)</span>-values are calculated with a permutation test. Therefore, when testing the relationship between the response and the PCs extracted by AES-PCA, the accuracy of the permuted <span class="math inline">\(p\)</span>-values will depend on how many permutations you call for. The default number in the <code><a href="../reference/AESPCA_pVals.html">AESPCA_pVals()</a></code> function is 1000. Be warned, however, that this may be too few permutations to create accurate seperation in pathway significance. You could increase the permutations to a larger value, should your computing resources allow for that. For even moderately-sized data sets (~2000 features) and 1000 pathways, this could take half an hour or more. About 20-25% of the computing costs will be extracting the AES-PCs from each pathway, and the remaining 75-80% of the cost will be the permutation test (for 1000 reps).</p>
+</div>
+<div id="aes-pca-pros-and-cons" class="section level3">
+<h3 class="hasAnchor">
+<a href="#aes-pca-pros-and-cons" class="anchor"></a>AES-PCA Pros and Cons</h3>
+<p>Pros:</p>
+<ul>
+<li>The AES-PCA method can handle some missingness in the response.</li>
+<li>The <span class="math inline">\(p\)</span>-values are calculated non-parametrically.</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>The AES-PCA algorithm requires optimization over two tuning parameters and can therefore be considerably slower than the singular value decomposition or eigendecomposition.</li>
+<li>The <span class="math inline">\(p\)</span>-values calculated may be too discrete for fewer than 10,000 permutations, which can affect the behavior of the adjustment procedures.</li>
+</ul>
+</div>
+</div>
+<div id="aes-pca-examples" class="section level2">
+<h2 class="hasAnchor">
+<a href="#aes-pca-examples" class="anchor"></a>AES-PCA Examples</h2>
+<p>Now that we have discussed both the overview of the two methods at large, and some of the details specific to AES-PCA, we can run some examples. Included in this package, we have a small tidy assay and corresponding gene subset list. This data set has 656 gene expression measurements on 250 colon cancer patients. Survival responses pertaining to these patients are also included. Further, we also have a small list of 15 pathways which correspond to our example colon cancer assay.</p>
 <div id="survival-response" class="section level3">
 <h3 class="hasAnchor">
 <a href="#survival-response" class="anchor"></a>Survival Response</h3>
-<p>We will use all but two of our available cores, and use the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()
-surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
-                              <span class="dt">numReps =</span> <span class="dv">1000</span>,
-                              <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-                              <span class="dt">numCores =</span> <span class="dv">2</span>,
-                              <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-                              <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>))
+<p>We will use two of our available cores with the parallel computing approach. We will adjust the <span class="math inline">\(p\)</span>-values with the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures. For the tiny <span class="math inline">\(250 \times 656\)</span> assay with 15 associated pathways, this calculation is completed in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds (<span class="math inline">\(7.9\times\)</span> longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
+                                  <span class="dt">numReps =</span> <span class="dv">1000</span>,
+                                  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                  <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                  <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>))
 <span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
 <span class="co">#&gt;   the input data and were therefore removed.</span>
 <span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
@@ -185,21 +262,18 @@ surv_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; DONE</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
-<span class="co">#&gt; DONE</span>
-<span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 29.51023 secs</span></code></pre></div>
+<span class="co">#&gt; DONE</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
 <a href="#regression-response" class="anchor"></a>Regression Response</h3>
-<p>We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()
-reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsReg,
-                             <span class="dt">numReps =</span> <span class="dv">1000</span>,
-                             <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-                             <span class="dt">numCores =</span> <span class="dv">2</span>,
-                             <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-                             <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>))
+<p>We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures. This calculation took 17 seconds. For 10,000 permutations, this calculation takes 102 seconds (<span class="math inline">\(6.1\times\)</span> longer).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reg_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsReg,
+                                 <span class="dt">numReps =</span> <span class="dv">1000</span>,
+                                 <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                 <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                 <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                 <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>))
 <span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
 <span class="co">#&gt;   the input data and were therefore removed.</span>
 <span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
@@ -219,21 +293,18 @@ reg_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <span class="co">#&gt; DONE</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
-<span class="co">#&gt; DONE</span>
-<span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>b
-<span class="co">#&gt; Time difference of 15.96279 secs</span></code></pre></div>
+<span class="co">#&gt; DONE</span></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
 <a href="#binary-classification-response" class="anchor"></a>Binary Classification Response</h3>
-<p>We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()
-categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsCateg,
-                               <span class="dt">numReps =</span> <span class="dv">1000</span>,
-                               <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-                               <span class="dt">numCores =</span> <span class="dv">2</span>,
-                               <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-                               <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>))
+<p>Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 30 seconds. For 10,000 permutations, this calculation takes 226 seconds (<span class="math inline">\(7.6\times\)</span> longer).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">categ_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsCateg,
+                                   <span class="dt">numReps =</span> <span class="dv">1000</span>,
+                                   <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                   <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                   <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                   <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>))
 <span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
 <span class="co">#&gt;   the input data and were therefore removed.</span>
 <span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
@@ -253,15 +324,132 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; DONE</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
-<span class="co">#&gt; DONE</span>
-<span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>d
-<span class="co">#&gt; Time difference of 25.74354 secs</span></code></pre></div>
+<span class="co">#&gt; DONE</span></code></pre></div>
+<hr>
+<p></p>
 </div>
 </div>
-<div id="subset-the-top-pathways" class="section level2">
+</div>
+<div id="supervised-pca" class="section level1">
+<h1 class="hasAnchor">
+<a href="#supervised-pca" class="anchor"></a>Supervised PCA</h1>
+<p>We now discuss and give examples of the Supervised PCA method.</p>
+<div id="method-details-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#subset-the-top-pathways" class="anchor"></a>Subset the Top Pathways</h2>
-<p>Now that we have the pathway-specific <span class="math inline">\(p\)</span>-values, we can inspect the top pathways by significance. We will first subset the data frame returned by the <code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code> function, then plot the most significant <span class="math inline">\(p\)</span>-values using the <code>ggplot2::</code> package. For graphics, we will need two new packages:</p>
+<a href="#method-details-1" class="anchor"></a>Method Details</h2>
+<div id="supervised-pca-method-sources" class="section level3">
+<h3 class="hasAnchor">
+<a href="#supervised-pca-method-sources" class="anchor"></a>Supervised PCA Method Sources</h3>
+</div>
+<div id="calculate-pathway-specific-model-p-values-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#calculate-pathway-specific-model-p-values-1" class="anchor"></a>Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</h3>
+<p>For the Supervised PCA method, pathway <span class="math inline">\(p\)</span>-values are calculated</p>
+</div>
+<div id="supervised-pca-pros-and-cons" class="section level3">
+<h3 class="hasAnchor">
+<a href="#supervised-pca-pros-and-cons" class="anchor"></a>Supervised-PCA Pros and Cons</h3>
+<p>Pros:</p>
+<ul>
+<li>The Supervised PCs are extracted without numerical optimization, so calculating the PCs for each pathway is considerably faster than calculating AES-PCs.</li>
+<li>The <span class="math inline">\(p\)</span>-values are calculated parametrically, so calculating the <span class="math inline">\(p\)</span>-values is considerably faster than AES-PCA.</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>In rare cases, numerical routines used to find the maximum likelihood estimates for the mixture distribution needed to calculate the <span class="math inline">\(p\)</span>-values in Supervised PCA can fail to converge.</li>
+<li>The Supervised PCA method cannot have missing values in the response.</li>
+</ul>
+</div>
+</div>
+<div id="supervised-pca-examples" class="section level2">
+<h2 class="hasAnchor">
+<a href="#supervised-pca-examples" class="anchor"></a>Supervised PCA Examples</h2>
+<div id="survival-response-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#survival-response-1" class="anchor"></a>Survival Response</h3>
+<p>We will use two of our available cores with the parallel computing approach. We will adjust the <span class="math inline">\(p\)</span>-values with the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures. For the tiny <span class="math inline">\(250 \times 656\)</span> assay with 15 associated pathways, this calculation is completed in 6 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is <span class="math inline">\(4.6\times\)</span> faster; for 10,000 permutations, it’s <span class="math inline">\(36.1\times\)</span> faster.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/superPCA_pVals.html">superPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
+                                    <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                    <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                    <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                    <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>))
+<span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
+<span class="co">#&gt;   the input data and were therefore removed.</span>
+<span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
+<span class="co">#&gt;   pathway(s) because they contained 3 or fewer genes.</span>
+<span class="co">#&gt; Of the 656 measured genes in the input data frame, 93.8% were included in at</span>
+<span class="co">#&gt;   least one pathway after trimming.</span>
+<span class="co">#&gt; Initializing Cluster</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Test Statistics in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Critical Values in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway p-Values</span>
+<span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
+<span class="co">#&gt; DONE</span></code></pre></div>
+</div>
+<div id="regression-response-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#regression-response-1" class="anchor"></a>Regression Response</h3>
+<p>We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures. This calculation took 5 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is <span class="math inline">\(3.4\times\)</span> faster; for 10,000 permutations, it’s <span class="math inline">\(20.7\times\)</span> faster.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reg_spr_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/superPCA_pVals.html">superPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsReg,
+                                   <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                   <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                   <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                   <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>))
+<span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
+<span class="co">#&gt;   the input data and were therefore removed.</span>
+<span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
+<span class="co">#&gt;   pathway(s) because they contained 3 or fewer genes.</span>
+<span class="co">#&gt; Of the 656 measured genes in the input data frame, 93.8% were included in at</span>
+<span class="co">#&gt;   least one pathway after trimming.</span>
+<span class="co">#&gt; Initializing Cluster</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Test Statistics in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Critical Values in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway p-Values</span>
+<span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
+<span class="co">#&gt; DONE</span></code></pre></div>
+</div>
+<div id="binary-classification-response-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#binary-classification-response-1" class="anchor"></a>Binary Classification Response</h3>
+<p>Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 8 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is <span class="math inline">\(3.7\times\)</span> faster; for 10,000 permutations, it’s <span class="math inline">\(27.6\times\)</span> faster.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">categ_spr_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/superPCA_pVals.html">superPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsCateg,
+                                     <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                     <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                     <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                     <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>))
+<span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
+<span class="co">#&gt;   the input data and were therefore removed.</span>
+<span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
+<span class="co">#&gt;   pathway(s) because they contained 3 or fewer genes.</span>
+<span class="co">#&gt; Of the 656 measured genes in the input data frame, 93.8% were included in at</span>
+<span class="co">#&gt;   least one pathway after trimming.</span>
+<span class="co">#&gt; Initializing Cluster</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Test Statistics in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Critical Values in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway p-Values</span>
+<span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
+<span class="co">#&gt; DONE</span></code></pre></div>
+<hr>
+<p></p>
+</div>
+</div>
+</div>
+<div id="analyze-the-results" class="section level1">
+<h1 class="hasAnchor">
+<a href="#analyze-the-results" class="anchor"></a>Analyze the Results</h1>
+<div id="tidy-the-pathway-results" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tidy-the-pathway-results" class="anchor"></a>Tidy the Pathway Results</h2>
+<p>Now that we have the pathway-specific <span class="math inline">\(p\)</span>-values, we can inspect the top pathways by significance. We will tidy the data frame returned by the <code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code> and <code><a href="../reference/AESPCA_pVals.html">AESPCA_pVals()</a></code> functions, then plot the most significant <span class="math inline">\(p\)</span>-values using the <code>ggplot2::</code> package. For graphics, we will need two new packages:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="co">#&gt; -- Attaching packages ------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
 <span class="co">#&gt; v ggplot2 2.2.1     v purrr   0.2.4</span>
@@ -277,12 +465,8 @@ categ_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../refere
 <span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     smiths</span></code></pre></div>
-<p>For each pathway <span class="math inline">\(p\)</span>-value data frame, we will select the top pathways, and transform the data for better graphics. Then, we will plot the pathway <span class="math inline">\(p\)</span>-values for the most significant pathways as a horizontal bar chart. The thick vertical black line is at <span class="math inline">\(p = 0.05\)</span>, and the thin vertical black line is at <span class="math inline">\(p = 0.10\)</span>.</p>
-<div id="significant-survival-pathways" class="section level3">
-<h3 class="hasAnchor">
-<a href="#significant-survival-pathways" class="anchor"></a>Significant Survival Pathways</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Melt the data</span>
-surv_melt_df &lt;-<span class="st"> </span>surv_pVals_df <span class="op">%&gt;%</span>
+<p>For the two survival data pathway <span class="math inline">\(p\)</span>-value data frames, we will transform the data for better graphics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_aes_melt_df &lt;-<span class="st"> </span>surv_aes_pVals_df <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>terms, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">melt</span>(<span class="dt">id.vars =</span> <span class="st">"pathways"</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
@@ -290,75 +474,45 @@ surv_melt_df &lt;-<span class="st"> </span>surv_pVals_df <span class="op">%&gt;%
                            <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">unique</span>(pathways)),
                            <span class="dt">ordered =</span> <span class="ot">TRUE</span>))
 
-<span class="co"># Plot Melted Data</span>
-<span class="kw">ggplot</span>(surv_melt_df) <span class="op">+</span>
+surv_spr_melt_df &lt;-<span class="st"> </span>surv_spr_pVals_df <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>terms, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">melt</span>(<span class="dt">id.vars =</span> <span class="st">"pathways"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pathways =</span> <span class="kw">factor</span>(pathways,
+                           <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">unique</span>(pathways)),
+                           <span class="dt">ordered =</span> <span class="ot">TRUE</span>))</code></pre></div>
+</div>
+<div id="plot-significant-survival-pathways" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plot-significant-survival-pathways" class="anchor"></a>Plot Significant Survival Pathways</h2>
+<p>Now we will plot the pathway <span class="math inline">\(p\)</span>-values for the most significant pathways as a horizontal bar chart. The thick vertical black line is at <span class="math inline">\(p = 0.05\)</span>, and the thin vertical black line is at <span class="math inline">\(p = 0.10\)</span>. This figure shows that a few of the simulated pathways are significant at the <span class="math inline">\(\alpha = 0.05\)</span> for either the Hochberg or Sidak FDR approaches.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(surv_aes_melt_df) <span class="op">+</span>
 <span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> pathways, <span class="dt">y =</span> score, <span class="dt">fill =</span> variable) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_discrete</span>(<span class="dt">name =</span> <span class="st">"FDR Adjustment"</span>,
                       <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">"rawp"</span>, <span class="st">"Hochberg"</span>, <span class="st">"SidakSD"</span>),
                       <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"Hochberg"</span>, <span class="st">"Sidak SD"</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Colon Pathways by Survival Response"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Significant Colon Pathways by AES-PCA"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Log p-Value"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.05</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.1</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="AES-PCA_Walkthrough_files/figure-html/surv_pval_plot-1.png" width="100%" height="60%"></p>
-</div>
-<div id="significant-regression-pathways" class="section level3">
-<h3 class="hasAnchor">
-<a href="#significant-regression-pathways" class="anchor"></a>Significant Regression Pathways</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Melt the data</span>
-reg_melt_df &lt;-<span class="st"> </span>reg_pVals_df <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>terms, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">melt</span>(<span class="dt">id.vars =</span> <span class="st">"pathways"</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pathways =</span> <span class="kw">factor</span>(pathways,
-                           <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">unique</span>(pathways)),
-                           <span class="dt">ordered =</span> <span class="ot">TRUE</span>))
-
-<span class="co"># Plot Melted Data</span>
-<span class="kw">ggplot</span>(reg_melt_df) <span class="op">+</span>
+<p><img src="AES-PCA_Walkthrough_files/figure-html/surv_aes_pval_plot-1.png" width="100%" height="60%"></p>
+<p>For Supervised PCA, we see similar results to AES-PCA, but nearly half of the simulated pathways are significant. (Recall that the example data was curated so that seven of the 15 pathways would be significant.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(surv_spr_melt_df) <span class="op">+</span>
 <span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> pathways, <span class="dt">y =</span> score, <span class="dt">fill =</span> variable) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_discrete</span>(<span class="dt">name =</span> <span class="st">"FDR Adjustment"</span>,
-                      <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">"rawp"</span>, <span class="st">"Holm"</span>, <span class="st">"BH"</span>),
-                      <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"Holm"</span>, <span class="st">"BH"</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Colon Pathways by Regression Response"</span>) <span class="op">+</span>
+                      <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">"rawp"</span>, <span class="st">"Hochberg"</span>, <span class="st">"SidakSD"</span>),
+                      <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"Hochberg"</span>, <span class="st">"Sidak SD"</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Significant Colon Pathways by Supervised PCA"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Log p-Value"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.05</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.1</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="AES-PCA_Walkthrough_files/figure-html/reg_pval_plot-1.png" width="100%" height="60%"></p>
-</div>
-<div id="significant-binary-classification-pathways" class="section level3">
-<h3 class="hasAnchor">
-<a href="#significant-binary-classification-pathways" class="anchor"></a>Significant Binary Classification Pathways</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Melt the data</span>
-categ_melt_df &lt;-<span class="st"> </span>categ_pVals_df <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>terms, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">melt</span>(<span class="dt">id.vars =</span> <span class="st">"pathways"</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pathways =</span> <span class="kw">factor</span>(pathways,
-                           <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">unique</span>(pathways)),
-                           <span class="dt">ordered =</span> <span class="ot">TRUE</span>))
-
-<span class="co"># Plot Melted Data</span>
-<span class="kw">ggplot</span>(categ_melt_df) <span class="op">+</span>
-<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> pathways, <span class="dt">y =</span> score, <span class="dt">fill =</span> variable) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_discrete</span>(<span class="dt">name =</span> <span class="st">"FDR Adjustment"</span>,
-                      <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">"rawp"</span>, <span class="st">"SidakSS"</span>, <span class="st">"BY"</span>),
-                      <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"Sidak SS"</span>, <span class="st">"BY"</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Colon Pathways by Binary Classification Response"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Log p-Value"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.05</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.1</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
-<p><img src="AES-PCA_Walkthrough_files/figure-html/categ_pval_plot-1.png" width="100%" height="60%"></p>
-</div>
+<p><img src="AES-PCA_Walkthrough_files/figure-html/surv_spr_pval_plot-1.png" width="100%" height="60%"></p>
 </div>
 <div id="rank-significant-genes" class="section level2">
 <h2 class="hasAnchor">
@@ -367,20 +521,20 @@ categ_melt_df &lt;-<span class="st"> </span>categ_pVals_df <span class="op">%&gt
 S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 \]</span> We then mulitply each of the columns in the matrix by its respective score.</p>
 <p>Now consider the rows of this matrix. Each row is a gene, and the <span class="math inline">\(j^{th}\)</span> entry in the row is equal to <span class="math inline">\(S_j\)</span>, if the gene is included in pathway <span class="math inline">\(j\)</span>, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The <code><a href="../reference/topGenes.html">topGenes()</a></code> function returns the top 5% of both. As we can see, most of the genes included in the <code>summedRank</code> vector are the in the list of “usual suspects” for colon cancer.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_aes_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 21.86657 21.86657 18.21665 18.17706 18.17706 18.17706 18.17706 18.17706 </span>
+<span class="co">#&gt; 16.65858 16.65858 13.22795 13.19300 13.19300 13.19300 13.19300 13.19300 </span>
 <span class="co">#&gt;     KRAS     SHC1      CRK   PIK3CB   PIK3R2 </span>
-<span class="co">#&gt; 18.17706 18.13746 18.13746 17.60454 17.60454 </span>
+<span class="co">#&gt; 13.19300 13.15804 13.15804 12.42136 12.42136 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;   TCIRG1 ATP6V1G3 ATP6V0A2 ATP6V0D2 ATP6V1C2 ATP6V0A4  ATP6V1D  ATP6V1H </span>
-<span class="co">#&gt; 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 </span>
-<span class="co">#&gt;  ATP6V1A ATP6V1B1 ATP6V1B2  ATP6V0C ATP6V1C1 ATP6V1E1  ATP6V0B ATP6V1G2 </span>
-<span class="co">#&gt; 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 8.880363 </span>
-<span class="co">#&gt; ATP6V0E1 ATP6V1E2 ATP6V0D1  ATP6V1F ATP6V1G1 </span>
-<span class="co">#&gt; 8.880363 8.880363 8.880363 8.880363 8.880363</span></code></pre></div>
+<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3 </span>
+<span class="co">#&gt; 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218 </span>
+<span class="co">#&gt;    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1 </span>
+<span class="co">#&gt; 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218 </span>
+<span class="co">#&gt;    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 </span>
+<span class="co">#&gt; 4.237218 4.237218 4.237218 4.237218 4.237218 4.237218</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -392,9 +546,31 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
       <li>
-<a href="#clean-up-the-pathway-list">Clean Up the Pathway List</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#calculate-pathway-specific-model-p-values">Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</a></li>
-      <li><a href="#subset-the-top-pathways">Subset the Top Pathways</a></li>
+<a href="#pathway-testing-setup">Pathway Testing Setup</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#pathway-significance-testing-overview">Pathway Significance Testing Overview</a></li>
+      <li><a href="#clean-up-the-pathway-list">Clean Up the Pathway List</a></li>
+      <li><a href="#extract-pathway-pcs">Extract Pathway PCs</a></li>
+      <li><a href="#test-pathway-association">Test Pathway Association</a></li>
+      <li><a href="#adjust-the-pathway-p-values-for-fdr">Adjust the Pathway <span class="math inline">\(p\)</span>-Values for FDR</a></li>
+      <li><a href="#output-a-sorted-data-frame-tibble">Output a Sorted Data Frame / Tibble</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#aes-pca">AES-PCA</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#method-details">Method Details</a></li>
+      <li><a href="#aes-pca-examples">AES-PCA Examples</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#supervised-pca">Supervised PCA</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#method-details-1">Method Details</a></li>
+      <li><a href="#supervised-pca-examples">Supervised PCA Examples</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#analyze-the-results">Analyze the Results</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#tidy-the-pathway-results">Tidy the Pathway Results</a></li>
+      <li><a href="#plot-significant-survival-pathways">Plot Significant Survival Pathways</a></li>
       <li><a href="#rank-significant-genes">Rank Significant Genes</a></li>
       </ul>
 </li>

@@ -190,7 +190,7 @@ data("colonSurv_df")
 str(colonSurv_df, list.len = 10)
 ```
 
-We also have a small list of 15 pathways which correspond to our example colon cancer assay.
+We also have a small list of 15 pathways which correspond to our example colon cancer assay. We have curated this list to include seven significant pathways and eight non-significant pathways.
 ```{r pathway_list_load}
 data("colon_pathwaySet")
 colon_pathwaySet

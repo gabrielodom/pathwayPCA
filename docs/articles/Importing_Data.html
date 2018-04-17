@@ -46,7 +46,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/AES-PCA_Walkthrough.html">AES-PCA Walkthrough with pathwayPCA</a>
+      <a href="../articles/AES-PCA_Walkthrough.html">Test Pathway Significance with pathwayPCA</a>
     </li>
     <li>
       <a href="../articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a>
@@ -91,7 +91,7 @@
       <h1>Import and Tidy Data</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-13</h4>
+            <h4 class="date">2018-04-17</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Importing_Data.Rmd"><code>vignettes/Importing_Data.Rmd</code></a></small>
       <div class="hidden name"><code>Importing_Data.Rmd</code></div>
@@ -398,7 +398,7 @@ myPathway_names &lt;-<span class="st"> </span><span class="kw">c</span>(<span cl
 <span class="co">#&gt;  $ SHC1    : num  8.26 8.39 8.69 7.81 8.45 ...</span>
 <span class="co">#&gt;  $ PRKCA   : num  8.94 9.61 8.4 9.8 8.21 ...</span>
 <span class="co">#&gt;   [list output truncated]</span></code></pre></div>
-<p>We also have a small list of 15 pathways which correspond to our example colon cancer assay.</p>
+<p>We also have a small list of 15 pathways which correspond to our example colon cancer assay. We have curated this list to include seven significant pathways and eight non-significant pathways.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colon_pathwaySet"</span>)
 colon_pathwaySet
 <span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: </span>
