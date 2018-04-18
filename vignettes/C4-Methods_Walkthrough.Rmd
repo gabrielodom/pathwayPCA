@@ -147,14 +147,12 @@ Now that we have discussed both the overview of the two methods at large, and so
 ### Survival Response
 We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds ($7.9\times$ longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway).
 ```{r aes_surv_pvals}
-a <- Sys.time()
 surv_aes_pVals_df <- AESPCA_pVals(object = colon_OmicsSurv,
                                   numReps = 1000,
                                   parallel = TRUE,
                                   numCores = 2,
                                   adjustpValues = TRUE,
                                   adjustment = c("Hoch", "SidakSD"))
-Sys.time() - a
 ```
 
 
