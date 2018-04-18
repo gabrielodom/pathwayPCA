@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An S4 class for categorical responses within an <code>OmicsPathway</code> object — OmicsCateg-class • pathwayPCA</title>
+<title>Parametric bootstrap and non-parametric permutations of a response vector or
+   matrix — randomControlSample • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,10 +26,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="An S4 class for categorical responses within an <code>OmicsPathway</code> object — OmicsCateg-class" />
+<meta property="og:title" content="Parametric bootstrap and non-parametric permutations of a response vector or
+   matrix — randomControlSample" />
 
-<meta property="og:description" content="This creates the OmicsCateg class which extends the
-  OmicsPathway master class." />
+<meta property="og:description" content="Create a random parametric bootstrap sample or a permutation of
+   the input response vector or matrix (for survival outcomes)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,59 +117,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An S4 class for categorical responses within an <code>OmicsPathway</code> object</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/createClass_OmicsCateg.R'><code>R/createClass_OmicsCateg.R</code></a></small>
-    <div class="hidden name"><code>OmicsCateg-class.Rd</code></div>
+    <h1>Parametric bootstrap and non-parametric permutations of a response vector or
+   matrix</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_permuteSamples.R'><code>R/superPC_permuteSamples.R</code></a></small>
+    <div class="hidden name"><code>permuteSamps.Rd</code></div>
     </div>
 
     
-    <p>This creates the <code>OmicsCateg</code> class which extends the
-  <code>OmicsPathway</code> master class.</p>
+    <p>Create a random parametric bootstrap sample or a permutation of
+   the input response vector or matrix (for survival outcomes).</p>
     
 
-        
-    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
+    <pre class="usage"><span class='fu'>sample_Survivalresp</span>(<span class='no'>response_vec</span>, <span class='no'>event_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-    
-    <dl class='dl-horizontal'>
-<dt><code>assayData_df</code></dt><dd><p>An \(N \times p\) data frame with named columns.</p></dd>
-    <dt><code>pathwaySet</code></dt><dd><p>A list of known gene pathways with two elements:
-<ul>
-<li><p><code>pathways</code> : A named list of character vectors. Each vector
-     contains the names of the individual genes within that pathway as a
-     vector of character strings. The names contained in these vectors must
-     have non-empty overlap with the <em>column names</em> of the
-     <code>assayData_df</code> data frame. The names of the pathways (the list
-     elements themselves) should be the a shorthand representation of the
-     full pathway name.</p></li>
-<li><p><code>TERMS</code> : A character vector the same length as the
-    <code>pathways</code> list with the proper names of the pathways.</p></li>
-<li><p><code>setsize</code> : A named integer vector the same length as the
-    <code>pathways</code> list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a <code>create_OmicsCateg</code>
-    function call.</p></li>
-</ul></p></dd>
-    <dt><code>response</code></dt><dd><p>A <code>factor</code> vector of length \(N\): the dependent
-variable of a generalized linear regression exercise. Currently, we
-support binary factors only. We expect to extend support to n-ary
-responses in the next package version.</p></dd>
-</dl>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+<span class='fu'>sample_Regresp</span>(<span class='no'>response_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-    <div class='dont-index'><p><code><a href='OmicsPathway-class.html'>OmicsPathway</a></code>,
-  <code><a href='create_OmicsPathway.html'>create_OmicsCateg</a></code></p></div>
+<span class='fu'>sample_Classifresp</span>(<span class='no'>response_vec</span>, <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>response_vec</th>
+      <td><p>The dependent vector to sample from. For survival
+response, this is the vector of event times. For regression or n-ary
+classification, this is the vector of responses.</p></td>
+    </tr>
+    <tr>
+      <th>event_vec</th>
+      <td><p>The death / event observation indicator vector for survival
+response. This is coded as 0 for a right-censoring occurence and 1 for a
+recorded event.</p></td>
+    </tr>
+    <tr>
+      <th>parametric</th>
+      <td><p>Should the random sample be taken using a parametric
+bootstrap sample? Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A permutation of the supplied response (if <code>parametric = TRUE</code>).
+   Otherwise, a parametric bootstrap sample of the response.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The distributions (for <code>parametric = TRUE</code>) are Weibull for
+   survival times, Normal for regression, and n-ary Multinomial for
+   classification. Distributional parameters are estimated with their maximum
+   likelihood estimates. When <code>parametric = FALSE</code>, the response vector
+   or survival matrix is simply permuted by row.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>  # DO NOT CALL THESE FUNCTIONS DIRECTLY.
+  # Use AESPCA_pVals() or superPCA_pVals() instead
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#slots">Slots</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

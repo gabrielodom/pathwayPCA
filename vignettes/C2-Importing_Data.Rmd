@@ -1,5 +1,5 @@
 ---
-title: "Import and Tidy Data"
+title: "Chapter 2 - Import and Tidy Data"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:

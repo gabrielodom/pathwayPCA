@@ -1,12 +1,12 @@
 ---
-title: "Creating -Omics Data Objects"
+title: "Chapter 3 - Creating Data Objects"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Create -Omics Data Objects}
+  %\VignetteIndexEntry{Create Data Containers}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,12 +1,12 @@
 ---
-title: "pathwayPCA Package Development Notes"
+title: "Package Development Notes"
 author: "Gabriel J. Odom, PhD, ThD"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{pathwayPCA Development Notes}
+  %\VignetteIndexEntry{Development Notes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

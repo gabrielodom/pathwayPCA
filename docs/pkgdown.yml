@@ -2,11 +2,11 @@ pandoc: 1.19.2.1
 pkgdown: 0.1.0.9000
 pkgdown_sha: 4e194be97890ace7225932cbc3b4380085aedcf8
 articles:
-  AES-PCA_Walkthrough: AES-PCA_Walkthrough.html
-  Create_Omics_Objects: Create_Omics_Objects.html
-  Importing_Data: Importing_Data.html
+  C1-Quickstart_Guide: C1-Quickstart_Guide.html
+  C2-Importing_Data: C2-Importing_Data.html
+  C3-Create_Omics_Objects: C3-Create_Omics_Objects.html
+  C4-Methods_Walkthrough: C4-Methods_Walkthrough.html
   Package_Dev_Notes: Package_Dev_Notes.html
-  Supervised_PCA_Walkthrough: Supervised_PCA_Walkthrough.html
 urls:
   reference: https://gabrielodom.github.io/pathwayPCA//reference
   article: https://gabrielodom.github.io/pathwayPCA//articles
