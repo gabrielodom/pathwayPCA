@@ -1,5 +1,5 @@
 ---
-title: "Quickstart Guide to pathwayPCA"
+title: "Chapter 1 - Quickstart Guide"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:

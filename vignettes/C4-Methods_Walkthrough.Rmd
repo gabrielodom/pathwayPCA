@@ -1,5 +1,5 @@
 ---
-title: "Test Pathway Significance with pathwayPCA"
+title: "Chapter 4 - Test Pathway Significance"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
     toc_depth: 2
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{AES-PCA with pathwayPCA}
+  %\VignetteIndexEntry{Test Pathway Significance}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

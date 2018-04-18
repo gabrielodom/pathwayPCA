@@ -34,6 +34,15 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/extract_aesPCs.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/get_set_OmicsPathway.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/get_set_OmicsRegCateg.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/get_set_OmicsSurv.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/glmTrain_fun.html</loc>
   </url>
   <url>
@@ -82,10 +91,10 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/permTest_OmicsSurv.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/print.pathwaySet.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/permuteSamps.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/randomControlSample.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/print.pathwaySet.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/read_gmt.html</loc>
@@ -118,18 +127,18 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/weibullMix_pValues.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/AES-PCA_Walkthrough.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C1-Quickstart_Guide.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Create_Omics_Objects.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C2-Importing_Data.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Importing_Data.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C3-Create_Omics_Objects.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C4-Methods_Walkthrough.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//articles/Package_Dev_Notes.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Supervised_PCA_Walkthrough.html</loc>
   </url>
 </urlset>
