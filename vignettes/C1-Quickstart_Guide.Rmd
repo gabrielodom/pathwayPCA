@@ -5,6 +5,9 @@ date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
+    number_sections: true
+  word_document:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Quickstart Guide}
   %\VignetteEngine{knitr::rmarkdown}
