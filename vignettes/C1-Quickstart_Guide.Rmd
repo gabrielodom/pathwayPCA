@@ -30,7 +30,7 @@ This guide will serve as a brief introduction to pathway significance testing wi
 3. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
 4. Inspect Results
 
-Before we get started, you need the `pathwayPCA` package to run your analysis. You can install it from GitHub. If you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package. We also recommend the `tidyverse` package to help you run some of the examples in these vignettes. 
+Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package. We also recommend the `tidyverse` package to help you run some of the examples in these vignettes (while the `tidyverse` package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package). 
 ```
 devtools::install_github("gabrielodom/pathwayPCA")
 ```
@@ -40,6 +40,7 @@ library(tidyverse)
 library(parallel)
 ```
 
+
 *******************************************************************************
 
 </br>
@@ -48,14 +49,58 @@ library(parallel)
 # Import Data
 This section is a quick overview of the material covered in the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. We will cover three data import steps.
 
-### Import `.gmt` Files
-Use the `read_gmt` function. Create your own with the `create_pathwaySet` function.
 
-### Import and Tidy Assay Data
-Use the `read_csv` function from the `readr` package. Tidy the assay with the `transpose_assay` function.
+## Import `.gmt` Files
+GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the [MSigDB Collections](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) page. Use the `read_gmt` function to import a `.gmt` file into R.
+```{r read_example_gmt, eval = FALSE}
+gene_set_ls <- read_gmt("path_to_your_directory/your_file_name.gmt")
+gene_set_ls
+```
+```{r read_real_gmt, echo = FALSE}
+gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt")
+gene_set_ls
+```
 
-### Import Patient Info
-Use the `read_csv` function to import the patient data, then the `inner_join` function from the `dplyr` package to match the assay measurements to patient information by subject identifier.
+The imported `.gmt` file is stored as a `pathwaySet` list object. This list contains the names of the pathways (`TERMS`), the hyperlink to the pathway description card on the GSEA website (`GSEA_link`), and a list of all the pathway sets (`pathways`).
+
+
+## Import and Tidy Assay Data
+We assume that the assay data (be it genomic, proteomic, metabolomic, lipidomic, or transcriptomic data) is either in an Excel file or flat text file. For example, your data may look like this:
+
+![](example_assay_data.PNG)
+
+In this data set, the columns are individual samples, patients, tumors, cell lines, etc. The rows are the -Omic expression measures. Use the `read_csv` function from the `readr` package to import `.csv` files and the like. If your data has samples in the columns and -omic feature measurements in the rows, you'll need to "tidy" the imported assay with the `transpose_assay` function.
+```{r read_example_assay, eval = FALSE}
+assay_df <- read_csv("path_to_your_directory/your_assay.csv")
+assayT_df <- transpose_assay(assay_df)
+assayT_df
+```
+```{r read_real_assay, echo = FALSE}
+# Travis requires relative paths
+assay_df <- read_csv("../inst/extdata/ex_assay_subset.csv")
+assayT_df <- transpose_assay(assay_df)
+assayT_df
+```
+
+
+## Import Patient Info
+Use the `read_csv` function to import the patient data.
+```{r read_example_pinfo, eval = FALSE}
+pInfo_df <- read_csv("path_to_your_directory/your_subject_info.csv")
+pInfo_df
+```
+```{r read_real_pinfo, echo = FALSE}
+pInfo_df <- read_csv("../inst/extdata/ex_pInfo_subset.csv")
+pInfo_df
+```
+
+
+## Match the Patient and Assay Data
+Now that you have the measurement data in tidy form (`assayT_df`) and the patient response data (`pInfo_df`), you can use the `inner_join` function from the `dplyr` package to match the assay measurements to patient information by subject identifier.
+```{r innerJoin}
+(joinedExperiment_df <- inner_join(pInfo_df, assayT_df, by = "Sample"))
+```
+
 
 *******************************************************************************
 
@@ -65,13 +110,13 @@ Use the `read_csv` function to import the patient data, then the `inner_join` fu
 # Create an `Omics` Data Object
 This section is a quick overview of the material covered in the [Create an `Omics*` Data Container](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
 
-### Create an Object
+## Create an Object
 Create a data container specific to survival, regression, or categorical responses.
 
-### Inspect the Object Contents
+## Inspect the Object Contents
 Print the object to the screen to see a summary of the data contained therein.
 
-### Modify Object Contents
+## Modify Object Contents
 Use accessor functions to extract, edit, or replace data contained in the object.
 
 *******************************************************************************
@@ -83,10 +128,10 @@ Use accessor functions to extract, edit, or replace data contained in the object
 This section is a quick overview of the material covered in the "AES-PCA" and "Supervised PCA" sections of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette.
 
 
-### AES-PCA
+## AES-PCA
 Perform AES-PCA on the object with the `AESPCA_pVals` function.
 
-### Supervised PCA
+## Supervised PCA
 Perform Supervised PCA on the object with the `superPCA_pVals` function.
 
 *******************************************************************************
@@ -97,8 +142,8 @@ Perform Supervised PCA on the object with the `superPCA_pVals` function.
 # Inspect Results
 This section is a quick overview of the material covered in the "Analyze the Results" section of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette.
 
-### Graph of Top Pathways
+## Graph of Top Pathways
 Use `ggplot2` to create summary graphics of the analysis results.
 
-### Extract Genes from the Top Pathways
+## Extract Genes from the Top Pathways
 Use the `topGenes` function to "score" the genes contained in the top significant pathways.
