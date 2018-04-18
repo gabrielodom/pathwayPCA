@@ -108,7 +108,7 @@
 <li>Test Pathway Significance (<a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html"><em>vignette</em></a>)</li>
 <li>Inspect Results</li>
 </ol>
-<p>Before we get started, you need the <code>pathwayPCA</code> package to run your analysis. You can install it from GitHub. If you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the <code>parallel</code> package. We also recommend the <code>tidyverse</code> package to help you run some of the examples in these vignettes.</p>
+<p>Before we get started, you need the <code>pathwayPCA</code> package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the <code>parallel</code> package. We also recommend the <code>tidyverse</code> package to help you run some of the examples in these vignettes (while the <code>tidyverse</code> package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package).</p>
 <pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pathwayPCA)
 <span class="kw">library</span>(tidyverse)
@@ -128,20 +128,101 @@
 <h1 class="hasAnchor">
 <a href="#import-data" class="anchor"></a>Import Data</h1>
 <p>This section is a quick overview of the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html">Import and Tidy Data</a> vignette. We will cover three data import steps.</p>
-<div id="import--gmt-files" class="section level3">
-<h3 class="hasAnchor">
-<a href="#import--gmt-files" class="anchor"></a>Import <code>.gmt</code> Files</h3>
-<p>Use the <code>read_gmt</code> function. Create your own with the <code>create_pathwaySet</code> function.</p>
+<div id="import--gmt-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#import--gmt-files" class="anchor"></a>Import <code>.gmt</code> Files</h2>
+<p>GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSigDB Collections</a> page. Use the <code>read_gmt</code> function to import a <code>.gmt</code> file into R.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(<span class="st">"path_to_your_directory/your_file_name.gmt"</span>)
+gene_set_ls</code></pre></div>
+<pre><code>#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: 
+#&gt;  $ pathways :List of 1329
+#&gt;  $ TERMS    : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...
+#&gt;  $ GSEA_link: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</code></pre>
+<p>The imported <code>.gmt</code> file is stored as a <code>pathwaySet</code> list object. This list contains the names of the pathways (<code>TERMS</code>), the hyperlink to the pathway description card on the GSEA website (<code>GSEA_link</code>), and a list of all the pathway sets (<code>pathways</code>).</p>
 </div>
-<div id="import-and-tidy-assay-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#import-and-tidy-assay-data" class="anchor"></a>Import and Tidy Assay Data</h3>
-<p>Use the <code>read_csv</code> function from the <code>readr</code> package. Tidy the assay with the <code>transpose_assay</code> function.</p>
+<div id="import-and-tidy-assay-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#import-and-tidy-assay-data" class="anchor"></a>Import and Tidy Assay Data</h2>
+<p>We assume that the assay data (be it genomic, proteomic, metabolomic, lipidomic, or transcriptomic data) is either in an Excel file or flat text file. For example, your data may look like this:</p>
+<div class="figure">
+<img src="example_assay_data.PNG">
 </div>
-<div id="import-patient-info" class="section level3">
-<h3 class="hasAnchor">
-<a href="#import-patient-info" class="anchor"></a>Import Patient Info</h3>
-<p>Use the <code>read_csv</code> function to import the patient data, then the <code>inner_join</code> function from the <code>dplyr</code> package to match the assay measurements to patient information by subject identifier.</p>
+<p>In this data set, the columns are individual samples, patients, tumors, cell lines, etc. The rows are the -Omic expression measures. Use the <code>read_csv</code> function from the <code>readr</code> package to import <code>.csv</code> files and the like. If your data has samples in the columns and -omic feature measurements in the rows, you’ll need to “tidy” the imported assay with the <code>transpose_assay</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_assay.csv"</span>)
+assayT_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/transpose_assay.html">transpose_assay</a></span>(assay_df)
+assayT_df</code></pre></div>
+<pre><code>#&gt; Warning: Missing column names filled in: 'X1' [1]
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   .default = col_double(),
+#&gt;   X1 = col_character()
+#&gt; )
+#&gt; See spec(...) for full column specifications.
+#&gt; # A tibble: 36 x 18
+#&gt;    Sample    SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7
+#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+#&gt;  1 T21101311  5.37  9.77  7.74  4.68    8.27  8.32    6.78   4.70    7.63
+#&gt;  2 T21101312  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63
+#&gt;  3 T21101313  5.89  8.11  7.00  5.78    8.20  8.39    6.57   4.89    8.15
+#&gt;  4 T21101314  5.62  8.67  8.59  5.64    8.07  8.64    6.47   4.98    8.13
+#&gt;  5 T21101315  5.49  9.83  8.13  5.73    9.38  8.15    6.43   5.03    7.70
+#&gt;  6 T21101316  5.58  9.85  8.55  5.13    9.40  8.71    6.56   4.87    7.75
+#&gt;  7 T21101317  5.32 10.0   6.99  5.86    8.08  9.25    6.86   4.72    7.88
+#&gt;  8 T21101318  5.49  9.72  7.47  5.16    6.67  7.37    6.70   4.92    7.50
+#&gt;  9 T21101319  5.57  9.88  7.97  5.40    7.91  8.06    6.58   5.06    8.16
+#&gt; 10 T21101320  5.16  9.87  7.42  5.50    7.43  8.68    6.55   4.85    8.20
+#&gt; # ... with 26 more rows, and 8 more variables: MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;,
+#&gt; #   SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;,
+#&gt; #   SOAT2 &lt;dbl&gt;</code></pre>
+</div>
+<div id="import-patient-info" class="section level2">
+<h2 class="hasAnchor">
+<a href="#import-patient-info" class="anchor"></a>Import Patient Info</h2>
+<p>Use the <code>read_csv</code> function to import the patient data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_subject_info.csv"</span>)
+pInfo_df</code></pre></div>
+<pre><code>#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   Sample = col_character(),
+#&gt;   eventTime = col_double(),
+#&gt;   eventObserved = col_logical()
+#&gt; )
+#&gt; # A tibble: 36 x 3
+#&gt;    Sample    eventTime eventObserved
+#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;lgl&gt;        
+#&gt;  1 T21101311     14.2  TRUE         
+#&gt;  2 T21101312      1.00 TRUE         
+#&gt;  3 T21101313      6.75 FALSE        
+#&gt;  4 T21101314      8.50 TRUE         
+#&gt;  5 T21101315      7.25 FALSE        
+#&gt;  6 T21101316      5.00 TRUE         
+#&gt;  7 T21101317     20.0  TRUE         
+#&gt;  8 T21101318     13.2  FALSE        
+#&gt;  9 T21101319      7.75 FALSE        
+#&gt; 10 T21101320      9.00 FALSE        
+#&gt; # ... with 26 more rows</code></pre>
+</div>
+<div id="match-the-patient-and-assay-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#match-the-patient-and-assay-data" class="anchor"></a>Match the Patient and Assay Data</h2>
+<p>Now that you have the measurement data in tidy form (<code>assayT_df</code>) and the patient response data (<code>pInfo_df</code>), you can use the <code>inner_join</code> function from the <code>dplyr</code> package to match the assay measurements to patient information by subject identifier.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(joinedExperiment_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(pInfo_df, assayT_df, <span class="dt">by =</span> <span class="st">"Sample"</span>))
+<span class="co">#&gt; # A tibble: 36 x 20</span>
+<span class="co">#&gt;    Sample    eventTime eventObserved SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;lgl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 T21101311     14.2  TRUE           5.37  9.77  7.74  4.68    8.27  8.32</span>
+<span class="co">#&gt;  2 T21101312      1.00 TRUE           5.52  9.78  8.06  5.12    8.21  8.33</span>
+<span class="co">#&gt;  3 T21101313      6.75 FALSE          5.89  8.11  7.00  5.78    8.20  8.39</span>
+<span class="co">#&gt;  4 T21101314      8.50 TRUE           5.62  8.67  8.59  5.64    8.07  8.64</span>
+<span class="co">#&gt;  5 T21101315      7.25 FALSE          5.49  9.83  8.13  5.73    9.38  8.15</span>
+<span class="co">#&gt;  6 T21101316      5.00 TRUE           5.58  9.85  8.55  5.13    9.40  8.71</span>
+<span class="co">#&gt;  7 T21101317     20.0  TRUE           5.32 10.0   6.99  5.86    8.08  9.25</span>
+<span class="co">#&gt;  8 T21101318     13.2  FALSE          5.49  9.72  7.47  5.16    6.67  7.37</span>
+<span class="co">#&gt;  9 T21101319      7.75 FALSE          5.57  9.88  7.97  5.40    7.91  8.06</span>
+<span class="co">#&gt; 10 T21101320      9.00 FALSE          5.16  9.87  7.42  5.50    7.43  8.68</span>
+<span class="co">#&gt; # ... with 26 more rows, and 11 more variables: CYP27B1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   DHCR24 &lt;dbl&gt;, HSD17B7 &lt;dbl&gt;, MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -150,19 +231,19 @@
 <h1 class="hasAnchor">
 <a href="#create-an-omics-data-object" class="anchor"></a>Create an <code>Omics</code> Data Object</h1>
 <p>This section is a quick overview of the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html">Create an <code>Omics*</code> Data Container</a> vignette.</p>
-<div id="create-an-object" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-an-object" class="anchor"></a>Create an Object</h3>
+<div id="create-an-object" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-an-object" class="anchor"></a>Create an Object</h2>
 <p>Create a data container specific to survival, regression, or categorical responses.</p>
 </div>
-<div id="inspect-the-object-contents" class="section level3">
-<h3 class="hasAnchor">
-<a href="#inspect-the-object-contents" class="anchor"></a>Inspect the Object Contents</h3>
+<div id="inspect-the-object-contents" class="section level2">
+<h2 class="hasAnchor">
+<a href="#inspect-the-object-contents" class="anchor"></a>Inspect the Object Contents</h2>
 <p>Print the object to the screen to see a summary of the data contained therein.</p>
 </div>
-<div id="modify-object-contents" class="section level3">
-<h3 class="hasAnchor">
-<a href="#modify-object-contents" class="anchor"></a>Modify Object Contents</h3>
+<div id="modify-object-contents" class="section level2">
+<h2 class="hasAnchor">
+<a href="#modify-object-contents" class="anchor"></a>Modify Object Contents</h2>
 <p>Use accessor functions to extract, edit, or replace data contained in the object.</p>
 <hr>
 <p></p>
@@ -172,14 +253,14 @@
 <h1 class="hasAnchor">
 <a href="#test-pathways-for-significance" class="anchor"></a>Test Pathways for Significance</h1>
 <p>This section is a quick overview of the material covered in the “AES-PCA” and “Supervised PCA” sections of the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette.</p>
-<div id="aes-pca" class="section level3">
-<h3 class="hasAnchor">
-<a href="#aes-pca" class="anchor"></a>AES-PCA</h3>
+<div id="aes-pca" class="section level2">
+<h2 class="hasAnchor">
+<a href="#aes-pca" class="anchor"></a>AES-PCA</h2>
 <p>Perform AES-PCA on the object with the <code>AESPCA_pVals</code> function.</p>
 </div>
-<div id="supervised-pca" class="section level3">
-<h3 class="hasAnchor">
-<a href="#supervised-pca" class="anchor"></a>Supervised PCA</h3>
+<div id="supervised-pca" class="section level2">
+<h2 class="hasAnchor">
+<a href="#supervised-pca" class="anchor"></a>Supervised PCA</h2>
 <p>Perform Supervised PCA on the object with the <code>superPCA_pVals</code> function.</p>
 <hr>
 <p></p>
@@ -189,14 +270,14 @@
 <h1 class="hasAnchor">
 <a href="#inspect-results" class="anchor"></a>Inspect Results</h1>
 <p>This section is a quick overview of the material covered in the “Analyze the Results” section of the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette.</p>
-<div id="graph-of-top-pathways" class="section level3">
-<h3 class="hasAnchor">
-<a href="#graph-of-top-pathways" class="anchor"></a>Graph of Top Pathways</h3>
+<div id="graph-of-top-pathways" class="section level2">
+<h2 class="hasAnchor">
+<a href="#graph-of-top-pathways" class="anchor"></a>Graph of Top Pathways</h2>
 <p>Use <code>ggplot2</code> to create summary graphics of the analysis results.</p>
 </div>
-<div id="extract-genes-from-the-top-pathways" class="section level3">
-<h3 class="hasAnchor">
-<a href="#extract-genes-from-the-top-pathways" class="anchor"></a>Extract Genes from the Top Pathways</h3>
+<div id="extract-genes-from-the-top-pathways" class="section level2">
+<h2 class="hasAnchor">
+<a href="#extract-genes-from-the-top-pathways" class="anchor"></a>Extract Genes from the Top Pathways</h2>
 <p>Use the <code>topGenes</code> function to “score” the genes contained in the top significant pathways.</p>
 </div>
 </div>
@@ -208,10 +289,33 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
-      <li><a href="#import-data">Import Data</a></li>
-      <li><a href="#create-an-omics-data-object">Create an <code>Omics</code> Data Object</a></li>
-      <li><a href="#test-pathways-for-significance">Test Pathways for Significance</a></li>
-      <li><a href="#inspect-results">Inspect Results</a></li>
+      <li>
+<a href="#import-data">Import Data</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#import--gmt-files">Import <code>.gmt</code> Files</a></li>
+      <li><a href="#import-and-tidy-assay-data">Import and Tidy Assay Data</a></li>
+      <li><a href="#import-patient-info">Import Patient Info</a></li>
+      <li><a href="#match-the-patient-and-assay-data">Match the Patient and Assay Data</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#create-an-omics-data-object">Create an <code>Omics</code> Data Object</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#create-an-object">Create an Object</a></li>
+      <li><a href="#inspect-the-object-contents">Inspect the Object Contents</a></li>
+      <li><a href="#modify-object-contents">Modify Object Contents</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#test-pathways-for-significance">Test Pathways for Significance</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#aes-pca">AES-PCA</a></li>
+      <li><a href="#supervised-pca">Supervised PCA</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#inspect-results">Inspect Results</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#graph-of-top-pathways">Graph of Top Pathways</a></li>
+      <li><a href="#extract-genes-from-the-top-pathways">Extract Genes from the Top Pathways</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
