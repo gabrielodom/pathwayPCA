@@ -19,7 +19,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # Overview
-This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) vignette. This guide will outline the major steps needed to create a data container object for analysis with the `pathwayPCA` package. These objects are called `Omics*`-class objects.
+This vignette is the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. This guide will outline the major steps needed to create a data container object for analysis with the `pathwayPCA` package. These objects are called `Omics*`-class objects.
 
 ### Outline
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
@@ -233,4 +233,4 @@ We now summarize our steps so far. We have
 2. Created an `Omics*` object for the first three of these classes.
 3. Inspected and edited individual elements contained in these objects.
 
-Now we are prepared to analyze our created data containers with either AES-PCA or Supervised PCA. Because we have two pathway analysis methods to choose from, we have two (shorter) vignettes. Please read the next pair of vignettes: [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html) and [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html).
+Now we are prepared to analyze our created data containers with either AES-PCA or Supervised PCA. Please read the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette next.

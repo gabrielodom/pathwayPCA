@@ -19,13 +19,13 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # Overview
-This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes.
+This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes. This vignette is the introduction and overview chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. 
 
 0. Download Packages
-1. Import Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html))
-2. Create `Omics` Data Object ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html))
-3. Perform Analysis ([*AES-PCA*](https://gabrielodom.github.io/pathwayPCA/articles/AES-PCA_Walkthrough.html) and [*Supervised PCA*](https://gabrielodom.github.io/pathwayPCA/articles/Supervised_PCA_Walkthrough.html) vignettes)
-4. Inspect Results LINK
+1. Import Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html))
+2. Create `Omics` Data Object ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html))
+3. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
+4. Inspect Results
 
 Before we get started, you need the `pathwayPCA` package to run your analysis. You can install it from GitHub. If you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package. We also recommend the `tidyverse` package to help you run some of the examples in these vignettes. 
 ```
@@ -43,7 +43,7 @@ library(parallel)
 
 
 # Import Data
-We will cover three data import steps.
+This section is a quick overview of the material covered in the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. We will cover three data import steps.
 
 ### Import `.gmt` Files
 Use the `read_gmt` function. Create your own with the `create_pathwaySet` function.
@@ -60,10 +60,10 @@ Use the `read_csv` function to import the patient data, then the `inner_join` fu
 
 
 # Create an `Omics` Data Object
+This section is a quick overview of the material covered in the [Create an `Omics*` Data Container](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
 
 ### Create an Object
 Create a data container specific to survival, regression, or categorical responses.
-
 
 ### Inspect the Object Contents
 Print the object to the screen to see a summary of the data contained therein.
@@ -77,6 +77,8 @@ Use accessor functions to extract, edit, or replace data contained in the object
 
 
 # Test Pathways for Significance
+This section is a quick overview of the material covered in the "AES-PCA" and "Supervised PCA" sections of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette.
+
 
 ### AES-PCA
 Perform AES-PCA on the object with the `AESPCA_pVals` function.
@@ -90,6 +92,7 @@ Perform Supervised PCA on the object with the `superPCA_pVals` function.
 
 
 # Inspect Results
+This section is a quick overview of the material covered in the "Analyze the Results" section of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette.
 
 ### Graph of Top Pathways
 Use `ggplot2` to create summary graphics of the analysis results.
