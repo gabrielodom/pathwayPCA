@@ -7,6 +7,9 @@ output:
     toc: true
     toc_depth: 2
     number_sections: true
+  word_document:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Test Pathway Significance}
   %\VignetteEngine{knitr::rmarkdown}
