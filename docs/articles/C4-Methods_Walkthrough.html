@@ -234,8 +234,7 @@
 <h3 class="hasAnchor">
 <a href="#survival-response" class="anchor"></a>Survival Response</h3>
 <p>We will use two of our available cores with the parallel computing approach. We will adjust the <span class="math inline">\(p\)</span>-values with the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures. For the tiny <span class="math inline">\(250 \times 656\)</span> assay with 15 associated pathways, this calculation is completed in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds (<span class="math inline">\(7.9\times\)</span> longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()
-surv_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
                                   <span class="dt">numReps =</span> <span class="dv">1000</span>,
                                   <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
                                   <span class="dt">numCores =</span> <span class="dv">2</span>,
@@ -260,9 +259,7 @@ surv_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../ref
 <span class="co">#&gt; DONE</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
-<span class="co">#&gt; DONE</span>
-<span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>a
-<span class="co">#&gt; Time difference of 26.45379 secs</span></code></pre></div>
+<span class="co">#&gt; DONE</span></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
@@ -525,17 +522,63 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_aes_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 24.88742 24.88742 21.55460 21.51955 21.51955 21.51955 21.51955 21.51955 </span>
-<span class="co">#&gt;     KRAS     SHC1      CRK   PIK3CB   PIK3R2 </span>
-<span class="co">#&gt; 21.51955 21.48450 21.48450 16.62061 16.62061 </span>
+<span class="co">#&gt; 32.80009 32.80009 23.80176 23.76658 23.76658 23.76658 23.76658 23.76658 </span>
+<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
+<span class="co">#&gt; 23.76658 23.76658 23.76658 23.73139 23.73139 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3 </span>
-<span class="co">#&gt; 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 </span>
-<span class="co">#&gt;    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1 </span>
-<span class="co">#&gt; 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813 </span>
-<span class="co">#&gt;    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 </span>
-<span class="co">#&gt; 8.266813 8.266813 8.266813 8.266813 8.266813 8.266813</span></code></pre></div>
+<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    SYNJ1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    EPHB3    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     RAC1    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 COL4A3BP </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;   LPCAT3    CEPT1     CDS1     PEMT    CDIPT   AGPAT1   AGPAT2   SPTLC1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     NEU3     CHAT  PLA2G16     CHKA     CHKB     MGLL     PLD4    DEGS2 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    ACER1  SLC44A3   MBOAT2     NEU4    SGPP2  CSNK1G2   PIK3R6    GPAT2 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    PPM1L     ARSK   MBOAT1 PHOSPHO1    SGMS2  PIKFYVE     PLD6    CERS3 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;  SLC44A5     ARSG   SACM1L    GPD1L    LPIN1  PIP5K1C  SLC44A1   PITPNB </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     KDSR   LCLAT1    CERS6   LPCAT4  PLA2G4F     GALC    SUMF2    SGMS1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;  PLA2G2D   INPP5J      GLA     GM2A     GPD1  PLA2G4D    SUMF1    CERS2 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    HADHA    HADHB     HEXA     HEXB  PLA2G2E    ENPP7     ARSI   INPPL1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     ARF1     ARF3     ARSA     ARSB      STS     ARSE     ARSF    ASAH1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     ACHE     MTM1     NEU1     NEU2     OCRL     OSBP   PLA2G3   PNPLA8 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;   PCYT1A   INPP5K  PIK3C2A  PIK3C2B  PIK3C2G    PI4KA    PI4KB  PIP4K2A </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;  PLA2G1B  PLA2G2A  PLA2G4A   PLA2G5    CRLS1     CTSA   LPCAT2    ETNK2 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;   AGPAT5    ACER3   PI4K2A    ETNK1    SMPD3    VAC14    PRKD1   GPCPD1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     PSAP   INPP5E    SPHK2   AGPAT3   AGPAT4    CHPT1   PNPLA2  SLC44A2 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     PTEN     GPAM     GBA2     GBA3    PCYT2   MTMR14  PLA2G2F     CERK </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    LPIN3      TAZ     UGCG   MBOAT7    CERS4     ARSJ    PLBD1   LPCAT1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;   PNPLA3  SLC44A4   PTDSS2    SGPP1 PLA2G12A  PIP5K1B  PIP4K2B   PLA2G6 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    GNPAT    DEGS1  PLA2G4C     CDS2    MTMR1   INPP4B    SYNJ2    SPHK1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;    SGPL1    MTMR3    MTMR2    CERS5    MTMR6    MTMR7    MTMR4     VAPB </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;     VAPA   PCYT1B     PGS1  GAL3ST1   SPTLC2    LPIN2   PTDSS1     FIG4 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;   LPGAT1   TCIRG1 ATP6V1G3 ATP6V0A2 ATP6V0D2 ATP6V1C2 ATP6V0A4  ATP6V1D </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt;  ATP6V1H  ATP6V1A ATP6V1B1 ATP6V1B2  ATP6V0C ATP6V1C1 ATP6V1E1  ATP6V0B </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
+<span class="co">#&gt; ATP6V1G2 ATP6V0E1 ATP6V1E2 ATP6V0D1  ATP6V1F ATP6V1G1 </span>
+<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516</span></code></pre></div>
 </div>
 </div>
   </div>
