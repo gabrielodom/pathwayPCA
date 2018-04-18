@@ -147,12 +147,14 @@ Now that we have discussed both the overview of the two methods at large, and so
 ### Survival Response
 We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds ($7.9\times$ longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway).
 ```{r aes_surv_pvals}
+a <- Sys.time()
 surv_aes_pVals_df <- AESPCA_pVals(object = colon_OmicsSurv,
                                   numReps = 1000,
                                   parallel = TRUE,
                                   numCores = 2,
                                   adjustpValues = TRUE,
                                   adjustment = c("Hoch", "SidakSD"))
+Sys.time() - a
 ```
 
 
@@ -190,10 +192,10 @@ We now discuss and give examples of the Supervised PCA method.
 ## Method Details
 
 ### Supervised PCA Method Sources
-
+While PCA is a commonly-applied *unsupervised* learning technique (i.e., response information is not necessary), one limitation of this method is that ignoring response information may yield to a first PC completely unrelated to outcome. In an effort to bolster this weakness, [Bair et al. (2006)](https://doi.org/10.1198/016214505000000628) employed response information to rank predictors by the strength of their association. Then, they used PCA to extract PCs from feature design matrix subsets constructed from the predictors most strongly associated with the response. [Chen et al. (2008)](https://doi.org/10.1093/bioinformatics/btn458) extend this technique to subsets of biological features within pre-defined biological pathways; they independently applied the Supervised PCA routine to each pathway in a pathway set. [Chen et al. (2010)](https://doi.org/10.1002/gepi.20532) built on this work, testing if pathways were significantly associated with a given biological or clinical response.
 
 ### Calculate Pathway-Specific Model $p$-Values
-For the Supervised PCA method, pathway $p$-values are calculated
+As thoroughly discussed in Chen et al. (2008), the model fit and regression coefficient test statistics no longer come from their expected distributions. Necessarily, this is due to Supervised PCA's strength in finding features already associated with outcome. Therefore, for the Supervised PCA method, pathway $p$-values are calculated from a mixture of extreme value distributions. We use numerical optimization routines to calculate the maximum likelihood estimates of the mean, precision, and mixing proportion components of a mixture of two Gumbel extreme value distributions (for minima and maxima of a random normal sample). The $p$-values from the pathways after permuting the response is used to estimate this null distribution, so the results may be less accurate for a very small set of pathways.
 
 ### Supervised-PCA Pros and Cons
 
@@ -292,7 +294,7 @@ ggplot(surv_aes_melt_df) +
   coord_flip()
 ```
 
-For Supervised PCA, we see similar results to AES-PCA, but nearly half of the simulated pathways are significant. (Recall that the example data was curated so that seven of the 15 pathways would be significant.)
+For Supervised PCA, we see similar results to AES-PCA, but nearly half of the simulated pathways are significant. (Recall that the example data was curated so that seven of the 15 pathways would be significant.) Further note that the order of the significance may not necessarily be preserved.
 ```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 ggplot(surv_spr_melt_df) +
   aes(x = pathways, y = score, fill = variable) +
