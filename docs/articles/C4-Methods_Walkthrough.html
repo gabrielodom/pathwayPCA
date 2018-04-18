@@ -100,7 +100,7 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
-<p>This vignette is half of the third chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">“Import and Tidy Data”</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">“Creating -Omics Data Objects”</a> vignettes. This guide will outline the major steps needed analyze <code>Omics*</code>-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) or Supervised PCA. We will consider three examples: survival, regression, and binary responses. The main goal of pathway significance testing is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
+<p>This vignette is the fourth chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html">“Import and Tidy Data”</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html">“Creating -Omics Data Objects”</a> vignettes. This guide will outline the major steps needed analyze <code>Omics*</code>-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) or Supervised PCA. We will consider three examples: survival, regression, and binary responses. The main goal of pathway significance testing is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.</p>
 <div id="outline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#outline" class="anchor"></a>Outline</h3>
@@ -521,64 +521,55 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <p>Now consider the rows of this matrix. Each row is a gene, and the <span class="math inline">\(j^{th}\)</span> entry in the row is equal to <span class="math inline">\(S_j\)</span>, if the gene is included in pathway <span class="math inline">\(j\)</span>, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The <code><a href="../reference/topGenes.html">topGenes()</a></code> function returns the top 5% of both. As we can see, most of the genes included in the <code>summedRank</code> vector are the in the list of “usual suspects” for colon cancer.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_aes_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.02</span>)
 <span class="co">#&gt; $summedRank</span>
-<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 32.80009 32.80009 23.80176 23.76658 23.76658 23.76658 23.76658 23.76658 </span>
-<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK </span>
-<span class="co">#&gt; 23.76658 23.76658 23.76658 23.73139 23.73139 </span>
+<span class="co">#&gt;   PIK3CA   PIK3R1   PIK3CB   PIK3R2   PIK3R4   PIK3C3    MAPK1   MAP2K1 </span>
+<span class="co">#&gt; 27.10197 27.10197 22.72641 22.72641 21.47109 21.47109 18.10775 18.07395 </span>
+<span class="co">#&gt;     NRAS     GRB2    MAPK3     HRAS     KRAS </span>
+<span class="co">#&gt; 18.07395 18.07395 18.07395 18.07395 18.07395 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    SYNJ1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    EPHB3    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     RAC1    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 COL4A3BP </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;   LPCAT3    CEPT1     CDS1     PEMT    CDIPT   AGPAT1   AGPAT2   SPTLC1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     NEU3     CHAT  PLA2G16     CHKA     CHKB     MGLL     PLD4    DEGS2 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    ACER1  SLC44A3   MBOAT2     NEU4    SGPP2  CSNK1G2   PIK3R6    GPAT2 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    PPM1L     ARSK   MBOAT1 PHOSPHO1    SGMS2  PIKFYVE     PLD6    CERS3 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;  SLC44A5     ARSG   SACM1L    GPD1L    LPIN1  PIP5K1C  SLC44A1   PITPNB </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     KDSR   LCLAT1    CERS6   LPCAT4  PLA2G4F     GALC    SUMF2    SGMS1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;  PLA2G2D   INPP5J      GLA     GM2A     GPD1  PLA2G4D    SUMF1    CERS2 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    HADHA    HADHB     HEXA     HEXB  PLA2G2E    ENPP7     ARSI   INPPL1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     ARF1     ARF3     ARSA     ARSB      STS     ARSE     ARSF    ASAH1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     ACHE     MTM1     NEU1     NEU2     OCRL     OSBP   PLA2G3   PNPLA8 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;   PCYT1A   INPP5K  PIK3C2A  PIK3C2B  PIK3C2G    PI4KA    PI4KB  PIP4K2A </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;  PLA2G1B  PLA2G2A  PLA2G4A   PLA2G5    CRLS1     CTSA   LPCAT2    ETNK2 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;   AGPAT5    ACER3   PI4K2A    ETNK1    SMPD3    VAC14    PRKD1   GPCPD1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     PSAP   INPP5E    SPHK2   AGPAT3   AGPAT4    CHPT1   PNPLA2  SLC44A2 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     PTEN     GPAM     GBA2     GBA3    PCYT2   MTMR14  PLA2G2F     CERK </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    LPIN3      TAZ     UGCG   MBOAT7    CERS4     ARSJ    PLBD1   LPCAT1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;   PNPLA3  SLC44A4   PTDSS2    SGPP1 PLA2G12A  PIP5K1B  PIP4K2B   PLA2G6 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    GNPAT    DEGS1  PLA2G4C     CDS2    MTMR1   INPP4B    SYNJ2    SPHK1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;    SGPL1    MTMR3    MTMR2    CERS5    MTMR6    MTMR7    MTMR4     VAPB </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;     VAPA   PCYT1B     PGS1  GAL3ST1   SPTLC2    LPIN2   PTDSS1     FIG4 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;   LPGAT1   TCIRG1 ATP6V1G3 ATP6V0A2 ATP6V0D2 ATP6V1C2 ATP6V0A4  ATP6V1D </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt;  ATP6V1H  ATP6V1A ATP6V1B1 ATP6V1B2  ATP6V0C ATP6V1C1 ATP6V1E1  ATP6V0B </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516 </span>
-<span class="co">#&gt; ATP6V1G2 ATP6V0E1 ATP6V1E2 ATP6V0D1  ATP6V1F ATP6V1G1 </span>
-<span class="co">#&gt; 9.033516 9.033516 9.033516 9.033516 9.033516 9.033516</span></code></pre></div>
+<span class="co">#&gt; COL4A3BP   LPCAT3    CEPT1     CDS1     PEMT    CDIPT   AGPAT1   AGPAT2 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   SPTLC1     NEU3     CHAT  PLA2G16     CHKA     CHKB     MGLL     PLD4 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    DEGS2    ACER1  SLC44A3   MBOAT2     NEU4    SGPP2  CSNK1G2   PIK3R6 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    GPAT2    PPM1L     ARSK   MBOAT1 PHOSPHO1    SGMS2  PIKFYVE     PLD6 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    CERS3  SLC44A5     ARSG   SACM1L    GPD1L    LPIN1  PIP5K1C  SLC44A1 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   PITPNB     KDSR   LCLAT1    CERS6   LPCAT4  PLA2G4F     GALC    SUMF2 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    SGMS1  PLA2G2D   INPP5J      GLA     GM2A     GPD1  PLA2G4D    SUMF1 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    CERS2    HADHA    HADHB     HEXA     HEXB  PLA2G2E    ENPP7     ARSI </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   INPPL1     ARF1     ARF3     ARSA     ARSB      STS     ARSE     ARSF </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    ASAH1     ACHE     MTM1     NEU1     NEU2     OCRL     OSBP   PLA2G3 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   PNPLA8   PCYT1A   INPP5K  PIK3C2A  PIK3C2B  PIK3C2G    PI4KA    PI4KB </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;  PIP4K2A  PLA2G1B  PLA2G2A  PLA2G4A   PLA2G5    CRLS1     CTSA   LPCAT2 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    ETNK2   AGPAT5    ACER3   PI4K2A    ETNK1    SMPD3    VAC14    PRKD1 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   GPCPD1     PSAP   INPP5E    SPHK2   AGPAT3   AGPAT4    CHPT1   PNPLA2 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;  SLC44A2     PTEN     GPAM     GBA2     GBA3    PCYT2   MTMR14  PLA2G2F </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;     CERK    LPIN3      TAZ     UGCG   MBOAT7    CERS4     ARSJ    PLBD1 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   LPCAT1   PNPLA3  SLC44A4   PTDSS2    SGPP1 PLA2G12A  PIP5K1B  PIP4K2B </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;   PLA2G6    GNPAT    DEGS1  PLA2G4C     CDS2    MTMR1   INPP4B    SYNJ2 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;    SPHK1    SGPL1    MTMR3    MTMR2    CERS5    MTMR6    MTMR7    MTMR4 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;     VAPB     VAPA   PCYT1B     PGS1  GAL3ST1   SPTLC2    LPIN2   PTDSS1 </span>
+<span class="co">#&gt; 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 9.028019 </span>
+<span class="co">#&gt;     FIG4   LPGAT1 </span>
+<span class="co">#&gt; 9.028019 9.028019</span></code></pre></div>
+<p>Currently, this is the last vignette in the workflow. We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our <code>*_pVals()</code> functions. If you have any questions, complaints, or suggestions, please <a href="mailto:gabriel.odom@med.miami.edu">email us</a> and give us some feedback. Also you can visit our <a href="https://github.com/gabrielodom/pathwayPCA">development page</a>.</p>
 </div>
 </div>
   </div>

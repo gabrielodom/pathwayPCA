@@ -21,7 +21,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # Overview
-This vignette is half of the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics*`-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) or Supervised PCA. We will consider three examples: survival, regression, and binary responses. The main goal of pathway significance testing is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
+This vignette is the fourth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics*`-class objects with pathway-level adaptive, elastic-net, sparse PCA (AES-PCA) or Supervised PCA. We will consider three examples: survival, regression, and binary responses. The main goal of pathway significance testing is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
 
 ### Outline
 Before we move on, we will outline our steps. After reading this vignette, you should
@@ -320,3 +320,6 @@ Now consider the rows of this matrix. Each row is a gene, and the $j^{th}$ entry
 ```{r topSurvGenes}
 topGenes(object = colon_OmicsSurv, pVals_df = surv_aes_pVals_df, percentile = 0.02)
 ```
+
+
+Currently, this is the last vignette in the workflow. We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, complaints, or suggestions, please [email us](mailto:gabriel.odom@med.miami.edu) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).

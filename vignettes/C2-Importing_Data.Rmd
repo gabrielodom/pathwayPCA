@@ -18,7 +18,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 ```
 
 # Overview
-This vignette is the first chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette will discuss importing Gene Matrix Transposed (`.gmt`) [gene set files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) to a list object with class `pathwaySet` with the `read_gmt` function. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list.
+This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette will discuss importing Gene Matrix Transposed (`.gmt`) [gene set files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) to a list object with class `pathwaySet` with the `read_gmt` function. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list.
 
 ### Outline
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
@@ -210,5 +210,5 @@ We now summarize our steps so far. We have
 2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `transpose_assay` function.
 3. Imported a subject information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
-Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read the next vignette: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html).
+Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read the next vignette: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html).
 
