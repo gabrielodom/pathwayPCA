@@ -71,7 +71,7 @@ The pathway set list and tidy assay (with matched patient response information) 
 Now that we have our data loaded, we can create an analysis object for the `pathwayPCA` package.
 
 ### Class Overview
-In this package, all primary input data will be in an `Omics*` data container object. There are four classes `Omics*` objects. Each class contains a tidy assay and `pathwaySet` gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are
+In this package, all primary input data will be in an `Omics*` data container object. There are four classes of `Omics*` objects. Each class contains a tidy assay and `pathwaySet` gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are
 
 1. `OmicsSurv`---a data container for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored?).
 2. `OmicsReg`---a data container for continuous responses (usually a linear regression response).

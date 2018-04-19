@@ -111,7 +111,19 @@ Now that you have the measurement data in tidy form (`assayT_df`) and the patien
 This section is a quick overview of the material covered in the [Create an `Omics*` Data Container](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
 
 ## Create an Object
-Create a data container specific to survival, regression, or categorical responses.
+Using the data you just imported, create a data container specific to survival, regression, or categorical responses. There are three classes of `Omics*` objects to match the three types of response. Each class contains a tidy assay and `pathwaySet` gene set list, but the classes differ in the type of response information they can hold. The classes, and their responses, are
+
+1. `OmicsSurv`---a data container for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored?).
+2. `OmicsReg`---a data container for continuous responses (usually a linear regression response).
+3. `OmicsCateg`---a data container for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression).
+
+We will create an `OmicsSurv` object to hold our assay, pathway set list, and survival response.
+```{r create_OmicsSurv_object}
+colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
+                                    pathwaySet_ls = colon_pathwaySet,
+                                    eventTime_num = as.numeric(colonSurv_df$OS_time),
+                                    eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+```
 
 ## Inspect the Object Contents
 Print the object to the screen to see a summary of the data contained therein.

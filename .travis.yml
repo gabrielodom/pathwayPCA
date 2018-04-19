@@ -5,11 +5,10 @@ use_bioc: true
 bioc_required: true
 r:
   - bioc-release
-  - bioc-devel    # Errors as of 20180105. Something off with devtools.
+  - bioc-devel
   - oldrel
   - release
-  - devel    # Errors as of 20180105, 20180316 (devel at this point was 3.4.4)
-# this package builds just fine on 3.4.4
+  - devel
 
 sudo: true
 cache: packages
