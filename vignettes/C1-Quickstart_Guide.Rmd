@@ -5,9 +5,11 @@ date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     toc: true
+    toc_depth: 2
     number_sections: true
   word_document:
     toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Quickstart Guide}
   %\VignetteEngine{knitr::rmarkdown}
@@ -119,17 +121,40 @@ Using the data you just imported, create a data container specific to survival, 
 
 We will create an `OmicsSurv` object to hold our assay, pathway set list, and survival response.
 ```{r create_OmicsSurv_object}
-colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwaySet_ls = colon_pathwaySet,
-                                    eventTime_num = as.numeric(colonSurv_df$OS_time),
-                                    eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+colon_OmicsSurv <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
+                                pathwaySet_ls = colon_pathwaySet,
+                                response = colonSurv_df[, 1:2],
+                                respType = "surv")
 ```
 
 ## Inspect the Object Contents
 Print the object to the screen to see a summary of the data contained therein.
+```{r view_Omics}
+colon_OmicsSurv
+```
 
 ## Modify Object Contents
-Use accessor functions to extract, edit, or replace data contained in the object.
+Use accessor functions to extract, edit, or replace data contained in the object. The accessor functions are listed in more detail in the [Table of Accessors](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html#table-of-accessors) subsection of Chapter 3.
+
+### Assay
+```{r accessor1}
+getAssay(colon_OmicsSurv)
+```
+
+### Pathway Set List
+```{r accessor2}
+getPathwaySet(colon_OmicsSurv)
+```
+
+### Event Time
+```{r accessor3}
+head(getEventTime(colon_OmicsSurv), 10)
+```
+
+### Event Indicator
+```{r accessor4}
+head(getEvent(colon_OmicsSurv), 10)
+```
 
 *******************************************************************************
 

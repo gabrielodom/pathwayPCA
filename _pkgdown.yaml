@@ -28,6 +28,7 @@ reference:
       - '`create_pathwaySet`'
       - '`print.pathwaySet`'
       - '`transpose_assay`'
+      - '`create_Omics`'
       - '`create_OmicsPath`'
       - '`create_OmicsSurv`'
       - '`create_OmicsReg`'
