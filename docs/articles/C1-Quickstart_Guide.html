@@ -250,10 +250,10 @@ pInfo_df</code></pre></div>
                                 <span class="dt">respType =</span> <span class="st">"surv"</span>)
 <span class="co">#&gt; Creating object of class OmicsSurv.</span></code></pre></div>
 </div>
-<div id="inspect-the-object-contents" class="section level2">
+<div id="inspect-the-object" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inspect-the-object-contents" class="anchor"></a>Inspect the Object Contents</h2>
-<p>Print the object to the screen to see a summary of the data contained therein.</p>
+<a href="#inspect-the-object" class="anchor"></a>Inspect the Object</h2>
+<p>After you create an <code>Omics*</code>-class object, print the object to the screen to see a summary of the data contained therein.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
 <span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 4 slots</span>
 <span class="co">#&gt;   ..@ eventTime    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
@@ -262,13 +262,13 @@ pInfo_df</code></pre></div>
 <span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
 <span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
 </div>
-<div id="modify-object-contents" class="section level2">
+<div id="detailed-object-views" class="section level2">
 <h2 class="hasAnchor">
-<a href="#modify-object-contents" class="anchor"></a>Modify Object Contents</h2>
-<p>Use accessor functions to extract, edit, or replace data contained in the object. The accessor functions are listed in more detail in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html#table-of-accessors">Table of Accessors</a> subsection of Chapter 3.</p>
-<div id="assay" class="section level3">
+<a href="#detailed-object-views" class="anchor"></a>Detailed Object Views</h2>
+<p>Because the printing procedure for <code>Omics*</code>-objects is to show a summary of the contents, you need to use the <code>get*()</code> functions to view the individual components of the <code>colon_OmicsSurv</code> object we just created. Overall, you can use accessor functions to extract, edit, or replace data contained in the object. The accessor functions are listed in more detail in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html#table-of-accessors">Table of Accessors</a> subsection of Chapter 3. Use these functions to confirm that the data container you created accurately reflects the data you intend to analyze.</p>
+<div id="view-the-assay" class="section level3">
 <h3 class="hasAnchor">
-<a href="#assay" class="anchor"></a>Assay</h3>
+<a href="#view-the-assay" class="anchor"></a>View the Assay</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv)
 <span class="co">#&gt; # A tibble: 250 x 656</span>
 <span class="co">#&gt;      JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1 PRKCA  ELK1  NRG1  PAK2  MTOR</span>
@@ -305,25 +305,25 @@ pInfo_df</code></pre></div>
 <span class="co">#&gt; #   RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;, EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   TF &lt;dbl&gt;, KALRN &lt;dbl&gt;, RASA1 &lt;dbl&gt;, CASP9 &lt;dbl&gt;, ...</span></code></pre></div>
 </div>
-<div id="pathway-set-list" class="section level3">
+<div id="view-the-pathwayset-list" class="section level3">
 <h3 class="hasAnchor">
-<a href="#pathway-set-list" class="anchor"></a>Pathway Set List</h3>
+<a href="#view-the-pathwayset-list" class="anchor"></a>View the <code>pathwaySet</code> List</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwaySet</a></span>(colon_OmicsSurv)
 <span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
 <span class="co">#&gt;  $ pathways:List of 15</span>
 <span class="co">#&gt;  $ TERMS   : Named chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
 <span class="co">#&gt;  $ setsize : Named int [1:15] 27 64 ...</span></code></pre></div>
 </div>
-<div id="event-time" class="section level3">
+<div id="view-the-event-time" class="section level3">
 <h3 class="hasAnchor">
-<a href="#event-time" class="anchor"></a>Event Time</h3>
+<a href="#view-the-event-time" class="anchor"></a>View the Event Time</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw"><a href="../reference/get_set_OmicsSurv.html">getEventTime</a></span>(colon_OmicsSurv), <span class="dv">10</span>)
 <span class="co">#&gt;  [1] 64.8657534 59.7698630 62.4000000 54.5095890 46.2904110 55.8575343</span>
 <span class="co">#&gt;  [7] 57.9616438 54.0493151  0.4273973 41.4246575</span></code></pre></div>
 </div>
-<div id="event-indicator" class="section level3">
+<div id="view-the-event-indicator" class="section level3">
 <h3 class="hasAnchor">
-<a href="#event-indicator" class="anchor"></a>Event Indicator</h3>
+<a href="#view-the-event-indicator" class="anchor"></a>View the Event Indicator</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw"><a href="../reference/get_set_OmicsSurv.html">getEvent</a></span>(colon_OmicsSurv), <span class="dv">10</span>)
 <span class="co">#&gt;  [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE</span></code></pre></div>
 <hr>
@@ -334,16 +334,65 @@ pInfo_df</code></pre></div>
 <div id="test-pathways-for-significance" class="section level1">
 <h1 class="hasAnchor">
 <a href="#test-pathways-for-significance" class="anchor"></a>Test Pathways for Significance</h1>
-<p>This section is a quick overview of the material covered in the “AES-PCA” and “Supervised PCA” sections of the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette.</p>
+<p>After you have confirmed that the <code>create_Omics</code> function created the <code>Omics*</code> object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the “AES-PCA” and “Supervised PCA” sections of the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette. For details of these methods functions, please see their respective sections in Chapter 4.</p>
+<p>The function arguments are these. AES-PCA uses permutation-based <span class="math inline">\(p\)</span>-values, so the <code>numReps</code> argument controls how many permutations to take. The <code>numPCs</code> argument specifies how many principal components will be extracted from each pathway. The <code>parallel</code> and <code>numCores</code> arguments are used to control if and how the functions make use of parallel computing. Finally, the <code>adjustment</code> argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway <span class="math inline">\(p\)</span>-values. These options are documented in the <code>adjustRaw_pVals</code> function (see the <a href="https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html">help documentation</a> for details).</p>
 <div id="aes-pca" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aes-pca" class="anchor"></a>AES-PCA</h2>
-<p>Perform AES-PCA on the object with the <code>AESPCA_pVals</code> function.</p>
+<p>Perform AES-PCA pathway significance testing on the object with the <code>AESPCA_pVals</code> function. For more details on this function, see the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca">AES-PCA</a> section of Chapter 4.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
+                                  <span class="dt">numReps =</span> <span class="dv">1000</span>,
+                                  <span class="dt">numPCs =</span> <span class="dv">2</span>,
+                                  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                  <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                  <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>))
+<span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
+<span class="co">#&gt;   the input data and were therefore removed.</span>
+<span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
+<span class="co">#&gt;   pathway(s) because they contained 3 or fewer genes.</span>
+<span class="co">#&gt; Of the 656 measured genes in the input data frame, 93.8% were included in at</span>
+<span class="co">#&gt;   least one pathway after trimming.</span>
+<span class="co">#&gt;  Part 1: Calculate Pathway AES-PCs</span>
+<span class="co">#&gt; Initializing Cluster</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Extracting Pathway PCs in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Part 2: Calculate Permuted Pathway p-Values</span>
+<span class="co">#&gt; Initializing Cluster</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Extracting Pathway p-Values in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
+<span class="co">#&gt; DONE</span></code></pre></div>
 </div>
 <div id="supervised-pca" class="section level2">
 <h2 class="hasAnchor">
 <a href="#supervised-pca" class="anchor"></a>Supervised PCA</h2>
-<p>Perform Supervised PCA on the object with the <code>superPCA_pVals</code> function.</p>
+<p>Perform Supervised PCA pathway significance testing on the object with the <code>superPCA_pVals</code> function. For more details on this function, see the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#supervised-pca">Supervised PCA</a> section of Chapter 4.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/superPCA_pVals.html">superPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
+                                    <span class="dt">numPCs =</span> <span class="dv">2</span>,
+                                    <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+                                    <span class="dt">numCores =</span> <span class="dv">2</span>,
+                                    <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
+                                    <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>))
+<span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
+<span class="co">#&gt;   the input data and were therefore removed.</span>
+<span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
+<span class="co">#&gt;   pathway(s) because they contained 3 or fewer genes.</span>
+<span class="co">#&gt; Of the 656 measured genes in the input data frame, 93.8% were included in at</span>
+<span class="co">#&gt;   least one pathway after trimming.</span>
+<span class="co">#&gt; Initializing Cluster</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Test Statistics in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway Critical Values in Parallel</span>
+<span class="co">#&gt; DONE</span>
+<span class="co">#&gt; Calculating Pathway p-Values</span>
+<span class="co">#&gt; Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
+<span class="co">#&gt; DONE</span></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -351,17 +400,108 @@ pInfo_df</code></pre></div>
 <div id="inspect-results" class="section level1">
 <h1 class="hasAnchor">
 <a href="#inspect-results" class="anchor"></a>Inspect Results</h1>
-<p>This section is a quick overview of the material covered in the “Analyze the Results” section of the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette.</p>
+<p>This section is a quick overview of the material covered in the “Analyze the Results” section of the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette. For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently (use the <code>head</code> function to print the top pathways instead).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_pVals_df
+<span class="co">#&gt; # A tibble: 15 x 7</span>
+<span class="co">#&gt;    pathways    setsize trim_size terms              rawp  Hochberg SidakSD</span>
+<span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 pathway87        87        86 KEGG_ERBB_SIG~  2.82e-7   4.18e-6 4.23e-6</span>
+<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_~  2.99e-7   4.18e-6 4.23e-6</span>
+<span class="co">#&gt;  3 pathway176       54        54 KEGG_NON_SMAL~  1.68e-6   2.18e-5 2.18e-5</span>
+<span class="co">#&gt;  4 pathway1211     108       104 REACTOME_SIGN~  3.33e-6   4.00e-5 4.00e-5</span>
+<span class="co">#&gt;  5 pathway757       87        83 REACTOME_INSU~  7.36e-6   8.10e-5 8.10e-5</span>
+<span class="co">#&gt;  6 pathway177       30        26 KEGG_ASTHMA     1.45e-4   1.45e-3 1.45e-3</span>
+<span class="co">#&gt;  7 pathway3         27        26 KEGG_PENTOSE_~  2.21e-4   1.99e-3 1.98e-3</span>
+<span class="co">#&gt;  8 pathway60        64        45 KEGG_RETINOL_~  2.17e-3   1.74e-2 1.72e-2</span>
+<span class="co">#&gt;  9 pathway781      198       180 REACTOME_PHOS~  4.57e-3   2.81e-2 3.15e-2</span>
+<span class="co">#&gt; 10 pathway536       46        44 PID_TNF_PATHW~  4.68e-3   2.81e-2 3.15e-2</span>
+<span class="co">#&gt; 11 pathway390       29        29 BIOCARTA_TNFR~  7.21e-3   3.60e-2 3.55e-2</span>
+<span class="co">#&gt; 12 pathway413       23        23 ST_GA12_PATHW~  1.15e-2   4.62e-2 4.54e-2</span>
+<span class="co">#&gt; 13 pathway187       16        16 BIOCARTA_RELA~  6.48e-2   1.94e-1 1.82e-1</span>
+<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_~  1.92e-1   3.85e-1 3.48e-1</span>
+<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_~  4.66e-1   4.66e-1 4.66e-1</span></code></pre></div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
 <a href="#graph-of-top-pathways" class="anchor"></a>Graph of Top Pathways</h2>
-<p>Use <code>ggplot2</code> to create summary graphics of the analysis results.</p>
+<p>To visualize the significance of the pathways based on the selected FDR method, we can use the <code>ggplot2</code> package to create summary graphics of the analysis results.</p>
+<div id="tidy-up-the-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tidy-up-the-data" class="anchor"></a>Tidy Up the Data</h3>
+<p>In order to take advantage of the publication-quality graphics created with the <code>ggplot2</code> package, we first need to tidy the data frames returned by the <code>AESPCA_pVals</code> and <code>superPCA_pVals</code> functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reshape2)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'reshape2'</span>
+<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     smiths</span>
+surv_spr_melt_df &lt;-<span class="st"> </span>surv_spr_pVals_df <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>terms, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">melt</span>(<span class="dt">id.vars =</span> <span class="st">"pathways"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pathways =</span> <span class="kw">factor</span>(pathways,
+                           <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">unique</span>(pathways)),
+                           <span class="dt">ordered =</span> <span class="ot">TRUE</span>))</code></pre></div>
+</div>
+<div id="graph-pathway-ranks" class="section level3">
+<h3 class="hasAnchor">
+<a href="#graph-pathway-ranks" class="anchor"></a>Graph Pathway Ranks</h3>
+<p>Now that our output is tidy, we can make a bar chart of the pathway significance.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(surv_spr_melt_df) <span class="op">+</span>
+<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> pathways, <span class="dt">y =</span> score, <span class="dt">fill =</span> variable) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_discrete</span>(<span class="dt">name =</span> <span class="st">"FDR Adjustment"</span>,
+                      <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">"rawp"</span>, <span class="st">"Hochberg"</span>, <span class="st">"SidakSD"</span>),
+                      <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"Hochberg"</span>, <span class="st">"Sidak SD"</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Significant Colon Pathways by Supervised PCA"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Log p-Value"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.01</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.05</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<p><img src="C1-Quickstart_Guide_files/figure-html/surv_spr_pval_plot-1.png" width="100%" height="60%"></p>
+</div>
 </div>
 <div id="extract-genes-from-the-top-pathways" class="section level2">
 <h2 class="hasAnchor">
 <a href="#extract-genes-from-the-top-pathways" class="anchor"></a>Extract Genes from the Top Pathways</h2>
-<p>Use the <code>topGenes</code> function to “score” the genes contained in the top significant pathways.</p>
+<p>Use the <code>topGenes</code> function to “score” the genes contained in the top significant pathways. Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_spr_pVals_df)
+<span class="co">#&gt; $summedRank</span>
+<span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
+<span class="co">#&gt; 58.55224 58.55224 58.12306 55.03961 55.03961 55.03961 55.03961 55.03961 </span>
+<span class="co">#&gt;     KRAS </span>
+<span class="co">#&gt; 55.03961 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $averagedRank</span>
+<span class="co">#&gt;     PAK3      BTC     ELK1     NRG1     PAK4     NRG3    MAPK9    ERBB4 </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;   MAPK10    ERBB3     ABL1     NRG2     ABL2     SHC4  RPS6KB2     AREG </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;   STAT5B   STAT5A     PAK6      MYC     NCK1     NRG4    GSK3B     CBLB </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;      CBL   CDKN1B   CDKN1A     EREG     NCK2   CAMK2A   CAMK2B   CAMK2D </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;   CAMK2G     CBLC     CRKL    HBEGF    EPHB4    EFNA5      PXN    CDC42 </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;    EFNB3     RRAS     GRB7    EPHB3    EFNB1     DNM1    GRIA1    EPHB1 </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;    ROCK1    ITSN1    RAP1A     RAC1    RAP1B    EFNB2     WASL       TF </span>
+<span class="co">#&gt; 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 12.37915 </span>
+<span class="co">#&gt;    KALRN    RASA1 </span>
+<span class="co">#&gt; 12.37915 12.37915</span></code></pre></div>
+<hr>
+<p></p>
 </div>
+</div>
+<div id="review" class="section level1">
+<h1 class="hasAnchor">
+<a href="#review" class="anchor"></a>Review</h1>
+<p>Now that you have an idea of how to use this package, please see each of our vignettes for detailed and thorough commentary and guiding information on each of the three topics discussed herein. The vignettes are:</p>
+<ul>
+<li><a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html">Chapter 2: Import Data</a></li>
+<li><a href="https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html">Chapter 3: Create <code>Omics</code> Data Objects</a></li>
+<li><a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Chapter 4: Test Pathway Significance</a></li>
+</ul>
 </div>
   </div>
 
@@ -382,8 +522,8 @@ pInfo_df</code></pre></div>
       <li>
 <a href="#create-an-omics-data-object">Create an <code>Omics</code> Data Object</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#create-an-object">Create an Object</a></li>
-      <li><a href="#inspect-the-object-contents">Inspect the Object Contents</a></li>
-      <li><a href="#modify-object-contents">Modify Object Contents</a></li>
+      <li><a href="#inspect-the-object">Inspect the Object</a></li>
+      <li><a href="#detailed-object-views">Detailed Object Views</a></li>
       </ul>
 </li>
       <li>
@@ -398,6 +538,7 @@ pInfo_df</code></pre></div>
       <li><a href="#extract-genes-from-the-top-pathways">Extract Genes from the Top Pathways</a></li>
       </ul>
 </li>
+      <li><a href="#review">Review</a></li>
       </ul>
 </div>
       </div>
