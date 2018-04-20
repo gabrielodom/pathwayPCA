@@ -36,8 +36,7 @@
 #'    Furthermore, the \code{\link[lars]{lars}} function \emph{can} take in the
 #'    full data, instead of just a Grammian. As an enhancement, we should either
 #'    update our copy of the lars function in \code{\link{lars.lsa}}, or make a
-#'    call to the exported \code{\link[lars]{lars}} function. This will be an
-#'    enhancement for a the next version.
+#'    call to the exported \code{\link[lars]{lars}} function. ENHANCEMENT.
 #'
 #' @seealso \code{\link{aespca}}; \code{\link{lars.lsa}}; \code{\link{AESPCA_pVals}}
 #'
