@@ -84,7 +84,9 @@ lars.lsa <- function(Sigma0, b0, n,
   ignores <- NULL
 
   ###  The while() Loop  ###
-  while((k < max.steps) & (length(active) < m)){
+  # Added m - length(ignores) from the same website as below
+  while((k < max.steps) & (length(active) < m - length(ignores))){
+    # browser()
 
     action <- NULL
     k <- k + 1
@@ -96,7 +98,7 @@ lars.lsa <- function(Sigma0, b0, n,
     if(is.nan(Cmax)){
       break
     }
-    if(Cmax < eps * 1000){ # the 100 is there as a safety net
+    if(Cmax < eps * 100){ # the 100 is there as a safety net
       break
     }
 
