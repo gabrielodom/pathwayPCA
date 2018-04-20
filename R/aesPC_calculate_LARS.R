@@ -91,6 +91,15 @@ lars.lsa <- function(Sigma0, b0, n,
     C <- Cvec[inactive]
     Cmax <- max(abs(C))
 
+    # Add escape hatch. See:
+    # https://github.com/cran/lars/blob/5b6af0bcd469ee7fc9cffb4d87594fbec84e4a8c/R/lars.R
+    if(is.nan(Cmax)){
+      break
+    }
+    if(Cmax < eps * 1000){ # the 100 is there as a safety net
+      break
+    }
+
     if(!any(drops)){
 
       new <- abs(C) >= Cmax - eps
