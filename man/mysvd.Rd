@@ -38,7 +38,7 @@ The \code{mysvd} function takes in a tall -Omics data matrix,
   However, this function calculates all the singular vectors, even when
   \code{n.components} is non-\code{NULL}. We should experiment with other SVD
   functions, such as the \code{\link[rsvd]{rsvd}} function from the
-  \code{rsvd} package. FIX THIS.
+  \code{rsvd} package. ENHANCEMENT.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.

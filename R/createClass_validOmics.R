@@ -6,7 +6,7 @@
 #' @details We have currently written checks to make sure the dimensions of the
 #'    mass spectrometry or bio-assay data frame and response matrices or vectors
 #'    match. Other checks should be added in response to user feedback during or
-#'    after beta testing. FIX THIS.
+#'    after beta testing. ENHANCEMENT.
 #'
 #' @section OmicsSurv:
 #' Valid \code{OmicsSurv} objects will have two response vectors: a vector of
