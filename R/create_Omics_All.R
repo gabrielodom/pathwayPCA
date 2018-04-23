@@ -115,9 +115,21 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
     see the help information found in ?create_OmicsPath for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
+
+  ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
   }
+
+  bad_names <- .detect_invalid_names(colnames(assayData_df))
+  if(length(bad_names) > 0){
+    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
+                    length(bad_names)))
+    print(bad_names)
+    message("These genes may be excluded from analysis. Proper gene names
+contain alphanumeric characters only, and start with a letter.")
+  }
+
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
@@ -195,9 +207,21 @@ create_OmicsSurv <- function(assayData_df,
     see the help information found in ?create_OmicsSurv for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
+
+  ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
   }
+
+  bad_names <- .detect_invalid_names(colnames(assayData_df))
+  if(length(bad_names) > 0){
+    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
+                    length(bad_names)))
+    print(bad_names)
+    message("These genes may be excluded from analysis. Proper gene names
+contain alphanumeric characters only, and start with a letter.")
+  }
+
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
@@ -272,9 +296,21 @@ create_OmicsReg <- function(assayData_df,
     see the help information found in ?create_OmicsReg for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
+
+  ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
   }
+
+  bad_names <- .detect_invalid_names(colnames(assayData_df))
+  if(length(bad_names) > 0){
+    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
+                    length(bad_names)))
+    print(bad_names)
+    message("These genes may be excluded from analysis. Proper gene names
+contain alphanumeric characters only, and start with a letter.")
+  }
+
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
@@ -342,9 +378,21 @@ create_OmicsCateg <- function(assayData_df,
     see the help information found in ?create_OmicsCateg for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
+
+  ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
   }
+
+  bad_names <- .detect_invalid_names(colnames(assayData_df))
+  if(length(bad_names) > 0){
+    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
+                    length(bad_names)))
+    print(bad_names)
+    message("These genes may be excluded from analysis. Proper gene names
+contain alphanumeric characters only, and start with a letter.")
+  }
+
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
 
@@ -389,5 +437,25 @@ create_OmicsCateg <- function(assayData_df,
       assayData_df = assayData_df,
       pathwaySet = pathwaySet_ls,
       response = response_fact)
+
+}
+
+
+###  Utility Function  ###
+.detect_invalid_names <- function(string_ls){
+  # browser()
+
+  unmatchedSingleQ <- grepl("'", string_ls)
+  unmatchedDoubleQ <- grepl('"', string_ls)
+  nonAlphaNum_idx <- grepl("[^-a-zA-Z0-9-]", string_ls)
+  leadingNum_idx <- grepl("^\\d", string_ls)
+
+  bad_idx <- unmatchedSingleQ +
+    unmatchedDoubleQ +
+    nonAlphaNum_idx +
+    leadingNum_idx
+  bad_idx <- as.logical(bad_idx)
+
+  string_ls[bad_idx]
 
 }
