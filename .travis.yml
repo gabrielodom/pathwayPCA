@@ -10,6 +10,9 @@ r:
   - release
   - devel
 
+r_packages:
+  - devtools
+
 sudo: true
 cache: packages
 

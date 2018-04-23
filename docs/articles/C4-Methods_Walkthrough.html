@@ -11,6 +11,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Chapter 4 - Test Pathway Significance">
 <meta property="og:description" content="">
+<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -88,7 +89,7 @@
       <h1>Chapter 4 - Test Pathway Significance</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-19</h4>
+            <h4 class="date">2018-04-23</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/C4-Methods_Walkthrough.Rmd"><code>vignettes/C4-Methods_Walkthrough.Rmd</code></a></small>
       <div class="hidden name"><code>C4-Methods_Walkthrough.Rmd</code></div>
@@ -449,12 +450,12 @@
 <a href="#tidy-the-pathway-results" class="anchor"></a>Tidy the Pathway Results</h2>
 <p>Now that we have the pathway-specific <span class="math inline">\(p\)</span>-values, we can inspect the top pathways by significance. We will tidy the data frame returned by the <code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code> and <code><a href="../reference/AESPCA_pVals.html">AESPCA_pVals()</a></code> functions, then plot the most significant <span class="math inline">\(p\)</span>-values using the <code>ggplot2::</code> package. For graphics, we will need two new packages:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="co">#&gt; -- Attaching packages ------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
+<span class="co">#&gt; -- Attaching packages ----------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
 <span class="co">#&gt; v ggplot2 2.2.1     v purrr   0.2.4</span>
 <span class="co">#&gt; v tibble  1.4.2     v dplyr   0.7.4</span>
 <span class="co">#&gt; v tidyr   0.8.0     v stringr 1.3.0</span>
 <span class="co">#&gt; v readr   1.1.1     v forcats 0.3.0</span>
-<span class="co">#&gt; -- Conflicts ---------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --</span>
+<span class="co">#&gt; -- Conflicts -------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --</span>
 <span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
 <span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
 <span class="kw">library</span>(reshape2)
@@ -522,61 +523,19 @@ S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/topGenes.html">topGenes</a></span>(<span class="dt">object =</span> colon_OmicsSurv, <span class="dt">pVals_df =</span> surv_aes_pVals_df, <span class="dt">percentile =</span> <span class="fl">0.03</span>)
 <span class="co">#&gt; $summedRank</span>
 <span class="co">#&gt;   PIK3CA   PIK3R1    MAPK1   MAP2K1     NRAS     GRB2    MAPK3     HRAS </span>
-<span class="co">#&gt; 27.33584 27.33584 18.42487 18.38187 18.38187 18.38187 18.38187 18.38187 </span>
-<span class="co">#&gt;     KRAS   PIK3CB   PIK3R2     SHC1      CRK    SYNJ1   PIK3R4   PIK3C3 </span>
-<span class="co">#&gt; 18.38187 18.38187 18.38187 18.33887 18.33887 17.90794 17.06219 17.06219 </span>
-<span class="co">#&gt;   MAP4K4    SMPD1    SMPD2 </span>
-<span class="co">#&gt; 12.72632 12.72632 12.72632 </span>
+<span class="co">#&gt; 26.47958 26.47958 22.17480 22.14370 22.14370 22.14370 22.14370 22.14370 </span>
+<span class="co">#&gt;     KRAS     SHC1      CRK   PIK3CB   PIK3R2   PIK3R4   PIK3C3    SYNJ1 </span>
+<span class="co">#&gt; 22.14370 22.11261 22.11261 17.52561 17.52561 16.42038 16.42038 13.28985 </span>
+<span class="co">#&gt;     RAF1   MAP2K2     AKT2     SOS1 </span>
+<span class="co">#&gt; 13.22082 13.18973 13.18973 13.18973 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $averagedRank</span>
-<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    SYNJ1 </span>
+<span class="co">#&gt;    EPHB4    EFNA5      PXN    CDC42    EFNB3     RRAS     GRB7    EPHB3 </span>
 <span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    EPHB3    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A </span>
+<span class="co">#&gt;    EFNB1     DNM1    GRIA1    EPHB1    ROCK1    ITSN1    RAP1A     RAC1 </span>
 <span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     RAC1    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 COL4A3BP </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   LPCAT3    CEPT1     CDS1     PEMT    CDIPT   AGPAT1   AGPAT2   SPTLC1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     NEU3     CHAT  PLA2G16     CHKA     CHKB     MGLL     PLD4    DEGS2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    ACER1  SLC44A3   MBOAT2     NEU4    SGPP2  CSNK1G2   PIK3R6    GPAT2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    PPM1L     ARSK   MBOAT1 PHOSPHO1    SGMS2  PIKFYVE     PLD6    CERS3 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;  SLC44A5     ARSG   SACM1L    GPD1L    LPIN1  PIP5K1C  SLC44A1   PITPNB </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     KDSR   LCLAT1    CERS6   LPCAT4  PLA2G4F     GALC    SUMF2    SGMS1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;  PLA2G2D   INPP5J      GLA     GM2A     GPD1  PLA2G4D    SUMF1    CERS2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    HADHA    HADHB     HEXA     HEXB  PLA2G2E    ENPP7     ARSI   INPPL1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     ARF1     ARF3     ARSA     ARSB      STS     ARSE     ARSF    ASAH1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     ACHE     MTM1     NEU1     NEU2     OCRL     OSBP   PLA2G3   PNPLA8 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   PCYT1A   INPP5K  PIK3C2A  PIK3C2B  PIK3C2G    PI4KA    PI4KB  PIP4K2A </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;  PLA2G1B  PLA2G2A  PLA2G4A   PLA2G5    CRLS1     CTSA   LPCAT2    ETNK2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   AGPAT5    ACER3   PI4K2A    ETNK1    SMPD3    VAC14    PRKD1   GPCPD1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     PSAP   INPP5E    SPHK2   AGPAT3   AGPAT4    CHPT1   PNPLA2  SLC44A2 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     PTEN     GPAM     GBA2     GBA3    PCYT2   MTMR14  PLA2G2F     CERK </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    LPIN3      TAZ     UGCG   MBOAT7    CERS4     ARSJ    PLBD1   LPCAT1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   PNPLA3  SLC44A4   PTDSS2    SGPP1 PLA2G12A  PIP5K1B  PIP4K2B   PLA2G6 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    GNPAT    DEGS1  PLA2G4C     CDS2    MTMR1   INPP4B    SYNJ2    SPHK1 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;    SGPL1    MTMR3    MTMR2    CERS5    MTMR6    MTMR7    MTMR4     VAPB </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;     VAPA   PCYT1B     PGS1  GAL3ST1   SPTLC2    LPIN2   PTDSS1     FIG4 </span>
-<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972 </span>
-<span class="co">#&gt;   LPGAT1 </span>
-<span class="co">#&gt; 8.953972</span></code></pre></div>
+<span class="co">#&gt;    RAP1B    EFNB2     WASL       TF    KALRN    RASA1 </span>
+<span class="co">#&gt; 8.953972 8.953972 8.953972 8.953972 8.953972 8.953972</span></code></pre></div>
 <p>Currently, this is the last vignette in the workflow. We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our <code>*_pVals()</code> functions. If you have any questions, complaints, or suggestions, please <a href="mailto:gabriel.odom@med.miami.edu">email us</a> and give us some feedback. Also you can visit our <a href="https://github.com/gabrielodom/pathwayPCA">development page</a>.</p>
 </div>
 </div>
