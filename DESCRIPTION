@@ -77,5 +77,5 @@ Collate:
     'superPC_wrapper.R'
     'transpose_assay.R'
 VignetteBuilder: knitr
-URL: https://github.com/gabrielodom/pathwayPCA
+URL: https://github.com/gabrielodom/pathwayPCA, https://gabrielodom.github.io/pathwayPCA/
 BugReports: https://github.com/gabrielodom/pathwayPCA/issues
