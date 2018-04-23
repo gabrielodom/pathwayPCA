@@ -112,7 +112,11 @@ create_OmicsPath <- function(assayData_df, pathwaySet_ls){
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsPath for more details.")
+    see the help information found in ?create_OmicsPath for more details. If
+    you have a p x N data frame, please see the ?transpose_assay function.")
+  }
+  if(anyNA(assayData_df)){
+    stop("Missing observations are not permitted in the assay data.")
   }
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
@@ -188,7 +192,11 @@ create_OmicsSurv <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsSurv for more details.")
+    see the help information found in ?create_OmicsSurv for more details. If
+    you have a p x N data frame, please see the ?transpose_assay function.")
+  }
+  if(anyNA(assayData_df)){
+    stop("Missing observations are not permitted in the assay data.")
   }
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
@@ -261,7 +269,11 @@ create_OmicsReg <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsReg for more details.")
+    see the help information found in ?create_OmicsReg for more details. If
+    you have a p x N data frame, please see the ?transpose_assay function.")
+  }
+  if(anyNA(assayData_df)){
+    stop("Missing observations are not permitted in the assay data.")
   }
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
@@ -327,7 +339,11 @@ create_OmicsCateg <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsCateg for more details.")
+    see the help information found in ?create_OmicsCateg for more details. If
+    you have a p x N data frame, please see the ?transpose_assay function.")
+  }
+  if(anyNA(assayData_df)){
+    stop("Missing observations are not permitted in the assay data.")
   }
 
   pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
