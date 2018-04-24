@@ -149,7 +149,9 @@
 <h3 class="hasAnchor">
 <a href="#importing-with-the-read_gmt-function" class="anchor"></a>Importing with the <code>read_gmt</code> Function</h3>
 <p>Based on the clearly-organized <code>.gmt</code> data format, we are able to write a very fast function to read <code>.gmt</code> files into R. The <code>read_gmt</code> function takes in a path specifying where your <code>.gmt</code> file is stored, and outputs a list of gene set information.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(<span class="st">"path_to_your_directory/your_file_name.gmt"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gmt_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"c2.cp.v6.0.symbols.gmt"</span>,
+                         <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
+gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(gmt_path, <span class="dt">description =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>The form of this information must be discussed carefully. This <code>gene_set_ls</code> object has class <code>pathwaySet</code> and contains the following components:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -160,16 +162,16 @@
 <li>
 <code>TERMS</code>: A character vector the same length as the pathways list with the proper names of the pathways.</li>
 <li>
-<code>GSEA_link</code>: A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway.</li>
+<code>description</code>: (OPTIONAL) A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway. This field will be imported when <code>description = TRUE</code> (it defaults to <code>FALSE</code>).</li>
 <li>
 <code>setsize</code>: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: <em>this information is calculated and added to the pathway set list later, at <code>Omics</code>-class object creation.</em> This information is useful to measure the ratio of the number of genes from each pathway expressed in your assay to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results.</li>
 </ol>
 <p>The object itself has the following structure:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene_set_ls
 <span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
-<span class="co">#&gt;  $ pathways :List of 1329</span>
-<span class="co">#&gt;  $ TERMS    : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span>
-<span class="co">#&gt;  $ GSEA_link: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span></code></pre></div>
+<span class="co">#&gt;  $ pathways   :List of 1329</span>
+<span class="co">#&gt;  $ TERMS      : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span>
+<span class="co">#&gt;  $ description: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span></code></pre></div>
 <p>This object will be the list supplied to the <code>pathwaySet_ls</code> argument in the <code>create_OmicsPath</code>, <code>create_OmicsSurv</code>, <code>create_OmicsReg</code>, or <code>create_OmicsCateg</code> functions.</p>
 </div>
 <div id="creating-your-own-pathwayset-list" class="section level3">
@@ -206,7 +208,9 @@ myPathway_names &lt;-<span class="st"> </span><span class="kw">c</span>(<span cl
 <a href="#import-with-readr" class="anchor"></a>Import with <code>readr</code>
 </h3>
 <p>To import these files in <code>.csv</code> (comma-separated), <code>.fwf</code> (fixed-width), or <code>.txt</code> (tab-delimited), we recommend the <a href="https://readr.tidyverse.org/"><code>readr</code> package</a>. We would read a <code>.csv</code> data file via</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_assay.csv"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"ex_assay_subset.csv"</span>,
+                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
+assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_path)</code></pre></div>
 <pre><code>#&gt; Warning: Missing column names filled in: 'X1' [1]
 #&gt; Parsed with column specification:
 #&gt; cols(
@@ -332,7 +336,9 @@ myPathway_names &lt;-<span class="st"> </span><span class="kw">c</span>(<span cl
 <img src="example_pInfo_data.PNG">
 </div>
 <p>We now need to import the response information. We can use the <code>read_csv</code> function once again:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_subject_info.csv"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"ex_pInfo_subset.csv"</span>,
+                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
+pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(pInfo_path)</code></pre></div>
 <pre><code>#&gt; Parsed with column specification:
 #&gt; cols(
 #&gt;   Sample = col_character(),

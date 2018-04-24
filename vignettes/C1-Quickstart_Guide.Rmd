@@ -55,15 +55,24 @@ This section is a quick overview of the material covered in the [Import and Tidy
 ## Import `.gmt` Files
 GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the [MSigDB Collections](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) page. Use the `read_gmt` function to import a `.gmt` file into R.
 ```{r read_example_gmt, eval = FALSE}
-gene_set_ls <- read_gmt("path_to_your_directory/your_file_name.gmt")
+gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
+                         package = "pathwayPCA", mustWork = TRUE)
+gene_set_ls <- read_gmt(gmt_path, description = FALSE)
 gene_set_ls
 ```
 ```{r read_real_gmt, echo = FALSE}
-gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt")
+gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt",
+                        description = FALSE)
 gene_set_ls
 ```
 
-The imported `.gmt` file is stored as a `pathwaySet` list object. This list contains the names of the pathways (`TERMS`), the hyperlink to the pathway description card on the GSEA website (`GSEA_link`), and a list of all the pathway sets (`pathways`).
+The imported `.gmt` file is stored as a `pathwaySet` list object. This list contains:
+
+- a list of all the pathway sets (`pathways`),
+- the names of the pathways (`TERMS`), and
+- (*OPTIONAL*) the hyperlink to the pathway description card on the GSEA website (`description`) if you specify `description = TRUE`.
+
+Specifically, the `description` field contains any notes or details on the pathway that is stored in the second entry of each row of the `.gmt` file.
 
 
 ## Import and Tidy Assay Data
@@ -73,7 +82,9 @@ We assume that the assay data (be it genomic, proteomic, metabolomic, lipidomic,
 
 In this data set, the columns are individual samples, patients, tumors, cell lines, etc. The rows are the -Omic expression measures. Use the `read_csv` function from the `readr` package to import `.csv` files and the like. If your data has samples in the columns and -omic feature measurements in the rows, you'll need to "tidy" the imported assay with the `transpose_assay` function.
 ```{r read_example_assay, eval = FALSE}
-assay_df <- read_csv("path_to_your_directory/your_assay.csv")
+assay_path <- system.file("extdata", "ex_assay_subset.csv",
+                          package = "pathwayPCA", mustWork = TRUE)
+assay_df <- read_csv(assay_path)
 assayT_df <- transpose_assay(assay_df)
 assayT_df
 ```
@@ -88,7 +99,9 @@ assayT_df
 ## Import Patient Info
 Use the `read_csv` function to import the patient data.
 ```{r read_example_pinfo, eval = FALSE}
-pInfo_df <- read_csv("path_to_your_directory/your_subject_info.csv")
+pInfo_path <- system.file("extdata", "ex_pInfo_subset.csv",
+                          package = "pathwayPCA", mustWork = TRUE)
+pInfo_df <- read_csv(pInfo_path)
 pInfo_df
 ```
 ```{r read_real_pinfo, echo = FALSE}

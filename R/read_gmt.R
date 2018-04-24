@@ -1,4 +1,3 @@
-
 #' Read a \code{.gmt} file in as a \code{pathwaySet} object
 #'
 #' @description Read a gene set file in Gene Matrix Transposed (\code{.gmt})
@@ -8,6 +7,9 @@
 #' @param file A path to a file or a connection. This file must be a \code{.gmt}
 #'    file, otherwise input will likely be nonsense. See the "Details" section
 #'    for more information.
+#' @param description Should the "description" field (the second field in the
+#'    \code{.gmt} file on each line) be included in the output? Defaults to
+#'    \code{FALSE}.
 #' @param delim The \code{.gmt} delimiter. As proper \code{.gmt} files are tab
 #'    delimited, this defaults to \code{"\\t"}.
 #'
@@ -18,9 +20,11 @@
 #'      vector of character strings.}
 #'   \item{\code{TERMS} : }{A character vector the same length as the
 #'      \code{pathways} list with the proper names of the pathways.}
-#'   \item{\code{GSEA_link} : }{A character vector the same length as the
-#'      \code{pathways} list with hyperlinks to the MSigDB description card for
-#'      that pathway.}
+#'   \item{\code{description} : }{ (OPTIONAL) A character vector the same length
+#'      as the \code{pathways} list with a note on that pathway (for the
+#'      \code{.gmt} file included with this package, this field contains
+#'      hyperlinks to the MSigDB description card for that pathway). This field
+#'      is included when \code{description = TRUE}.}
 #' }
 #'
 #' @details This function uses \code{R}'s \code{\link{readChar}} function to
@@ -46,7 +50,7 @@
 #'   geneset_ls <- read_gmt("inst/extdata/c2.cp.v6.0.symbols.gmt")
 #' }
 #'
-read_gmt <- function(file, delim = "\t"){
+read_gmt <- function(file, description = FALSE, delim = "\t"){
 
   # Read the file as a single character vector, split it by line, then split
   #   each line by "tab"
@@ -54,9 +58,8 @@ read_gmt <- function(file, delim = "\t"){
   text_vec <- strsplit(text_char, "\n", fixed = TRUE, useBytes = TRUE)[[1]]
   geneset_ls <- strsplit(text_vec, split = delim)
 
-  # Extract the pathway names and descriptions
+  # Extract the pathway names
   geneset_names <- sapply(geneset_ls, `[[`, 1)
-  geneset_descr <- sapply(geneset_ls, `[[`, 2)
 
   # Extract the genes
   genes_ls <- lapply(geneset_ls, function(x){
@@ -68,8 +71,15 @@ read_gmt <- function(file, delim = "\t"){
 
   # Create the pathwaySet output
   out <- list(pathways = genes_ls,
-              TERMS = geneset_names,
-              GSEA_link = geneset_descr)
+              TERMS = geneset_names)
+
+  if(description){
+
+    geneset_descr <- sapply(geneset_ls, `[[`, 2)
+    out$description <- geneset_descr
+
+  }
+
   class(out) <- c("pathwaySet", "list")
   out
 
