@@ -208,7 +208,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             if(parallel){
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Cluster")
+              message("Initializing Computing Cluster")
               clust <- makeCluster(numCores)
               paths_ls <- pathwayGeneSets_ls$pathways
               clustVars_vec <- c(deparse(quote(paths_ls)),

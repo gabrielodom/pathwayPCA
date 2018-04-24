@@ -86,7 +86,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Cluster")
+              message("Initializing Computing Cluster")
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(data_Omes)),
