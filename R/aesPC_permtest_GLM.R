@@ -129,7 +129,7 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Cluster")
+              message("Initializing Computing Cluster")
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(OmicsCateg)),

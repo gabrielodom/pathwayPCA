@@ -118,7 +118,7 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Cluster")
+              message("Initializing Computing Cluster")
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(OmicsSurv)),
