@@ -39,8 +39,6 @@
 #'    numeric vectors: the sum of these gene scores and the means of the non-
 #'    zero gene scores, sorted in descending order.
 #'
-#' @export
-#'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #'

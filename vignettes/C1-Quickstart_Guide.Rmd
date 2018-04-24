@@ -235,11 +235,11 @@ ggplot(surv_spr_melt_df) +
 ```
 
 
-## Extract Genes from the Top Pathways
-Use the `topGenes` function to "score" the genes contained in the top significant pathways. Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways.
-```{r topSurvGenes}
-topGenes(object = colon_OmicsSurv, pVals_df = surv_spr_pVals_df)
-```
+<!-- ## Extract Genes from the Top Pathways -->
+<!-- Use the `topGenes` function to "score" the genes contained in the top significant pathways. Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. -->
+<!-- ```{r topSurvGenes} -->
+<!-- topGenes(object = colon_OmicsSurv, pVals_df = surv_spr_pVals_df) -->
+<!-- ``` -->
 
 *******************************************************************************
 

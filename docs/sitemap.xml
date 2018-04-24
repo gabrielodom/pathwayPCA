@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//index.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/AESPCA_pVals.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsCateg-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsPathway-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsReg-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsSurv-class.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/adjustRaw_pVals.html</loc>
   </url>
   <url>
@@ -8,9 +26,6 @@
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/aespca.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/AESPCA_pVals.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/colonSurv_df.html</loc>
@@ -64,18 +79,6 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/olsTrain_fun.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsCateg-class.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsPathway-class.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsReg-class.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsSurv-class.html</loc>
-  </url>
-  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathway_pValues.html</loc>
   </url>
   <url>
@@ -106,13 +109,13 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/show-OmicsPathway-method.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/superPCA_pVals.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/superpc.st.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/superpc.train.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/superPCA_pVals.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/topGenes.html</loc>

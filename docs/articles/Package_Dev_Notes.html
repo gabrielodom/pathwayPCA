@@ -11,7 +11,6 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Package Development Notes">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -89,9 +88,9 @@
       <h1>Package Development Notes</h1>
                         <h4 class="author">Gabriel J. Odom, PhD, ThD</h4>
             
-            <h4 class="date">2018-04-23</h4>
+            <h4 class="date">2018-04-24</h4>
       
-      <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Package_Dev_Notes.Rmd"><code>vignettes/Package_Dev_Notes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Package_Dev_Notes.Rmd"><code>vignettes/Package_Dev_Notes.Rmd</code></a></small>
       <div class="hidden name"><code>Package_Dev_Notes.Rmd</code></div>
 
     </div>
@@ -419,9 +418,9 @@ devtools::install_github("gabrielodom/pathwayPCA", build_vignettes = TRUE)</code
 </li>
 <li>
 <p>Install the dependencies in the function call:</p>
-<pre><code>devtools::install_github("gabrielodom/pathwayPCA",
+<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("gabrielodom/pathwayPCA",
                      build_vignettes = TRUE,
-                     dependencies = TRUE)</code></pre>
+                     dependencies = TRUE)</a></code></pre>
 </li>
 </ol>
 <p>While I do not believe with absolute certainty that all three methods will work, I do believe that <em>at least one</em> of the three methods will work.</p>

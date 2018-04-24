@@ -25,14 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Extract and test principal components from supervised PCA — superpc.st" />
 
 <meta property="og:description" content="Identify \(p_{path}\) significant features, extract principal
    components (PCs) from those specific features to construct a data matrix,
    predict the response with this data matrix, and record the model fit
    statistic of this prediction." />
-
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -43,8 +44,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -120,16 +119,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Extract and test principal components from supervised PCA</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_model_tStats.R'><code>R/superPC_model_tStats.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_model_tStats.R'><code>R/superPC_model_tStats.R</code></a></small>
     <div class="hidden name"><code>superpc.st.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Identify \(p_{path}\) significant features, extract principal
    components (PCs) from those specific features to construct a data matrix,
    predict the response with this data matrix, and record the model fit
    statistic of this prediction.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>superpc.st</span>(<span class='no'>fit</span>, <span class='no'>data</span>, <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>threshold.ignore</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n.PCs</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>min.features</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>epsilon</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>)</pre>

@@ -25,13 +25,14 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Calculate pathway-specific Student's \(t\)-scores for supervised PCA — pathway_tScores" />
 
 <meta property="og:description" content="Extract principal components (PCs) from the gene pathway, and
    return the test statistics associated with the first numPCs
    principal components at a set of threshold values." />
-
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -42,8 +43,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -119,15 +118,17 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate pathway-specific Student's \(t\)-scores for supervised PCA</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_tScores.R'><code>R/superPC_pathway_tScores.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_tScores.R'><code>R/superPC_pathway_tScores.R</code></a></small>
     <div class="hidden name"><code>pathway_tScores.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Extract principal components (PCs) from the gene pathway, and
    return the test statistics associated with the first <code>numPCs</code>
    principal components at a set of threshold values.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>pathway_tScores</span>(<span class='no'>pathway_vec</span>, <span class='no'>geneArray_df</span>, <span class='no'>response_mat</span>,
   <span class='kw'>responseType</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"survival"</span>, <span class='st'>"regression"</span>, <span class='st'>"classification"</span>),

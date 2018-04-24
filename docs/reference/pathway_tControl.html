@@ -26,6 +26,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Calculate pathway-specific Student's \(t\)-scores from a null distribution
    for supervised PCA — pathway_tControl" />
 
@@ -34,8 +37,6 @@
    gene pathway, and return the test statistics associated with the first
    numPCs principal components at a set of threshold values based on
    the permuted values of the response." />
-
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -46,8 +47,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -124,10 +123,11 @@
     <div class="page-header">
     <h1>Calculate pathway-specific Student's \(t\)-scores from a null distribution
    for supervised PCA</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_tControl.R'><code>R/superPC_pathway_tControl.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_tControl.R'><code>R/superPC_pathway_tControl.R</code></a></small>
     <div class="hidden name"><code>pathway_tControl.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Randomly permute or parametrically resample the response vector
    before model analysis. Then extract principal components (PCs) from the
@@ -135,6 +135,7 @@
    <code>numPCs</code> principal components at a set of threshold values based on
    the permuted values of the response.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>pathway_tControl</span>(<span class='no'>pathway_vec</span>, <span class='no'>geneArray_df</span>, <span class='no'>response_mat</span>,
   <span class='kw'>responseType</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"survival"</span>, <span class='st'>"regression"</span>, <span class='st'>"classification"</span>),

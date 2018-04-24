@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Rank -Omes by adjusted significance given in a ranked-pathways data frame — topGenes" />
 
 <meta property="og:description" content="Given a supervised Omics*-class object and a ranked
@@ -32,8 +35,6 @@
    superPCA_pVals functions, calculate the weighted rank the
    genes / proteins / lipids / metabolomes / transcriptomes contained in each
    pathway by the significance of their container pathways." />
-
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -44,8 +45,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -121,10 +120,11 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Rank -Omes by adjusted significance given in a ranked-pathways data frame</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/calculate_gene_rank.R'><code>R/calculate_gene_rank.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/calculate_gene_rank.R'><code>R/calculate_gene_rank.R</code></a></small>
     <div class="hidden name"><code>topGenes.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Given a supervised <code>Omics*</code>-class object and a ranked
    pathways data frame returned by either the <code><a href='AESPCA_pVals.html'>AESPCA_pVals</a></code> or
@@ -132,6 +132,7 @@
    genes / proteins / lipids / metabolomes / transcriptomes contained in each
    pathway by the significance of their container pathways.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>topGenes</span>(<span class='no'>object</span>, <span class='no'>pVals_df</span>, <span class='kw'>percentile</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
 
@@ -186,6 +187,7 @@ contained in all pathways. Defaults to 0.01.</p></td>
    each negative logged \(p\)-values. This function then returns two named
    numeric vectors: the sum of these gene scores and the means of the non-
    zero gene scores, sorted in descending order.</p>
+<p><!-- % export --></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

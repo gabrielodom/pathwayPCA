@@ -1,6 +1,6 @@
 pandoc: 1.19.2.1
 pkgdown: 0.1.0.9000
-pkgdown_sha: 4e194be97890ace7225932cbc3b4380085aedcf8
+pkgdown_sha: b524cc3bf952f00c11a6a1b342d681a4d59d00c3
 articles:
   C1-Quickstart_Guide: C1-Quickstart_Guide.html
   C2-Importing_Data: C2-Importing_Data.html

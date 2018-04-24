@@ -35,7 +35,6 @@ reference:
       - '`create_OmicsCateg`'
       - '`AESPCA_pVals`'
       - '`superPCA_pVals`'
-      - '`topGenes`'
       - '`expressedOmes`'
   - title: S4-Class Objects and Basic Methods
     desc: Descriptions of the S4 classes in this package
