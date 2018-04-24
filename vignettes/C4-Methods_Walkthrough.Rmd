@@ -312,17 +312,17 @@ ggplot(surv_spr_melt_df) +
 ```
 
 
-## Rank Significant Genes
-Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. Our method is to build a matrix of pathways and their genes: each column is a pathway, and each row is a gene. The $i, j$ entry of this matrix is a 1 if gene $i$ is contained in pathway $j$ (after trimming to the genes measured in the supplied assay). Now consider the adjusted $p$-values of pathway $j$, $p_{1j}, p_{2j}, \ldots, p_{Aj}$, where $a \in \{1, 2, \ldots A\}$ are the FDR adjustment methods; we define the pathway score for this pathway as
-\[
-S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}).
-\]
-We then mulitply each of the columns in the matrix by its respective score.
+<!-- ## Rank Significant Genes -->
+<!-- Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. Our method is to build a matrix of pathways and their genes: each column is a pathway, and each row is a gene. The $i, j$ entry of this matrix is a 1 if gene $i$ is contained in pathway $j$ (after trimming to the genes measured in the supplied assay). Now consider the adjusted $p$-values of pathway $j$, $p_{1j}, p_{2j}, \ldots, p_{Aj}$, where $a \in \{1, 2, \ldots A\}$ are the FDR adjustment methods; we define the pathway score for this pathway as -->
+<!-- \[ -->
+<!-- S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}). -->
+<!-- \] -->
+<!-- We then mulitply each of the columns in the matrix by its respective score. -->
 
-Now consider the rows of this matrix. Each row is a gene, and the $j^{th}$ entry in the row is equal to $S_j$, if the gene is included in pathway $j$, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The `topGenes()` function returns the top 5% of both. As we can see, most of the genes included in the `summedRank` vector are the in the list of "usual suspects" for colon cancer.
-```{r topSurvGenes}
-topGenes(object = colon_OmicsSurv, pVals_df = surv_aes_pVals_df, percentile = 0.03)
-```
+<!-- Now consider the rows of this matrix. Each row is a gene, and the $j^{th}$ entry in the row is equal to $S_j$, if the gene is included in pathway $j$, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The `topGenes()` function returns the top 5% of both. As we can see, most of the genes included in the `summedRank` vector are the in the list of "usual suspects" for colon cancer. -->
+<!-- ```{r topSurvGenes} -->
+<!-- topGenes(object = colon_OmicsSurv, pVals_df = surv_aes_pVals_df, percentile = 0.03) -->
+<!-- ``` -->
 
 
 Currently, this is the last vignette in the workflow. We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, complaints, or suggestions, please [email us](mailto:gabriel.odom@med.miami.edu) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).

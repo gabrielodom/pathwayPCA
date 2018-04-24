@@ -26,13 +26,14 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Calculate the optimal parameters for a mixture of Weibull Extreme Value
    Distributions for supervised PCA — weibullMix_optimParams" />
 
 <meta property="og:description" content="Calculate the parameters which minimise the negative log-
    likelihood of a mixture of two Weibull Extreme Value distributions." />
-
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -43,8 +44,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -121,14 +120,16 @@
     <div class="page-header">
     <h1>Calculate the optimal parameters for a mixture of Weibull Extreme Value
    Distributions for supervised PCA</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_optimWeibullParams.R'><code>R/superPC_optimWeibullParams.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_optimWeibullParams.R'><code>R/superPC_optimWeibullParams.R</code></a></small>
     <div class="hidden name"><code>weibullMix_optimParams.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Calculate the parameters which minimise the negative log-
    likelihood of a mixture of two Weibull Extreme Value distributions.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>weibullMix_optimParams</span>(<span class='no'>max_tControl_vec</span>, <span class='no'>pathwaySize_vec</span>, <span class='kw'>initialVals</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>p</span> <span class='kw'>=</span>
   <span class='fl'>0.5</span>, <span class='kw'>mu1</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>s1</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>mu2</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>s2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>), <span class='kw'>optimMethod</span> <span class='kw'>=</span> <span class='st'>"L-BFGS-B"</span>,

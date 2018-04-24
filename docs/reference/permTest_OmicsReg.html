@@ -25,14 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="AES-PCA permutation test of continuous response for pathway PCs — permTest_OmicsReg" />
 
 <meta property="og:description" content="Given an OmicsReg object and a list of pathway PCs from
   the extract_aesPCs function, test if each expressed pathway
   in the bio-assay design matrix is significantly related to the continuous
   response." />
-
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -43,8 +44,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -120,16 +119,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>AES-PCA permutation test of continuous response for pathway PCs</h1>
-    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/aesPC_permtest_LS.R'><code>R/aesPC_permtest_LS.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/aesPC_permtest_LS.R'><code>R/aesPC_permtest_LS.R</code></a></small>
     <div class="hidden name"><code>permTest_OmicsReg.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Given an <code>OmicsReg</code> object and a list of pathway PCs from
   the <code><a href='extract_aesPCs.html'>extract_aesPCs</a></code> function, test if each expressed pathway
   in the bio-assay design matrix is significantly related to the continuous
   response.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>permTest_OmicsReg</span>(<span class='no'>OmicsReg</span>, <span class='no'>pathwayPCs_ls</span>, <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
