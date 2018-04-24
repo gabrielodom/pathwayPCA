@@ -4,12 +4,16 @@
 \alias{read_gmt}
 \title{Read a \code{.gmt} file in as a \code{pathwaySet} object}
 \usage{
-read_gmt(file, delim = "\\t")
+read_gmt(file, description = FALSE, delim = "\\t")
 }
 \arguments{
 \item{file}{A path to a file or a connection. This file must be a \code{.gmt}
 file, otherwise input will likely be nonsense. See the "Details" section
 for more information.}
+
+\item{description}{Should the "description" field (the second field in the
+\code{.gmt} file on each line) be included in the output? Defaults to
+\code{FALSE}.}
 
 \item{delim}{The \code{.gmt} delimiter. As proper \code{.gmt} files are tab
 delimited, this defaults to \code{"\\t"}.}
@@ -22,9 +26,11 @@ A \code{pathwaySet} list of gene sets. This list has three elements:
      vector of character strings.}
   \item{\code{TERMS} : }{A character vector the same length as the
      \code{pathways} list with the proper names of the pathways.}
-  \item{\code{GSEA_link} : }{A character vector the same length as the
-     \code{pathways} list with hyperlinks to the MSigDB description card for
-     that pathway.}
+  \item{\code{description} : }{ (OPTIONAL) A character vector the same length
+     as the \code{pathways} list with a note on that pathway (for the
+     \code{.gmt} file included with this package, this field contains
+     hyperlinks to the MSigDB description card for that pathway). This field
+     is included when \code{description = TRUE}.}
 }
 }
 \description{

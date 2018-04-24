@@ -56,10 +56,13 @@ GMT-formatted files follow a very specific set of rules:
 ### Importing with the `read_gmt` Function
 Based on the clearly-organized `.gmt` data format, we are able to write a very fast function to read `.gmt` files into R. The `read_gmt` function takes in a path specifying where your `.gmt` file is stored, and outputs a list of gene set information.
 ```{r read_example_gmt, eval = FALSE}
-gene_set_ls <- read_gmt("path_to_your_directory/your_file_name.gmt")
+gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
+                         package = "pathwayPCA", mustWork = TRUE)
+gene_set_ls <- read_gmt(gmt_path, description = TRUE)
 ```
 ```{r read_real_gmt, echo = FALSE}
-gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt")
+gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt",
+                        description = TRUE)
 ```
 
 The form of this information must be discussed carefully. This `gene_set_ls` object has class `pathwaySet` and contains the following components:
@@ -69,7 +72,7 @@ The form of this information must be discussed carefully. This `gene_set_ls` obj
 **Important**: some protein set lists have proteins markers recorded as character numerics, so make sure the feature names of your assay have an overlap with the gene or protein names in the `pathwaySet` list. Ensure that there is a non-empty overlap between the names in the pathways and the feature names of the assay. Not every feature in your assay data frame will be in a pathway gene set, and not every gene in each pathway will have a measurement in the assay data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data assay are compatible.**
 
 2. `TERMS`: A character vector the same length as the pathways list with the proper names of the pathways.
-3. `GSEA_link`: A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway.
+3. `description`: (OPTIONAL) A character vector the same length as the pathways list with hyperlinks to the MSigDB description card for that pathway. This field will be imported when `description = TRUE` (it defaults to `FALSE`).
 4. `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathway set list later, at `Omics`-class object creation.* This information is useful to measure the ratio of the number of genes from each pathway expressed in your assay to the number of genes defined to be in that pathway. This ratio should be very close to 1 for best pathway analysis results.
 
 The object itself has the following structure:
@@ -108,7 +111,9 @@ In this data set, the columns are individual samples, patients, tumors, cell lin
 ### Import with `readr`
 To import these files in `.csv` (comma-separated), `.fwf` (fixed-width), or `.txt` (tab-delimited), we recommend the [`readr` package](https://readr.tidyverse.org/). We would read a `.csv` data file via
 ```{r read_example_assay, eval = FALSE}
-assay_df <- read_csv("path_to_your_directory/your_assay.csv")
+assay_path <- system.file("extdata", "ex_assay_subset.csv",
+                          package = "pathwayPCA", mustWork = TRUE)
+assay_df <- read_csv(assay_path)
 ```
 ```{r read_real_assay, echo = FALSE}
 # Travis requires relative paths
@@ -164,7 +169,9 @@ We now have an appropriate pathway set list and a tidy -Omics assay data frame. 
 
 We now need to import the response information. We can use the `read_csv` function once again:
 ```{r read_example_pinfo, eval = FALSE}
-pInfo_df <- read_csv("path_to_your_directory/your_subject_info.csv")
+pInfo_path <- system.file("extdata", "ex_pInfo_subset.csv",
+                          package = "pathwayPCA", mustWork = TRUE)
+pInfo_df <- read_csv(pInfo_path)
 ```
 ```{r read_real_pinfo, echo = FALSE}
 pInfo_df <- read_csv("../inst/extdata/ex_pInfo_subset.csv")

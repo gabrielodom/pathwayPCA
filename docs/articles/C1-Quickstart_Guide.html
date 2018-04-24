@@ -132,13 +132,20 @@
 <h2 class="hasAnchor">
 <a href="#import--gmt-files" class="anchor"></a>Import <code>.gmt</code> Files</h2>
 <p>GMT files are one form of gene set file officially recognized by the Gene Set Enrichment Analysis committee of the Broad Institute. These Molecular Signatures Database (MSigDB) GMT files can be downloaded from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSigDB Collections</a> page. Use the <code>read_gmt</code> function to import a <code>.gmt</code> file into R.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(<span class="st">"path_to_your_directory/your_file_name.gmt"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gmt_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"c2.cp.v6.0.symbols.gmt"</span>,
+                         <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
+gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(gmt_path, <span class="dt">description =</span> <span class="ot">FALSE</span>)
 gene_set_ls</code></pre></div>
-<pre><code>#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: 
-#&gt;  $ pathways :List of 1329
-#&gt;  $ TERMS    : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...
-#&gt;  $ GSEA_link: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</code></pre>
-<p>The imported <code>.gmt</code> file is stored as a <code>pathwaySet</code> list object. This list contains the names of the pathways (<code>TERMS</code>), the hyperlink to the pathway description card on the GSEA website (<code>GSEA_link</code>), and a list of all the pathway sets (<code>pathways</code>).</p>
+<pre><code>#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: 
+#&gt;  $ pathways:List of 1329
+#&gt;  $ TERMS   : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</code></pre>
+<p>The imported <code>.gmt</code> file is stored as a <code>pathwaySet</code> list object. This list contains:</p>
+<ul>
+<li>a list of all the pathway sets (<code>pathways</code>),</li>
+<li>the names of the pathways (<code>TERMS</code>), and</li>
+<li>(<em>OPTIONAL</em>) the hyperlink to the pathway description card on the GSEA website (<code>description</code>) if you specify <code>description = TRUE</code>.</li>
+</ul>
+<p>Specifically, the <code>description</code> field contains any notes or details on the pathway that is stored in the second entry of each row of the <code>.gmt</code> file.</p>
 </div>
 <div id="import-and-tidy-assay-data" class="section level2">
 <h2 class="hasAnchor">
@@ -148,7 +155,9 @@ gene_set_ls</code></pre></div>
 <img src="example_assay_data.PNG">
 </div>
 <p>In this data set, the columns are individual samples, patients, tumors, cell lines, etc. The rows are the -Omic expression measures. Use the <code>read_csv</code> function from the <code>readr</code> package to import <code>.csv</code> files and the like. If your data has samples in the columns and -omic feature measurements in the rows, you’ll need to “tidy” the imported assay with the <code>transpose_assay</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_assay.csv"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"ex_assay_subset.csv"</span>,
+                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
+assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_path)
 assayT_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/transpose_assay.html">transpose_assay</a></span>(assay_df)
 assayT_df</code></pre></div>
 <pre><code>#&gt; Warning: Missing column names filled in: 'X1' [1]
@@ -179,7 +188,9 @@ assayT_df</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#import-patient-info" class="anchor"></a>Import Patient Info</h2>
 <p>Use the <code>read_csv</code> function to import the patient data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path_to_your_directory/your_subject_info.csv"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"ex_pInfo_subset.csv"</span>,
+                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
+pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(pInfo_path)
 pInfo_df</code></pre></div>
 <pre><code>#&gt; Parsed with column specification:
 #&gt; cols(
@@ -405,21 +416,21 @@ pInfo_df</code></pre></div>
 <span class="co">#&gt; # A tibble: 15 x 7</span>
 <span class="co">#&gt;    pathways    setsize trim_size terms               rawp Hochberg SidakSD</span>
 <span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway87        87        86 KEGG_ERBB_SIGN…  2.43e-6  3.64e-5 3.64e-5</span>
-<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_P…  2.69e-6  3.76e-5 3.76e-5</span>
-<span class="co">#&gt;  3 pathway176       54        54 KEGG_NON_SMALL…  1.12e-5  1.45e-4 1.45e-4</span>
-<span class="co">#&gt;  4 pathway1211     108       104 REACTOME_SIGNA…  1.90e-5  2.28e-4 2.28e-4</span>
-<span class="co">#&gt;  5 pathway757       87        83 REACTOME_INSUL…  3.74e-5  4.12e-4 4.12e-4</span>
-<span class="co">#&gt;  6 pathway536       46        44 PID_TNF_PATHWAY  1.91e-4  1.84e-3 1.91e-3</span>
-<span class="co">#&gt;  7 pathway781      198       180 REACTOME_PHOSP…  2.04e-4  1.84e-3 1.91e-3</span>
-<span class="co">#&gt;  8 pathway390       29        29 BIOCARTA_TNFR1…  3.83e-4  3.07e-3 3.06e-3</span>
-<span class="co">#&gt;  9 pathway177       30        26 KEGG_ASTHMA      4.90e-4  3.43e-3 3.43e-3</span>
-<span class="co">#&gt; 10 pathway3         27        26 KEGG_PENTOSE_P…  7.01e-4  4.21e-3 4.20e-3</span>
-<span class="co">#&gt; 11 pathway413       23        23 ST_GA12_PATHWAY  8.41e-4  4.21e-3 4.20e-3</span>
-<span class="co">#&gt; 12 pathway60        64        45 KEGG_RETINOL_M…  4.48e-3  1.79e-2 1.78e-2</span>
-<span class="co">#&gt; 13 pathway187       16        16 BIOCARTA_RELA_…  1.61e-2  4.83e-2 4.75e-2</span>
-<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_P…  1.07e-1  2.15e-1 2.03e-1</span>
-<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_P…  4.34e-1  4.34e-1 4.34e-1</span></code></pre></div>
+<span class="co">#&gt;  1 pathway87        87        86 KEGG_ERBB_SIGNA… 2.79e-4  0.00418 0.00417</span>
+<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_PA… 3.08e-4  0.00431 0.00430</span>
+<span class="co">#&gt;  3 pathway176       54        54 KEGG_NON_SMALL_… 6.06e-4  0.00788 0.00785</span>
+<span class="co">#&gt;  4 pathway1211     108       104 REACTOME_SIGNAL… 7.53e-4  0.00903 0.00900</span>
+<span class="co">#&gt;  5 pathway536       46        44 PID_TNF_PATHWAY  1.01e-3  0.00958 0.0111 </span>
+<span class="co">#&gt;  6 pathway757       87        83 REACTOME_INSULI… 1.06e-3  0.00958 0.0111 </span>
+<span class="co">#&gt;  7 pathway781      198       180 REACTOME_PHOSPH… 1.06e-3  0.00958 0.0111 </span>
+<span class="co">#&gt;  8 pathway390       29        29 BIOCARTA_TNFR1_… 1.84e-3  0.0147  0.0146 </span>
+<span class="co">#&gt;  9 pathway413       23        23 ST_GA12_PATHWAY  3.59e-3  0.0239  0.0248 </span>
+<span class="co">#&gt; 10 pathway177       30        26 KEGG_ASTHMA      3.99e-3  0.0239  0.0248 </span>
+<span class="co">#&gt; 11 pathway3         27        26 KEGG_PENTOSE_PH… 4.79e-3  0.0239  0.0248 </span>
+<span class="co">#&gt; 12 pathway60        64        45 KEGG_RETINOL_ME… 1.11e-2  0.0442  0.0435 </span>
+<span class="co">#&gt; 13 pathway187       16        16 BIOCARTA_RELA_P… 4.36e-2  0.131   0.125  </span>
+<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PA… 2.13e-1  0.288   0.381  </span>
+<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PR… 2.88e-1  0.288   0.381</span></code></pre></div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
 <a href="#graph-of-top-pathways" class="anchor"></a>Graph of Top Pathways</h2>

@@ -130,7 +130,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_gmt</span>(<span class='no'>file</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>"\t"</span>)</pre>
+    <pre class="usage"><span class='fu'>read_gmt</span>(<span class='no'>file</span>, <span class='kw'>description</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>"\t"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,6 +140,12 @@
       <td><p>A path to a file or a connection. This file must be a <code>.gmt</code>
 file, otherwise input will likely be nonsense. See the "Details" section
 for more information.</p></td>
+    </tr>
+    <tr>
+      <th>description</th>
+      <td><p>Should the "description" field (the second field in the
+<code>.gmt</code> file on each line) be included in the output? Defaults to
+<code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>delim</th>
@@ -156,9 +162,11 @@ delimited, this defaults to <code>"\t"</code>.</p></td>
      vector of character strings.</p></li>
 <li><p><code>TERMS</code> : A character vector the same length as the
      <code>pathways</code> list with the proper names of the pathways.</p></li>
-<li><p><code>GSEA_link</code> : A character vector the same length as the
-     <code>pathways</code> list with hyperlinks to the MSigDB description card for
-     that pathway.</p></li>
+<li><p><code>description</code> :  (OPTIONAL) A character vector the same length
+     as the <code>pathways</code> list with a note on that pathway (for the
+     <code>.gmt</code> file included with this package, this field contains
+     hyperlinks to the MSigDB description card for that pathway). This field
+     is included when <code>description = TRUE</code>.</p></li>
 </ul>
 
     
