@@ -1,6 +1,6 @@
 ---
 title: "README"
-author: "Gabriel J. Odom, Yuguang James Ban, & Xi Steven Chen"
+author: "Gabriel J. Odom, Yuguang James Ban, Lily Wang, & Xi Steven Chen"
 date: "March 20, 2018"
 output: html_document
 ---
