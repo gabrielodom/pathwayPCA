@@ -21,32 +21,31 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This vignette is the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. This guide will outline the major steps needed to create a data object for analysis with the `pathwayPCA` package. These objects are called `Omics`-class objects.
+This vignette is the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#create-an-omics-data-object) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. This guide will outline the major steps needed to create a data object for analysis with the `pathwayPCA` package. These objects are called `Omics`-class objects.
 
 ## 1.1 Outline
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
-1. Define the four `Omics*` classes.
-2. Create a few `Omics*` objects
+1. Describe the components of the `Omics` object class.
+2. Create a few `Omics` objects.
 3. Inspect and edit individual elements contained in these objects.
 
-First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/). If you don't have the `tidyverse` package suite, install that first.
+First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/).
 ```{r packageLoad}
-# install.packages("tidyverse")
 library(tidyverse)
 library(pathwayPCA)
 ```
 
 ## 1.2 Import Data
-Because this is the second chapter in the workflow, we assume that
+Because this is the third chapter in the workflow, we assume that
 
 1. Your assay is "tidy".
-2. Your gene pathway set / `gmt` information is stored in a `pathwaySet` object.
-3. Your response and assay data have already been row-matched.
+2. Your gene pathway set / GMT information is stored in a `pathwaySet` object.
+3. Your response and assay data have already been ID-matched.
 
 If you are unsure about any of the three points above (or you don't know what these mean), please review the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) vignette first. It isn't very long, but it will help you set up your data in the right way.
 
-For the purpose of example, we will load an assay / response data frame and a `pathwaySet` list which already fits the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows). Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator).
+For the purpose of example, we will load some "toy" data: a combined assay / phenotype data frame and a `pathwaySet` list which already fits the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows). Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator).
 ```{r tumour_data_load}
 data("colonSurv_df")
 colonSurv_df
@@ -70,15 +69,15 @@ The pathway set list and tidy assay (with matched phenotype information) are all
 Now that we have our data loaded, we can create an analysis object for the `pathwayPCA` package.
 
 ## 2.1 Class Overview
-In this package, all primary input data will be in an `Omics` data object. There are three classes of `Omics*` objects, but one function creates all of them. Each class contains a tidy assay and `pathwaySet` gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are
+In this package, all primary input data will be in an `Omics` data object. There are three classes of `Omics*` objects, but one function (`create_Omics`) creates all of them. Each class contains a tidy assay and `pathwaySet` gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are
 
-1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored?).
+1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored).
 2. `OmicsReg`---a data object for continuous responses (usually a linear regression response).
 3. `OmicsCateg`---a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression).
 4. `OmicsPathway`---a data object with no response. This is the "parent" class for the other three `Omics` classes.
 
 ## 2.2 Review of Data Types in `R`
-Take a quick look back at the structure of our `colonSurv_df` object. We have an expression design matrix with the first two columns as subject response information. Look at the types of the columns of this data frame (directly under the column names, notice the `<dbl>` `<int>` tags). These tags tell us that the columns contain "double / numeric" (`dbl`) and "integer" (`int`) information. The other tags we could see here are `<chr>` (character), `<lgl>` (logical), or `<fct>` (factor). These tags are important because they identify which "class" of data is in each column. Here are some examples of how to change data between types:
+Take a quick look back at the structure of our `colonSurv_df` object. We have an expression design matrix with the first two columns as subject response information. Look at the types of the columns of this data frame (notice the `<dbl>` `<int>` tags directly under the column names). These tags tell us that the columns contain "double / numeric" (`dbl`) and "integer" (`int`) information. The other tags we could potentially see here are `<chr>` (character), `<lgl>` (logical), or `<fct>` (factor). These tags are important because they identify which "class" of data is in each column. Here are some examples of how to change data between types:
 ```{r data_types}
 head(colonSurv_df$OS_event)
 head(as.character(colonSurv_df$OS_event))
@@ -86,11 +85,11 @@ head(as.logical(colonSurv_df$OS_event))
 head(as.factor(colonSurv_df$OS_event))
 ```
 
-We must put each response into a specific class:
+The `create_Omics` function puts the response information into specific classes:
 
-- Survival data is stored with a pair of numeric (time) and logical (death indicator) vectors.
-- Regression data is stored in a numeric or integer vector
-- Binary classification data is stored in a factor.
+- Survival data is stored with a pair of `numeric` (time) and `logical` (death indicator) vectors.
+- Regression data is stored in a `numeric` or `integer` vector.
+- Binary classification data is stored in a `factor` vector.
 
 These restrictions are on purpose: the internal data creation functions in the `pathwayPCA` package have very specific requirements about the types of data they take as inputs.
 
@@ -104,18 +103,18 @@ These restrictions are on purpose: the internal data creation functions in the `
 All new `Omics` objects are created with the `create_Omics` function. You should use this function to create `Omics`-class objects for survival, regression, or categorical responses. This `create_Omics` function *internally* calls on a specific creation function for each response type:
 
   - Survival response: the `create_OmicsSurv()` function creates an `Omics` object with class `OmicsSurv`. This object will contain:
-    + `eventTime`: a numeric vector of event times
-    + `eventObserved`: a logical vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
-    + `assayData_df`: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
-    + `pathwaySet`: a list of pathway information, as returned by the `read_gmt` function (see [the import vignette](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function) for more details). The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `assayData_df` object).
+    + `eventTime`: a `numeric` vector of event times.
+    + `eventObserved`: a `logical` vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
+    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
+    + `pathwaySet`: a `list` of pathway information, as returned by the `read_gmt` function (see [the import vignette](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function) for more details). The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `assayData_df` object).
   - Regression response: the `create_OmicsReg()` function creates an `Omics` object with class `OmicsReg`. This object will contain:
-    + `response`: a numeric vector of the response
-    + `assayData_df`: a tidy data frame of prediction information, as described above.
-    + `pathwaySet`: a list of pathway information, as described above.
+    + `response`: a `numeric` vector of the response.
+    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information, as described above.
+    + `pathwaySet`: a `list` of pathway information, as described above.
   - Binary Classification response: the `create_OmicsCateg()` function creates an `Omics` object with class `OmicsCateg`. In future versions, this function will be able to take in $n$-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
-    + `response`: a factor vector of the response
-    + `assayData_df`: a tidy data frame of prediction information, as described above.
-    + `pathwaySet`: a list of pathway information, as described above.
+    + `response`: a `factor` vector of the response.
+    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information, as described above.
+    + `pathwaySet`: a `list` of pathway information, as described above.
 
 
 <!-- ### Data Types and the `create_Omics*` Functions -->
@@ -137,7 +136,7 @@ In order to create example `Omics`-class objects, we will consider the overall p
 ## 3.2 Create a Survival `Omics` Data Object
 Now we are prepared to create our first survival `Omics` object for later analysis with either AES-PCA or Supervised PCA. Recall that `colonSurv_df` has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `create_Omics` function will be:
 
-- `assayData_df`: this will be only the *expression columns* of the `colonSurv_df` data frame (i.e. all but the first two columns). In R, we can remove the first two columns of the `colonSurv_df` data frame by negative subsetting: `colonSurv_df[, -(1:2)]`.
+- `assayData_df`: this will be only the *expression columns* of the `colonSurv_df` data frame (i.e. all but the first two columns). In `R`, we can remove the first two columns of the `colonSurv_df` data frame by negative subsetting: `colonSurv_df[, -(1:2)]`.
 - `pathwaySet_ls`: this will be the `colon_pathwaySet` list object. Recall that you can import a `.gmt` file into a `pathwaySet` object via the `read_gmt` function, or create a `pathwaySet` list object by hand with the `create_pathwaySet` function.
 - `response`: this will be the first two columns of the `colonSurv_df` data frame. The survival time stored in the `OS_time` column and the event indicator stored in the `OS_event` column.
 - `respType`: this will be the word `"survival"` or an abbreviation of it.
@@ -162,12 +161,16 @@ We create regression- and categorical-type `Omics` data objects identically to s
 colon_OmicsReg <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
                                pathwaySet_ls = colon_pathwaySet,
                                response = colonSurv_df$OS_time,
-                               respType = "reg") 
+                               respType = "reg")
+colon_OmicsReg
+```
 
+```{r create_OmicsCateg_object}
 colon_OmicsCateg <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
                                  pathwaySet_ls = colon_pathwaySet,
                                  response = colonSurv_df$OS_event,
                                  respType = "categ")
+colon_OmicsCateg
 ```
 
 *******************************************************************************
@@ -176,17 +179,17 @@ colon_OmicsCateg <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
 
 
 # 4. Inspecting and Editing `Omics`-Class Objects
-In order to access or edit a specific component of an `Omics` object, we need to use specific *accessor* functions. These functions are named after the component they access.
+In order to access or edit a specific component of an `Omics` object, we need to use specific *accessor* functions. These functions are named with the component they access.
 
 ## 4.1 Example "Get" Function
-The `get*` functions access the part of the data object you specify. YOu can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame to the screen:
+The `get*` functions access the part of the data object you specify. You can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame contained in the `colon_OmicsSurv` object to the screen:
 ```{r getAssay_get}
 getAssay(colon_OmicsSurv)
 ```
-This function is rather simple: it shows us what object is stored in the `assayData_df` slot of the `colon_OmicsSurv` data object. As we should expect, we see all the columns of the `colonSurv_df` data frame except for the first two.
+This function is rather simple: it shows us what object is stored in the `assayData_df` slot of the `colon_OmicsSurv` data object. As we should expect, we see all the columns of the `colonSurv_df` data frame except for the first two (the survival time and event indicator).
 
 ## 4.2 Example "Set" Function
-If we needed to edit the assay data frame in the `colon_OmicsSurv` object, we can use the "replacement" syntax of the `getAssay` function. These are the "set" functions, and they use the `getSLOT(object) <- value` syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original `colonSurv_df` data frame. The `SLOT` shorthand name is `Assay`, and the replacement value is the first ten gene expression columns (in columns three through 12) of the `colonSurv_df` data frame: `colonSurv_df[, (3:12)]`.
+If we needed to edit the assay data frame in the `colon_OmicsSurv` object, we can use the "replacement" syntax of the `getAssay` function. These are the "set" functions, and they use the `getSLOT(object) <- value` syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original `colonSurv_df` data frame. The `SLOT` shorthand name is `Assay`, and the replacement value is the first ten gene expression columns (in columns 3 through 12) of the `colonSurv_df` data frame: `colonSurv_df[, (3:12)]`.
 ```{r getAssay_set}
 getAssay(colon_OmicsSurv) <- colonSurv_df[, (3:12)]
 ```
@@ -194,31 +197,31 @@ Now, when we inspect the `colon_OmicsSurv` data object, we see only ten variable
 ```{r view_new_colon_OS}
 colon_OmicsSurv
 ```
-We can go back to the full data by
+Before we move on, we should resest the data in the `assayData_df` slot to the full data by
 ```{r getAssay_set2}
 getAssay(colon_OmicsSurv) <- colonSurv_df[, -(1:2)]
 ```
 
 ## 4.3 Table of Accessors
-Here is a table listing each of the "get" and "set" methods for the `Omics` class, and which sub-classes they can access.
+Here is a table listing each of the "get" and "set" methods for the `Omics` class, and which sub-classes they can access or modify.
 
-| Command                          | `Omics` Sub-class | Function                                                 |
-|----------------------------------|:-----------------:|----------------------------------------------------------|
-| `getAssay(object)`               | All               | Print the `assayData_df` data frame stored in `object`.  |
-| `getAssay(object) <- value`      | All               | Set `assayData_df` stored in `object` to `value`.        |
-| `getPathwaySet(object)`          | All               | Print the `pathwaySet` list stored in `object`.          |
-| `getPathwaySet(object) <- value` | All               | Set `pathwaySet` stored in `object` to `value`.          |
-| `getEventTime(object)`           | `Surv`            | Print the `eventTime_num` vector stored in `object`.     |
-| `getEventTime(object) <- value`  | `Surv`            | Set `eventTime_num` stored in `object` to `value`.       |
-| `getEvent(object)`               | `Surv`            | Print the `eventObserved_lgl` vector stored in `object`. |
-| `getEvent(object) <- value`      | `Surv`            | Set `eventObserved_lgl` stored in `object` to `value`.   |
-| `getResponse(object)`            | `Reg` or `Categ`  | Print the `response` vector stored in `object`.          |
-| `getResponse(object) <- value`   | `Reg` or `Categ`  | Set `response` stored in `object` to `value`.            |
+| Command                          | `Omics` Sub-class | Function                                                   |
+|----------------------------------|:-----------------:|------------------------------------------------------------|
+| `getAssay(object)`               | All               | Extract the `assayData_df` data frame stored in `object`.  |
+| `getAssay(object) <- value`      | All               | Set `assayData_df` stored in `object` to `value`.          |
+| `getPathwaySet(object)`          | All               | Extract the `pathwaySet` list stored in `object`.          |
+| `getPathwaySet(object) <- value` | All               | Set `pathwaySet` stored in `object` to `value`.            |
+| `getEventTime(object)`           | `Surv`            | Extract the `eventTime_num` vector stored in `object`.     |
+| `getEventTime(object) <- value`  | `Surv`            | Set `eventTime_num` stored in `object` to `value`.         |
+| `getEvent(object)`               | `Surv`            | Extract the `eventObserved_lgl` vector stored in `object`. |
+| `getEvent(object) <- value`      | `Surv`            | Set `eventObserved_lgl` stored in `object` to `value`.     |
+| `getResponse(object)`            | `Reg` or `Categ`  | Extract the `response` vector stored in `object`.          |
+| `getResponse(object) <- value`   | `Reg` or `Categ`  | Set `response` stored in `object` to `value`.              |
 
- The `response` vector accessed or edited with the `getResponse` method depends on if the `object` supplied is a "regression" `Omics`-class object or a "categorical" one. For regression `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_num` slot. However, for categorical `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_fact` slot. This is because regression objects contain `numeric` response vectors while categorical objects contain `factor` response vectors.
+The `response` vector accessed or edited with the `getResponse` method depends on if the `object` supplied is a "regression" `Omics`-class object or a "categorical" one. For regression `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_num` slot. However, for categorical `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_fact` slot. This is because regression objects contain `numeric` response vectors while categorical objects contain `factor` response vectors.
  
 ## 4.4 Inspect the Updated `pathwaySet` List
-As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function) subsection of the previous vignette, the `pathwaySet` object will be modified upon `Omics`-object creation. Before, this list only had two elements, `pathways` and `TERMS`. Now, it has a third element: `setsize`---the number of genes contained in each pathway.
+As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function) subsection of the previous vignette, the `pathwaySet` object will be modified upon `Omics`-object creation. Before, this list only had two elements, `pathways` and `TERMS` (we skipped importing the "description" field). Now, it has a third element: `setsize`---the number of genes contained in each pathway.
 ```{r inspect_updated_pathwaySet}
 getPathwaySet(colon_OmicsSurv)
 ```
@@ -231,7 +234,7 @@ getPathwaySet(colon_OmicsSurv)
 # 5. Review
 We now summarize our steps so far. We have
 
-1. Defined the `Omics` class and three sub-classes: survival, regression, categorical, and the "parent" class.
+1. Defined the `Omics` class and three sub-classes: survival, regression, and categorical (and the "parent" class).
 2. Created an `Omics` object for the three sub-classes.
 3. Inspected and edited individual elements contained in these objects.
 

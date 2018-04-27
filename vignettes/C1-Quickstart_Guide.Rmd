@@ -31,9 +31,14 @@ This guide will serve as a brief introduction to pathway significance testing wi
 3. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
 4. Inspect Results
 
-Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package. We also recommend the `tidyverse` package to help you run some of the examples in these vignettes (while the `tidyverse` package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package). 
+Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
 ```
 devtools::install_github("gabrielodom/pathwayPCA")
+```
+
+Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package (it comes with `R` automatically). We also recommend the `tidyverse` package to help you run some of the examples in these vignettes (while the `tidyverse` package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package). 
+```
+install.packages("tidyverse")
 ```
 ```{r}
 library(pathwayPCA)
@@ -230,22 +235,19 @@ To visualize the significance of the pathways based on the selected FDR method, 
 ### 5.2.1 Tidy Up the Data
 In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `superPCA_pVals` functions. This code takes in the $p$-values data frame from the Supervised PCA method and modifies it to be compatible with `ggplot`.
 ```{r tidyOutput}
-library(reshape2)
-surv_spr_melt_df <- surv_spr_pVals_df %>%
+surv_spr_gather_df <- surv_spr_pVals_df %>%
   select(-pathways, - setsize, -trim_size) %>%
-  melt(id.vars = "terms") %>%
+  gather(variable, value, -terms) %>%
   mutate(score = -log(value)) %>%
-  mutate(terms = str_wrap(terms, width = 20)) %>% 
-  mutate(variable = factor(variable, labels = c("None", "FDR"))) %>% 
-  as.tibble()
+  mutate(variable = factor(variable, labels = c("None", "FDR")))
 
-surv_spr_melt_df
+surv_spr_gather_df
 ```
 
 ### 5.2.2 Graph Pathway Ranks
 Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the raw $p$-value
 ```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
-ggplot(surv_spr_melt_df) +
+ggplot(surv_spr_gather_df) +
   theme_bw() +
   aes(x = reorder(terms, score), y = score) +
   geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) +
@@ -257,6 +259,14 @@ ggplot(surv_spr_melt_df) +
   coord_flip() + 
   facet_grid(. ~ variable)
 ```
+<!-- library(reshape2) -->
+<!-- surv_spr_melt_df <- surv_spr_pVals_df %>% -->
+<!--   select(-pathways, - setsize, -trim_size) %>% -->
+<!--   melt(id.vars = "terms") %>% -->
+<!--   mutate(score = -log(value)) %>% -->
+<!--   # mutate(terms = str_wrap(terms, width = 20)) %>%  -->
+<!--   mutate(variable = factor(variable, labels = c("FDR", "None"))) %>%  -->
+<!--   as.tibble() -->
 
 
 <!-- ## Extract Genes from the Top Pathways -->
