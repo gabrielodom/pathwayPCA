@@ -89,7 +89,7 @@
       <h1>Chapter 1 - Quickstart Guide</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-26</h4>
+            <h4 class="date">2018-04-27</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/C1-Quickstart_Guide.Rmd"><code>vignettes/C1-Quickstart_Guide.Rmd</code></a></small>
       <div class="hidden name"><code>C1-Quickstart_Guide.Rmd</code></div>
@@ -109,8 +109,10 @@
 <li>Test Pathway Significance (<a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html"><em>vignette</em></a>)</li>
 <li>Inspect Results</li>
 </ol>
-<p>Before we get started, you need the <code>pathwayPCA</code> package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the <code>parallel</code> package. We also recommend the <code>tidyverse</code> package to help you run some of the examples in these vignettes (while the <code>tidyverse</code> package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package).</p>
+<p>Before we get started, you need the <code>pathwayPCA</code> package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
 <pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
+<p>Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the <code>parallel</code> package (it comes with <code>R</code> automatically). We also recommend the <code>tidyverse</code> package to help you run some of the examples in these vignettes (while the <code>tidyverse</code> package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package).</p>
+<pre><code>install.packages("tidyverse")</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pathwayPCA)
 <span class="kw">library</span>(tidyverse)
 <span class="co">#&gt; -- Attaching packages ----------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
@@ -426,21 +428,21 @@ pInfo_df</code></pre></div>
 <span class="co">#&gt; # A tibble: 15 x 6</span>
 <span class="co">#&gt;    pathways    setsize trim_size terms                        rawp      BH</span>
 <span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                       &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway87        87        86 KEGG_ERBB_SIGNALING_PATH~ 0.00178 0.00894</span>
-<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_PATHWAY      0.00187 0.00894</span>
-<span class="co">#&gt;  3 pathway536       46        44 PID_TNF_PATHWAY           0.00220 0.00894</span>
-<span class="co">#&gt;  4 pathway781      198       180 REACTOME_PHOSPHOLIPID_ME~ 0.00238 0.00894</span>
-<span class="co">#&gt;  5 pathway176       54        54 KEGG_NON_SMALL_CELL_LUNG~ 0.00354 0.00902</span>
-<span class="co">#&gt;  6 pathway390       29        29 BIOCARTA_TNFR1_PATHWAY    0.00361 0.00902</span>
-<span class="co">#&gt;  7 pathway1211     108       104 REACTOME_SIGNALING_BY_IN~ 0.00447 0.00957</span>
-<span class="co">#&gt;  8 pathway757       87        83 REACTOME_INSULIN_RECEPTO~ 0.00605 0.0106 </span>
-<span class="co">#&gt;  9 pathway413       23        23 ST_GA12_PATHWAY           0.00634 0.0106 </span>
-<span class="co">#&gt; 10 pathway177       30        26 KEGG_ASTHMA               0.0190  0.0286 </span>
-<span class="co">#&gt; 11 pathway3         27        26 KEGG_PENTOSE_PHOSPHATE_P~ 0.0223  0.0304 </span>
-<span class="co">#&gt; 12 pathway60        64        45 KEGG_RETINOL_METABOLISM   0.0495  0.0599 </span>
-<span class="co">#&gt; 13 pathway187       16        16 BIOCARTA_RELA_PATHWAY     0.0519  0.0599 </span>
-<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PATHWAY      0.189   0.202  </span>
-<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PROCESSING_~ 0.489   0.489</span></code></pre></div>
+<span class="co">#&gt;  1 pathway536       46        44 PID_TNF_PATHWAY           5.27e-4 0.00264</span>
+<span class="co">#&gt;  2 pathway781      198       180 REACTOME_PHOSPHOLIPID_ME~ 6.14e-4 0.00264</span>
+<span class="co">#&gt;  3 pathway87        87        86 KEGG_ERBB_SIGNALING_PATH~ 6.42e-4 0.00264</span>
+<span class="co">#&gt;  4 pathway491       40        40 PID_EPHB_FWD_PATHWAY      7.05e-4 0.00264</span>
+<span class="co">#&gt;  5 pathway390       29        29 BIOCARTA_TNFR1_PATHWAY    1.00e-3 0.00301</span>
+<span class="co">#&gt;  6 pathway176       54        54 KEGG_NON_SMALL_CELL_LUNG~ 1.38e-3 0.00344</span>
+<span class="co">#&gt;  7 pathway1211     108       104 REACTOME_SIGNALING_BY_IN~ 1.71e-3 0.00366</span>
+<span class="co">#&gt;  8 pathway413       23        23 ST_GA12_PATHWAY           2.11e-3 0.00395</span>
+<span class="co">#&gt;  9 pathway757       87        83 REACTOME_INSULIN_RECEPTO~ 2.40e-3 0.00400</span>
+<span class="co">#&gt; 10 pathway177       30        26 KEGG_ASTHMA               8.77e-3 0.0132 </span>
+<span class="co">#&gt; 11 pathway3         27        26 KEGG_PENTOSE_PHOSPHATE_P~ 1.05e-2 0.0143 </span>
+<span class="co">#&gt; 12 pathway60        64        45 KEGG_RETINOL_METABOLISM   2.40e-2 0.0300 </span>
+<span class="co">#&gt; 13 pathway187       16        16 BIOCARTA_RELA_PATHWAY     3.50e-2 0.0404 </span>
+<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PATHWAY      2.00e-1 0.215  </span>
+<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PROCESSING_~ 4.07e-1 0.407</span></code></pre></div>
 </div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
@@ -450,41 +452,33 @@ pInfo_df</code></pre></div>
 <h3 class="hasAnchor">
 <a href="#tidy-up-the-data" class="anchor"></a>5.2.1 Tidy Up the Data</h3>
 <p>In order to take advantage of the publication-quality graphics created with the <code>ggplot2</code> package, we first need to tidy the data frames returned by the <code>AESPCA_pVals</code> and <code>superPCA_pVals</code> functions. This code takes in the <span class="math inline">\(p\)</span>-values data frame from the Supervised PCA method and modifies it to be compatible with <code>ggplot</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reshape2)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'reshape2'</span>
-<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     smiths</span>
-surv_spr_melt_df &lt;-<span class="st"> </span>surv_spr_pVals_df <span class="op">%&gt;%</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_gather_df &lt;-<span class="st"> </span>surv_spr_pVals_df <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pathways, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">melt</span>(<span class="dt">id.vars =</span> <span class="st">"terms"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>terms) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">terms =</span> <span class="kw">str_wrap</span>(terms, <span class="dt">width =</span> <span class="dv">20</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">factor</span>(variable, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"FDR"</span>))) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">as.tibble</span>()
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">factor</span>(variable, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"None"</span>, <span class="st">"FDR"</span>)))
 
-surv_spr_melt_df
+surv_spr_gather_df
 <span class="co">#&gt; # A tibble: 30 x 4</span>
-<span class="co">#&gt;    terms                                        variable   value score</span>
-<span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00178  6.33</span>
-<span class="co">#&gt;  2 PID_EPHB_FWD_PATHWAY                         None     0.00187  6.28</span>
-<span class="co">#&gt;  3 PID_TNF_PATHWAY                              None     0.00220  6.12</span>
-<span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00238  6.04</span>
-<span class="co">#&gt;  5 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.00354  5.64</span>
-<span class="co">#&gt;  6 BIOCARTA_TNFR1_PATHWAY                       None     0.00361  5.62</span>
-<span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00447  5.41</span>
-<span class="co">#&gt;  8 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00605  5.11</span>
-<span class="co">#&gt;  9 ST_GA12_PATHWAY                              None     0.00634  5.06</span>
-<span class="co">#&gt; 10 KEGG_ASTHMA                                  None     0.0190   3.96</span>
+<span class="co">#&gt;    terms                                        variable    value score</span>
+<span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 PID_TNF_PATHWAY                              FDR      0.000527  7.55</span>
+<span class="co">#&gt;  2 REACTOME_PHOSPHOLIPID_METABOLISM             FDR      0.000614  7.40</span>
+<span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  FDR      0.000642  7.35</span>
+<span class="co">#&gt;  4 PID_EPHB_FWD_PATHWAY                         FDR      0.000705  7.26</span>
+<span class="co">#&gt;  5 BIOCARTA_TNFR1_PATHWAY                       FDR      0.00100   6.91</span>
+<span class="co">#&gt;  6 KEGG_NON_SMALL_CELL_LUNG_CANCER              FDR      0.00138   6.59</span>
+<span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       FDR      0.00171   6.37</span>
+<span class="co">#&gt;  8 ST_GA12_PATHWAY                              FDR      0.00211   6.16</span>
+<span class="co">#&gt;  9 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE FDR      0.00240   6.03</span>
+<span class="co">#&gt; 10 KEGG_ASTHMA                                  FDR      0.00877   4.74</span>
 <span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graph-pathway-ranks" class="anchor"></a>5.2.2 Graph Pathway Ranks</h3>
 <p>Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the raw <span class="math inline">\(p\)</span>-value</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(surv_spr_melt_df) <span class="op">+</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(surv_spr_gather_df) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(terms, score), <span class="dt">y =</span> score) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span>
@@ -495,7 +489,7 @@ surv_spr_melt_df
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.01</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>variable)</code></pre></div>
-<p><img src="C1-Quickstart_Guide_files/figure-html/surv_spr_pval_plot-1.png" width="100%" height="60%"></p>
+<p><img src="C1-Quickstart_Guide_files/figure-html/surv_spr_pval_plot-1.png" width="100%" height="60%"><!-- library(reshape2) --><!-- surv_spr_melt_df <- surv_spr_pVals_df %>% --><!--   select(-pathways, - setsize, -trim_size) %>% --><!--   melt(id.vars = "terms") %>% --><!--   mutate(score = -log(value)) %>% --><!--   # mutate(terms = str_wrap(terms, width = 20)) %>%  --><!--   mutate(variable = factor(variable, labels = c("FDR", "None"))) %>%  --><!--   as.tibble() --></p>
 <!-- ## Extract Genes from the Top Pathways -->
 <!-- Use the `topGenes` function to "score" the genes contained in the top significant pathways. Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. -->
 <!-- ```{r topSurvGenes} -->

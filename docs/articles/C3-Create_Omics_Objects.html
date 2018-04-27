@@ -89,7 +89,7 @@
       <h1>Chapter 3 - Creating Data Objects</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-26</h4>
+            <h4 class="date">2018-04-27</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/C3-Create_Omics_Objects.Rmd"><code>vignettes/C3-Create_Omics_Objects.Rmd</code></a></small>
       <div class="hidden name"><code>C3-Create_Omics_Objects.Rmd</code></div>
@@ -101,19 +101,18 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>1. Overview</h1>
-<p>This vignette is the third chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html">“Import and Tidy Data”</a> vignette. This guide will outline the major steps needed to create a data object for analysis with the <code>pathwayPCA</code> package. These objects are called <code>Omics</code>-class objects.</p>
+<p>This vignette is the third chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow, providing a detailed perspective to the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#create-an-omics-data-object">Creating Data Objects</a> section of the Quickstart Guide. This vignette builds on the material covered in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html">“Import and Tidy Data”</a> vignette. This guide will outline the major steps needed to create a data object for analysis with the <code>pathwayPCA</code> package. These objects are called <code>Omics</code>-class objects.</p>
 <div id="outline" class="section level2">
 <h2 class="hasAnchor">
 <a href="#outline" class="anchor"></a>1.1 Outline</h2>
 <p>Before we move on, we will outline our steps. After reading this vignette, you should be able to</p>
 <ol style="list-style-type: decimal">
-<li>Define the four <code>Omics*</code> classes.</li>
-<li>Create a few <code>Omics*</code> objects</li>
+<li>Describe the components of the <code>Omics</code> object class.</li>
+<li>Create a few <code>Omics</code> objects.</li>
 <li>Inspect and edit individual elements contained in these objects.</li>
 </ol>
-<p>First, load the <code>pathwayPCA</code> package and the <a href="https://www.tidyverse.org/"><code>tidyverse</code> package suite</a>. If you don’t have the <code>tidyverse</code> package suite, install that first.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("tidyverse")</span>
-<span class="kw">library</span>(tidyverse)
+<p>First, load the <code>pathwayPCA</code> package and the <a href="https://www.tidyverse.org/"><code>tidyverse</code> package suite</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="co">#&gt; -- Attaching packages ----------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
 <span class="co">#&gt; v ggplot2 2.2.1     v purrr   0.2.4</span>
 <span class="co">#&gt; v tibble  1.4.2     v dplyr   0.7.4</span>
@@ -127,14 +126,14 @@
 <div id="import-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#import-data" class="anchor"></a>1.2 Import Data</h2>
-<p>Because this is the second chapter in the workflow, we assume that</p>
+<p>Because this is the third chapter in the workflow, we assume that</p>
 <ol style="list-style-type: decimal">
 <li>Your assay is “tidy”.</li>
-<li>Your gene pathway set / <code>gmt</code> information is stored in a <code>pathwaySet</code> object.</li>
-<li>Your response and assay data have already been row-matched.</li>
+<li>Your gene pathway set / GMT information is stored in a <code>pathwaySet</code> object.</li>
+<li>Your response and assay data have already been ID-matched.</li>
 </ol>
 <p>If you are unsure about any of the three points above (or you don’t know what these mean), please review the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> vignette first. It isn’t very long, but it will help you set up your data in the right way.</p>
-<p>For the purpose of example, we will load an assay / response data frame and a <code>pathwaySet</code> list which already fits the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows). Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator).</p>
+<p>For the purpose of example, we will load some “toy” data: a combined assay / phenotype data frame and a <code>pathwaySet</code> list which already fits the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows). Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colonSurv_df"</span>)
 colonSurv_df
 <span class="co">#&gt; # A tibble: 250 x 658</span>
@@ -202,10 +201,10 @@ colon_pathwaySet
 <div id="class-overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#class-overview" class="anchor"></a>2.1 Class Overview</h2>
-<p>In this package, all primary input data will be in an <code>Omics</code> data object. There are three classes of <code>Omics*</code> objects, but one function creates all of them. Each class contains a tidy assay and <code>pathwaySet</code> gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are</p>
+<p>In this package, all primary input data will be in an <code>Omics</code> data object. There are three classes of <code>Omics*</code> objects, but one function (<code>create_Omics</code>) creates all of them. Each class contains a tidy assay and <code>pathwaySet</code> gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>OmicsSurv</code>—a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored?).</li>
+<code>OmicsSurv</code>—a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored).</li>
 <li>
 <code>OmicsReg</code>—a data object for continuous responses (usually a linear regression response).</li>
 <li>
@@ -218,7 +217,7 @@ colon_pathwaySet
 <h2 class="hasAnchor">
 <a href="#review-of-data-types-in-r" class="anchor"></a>2.2 Review of Data Types in <code>R</code>
 </h2>
-<p>Take a quick look back at the structure of our <code>colonSurv_df</code> object. We have an expression design matrix with the first two columns as subject response information. Look at the types of the columns of this data frame (directly under the column names, notice the <code>&lt;dbl&gt;</code> <code>&lt;int&gt;</code> tags). These tags tell us that the columns contain “double / numeric” (<code>dbl</code>) and “integer” (<code>int</code>) information. The other tags we could see here are <code>&lt;chr&gt;</code> (character), <code>&lt;lgl&gt;</code> (logical), or <code>&lt;fct&gt;</code> (factor). These tags are important because they identify which “class” of data is in each column. Here are some examples of how to change data between types:</p>
+<p>Take a quick look back at the structure of our <code>colonSurv_df</code> object. We have an expression design matrix with the first two columns as subject response information. Look at the types of the columns of this data frame (notice the <code>&lt;dbl&gt;</code> <code>&lt;int&gt;</code> tags directly under the column names). These tags tell us that the columns contain “double / numeric” (<code>dbl</code>) and “integer” (<code>int</code>) information. The other tags we could potentially see here are <code>&lt;chr&gt;</code> (character), <code>&lt;lgl&gt;</code> (logical), or <code>&lt;fct&gt;</code> (factor). These tags are important because they identify which “class” of data is in each column. Here are some examples of how to change data between types:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(colonSurv_df<span class="op">$</span>OS_event)
 <span class="co">#&gt; [1] 0 0 0 0 1 0</span>
 <span class="kw">head</span>(<span class="kw">as.character</span>(colonSurv_df<span class="op">$</span>OS_event))
@@ -228,11 +227,11 @@ colon_pathwaySet
 <span class="kw">head</span>(<span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event))
 <span class="co">#&gt; [1] 0 0 0 0 1 0</span>
 <span class="co">#&gt; Levels: 0 1</span></code></pre></div>
-<p>We must put each response into a specific class:</p>
+<p>The <code>create_Omics</code> function puts the response information into specific classes:</p>
 <ul>
-<li>Survival data is stored with a pair of numeric (time) and logical (death indicator) vectors.</li>
-<li>Regression data is stored in a numeric or integer vector</li>
-<li>Binary classification data is stored in a factor.</li>
+<li>Survival data is stored with a pair of <code>numeric</code> (time) and <code>logical</code> (death indicator) vectors.</li>
+<li>Regression data is stored in a <code>numeric</code> or <code>integer</code> vector.</li>
+<li>Binary classification data is stored in a <code>factor</code> vector.</li>
 </ul>
 <p>These restrictions are on purpose: the internal data creation functions in the <code>pathwayPCA</code> package have very specific requirements about the types of data they take as inputs.</p>
 <hr>
@@ -250,33 +249,33 @@ colon_pathwaySet
 <li>Survival response: the <code><a href="../reference/create_OmicsPathway.html">create_OmicsSurv()</a></code> function creates an <code>Omics</code> object with class <code>OmicsSurv</code>. This object will contain:
 <ul>
 <li>
-<code>eventTime</code>: a numeric vector of event times</li>
+<code>eventTime</code>: a <code>numeric</code> vector of event times.</li>
 <li>
-<code>eventObserved</code>: a logical vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.</li>
+<code>eventObserved</code>: a <code>logical</code> vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.</li>
 <li>
-<code>assayData_df</code>: a tidy data frame of prediction information. Rows are observations or subjects; the columns are gene, protein, transcriptome, proteome, or metabolome measures. The column names <em>must</em> match a subset of the genes provided in the gene set list (in the <code>pathwaySet</code> object).</li>
+<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of prediction information. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names <em>must</em> match a subset of the genes provided in the gene set list (in the <code>pathwaySet</code> object).</li>
 <li>
-<code>pathwaySet</code>: a list of pathway information, as returned by the <code>read_gmt</code> function (see <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function">the import vignette</a> for more details). The names of the genes in these pathways <em>must</em> match a subset of the genes recorded in the prediction data frame (in the <code>assayData_df</code> object).</li>
+<code>pathwaySet</code>: a <code>list</code> of pathway information, as returned by the <code>read_gmt</code> function (see <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function">the import vignette</a> for more details). The names of the genes in these pathways <em>must</em> match a subset of the genes recorded in the prediction data frame (in the <code>assayData_df</code> object).</li>
 </ul>
 </li>
 <li>Regression response: the <code><a href="../reference/create_OmicsPathway.html">create_OmicsReg()</a></code> function creates an <code>Omics</code> object with class <code>OmicsReg</code>. This object will contain:
 <ul>
 <li>
-<code>response</code>: a numeric vector of the response</li>
+<code>response</code>: a <code>numeric</code> vector of the response.</li>
 <li>
-<code>assayData_df</code>: a tidy data frame of prediction information, as described above.</li>
+<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of prediction information, as described above.</li>
 <li>
-<code>pathwaySet</code>: a list of pathway information, as described above.</li>
+<code>pathwaySet</code>: a <code>list</code> of pathway information, as described above.</li>
 </ul>
 </li>
 <li>Binary Classification response: the <code><a href="../reference/create_OmicsPathway.html">create_OmicsCateg()</a></code> function creates an <code>Omics</code> object with class <code>OmicsCateg</code>. In future versions, this function will be able to take in <span class="math inline">\(n\)</span>-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
 <ul>
 <li>
-<code>response</code>: a factor vector of the response</li>
+<code>response</code>: a <code>factor</code> vector of the response.</li>
 <li>
-<code>assayData_df</code>: a tidy data frame of prediction information, as described above.</li>
+<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of prediction information, as described above.</li>
 <li>
-<code>pathwaySet</code>: a list of pathway information, as described above.</li>
+<code>pathwaySet</code>: a <code>list</code> of pathway information, as described above.</li>
 </ul>
 </li>
 </ul>
@@ -288,7 +287,7 @@ colon_pathwaySet
 <p>Now we are prepared to create our first survival <code>Omics</code> object for later analysis with either AES-PCA or Supervised PCA. Recall that <code>colonSurv_df</code> has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the <code>create_Omics</code> function will be:</p>
 <ul>
 <li>
-<code>assayData_df</code>: this will be only the <em>expression columns</em> of the <code>colonSurv_df</code> data frame (i.e. all but the first two columns). In R, we can remove the first two columns of the <code>colonSurv_df</code> data frame by negative subsetting: <code>colonSurv_df[, -(1:2)]</code>.</li>
+<code>assayData_df</code>: this will be only the <em>expression columns</em> of the <code>colonSurv_df</code> data frame (i.e. all but the first two columns). In <code>R</code>, we can remove the first two columns of the <code>colonSurv_df</code> data frame by negative subsetting: <code>colonSurv_df[, -(1:2)]</code>.</li>
 <li>
 <code>pathwaySet_ls</code>: this will be the <code>colon_pathwaySet</code> list object. Recall that you can import a <code>.gmt</code> file into a <code>pathwaySet</code> object via the <code>read_gmt</code> function, or create a <code>pathwaySet</code> list object by hand with the <code>create_pathwaySet</code> function.</li>
 <li>
@@ -317,14 +316,25 @@ colon_pathwaySet
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsReg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_Omics.html">create_Omics</a></span>(<span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],
                                <span class="dt">pathwaySet_ls =</span> colon_pathwaySet,
                                <span class="dt">response =</span> colonSurv_df<span class="op">$</span>OS_time,
-                               <span class="dt">respType =</span> <span class="st">"reg"</span>) 
+                               <span class="dt">respType =</span> <span class="st">"reg"</span>)
 <span class="co">#&gt; Creating object of class OmicsReg.</span>
-
-colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_Omics.html">create_Omics</a></span>(<span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],
+colon_OmicsReg
+<span class="co">#&gt; Formal class 'OmicsReg' [package "pathwayPCA"] with 3 slots</span>
+<span class="co">#&gt;   ..@ response    : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
+<span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
+<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_Omics.html">create_Omics</a></span>(<span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],
                                  <span class="dt">pathwaySet_ls =</span> colon_pathwaySet,
                                  <span class="dt">response =</span> colonSurv_df<span class="op">$</span>OS_event,
                                  <span class="dt">respType =</span> <span class="st">"categ"</span>)
-<span class="co">#&gt; Creating object of class OmicsCateg.</span></code></pre></div>
+<span class="co">#&gt; Creating object of class OmicsCateg.</span>
+colon_OmicsCateg
+<span class="co">#&gt; Formal class 'OmicsCateg' [package "pathwayPCA"] with 3 slots</span>
+<span class="co">#&gt;   ..@ response    : Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 2 1 ...</span>
+<span class="co">#&gt;   ..@ assayData_df:Classes 'tbl_df', 'tbl' and 'data.frame': 250 obs. of  656 variables:</span>
+<span class="co">#&gt;   ..@ pathwaySet  :List of 3</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -332,11 +342,11 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <div id="inspecting-and-editing-omics-class-objects" class="section level1">
 <h1 class="hasAnchor">
 <a href="#inspecting-and-editing-omics-class-objects" class="anchor"></a>4. Inspecting and Editing <code>Omics</code>-Class Objects</h1>
-<p>In order to access or edit a specific component of an <code>Omics</code> object, we need to use specific <em>accessor</em> functions. These functions are named after the component they access.</p>
+<p>In order to access or edit a specific component of an <code>Omics</code> object, we need to use specific <em>accessor</em> functions. These functions are named with the component they access.</p>
 <div id="example-get-function" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-get-function" class="anchor"></a>4.1 Example “Get” Function</h2>
-<p>The <code>get*</code> functions access the part of the data object you specify. YOu can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame to the screen:</p>
+<p>The <code>get*</code> functions access the part of the data object you specify. You can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame contained in the <code>colon_OmicsSurv</code> object to the screen:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv)
 <span class="co">#&gt; # A tibble: 250 x 656</span>
 <span class="co">#&gt;      JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1 PRKCA  ELK1  NRG1  PAK2  MTOR</span>
@@ -372,12 +382,12 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <span class="co">#&gt; #   MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;, ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;, EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   TF &lt;dbl&gt;, KALRN &lt;dbl&gt;, RASA1 &lt;dbl&gt;, CASP9 &lt;dbl&gt;, ...</span></code></pre></div>
-<p>This function is rather simple: it shows us what object is stored in the <code>assayData_df</code> slot of the <code>colon_OmicsSurv</code> data object. As we should expect, we see all the columns of the <code>colonSurv_df</code> data frame except for the first two.</p>
+<p>This function is rather simple: it shows us what object is stored in the <code>assayData_df</code> slot of the <code>colon_OmicsSurv</code> data object. As we should expect, we see all the columns of the <code>colonSurv_df</code> data frame except for the first two (the survival time and event indicator).</p>
 </div>
 <div id="example-set-function" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-set-function" class="anchor"></a>4.2 Example “Set” Function</h2>
-<p>If we needed to edit the assay data frame in the <code>colon_OmicsSurv</code> object, we can use the “replacement” syntax of the <code>getAssay</code> function. These are the “set” functions, and they use the <code>getSLOT(object) &lt;- value</code> syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original <code>colonSurv_df</code> data frame. The <code>SLOT</code> shorthand name is <code>Assay</code>, and the replacement value is the first ten gene expression columns (in columns three through 12) of the <code>colonSurv_df</code> data frame: <code>colonSurv_df[, (3:12)]</code>.</p>
+<p>If we needed to edit the assay data frame in the <code>colon_OmicsSurv</code> object, we can use the “replacement” syntax of the <code>getAssay</code> function. These are the “set” functions, and they use the <code>getSLOT(object) &lt;- value</code> syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original <code>colonSurv_df</code> data frame. The <code>SLOT</code> shorthand name is <code>Assay</code>, and the replacement value is the first ten gene expression columns (in columns 3 through 12) of the <code>colonSurv_df</code> data frame: <code>colonSurv_df[, (3:12)]</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, (<span class="dv">3</span><span class="op">:</span><span class="dv">12</span>)]</code></pre></div>
 <p>Now, when we inspect the <code>colon_OmicsSurv</code> data object, we see only ten variables measured in the <code>assayData_df</code> slot, instead of our original 656.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
@@ -387,18 +397,18 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <span class="co">#&gt;   ..@ assayData_df :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  10 variables:</span>
 <span class="co">#&gt;   ..@ pathwaySet   :List of 3</span>
 <span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwaySet" "list"</span></code></pre></div>
-<p>We can go back to the full data by</p>
+<p>Before we move on, we should resest the data in the <code>assayData_df</code> slot to the full data by</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]</code></pre></div>
 </div>
 <div id="table-of-accessors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#table-of-accessors" class="anchor"></a>4.3 Table of Accessors</h2>
-<p>Here is a table listing each of the “get” and “set” methods for the <code>Omics</code> class, and which sub-classes they can access.</p>
+<p>Here is a table listing each of the “get” and “set” methods for the <code>Omics</code> class, and which sub-classes they can access or modify.</p>
 <table class="table">
 <colgroup>
 <col width="30%">
 <col width="17%">
-<col width="51%">
+<col width="52%">
 </colgroup>
 <thead><tr class="header">
 <th>Command</th>
@@ -410,7 +420,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <tr class="odd">
 <td><code><a href="../reference/get_set_OmicsPathway.html">getAssay(object)</a></code></td>
 <td align="center">All</td>
-<td>Print the <code>assayData_df</code> data frame stored in <code>object</code>.</td>
+<td>Extract the <code>assayData_df</code> data frame stored in <code>object</code>.</td>
 </tr>
 <tr class="even">
 <td><code>getAssay(object) &lt;- value</code></td>
@@ -420,7 +430,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <tr class="odd">
 <td><code><a href="../reference/get_set_OmicsPathway.html">getPathwaySet(object)</a></code></td>
 <td align="center">All</td>
-<td>Print the <code>pathwaySet</code> list stored in <code>object</code>.</td>
+<td>Extract the <code>pathwaySet</code> list stored in <code>object</code>.</td>
 </tr>
 <tr class="even">
 <td><code>getPathwaySet(object) &lt;- value</code></td>
@@ -430,7 +440,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <tr class="odd">
 <td><code><a href="../reference/get_set_OmicsSurv.html">getEventTime(object)</a></code></td>
 <td align="center"><code>Surv</code></td>
-<td>Print the <code>eventTime_num</code> vector stored in <code>object</code>.</td>
+<td>Extract the <code>eventTime_num</code> vector stored in <code>object</code>.</td>
 </tr>
 <tr class="even">
 <td><code>getEventTime(object) &lt;- value</code></td>
@@ -440,7 +450,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <tr class="odd">
 <td><code><a href="../reference/get_set_OmicsSurv.html">getEvent(object)</a></code></td>
 <td align="center"><code>Surv</code></td>
-<td>Print the <code>eventObserved_lgl</code> vector stored in <code>object</code>.</td>
+<td>Extract the <code>eventObserved_lgl</code> vector stored in <code>object</code>.</td>
 </tr>
 <tr class="even">
 <td><code>getEvent(object) &lt;- value</code></td>
@@ -452,7 +462,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <td align="center">
 <code>Reg</code> or <code>Categ</code>
 </td>
-<td>Print the <code>response</code> vector stored in <code>object</code>.</td>
+<td>Extract the <code>response</code> vector stored in <code>object</code>.</td>
 </tr>
 <tr class="even">
 <td><code>getResponse(object) &lt;- value</code></td>
@@ -468,7 +478,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <div id="inspect-the-updated-pathwayset-list" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect-the-updated-pathwayset-list" class="anchor"></a>4.4 Inspect the Updated <code>pathwaySet</code> List</h2>
-<p>As we mentioned in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function">Importing with the <code>read_gmt</code> Function</a> subsection of the previous vignette, the <code>pathwaySet</code> object will be modified upon <code>Omics</code>-object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code>. Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
+<p>As we mentioned in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function">Importing with the <code>read_gmt</code> Function</a> subsection of the previous vignette, the <code>pathwaySet</code> object will be modified upon <code>Omics</code>-object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code> (we skipped importing the “description” field). Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwaySet</a></span>(colon_OmicsSurv)
 <span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
 <span class="co">#&gt;  $ pathways:List of 15</span>
@@ -483,7 +493,7 @@ colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../refe
 <a href="#review" class="anchor"></a>5. Review</h1>
 <p>We now summarize our steps so far. We have</p>
 <ol style="list-style-type: decimal">
-<li>Defined the <code>Omics</code> class and three sub-classes: survival, regression, categorical, and the “parent” class.</li>
+<li>Defined the <code>Omics</code> class and three sub-classes: survival, regression, and categorical (and the “parent” class).</li>
 <li>Created an <code>Omics</code> object for the three sub-classes.</li>
 <li>Inspected and edited individual elements contained in these objects.</li>
 </ol>
