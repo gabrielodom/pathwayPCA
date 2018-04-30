@@ -57,7 +57,7 @@ This section is a quick overview of the material covered in the [Import and Tidy
 
 
 ## 2.1 Import `.gmt` Files
-The `.gmt` format is a commonly used file format for storing [pathway set information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the MSigDB Collections page. Use the `read_gmt` function to import a `.gmt` file into R. All `.gmt` files have a "description" field, but it can be empty. We use `description = FALSE` argument to skip importing that field.
+The `.gmt` format is a commonly used file format for storing [pathway set information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the [MSigDB Collections page](http://software.broadinstitute.org/gsea/msigdb/collections.jsp). Use the `read_gmt` function to import a `.gmt` file into R. All `.gmt` files have a "description" field, but it can be empty. We use `description = FALSE` argument to skip importing that field.
 ```{r read_example_gmt, eval = FALSE}
 gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
                          package = "pathwayPCA", mustWork = TRUE)
@@ -212,7 +212,7 @@ surv_spr_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
                                     parallel = TRUE,
                                     numCores = 2,
                                     adjustpValues = TRUE,
-                                    adjustment = "BH")
+                                    adjustment = c("BH"))
 ```
 
 *******************************************************************************

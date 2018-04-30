@@ -1,8 +1,11 @@
 #' Adjust \eqn{p}-values for simple multiple-testing procedures
 #'
 #' @description This is a modification of the \code{mt.rawp2adjp} function from
-#'   the Bioconductor package \code{multtest}. We did not write the original
-#'   function. For more information, see
+#'   the Bioconductor package \code{multtest}. We fixed an error wherein
+#'   selecting the \code{"TSBH"} option overwrote the results of any previous
+#'   adjustment methods, and another error created when the \code{"BY"} and
+#'   \code{"TSBH"} methods were called simultaneously. We did not write the
+#'   original function. For more information, see
 #'   \url{https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf}.
 #'
 #' @author Sandrine Dudoit, \url{http://www.stat.berkeley.edu/~sandrine}
@@ -17,7 +20,7 @@
 #'   computed. This vector should include any of the options listed in the
 #'   "Details" Section. Adjusted \eqn{p}-values are computed for simple FWER-
 #'   and FDR- controlling procedures based on a vector of raw (unadjusted)
-#'   \eqn{p}-values.
+#'   \eqn{p}-values. Defaults to \code{"BH"}.
 #' @param alpha A nominal Type-I error rate, or a vector of error rates, used
 #'   for estimating the number of true null hypotheses in the two-stage
 #'   Benjamini & Hochberg procedure (\code{"TSBH"}). Default is 0.05.
@@ -40,6 +43,9 @@
 #'
 #'    The \code{proc} options are
 #'    \itemize{
+#'       \item{\code{"BH"} : }{Adjusted \eqn{p}-values for the Benjamini &
+#'         Hochberg (1995) step-up FDR-controlling procedure (independent and
+#'         positive regression dependent test statistics).}
 #'      \item{\code{"Bonferroni"} : }{Bonferroni single-step adjusted \eqn{p}-
 #'         values for strong control of the FWER.}
 #'      \item{\code{"Holm"} : }{Holm (1979) step-down adjusted \eqn{p}-values
@@ -53,16 +59,14 @@
 #'      \item{\code{"SidakSD"} : }{Sidak step-down adjusted \eqn{p}-values for
 #'         strong control of the FWER (for positive orthant dependent test
 #'         statistics).}
-#'      \item{\code{"BH"} : }{Adjusted \eqn{p}-values for the Benjamini &
-#'         Hochberg (1995) step-up FDR-controlling procedure (independent and
-#'         positive regression dependent test statistics).}
-#'      \item{\code{"BY"} : }{Adjusted \eqn{p}-values for the Benjamini &
+#'     \item{\code{"BY"} : }{Adjusted \eqn{p}-values for the Benjamini &
 #'         Yekutieli (2001) step-up FDR-controlling procedure (general
 #'         dependency structures).}
 #'      \item{\code{"ABH"} : }{Adjusted \eqn{p}-values for the adaptive
 #'         Benjamini & Hochberg (2000) step-up FDR-controlling procedure. This
 #'         method amends the original step-up procedure using an estimate of the
-#'         number of true null hypotheses obtained from \eqn{p}-values.}
+#'         number of true null hypotheses obtained from \eqn{p}-values. This
+#'         method is not guaranteed to return finite values.}
 #'      \item{\code{"TSBH"} : }{Adjusted \eqn{p}-values for the two-stage
 #'         Benjamini & Hochberg (2006) step-up FDR-controlling procedure. This
 #'         method amends the original step-up procedure using an estimate of the
@@ -103,20 +107,22 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() or superPCA_pVals() instead.
 adjustRaw_pVals <- function (rawp,
-                             proc = c("Bonferroni",
+                             proc = c("BH",
+                                      "Bonferroni",
                                       "Holm",
                                       "Hochberg",
                                       "SidakSS",
                                       "SidakSD",
-                                      "BH",
                                       "BY",
                                       "ABH",
                                       "TSBH"),
                              alpha = 0.05,
                              na.rm = FALSE,
                              as.multtest.out = FALSE){
+  # browser()
 
   ###  Proc Setup  ###
+  proc <- match.arg(proc, several.ok = TRUE)
   m <- length(rawp)
 
   if(na.rm){
@@ -126,21 +132,46 @@ adjustRaw_pVals <- function (rawp,
   }
 
   n <- length(proc)
-  a <- length(alpha)
+  a_len <- length(alpha)
   index <- order(rawp)
   h0.ABH <- NULL
   h0.TSBH <- NULL
   spval <- rawp[index]
-  adjp <- matrix(0, m, n + 1)
-  dimnames(adjp) <- list(NULL, c("rawp", proc))
-  adjp[, 1] <- spval
+  # adjp <- matrix(0, m, n + 1)
+  # colnames(adjp) <- c("rawp", proc)
+  # adjp[, 1] <- spval
+
+  adjp_df <- data.frame(rawp = spval)
+
+  ###  Benjamini & Hochberg  ###
+  if(is.element("BH", proc)){
+
+    tmp <- spval
+
+    for(i in (m - 1):1){
+
+      tmp[i] <- min(tmp[i + 1],
+                    min((mgood / i) * spval[i], 1, na.rm = TRUE),
+                    na.rm = TRUE)
+
+      if(is.na(spval[i])){
+        tmp[i] <- NA
+      }
+
+    }
+
+    # adjp[, "BH"] <- tmp
+    adjp_df$BH <- tmp
+
+  }
 
   ###  Bonferroni  ###
   if(is.element("Bonferroni", proc)){
 
     tmp <- mgood * spval
     tmp[tmp > 1] <- 1
-    adjp[, "Bonferroni"] <- tmp
+    # adjp[, "Bonferroni"] <- tmp
+    adjp_df$Bonferroni <- tmp
 
   }
 
@@ -154,7 +185,8 @@ adjustRaw_pVals <- function (rawp,
       tmp[i] <- max(tmp[i - 1], min((mgood - i + 1) * spval[i], 1))
     }
 
-    adjp[, "Holm"] <- tmp
+    # adjp[, "Holm"] <- tmp
+    adjp_df$Holm <- tmp
 
   }
 
@@ -175,13 +207,17 @@ adjustRaw_pVals <- function (rawp,
 
     }
 
-    adjp[, "Hochberg"] <- tmp
+    # adjp[, "Hochberg"] <- tmp
+    adjp_df$Hochberg <- tmp
 
   }
 
   ###  Sidak Single-Step  ###
   if(is.element("SidakSS", proc)){
-    adjp[, "SidakSS"] <- 1 - (1 - spval) ^ mgood
+
+    # adjp[, "SidakSS"] <- 1 - (1 - spval) ^ mgood
+    adjp_df$SidakSS <- 1 - (1 - spval) ^ mgood
+
   }
 
   ###  Sidak Step-Down  ###
@@ -194,28 +230,8 @@ adjustRaw_pVals <- function (rawp,
       tmp[i] <- max(tmp[i - 1], 1 - (1 - spval[i]) ^ (mgood - i + 1))
     }
 
-    adjp[, "SidakSD"] <- tmp
-
-  }
-
-  ###  Benjamini & Hochberg  ###
-  if(is.element("BH", proc)){
-
-    tmp <- spval
-
-    for(i in (m - 1):1){
-
-      tmp[i] <- min(tmp[i + 1],
-                    min((mgood / i) * spval[i], 1, na.rm = TRUE),
-                    na.rm = TRUE)
-
-      if(is.na(spval[i])){
-        tmp[i] <- NA
-      }
-
-    }
-
-    adjp[, "BH"] <- tmp
+    # adjp[, "SidakSD"] <- tmp
+    adjp_df$SidakSD <- tmp
 
   }
 
@@ -223,13 +239,13 @@ adjustRaw_pVals <- function (rawp,
   if(is.element("BY", proc)){
 
     tmp <- spval
-    a <- sum(1 / (1:mgood))
-    tmp[m] <- min(a * spval[m], 1)
+    a_cumseq <- sum(1 / (1:mgood))
+    tmp[m] <- min(a_cumseq * spval[m], 1)
 
     for(i in (m - 1):1){
 
       tmp[i] <- min(tmp[i + 1],
-                    min((mgood * a/i) * spval[i], 1, na.rm = TRUE),
+                    min((mgood * a_cumseq / i) * spval[i], 1, na.rm = TRUE),
                     na.rm = TRUE)
 
       if(is.na(spval[i])){
@@ -238,7 +254,8 @@ adjustRaw_pVals <- function (rawp,
 
     }
 
-    adjp[, "BY"] <- tmp
+    # adjp[, "BY"] <- tmp
+    adjp_df$BY <- tmp
 
   }
 
@@ -267,20 +284,19 @@ adjustRaw_pVals <- function (rawp,
 
     }
 
-    adjp[, "ABH"] <- tmp * h0.ABH / mgood
+    # adjp[, "ABH"] <- tmp * h0.ABH / mgood
+    adjp_df$ABH <- tmp * h0.ABH / mgood
 
   }
 
   ###  Two-Stage Benjamini & Hochberg  ###
   if(is.element("TSBH", proc)){
+    # browser()
 
-    TS.spot <- which(proc == "TSBH")
     TSBHs <- paste("TSBH", alpha, sep = "_")
-    newprocs <- append(proc, TSBHs, after = TS.spot)
-    newprocs <- newprocs[newprocs != "TSBH"]
-    adjp <- matrix(0, m, n + a)
-    dimnames(adjp) <- list(NULL, c("rawp", newprocs))
-    adjp[, 1] <- spval
+    adjp2 <- matrix(0, m, 1 + a_len)
+    colnames(adjp2) <- c("rawp", TSBHs)
+    adjp2[, 1] <- spval
     tmp <- spval
 
     for(i in (m - 1):1){
@@ -295,15 +311,17 @@ adjustRaw_pVals <- function (rawp,
 
     }
 
-    h0.TSBH <- rep(0, length(alpha))
+    h0.TSBH <- rep(0, a_len)
     names(h0.TSBH) <- paste("h0.TSBH", alpha, sep = "_")
 
-    for(i in 1:length(alpha)){
+    for(i in 1:a_len){
 
       h0.TSBH[i] <- mgood - sum(tmp < alpha[i] / (1 + alpha[i]), na.rm = TRUE)
-      adjp[, TS.spot + i] <- tmp * h0.TSBH[i] / mgood
+      adjp2[, 1 + i] <- tmp * h0.TSBH[i] / mgood
 
     }
+
+    adjp_df <- cbind(adjp_df, adjp2[, -1, drop = FALSE])
 
   }
 
@@ -311,13 +329,13 @@ adjustRaw_pVals <- function (rawp,
   # The multtest package has the mt.rawp2adjp() function return
   if(as.multtest.out){
 
-    list(adjp = adjp,
+    list(adjp = as.matrix(adjp_df),
          index = index,
          h0.ABH = h0.ABH[1],
-         h0.TSBH = h0.TSBH[1:length(alpha)])
+         h0.TSBH = h0.TSBH[1:a_len])
 
   } else {
-    adjp[order(index), ]
+    adjp_df[order(index), ]
   }
 
 

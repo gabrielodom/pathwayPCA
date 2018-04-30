@@ -4,8 +4,8 @@
 \alias{adjustRaw_pVals}
 \title{Adjust \eqn{p}-values for simple multiple-testing procedures}
 \usage{
-adjustRaw_pVals(rawp, proc = c("Bonferroni", "Holm", "Hochberg", "SidakSS",
-  "SidakSD", "BH", "BY", "ABH", "TSBH"), alpha = 0.05, na.rm = FALSE,
+adjustRaw_pVals(rawp, proc = c("BH", "Bonferroni", "Holm", "Hochberg",
+  "SidakSS", "SidakSD", "BY", "ABH", "TSBH"), alpha = 0.05, na.rm = FALSE,
   as.multtest.out = FALSE)
 }
 \arguments{
@@ -18,7 +18,7 @@ multiple testing procedures for which adjusted \eqn{p}-values are to be
 computed. This vector should include any of the options listed in the
 "Details" Section. Adjusted \eqn{p}-values are computed for simple FWER-
 and FDR- controlling procedures based on a vector of raw (unadjusted)
-\eqn{p}-values.}
+\eqn{p}-values. Defaults to \code{"BH"}.}
 
 \item{alpha}{A nominal Type-I error rate, or a vector of error rates, used
 for estimating the number of true null hypotheses in the two-stage
@@ -61,8 +61,11 @@ A vector of the same length and order as \code{rawp}, unless the user
 }
 \description{
 This is a modification of the \code{mt.rawp2adjp} function from
-  the Bioconductor package \code{multtest}. We did not write the original
-  function. For more information, see
+  the Bioconductor package \code{multtest}. We fixed an error wherein
+  selecting the \code{"TSBH"} option overwrote the results of any previous
+  adjustment methods, and another error created when the \code{"BY"} and
+  \code{"TSBH"} methods were called simultaneously. We did not write the
+  original function. For more information, see
   \url{https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf}.
 }
 \details{
@@ -77,6 +80,9 @@ This function computes adjusted \eqn{p}-values for simple multiple
 
    The \code{proc} options are
    \itemize{
+      \item{\code{"BH"} : }{Adjusted \eqn{p}-values for the Benjamini &
+        Hochberg (1995) step-up FDR-controlling procedure (independent and
+        positive regression dependent test statistics).}
      \item{\code{"Bonferroni"} : }{Bonferroni single-step adjusted \eqn{p}-
         values for strong control of the FWER.}
      \item{\code{"Holm"} : }{Holm (1979) step-down adjusted \eqn{p}-values
@@ -90,16 +96,14 @@ This function computes adjusted \eqn{p}-values for simple multiple
      \item{\code{"SidakSD"} : }{Sidak step-down adjusted \eqn{p}-values for
         strong control of the FWER (for positive orthant dependent test
         statistics).}
-     \item{\code{"BH"} : }{Adjusted \eqn{p}-values for the Benjamini &
-        Hochberg (1995) step-up FDR-controlling procedure (independent and
-        positive regression dependent test statistics).}
-     \item{\code{"BY"} : }{Adjusted \eqn{p}-values for the Benjamini &
+    \item{\code{"BY"} : }{Adjusted \eqn{p}-values for the Benjamini &
         Yekutieli (2001) step-up FDR-controlling procedure (general
         dependency structures).}
      \item{\code{"ABH"} : }{Adjusted \eqn{p}-values for the adaptive
         Benjamini & Hochberg (2000) step-up FDR-controlling procedure. This
         method amends the original step-up procedure using an estimate of the
-        number of true null hypotheses obtained from \eqn{p}-values.}
+        number of true null hypotheses obtained from \eqn{p}-values. This
+        method is not guaranteed to return finite values.}
      \item{\code{"TSBH"} : }{Adjusted \eqn{p}-values for the two-stage
         Benjamini & Hochberg (2006) step-up FDR-controlling procedure. This
         method amends the original step-up procedure using an estimate of the
