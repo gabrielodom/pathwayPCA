@@ -89,7 +89,7 @@
       <h1>Chapter 1 - Quickstart Guide</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-27</h4>
+            <h4 class="date">2018-04-30</h4>
       
       <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/C1-Quickstart_Guide.Rmd"><code>vignettes/C1-Quickstart_Guide.Rmd</code></a></small>
       <div class="hidden name"><code>C1-Quickstart_Guide.Rmd</code></div>
@@ -101,7 +101,7 @@
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>1. Overview</h1>
-<p>This guide will serve as a brief introduction to pathway significance testing with the <code>pathwayPCA</code> package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes. This vignette is the introduction and overview chapter in the “Pathway Significance Testing with <code>pathwayPCA</code>” workflow.</p>
+<p>This guide will serve as a brief introduction to pathway significance testing with the <code>pathwayPCA</code> package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes. This vignette provides an introduction and overview for the <code>pathwayPCA</code> package.</p>
 <ol start="0" style="list-style-type: decimal">
 <li>Download Packages</li>
 <li>Import Data (<a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html"><em>vignette</em></a>)</li>
@@ -109,7 +109,7 @@
 <li>Test Pathway Significance (<a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html"><em>vignette</em></a>)</li>
 <li>Inspect Results</li>
 </ol>
-<p>Before we get started, you need the <code>pathwayPCA</code> package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
+<p>Before we get started, you need the <code>pathwayPCA</code> package to run your analysis. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
 <pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
 <p>Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the <code>parallel</code> package (it comes with <code>R</code> automatically). We also recommend the <code>tidyverse</code> package to help you run some of the examples in these vignettes (while the <code>tidyverse</code> package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package).</p>
 <pre><code>install.packages("tidyverse")</code></pre>
@@ -134,7 +134,7 @@
 <div id="import--gmt-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#import--gmt-files" class="anchor"></a>2.1 Import <code>.gmt</code> Files</h2>
-<p>The <code>.gmt</code> format is a commonly used file format for storing <a href="https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">pathway set information</a>. Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the MSigDB Collections page. Use the <code>read_gmt</code> function to import a <code>.gmt</code> file into R. All <code>.gmt</code> files have a “description” field, but it can be empty. We use <code>description = FALSE</code> argument to skip importing that field.</p>
+<p>The <code>.gmt</code> format is a commonly used file format for storing <a href="https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">pathway information</a>. Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSigDB Collections page</a>, and you can use the <code>read_gmt</code> function to import such a <code>.gmt</code> file into R. All <code>.gmt</code> files have a “description” field, which contains additional information on the pathway. However, this field can be left empty. In this example, we use <code>description = FALSE</code> to skip importing the “description” field.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gmt_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"c2.cp.v6.0.symbols.gmt"</span>,
                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
 gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(gmt_path, <span class="dt">description =</span> <span class="ot">FALSE</span>)
@@ -144,11 +144,10 @@ gene_set_ls</code></pre></div>
 #&gt;  $ TERMS   : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</code></pre>
 <p>The imported <code>.gmt</code> file is stored as a <code>pathwaySet</code> list object. This list contains:</p>
 <ul>
-<li>a list of the gene names contained in each pathway set (<code>pathways</code>),</li>
+<li>a list of the gene names contained in each pathway (<code>pathways</code>),</li>
 <li>the names of the pathways (<code>TERMS</code>), and</li>
 <li>(<em>OPTIONAL</em>) the hyperlink to the pathway description card on the GSEA website (<code>description</code>) if you specify <code>description = TRUE</code>.</li>
 </ul>
-<p>Specifically, the <code>description</code> field contains any notes or details on the pathway that is stored in the second entry of each row of the <code>.gmt</code> file. This field is often left empty.</p>
 </div>
 <div id="import-and-tidy-assay-data" class="section level2">
 <h2 class="hasAnchor">
@@ -157,7 +156,7 @@ gene_set_ls</code></pre></div>
 <div class="figure">
 <img src="example_assay_data.PNG">
 </div>
-<p>In this data set, the columns are individual samples. The values in each row are the -Omic expression measurements for that gene. Use the <code>read_csv</code> function from the <code>readr</code> package to import <code>.csv</code> files into <code>R</code> as <a href="https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html">tibble</a> (table <em>and</em> data frame) objects. The <code>read_csv</code> function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (<code>col_double()</code>) except for the gene name column (<code>X1 = col_character()</code>).</p>
+<p>In this data set, the columns are individual samples. The values in each row are the gene expression measurements for that gene. Use the <code>read_csv</code> function from the <code>readr</code> package to import <code>.csv</code> files into <code>R</code> as <a href="https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html">tibble</a> (table <em>and</em> data frame) objects. The <code>read_csv</code> function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (<code>col_double()</code>) except for the gene name column (<code>X1 = col_character()</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"ex_assay_subset.csv"</span>,
                           <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
 assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_path)</code></pre></div>
@@ -173,7 +172,7 @@ assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_pa
 <li>gene names must start with an English letter (a-z or A-Z), and</li>
 <li>gene names can only contain English letters, Arabic numerals (0-9), and possibly a dash (-).</li>
 </ul>
-<p>Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you’ll need to “tidy” the imported assay with the <code>transpose_assay</code> function. Now see that the rows from our Excel file are the columns in the tidy data before performing data analysis.</p>
+<p>Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you’ll need to “tidy” the imported assay with the <code>transpose_assay</code> function. The transposed data set will appear similar to the following:</p>
 <pre><code>#&gt; # A tibble: 36 x 18
 #&gt;    Sample    SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7
 #&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -194,7 +193,7 @@ assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_pa
 <div id="import-phenotype-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#import-phenotype-info" class="anchor"></a>2.3 Import Phenotype Info</h2>
-<p>Use the <code>read_csv</code> function to import the phenotype data. Once again, the <code>read_csv</code> function displays a message informing us of the types of data in each column. This data is subject survival information which contains the subject ID (<code>Sample</code>), survival time after disease onset in months (<code>eventTime</code>), and an indicator if the subject died or was lost to follow up (<code>eventObserved</code>).</p>
+<p>Use the <code>read_csv</code> function to import the phenotype data. Once again, the <code>read_csv</code> function displays a message informing us of the types of data in each column. The following phenotype dataset for subject survival information contains the subject ID (<code>Sample</code>), survival time after disease onset in months (<code>eventTime</code>), and a variable indicating if the subject died or was lost to follow up (<code>eventObserved</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"ex_pInfo_subset.csv"</span>,
                           <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
 pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(pInfo_path)
@@ -223,7 +222,7 @@ pInfo_df</code></pre></div>
 <div id="match-the-phenotype-and-assay-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#match-the-phenotype-and-assay-data" class="anchor"></a>2.4 Match the Phenotype and Assay Data</h2>
-<p>Now that you have the measurement data in tidy form (<code>assayT_df</code>) and the response data (<code>pInfo_df</code>), you can use the <code>inner_join</code> function from the <code>dplyr</code> package to match the assay measurements to phenotype information by subject identifier.</p>
+<p>Now that you have the assay data in tidy form (<code>assayT_df</code>) and the phenotype data (<code>pInfo_df</code>), you can use the <code>inner_join</code> function from the <code>dplyr</code> package to match the assay measurements to phenotype information by subject identifier.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(joinedExperiment_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(pInfo_df, assayT_df, <span class="dt">by =</span> <span class="st">"Sample"</span>))
 <span class="co">#&gt; # A tibble: 36 x 20</span>
 <span class="co">#&gt;    Sample    eventTime eventObserved SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7</span>
@@ -252,16 +251,11 @@ pInfo_df</code></pre></div>
 <div id="create-an-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-an-object" class="anchor"></a>3.1 Create an Object</h2>
-<p>Using the data you just imported, create a data object specific to survival, regression, or categorical responses. There are three classes of <code>Omics</code> objects to match the three types of response, but only one function to learn: the <code>create_Omics</code> function. Each class contains assay information (in tidy format) and <code>pathwaySet</code> (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are</p>
-<ol style="list-style-type: decimal">
-<li>
-<code>OmicsSurv</code>—a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored).</li>
-<li>
-<code>OmicsReg</code>—a data object for continuous responses (usually a vector of linear regression responses).</li>
-<li>
-<code>OmicsCateg</code>—a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression).</li>
-</ol>
-<p>We will create a survival <code>Omics</code> object to hold our assay, pathway set list, and survival response.</p>
+<p>Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival <code>Omics</code> object to hold our assay, pathway set list, and survival responses.</p>
+<!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwaySet` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
+<!-- 1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored). -->
+<!-- 2. `OmicsReg`---a data object for continuous responses (usually a vector of linear regression responses). -->
+<!-- 3. `OmicsCateg`---a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression). -->
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_Omics.html">create_Omics</a></span>(<span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],
                                 <span class="dt">pathwaySet_ls =</span> colon_pathwaySet,
                                 <span class="dt">response =</span> colonSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],
@@ -358,7 +352,7 @@ pInfo_df</code></pre></div>
 <div id="aes-pca" class="section level2">
 <h2 class="hasAnchor">
 <a href="#aes-pca" class="anchor"></a>4.1 AES-PCA</h2>
-<p>Perform AES-PCA pathway significance testing on the <code>Omics</code> object with the <code>AESPCA_pVals</code> function. For more details on this function, see the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca">AES-PCA</a> section of Chapter 4.</p>
+<p>Perform AES-PCA pathway significance testing on the <code>Omics</code> object with the <code>AESPCA_pVals</code> function. For more details on this function, see the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca">AES-PCA</a> section of Chapter 4. We will adjust the pathway <span class="math inline">\(p\)</span>-values by the estimated FDR calculated with the <code>"BH"</code> procedure (Benjamini and Hochberg, 1995).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_aes_pVals_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(<span class="dt">object =</span> colon_OmicsSurv,
                                   <span class="dt">numReps =</span> <span class="dv">1000</span>,
                                   <span class="dt">numPCs =</span> <span class="dv">2</span>,
@@ -396,7 +390,7 @@ pInfo_df</code></pre></div>
                                     <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
                                     <span class="dt">numCores =</span> <span class="dv">2</span>,
                                     <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-                                    <span class="dt">adjustment =</span> <span class="st">"BH"</span>)
+                                    <span class="dt">adjustment =</span> <span class="kw">c</span>(<span class="st">"BH"</span>))
 <span class="co">#&gt; Of the 676 unique genes in the input pathway set, 9.0% were not expressed in</span>
 <span class="co">#&gt;   the input data and were therefore removed.</span>
 <span class="co">#&gt; After trimming unexpressed genes from the 15 supplied pathways, we removed 0</span>
@@ -426,32 +420,32 @@ pInfo_df</code></pre></div>
 <p>For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently (use the <code>head</code> function to print the top pathways instead).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_pVals_df
 <span class="co">#&gt; # A tibble: 15 x 6</span>
-<span class="co">#&gt;    pathways    setsize trim_size terms                        rawp      BH</span>
+<span class="co">#&gt;    pathways    setsize trim_size terms                        rawp  FDR_BH</span>
 <span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                       &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway536       46        44 PID_TNF_PATHWAY           5.27e-4 0.00264</span>
-<span class="co">#&gt;  2 pathway781      198       180 REACTOME_PHOSPHOLIPID_ME~ 6.14e-4 0.00264</span>
-<span class="co">#&gt;  3 pathway87        87        86 KEGG_ERBB_SIGNALING_PATH~ 6.42e-4 0.00264</span>
-<span class="co">#&gt;  4 pathway491       40        40 PID_EPHB_FWD_PATHWAY      7.05e-4 0.00264</span>
-<span class="co">#&gt;  5 pathway390       29        29 BIOCARTA_TNFR1_PATHWAY    1.00e-3 0.00301</span>
-<span class="co">#&gt;  6 pathway176       54        54 KEGG_NON_SMALL_CELL_LUNG~ 1.38e-3 0.00344</span>
-<span class="co">#&gt;  7 pathway1211     108       104 REACTOME_SIGNALING_BY_IN~ 1.71e-3 0.00366</span>
-<span class="co">#&gt;  8 pathway413       23        23 ST_GA12_PATHWAY           2.11e-3 0.00395</span>
-<span class="co">#&gt;  9 pathway757       87        83 REACTOME_INSULIN_RECEPTO~ 2.40e-3 0.00400</span>
-<span class="co">#&gt; 10 pathway177       30        26 KEGG_ASTHMA               8.77e-3 0.0132 </span>
-<span class="co">#&gt; 11 pathway3         27        26 KEGG_PENTOSE_PHOSPHATE_P~ 1.05e-2 0.0143 </span>
-<span class="co">#&gt; 12 pathway60        64        45 KEGG_RETINOL_METABOLISM   2.40e-2 0.0300 </span>
-<span class="co">#&gt; 13 pathway187       16        16 BIOCARTA_RELA_PATHWAY     3.50e-2 0.0404 </span>
-<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PATHWAY      2.00e-1 0.215  </span>
-<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PROCESSING_~ 4.07e-1 0.407</span></code></pre></div>
+<span class="co">#&gt;  1 pathway87        87        86 KEGG_ERBB_SIGNALING_PATH~ 1.25e-4 6.29e-4</span>
+<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_PATHWAY      1.29e-4 6.29e-4</span>
+<span class="co">#&gt;  3 pathway536       46        44 PID_TNF_PATHWAY           1.43e-4 6.29e-4</span>
+<span class="co">#&gt;  4 pathway781      198       180 REACTOME_PHOSPHOLIPID_ME~ 1.68e-4 6.29e-4</span>
+<span class="co">#&gt;  5 pathway390       29        29 BIOCARTA_TNFR1_PATHWAY    3.05e-4 8.74e-4</span>
+<span class="co">#&gt;  6 pathway176       54        54 KEGG_NON_SMALL_CELL_LUNG~ 3.50e-4 8.74e-4</span>
+<span class="co">#&gt;  7 pathway1211     108       104 REACTOME_SIGNALING_BY_IN~ 5.21e-4 1.12e-3</span>
+<span class="co">#&gt;  8 pathway413       23        23 ST_GA12_PATHWAY           7.31e-4 1.37e-3</span>
+<span class="co">#&gt;  9 pathway757       87        83 REACTOME_INSULIN_RECEPTO~ 8.25e-4 1.37e-3</span>
+<span class="co">#&gt; 10 pathway177       30        26 KEGG_ASTHMA               4.60e-3 6.90e-3</span>
+<span class="co">#&gt; 11 pathway3         27        26 KEGG_PENTOSE_PHOSPHATE_P~ 5.85e-3 7.98e-3</span>
+<span class="co">#&gt; 12 pathway187       16        16 BIOCARTA_RELA_PATHWAY     2.01e-2 2.50e-2</span>
+<span class="co">#&gt; 13 pathway60        64        45 KEGG_RETINOL_METABOLISM   2.17e-2 2.50e-2</span>
+<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PATHWAY      1.65e-1 1.77e-1</span>
+<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PROCESSING_~ 4.04e-1 4.04e-1</span></code></pre></div>
 </div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
 <a href="#graph-of-top-pathways" class="anchor"></a>5.2 Graph of Top Pathways</h2>
-<p>To visualize the significance of the pathways based on the selected FDR method, we can use the <code>ggplot2</code> package to create summary graphics of the analysis results.</p>
+<p>To visualize the significance of the pathways based on FDR or uncorrected <span class="math inline">\(p\)</span>-values, we can use the <a href="http://ggplot2.org/"><code>ggplot2</code> package</a> to create summary graphics of the analysis results.</p>
 <div id="tidy-up-the-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tidy-up-the-data" class="anchor"></a>5.2.1 Tidy Up the Data</h3>
-<p>In order to take advantage of the publication-quality graphics created with the <code>ggplot2</code> package, we first need to tidy the data frames returned by the <code>AESPCA_pVals</code> and <code>superPCA_pVals</code> functions. This code takes in the <span class="math inline">\(p\)</span>-values data frame from the Supervised PCA method and modifies it to be compatible with <code>ggplot</code>.</p>
+<p>In order to take advantage of the publication-quality graphics created with the <code>ggplot2</code> package, we first need to tidy the data frames returned by the <code>AESPCA_pVals</code> and <code>superPCA_pVals</code> functions. The following code takes in the <span class="math inline">\(p\)</span>-values data frame (<code>surv_spr_pVals_df</code>) from the Supervised PCA method, modifies it to be compatible with the <code>ggplot</code> function, and saves the new data frame (<code>surv_spr_gather_df</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_gather_df &lt;-<span class="st"> </span>surv_spr_pVals_df <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pathways, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>terms) <span class="op">%&gt;%</span>
@@ -462,34 +456,61 @@ surv_spr_gather_df
 <span class="co">#&gt; # A tibble: 30 x 4</span>
 <span class="co">#&gt;    terms                                        variable    value score</span>
 <span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 PID_TNF_PATHWAY                              FDR      0.000527  7.55</span>
-<span class="co">#&gt;  2 REACTOME_PHOSPHOLIPID_METABOLISM             FDR      0.000614  7.40</span>
-<span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  FDR      0.000642  7.35</span>
-<span class="co">#&gt;  4 PID_EPHB_FWD_PATHWAY                         FDR      0.000705  7.26</span>
-<span class="co">#&gt;  5 BIOCARTA_TNFR1_PATHWAY                       FDR      0.00100   6.91</span>
-<span class="co">#&gt;  6 KEGG_NON_SMALL_CELL_LUNG_CANCER              FDR      0.00138   6.59</span>
-<span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       FDR      0.00171   6.37</span>
-<span class="co">#&gt;  8 ST_GA12_PATHWAY                              FDR      0.00211   6.16</span>
-<span class="co">#&gt;  9 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE FDR      0.00240   6.03</span>
-<span class="co">#&gt; 10 KEGG_ASTHMA                                  FDR      0.00877   4.74</span>
+<span class="co">#&gt;  1 KEGG_ERBB_SIGNALING_PATHWAY                  FDR      0.000125  8.99</span>
+<span class="co">#&gt;  2 PID_EPHB_FWD_PATHWAY                         FDR      0.000129  8.96</span>
+<span class="co">#&gt;  3 PID_TNF_PATHWAY                              FDR      0.000143  8.85</span>
+<span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             FDR      0.000168  8.69</span>
+<span class="co">#&gt;  5 BIOCARTA_TNFR1_PATHWAY                       FDR      0.000305  8.09</span>
+<span class="co">#&gt;  6 KEGG_NON_SMALL_CELL_LUNG_CANCER              FDR      0.000350  7.96</span>
+<span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       FDR      0.000521  7.56</span>
+<span class="co">#&gt;  8 ST_GA12_PATHWAY                              FDR      0.000731  7.22</span>
+<span class="co">#&gt;  9 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE FDR      0.000825  7.10</span>
+<span class="co">#&gt; 10 KEGG_ASTHMA                                  FDR      0.00460   5.38</span>
 <span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graph-pathway-ranks" class="anchor"></a>5.2.2 Graph Pathway Ranks</h3>
-<p>Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the raw <span class="math inline">\(p\)</span>-value</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(surv_spr_gather_df) <span class="op">+</span>
+<p>Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the FDR-values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fdr_df &lt;-<span class="st"> </span>surv_spr_gather_df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(variable <span class="op">==</span><span class="st"> "FDR"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>variable, <span class="op">-</span>value)
+
+<span class="kw">ggplot</span>(fdr_df) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(terms, score), <span class="dt">y =</span> score) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> variable)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>, <span class="dt">fill =</span> <span class="st">"#f47321"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_discrete</span>(<span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Supervised PCA Significant Colon Pathways by FDR Adjustment"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Supervised PCA FDR-Significant Colon Pathways"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Negative Log FDR"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.01</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<p><img src="C1-Quickstart_Guide_files/figure-html/surv_spr_FDR_plot-1.png" width="100%" height="60%"></p>
+<p>Now, we consider the unadjusted <span class="math inline">\(p\)</span>-values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">raw_df &lt;-<span class="st"> </span>surv_spr_gather_df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(variable <span class="op">==</span><span class="st"> "None"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>variable, <span class="op">-</span>value)
+
+<span class="kw">ggplot</span>(raw_df) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(terms, score), <span class="dt">y =</span> score) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"dodge"</span>, <span class="dt">fill =</span> <span class="st">"#005030"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_discrete</span>(<span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Supervised PCA Significant Colon Pathways"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Negative Log p-Value"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw">log</span>(<span class="fl">0.01</span>), <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>variable)</code></pre></div>
-<p><img src="C1-Quickstart_Guide_files/figure-html/surv_spr_pval_plot-1.png" width="100%" height="60%"><!-- library(reshape2) --><!-- surv_spr_melt_df <- surv_spr_pVals_df %>% --><!--   select(-pathways, - setsize, -trim_size) %>% --><!--   melt(id.vars = "terms") %>% --><!--   mutate(score = -log(value)) %>% --><!--   # mutate(terms = str_wrap(terms, width = 20)) %>%  --><!--   mutate(variable = factor(variable, labels = c("FDR", "None"))) %>%  --><!--   as.tibble() --></p>
+<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<p><img src="C1-Quickstart_Guide_files/figure-html/surv_spr_pval_plot-1.png" width="100%" height="60%"></p>
+<!-- library(reshape2) -->
+<!-- surv_spr_melt_df <- surv_spr_pVals_df %>% -->
+<!--   select(-pathways, - setsize, -trim_size) %>% -->
+<!--   melt(id.vars = "terms") %>% -->
+<!--   mutate(score = -log(value)) %>% -->
+<!--   # mutate(terms = str_wrap(terms, width = 20)) %>%  -->
+<!--   mutate(variable = factor(variable, labels = c("FDR", "None"))) %>%  -->
+<!--   as.tibble() -->
 <!-- ## Extract Genes from the Top Pathways -->
 <!-- Use the `topGenes` function to "score" the genes contained in the top significant pathways. Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. -->
 <!-- ```{r topSurvGenes} -->
@@ -507,6 +528,17 @@ surv_spr_gather_df
 <!--   geom_hline(yintercept = -log(0.01), size = 2) + -->
 <!--   geom_hline(yintercept = -log(0.05)) + -->
 <!--   coord_flip() -->
+<!-- ggplot(surv_spr_gather_df) + -->
+<!--   theme_bw() + -->
+<!--   aes(x = reorder(terms, score), y = score) + -->
+<!--   geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) + -->
+<!--   scale_fill_discrete(guide = FALSE) + -->
+<!--   ggtitle("Supervised PCA Significant Colon Pathways by FDR Adjustment") + -->
+<!--   xlab("Pathways") + -->
+<!--   ylab("Negative Log p-Value") + -->
+<!--   geom_hline(yintercept = -log(0.01), size = 2) + -->
+<!--   coord_flip() +  -->
+<!--   facet_grid(. ~ variable) -->
 <hr>
 <p></p>
 </div>
