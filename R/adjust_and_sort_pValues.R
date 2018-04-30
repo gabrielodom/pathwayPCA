@@ -29,7 +29,8 @@
 #' @param proc_vec Character vector of procedures. The returned data frame will
 #'   be sorted in ascending order by the first procedure in this vector, with
 #'   ties broken by the unadjusted \eqn{p}-value. If only one procedure is
-#'   selected, then it is necessarily the first procedure.
+#'   selected, then it is necessarily the first procedure. Defaults to
+#'   \code{"BH"} (Benjamini and Hochberg, 1995).
 #' @param ... Additional arguments to pass to the \code{\link{adjustRaw_pVals}}
 #'   function.
 #'
@@ -67,12 +68,12 @@
 adjust_and_sort <- function(pVals_vec,
                             genesets_ls,
                             adjust = TRUE,
-                            proc_vec = c("Bonferroni",
+                            proc_vec = c("BH",
+                                         "Bonferroni",
                                          "Holm",
                                          "Hochberg",
                                          "SidakSS",
                                          "SidakSD",
-                                         "BH",
                                          "BY",
                                          "ABH",
                                          "TSBH"),
@@ -98,14 +99,61 @@ adjust_and_sort <- function(pVals_vec,
 
   if(adjust){
 
-    adjusted_mat <- adjustRaw_pVals(rawp = pVals_df$rawp,
-                                    proc = proc_vec,
-                                    na.rm = anyNA(pVals_df$rawp),
-                                    ...)
-    adjusted_mat <- adjusted_mat[, -1, drop = FALSE]
+    proc_vec <- match.arg(proc_vec, several.ok = TRUE)
+    proc_vec <- unique(proc_vec)
 
-    pVals_df <- cbind(pVals_df, adjusted_mat)
-    out_df <- pVals_df[order(pVals_df[, proc_vec[1]], pVals_df$rawp), ]
+    adjusted_df <- adjustRaw_pVals(rawp = pVals_df$rawp,
+                                   proc = proc_vec,
+                                   na.rm = anyNA(pVals_df$rawp),
+                                   ...)
+
+    TSBHplace_idx <- which(proc_vec == "TSBH")
+
+    if(length(TSBHplace_idx) == 0){
+
+      # If the "TSBH" method isn't included
+      orderedNames <- proc_vec
+
+    } else {
+
+      # if the "TSBH" procedure is included
+      TSBHnames_idx <- grep("TSBH", colnames(adjusted_df))
+      TSBHnames <- colnames(adjusted_df)[TSBHnames_idx]
+      nProcs <- length(proc_vec)
+
+      if(TSBHplace_idx == 1){
+
+        # "TSBH" is the first procedure
+        orderedNames <- c(TSBHnames, proc_vec[-1])
+
+      } else if(TSBHplace_idx == nProcs) {
+
+        # "TSBH" is the last procedure
+        orderedNames <- c(proc_vec[-nProcs], TSBHnames)
+
+      } else {
+
+        # "TSBH" is some procedure in the middle of the proc list
+        orderedNames <- c(proc_vec[1:(TSBHplace_idx - 1)],
+                          TSBHnames,
+                          proc_vec[(TSBHplace_idx + 1):nProcs])
+
+      }
+
+    }
+
+    adjusted_df <- adjusted_df[, orderedNames, drop = FALSE]
+
+    fwerNames <- c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD")
+    newAdjNames <- sapply(orderedNames, function(i){
+      ifelse(i %in% fwerNames,
+             paste0("FWER_", i),
+             paste0("FDR_", i))
+    })
+    colnames(adjusted_df) <- newAdjNames
+
+    pVals_df <- cbind(pVals_df, adjusted_df)
+    out_df <- pVals_df[order(pVals_df[, newAdjNames[1]], pVals_df$rawp), ]
 
   } else {
     out_df <- pVals_df[order(pVals_df$rawp), ]

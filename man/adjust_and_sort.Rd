@@ -4,9 +4,9 @@
 \alias{adjust_and_sort}
 \title{Adjust and sort pathway \eqn{p}-values}
 \usage{
-adjust_and_sort(pVals_vec, genesets_ls, adjust = TRUE,
-  proc_vec = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
-  "BY", "ABH", "TSBH"), ...)
+adjust_and_sort(pVals_vec, genesets_ls, adjust = TRUE, proc_vec = c("BH",
+  "Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BY", "ABH", "TSBH"),
+  ...)
 }
 \arguments{
 \item{pVals_vec}{A named vector of permutation \eqn{p}-values returned by the
@@ -38,7 +38,8 @@ Defaults to TRUE.}
 \item{proc_vec}{Character vector of procedures. The returned data frame will
 be sorted in ascending order by the first procedure in this vector, with
 ties broken by the unadjusted \eqn{p}-value. If only one procedure is
-selected, then it is necessarily the first procedure.}
+selected, then it is necessarily the first procedure. Defaults to
+\code{"BH"} (Benjamini and Hochberg, 1995).}
 
 \item{...}{Additional arguments to pass to the \code{\link{adjustRaw_pVals}}
 function.}
