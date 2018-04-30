@@ -23,7 +23,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes. This vignette is the introduction and overview chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. 
+This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes. This vignette provides an introduction and overview for the `pathwayPCA` package. 
 
 0. Download Packages
 1. Import Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html))
@@ -31,7 +31,7 @@ This guide will serve as a brief introduction to pathway significance testing wi
 3. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
 4. Inspect Results
 
-Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for Bioconductor, you can install this package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
 ```
 devtools::install_github("gabrielodom/pathwayPCA")
 ```
@@ -57,7 +57,7 @@ This section is a quick overview of the material covered in the [Import and Tidy
 
 
 ## 2.1 Import `.gmt` Files
-The `.gmt` format is a commonly used file format for storing [pathway set information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the [MSigDB Collections page](http://software.broadinstitute.org/gsea/msigdb/collections.jsp). Use the `read_gmt` function to import a `.gmt` file into R. All `.gmt` files have a "description" field, but it can be empty. We use `description = FALSE` argument to skip importing that field.
+The `.gmt` format is a commonly used file format for storing [pathway information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the [MSigDB Collections page](http://software.broadinstitute.org/gsea/msigdb/collections.jsp), and you can use the `read_gmt` function to import such a `.gmt` file into R. All `.gmt` files have a "description" field, which contains additional information on the pathway. However, this field can be left empty. In this example, we use `description = FALSE` to skip importing the "description" field.
 ```{r read_example_gmt, eval = FALSE}
 gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
                          package = "pathwayPCA", mustWork = TRUE)
@@ -72,11 +72,9 @@ gene_set_ls
 
 The imported `.gmt` file is stored as a `pathwaySet` list object. This list contains:
 
-- a list  of the gene names contained in each pathway set (`pathways`),
+- a list  of the gene names contained in each pathway (`pathways`),
 - the names of the pathways (`TERMS`), and
 - (*OPTIONAL*) the hyperlink to the pathway description card on the GSEA website (`description`) if you specify `description = TRUE`.
-
-Specifically, the `description` field contains any notes or details on the pathway that is stored in the second entry of each row of the `.gmt` file. This field is often left empty.
 
 
 ## 2.2 Import and Tidy Assay Data
@@ -84,7 +82,7 @@ We assume that the assay data (e.g. transcriptomic data) is either in an Excel f
 
 ![](example_assay_data.PNG)
 
-In this data set, the columns are individual samples. The values in each row are the -Omic expression measurements for that gene. Use the `read_csv` function from the `readr` package to import `.csv` files into `R` as [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) (table *and* data frame) objects. The `read_csv` function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (`col_double()`) except for the gene name column (`X1 = col_character()`).
+In this data set, the columns are individual samples. The values in each row are the gene expression measurements for that gene. Use the `read_csv` function from the `readr` package to import `.csv` files into `R` as [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) (table *and* data frame) objects. The `read_csv` function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (`col_double()`) except for the gene name column (`X1 = col_character()`).
 ```{r read_example_assay, eval = FALSE}
 assay_path <- system.file("extdata", "ex_assay_subset.csv",
                           package = "pathwayPCA", mustWork = TRUE)
@@ -100,7 +98,7 @@ Incidentally, we consider gene names to adhere to the following conditions:
 - gene names must start with an English letter (a-z or A-Z), and
 - gene names can only contain English letters, Arabic numerals (0-9), and possibly a dash (-).
 
-Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you'll need to "tidy" the imported assay with the `transpose_assay` function. Now see that the rows from our Excel file are the columns in the tidy data before performing data analysis.
+Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you'll need to "tidy" the imported assay with the `transpose_assay` function. The transposed data set will appear similar to the following:
 ```{r transpose_assay, echo = FALSE}
 assayT_df <- transpose_assay(assay_df)
 assayT_df
@@ -108,7 +106,7 @@ assayT_df
 
 
 ## 2.3 Import Phenotype Info
-Use the `read_csv` function to import the phenotype data. Once again, the `read_csv` function displays a message informing us of the types of data in each column. This data is subject survival information which contains the subject ID (`Sample`), survival time after disease onset in months (`eventTime`), and an indicator if the subject died or was lost to follow up (`eventObserved`).
+Use the `read_csv` function to import the phenotype data. Once again, the `read_csv` function displays a message informing us of the types of data in each column. The following phenotype dataset for subject survival information contains the subject ID (`Sample`), survival time after disease onset in months (`eventTime`), and a variable indicating if the subject died or was lost to follow up (`eventObserved`).
 ```{r read_example_pinfo, eval = FALSE}
 pInfo_path <- system.file("extdata", "ex_pInfo_subset.csv",
                           package = "pathwayPCA", mustWork = TRUE)
@@ -122,7 +120,7 @@ pInfo_df
 
 
 ## 2.4 Match the Phenotype and Assay Data
-Now that you have the measurement data in tidy form (`assayT_df`) and the response data (`pInfo_df`), you can use the `inner_join` function from the `dplyr` package to match the assay measurements to phenotype information by subject identifier.
+Now that you have the assay data in tidy form (`assayT_df`) and the phenotype data (`pInfo_df`), you can use the `inner_join` function from the `dplyr` package to match the assay measurements to phenotype information by subject identifier.
 ```{r innerJoin}
 (joinedExperiment_df <- inner_join(pInfo_df, assayT_df, by = "Sample"))
 ```
@@ -137,13 +135,14 @@ Now that you have the measurement data in tidy form (`assayT_df`) and the respon
 This section is a quick overview of the material covered in the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
 
 ## 3.1 Create an Object
-Using the data you just imported, create a data object specific to survival, regression, or categorical responses. There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwaySet` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are
+Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival `Omics` object to hold our assay, pathway set list, and survival responses.
 
-1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored).
-2. `OmicsReg`---a data object for continuous responses (usually a vector of linear regression responses).
-3. `OmicsCateg`---a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression).
+<!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwaySet` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
 
-We will create a survival `Omics` object to hold our assay, pathway set list, and survival response.
+<!-- 1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored). -->
+<!-- 2. `OmicsReg`---a data object for continuous responses (usually a vector of linear regression responses). -->
+<!-- 3. `OmicsCateg`---a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression). -->
+
 ```{r create_OmicsSurv_object}
 colon_OmicsSurv <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
                                 pathwaySet_ls = colon_pathwaySet,
@@ -193,7 +192,7 @@ The function arguments are as follows. Both the `AESPCA_pVals` and `superPCA_pVa
 
 
 ## 4.1 AES-PCA
-Perform AES-PCA pathway significance testing on the `Omics` object with the `AESPCA_pVals` function. For more details on this function, see the [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca) section of Chapter 4.
+Perform AES-PCA pathway significance testing on the `Omics` object with the `AESPCA_pVals` function. For more details on this function, see the [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca) section of Chapter 4. We will adjust the pathway $p$-values by the estimated FDR calculated with the `"BH"` procedure (Benjamini and Hochberg, 1995). 
 ```{r aespca}
 surv_aes_pVals_df <- AESPCA_pVals(object = colon_OmicsSurv,
                                   numReps = 1000,
@@ -230,10 +229,10 @@ surv_spr_pVals_df
 ```
 
 ## 5.2 Graph of Top Pathways
-To visualize the significance of the pathways based on the selected FDR method, we can use the `ggplot2` package to create summary graphics of the analysis results.
+To visualize the significance of the pathways based on FDR or uncorrected $p$-values, we can use the [`ggplot2` package](http://ggplot2.org/) to create summary graphics of the analysis results.
 
 ### 5.2.1 Tidy Up the Data
-In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `superPCA_pVals` functions. This code takes in the $p$-values data frame from the Supervised PCA method and modifies it to be compatible with `ggplot`.
+In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `superPCA_pVals` functions. The following code takes in the $p$-values data frame (`surv_spr_pVals_df`) from the Supervised PCA method, modifies it to be compatible with the `ggplot` function, and saves the new data frame (`surv_spr_gather_df`).
 ```{r tidyOutput}
 surv_spr_gather_df <- surv_spr_pVals_df %>%
   select(-pathways, - setsize, -trim_size) %>%
@@ -245,20 +244,43 @@ surv_spr_gather_df
 ```
 
 ### 5.2.2 Graph Pathway Ranks
-Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the raw $p$-value
-```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
-ggplot(surv_spr_gather_df) +
+Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the FDR-values.
+```{r surv_spr_FDR_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+fdr_df <- surv_spr_gather_df %>% 
+  filter(variable == "FDR") %>% 
+  select(-variable, -value)
+
+ggplot(fdr_df) +
   theme_bw() +
   aes(x = reorder(terms, score), y = score) +
-  geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#f47321") +
   scale_fill_discrete(guide = FALSE) +
-  ggtitle("Supervised PCA Significant Colon Pathways by FDR Adjustment") +
+  ggtitle("Supervised PCA FDR-Significant Colon Pathways") +
+  xlab("Pathways") +
+  ylab("Negative Log FDR") +
+  geom_hline(yintercept = -log(0.01), size = 2) +
+  coord_flip()
+```
+
+Now, we consider the unadjusted $p$-values.
+```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+raw_df <- surv_spr_gather_df %>% 
+  filter(variable == "None") %>% 
+  select(-variable, -value)
+
+ggplot(raw_df) +
+  theme_bw() +
+  aes(x = reorder(terms, score), y = score) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#005030") +
+  scale_fill_discrete(guide = FALSE) +
+  ggtitle("Supervised PCA Significant Colon Pathways") +
   xlab("Pathways") +
   ylab("Negative Log p-Value") +
   geom_hline(yintercept = -log(0.01), size = 2) +
-  coord_flip() + 
-  facet_grid(. ~ variable)
+  coord_flip()
 ```
+
+
 <!-- library(reshape2) -->
 <!-- surv_spr_melt_df <- surv_spr_pVals_df %>% -->
 <!--   select(-pathways, - setsize, -trim_size) %>% -->
@@ -287,6 +309,18 @@ ggplot(surv_spr_gather_df) +
 <!--   geom_hline(yintercept = -log(0.01), size = 2) + -->
 <!--   geom_hline(yintercept = -log(0.05)) + -->
 <!--   coord_flip() -->
+
+<!-- ggplot(surv_spr_gather_df) + -->
+<!--   theme_bw() + -->
+<!--   aes(x = reorder(terms, score), y = score) + -->
+<!--   geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) + -->
+<!--   scale_fill_discrete(guide = FALSE) + -->
+<!--   ggtitle("Supervised PCA Significant Colon Pathways by FDR Adjustment") + -->
+<!--   xlab("Pathways") + -->
+<!--   ylab("Negative Log p-Value") + -->
+<!--   geom_hline(yintercept = -log(0.01), size = 2) + -->
+<!--   coord_flip() +  -->
+<!--   facet_grid(. ~ variable) -->
 
 *******************************************************************************
 
