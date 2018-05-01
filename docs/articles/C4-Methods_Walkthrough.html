@@ -11,7 +11,6 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Chapter 4 - Test Pathway Significance">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -89,9 +88,9 @@
       <h1>Chapter 4 - Test Pathway Significance</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-04-27</h4>
+            <h4 class="date">2018-04-30</h4>
       
-      <small>Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/C4-Methods_Walkthrough.Rmd"><code>vignettes/C4-Methods_Walkthrough.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/C4-Methods_Walkthrough.Rmd"><code>vignettes/C4-Methods_Walkthrough.Rmd</code></a></small>
       <div class="hidden name"><code>C4-Methods_Walkthrough.Rmd</code></div>
 
     </div>
@@ -447,37 +446,37 @@
 <a href="#analyze-the-results" class="anchor"></a>5. Analyze the Results</h1>
 <p>Now that we have the pathway-specific <span class="math inline">\(p\)</span>-values, we can inspect the top pathways ordered by significance. Also, we will plot the most significant <span class="math inline">\(p\)</span>-values using the <code>ggplot2::</code> package. In order to use the <code>ggplot</code> function, we must first “tidy” the data frame returned by the <code><a href="../reference/superPCA_pVals.html">superPCA_pVals()</a></code> and <code><a href="../reference/AESPCA_pVals.html">AESPCA_pVals()</a></code> functions. For graphics and data tidying, we will need the suite of <code>tidyverse</code> packages:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="co">#&gt; -- Attaching packages ----------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
-<span class="co">#&gt; v ggplot2 2.2.1     v purrr   0.2.4</span>
-<span class="co">#&gt; v tibble  1.4.2     v dplyr   0.7.4</span>
-<span class="co">#&gt; v tidyr   0.8.0     v stringr 1.3.0</span>
-<span class="co">#&gt; v readr   1.1.1     v forcats 0.3.0</span>
-<span class="co">#&gt; -- Conflicts -------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --</span>
-<span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
-<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></code></pre></div>
+<span class="co">#&gt; ── Attaching packages ───────────────────────────────────────────── tidyverse 1.2.1 ──</span>
+<span class="co">#&gt; ✔ ggplot2 2.2.1     ✔ purrr   0.2.4</span>
+<span class="co">#&gt; ✔ tibble  1.4.2     ✔ dplyr   0.7.4</span>
+<span class="co">#&gt; ✔ tidyr   0.8.0     ✔ stringr 1.3.0</span>
+<span class="co">#&gt; ✔ readr   1.1.1     ✔ forcats 0.3.0</span>
+<span class="co">#&gt; ── Conflicts ──────────────────────────────────────────────── tidyverse_conflicts() ──</span>
+<span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span>
+<span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></code></pre></div>
 <div id="analysis-function-output" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysis-function-output" class="anchor"></a>5.1 Analysis Function Output</h2>
 <p>For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. (Note: if you are not using the <code>tidyverse</code> package suite, your results will print differently. Use the <code>head</code> function to print the top pathways instead.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_aes_pVals_df
 <span class="co">#&gt; # A tibble: 15 x 7</span>
-<span class="co">#&gt;    pathways    setsize trim_size terms               rawp Hochberg SidakSD</span>
-<span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway781      198       180 REACTOME_PHOSPH~ 0.        0.      0.    </span>
-<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_PA~ 0.00100   0.0120  0.0139</span>
-<span class="co">#&gt;  3 pathway757       87        83 REACTOME_INSULI~ 0.00100   0.0120  0.0139</span>
-<span class="co">#&gt;  4 pathway1211     108       104 REACTOME_SIGNAL~ 0.00100   0.0120  0.0139</span>
-<span class="co">#&gt;  5 pathway536       46        44 PID_TNF_PATHWAY  0.00200   0.0220  0.0218</span>
-<span class="co">#&gt;  6 pathway60        64        45 KEGG_RETINOL_ME~ 0.00700   0.0700  0.0678</span>
-<span class="co">#&gt;  7 pathway87        87        86 KEGG_ERBB_SIGNA~ 0.0300    0.270   0.240 </span>
-<span class="co">#&gt;  8 pathway3         27        26 KEGG_PENTOSE_PH~ 0.178     0.925   0.792 </span>
-<span class="co">#&gt;  9 pathway187       16        16 BIOCARTA_RELA_P~ 0.483     0.925   0.990 </span>
-<span class="co">#&gt; 10 pathway120       89        73 KEGG_ANTIGEN_PR~ 0.514     0.925   0.990 </span>
-<span class="co">#&gt; 11 pathway413       23        23 ST_GA12_PATHWAY  0.608     0.925   0.991 </span>
-<span class="co">#&gt; 12 pathway266       11        11 BIOCARTA_SET_PA~ 0.612     0.925   0.991 </span>
-<span class="co">#&gt; 13 pathway390       29        29 BIOCARTA_TNFR1_~ 0.635     0.925   0.991 </span>
-<span class="co">#&gt; 14 pathway176       54        54 KEGG_NON_SMALL_~ 0.876     0.925   0.991 </span>
-<span class="co">#&gt; 15 pathway177       30        26 KEGG_ASTHMA      0.925     0.925   0.991</span></code></pre></div>
+<span class="co">#&gt;    pathways    setsize trim_size terms     rawp FWER_Hochberg FWER_SidakSD</span>
+<span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 pathway757       87        83 REACT… 0.             0.           0.    </span>
+<span class="co">#&gt;  2 pathway781      198       180 REACT… 0.00100        0.0130       0.0139</span>
+<span class="co">#&gt;  3 pathway1211     108       104 REACT… 0.00100        0.0130       0.0139</span>
+<span class="co">#&gt;  4 pathway491       40        40 PID_E… 0.00300        0.0360       0.0354</span>
+<span class="co">#&gt;  5 pathway60        64        45 KEGG_… 0.00600        0.0600       0.0641</span>
+<span class="co">#&gt;  6 pathway536       46        44 PID_T… 0.00600        0.0600       0.0641</span>
+<span class="co">#&gt;  7 pathway87        87        86 KEGG_… 0.0330         0.297        0.261 </span>
+<span class="co">#&gt;  8 pathway3         27        26 KEGG_… 0.184          0.952        0.803 </span>
+<span class="co">#&gt;  9 pathway187       16        16 BIOCA… 0.508          0.952        0.993 </span>
+<span class="co">#&gt; 10 pathway120       89        73 KEGG_… 0.518          0.952        0.993 </span>
+<span class="co">#&gt; 11 pathway413       23        23 ST_GA… 0.563          0.952        0.993 </span>
+<span class="co">#&gt; 12 pathway390       29        29 BIOCA… 0.610          0.952        0.993 </span>
+<span class="co">#&gt; 13 pathway266       11        11 BIOCA… 0.637          0.952        0.993 </span>
+<span class="co">#&gt; 14 pathway176       54        54 KEGG_… 0.893          0.952        0.993 </span>
+<span class="co">#&gt; 15 pathway177       30        26 KEGG_… 0.952          0.952        0.993</span></code></pre></div>
 </div>
 <div id="tidy-the-pathway-results" class="section level2">
 <h2 class="hasAnchor">
@@ -487,13 +486,21 @@
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pathways, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>terms) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">factor</span>(variable, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"Hochberg"</span>, <span class="st">"None"</span>, <span class="st">"Sidak SD"</span>)))
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">factor</span>(variable)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">recode_factor</span>(variable,
+                                  <span class="dt">rawp =</span> <span class="st">"None"</span>,
+                                  <span class="dt">FWER_Hochberg =</span> <span class="st">"Hochberg"</span>,
+                                  <span class="dt">FWER_SidakSD =</span> <span class="st">"Sidak SD"</span>))
 
 surv_spr_gather_df &lt;-<span class="st"> </span>surv_spr_pVals_df <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pathways, <span class="op">-</span><span class="st"> </span>setsize, <span class="op">-</span>trim_size) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>terms) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw">log</span>(value)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">factor</span>(variable, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"Hochberg"</span>, <span class="st">"None"</span>, <span class="st">"Sidak SD"</span>)))</code></pre></div>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">factor</span>(variable)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">recode_factor</span>(variable,
+                                  <span class="dt">rawp =</span> <span class="st">"None"</span>,
+                                  <span class="dt">FWER_Hochberg =</span> <span class="st">"Hochberg"</span>,
+                                  <span class="dt">FWER_SidakSD =</span> <span class="st">"Sidak SD"</span>))</code></pre></div>
 <!-- library(reshape2) -->
 <!-- surv_aes_melt_df <- surv_aes_pVals_df %>% -->
 <!--   select(-pathways, - setsize, -trim_size) %>% -->
