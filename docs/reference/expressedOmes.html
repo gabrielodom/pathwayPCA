@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-   data frame — expressedOmes • pathwayPCA</title>
+<title>Extract expressed -Omes matching a pathways list from an assay data frame — expressedOmes • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -26,16 +25,14 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
-<meta property="og:title" content="Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-   data frame — expressedOmes" />
+<meta property="og:title" content="Extract expressed -Omes matching a pathways list from an assay data frame — expressedOmes" />
 
 <meta property="og:description" content="Given a bio-assay design matrix and a pathwaySet gene
    pathways list (each within an Omics*-class object), extract the
    genes / proteins / lipids / metabolomes / transcriptomes contained in each
-   gene pathway set which are expressed in the assay data frame." />
+   pathways list which are expressed in the assay data frame." />
+
+<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -46,6 +43,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -120,20 +119,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-   data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/subsetExpressed-omes.R'><code>R/subsetExpressed-omes.R</code></a></small>
+    <h1>Extract expressed -Omes matching a pathways list from an assay data frame</h1>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/subsetExpressed-omes.R'><code>R/subsetExpressed-omes.R</code></a></small>
     <div class="hidden name"><code>expressedOmes.Rd</code></div>
     </div>
 
-    <div class="ref-description">
     
     <p>Given a bio-assay design matrix and a <code>pathwaySet</code> gene
    pathways list (each within an <code>Omics*</code>-class object), extract the
    genes / proteins / lipids / metabolomes / transcriptomes contained in each
-   gene pathway set which are expressed in the assay data frame.</p>
+   pathways list which are expressed in the assay data frame.</p>
     
-    </div>
 
     <pre class="usage"><span class='fu'>expressedOmes</span>(<span class='no'>object</span>, <span class='kw'>trim</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
@@ -157,7 +153,7 @@ is excluded. Defaults to 3.</p></td>
     <tr>
       <th>message</th>
       <td><p>Should this function return diagnostic messages? Messages
-concern the percentage of genes included in the pathway set but not
+concern the percentage of genes included in the pathways list but not
 measured in the data, genes measured in the data but not called for in the
 pathways, and the number of pathways ignored due to too few number of
 genes present after trimming. Defaults to <code>TRUE</code>.</p></td>

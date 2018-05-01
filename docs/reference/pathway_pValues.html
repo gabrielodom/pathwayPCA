@@ -26,14 +26,13 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
 <meta property="og:title" content="Calculate the \(p\)-values from a mixture of Weibull Extreme Value
    Distributions for supervised PCA — pathway_pValues" />
 
 <meta property="og:description" content="Calculate pathway-specific \(p\)-values for supervised PCA
    and their associated False Discovery Rates (FDR)." />
+
+<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -44,6 +43,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -120,16 +121,14 @@
     <div class="page-header">
     <h1>Calculate the \(p\)-values from a mixture of Weibull Extreme Value
    Distributions for supervised PCA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_pValues.R'><code>R/superPC_pathway_pValues.R</code></a></small>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_pValues.R'><code>R/superPC_pathway_pValues.R</code></a></small>
     <div class="hidden name"><code>pathway_pValues.Rd</code></div>
     </div>
 
-    <div class="ref-description">
     
     <p>Calculate pathway-specific \(p\)-values for supervised PCA
    and their associated False Discovery Rates (FDR).</p>
     
-    </div>
 
     <pre class="usage"><span class='fu'>pathway_pValues</span>(<span class='no'>optimParams_vec</span>, <span class='no'>max_tScores_vec</span>, <span class='no'>genelist_ls</span>,
   <span class='kw'>FDRadjust</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multTestProc</span> <span class='kw'>=</span> <span class='st'>"BH"</span>)</pre>
@@ -176,7 +175,7 @@ function. Specify multiple procedures via <code>c(...)</code>. Defaults to
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with columns for the pathway names, pathway set sizes,
+    <p>A data frame with columns for the pathway names, pathway sizes,
    raw pathway \(p\)-values, and a column of FDR-adjusted \(p\)-values
    for each adjustment method specified.</p>
     

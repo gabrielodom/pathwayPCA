@@ -25,13 +25,12 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
 <meta property="og:title" content="Generation functions for <code>-Omics*</code>-class objects — create_OmicsPath" />
 
 <meta property="og:description" content="These functions create valid objects of class OmicsPathway,
   OmicsSurv, OmicsReg, or OmicsCateg." />
+
+<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -42,6 +41,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -117,16 +118,14 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generation functions for <code>-Omics*</code>-class objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/create_Omics_All.R'><code>R/create_Omics_All.R</code></a></small>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/create_Omics_All.R'><code>R/create_Omics_All.R</code></a></small>
     <div class="hidden name"><code>create_OmicsPathway.Rd</code></div>
     </div>
 
-    <div class="ref-description">
     
     <p>These functions create valid objects of class <code>OmicsPathway</code>,
   <code>OmicsSurv</code>, <code>OmicsReg</code>, or <code>OmicsCateg</code>.</p>
     
-    </div>
 
     <pre class="usage"><span class='fu'>create_OmicsPath</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>)
 
@@ -212,8 +211,8 @@ variable of a generalized linear regression exercise.</p></td>
   the pathway names are attached as attributes to the <code>TERMS</code> and
   <code>setsize</code> vectors (the <code>setsize</code> vector is calculated at object
   creation).</p>
-<p>If your gene pathway set information is stored in a <code>.gmt</code> file, use
-  the <code><a href='read_gmt.html'>read_gmt</a></code> function to import your gene set list as a
+<p>If your gene pathways list is stored in a <code>.gmt</code> file, use the
+  <code><a href='read_gmt.html'>read_gmt</a></code> function to import your pathways list as a
   <code>pathwaySet</code> list object.</p>
     
     <h2 class="hasAnchor" id="omicspathway"><a class="anchor" href="#omicspathway"></a>OmicsPathway</h2>

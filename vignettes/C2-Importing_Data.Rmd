@@ -20,11 +20,11 @@ knitr::opts_chunk$set(collapse = TRUE,
 ```
 
 # 1. Overview
-This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Import Data](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#import-data) section of the Quickstart Guide. This vignette will discuss using the the `read_gmt` function to import Gene Matrix Transposed (`.gmt`) [gene set files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) as a list object with class `pathwaySet`. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list.
+This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Import Data](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#import-data) section of the Quickstart Guide. This vignette will discuss using the the `read_gmt` function to import Gene Matrix Transposed (`.gmt`) [pathways files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) as a list object with class `pathwaySet`. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a pathways list.
 
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
-1. Import a `.gmt` file and save the gene sets therein as a `pathwaySet` object using the `read_gmt` function.
+1. Import a `.gmt` file and save the pathways stored therein as a `pathwaySet` object using the `read_gmt` function.
 2. Import an assay `.csv` file with the `read_csv` function from the `readr` package, and transpose this data frame into "tidy" form with the `transpose_assay` function.
 3. Import phenotype information stored in a `.csv` file, and join (merge) it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
@@ -39,19 +39,19 @@ library(pathwayPCA)
 </br>
 
 # 2. GMT Files
-The `.gmt` format is a commonly used file format for storing [pathway set information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Gene sets in the Molecular Signatures Database (MSigDB) can be downloaded from the [MSigDB Collections page](http://software.broadinstitute.org/gsea/msigdb/collections.jsp).
+The `.gmt` format is a commonly used file format for storing [pathway information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Pathways lists in the Molecular Signatures Database (MSigDB) can be downloaded from the [MSigDB Collections page](http://software.broadinstitute.org/gsea/msigdb/collections.jsp).
 
 ## 2.1 GMT Format Description
 GMT-formatted files follow a very specific set of rules:
 
-1. Each row of the file represents a gene set, and only one gene set is allowed per line.
-2. The first entry in each row is the gene set name. Eg. `"KEGG_STEROID_BIOSYNTHESIS"`
-3. The second entry in each row is an optional brief description of the gene set. Eg. `"http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_STEROID_BIOSYNTHESIS"`
-4. The third to the last entry on each row are the genes in the gene set. Eg. `"SOAT1"  "LSS" "SQLE"  "EBP" "CYP51A1" "DHCR7" "CYP27B1" "DHCR24"  "HSD17B7" "MSMO1" "FDFT1" "SC5DL" "LIPA"  "CEL" "TM7SF2"  "NSDHL" "SOAT2"`
+1. Each row of the file represents a pathway, and only one pathway is allowed per line.
+2. The first entry in each row is the pathway name. Eg. `"KEGG_STEROID_BIOSYNTHESIS"`
+3. The second entry in each row is an optional brief description of the pathway. Eg. `"http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_STEROID_BIOSYNTHESIS"`
+4. The third to the last entry on each row are the gene names in the pathway. Eg. `"SOAT1"  "LSS" "SQLE"  "EBP" "CYP51A1" "DHCR7" "CYP27B1" "DHCR24"  "HSD17B7" "MSMO1" "FDFT1" "SC5DL" "LIPA"  "CEL" "TM7SF2"  "NSDHL" "SOAT2"`
 5. Each entry in each line is seperated by a tab.
 
 ## 2.2 Import GMT files with `read_gmt`
-Based on the clearly-organized `.gmt` file format, we are able to write a very fast function to read `.gmt` files into R. The `read_gmt` function takes in a path specifying where your `.gmt` file is stored, and outputs a list of gene set information.
+Based on the clearly-organized `.gmt` file format, we are able to write a very fast function to read `.gmt` files into R. The `read_gmt` function takes in a path specifying where your `.gmt` file is stored, and outputs a list of pathways.
 ```{r read_example_gmt, eval = FALSE}
 gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
                          package = "pathwayPCA", mustWork = TRUE)
@@ -66,11 +66,11 @@ We now carefully discuss the form of this information. This `gene_set_ls` object
 
 1. `pathways`: A list of character vectors. Each character vector should contain a subset of the names of the -Omes measured in your assay data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. Therefore, the `pathwayPCA` package requires each pathway to have a minimum of three genes with recorded expressions in the predictor data frame.
 
-**Important**: some protein set lists have proteins markers recorded as character numerics (e.g. "3"), so make sure the feature names of your assay have an overlap with the gene or protein names in the `pathwaySet` list. Ensure that there is a non-empty overlap between the names in the pathways and the feature names of the assay. Not every feature in your assay data frame will be in a pathway gene set, and not every gene in each pathway will have a measurement in the assay data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names sorted into the pathways.* If your gene set list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathway set and data assay are compatible.**
+**Important**: some protein set lists have proteins markers recorded as character numerics (e.g. "3"), so make sure the feature names of your assay have an overlap with the gene or protein names in the `pathwaySet` list. Ensure that there is a non-empty overlap between the names in the pathways and the feature names of the assay. Not every feature in your assay data frame will be in the pathways list, and not every gene in each pathway will have a measurement in the assay data frame. *However, for meaningful results, there should be a significant overlap between the genes measured in the data frame and the gene names stored in the pathways list.* If your pathways list has very few matching genes in your data frame, then your pathway-based analysis results will be significantly degraded. **Make sure your pathways list and data assay are compatible.**
 
 2. `TERMS`: A character vector the same length as the pathways list with the proper names of the pathways.
 3. `description`: (OPTIONAL) A character vector the same length as the pathways list with descriptive information. For instance, the `.gmt` file included with this package has hyperlinks to the MSigDB description card for that pathway in this field. This field will be imported when `description = TRUE` (it defaults to `FALSE`).
-4. `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathway set list later, at `Omics`-class object creation.* This information is useful to measure the ratio of the number of genes from each pathway expressed in your assay to the number of genes defined to be in that pathway. For each pathway, this ratio should be very close to 1 for best pathway analysis results.
+4. `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathways list later, at `Omics`-class object creation.* This information is useful to measure the ratio of the number of genes from each pathway expressed in your assay to the number of genes defined to be in that pathway. For each pathway, this ratio should be very close to 1 for best pathway analysis results.
 
 The object itself has the following structure:
 ```{r pathwaySet_structure}
@@ -162,7 +162,7 @@ assayT_df$LSS
 </br>
 
 # 4. Import and Join Response Data
-We now have an appropriate pathway set list and a tidy -Omics assay data frame. Let's imagine that your phenotype data looks something like this:
+We now have an appropriate pathways list and a tidy -Omics assay data frame. Let's imagine that your phenotype data looks something like this:
 
 ![](example_pInfo_data.PNG)
 
@@ -193,7 +193,7 @@ This `pInfo` data frame has the sample names as a column of character values, ju
 
 </br>
 
-# 5. Example Tidy Assay and Gene Set
+# 5. Example Tidy Assay and Pathways List
 Included in this package, we have a small tidy assay and corresponding gene subset list. We will load and inspect this assay. This data set has 656 gene expression measurements on 250 colon cancer patients. Further notice that the assay and overall survival response information have already been matched.
 ```{r tumour_data_load}
 data("colonSurv_df")
@@ -207,7 +207,7 @@ colon_pathwaySet
 str(colon_pathwaySet$pathways, list.len = 10)
 ```
 
-The pathway set list and tidy assay (with matched phenotype information) are all the information we need to create an `Omics`-class data object. 
+The pathways list and tidy assay (with matched phenotype information) are all the information we need to create an `Omics`-class data object. 
 
 *******************************************************************************
 
@@ -216,7 +216,7 @@ The pathway set list and tidy assay (with matched phenotype information) are all
 # 6. Review
 We now summarize our steps so far. We have
 
-1. Imported a `.gmt` file and saved the gene sets therein as a `pathwaySet` object using the `read_gmt` function.
+1. Imported a `.gmt` file and saved the pathways stored therein as a `pathwaySet` object using the `read_gmt` function.
 2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `transpose_assay` function.
 3. Imported a phenotype information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 

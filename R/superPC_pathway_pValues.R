@@ -26,7 +26,7 @@
 #'    function. Specify multiple procedures via \code{c(...)}. Defaults to
 #'    \code{"BH"}.
 #'
-#' @return A data frame with columns for the pathway names, pathway set sizes,
+#' @return A data frame with columns for the pathway names, pathway sizes,
 #'    raw pathway \eqn{p}-values, and a column of FDR-adjusted \eqn{p}-values
 #'    for each adjustment method specified.
 #'

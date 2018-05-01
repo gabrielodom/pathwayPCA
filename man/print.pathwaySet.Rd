@@ -16,8 +16,8 @@
    function).
 }
 \description{
-The display method for gene set / pathway set lists as returned
-   by the \code{\link{read_gmt}} function.
+The display method for pathways lists as returned by the
+   \code{\link{read_gmt}} function.
 }
 \details{
 This function sets a \code{print} method for \code{pathwaySet}

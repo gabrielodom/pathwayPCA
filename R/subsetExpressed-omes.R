@@ -1,17 +1,16 @@
-#' Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-#'    data frame
+#' Extract expressed -Omes matching a pathways list from an assay data frame
 #'
 #' @description Given a bio-assay design matrix and a \code{pathwaySet} gene
 #'    pathways list (each within an \code{Omics*}-class object), extract the
 #'    genes / proteins / lipids / metabolomes / transcriptomes contained in each
-#'    gene pathway set which are expressed in the assay data frame.
+#'    pathways list which are expressed in the assay data frame.
 #'
 #' @param object An object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'    \code{OmicsReg}, or \code{OmicsCateg}.
 #' @param trim The minimum cutoff of expressed -Ome measures before a pathway
 #'    is excluded. Defaults to 3.
 #' @param message Should this function return diagnostic messages? Messages
-#'    concern the percentage of genes included in the pathway set but not
+#'    concern the percentage of genes included in the pathways list but not
 #'    measured in the data, genes measured in the data but not called for in the
 #'    pathways, and the number of pathways ignored due to too few number of
 #'    genes present after trimming. Defaults to \code{TRUE}.
@@ -136,7 +135,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             #   from column 30 to 110 in the code.
             if(message){
 
-              message(sprintf("Of the %i unique genes in the input pathway set, %.1f%% were not expressed in
+              message(sprintf("Of the %i unique genes in the input pathways list, %.1f%% were not expressed in
   the input data and were therefore removed.",
                               length(genesInPathway_vec), pRmFeatures * 100))
 

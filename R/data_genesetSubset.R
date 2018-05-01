@@ -3,7 +3,7 @@
 #' @description An example Canonical Pathways Gene Subset from the Broad
 #'   Institute: File: \code{c2.cp.v6.0.symbols.gmt}.
 #'
-#' @details This is a subset of 15 pathways from the Broad Institute gene set
+#' @details This is a subset of 15 pathways from the Broad Institute pathways
 #'   list. This subset contains seven pathways which are related to the response
 #'   information in the \code{\link{colonSurv_df}} data file.
 #'
