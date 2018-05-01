@@ -26,12 +26,12 @@ This vignette is the third chapter in the "Pathway Significance Testing with `pa
 ## 1.1 Outline
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
-1. Describe the components of the `Omics` object class.
+1. Describe the data components within the `Omics` object class.
 2. Create a few `Omics` objects.
 3. Inspect and edit individual elements contained in these objects.
 
 First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/).
-```{r packageLoad}
+```{r packageLoad, message=FALSE}
 library(tidyverse)
 library(pathwayPCA)
 ```
@@ -41,17 +41,17 @@ Because this is the third chapter in the workflow, we assume that
 
 1. Your assay is "tidy".
 2. Your gene pathways list is stored in a `pathwaySet` object.
-3. Your response and assay data have already been ID-matched.
+3. Your phenotype and assay data have already been ID-matched.
 
-If you are unsure about any of the three points above (or you don't know what these mean), please review the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) vignette first. It isn't very long, but it will help you set up your data in the right way.
+If you are unsure about any of the three points above (or you don't know what these mean), please review the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) vignette first. It isn't very long, but it will help you set up your data in the right way. If your data is not in the proper form, the steps in this vignette may be very difficult.
 
-For the purpose of example, we will load some "toy" data: a combined assay / phenotype data frame and a `pathwaySet` list which already fits the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows). Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator).
+For the purpose of example, we will load some "toy" data: a combined assay / phenotype data frame and a `pathwaySet` list. These objects already fit the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows).
 ```{r tumour_data_load}
 data("colonSurv_df")
 colonSurv_df
 ```
 
-We also have a small list of 15 pathways which correspond to our example colon cancer assay.
+Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator). We also have a small list of 15 pathways which correspond to our example colon cancer assay.
 ```{r pathway_list_load}
 data("colon_pathwaySet")
 colon_pathwaySet
@@ -77,21 +77,30 @@ In this package, all primary input data will be in an `Omics` data object. There
 4. `OmicsPathway`---a data object with no response. This is the "parent" class for the other three `Omics` classes.
 
 ## 2.2 Review of Data Types in `R`
-Take a quick look back at the structure of our `colonSurv_df` object. We have an expression design matrix with the first two columns as subject response information. Look at the types of the columns of this data frame (notice the `<dbl>` `<int>` tags directly under the column names). These tags tell us that the columns contain "double / numeric" (`dbl`) and "integer" (`int`) information. The other tags we could potentially see here are `<chr>` (character), `<lgl>` (logical), or `<fct>` (factor). These tags are important because they identify which "class" of data is in each column. Here are some examples of how to change data between types:
+Take a quick look back at the structure of our `colonSurv_df` object. We have a table data frame with the first two columns as subject response information and the rest as an expression design matrix. Look at the types of the columns of this data frame (the `<dbl>` and `<int>` tags directly under the column names): these tags tell us that the columns contain "double / numeric" (`dbl`) and "integer" (`int`) information. The other tags we could potentially see here are `<chr>` (character), `<lgl>` (logical), or `<fct>` (factor). These tags are important because they identify which "class" of data is in each column.
+
+Here are some examples of how to change data between types. We inspect the first 10 entries of each object.
 ```{r data_types}
-head(colonSurv_df$OS_event)
-head(as.character(colonSurv_df$OS_event))
-head(as.logical(colonSurv_df$OS_event))
-head(as.factor(colonSurv_df$OS_event))
+# Original integer column
+head(colonSurv_df$OS_event, 10)
+
+# Integer to Character
+head(as.character(colonSurv_df$OS_event), 10)
+
+# Integer to Logical
+head(as.logical(colonSurv_df$OS_event), 10)
+
+# Integer to Factor
+head(as.factor(colonSurv_df$OS_event), 10)
 ```
 
 The `create_Omics` function puts the response information into specific classes:
 
-- Survival data is stored with a pair of `numeric` (time) and `logical` (death indicator) vectors.
+- Survival data is stored as a pair of `numeric` (time) and `logical` (death indicator) vectors.
 - Regression data is stored in a `numeric` or `integer` vector.
 - Binary classification data is stored in a `factor` vector.
 
-These restrictions are on purpose: the internal data creation functions in the `pathwayPCA` package have very specific requirements about the types of data they take as inputs.
+These restrictions are on purpose: the internal data creation functions in the `pathwayPCA` package have very specific requirements about the types of data they take as inputs. This ensures the integrity of your data analysis.
 
 *******************************************************************************
 
@@ -105,15 +114,15 @@ All new `Omics` objects are created with the `create_Omics` function. You should
   - Survival response: the `create_OmicsSurv()` function creates an `Omics` object with class `OmicsSurv`. This object will contain:
     + `eventTime`: a `numeric` vector of event times.
     + `eventObserved`: a `logical` vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
-    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names *must* match a subset of the genes provided in the pathways list (in the `pathwaySet` object).
-    + `pathwaySet`: a `list` of pathway information, as returned by the `read_gmt` function (see [the import vignette](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function) for more details). The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `assayData_df` object).
+    + `assayData_df`: a tidy `data.frame` or `tibble` of assay data. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names *must* match a subset of the genes provided in the pathways list (in the `pathwaySet` object).
+    + `pathwaySet`: a `list` of pathway information, as returned by the `read_gmt` function (see the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function) vignette for more details). The names of the genes in these pathways *must* match a subset of the genes recorded in the assay data frame (in the `assayData_df` object).
   - Regression response: the `create_OmicsReg()` function creates an `Omics` object with class `OmicsReg`. This object will contain:
     + `response`: a `numeric` vector of the response.
-    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information, as described above.
+    + `assayData_df`: a tidy `data.frame` or `tibble` of assay data, as described above.
     + `pathwaySet`: a `list` of pathway information, as described above.
   - Binary Classification response: the `create_OmicsCateg()` function creates an `Omics` object with class `OmicsCateg`. In future versions, this function will be able to take in $n$-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
     + `response`: a `factor` vector of the response.
-    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information, as described above.
+    + `assayData_df`: a tidy `data.frame` or `tibble` of assay data, as described above.
     + `pathwaySet`: a `list` of pathway information, as described above.
 
 
@@ -134,7 +143,7 @@ In order to create example `Omics`-class objects, we will consider the overall p
 
 
 ## 3.2 Create a Survival `Omics` Data Object
-Now we are prepared to create our first survival `Omics` object for later analysis with either AES-PCA or Supervised PCA. Recall that `colonSurv_df` has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `create_Omics` function will be:
+Now we are prepared to create our first survival `Omics` object for later analysis with either AES-PCA or Supervised PCA. Recall that the `colonSurv_df` data frame has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `create_Omics` function will be:
 
 - `assayData_df`: this will be only the *expression columns* of the `colonSurv_df` data frame (i.e. all but the first two columns). In `R`, we can remove the first two columns of the `colonSurv_df` data frame by negative subsetting: `colonSurv_df[, -(1:2)]`.
 - `pathwaySet_ls`: this will be the `colon_pathwaySet` list object. Recall that you can import a `.gmt` file into a `pathwaySet` object via the `read_gmt` function, or create a `pathwaySet` list object by hand with the `create_pathwaySet` function.
@@ -221,7 +230,7 @@ Here is a table listing each of the "get" and "set" methods for the `Omics` clas
 The `response` vector accessed or edited with the `getResponse` method depends on if the `object` supplied is a "regression" `Omics`-class object or a "categorical" one. For regression `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_num` slot. However, for categorical `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_fact` slot. This is because regression objects contain `numeric` response vectors while categorical objects contain `factor` response vectors.
  
 ## 4.4 Inspect the Updated `pathwaySet` List
-As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function) subsection of the previous vignette, the `pathwaySet` object will be modified upon `Omics`-object creation. Before, this list only had two elements, `pathways` and `TERMS` (we skipped importing the "description" field). Now, it has a third element: `setsize`---the number of genes contained in each pathway.
+As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html#import-gmt-files-with-read_gmt) subsection of the previous vignette, the `pathwaySet` object will be modified upon `Omics`-object creation. Before, this list only had two elements, `pathways` and `TERMS` (we skipped importing the "description" field). Now, it has a third element: `setsize`---the number of genes contained in each pathway.
 ```{r inspect_updated_pathwaySet}
 getPathwaySet(colon_OmicsSurv)
 ```
@@ -238,4 +247,9 @@ We now summarize our steps so far. We have
 2. Created an `Omics` object for the three sub-classes.
 3. Inspected and edited individual elements contained in these objects.
 
-Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette next.
+Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette 4 / 4 next: [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
+
+Here is the R session information for this vignette:
+```{r sessionDetails}
+sessionInfo()
+```

@@ -126,7 +126,7 @@
 <div id="import--gmt-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#import--gmt-files" class="anchor"></a>2.1 Import <code>.gmt</code> Files</h2>
-<p>The <code>.gmt</code> format is a commonly used file format for storing <a href="https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">pathway information</a>. Pathways lists in the Molecular Signatures Database (MSigDB) can be downloaded from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSigDB Collections page</a>, and you can use the <code>read_gmt</code> function to import such a <code>.gmt</code> file into R. All <code>.gmt</code> files have a “description” field, which contains additional information on the pathway. However, this field can be left empty. In this example, we use <code>description = FALSE</code> to skip importing the “description” field.</p>
+<p>The <code>.gmt</code> format is a commonly used file format for storing <a href="https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29">pathway information</a>. Lists of pathways in the Molecular Signatures Database (MSigDB) can be downloaded from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSigDB Collections page</a>, and you can use the <code>read_gmt</code> function to import such a <code>.gmt</code> file into R. All <code>.gmt</code> files have a “description” field, which contains additional information on the pathway. However, this field can be left empty. In this example, we use <code>description = FALSE</code> to skip importing the “description” field.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gmt_path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"c2.cp.v6.0.symbols.gmt"</span>,
                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
 gene_set_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(gmt_path, <span class="dt">description =</span> <span class="ot">FALSE</span>)
@@ -415,23 +415,23 @@ joinedExperiment_df
 <p>For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently (use the <code>head</code> function to print the top pathways instead).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">surv_spr_pVals_df
 <span class="co">#&gt; # A tibble: 15 x 6</span>
-<span class="co">#&gt;    pathways    setsize trim_size terms                      rawp    FDR_BH</span>
-<span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway536       46        44 PID_TNF_PATHWAY        6.58e-10   6.31e-9</span>
-<span class="co">#&gt;  2 pathway781      198       180 REACTOME_PHOSPHOLIPID~ 8.42e-10   6.31e-9</span>
-<span class="co">#&gt;  3 pathway390       29        29 BIOCARTA_TNFR1_PATHWAY 4.28e- 9   2.14e-8</span>
-<span class="co">#&gt;  4 pathway413       23        23 ST_GA12_PATHWAY        3.59e- 8   1.35e-7</span>
-<span class="co">#&gt;  5 pathway87        87        86 KEGG_ERBB_SIGNALING_P~ 5.14e- 6   1.37e-5</span>
-<span class="co">#&gt;  6 pathway491       40        40 PID_EPHB_FWD_PATHWAY   5.48e- 6   1.37e-5</span>
-<span class="co">#&gt;  7 pathway176       54        54 KEGG_NON_SMALL_CELL_L~ 2.02e- 5   4.32e-5</span>
-<span class="co">#&gt;  8 pathway1211     108       104 REACTOME_SIGNALING_BY~ 3.34e- 5   6.26e-5</span>
-<span class="co">#&gt;  9 pathway757       87        83 REACTOME_INSULIN_RECE~ 6.13e- 5   1.02e-4</span>
-<span class="co">#&gt; 10 pathway187       16        16 BIOCARTA_RELA_PATHWAY  1.12e- 4   1.68e-4</span>
-<span class="co">#&gt; 11 pathway177       30        26 KEGG_ASTHMA            6.08e- 4   8.29e-4</span>
-<span class="co">#&gt; 12 pathway3         27        26 KEGG_PENTOSE_PHOSPHAT~ 8.37e- 4   1.05e-3</span>
-<span class="co">#&gt; 13 pathway60        64        45 KEGG_RETINOL_METABOLI~ 4.62e- 3   5.33e-3</span>
-<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PATHWAY   2.52e- 2   2.70e-2</span>
-<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PROCESSI~ 2.67e- 1   2.67e-1</span></code></pre></div>
+<span class="co">#&gt;    pathways    setsize trim_size terms                        rawp  FDR_BH</span>
+<span class="co">#&gt;  * &lt;chr&gt;         &lt;int&gt;     &lt;int&gt; &lt;chr&gt;                       &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 pathway87        87        86 KEGG_ERBB_SIGNALING_PATH~ 2.87e-4 0.00212</span>
+<span class="co">#&gt;  2 pathway491       40        40 PID_EPHB_FWD_PATHWAY      3.09e-4 0.00212</span>
+<span class="co">#&gt;  3 pathway536       46        44 PID_TNF_PATHWAY           5.42e-4 0.00212</span>
+<span class="co">#&gt;  4 pathway781      198       180 REACTOME_PHOSPHOLIPID_ME~ 5.65e-4 0.00212</span>
+<span class="co">#&gt;  5 pathway176       54        54 KEGG_NON_SMALL_CELL_LUNG~ 7.24e-4 0.00212</span>
+<span class="co">#&gt;  6 pathway1211     108       104 REACTOME_SIGNALING_BY_IN~ 9.86e-4 0.00212</span>
+<span class="co">#&gt;  7 pathway390       29        29 BIOCARTA_TNFR1_PATHWAY    9.89e-4 0.00212</span>
+<span class="co">#&gt;  8 pathway757       87        83 REACTOME_INSULIN_RECEPTO~ 1.49e-3 0.00279</span>
+<span class="co">#&gt;  9 pathway413       23        23 ST_GA12_PATHWAY           1.94e-3 0.00324</span>
+<span class="co">#&gt; 10 pathway177       30        26 KEGG_ASTHMA               7.07e-3 0.0106 </span>
+<span class="co">#&gt; 11 pathway3         27        26 KEGG_PENTOSE_PHOSPHATE_P~ 8.77e-3 0.0120 </span>
+<span class="co">#&gt; 12 pathway187       16        16 BIOCARTA_RELA_PATHWAY     2.40e-2 0.0300 </span>
+<span class="co">#&gt; 13 pathway60        64        45 KEGG_RETINOL_METABOLISM   2.60e-2 0.0300 </span>
+<span class="co">#&gt; 14 pathway266       11        11 BIOCARTA_SET_PATHWAY      1.19e-1 0.128  </span>
+<span class="co">#&gt; 15 pathway120       89        73 KEGG_ANTIGEN_PROCESSING_~ 4.09e-1 0.409</span></code></pre></div>
 </div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
@@ -456,16 +456,16 @@ surv_spr_gather_df
 <span class="co">#&gt; # A tibble: 30 x 4</span>
 <span class="co">#&gt;    terms                                        variable    value score</span>
 <span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 PID_TNF_PATHWAY                              None     6.58e-10 21.1 </span>
-<span class="co">#&gt;  2 REACTOME_PHOSPHOLIPID_METABOLISM             None     8.42e-10 20.9 </span>
-<span class="co">#&gt;  3 BIOCARTA_TNFR1_PATHWAY                       None     4.28e- 9 19.3 </span>
-<span class="co">#&gt;  4 ST_GA12_PATHWAY                              None     3.59e- 8 17.1 </span>
-<span class="co">#&gt;  5 KEGG_ERBB_SIGNALING_PATHWAY                  None     5.14e- 6 12.2 </span>
-<span class="co">#&gt;  6 PID_EPHB_FWD_PATHWAY                         None     5.48e- 6 12.1 </span>
-<span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     2.02e- 5 10.8 </span>
-<span class="co">#&gt;  8 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     3.34e- 5 10.3 </span>
-<span class="co">#&gt;  9 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     6.13e- 5  9.70</span>
-<span class="co">#&gt; 10 BIOCARTA_RELA_PATHWAY                        None     1.12e- 4  9.10</span>
+<span class="co">#&gt;  1 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.000287  8.16</span>
+<span class="co">#&gt;  2 PID_EPHB_FWD_PATHWAY                         None     0.000309  8.08</span>
+<span class="co">#&gt;  3 PID_TNF_PATHWAY                              None     0.000542  7.52</span>
+<span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.000565  7.48</span>
+<span class="co">#&gt;  5 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.000724  7.23</span>
+<span class="co">#&gt;  6 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.000986  6.92</span>
+<span class="co">#&gt;  7 BIOCARTA_TNFR1_PATHWAY                       None     0.000989  6.92</span>
+<span class="co">#&gt;  8 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00149   6.51</span>
+<span class="co">#&gt;  9 ST_GA12_PATHWAY                              None     0.00194   6.24</span>
+<span class="co">#&gt; 10 KEGG_ASTHMA                                  None     0.00707   4.95</span>
 <span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">

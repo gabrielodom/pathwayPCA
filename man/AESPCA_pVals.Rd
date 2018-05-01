@@ -86,6 +86,9 @@ This is a wrapper function for the \code{\link{expressedOmes}},
   \code{\link{extract_aesPCs}}, \code{\link{permTest_OmicsSurv}},
   \code{\link{permTest_OmicsReg}}, and \code{\link{permTest_OmicsCateg}}
   functions.
+
+  Please see our Quickstart Guide for this package:
+  \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
 }
 \examples{
 \dontrun{

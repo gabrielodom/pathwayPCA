@@ -63,6 +63,9 @@
 #'   \code{\link{weibullMix_pValues}}, and \code{\link{adjust_and_sort}}
 #'   functions.
 #'
+#'   Please see our Quickstart Guide for this package:
+#'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
+#'
 #' @seealso \code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
 #'   \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
 #'   \code{\link{create_OmicsCateg}}; \code{\link{pathway_tScores}};

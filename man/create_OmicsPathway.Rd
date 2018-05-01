@@ -55,7 +55,7 @@ These functions create valid objects of class \code{OmicsPathway},
 }
 \details{
 Please note that the classes of the parameters are \emph{not}
-  flexible. The -Omics measurement data \emph{must} be or extend the class
+  flexible. The -Omics assay data \emph{must} be or extend the class
   \code{data.frame}, and the response values (for a survival, regression,
   or classification object) \emph{must} match their expected classes
   \emph{exactly}. The reason for this is to encourage the end user to pay
