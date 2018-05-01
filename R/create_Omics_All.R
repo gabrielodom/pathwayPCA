@@ -29,8 +29,8 @@
 #'   \code{setsize} vectors (the \code{setsize} vector is calculated at object
 #'   creation).
 #'
-#'   If your gene pathway set information is stored in a \code{.gmt} file, use
-#'   the \code{\link{read_gmt}} function to import your gene set list as a
+#'   If your gene pathways list is stored in a \code{.gmt} file, use the
+#'   \code{\link{read_gmt}} function to import your pathways list as a
 #'   \code{pathwaySet} list object.
 #'
 #' @section OmicsPathway:

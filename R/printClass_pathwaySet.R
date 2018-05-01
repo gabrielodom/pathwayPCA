@@ -1,7 +1,7 @@
 #' Display the Summary of a \code{pathwaySet}-class Object.
 #'
-#' @description The display method for gene set / pathway set lists as returned
-#'    by the \code{\link{read_gmt}} function.
+#' @description The display method for pathways lists as returned by the
+#'    \code{\link{read_gmt}} function.
 #'
 #' @param x An object of class \code{pathwaySet}.
 #' @param ... Lazy dots for additional internal arguments (currently unused).

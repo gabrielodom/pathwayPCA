@@ -4,8 +4,7 @@
 \name{expressedOmes}
 \alias{expressedOmes}
 \alias{expressedOmes,OmicsPathway-method}
-\title{Extract expressed -Omes matching a gene set from a mass spectrometry or assay
-   data frame}
+\title{Extract expressed -Omes matching a pathways list from an assay data frame}
 \usage{
 expressedOmes(object, trim = 3, message = TRUE, ...)
 
@@ -20,7 +19,7 @@ expressedOmes(object, trim = 3, message = TRUE, ...)
 is excluded. Defaults to 3.}
 
 \item{message}{Should this function return diagnostic messages? Messages
-concern the percentage of genes included in the pathway set but not
+concern the percentage of genes included in the pathways list but not
 measured in the data, genes measured in the data but not called for in the
 pathways, and the number of pathways ignored due to too few number of
 genes present after trimming. Defaults to \code{TRUE}.}
@@ -38,7 +37,7 @@ A valid \code{Omics*}-class object. This output object will be
 Given a bio-assay design matrix and a \code{pathwaySet} gene
    pathways list (each within an \code{Omics*}-class object), extract the
    genes / proteins / lipids / metabolomes / transcriptomes contained in each
-   gene pathway set which are expressed in the assay data frame.
+   pathways list which are expressed in the assay data frame.
 }
 \details{
 This function takes in a data frame with named columns and a

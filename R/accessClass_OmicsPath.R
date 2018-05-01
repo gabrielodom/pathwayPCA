@@ -24,7 +24,7 @@
 #'    information.
 #'
 #' @details These functions can be useful to set or extract the assay data or
-#'    gene set list from an \code{Omics*}-class object. However, we recommend
+#'    pathways list from an \code{Omics*}-class object. However, we recommend
 #'    that users simply create a new, valid \code{Omics*} object instead of
 #'    modifying an existing one. The validity of edited objects is checked with
 #'    the \code{\link{valid_OmicsSurv}}, \code{\link{valid_OmicsCateg}}, or

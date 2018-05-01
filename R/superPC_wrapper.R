@@ -46,7 +46,7 @@
 #'     \code{adjustment} argument.}
 #' }
 #'
-#' Some of the pathways in the supplied pathway set list will be removed, or
+#' Some of the pathways in the supplied pathways list will be removed, or
 #'    "trimmed", during function execution. These trimmed pathways will have
 #'    \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
 #'    see the documentation for the \code{\link{expressedOmes}} function.
@@ -152,7 +152,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
 
 
-            ###  Remove Unexpressed Genes from the Pathway Set  ###
+            ###  Remove Unexpressed Genes from the Pathways List  ###
             object <- expressedOmes(object, trim = min.features)
 
             ###  Extract Information from S4 Object  ###

@@ -40,7 +40,7 @@ library(pathwayPCA)
 Because this is the third chapter in the workflow, we assume that
 
 1. Your assay is "tidy".
-2. Your gene pathway set / GMT information is stored in a `pathwaySet` object.
+2. Your gene pathways list is stored in a `pathwaySet` object.
 3. Your response and assay data have already been ID-matched.
 
 If you are unsure about any of the three points above (or you don't know what these mean), please review the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) vignette first. It isn't very long, but it will help you set up your data in the right way.
@@ -58,7 +58,7 @@ colon_pathwaySet
 str(colon_pathwaySet$pathways, list.len = 10)
 ```
 
-The pathway set list and tidy assay (with matched phenotype information) are all the information we need to create an `Omics`-class data object. 
+The pathways list and tidy assay (with matched phenotype information) are all the information we need to create an `Omics`-class data object. 
 
 *******************************************************************************
 
@@ -69,7 +69,7 @@ The pathway set list and tidy assay (with matched phenotype information) are all
 Now that we have our data loaded, we can create an analysis object for the `pathwayPCA` package.
 
 ## 2.1 Class Overview
-In this package, all primary input data will be in an `Omics` data object. There are three classes of `Omics*` objects, but one function (`create_Omics`) creates all of them. Each class contains a tidy assay and `pathwaySet` gene set list. The classes differ in the type of response information they can hold. The classes, and their responses, are
+In this package, all primary input data will be in an `Omics` data object. There are three classes of `Omics*` objects, but one function (`create_Omics`) creates all of them. Each class contains a tidy assay and `pathwaySet` list. The classes differ in the type of response information they can hold. The classes, and their responses, are
 
 1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored).
 2. `OmicsReg`---a data object for continuous responses (usually a linear regression response).
@@ -105,7 +105,7 @@ All new `Omics` objects are created with the `create_Omics` function. You should
   - Survival response: the `create_OmicsSurv()` function creates an `Omics` object with class `OmicsSurv`. This object will contain:
     + `eventTime`: a `numeric` vector of event times.
     + `eventObserved`: a `logical` vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
-    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names *must* match a subset of the genes provided in the gene set list (in the `pathwaySet` object).
+    + `assayData_df`: a tidy `data.frame` or `tibble` of prediction information. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names *must* match a subset of the genes provided in the pathways list (in the `pathwaySet` object).
     + `pathwaySet`: a `list` of pathway information, as returned by the `read_gmt` function (see [the import vignette](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function) for more details). The names of the genes in these pathways *must* match a subset of the genes recorded in the prediction data frame (in the `assayData_df` object).
   - Regression response: the `create_OmicsReg()` function creates an `Omics` object with class `OmicsReg`. This object will contain:
     + `response`: a `numeric` vector of the response.

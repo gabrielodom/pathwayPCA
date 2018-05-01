@@ -25,9 +25,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
 <meta property="og:title" content="Generation Wrapper function for <code>-Omics*</code>-class objects — create_Omics" />
 
 <meta property="og:description" content="This function calls the create_OmicsPath,
@@ -35,6 +32,8 @@
    create_OmicsCateg functions to create valid objects of the
    classes OmicsPathway, OmicsSurv, OmicsReg, or
    OmicsCateg, respectively." />
+
+<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -45,6 +44,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -120,11 +121,10 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generation Wrapper function for <code>-Omics*</code>-class objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/create_Omics_Wrapper.R'><code>R/create_Omics_Wrapper.R</code></a></small>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/create_Omics_Wrapper.R'><code>R/create_Omics_Wrapper.R</code></a></small>
     <div class="hidden name"><code>create_Omics.Rd</code></div>
     </div>
 
-    <div class="ref-description">
     
     <p>This function calls the <code><a href='create_OmicsPathway.html'>create_OmicsPath</a></code>,
    <code><a href='create_OmicsPathway.html'>create_OmicsSurv</a></code>, <code><a href='create_OmicsPathway.html'>create_OmicsReg</a></code>, and
@@ -132,7 +132,6 @@
    classes <code>OmicsPathway</code>, <code>OmicsSurv</code>, <code>OmicsReg</code>, or
    <code>OmicsCateg</code>, respectively.</p>
     
-    </div>
 
     <pre class="usage"><span class='fu'>create_Omics</span>(<span class='no'>assayData_df</span>, <span class='no'>pathwaySet_ls</span>, <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>respType</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"survival"</span>, <span class='st'>"regression"</span>, <span class='st'>"categorical"</span>))</pre>
@@ -190,6 +189,14 @@ information. Defaults to <code>NULL</code>.</p></td>
    <code>response</code> is non-<code>NULL</code>. Further, it is the responsibility of
    the user to ensure that the coerced response contained in the resulting
    codeOmics object accurately reflects the supplied response.</p>
+<p>For <code>respType = "survival"</code>, <code>response</code> is assumed to be ordered
+   by event time, then event indicator. For example, if the response is a
+   data frame or matrix, this function assumes that the first column is the
+   time and the second column the death indicator. If the response is a list,
+   then this function assumes that the first entry in the list is the event
+   time and the second entry the death indicator. The death indicator must
+   be a logical or binary (0-1) vector, where 1 or <code>TRUE</code> represents a
+   death and 0 or <code>FALSE</code> represents right-censoring.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

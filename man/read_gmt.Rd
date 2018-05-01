@@ -19,7 +19,7 @@ for more information.}
 delimited, this defaults to \code{"\\t"}.}
 }
 \value{
-A \code{pathwaySet} list of gene sets. This list has three elements:
+A \code{pathwaySet} list of pathways. This list has three elements:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
@@ -34,9 +34,9 @@ A \code{pathwaySet} list of gene sets. This list has three elements:
 }
 }
 \description{
-Read a gene set file in Gene Matrix Transposed (\code{.gmt})
-   format, with special performance consideration for large files. Present
-   this object as a \code{pathwaySet} object.
+Read a pathways list file in Gene Matrix Transposed
+   (\code{.gmt}) format, with special performance consideration for large
+   files. Present this object as a \code{pathwaySet} object.
 }
 \details{
 This function uses \code{R}'s \code{\link{readChar}} function to

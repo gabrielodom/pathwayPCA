@@ -25,14 +25,13 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
 <meta property="og:title" content="Read a <code>.gmt</code> file in as a <code>pathwaySet</code> object — read_gmt" />
 
-<meta property="og:description" content="Read a gene set file in Gene Matrix Transposed (.gmt)
-   format, with special performance consideration for large files. Present
-   this object as a pathwaySet object." />
+<meta property="og:description" content="Read a pathways list file in Gene Matrix Transposed
+   (.gmt) format, with special performance consideration for large
+   files. Present this object as a pathwaySet object." />
+
+<meta property="og:image" content="https://gabrielodom.github.io/pathwayPCA/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -43,6 +42,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
 
 
   </head>
@@ -118,17 +119,15 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read a <code>.gmt</code> file in as a <code>pathwaySet</code> object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/read_gmt.R'><code>R/read_gmt.R</code></a></small>
+    <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/read_gmt.R'><code>R/read_gmt.R</code></a></small>
     <div class="hidden name"><code>read_gmt.Rd</code></div>
     </div>
 
-    <div class="ref-description">
     
-    <p>Read a gene set file in Gene Matrix Transposed (<code>.gmt</code>)
-   format, with special performance consideration for large files. Present
-   this object as a <code>pathwaySet</code> object.</p>
+    <p>Read a pathways list file in Gene Matrix Transposed
+   (<code>.gmt</code>) format, with special performance consideration for large
+   files. Present this object as a <code>pathwaySet</code> object.</p>
     
-    </div>
 
     <pre class="usage"><span class='fu'>read_gmt</span>(<span class='no'>file</span>, <span class='kw'>description</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>"\t"</span>)</pre>
     
@@ -156,7 +155,7 @@ delimited, this defaults to <code>"\t"</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>pathwaySet</code> list of gene sets. This list has three elements:</p><ul>
+    <p>A <code>pathwaySet</code> list of pathways. This list has three elements:</p><ul>
 <li><p><code>pathways</code> : A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
      vector of character strings.</p></li>

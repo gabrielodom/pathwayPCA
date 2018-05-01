@@ -18,10 +18,10 @@
 #'        \code{pathways} containing the full pathway descriptions.}
 #'     \item{\code{setsize} : }{An integer vector the same length as
 #'        \code{pathways} containing the number of genes contained in the
-#'        original pathway set.}
+#'        original pathways list.}
 #'     \item{\code{trim_setsize} : }{An integer vector the same length as
 #'        \code{pathways} containing the number of genes present in the pathway
-#'        after trimming. Pathway set trimming is done in the
+#'        after trimming. Pathways list trimming is done in the
 #'       \code{\link{expressedOmes}} function.}
 #'   }
 #' @param adjust Should you adjust the \eqn{p}-values for multiple comparisons?

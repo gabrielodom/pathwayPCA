@@ -54,10 +54,10 @@ This function takes in a data frame with named columns and a pathway
 
   NOTE: some genes will be included in more than one pathway, so these
   pathways are not mutually exclusive. Further note that there may be many
-  genes in the assay design matrix that are not included in the pathway sets,
+  genes in the assay design matrix that are not included in the pathways,
   so these will not be extracted to the list. It is then vitally important to
-  use either a very broad and generic pathway set list or a pathway set list
-  that is appropriate for the assay data supplied.
+  use either a very broad and generic list of pathways or a pathways list
+  that is compatible to the assay data supplied.
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.

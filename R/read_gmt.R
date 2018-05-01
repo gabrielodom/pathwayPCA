@@ -1,8 +1,8 @@
 #' Read a \code{.gmt} file in as a \code{pathwaySet} object
 #'
-#' @description Read a gene set file in Gene Matrix Transposed (\code{.gmt})
-#'    format, with special performance consideration for large files. Present
-#'    this object as a \code{pathwaySet} object.
+#' @description Read a pathways list file in Gene Matrix Transposed
+#'    (\code{.gmt}) format, with special performance consideration for large
+#'    files. Present this object as a \code{pathwaySet} object.
 #'
 #' @param file A path to a file or a connection. This file must be a \code{.gmt}
 #'    file, otherwise input will likely be nonsense. See the "Details" section
@@ -13,7 +13,7 @@
 #' @param delim The \code{.gmt} delimiter. As proper \code{.gmt} files are tab
 #'    delimited, this defaults to \code{"\\t"}.
 #'
-#' @return A \code{pathwaySet} list of gene sets. This list has three elements:
+#' @return A \code{pathwaySet} list of pathways. This list has three elements:
 #' \itemize{
 #'   \item{\code{pathways} : }{A named list of character vectors. Each vector
 #'      contains the names of the individual genes within that pathway as a
