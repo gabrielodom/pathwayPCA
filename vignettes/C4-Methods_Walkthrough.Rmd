@@ -266,13 +266,21 @@ surv_aes_gather_df <- surv_aes_pVals_df %>%
   select(-pathways, - setsize, -trim_size) %>%
   gather(variable, value, -terms) %>%
   mutate(score = -log(value)) %>%
-  mutate(variable = factor(variable, labels = c("Hochberg", "None", "Sidak SD")))
+  mutate(variable = factor(variable)) %>% 
+  mutate(variable = recode_factor(variable,
+                                  rawp = "None",
+                                  FWER_Hochberg = "Hochberg",
+                                  FWER_SidakSD = "Sidak SD"))
 
 surv_spr_gather_df <- surv_spr_pVals_df %>%
   select(-pathways, - setsize, -trim_size) %>%
   gather(variable, value, -terms) %>%
   mutate(score = -log(value)) %>%
-  mutate(variable = factor(variable, labels = c("Hochberg", "None", "Sidak SD")))
+  mutate(variable = factor(variable)) %>% 
+  mutate(variable = recode_factor(variable,
+                                  rawp = "None",
+                                  FWER_Hochberg = "Hochberg",
+                                  FWER_SidakSD = "Sidak SD"))
 ```
 
 

@@ -147,7 +147,7 @@ Using the data you just imported, create a data object specific to survival, reg
 colon_OmicsSurv <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
                                 pathwaySet_ls = colon_pathwaySet,
                                 response = colonSurv_df[, 1:2],
-                                respType = "surv")
+                                respType = "survival")
 ```
 
 ## 3.2 Inspect the Object
