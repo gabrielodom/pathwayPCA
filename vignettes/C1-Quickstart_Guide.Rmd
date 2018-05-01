@@ -3,9 +3,6 @@ title: "Chapter 1 - Quickstart Guide"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
-    toc: true
-    toc_depth: 2
   word_document:
     toc: true
     toc_depth: 2
@@ -23,13 +20,13 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss four steps. For detailed discussion of these four steps, see the appropriate vignettes. This vignette provides an introduction and overview for the `pathwayPCA` package. 
+This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss the four basic steps of pathway significance testing with the `pathwayPCA` package. These steps are: importing data, creating an `Omics` data object, testing pathways for significance, and inspecting the results. For detailed discussions of these steps, see the following appropriate vignettes: 
 
-0. Download Packages
-1. Import Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html))
-2. Create `Omics` Data Objects ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html))
-3. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
-4. Inspect Results
+1. Download Packages
+2. Import and Tidy Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html))
+3. Create Data Objects ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html))
+4. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
+5. Inspect Results ([*vignette section*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#analyze-the-results))
 
 Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
 ```
@@ -40,7 +37,7 @@ Also, if you want your analysis to be performed with parallel computing, you wil
 ```
 install.packages("tidyverse")
 ```
-```{r}
+```{r, message = FALSE}
 library(pathwayPCA)
 library(tidyverse)
 library(parallel)
@@ -53,7 +50,7 @@ library(parallel)
 
 
 # 2. Import Data
-This section is a quick overview of the material covered in the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. We will cover three data import steps.
+This section is a quick overview of the material covered in the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. Here we show how to import pathway information, assay and phenotype data, and how to join the assay and phenotype data into one data frame.
 
 
 ## 2.1 Import `.gmt` Files
@@ -82,7 +79,7 @@ We assume that the assay data (e.g. transcriptomic data) is either in an Excel f
 
 ![](example_assay_data.PNG)
 
-In this data set, the columns are individual samples. The values in each row are the gene expression measurements for that gene. Use the `read_csv` function from the `readr` package to import `.csv` files into `R` as [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) (table *and* data frame) objects. The `read_csv` function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (`col_double()`) except for the gene name column (`X1 = col_character()`).
+In this example data set, the columns are individual samples. The values in each row are the gene expression measurements for that gene. Use the `read_csv` function from the `readr` package to import `.csv` files into `R` as [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) (table *and* data frame) objects. The `read_csv` function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (`col_double()`) except for the gene name column (`X1 = col_character()`).
 ```{r read_example_assay, eval = FALSE}
 assay_path <- system.file("extdata", "ex_assay_subset.csv",
                           package = "pathwayPCA", mustWork = TRUE)
@@ -99,14 +96,14 @@ Incidentally, we consider gene names to adhere to the following conditions:
 - gene names can only contain English letters, Arabic numerals (0-9), and possibly a dash (-).
 
 Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you'll need to "tidy" the imported assay with the `transpose_assay` function. The transposed data set will appear similar to the following:
-```{r transpose_assay, echo = FALSE}
+```{r transpose_assay}
 assayT_df <- transpose_assay(assay_df)
 assayT_df
 ```
 
 
 ## 2.3 Import Phenotype Info
-Use the `read_csv` function to import the phenotype data. Once again, the `read_csv` function displays a message informing us of the types of data in each column. The following phenotype dataset for subject survival information contains the subject ID (`Sample`), survival time after disease onset in months (`eventTime`), and a variable indicating if the subject died or was lost to follow up (`eventObserved`).
+Use the `read_csv` function to import the phenotype data. Once again, the `read_csv` function displays a message informing us of the types of data in each column. The following phenotype dataset for subject survival information contains the subject ID (`Sample`), survival time after disease onset in months (`eventTime`), and a logical (or binary) variable indicating if the subject died (`TRUE` or 1) or was lost to follow up (`eventObserved`; 0 or `FALSE`).
 ```{r read_example_pinfo, eval = FALSE}
 pInfo_path <- system.file("extdata", "ex_pInfo_subset.csv",
                           package = "pathwayPCA", mustWork = TRUE)
@@ -122,7 +119,8 @@ pInfo_df
 ## 2.4 Match the Phenotype and Assay Data
 Now that you have the assay data in tidy form (`assayT_df`) and the phenotype data (`pInfo_df`), you can use the `inner_join` function from the `dplyr` package to match the assay measurements to phenotype information by subject identifier.
 ```{r innerJoin}
-(joinedExperiment_df <- inner_join(pInfo_df, assayT_df, by = "Sample"))
+joinedExperiment_df <- inner_join(pInfo_df, assayT_df, by = "Sample")
+joinedExperiment_df
 ```
 
 
@@ -135,7 +133,7 @@ Now that you have the assay data in tidy form (`assayT_df`) and the phenotype da
 This section is a quick overview of the material covered in the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
 
 ## 3.1 Create an Object
-Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival `Omics` object to hold our assay, pathway set list, and survival responses.
+Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival `Omics` object to hold our assay, pathways, and survival responses. If your indicator is a binary variable, the `create_Omics` function will attempt to coerce it to a logical variable. Therefore, death indicators should be coded as 0-1, not 1-2.
 
 <!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwaySet` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
 
@@ -170,7 +168,7 @@ getPathwaySet(colon_OmicsSurv)
 ```
 
 ### 3.3.3 View the Event Time
-We can use the vector subsetting mechanic in R (`[]`) to view only the first ten event times.
+We can use the vector subsetting mechanic in R (`vector[]`) to view only the first ten event times.
 ```{r accessor3}
 getEventTime(colon_OmicsSurv)[1:10]
 ```
@@ -238,31 +236,18 @@ surv_spr_gather_df <- surv_spr_pVals_df %>%
   select(-pathways, - setsize, -trim_size) %>%
   gather(variable, value, -terms) %>%
   mutate(score = -log(value)) %>%
-  mutate(variable = factor(variable, labels = c("None", "FDR")))
+  mutate(variable = factor(variable)) %>% 
+  mutate(variable = recode_factor(variable,
+                                  rawp = "None",
+                                  FDR_BH = "FDR"))
+
+graphMax <- ceiling(max(surv_spr_gather_df$score))
 
 surv_spr_gather_df
 ```
 
 ### 5.2.2 Graph Pathway Ranks
-Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the FDR-values.
-```{r surv_spr_FDR_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
-fdr_df <- surv_spr_gather_df %>% 
-  filter(variable == "FDR") %>% 
-  select(-variable, -value)
-
-ggplot(fdr_df) +
-  theme_bw() +
-  aes(x = reorder(terms, score), y = score) +
-  geom_bar(stat = "identity", position = "dodge", fill = "#f47321") +
-  scale_fill_discrete(guide = FALSE) +
-  ggtitle("Supervised PCA FDR-Significant Colon Pathways") +
-  xlab("Pathways") +
-  ylab("Negative Log FDR") +
-  geom_hline(yintercept = -log(0.01), size = 2) +
-  coord_flip()
-```
-
-Now, we consider the unadjusted $p$-values.
+Now that our output is tidy, we can make a bar chart of the pathway significance. First, we consider the unadjusted $p$-values.
 ```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 raw_df <- surv_spr_gather_df %>% 
   filter(variable == "None") %>% 
@@ -275,7 +260,25 @@ ggplot(raw_df) +
   scale_fill_discrete(guide = FALSE) +
   ggtitle("Supervised PCA Significant Colon Pathways") +
   xlab("Pathways") +
-  ylab("Negative Log p-Value") +
+  scale_y_continuous("Negative Log p-Value", limits = c(0, graphMax)) +
+  geom_hline(yintercept = -log(0.01), size = 2) +
+  coord_flip()
+```
+
+Now, we consider the FDR-values.
+```{r surv_spr_FDR_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+fdr_df <- surv_spr_gather_df %>% 
+  filter(variable == "FDR") %>% 
+  select(-variable, -value)
+
+ggplot(fdr_df) +
+  theme_bw() +
+  aes(x = reorder(terms, score), y = score) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#f47321") +
+  scale_fill_discrete(guide = FALSE) +
+  ggtitle("Supervised PCA FDR-Significant Colon Pathways") +
+  xlab("Pathways") +
+  scale_y_continuous("Negative Log FDR", limits = c(0, graphMax)) +
   geom_hline(yintercept = -log(0.01), size = 2) +
   coord_flip()
 ```
@@ -326,9 +329,14 @@ ggplot(raw_df) +
 
 </br>
 
-# 6. Review
+# 6. Links to Detailed Information
 Now that you have an idea of how to use this package, please see each of our vignettes for detailed and thorough commentary and guiding information on each of the three topics discussed herein. The vignettes are:
 
 - [Chapter 2: Import Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html)
 - [Chapter 3: Create `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html)
 - [Chapter 4: Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html)
+
+Here is the R session information for this vignette:
+```{r sessionDetails}
+sessionInfo()
+```

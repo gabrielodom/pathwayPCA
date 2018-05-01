@@ -54,6 +54,15 @@ This function is a wrapper around the four \code{create_Omics*}
    \code{response} is non-\code{NULL}. Further, it is the responsibility of
    the user to ensure that the coerced response contained in the resulting
    code{Omics} object accurately reflects the supplied response.
+
+   For \code{respType = "survival"}, \code{response} is assumed to be ordered
+   by event time, then event indicator. For example, if the response is a
+   data frame or matrix, this function assumes that the first column is the
+   time and the second column the death indicator. If the response is a list,
+   then this function assumes that the first entry in the list is the event
+   time and the second entry the death indicator. The death indicator must
+   be a logical or binary (0-1) vector, where 1 or \code{TRUE} represents a
+   death and 0 or \code{FALSE} represents right-censoring.
 }
 \examples{
 \dontrun{
