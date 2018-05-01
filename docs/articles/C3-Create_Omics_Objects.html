@@ -107,20 +107,12 @@
 <a href="#outline" class="anchor"></a>1.1 Outline</h2>
 <p>Before we move on, we will outline our steps. After reading this vignette, you should be able to</p>
 <ol style="list-style-type: decimal">
-<li>Describe the components of the <code>Omics</code> object class.</li>
+<li>Describe the data components within the <code>Omics</code> object class.</li>
 <li>Create a few <code>Omics</code> objects.</li>
 <li>Inspect and edit individual elements contained in these objects.</li>
 </ol>
 <p>First, load the <code>pathwayPCA</code> package and the <a href="https://www.tidyverse.org/"><code>tidyverse</code> package suite</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-<span class="co">#&gt; -- Attaching packages ----------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</span>
-<span class="co">#&gt; v ggplot2 2.2.1     v purrr   0.2.4</span>
-<span class="co">#&gt; v tibble  1.4.2     v dplyr   0.7.4</span>
-<span class="co">#&gt; v tidyr   0.8.0     v stringr 1.3.0</span>
-<span class="co">#&gt; v readr   1.1.1     v forcats 0.3.0</span>
-<span class="co">#&gt; -- Conflicts -------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --</span>
-<span class="co">#&gt; x dplyr::filter() masks stats::filter()</span>
-<span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span>
 <span class="kw">library</span>(pathwayPCA)</code></pre></div>
 </div>
 <div id="import-data" class="section level2">
@@ -130,10 +122,10 @@
 <ol style="list-style-type: decimal">
 <li>Your assay is “tidy”.</li>
 <li>Your gene pathways list is stored in a <code>pathwaySet</code> object.</li>
-<li>Your response and assay data have already been ID-matched.</li>
+<li>Your phenotype and assay data have already been ID-matched.</li>
 </ol>
-<p>If you are unsure about any of the three points above (or you don’t know what these mean), please review the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> vignette first. It isn’t very long, but it will help you set up your data in the right way.</p>
-<p>For the purpose of example, we will load some “toy” data: a combined assay / phenotype data frame and a <code>pathwaySet</code> list which already fits the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows). Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator).</p>
+<p>If you are unsure about any of the three points above (or you don’t know what these mean), please review the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> vignette first. It isn’t very long, but it will help you set up your data in the right way. If your data is not in the proper form, the steps in this vignette may be very difficult.</p>
+<p>For the purpose of example, we will load some “toy” data: a combined assay / phenotype data frame and a <code>pathwaySet</code> list. These objects already fit the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colonSurv_df"</span>)
 colonSurv_df
 <span class="co">#&gt; # A tibble: 250 x 658</span>
@@ -170,7 +162,7 @@ colonSurv_df
 <span class="co">#&gt; #   EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;, MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;, RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;, TF &lt;dbl&gt;, ...</span></code></pre></div>
-<p>We also have a small list of 15 pathways which correspond to our example colon cancer assay.</p>
+<p>Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator). We also have a small list of 15 pathways which correspond to our example colon cancer assay.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"colon_pathwaySet"</span>)
 colon_pathwaySet
 <span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 2 elements: </span>
@@ -217,23 +209,31 @@ colon_pathwaySet
 <h2 class="hasAnchor">
 <a href="#review-of-data-types-in-r" class="anchor"></a>2.2 Review of Data Types in <code>R</code>
 </h2>
-<p>Take a quick look back at the structure of our <code>colonSurv_df</code> object. We have an expression design matrix with the first two columns as subject response information. Look at the types of the columns of this data frame (notice the <code>&lt;dbl&gt;</code> <code>&lt;int&gt;</code> tags directly under the column names). These tags tell us that the columns contain “double / numeric” (<code>dbl</code>) and “integer” (<code>int</code>) information. The other tags we could potentially see here are <code>&lt;chr&gt;</code> (character), <code>&lt;lgl&gt;</code> (logical), or <code>&lt;fct&gt;</code> (factor). These tags are important because they identify which “class” of data is in each column. Here are some examples of how to change data between types:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(colonSurv_df<span class="op">$</span>OS_event)
-<span class="co">#&gt; [1] 0 0 0 0 1 0</span>
-<span class="kw">head</span>(<span class="kw">as.character</span>(colonSurv_df<span class="op">$</span>OS_event))
-<span class="co">#&gt; [1] "0" "0" "0" "0" "1" "0"</span>
-<span class="kw">head</span>(<span class="kw">as.logical</span>(colonSurv_df<span class="op">$</span>OS_event))
-<span class="co">#&gt; [1] FALSE FALSE FALSE FALSE  TRUE FALSE</span>
-<span class="kw">head</span>(<span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event))
-<span class="co">#&gt; [1] 0 0 0 0 1 0</span>
+<p>Take a quick look back at the structure of our <code>colonSurv_df</code> object. We have a table data frame with the first two columns as subject response information and the rest as an expression design matrix. Look at the types of the columns of this data frame (the <code>&lt;dbl&gt;</code> and <code>&lt;int&gt;</code> tags directly under the column names): these tags tell us that the columns contain “double / numeric” (<code>dbl</code>) and “integer” (<code>int</code>) information. The other tags we could potentially see here are <code>&lt;chr&gt;</code> (character), <code>&lt;lgl&gt;</code> (logical), or <code>&lt;fct&gt;</code> (factor). These tags are important because they identify which “class” of data is in each column.</p>
+<p>Here are some examples of how to change data between types. We inspect the first 10 entries of each object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Original integer column</span>
+<span class="kw">head</span>(colonSurv_df<span class="op">$</span>OS_event, <span class="dv">10</span>)
+<span class="co">#&gt;  [1] 0 0 0 0 1 0 0 0 1 0</span>
+
+<span class="co"># Integer to Character</span>
+<span class="kw">head</span>(<span class="kw">as.character</span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)
+<span class="co">#&gt;  [1] "0" "0" "0" "0" "1" "0" "0" "0" "1" "0"</span>
+
+<span class="co"># Integer to Logical</span>
+<span class="kw">head</span>(<span class="kw">as.logical</span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)
+<span class="co">#&gt;  [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE</span>
+
+<span class="co"># Integer to Factor</span>
+<span class="kw">head</span>(<span class="kw">as.factor</span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)
+<span class="co">#&gt;  [1] 0 0 0 0 1 0 0 0 1 0</span>
 <span class="co">#&gt; Levels: 0 1</span></code></pre></div>
 <p>The <code>create_Omics</code> function puts the response information into specific classes:</p>
 <ul>
-<li>Survival data is stored with a pair of <code>numeric</code> (time) and <code>logical</code> (death indicator) vectors.</li>
+<li>Survival data is stored as a pair of <code>numeric</code> (time) and <code>logical</code> (death indicator) vectors.</li>
 <li>Regression data is stored in a <code>numeric</code> or <code>integer</code> vector.</li>
 <li>Binary classification data is stored in a <code>factor</code> vector.</li>
 </ul>
-<p>These restrictions are on purpose: the internal data creation functions in the <code>pathwayPCA</code> package have very specific requirements about the types of data they take as inputs.</p>
+<p>These restrictions are on purpose: the internal data creation functions in the <code>pathwayPCA</code> package have very specific requirements about the types of data they take as inputs. This ensures the integrity of your data analysis.</p>
 <hr>
 <p></p>
 </div>
@@ -253,9 +253,9 @@ colon_pathwaySet
 <li>
 <code>eventObserved</code>: a <code>logical</code> vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.</li>
 <li>
-<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of prediction information. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names <em>must</em> match a subset of the genes provided in the pathways list (in the <code>pathwaySet</code> object).</li>
+<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of assay data. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names <em>must</em> match a subset of the genes provided in the pathways list (in the <code>pathwaySet</code> object).</li>
 <li>
-<code>pathwaySet</code>: a <code>list</code> of pathway information, as returned by the <code>read_gmt</code> function (see <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function">the import vignette</a> for more details). The names of the genes in these pathways <em>must</em> match a subset of the genes recorded in the prediction data frame (in the <code>assayData_df</code> object).</li>
+<code>pathwaySet</code>: a <code>list</code> of pathway information, as returned by the <code>read_gmt</code> function (see the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function">Import and Tidy Data</a> vignette for more details). The names of the genes in these pathways <em>must</em> match a subset of the genes recorded in the assay data frame (in the <code>assayData_df</code> object).</li>
 </ul>
 </li>
 <li>Regression response: the <code><a href="../reference/create_OmicsPathway.html">create_OmicsReg()</a></code> function creates an <code>Omics</code> object with class <code>OmicsReg</code>. This object will contain:
@@ -263,7 +263,7 @@ colon_pathwaySet
 <li>
 <code>response</code>: a <code>numeric</code> vector of the response.</li>
 <li>
-<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of prediction information, as described above.</li>
+<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of assay data, as described above.</li>
 <li>
 <code>pathwaySet</code>: a <code>list</code> of pathway information, as described above.</li>
 </ul>
@@ -273,7 +273,7 @@ colon_pathwaySet
 <li>
 <code>response</code>: a <code>factor</code> vector of the response.</li>
 <li>
-<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of prediction information, as described above.</li>
+<code>assayData_df</code>: a tidy <code>data.frame</code> or <code>tibble</code> of assay data, as described above.</li>
 <li>
 <code>pathwaySet</code>: a <code>list</code> of pathway information, as described above.</li>
 </ul>
@@ -284,7 +284,7 @@ colon_pathwaySet
 <div id="create-a-survival-omics-data-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-survival-omics-data-object" class="anchor"></a>3.2 Create a Survival <code>Omics</code> Data Object</h2>
-<p>Now we are prepared to create our first survival <code>Omics</code> object for later analysis with either AES-PCA or Supervised PCA. Recall that <code>colonSurv_df</code> has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the <code>create_Omics</code> function will be:</p>
+<p>Now we are prepared to create our first survival <code>Omics</code> object for later analysis with either AES-PCA or Supervised PCA. Recall that the <code>colonSurv_df</code> data frame has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the <code>create_Omics</code> function will be:</p>
 <ul>
 <li>
 <code>assayData_df</code>: this will be only the <em>expression columns</em> of the <code>colonSurv_df</code> data frame (i.e. all but the first two columns). In <code>R</code>, we can remove the first two columns of the <code>colonSurv_df</code> data frame by negative subsetting: <code>colonSurv_df[, -(1:2)]</code>.</li>
@@ -478,7 +478,7 @@ colon_OmicsCateg
 <div id="inspect-the-updated-pathwayset-list" class="section level2">
 <h2 class="hasAnchor">
 <a href="#inspect-the-updated-pathwayset-list" class="anchor"></a>4.4 Inspect the Updated <code>pathwaySet</code> List</h2>
-<p>As we mentioned in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#importing-with-the-read_gmt-function">Importing with the <code>read_gmt</code> Function</a> subsection of the previous vignette, the <code>pathwaySet</code> object will be modified upon <code>Omics</code>-object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code> (we skipped importing the “description” field). Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
+<p>As we mentioned in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html#import-gmt-files-with-read_gmt">Importing with the <code>read_gmt</code> Function</a> subsection of the previous vignette, the <code>pathwaySet</code> object will be modified upon <code>Omics</code>-object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code> (we skipped importing the “description” field). Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwaySet</a></span>(colon_OmicsSurv)
 <span class="co">#&gt; Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: </span>
 <span class="co">#&gt;  $ pathways:List of 15</span>
@@ -497,7 +497,53 @@ colon_OmicsCateg
 <li>Created an <code>Omics</code> object for the three sub-classes.</li>
 <li>Inspected and edited individual elements contained in these objects.</li>
 </ol>
-<p>Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read the <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a> vignette next.</p>
+<p>Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette 4 / 4 next: <a href="https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html">Test Pathway Significance</a>.</p>
+<p>Here is the R session information for this vignette:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()
+<span class="co">#&gt; R version 3.4.4 (2018-03-15)</span>
+<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
+<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Matrix products: default</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; locale:</span>
+<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
+<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
+<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
+<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
+<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; attached base packages:</span>
+<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; other attached packages:</span>
+<span class="co">#&gt;  [1] pathwayPCA_0.0.0.9000 forcats_0.3.0         stringr_1.3.0        </span>
+<span class="co">#&gt;  [4] dplyr_0.7.4           purrr_0.2.4           readr_1.1.1          </span>
+<span class="co">#&gt;  [7] tidyr_0.8.0           tibble_1.4.2          ggplot2_2.2.1        </span>
+<span class="co">#&gt; [10] tidyverse_1.2.1      </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; loaded via a namespace (and not attached):</span>
+<span class="co">#&gt;  [1] reshape2_1.4.3     splines_3.4.4      haven_1.1.1       </span>
+<span class="co">#&gt;  [4] lattice_0.20-35    colorspace_1.3-2   htmltools_0.3.6   </span>
+<span class="co">#&gt;  [7] yaml_2.1.18        utf8_1.1.3         survival_2.41-3   </span>
+<span class="co">#&gt; [10] rlang_0.2.0        pkgdown_0.1.0.9000 pillar_1.2.1      </span>
+<span class="co">#&gt; [13] foreign_0.8-69     glue_1.2.0         readxl_1.0.0      </span>
+<span class="co">#&gt; [16] modelr_0.1.1       bindrcpp_0.2.2     bindr_0.1.1       </span>
+<span class="co">#&gt; [19] plyr_1.8.4         cellranger_1.1.0   munsell_0.4.3     </span>
+<span class="co">#&gt; [22] commonmark_1.4     gtable_0.2.0       rvest_0.3.2       </span>
+<span class="co">#&gt; [25] psych_1.8.3.3      memoise_1.1.0      evaluate_0.10.1   </span>
+<span class="co">#&gt; [28] knitr_1.20         parallel_3.4.4     lars_1.2          </span>
+<span class="co">#&gt; [31] broom_0.4.4        Rcpp_0.12.16       corpcor_1.6.9     </span>
+<span class="co">#&gt; [34] backports_1.1.2    scales_0.5.0.9000  desc_1.1.1        </span>
+<span class="co">#&gt; [37] jsonlite_1.5       fs_1.2.2           mnormt_1.5-5      </span>
+<span class="co">#&gt; [40] hms_0.4.2          digest_0.6.15      stringi_1.1.7     </span>
+<span class="co">#&gt; [43] grid_3.4.4         rprojroot_1.3-2    cli_1.0.0         </span>
+<span class="co">#&gt; [46] tools_3.4.4        magrittr_1.5       lazyeval_0.2.1    </span>
+<span class="co">#&gt; [49] crayon_1.3.4       pkgconfig_2.0.1    Matrix_1.2-14     </span>
+<span class="co">#&gt; [52] MASS_7.3-49        xml2_1.2.0         lubridate_1.7.4   </span>
+<span class="co">#&gt; [55] assertthat_0.2.0   rmarkdown_1.9      roxygen2_6.0.1    </span>
+<span class="co">#&gt; [58] httr_1.3.1         rstudioapi_0.7     R6_2.2.2          </span>
+<span class="co">#&gt; [61] nlme_3.1-137       compiler_3.4.4</span></code></pre></div>
 </div>
   </div>
 

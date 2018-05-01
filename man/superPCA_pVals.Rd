@@ -90,6 +90,9 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
   \code{\link{pathway_tControl}}, \code{\link{weibullMix_optimParams}},
   \code{\link{weibullMix_pValues}}, and \code{\link{adjust_and_sort}}
   functions.
+
+  Please see our Quickstart Guide for this package:
+  \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
 }
 \examples{
 \dontrun{
