@@ -24,6 +24,7 @@ reference:
   - title: External Functions
     desc: Functions designed for direct end-user interaction
     contents:
+      - '`pathwayPCA-package`'
       - '`read_gmt`'
       - '`create_pathwaySet`'
       - '`print.pathwaySet`'
