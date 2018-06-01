@@ -58,6 +58,7 @@ Collate:
     'create_pathwaySet.R'
     'data_colonSubset.R'
     'data_genesetSubset.R'
+    'data_wikipathways.R'
     'pathwayPCA.R'
     'printClass_Omics_All.R'
     'printClass_pathwaySet.R'

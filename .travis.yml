@@ -4,11 +4,11 @@ language: r
 use_bioc: true
 bioc_required: true
 r:
-  - bioc-release
+  # - bioc-release
   - bioc-devel
-  - oldrel
-  - release
-  - devel
+  # - oldrel
+  # - release
+  # - devel
 
 r_packages:
   - devtools
