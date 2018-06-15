@@ -203,9 +203,150 @@ ovarianPNNLProtT_df &lt;- transpose_assay(ovarianProtPNNL_tbldf)
 rm(ovarianProtPNNL_tbldf)</code></pre>
 <p>All of these data tables have one extra column for the sample. Other than that, they match the expected dimensions perfectly.</p>
 </div>
+<div id="wikipathways-pathway-set" class="section level2">
+<h2>Wikipathways Pathway Set</h2>
+<p>The most recent raw <em>homo sapiens</em> Wikipathways pathway set is here: <a href="http://data.wikipathways.org/current/gmt/" class="uri">http://data.wikipathways.org/current/gmt/</a>; simply click the “Homo_sapiens” link. I’ve copied the data from this link to a text file, which I can read with the <code>read_gmt</code> function. (ERROR: when I read in Alex’s <code>.gmt</code> file, each of the pathways’ last gene ID ends with the <code>&quot;\r&quot;</code> string, indicating a carriage return. I have no idea why.)</p>
+<pre class="r"><code>human_pathwaySet &lt;- read_gmt(&quot;extdata/wikipathways_human.gmt&quot;,
+                             description = TRUE)
+human_pathwaySet</code></pre>
+<pre><code>## Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: 
+##  $ pathways   :List of 457
+##  $ TERMS      : chr [1:457] &quot;B Cell Receptor Signaling Pathway%WikiPathways_20180610%WP23%Homo sapiens&quot; ...
+##  $ description: chr [1:457] &quot;http://www.wikipathways.org/instance/WP23_r92558&quot; ...</code></pre>
+<p>The <code>TERMS</code> field is a bit messy, and we don’t need the website in the <code>description</code>.</p>
+<pre class="r"><code>human_TERMS &lt;- strsplit(human_pathwaySet$TERMS, split = &quot;%&quot;)
+human_pathwaySet$description &lt;- sapply(human_TERMS, `[[`, 1)
+human_pathwaySet$TERMS &lt;- sapply(human_TERMS, `[[`, 3)
+human_pathwaySet</code></pre>
+<pre><code>## Object with Class(es) 'pathwaySet', 'list' [package 'pathwayPCA'] with 3 elements: 
+##  $ pathways   :List of 457
+##  $ TERMS      : chr [1:457] &quot;WP23&quot; ...
+##  $ description: chr [1:457] &quot;B Cell Receptor Signaling Pathway&quot; ...</code></pre>
+</div>
 </div>
 <div id="clean-and-join-data" class="section level1">
 <h1>Clean and Join Data</h1>
+<p>Now that we are able to import and inspect the data, we need to join the phenotype and proteom data together. I noticed that some of the survival values are missing, but I’m not going to worry about those until I join the proteome data. It’s possible that we don’t need to analyze the data for those subjects anyway.</p>
+<div id="join" class="section level2">
+<h2>Join</h2>
+<p>First, I’d like to subset off only the phenotype columns we actually need. Also, I’ll transform the character information to numeric and rename the features to something more descriptive.</p>
+<pre class="r"><code>breastSurv_df &lt;-
+  breastPhenoT_df %&gt;% 
+  mutate(OS_time = as.numeric(overall_survival)) %&gt;% 
+  mutate(OS_death = as.numeric(status)) %&gt;% 
+  select(Sample, OS_time, OS_death)
+rm(breastPhenoT_df)
+
+colorectSurv_df &lt;-
+  colorectPhenoT_df %&gt;% 
+  mutate(OS_time = as.numeric(overall_survival)) %&gt;% 
+  mutate(OS_death = as.numeric(status)) %&gt;% 
+  select(Sample, OS_time, OS_death)
+rm(colorectPhenoT_df)
+
+ovarianSurv_df &lt;-
+  ovarianPhenoT_df %&gt;% 
+  mutate(OS_time = as.numeric(overall_survival)) %&gt;% 
+  mutate(OS_death = as.numeric(status)) %&gt;% 
+  select(Sample, OS_time, OS_death)
+rm(ovarianPhenoT_df)</code></pre>
+<p>Now, I can join the survival data to the proteome data. Because I only care about matching records in both data sets, I’ll use the <code>inner_join</code> function from the <code>dplyr</code> package (included in the <code>tidyverse</code> package suite). Because I named the sample ID column <code>Sample</code> in both the survival and proteome data frames, these joins are trivial.</p>
+<pre class="r"><code>breastInner_df &lt;- inner_join(breastSurv_df, breastProtT_df)
+colonInner_df &lt;- inner_join(colorectSurv_df, colorectProtT_df)
+ovarianInnerJHU_df &lt;- inner_join(ovarianSurv_df, ovarianJHUProtT_df)
+ovarianInnerPNNL_df &lt;- inner_join(ovarianSurv_df, ovarianPNNLProtT_df)</code></pre>
+</div>
+<div id="save" class="section level2">
+<h2>Save</h2>
+<p>I now have four data frames:</p>
+<ul>
+<li>Breast cancer survival by proteome: 9733 protein samples on 105 subjects</li>
+<li>Colorectal cancer survival by proteome: 5538 protein samples on 90 subjects</li>
+<li>Ovarian cancer by JHU proteome: 7625 protein samples on 122 subjects</li>
+<li>Ovarian cancer by PNNL proteome: 6475 protein samples on 84 subjects</li>
+</ul>
+<p>Unfortunately, some of the survival responses are missing. However, I’m not going to make a unilateral decision on how to handle these missing values. I’ll save these four data sets and clean up my working environment.</p>
+<pre class="r"><code>write_csv(breastInner_df, &quot;extdata/BRCA_surv_x_proteome.csv&quot;)
+write_csv(colonInner_df, &quot;extdata/CO-AD_surv_x_proteome.csv&quot;)
+write_csv(ovarianInnerJHU_df, &quot;extdata/OV_surv_x_JHUproteome.csv&quot;)
+write_csv(ovarianInnerPNNL_df, &quot;extdata/OV_surv_x_PNNLproteome.csv&quot;)</code></pre>
+</div>
+<div id="clean-the-data" class="section level2">
+<h2>Clean the Data</h2>
+<p>We will first attempt to transform the <code>human_pathwaySet</code> from Entrez Gene IDs to Gene Symbols (to match the data we’ve been given). I’ve checked a few of the values with the NCBI <a href="https://www.ncbi.nlm.nih.gov/gene/?term=PIK3AP1">lookup table</a>, and the Entrez Gene IDs match the Gene Symbols for <em>homo sapiens</em>.</p>
+<pre class="r"><code>library(biomaRt)
+mart &lt;- useEnsembl(biomart = &quot;ENSEMBL_MART_ENSEMBL&quot;,
+                   dataset = &quot;hsapiens_gene_ensembl&quot;)
+
+table_human_ID &lt;- getBM(
+  attributes = c(&quot;hgnc_symbol&quot;, &quot;entrezgene&quot;, &quot;ensembl_gene_id&quot;),
+  filter = &quot;entrezgene&quot;,
+  values = unique(unlist(human_pathwaySet$pathways)),
+  mart = mart
+)</code></pre>
+<p>This gives us a data frame with 6833 rows and 3 columns. The first column is the Gene Symbols for <em>homo sapiens</em>, the second column is the Entrez Gene ID, and the third column is the Ensembl Gene ID. Now I need a function to recode a <code>.gmt</code> file from Entrez Gene IDs to Gene Symbols or Ensembl Gene IDs. (Because the <code>.gmt</code> file from Wikipathways will always be in Entrez Gene ID form, I don’t need to worry about recoding in the other direction.) Because I don’t need the order of the genes preserved, I don’t have to worry about matching the Entrez Gene ID to the right Gene Symbol–I simply need the matching subset. ISSUE: Entrez Gene IDs can match to more than one Gene Symbol or Ensembl Gene ID. ISSUE 2: Entrez Gene ID “100847070” doesn’t match a Gene Symbol, but it does match <a href="https://www.ncbi.nlm.nih.gov/gene/?term=100847070">Micro-RNA 5196</a>. I guess I just cut it?</p>
+<pre class="r"><code>remove_match &lt;- function(vec, value){
+  vec[!(vec %in% value)]
+}
+
+table_human_ID %&gt;% 
+  filter(entrezgene %in% as.numeric(human_pathwaySet$pathways[[1]])) %&gt;% 
+  `$`(hgnc_symbol) %&gt;% 
+  unique() %&gt;% 
+  remove_match(&quot;&quot;)</code></pre>
+<pre><code>##  [1] &quot;MALT1&quot;   &quot;MAP4K1&quot;  &quot;CHUK&quot;    &quot;PIK3AP1&quot; &quot;CR2&quot;     &quot;CREB1&quot;   &quot;ATF2&quot;   
+##  [8] &quot;CRK&quot;     &quot;CRKL&quot;    &quot;MAPK14&quot;  &quot;E2F3&quot;    &quot;ELK1&quot;    &quot;AKT1&quot;    &quot;ETS1&quot;   
+## [15] &quot;FOXO1&quot;   &quot;PIP5K1C&quot; &quot;FYN&quot;     &quot;GAB1&quot;    &quot;RASGRP3&quot; &quot;PTPN18&quot;  &quot;DAPP1&quot;  
+## [22] &quot;GRB2&quot;    &quot;RAPGEF1&quot; &quot;GSK3A&quot;   &quot;GSK3B&quot;   &quot;GTF2I&quot;   &quot;BLNK&quot;    &quot;HCLS1&quot;  
+## [29] &quot;HRAS&quot;    &quot;IKBKB&quot;   &quot;ILF2&quot;    &quot;INPP5D&quot;  &quot;IRF4&quot;    &quot;JUN&quot;     &quot;LCK&quot;    
+## [36] &quot;LYN&quot;     &quot;MAX&quot;     &quot;MEF2C&quot;   &quot;MEF2D&quot;   &quot;MYC&quot;     &quot;NCK1&quot;    &quot;NFATC2&quot; 
+## [43] &quot;NFATC3&quot;  &quot;NFKB1&quot;   &quot;NFKBIA&quot;  &quot;PDPK1&quot;   &quot;PIK3CG&quot;  &quot;PIK3R1&quot;  &quot;PIK3R2&quot; 
+## [50] &quot;PLCG1&quot;   &quot;PLCG2&quot;   &quot;PRKCB&quot;   &quot;PRKCD&quot;   &quot;MAPK1&quot;   &quot;MAPK4&quot;   &quot;MAPK8&quot;  
+## [57] &quot;MAPK9&quot;   &quot;MAP2K1&quot;  &quot;MAP2K2&quot;  &quot;MAP2K6&quot;  &quot;PTPN6&quot;   &quot;PTPN11&quot;  &quot;PTPRC&quot;  
+## [64] &quot;RAC1&quot;    &quot;RAC2&quot;    &quot;RAF1&quot;    &quot;REL&quot;     &quot;RELA&quot;    &quot;BCL6&quot;    &quot;RPS6KA1&quot;
+## [71] &quot;BLK&quot;     &quot;SH3BP2&quot;  &quot;SHC1&quot;    &quot;SOS1&quot;    &quot;BRAF&quot;    &quot;SYK&quot;     &quot;MAP3K7&quot; 
+## [78] &quot;BTK&quot;     &quot;TEC&quot;     &quot;VAV1&quot;    &quot;VAV2&quot;    &quot;LAT2&quot;    &quot;CAMK2A&quot;  &quot;PIP5K1A&quot;
+## [85] &quot;PIP5K1B&quot; &quot;CARD11&quot;  &quot;KLF11&quot;   &quot;IKBKG&quot;   &quot;CBL&quot;     &quot;BCL10&quot;   &quot;CD19&quot;   
+## [92] &quot;CD22&quot;    &quot;CD79A&quot;   &quot;CD79B&quot;   &quot;CD81&quot;    &quot;GAB2&quot;    &quot;CDC42&quot;</code></pre>
+<pre class="r"><code>convertPathwaySet &lt;- function(pathwaySet, matchTable){
+  
+  remove_match &lt;- function(vec, value){
+    vec[!(vec %in% value)]
+  }
+  
+  out &lt;- pathwaySet
+  out$pathways &lt;- lapply(out$pathways, function(path){
+    
+    matchTable %&gt;% 
+      filter(entrezgene %in% path) %&gt;% 
+      `$`(hgnc_symbol) %&gt;% 
+      unique() %&gt;% 
+      remove_match(&quot;&quot;)
+    
+  })
+  
+  out
+  
+}
+
+humanGS_pathwaySet &lt;- convertPathwaySet(human_pathwaySet, table_human_ID)
+summary(lengths(human_pathwaySet$pathways) -
+          lengths(humanGS_pathwaySet$pathways))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   1.000   1.000   2.786   3.000  67.000</code></pre>
+<pre class="r"><code>which(lengths(human_pathwaySet$pathways) -
+          lengths(humanGS_pathwaySet$pathways) &gt; 10)</code></pre>
+<pre><code>##  [1]  37  51  54  65 102 136 203 207 224 246 310 371 412 420</code></pre>
+<pre class="r"><code>human_pathwaySet$pathways[[37]]</code></pre>
+<pre><code>##  [1] &quot;406883&quot;    &quot;406882&quot;    &quot;406940&quot;    &quot;406885&quot;    &quot;406884&quot;   
+##  [6] &quot;406887&quot;    &quot;406886&quot;    &quot;406889&quot;    &quot;406888&quot;    &quot;100616143&quot;
+## [11] &quot;1021&quot;      &quot;406881&quot;    &quot;4609&quot;      &quot;400931&quot;    &quot;1871&quot;     
+## [16] &quot;998&quot;       &quot;406894&quot;    &quot;5295&quot;      &quot;406893&quot;    &quot;407025&quot;   
+## [21] &quot;407026&quot;    &quot;7157&quot;      &quot;407041&quot;    &quot;407042&quot;    &quot;406890&quot;   
+## [26] &quot;407024&quot;    &quot;407021&quot;    &quot;442892\r&quot;</code></pre>
+<pre class="r"><code>humanGS_pathwaySet$pathways[[37]]</code></pre>
+<pre><code>## [1] &quot;E2F3&quot;   &quot;MYC&quot;    &quot;PIK3R1&quot; &quot;CDC42&quot;  &quot;CDK6&quot;   &quot;TP53&quot;</code></pre>
+</div>
 </div>
 
 
