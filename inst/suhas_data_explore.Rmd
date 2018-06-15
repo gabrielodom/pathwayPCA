@@ -31,6 +31,7 @@ library(pathwayPCA)
 # Import the Raw Data
 I downloaded the raw data from Suhas (one phenotype and one proteme data set each) and the pathway set from Alex into `inst/extdata`. The ovarian data has two phenotype files.
 
+
 ## Dimensions
 The dimensions of each data set are
 
@@ -44,8 +45,9 @@ The dimensions of each data set are
 
 The phenotype data are in `.tsi` (mixed data matrix file) format. The proteome data are in `.cct` (continuous data matrix file) format. Both file formats appear to be simple tab-separated values.
 
+
 ## Phenotype Data
-```{r import_pheno, message = FALSE}
+```{r import_pheno, message = FALSE, eval=FALSE}
 breastPheno_tbldf <- read_delim("extdata/Human_TCGA_BRCA_MS_Clinical_Clinical_01_28_2016_BI_Clinical_Firehose.tsi",
                                 "\t", escape_double = FALSE, trim_ws = TRUE)
 colorectPheno_tbldf <- read_delim("extdata/Human_TCGA_COADREAD_MS_Clinical_Clinical_01_28_2016_BI_Clinical_Firehose.tsi",
@@ -55,7 +57,7 @@ ovarianPheno_tbldf <- read_delim("extdata/Human_TCGA_OV_MS_Clinical_Clinical_01_
 ```
 
 These phenotype data sets are "wide", so I need to transpose them with the `transpose_assay` function.
-```{r transposePheno}
+```{r transposePheno, eval=FALSE}
 breastPhenoT_df <- transpose_assay(breastPheno_tbldf)
 rm(breastPheno_tbldf)
 colorectPhenoT_df <- transpose_assay(colorectPheno_tbldf)
@@ -66,8 +68,9 @@ rm(ovarianPheno_tbldf)
 
 These data frames have a few extra columns: each have a column called "Sample" which was created by the `transpose_assay` function, and they all have an extra `overallsurvival` column with the survival time and censor together as a comma-separated string. Also, all of the columns are in character type, so I'll have to clean them up.
 
+
 ## Proteome
-```{r import_prot, message = FALSE}
+```{r import_prot, message = FALSE, eval=FALSE}
 breastProt_tbldf <- read_delim("extdata/Human_TCGA_BRCA_BI_Proteome_QExact_01_28_2016_BI_Gene_CDAP_iTRAQ_UnsharedLogRatio_r2.cct",
                                "\t", escape_double = FALSE, trim_ws = TRUE)
 colorectProt_tbldf <- read_delim("extdata/Human_TCGA_COADREAD_VU_Proteome_Velos_01_28_2016_VU_Gene_CDAP_UnsharedPrecursorArea_r2.cct",
@@ -79,7 +82,7 @@ ovarianProtPNNL_tbldf <- read_delim("extdata/Human_TCGA_OV_PNNL_Proteome_Velos_Q
 ```
 
 Once again, these data tables are "wide".
-```{r transposeProt}
+```{r transposeProt, eval=FALSE}
 breastProtT_df <- transpose_assay(breastProt_tbldf)
 rm(breastProt_tbldf)
 colorectProtT_df <- transpose_assay(colorectProt_tbldf)
@@ -93,5 +96,147 @@ rm(ovarianProtPNNL_tbldf)
 All of these data tables have one extra column for the sample. Other than that, they match the expected dimensions perfectly.
 
 
+## Wikipathways Pathway Set
+The most recent raw *homo sapiens* Wikipathways pathway set is here: <http://data.wikipathways.org/current/gmt/>; simply click the "Homo_sapiens" link. I've copied the data from this link to a text file, which I can read with the `read_gmt` function. (ERROR: when I read in Alex's `.gmt` file, each of the pathways' last gene ID ends with the `"\r"` string, indicating a carriage return. I have no idea why.)
+```{r readHS_gmt}
+human_pathwaySet <- read_gmt("extdata/wikipathways_human.gmt",
+                             description = TRUE)
+human_pathwaySet
+```
+
+The `TERMS` field is a bit messy, and we don't need the website in the `description`.
+```{r clean_gmt}
+human_TERMS <- strsplit(human_pathwaySet$TERMS, split = "%")
+human_pathwaySet$description <- sapply(human_TERMS, `[[`, 1)
+human_pathwaySet$TERMS <- sapply(human_TERMS, `[[`, 3)
+human_pathwaySet
+```
+
+
 # Clean and Join Data
+Now that we are able to import and inspect the data, we need to join the phenotype and proteom data together. I noticed that some of the survival values are missing, but I'm not going to worry about those until I join the proteome data. It's possible that we don't need to analyze the data for those subjects anyway.
+
+
+## Join
+First, I'd like to subset off only the phenotype columns we actually need. Also, I'll transform the character information to numeric and rename the features to something more descriptive.
+```{r selectPhenoCols, eval=FALSE}
+breastSurv_df <-
+  breastPhenoT_df %>% 
+  mutate(OS_time = as.numeric(overall_survival)) %>% 
+  mutate(OS_death = as.numeric(status)) %>% 
+  select(Sample, OS_time, OS_death)
+rm(breastPhenoT_df)
+
+colorectSurv_df <-
+  colorectPhenoT_df %>% 
+  mutate(OS_time = as.numeric(overall_survival)) %>% 
+  mutate(OS_death = as.numeric(status)) %>% 
+  select(Sample, OS_time, OS_death)
+rm(colorectPhenoT_df)
+
+ovarianSurv_df <-
+  ovarianPhenoT_df %>% 
+  mutate(OS_time = as.numeric(overall_survival)) %>% 
+  mutate(OS_death = as.numeric(status)) %>% 
+  select(Sample, OS_time, OS_death)
+rm(ovarianPhenoT_df)
+```
+
+Now, I can join the survival data to the proteome data. Because I only care about matching records in both data sets, I'll use the `inner_join` function from the `dplyr` package (included in the `tidyverse` package suite). Because I named the sample ID column `Sample` in both the survival and proteome data frames, these joins are trivial.
+```{r joinData, eval=FALSE}
+breastInner_df <- inner_join(breastSurv_df, breastProtT_df)
+colonInner_df <- inner_join(colorectSurv_df, colorectProtT_df)
+ovarianInnerJHU_df <- inner_join(ovarianSurv_df, ovarianJHUProtT_df)
+ovarianInnerPNNL_df <- inner_join(ovarianSurv_df, ovarianPNNLProtT_df)
+```
+
+
+## Save
+I now have four data frames:
+
+- Breast cancer survival by proteome: 9733 protein samples on 105 subjects
+- Colorectal cancer survival by proteome: 5538 protein samples on 90 subjects
+- Ovarian cancer by JHU proteome: 7625 protein samples on 122 subjects
+- Ovarian cancer by PNNL proteome: 6475 protein samples on 84 subjects
+
+Unfortunately, some of the survival responses are missing. However, I'm not going to make a unilateral decision on how to handle these missing values. I'll save these four data sets and clean up my working environment.
+
+```{r saveData, eval=FALSE}
+write_csv(breastInner_df, "extdata/BRCA_surv_x_proteome.csv")
+write_csv(colonInner_df, "extdata/CO-AD_surv_x_proteome.csv")
+write_csv(ovarianInnerJHU_df, "extdata/OV_surv_x_JHUproteome.csv")
+write_csv(ovarianInnerPNNL_df, "extdata/OV_surv_x_PNNLproteome.csv")
+```
+
+
+## Clean the Data
+We will first attempt to transform the `human_pathwaySet` from Entrez Gene IDs to Gene Symbols (to match the data we've been given). I've checked a few of the values with the NCBI [lookup table](https://www.ncbi.nlm.nih.gov/gene/?term=PIK3AP1), and the Entrez Gene IDs match the Gene Symbols for *homo sapiens*.
+
+```{r biomaRt_conversion_table}
+library(biomaRt)
+mart <- useEnsembl(biomart = "ENSEMBL_MART_ENSEMBL",
+                   dataset = "hsapiens_gene_ensembl")
+
+table_human_ID <- getBM(
+  attributes = c("hgnc_symbol", "entrezgene", "ensembl_gene_id"),
+  filter = "entrezgene",
+  values = unique(unlist(human_pathwaySet$pathways)),
+  mart = mart
+)
+```
+This gives us a data frame with 6833 rows and 3 columns. The first column is the Gene Symbols for *homo sapiens*, the second column is the Entrez Gene ID, and the third column is the Ensembl Gene ID. Now I need a function to recode a `.gmt` file from Entrez Gene IDs to Gene Symbols or Ensembl Gene IDs. (Because the `.gmt` file from Wikipathways will always be in Entrez Gene ID form, I don't need to worry about recoding in the other direction.) Because I don't need the order of the genes preserved, I don't have to worry about matching the Entrez Gene ID to the right Gene Symbol--I simply need the matching subset. ISSUE: Entrez Gene IDs can match to more than one Gene Symbol or Ensembl Gene ID. ISSUE 2: Entrez Gene ID "100847070" doesn't match a Gene Symbol, but it does match [Micro-RNA 5196](https://www.ncbi.nlm.nih.gov/gene/?term=100847070). I guess I just cut it?
+```{r}
+remove_match <- function(vec, value){
+  vec[!(vec %in% value)]
+}
+
+table_human_ID %>% 
+  filter(entrezgene %in% as.numeric(human_pathwaySet$pathways[[1]])) %>% 
+  `$`(hgnc_symbol) %>% 
+  unique() %>% 
+  remove_match("")
+
+convertPathwaySet <- function(pathwaySet, matchTable){
+  
+  remove_match <- function(vec, value){
+    vec[!(vec %in% value)]
+  }
+  
+  out <- pathwaySet
+  out$pathways <- lapply(out$pathways, function(path){
+    
+    matchTable %>% 
+      filter(entrezgene %in% path) %>% 
+      `$`(hgnc_symbol) %>% 
+      unique() %>% 
+      remove_match("")
+    
+  })
+  
+  out
+  
+}
+
+humanGS_pathwaySet <- convertPathwaySet(human_pathwaySet, table_human_ID)
+summary(lengths(human_pathwaySet$pathways) -
+          lengths(humanGS_pathwaySet$pathways))
+which(lengths(human_pathwaySet$pathways) -
+          lengths(humanGS_pathwaySet$pathways) > 10)
+human_pathwaySet$pathways[[37]]
+humanGS_pathwaySet$pathways[[37]]
+```
+
+
+
+```{r loadJoinedData, echo=FALSE, message=FALSE}
+breastInner_df <- read_csv("extdata/BRCA_surv_x_proteome.csv")
+colonInner_df <- read_csv("extdata/CO-AD_surv_x_proteome.csv")
+ovarianInnerJHU_df <- read_csv("extdata/OV_surv_x_JHUproteome.csv")
+ovarianInnerPNNL_df <- read_csv("extdata/OV_surv_x_PNNLproteome.csv")
+```
+
+
+
+
+
 
