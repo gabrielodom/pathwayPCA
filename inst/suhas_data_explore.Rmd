@@ -1,0 +1,97 @@
+---
+title: "Explore_Suhas_Data"
+author: "Gabriel J. Odom, PhD, ThD"
+date: "June 15, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+Suhas V. sent three data sets to me and Steven (on 2018-06-09). These data sets are 
+
+- Breast invasive carcinoma (TCGA-BRCA): http://linkedomics.org/data_download/TCGA-BRCA/
+- Colorectal adenocarcinoma (TCGA-COADREAD): http://linkedomics.org/data_download/TCGA-COADREAD/
+- Ovarian serous cystadenocarcinoma (TCGA-OV): http://linkedomics.org/data_download/TCGA-OV/
+
+After speaking with Steven about what phenotype response to consider, we will use recurrence-free, progression-free, or disease-free survival when available; if none of these are available, we will use overall survival. The predictor information will be the **Proteome** data. For the ovarian data, we will try out both proteome data sets (from Johns Hopkins and PNNL).
+
+We believe that the gene information names are recorded as gene symbols, while the Wikipathways lists are in Entrez Gene ID format. I spoke with James about the procedure to convert between gene symbols and Entrez IDs, and he emailed me a script (on 2018-06-14). Also, Alex mentioned using the [`biomaRt`](https://bioconductor.org/packages/release/bioc/html/biomaRt.html) package.
+
+We will use the following packages in this exercise:
+```{r packLoad}
+library(tidyverse)
+library(pathwayPCA)
+```
+
+
+
+# Import the Raw Data
+I downloaded the raw data from Suhas (one phenotype and one proteme data set each) and the pathway set from Alex into `inst/extdata`. The ovarian data has two phenotype files.
+
+## Dimensions
+The dimensions of each data set are
+
+- BRCA phenotype: $1097 \times 19$
+- BRCA proteome: $105 \times 9733$
+- CO-AD phenotype: $629 \times 15$
+- CO-AD proteome: $90 \times 5538$
+- OV phenotype: $591 \times 9$
+- OV JHU proteome: $122 \times 7625$
+- OV PNNL proteome: $84 \times 6475$
+
+The phenotype data are in `.tsi` (mixed data matrix file) format. The proteome data are in `.cct` (continuous data matrix file) format. Both file formats appear to be simple tab-separated values.
+
+## Phenotype Data
+```{r import_pheno, message = FALSE}
+breastPheno_tbldf <- read_delim("extdata/Human_TCGA_BRCA_MS_Clinical_Clinical_01_28_2016_BI_Clinical_Firehose.tsi",
+                                "\t", escape_double = FALSE, trim_ws = TRUE)
+colorectPheno_tbldf <- read_delim("extdata/Human_TCGA_COADREAD_MS_Clinical_Clinical_01_28_2016_BI_Clinical_Firehose.tsi",
+                                  "\t", escape_double = FALSE, trim_ws = TRUE)
+ovarianPheno_tbldf <- read_delim("extdata/Human_TCGA_OV_MS_Clinical_Clinical_01_28_2016_BI_Clinical_Firehose.tsi",
+                                 "\t", escape_double = FALSE, trim_ws = TRUE)
+```
+
+These phenotype data sets are "wide", so I need to transpose them with the `transpose_assay` function.
+```{r transposePheno}
+breastPhenoT_df <- transpose_assay(breastPheno_tbldf)
+rm(breastPheno_tbldf)
+colorectPhenoT_df <- transpose_assay(colorectPheno_tbldf)
+rm(colorectPheno_tbldf)
+ovarianPhenoT_df <- transpose_assay(ovarianPheno_tbldf)
+rm(ovarianPheno_tbldf)
+```
+
+These data frames have a few extra columns: each have a column called "Sample" which was created by the `transpose_assay` function, and they all have an extra `overallsurvival` column with the survival time and censor together as a comma-separated string. Also, all of the columns are in character type, so I'll have to clean them up.
+
+## Proteome
+```{r import_prot, message = FALSE}
+breastProt_tbldf <- read_delim("extdata/Human_TCGA_BRCA_BI_Proteome_QExact_01_28_2016_BI_Gene_CDAP_iTRAQ_UnsharedLogRatio_r2.cct",
+                               "\t", escape_double = FALSE, trim_ws = TRUE)
+colorectProt_tbldf <- read_delim("extdata/Human_TCGA_COADREAD_VU_Proteome_Velos_01_28_2016_VU_Gene_CDAP_UnsharedPrecursorArea_r2.cct",
+                                 "\t", escape_double = FALSE, trim_ws = TRUE)
+ovarianProtJHU_tbldf <- read_delim("extdata/Human_TCGA_OV_JHU_Proteome_Velos_01_28_2016_JHU_Gene_CDAP_iTRAQ_UnsharedLogRatio_r2.cct",
+                                   "\t", escape_double = FALSE, trim_ws = TRUE)
+ovarianProtPNNL_tbldf <- read_delim("extdata/Human_TCGA_OV_PNNL_Proteome_Velos_QExact_01_28_2016_PNNL_Gene_CDAP_iTRAQ_UnsharedLogRatio_r2.cct",
+                                    "\t", escape_double = FALSE, trim_ws = TRUE)
+```
+
+Once again, these data tables are "wide".
+```{r transposeProt}
+breastProtT_df <- transpose_assay(breastProt_tbldf)
+rm(breastProt_tbldf)
+colorectProtT_df <- transpose_assay(colorectProt_tbldf)
+rm(colorectProt_tbldf)
+ovarianJHUProtT_df <- transpose_assay(ovarianProtJHU_tbldf)
+rm(ovarianProtJHU_tbldf)
+ovarianPNNLProtT_df <- transpose_assay(ovarianProtPNNL_tbldf)
+rm(ovarianProtPNNL_tbldf)
+```
+
+All of these data tables have one extra column for the sample. Other than that, they match the expected dimensions perfectly.
+
+
+# Clean and Join Data
+

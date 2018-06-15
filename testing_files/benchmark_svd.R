@@ -197,14 +197,32 @@ sapply(seq_along(x1_ls), function(idx){
 a1 <- Sys.time()
 test1 <- replicate(100, x1_ls <- baseEigen())
 Sys.time() - a1 # 1.569057, 1.567833, 1.512844, 1.500949, 1.611059 min
+baseTimes_num <- c(1.569057, 1.567833, 1.512844, 1.500949, 1.611059)
 
 a2 <- Sys.time()
 test2 <- replicate(100, x2_ls <- corpcorEigen())
 Sys.time() - a2 # 1.685411, 1.576553, 1.562411, 1.649198, 1.662961 min
+corpcorTimes_num <- c(1.685411, 1.576553, 1.562411, 1.649198, 1.662961)
 
 a3 <- Sys.time()
 test3 <- replicate(100, x3_ls <- suppressWarnings(spectraEigen()))
 Sys.time() - a3 # 58.55, 55.78702, 57.13908, 58.96591, 58.99293 sec
+RSpectraTimes_num <- c(58.55, 55.78702, 57.13908, 58.96591, 58.99293) / 60
 
 # It looks like the base eigendecomposition is better than the corpcor fast.svd
 #   function. Brutal. However, the RSpectra functions are much faster.
+
+library(ggplot2)
+times_df <- data.frame(Package = c(rep("base", 5),
+                                   rep("corpcor", 5),
+                                   rep("RSpectra", 5)),
+                       Time = c(baseTimes_num,
+                                corpcorTimes_num,
+                                RSpectraTimes_num))
+ggplot(data = times_df) +
+  aes(x = Package, y = Time) +
+  scale_y_continuous(limits = c(0, 2)) +
+  geom_boxplot()
+
+summary(aov(Time ~ Package, data = times_df))
+plot(aov(Time ~ Package, data = times_df))

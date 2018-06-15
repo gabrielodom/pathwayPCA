@@ -4,7 +4,8 @@
 \alias{transpose_assay}
 \title{Transpose an Assay (Data Frame)}
 \usage{
-transpose_assay(assay_df, firstColIsFeatureNames = TRUE)
+transpose_assay(assay_df, firstColIsFeatureNames = TRUE,
+  stringsAsFactors = FALSE)
 }
 \arguments{
 \item{assay_df}{A data frame with numeric values to transpose}
@@ -12,6 +13,9 @@ transpose_assay(assay_df, firstColIsFeatureNames = TRUE)
 \item{firstColIsFeatureNames}{Are the data row names in the first column of
 \code{df}? Defaults to \code{TRUE}. If not, this function assumes that the
 data row names are accesible by the \code{\link{rownames}} function.}
+
+\item{stringsAsFactors}{Should columns containing string information be
+coerced to factors? Defaults to \code{FALSE}.}
 }
 \value{
 The transposition of \code{df}, with row and column names preserved.
