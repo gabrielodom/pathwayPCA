@@ -8,6 +8,8 @@
 #' @param firstColIsFeatureNames Are the data row names in the first column of
 #'    \code{df}? Defaults to \code{TRUE}. If not, this function assumes that the
 #'    data row names are accesible by the \code{\link{rownames}} function.
+#' @param stringsAsFactors Should columns containing string information be
+#'    coerced to factors? Defaults to \code{FALSE}.
 #'
 #' @details This function is designed to transpose "tall" assay data frames
 #'    (where genes or proteins are the rows and patient or tumour samples are
@@ -28,20 +30,23 @@
 #'
 #'    transpose_assay(x_df, firstColIsFeatureNames = FALSE)
 #'
-transpose_assay <- function(assay_df, firstColIsFeatureNames = TRUE){
+transpose_assay <- function(assay_df,
+                            firstColIsFeatureNames = TRUE,
+                            stringsAsFactors = FALSE){
 
   if(firstColIsFeatureNames){
 
     featureNames_vec <- assay_df[, 1, drop = TRUE]
     sampleNames_vec <- colnames(assay_df)[-1]
 
-    transpose_df <- as.data.frame(t(assay_df[, -1]))
+    transpose_df <- as.data.frame(t(assay_df[, -1]),
+                                  stringsAsFactors = stringsAsFactors)
     rownames(transpose_df) <- NULL
 
     colnames(transpose_df) <- featureNames_vec
 
     sampleNames_df <- data.frame(Sample = sampleNames_vec,
-                                 stringsAsFactors = FALSE)
+                                 stringsAsFactors = stringsAsFactors)
     transpose_df <- cbind(sampleNames_df, transpose_df)
 
   } else {
@@ -49,7 +54,8 @@ transpose_assay <- function(assay_df, firstColIsFeatureNames = TRUE){
     featureNames_vec <- rownames(assay_df)
     sampleNames_vec <- colnames(assay_df)
 
-    transpose_df <- as.data.frame(t(assay_df))
+    transpose_df <- as.data.frame(t(assay_df),
+                                  stringsAsFactors = stringsAsFactors)
 
     colnames(transpose_df) <- featureNames_vec
     rownames(transpose_df) <- sampleNames_vec
