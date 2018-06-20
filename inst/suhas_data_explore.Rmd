@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
 # Overview
@@ -22,6 +22,7 @@ We believe that the gene information names are recorded as gene symbols, while t
 
 We will use the following packages in this exercise:
 ```{r packLoad}
+# library(impute)
 library(tidyverse)
 library(pathwayPCA)
 ```
@@ -109,6 +110,7 @@ The `TERMS` field is a bit messy, and we don't need the website in the `descript
 human_TERMS <- strsplit(human_pathwaySet$TERMS, split = "%")
 human_pathwaySet$description <- sapply(human_TERMS, `[[`, 1)
 human_pathwaySet$TERMS <- sapply(human_TERMS, `[[`, 3)
+rm(human_TERMS)
 human_pathwaySet
 ```
 
@@ -159,6 +161,7 @@ I now have four data frames:
 - Ovarian cancer by JHU proteome: 7625 protein samples on 122 subjects
 - Ovarian cancer by PNNL proteome: 6475 protein samples on 84 subjects
 
+# Impute Missing Values
 Unfortunately, some of the survival responses are missing. However, I'm not going to make a unilateral decision on how to handle these missing values. I'll save these four data sets and clean up my working environment.
 
 ```{r saveData, eval=FALSE}
@@ -169,8 +172,177 @@ write_csv(ovarianInnerPNNL_df, "extdata/OV_surv_x_PNNLproteome.csv")
 ```
 
 
-## Clean the Data
-We will first attempt to transform the `human_pathwaySet` from Entrez Gene IDs to Gene Symbols (to match the data we've been given). I've checked a few of the values with the NCBI [lookup table](https://www.ncbi.nlm.nih.gov/gene/?term=PIK3AP1), and the Entrez Gene IDs match the Gene Symbols for *homo sapiens*.
+```{r loadJoinedData, echo=FALSE, message=FALSE}
+breastInner_df <- read_csv("extdata/BRCA_surv_x_proteome.csv")
+colonInner_df <- read_csv("extdata/CO-AD_surv_x_proteome.csv")
+ovarianInnerJHU_df <- read_csv("extdata/OV_surv_x_JHUproteome.csv")
+ovarianInnerPNNL_df <- read_csv("extdata/OV_surv_x_PNNLproteome.csv")
+```
+
+## Overall Missingness
+How many complete responses do we have?
+```{r}
+sum(complete.cases(breastInner_df[, 1:3])) # of 105
+sum(complete.cases(colonInner_df[, 1:3]))  # of 90
+sum(complete.cases(ovarianInnerJHU_df[, 1:3]))   # of 122
+sum(complete.cases(ovarianInnerPNNL_df[, 1:3]))  # of 84
+```
+
+Removing the incomplete responses, what percent of the gene data is still missing?
+```{r}
+mean(is.na(breastInner_df[complete.cases(breastInner_df[, 1:3]), -(1:3)]))
+mean(is.na(colonInner_df[complete.cases(colonInner_df[, 1:3]), -(1:3)]))
+mean(is.na(ovarianInnerJHU_df[complete.cases(ovarianInnerJHU_df[, 1:3]), -(1:3)]))
+mean(is.na(ovarianInnerPNNL_df[complete.cases(ovarianInnerPNNL_df[, 1:3]), -(1:3)]))
+```
+This means that 63k gene measurments are missing from the breast cancer data, none from the colon cancer data, 79k from the JHU-curated ovarian cancer data, and 66k from the PNNL-curated ovarian cancer data.
+
+## Feature-Specific Missingness
+```{r}
+# Breast Cancer
+breastMissing_num <- sapply(
+  breastInner_df[complete.cases(breastInner_df[, 1:3]), -(1:3)],
+  function(x) mean(is.na(x))
+)
+plot(ecdf(breastMissing_num))
+length(which(breastMissing_num > 0)) # of 9736
+length(which(breastMissing_num > 0.1)) # of 9736
+
+# Ovarian Cancer from JHU
+ovarianJHUMissing_num <- sapply(
+  ovarianInnerJHU_df[complete.cases(ovarianInnerJHU_df[, 1:3]), -(1:3)],
+  function(x) mean(is.na(x))
+)
+plot(ecdf(ovarianJHUMissing_num))
+length(which(ovarianJHUMissing_num > 0)) # of 7628
+length(which(ovarianJHUMissing_num > 0.1)) # of 7628
+
+# Ovarian Cancer from PNNL
+ovarianPNNLMissing_num <- sapply(
+  ovarianInnerPNNL_df[complete.cases(ovarianInnerPNNL_df[, 1:3]), -(1:3)],
+  function(x) mean(is.na(x))
+)
+plot(ecdf(ovarianPNNLMissing_num))
+length(which(ovarianPNNLMissing_num > 0)) # of 6478
+length(which(ovarianPNNLMissing_num > 0.1)) # of 6478
+```
+
+## Trim Features with High Missingness
+From these empirical CDFs of the missingness for each gene, we can probably cut the top 20% most missing genes without serious problems. Then, we can probably impute the rest.
+```{r}
+# Breast Cancer
+quantile(breastMissing_num, 0.8)
+breastGenesCut <- which(breastMissing_num > 0.09) + 3
+breastTrim_df <- breastInner_df[complete.cases(breastInner_df[, 1:3]),
+                                -breastGenesCut]
+summary(sapply(breastTrim_df, function(x) mean(is.na(x))))
+
+# Colon Cancer
+colonTrim_df <- colonInner_df[complete.cases(colonInner_df[, 1:3]), ]
+summary(sapply(colonTrim_df, function(x) mean(is.na(x))))
+
+# JHU Ovarian Cancer
+quantile(ovarianJHUMissing_num, 0.8)
+ovarianJHUGenesCut <- which(ovarianJHUMissing_num > 0.1680672) + 3
+ovarianJHUTrim_df <- ovarianInnerJHU_df[complete.cases(ovarianInnerJHU_df[, 1:3]),
+                                        -ovarianJHUGenesCut]
+summary(sapply(ovarianJHUTrim_df, function(x) mean(is.na(x))))
+
+# PNNL Ovarian Cancer
+quantile(ovarianPNNLMissing_num, 0.8)
+ovarianPNNLGenesCut <- which(ovarianPNNLMissing_num > 0.2891566) + 3
+ovarianPNNLTrim_df <- ovarianInnerPNNL_df[complete.cases(ovarianInnerPNNL_df[, 1:3]),
+                                          -ovarianPNNLGenesCut]
+summary(sapply(ovarianPNNLTrim_df, function(x) mean(is.na(x))))
+```
+
+## Impute Remaining Missing Values
+We perform imputation via the [impute](https://www.bioconductor.org/packages/devel/bioc/manuals/impute/man/impute.pdf) package on Bioconductor. This method uses k-Nearest-Neighbors.
+```{r message=FALSE}
+# Breast Cancer
+breastTrim_mat <- 
+  breastTrim_df %>% 
+  dplyr::select(-Sample, -OS_time, -OS_death) %>% 
+  t
+
+a1 <- Sys.time()
+breastTrim_ls <- impute::impute.knn(breastTrim_mat)
+breastTrim_mat <- breastTrim_ls$data
+Sys.time() - a1
+
+breastClean_df <- bind_cols(
+  dplyr::select(breastTrim_df, Sample, OS_time, OS_death),
+  transpose_assay(as.data.frame(breastTrim_mat),
+                  firstColIsFeatureNames = FALSE)
+)
+anyNA(breastClean_df)
+
+# JHU Ovarian Cancer
+ovarianJHUTrim_mat <- 
+  ovarianJHUTrim_df %>% 
+  dplyr::select(-Sample, -OS_time, -OS_death) %>% 
+  t
+
+a2 <- Sys.time()
+ovarianJHUTrim_ls <- impute::impute.knn(ovarianJHUTrim_mat)
+ovarianJHUTrim_mat <- ovarianJHUTrim_ls$data
+Sys.time() - a2
+
+ovarianJHUClean_df <- bind_cols(
+  dplyr::select(ovarianJHUTrim_df, Sample, OS_time, OS_death),
+  transpose_assay(as.data.frame(ovarianJHUTrim_mat),
+                  firstColIsFeatureNames = FALSE)
+)
+anyNA(ovarianJHUClean_df)
+
+# PNNL Ovarian Cancer
+ovarianPNNLTrim_mat <- 
+  ovarianPNNLTrim_df %>% 
+  dplyr::select(-Sample, -OS_time, -OS_death) %>% 
+  t
+
+a3 <- Sys.time()
+ovarianPNNLTrim_ls <- impute::impute.knn(ovarianPNNLTrim_mat)
+ovarianPNNLTrim_mat <- ovarianPNNLTrim_ls$data
+Sys.time() - a3
+
+ovarianPNNLClean_df <- bind_cols(
+  dplyr::select(ovarianPNNLTrim_df, Sample, OS_time, OS_death),
+  transpose_assay(as.data.frame(ovarianPNNLTrim_mat),
+                  firstColIsFeatureNames = FALSE)
+)
+anyNA(ovarianPNNLClean_df)
+```
+
+## Save Imputed Data
+Now that we've trimmed the features with large missingness and imputed all of the remaining missing values, we can clean our environment again.
+```{r}
+rm(breastInner_df, breastTrim_df, breastTrim_ls, breastTrim_mat,
+   breastMissing_num, breastGenesCut, a1)
+colonClean_df <- colonTrim_df
+rm(colonTrim_df, colonInner_df)
+rm(ovarianInnerJHU_df, ovarianJHUTrim_df, ovarianJHUTrim_ls, ovarianJHUTrim_mat,
+   ovarianJHUMissing_num, ovarianJHUGenesCut, a2)
+rm(ovarianInnerPNNL_df, ovarianPNNLTrim_df, ovarianPNNLTrim_ls,
+   ovarianPNNLTrim_mat, ovarianPNNLMissing_num, ovarianPNNLGenesCut, a3)
+```
+
+Finally, we save the imputed data. These cleaned and imputed data sets have the following dimensions (not including the subject ID, survival time, or event indicator):
+
+- BRCA: $100 \times 7906$; five fewer subjects and 1827 fewer features.
+- CO-AD: $81 \times 5538$; nine fewer subjects and no fewer features.
+- OV JHU: $119 \times 6097$; three fewer subjects and 1528 fewer features.
+- OV PNNL: $83 \times 5162$; one fewer subject and 1313 fewer features.
+
+```{r saveImputedData, eval=FALSE}
+write_csv(breastClean_df, "extdata/BRCA_surv_x_proteome_imputed.csv")
+write_csv(colonClean_df, "extdata/CO-AD_surv_x_proteome_imputed.csv")
+write_csv(ovarianJHUClean_df, "extdata/OV_surv_x_JHUproteome_imputed.csv")
+write_csv(ovarianPNNLClean_df, "extdata/OV_surv_x_PNNLproteome_imputed.csv")
+```
+
+# Transform the Pathway Set
+We will attempt to transform the `human_pathwaySet` from Entrez Gene IDs to Gene Symbols (to match the data we've been given). I've checked a few of the values with the NCBI [lookup table](https://www.ncbi.nlm.nih.gov/gene/?term=PIK3AP1), and the Entrez Gene IDs match the Gene Symbols for *homo sapiens*.
 
 ```{r biomaRt_conversion_table}
 library(biomaRt)
@@ -184,7 +356,11 @@ table_human_ID <- getBM(
   mart = mart
 )
 ```
-This gives us a data frame with 6833 rows and 3 columns. The first column is the Gene Symbols for *homo sapiens*, the second column is the Entrez Gene ID, and the third column is the Ensembl Gene ID. Now I need a function to recode a `.gmt` file from Entrez Gene IDs to Gene Symbols or Ensembl Gene IDs. (Because the `.gmt` file from Wikipathways will always be in Entrez Gene ID form, I don't need to worry about recoding in the other direction.) Because I don't need the order of the genes preserved, I don't have to worry about matching the Entrez Gene ID to the right Gene Symbol--I simply need the matching subset. ISSUE: Entrez Gene IDs can match to more than one Gene Symbol or Ensembl Gene ID. ISSUE 2: Entrez Gene ID "100847070" doesn't match a Gene Symbol, but it does match [Micro-RNA 5196](https://www.ncbi.nlm.nih.gov/gene/?term=100847070). I guess I just cut it?
+This gives us a data frame with 6833 rows and 3 columns. The first column is the Gene Symbols for *homo sapiens*, the second column is the Entrez Gene ID, and the third column is the Ensembl Gene ID. Now I need a function to recode a `.gmt` file from Entrez Gene IDs to Gene Symbols or Ensembl Gene IDs. (Because the `.gmt` file from Wikipathways will always be in Entrez Gene ID form, I don't need to worry about recoding in the other direction.) Because I don't need the order of the genes preserved, I don't have to worry about matching the Entrez Gene ID to the right Gene Symbol--I simply need the matching subset.
+
+ISSUE: Entrez Gene IDs can match to more than one Gene Symbol or Ensembl Gene ID. I spoke with James; when we have duplicate matches, we will include both.
+
+ISSUE 2: Entrez Gene ID "100847070" doesn't match a Gene Symbol, but it does match [Micro-RNA 5196](https://www.ncbi.nlm.nih.gov/gene/?term=100847070). There are a dozen or so pathways that have more than 10 Entrez IDs without a matching Gene Symbol. I spoke with Steven, and he suggested that we simply cut these. I don't agree. I think we should leave them as their Entrez Gene IDs. Because these are coded as numeric characters, they should never match a Gene Symbol even randomly. I think I'll add an option to whatever conversion function I end up writing that will do both. Right now, I'm just removing them.
 ```{r}
 remove_match <- function(vec, value){
   vec[!(vec %in% value)]
@@ -218,24 +394,56 @@ convertPathwaySet <- function(pathwaySet, matchTable){
 }
 
 humanGS_pathwaySet <- convertPathwaySet(human_pathwaySet, table_human_ID)
+```
+
+How many genes do we lose in the conversion? For at least 75% of the pathways, we lose 3 genes or fewer. For 14 of the 457 pathways, we lose more than 10 genes in the conversion.
+```{r}
+# Summary of all differences
 summary(lengths(human_pathwaySet$pathways) -
           lengths(humanGS_pathwaySet$pathways))
+
+# Which pathways lose many genes?
 which(lengths(human_pathwaySet$pathways) -
           lengths(humanGS_pathwaySet$pathways) > 10)
+```
+
+We can inspect one of these pathways. We see that pathway 37 (the "Metastatic brain tumor" pathway) loses quite a few genes. When I looked up these Entrez IDs in the [NCBI database](https://www.ncbi.nlm.nih.gov/gene/?term=406885), most of the missing genes are under the human "micorRNA" heading (these are the genes in the "400000" group).
+```{r}
+human_pathwaySet$description[37]
 human_pathwaySet$pathways[[37]]
 humanGS_pathwaySet$pathways[[37]]
 ```
 
-
-
-```{r loadJoinedData, echo=FALSE, message=FALSE}
-breastInner_df <- read_csv("extdata/BRCA_surv_x_proteome.csv")
-colonInner_df <- read_csv("extdata/CO-AD_surv_x_proteome.csv")
-ovarianInnerJHU_df <- read_csv("extdata/OV_surv_x_JHUproteome.csv")
-ovarianInnerPNNL_df <- read_csv("extdata/OV_surv_x_PNNLproteome.csv")
+While we have a few pathways that are significantly degraded in quality by this conversion, 97% of the pathways are mostly preserved. We now save this pathway set.
+```{r savePathwaySet, eval = FALSE}
+save(humanGS_pathwaySet, file = "extdata/wikipathways_HGS.rda")
 ```
 
 
+# Data and Pathway Overlap
+After removing genes with significant missingness from the expression data sets, and after translating the Wikipathways pathways set list from Entrez Gene IDs to Gene Symbols, what is the overlap between these two groups? Overall, we see about 25% overlap.
+```{r geneOverlap}
+JaccardDist <- function(set1, set2){
+  length(intersect(set1, set2)) / length(union(set1, set2))
+}
+
+pathwaySetGenes_char <-
+  humanGS_pathwaySet$pathways %>% 
+  unlist %>% 
+  unique
+
+# Breast Genes
+JaccardDist(pathwaySetGenes_char, colnames(breastClean_df)[-(1:3)])
+
+# Colon Genes
+JaccardDist(pathwaySetGenes_char, colnames(colonClean_df)[-(1:3)])
+
+# JHU Ovarian Genes
+JaccardDist(pathwaySetGenes_char, colnames(ovarianJHUClean_df)[-(1:3)])
+
+# PNNL Ovarian Genes
+JaccardDist(pathwaySetGenes_char, colnames(ovarianPNNLClean_df)[-(1:3)])
+```
 
 
 
