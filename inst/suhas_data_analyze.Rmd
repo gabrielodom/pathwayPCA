@@ -1,0 +1,28 @@
+---
+title: "Analyze_Suhas_Data"
+author: "Gabriel J. Odom, PhD, ThD"
+date: "June 20, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+In the previous field notes, we discussed importing, joining, cleaning, and imputing missingness within the four cancer proteome data sets from Suhas V. These notes will cover analyzing these data set with the `pathwayPCA` package.
+
+We will use the following packages in this exercise:
+```{r packLoad}
+library(tidyverse)
+library(pathwayPCA)
+```
+
+We load the clean data we left off with last time.
+```{r readImputedData, message=FALSE}
+load("extdata/wikipathways_HGS.rda")
+breastClean_df <- read_csv("extdata/BRCA_surv_x_proteome_imputed.csv")
+colonClean_df <- read_csv("extdata/CO-AD_surv_x_proteome_imputed.csv")
+ovarianJHUClean_df <- read_csv("extdata/OV_surv_x_JHUproteome_imputed.csv")
+ovarianPNNLClean_df <- read_csv("extdata/OV_surv_x_PNNLproteome_imputed.csv")
+```
