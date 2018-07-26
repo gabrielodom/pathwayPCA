@@ -65,6 +65,7 @@ read_gmt <- function(file, description = FALSE, delim = "\t"){
   genes_ls <- lapply(geneset_ls, function(x){
 
     x_len <- length(x)
+    x[x_len] <- gsub("\r", "", x[x_len])
     x[3:x_len]
 
   })
