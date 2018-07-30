@@ -60,5 +60,5 @@ This function uses \code{R}'s \code{\link{readChar}} function to
 
 }
 \seealso{
-\code{\link{print.pathwaySet}}
+\code{\link{print.pathwaySet}}; \code{\link{write_gmt}}
 }

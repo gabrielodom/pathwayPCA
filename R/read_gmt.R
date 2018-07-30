@@ -37,7 +37,7 @@
 #'
 #' @export
 #'
-#' @seealso \code{\link{print.pathwaySet}}
+#' @seealso \code{\link{print.pathwaySet}}; \code{\link{write_gmt}}
 #'
 #' @examples
 #' \dontrun{

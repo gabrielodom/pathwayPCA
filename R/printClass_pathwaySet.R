@@ -14,7 +14,7 @@
 #'
 #' @export
 #'
-#' @seealso \code{\link{read_gmt}}
+#' @seealso \code{\link{read_gmt}}; \code{\link{write_gmt}}
 #'
 #' @importFrom utils str
 #'
