@@ -32,5 +32,5 @@ This function sets a \code{print} method for \code{pathwaySet}
 
 }
 \seealso{
-\code{\link{read_gmt}}
+\code{\link{read_gmt}}; \code{\link{write_gmt}}
 }
