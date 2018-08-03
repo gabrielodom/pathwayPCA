@@ -282,7 +282,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
             }
 
-
+            # browser()
 
 
             ###  Maximum t-Score for each Gene Pathway  ###

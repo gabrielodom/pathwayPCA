@@ -11,7 +11,7 @@
 #'    response. This is coded as 0 for a right-censoring occurence and 1 for a
 #'    recorded event.
 #' @param parametric Should the random sample be taken using a parametric
-#'    bootstrap sample? Defaults to \code{FALSE}.
+#'    bootstrap sample? Defaults to \code{TRUE}.
 #'
 #' @return A permutation of the supplied response (if \code{parametric = TRUE}).
 #'    Otherwise, a parametric bootstrap sample of the response.
@@ -20,7 +20,8 @@
 #'    survival times, Normal for regression, and n-ary Multinomial for
 #'    classification. Distributional parameters are estimated with their maximum
 #'    likelihood estimates. When \code{parametric = FALSE}, the response vector
-#'    or survival matrix is simply permuted by row.
+#'    or survival matrix is randomly ordered by row. This option should only be
+#'    used when called from the AES-PCA method.
 #'
 #' @importFrom survival Surv
 #' @importFrom survival survreg
@@ -47,7 +48,7 @@ NULL
 #' @rdname permuteSamps
 sample_Survivalresp <- function(response_vec,
                                 event_vec,
-                                parametric = FALSE){
+                                parametric = TRUE){
 
   # browser()
   n <- length(event_vec)
@@ -92,7 +93,7 @@ sample_Survivalresp <- function(response_vec,
 #' @export
 #' @rdname permuteSamps
 sample_Regresp <- function(response_vec,
-                           parametric = FALSE){
+                           parametric = TRUE){
 
   # browser()
   n <- length(response_vec)
@@ -114,7 +115,7 @@ sample_Regresp <- function(response_vec,
 #' @export
 #' @rdname permuteSamps
 sample_Classifresp <- function(response_vec,
-                               parametric = FALSE){
+                               parametric = TRUE){
 
   # browser()
   responseType <- class(response_vec)
