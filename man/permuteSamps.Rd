@@ -8,11 +8,11 @@
 \title{Parametric bootstrap and non-parametric permutations of a response vector or
    matrix}
 \usage{
-sample_Survivalresp(response_vec, event_vec, parametric = FALSE)
+sample_Survivalresp(response_vec, event_vec, parametric = TRUE)
 
-sample_Regresp(response_vec, parametric = FALSE)
+sample_Regresp(response_vec, parametric = TRUE)
 
-sample_Classifresp(response_vec, parametric = FALSE)
+sample_Classifresp(response_vec, parametric = TRUE)
 }
 \arguments{
 \item{response_vec}{The dependent vector to sample from. For survival
@@ -24,7 +24,7 @@ response. This is coded as 0 for a right-censoring occurence and 1 for a
 recorded event.}
 
 \item{parametric}{Should the random sample be taken using a parametric
-bootstrap sample? Defaults to \code{FALSE}.}
+bootstrap sample? Defaults to \code{TRUE}.}
 }
 \value{
 A permutation of the supplied response (if \code{parametric = TRUE}).
@@ -39,7 +39,8 @@ The distributions (for \code{parametric = TRUE}) are Weibull for
    survival times, Normal for regression, and n-ary Multinomial for
    classification. Distributional parameters are estimated with their maximum
    likelihood estimates. When \code{parametric = FALSE}, the response vector
-   or survival matrix is simply permuted by row.
+   or survival matrix is randomly ordered by row. This option should only be
+   used when called from the AES-PCA method.
 }
 \examples{
   # DO NOT CALL THESE FUNCTIONS DIRECTLY.

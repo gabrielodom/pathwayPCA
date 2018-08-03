@@ -20,8 +20,6 @@
 #'    and observed event indicator in the second.
 #' @param responseType A character string. Options are \code{"survival"},
 #'    \code{"regression"}, and \code{"classification"}.
-#' @param parametric Should the random sample be taken using a parametric
-#'    bootstrap sample? Defaults to \code{FALSE}.
 #' @param n.threshold The number of bins into which to split the feature scores
 #'    in the \code{fit} object returned internally by the
 #'    \code{\link{superpc.train}} function.
@@ -35,9 +33,9 @@
 #'    at each threshold level (columns).
 #'
 #' @details This is a wrapper function to call \code{\link{superpc.train}}
-#'    and \code{\link{superpc.st}} after response sampling or permutation with
+#'    and \code{\link{superpc.st}} after response parametric bootstrapping with
 #'    the \code{\link{randomControlSample}} suite of functions. This response
-#'    randomization will act as a null distribution against which to compare
+#'    sampling will act as a null distribution against which to compare
 #'    the results from the \code{\link{pathway_tScores}} function.
 #'
 #'    This wrapper is designed to facilitate apply calls (in parallel or
@@ -61,7 +59,6 @@ pathway_tControl <- function(pathway_vec,
                              responseType = c("survival",
                                               "regression",
                                               "classification"),
-                             parametric = FALSE,
                              n.threshold = 20,
                              numPCs = 1,
                              min.features = 3){
@@ -72,7 +69,7 @@ pathway_tControl <- function(pathway_vec,
 
       surv_ls <- sample_Survivalresp(response_vec = response_mat[, 1],
                                      event_vec = response_mat[, 2],
-                                     parametric = parametric)
+                                     parametric = TRUE)
       list(x = geneArray_df[pathway_vec, ],
            y = surv_ls$response_vec,
            censoring.status = surv_ls$event_vec,
@@ -83,7 +80,7 @@ pathway_tControl <- function(pathway_vec,
 
       list(x = geneArray_df[pathway_vec, ],
            y = sample_Regresp(response_vec = response_mat,
-                              parametric = parametric),
+                              parametric = TRUE),
            featurenames = pathway_vec)
 
       },
@@ -91,7 +88,7 @@ pathway_tControl <- function(pathway_vec,
 
       list(x = geneArray_df[pathway_vec, ],
            y = sample_Classifresp(response_vec = response_mat,
-                                  parametric = parametric),
+                                  parametric = TRUE),
            featurenames = pathway_vec)
 
       }

@@ -7,7 +7,7 @@
 \usage{
 pathway_tControl(pathway_vec, geneArray_df, response_mat,
   responseType = c("survival", "regression", "classification"),
-  parametric = FALSE, n.threshold = 20, numPCs = 1, min.features = 3)
+  n.threshold = 20, numPCs = 1, min.features = 3)
 }
 \arguments{
 \item{pathway_vec}{A character vector of the measured -Omes in the chosen
@@ -26,9 +26,6 @@ and observed event indicator in the second.}
 
 \item{responseType}{A character string. Options are \code{"survival"},
 \code{"regression"}, and \code{"classification"}.}
-
-\item{parametric}{Should the random sample be taken using a parametric
-bootstrap sample? Defaults to \code{FALSE}.}
 
 \item{n.threshold}{The number of bins into which to split the feature scores
 in the \code{fit} object returned internally by the
@@ -54,9 +51,9 @@ Randomly permute or parametrically resample the response vector
 }
 \details{
 This is a wrapper function to call \code{\link{superpc.train}}
-   and \code{\link{superpc.st}} after response sampling or permutation with
+   and \code{\link{superpc.st}} after response parametric bootstrapping with
    the \code{\link{randomControlSample}} suite of functions. This response
-   randomization will act as a null distribution against which to compare
+   sampling will act as a null distribution against which to compare
    the results from the \code{\link{pathway_tScores}} function.
 
    This wrapper is designed to facilitate apply calls (in parallel or
