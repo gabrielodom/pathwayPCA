@@ -55,12 +55,12 @@ weibullMix_pValues <- function(tScore_vec,
 
   ###  Density Values at Extremum  ###
   an_s1 <- abn_ls$an * optimParams_vec["s1"]
-  arg_A <- -(tScore_vec - abn_ls$bn - optimParams_vec["mu1"]) * an_s1
-  A <- 1 - exp(-exp(arg_A)) # in [0, 1]
+  t_1 <- (tScore_vec - abn_ls$bn - optimParams_vec["mu1"]) * an_s1
+  A <- exp(-exp(-t_1)) # in [0, 1]
 
   an_s2 <- abn_ls$an * optimParams_vec["s2"]
-  arg_B <- (tScore_vec + abn_ls$bn + optimParams_vec["mu2"]) * an_s2
-  B <- exp(-exp(arg_B)) # also in [0, 1]
+  t_2 <- (tScore_vec + abn_ls$bn + optimParams_vec["mu2"]) * an_s2
+  B <- 1 - exp(-exp(t_2)) # also in [0, 1]
 
   # These values will be between 0 and 1 if the "p" value is in [0, 1]
   tt1 <- optimParams_vec["p"] * A + (1 - optimParams_vec["p"]) * B
