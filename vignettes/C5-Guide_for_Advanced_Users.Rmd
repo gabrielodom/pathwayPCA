@@ -1,0 +1,202 @@
+---
+title: "pathwayPCA Guide for Advanced Users"
+author: "Gabriel J. Odom, PhD, ThD"
+date: "August 9, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview of `pathwayPCA`
+Given a proteomic or genomic expression data set and a collection of molecular signatures (pathways set), we can use this package to test the association between the expression data for each pathway and a given phenotypical response. In order to execute the code in this vignette, you will need the following packages.
+```{r load_packages, message=FALSE}
+library(tidyverse)
+library(pathwayPCA)
+```
+
+Additionally, you will need
+
+1. an $n \times p$ data frame of expression data with gene / protein names as the column names,
+2. a $p$-dimensional vector (or matrix) of regression / classification (or survival) response data
+3. a pathways set with gene / protein names matching the measurement names of the expression data frame.
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+
+# Pathways Sets and the `.gmt` File Format
+The most common form of pathways set files, especially from the Molecular Signatures Database, is the `.gmt` file. Use the `read_gmt` function to import a pathways set and store it as an object of class `pathwaySet` in `R`.
+```{r read_example_gmt, eval = FALSE}
+gmt_path <- system.file("extdata", "wikipathways_human_symbol.gmt",
+                         package = "pathwayPCA", mustWork = TRUE)
+wikipathways_PS <- read_gmt(gmt_path, description = TRUE)
+```
+```{r read_real_gmt, echo = FALSE}
+wikipathways_PS <- read_gmt("../inst/extdata/wikipathways_human_symbol.gmt",
+                        description = TRUE)
+```
+
+This pathways set object has the following list structure.
+```{r view_pathwaySet}
+wikipathways_PS
+```
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+
+# Creating Data Objects
+In order to analyze the expression and response data with respect to a given pathways set object, first create an object of class `Omics` to store these data components. The `ovarian_PNNL_survival.RDS` included with the `pathwayPCA` package is a sample-matched expression and response data frame. The expression data are recorded protein levels; the feature names are in gene symbol format; and the response is overall survival time and event-observation indicator. This data is from **SOURCE**.
+```{r read_example_assay, eval = FALSE}
+data_path <- system.file("extdata", "ovarian_PNNL_survival.RDS",
+                         package = "pathwayPCA", mustWork = TRUE)
+ovSurv_df <- readRDS(data_path)
+```
+```{r read_real_assay, echo = FALSE}
+ovSurv_df <- readRDS("../inst/extdata/ovarian_PNNL_survival.RDS")
+```
+
+The `ovSurv_df` is a [tibble](https://tibble.tidyverse.org/) data frame. The first column is the sample ID, the second and third columns are the overall survival information, and the other 5k+ columns are protein expression levels.
+```{r view_data}
+ovSurv_df
+```
+
+Next, we create an `OmicsSurv` data container. This is an S4-class object with slots for the expression data, the response vector (or matrix, in our case), and a `pathwaySet` object. All further data analysis will be of this `Omics` object.
+```{r createOvarianPNNLOmics}
+ov_OmicsSurv <- create_Omics(
+  assayData_df = ovSurv_df[, -(1:3)],
+  pathwaySet_ls = wikipathways_PS,
+  response = ovSurv_df[, 2:3],
+  respType = "survival"
+)
+
+ov_OmicsSurv
+```
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+
+# AES-PCA
+Because the syntax for performing Supervised PCA is nearly identical, we will simply show the AES-PCA workflow. For 1k permutations over 18 computing cores, this takes 1.5 minutes. For 100k permutations, this takes roughly an hour and a half (not shown).
+```{r seed, echo=FALSE}
+set.seed(123456)
+```
+```{r AESPCA_run}
+e1 <- Sys.time()
+ovarianAESpVals_df <- AESPCA_pVals(
+  object = ov_OmicsSurv,
+  numPCs = 3,
+  min.features = 5,
+  parallel = TRUE,
+  numCores = 18,
+  numReps = 1000,
+  adjustment = c("BH", "BY")
+)
+Sys.time() - e1
+```
+
+## Function Details
+The above function has the following computational options:
+
+- `numPCs` controls the number of principal components extracted from each pathway.
+- `min.features` sets the threshold for pathways used for analysis in the following manner:
+    1. Biological features in each pathway are checked against the names of the features in the expression data set. Any feature that doesn't have a matching data column is removed from the pathway. (Therefore, it is imperative that the format of the feature names for the expression data match the format of the names in the pathways set---gene symbols with gene symbols, Entrez IDs with Entrez IDs, etc.)
+    2. After the "trimming" described in Step 1, any pathway with fewer than `min.features` features is dropped from the `pathwaySet` in the `ov_OmicsSurv` object. The names pathways that were dropped are stored as an attribute of the `pathwaySet`.
+- `parallel` turns distributed computing on or off. Unlike some `R` packages, our parallelization routine works on both Windows and Unix-based systems (Mac and Linux). For AES-PCA, this option is critical (as this method is uses computationally-expensive resampling techniques). `numCores` dictates the number of processors you will let `R` use for this computation.
+- `numReps` controls the number of permutations used to calculate the $p$-values for each pathway. For low-signal data, you may need to increase this to 10k or even 100k to adequately distinguish between a $p$-value of $0/1000,\ 1/1000$, or $2/1000$.
+- `adjustment` specifies which family-wise error rate or false discovery rate adjustment to apply to the $p$-values from each pathway. See `?adjustRaw_pVals` for adjustment options and citations.
+
+
+The top 15 pathways with AES-PCA are:
+```{r ovarian2_AESPCA_pVals_wikiP}
+head(ovarianAESpVals_df, 15)
+```
+
+These are the significant pathways at the $\alpha = 0.05$ level:
+```{r signif_pathways_0.05}
+signifPaths005_char <- 
+  ovarianAESpVals_df %>% 
+  filter(FDR_BH < 0.05) %>% 
+  select(terms) %>% 
+  unlist
+
+signifPaths005_idx <- which(
+  wikipathways_PS$TERMS %in% signifPaths005_char
+)
+wikipathways_PS$description[signifPaths005_idx]
+```
+
+These are the additional pathways significant at the $\alpha = 0.10$ level:
+```{r signif_pathways_0.1}
+signifPaths010_char <-
+  ovarianAESpVals_df %>% 
+  filter(FDR_BH < 0.1) %>% 
+  filter(FDR_BH >= 0.05) %>% 
+  select(terms) %>% 
+  unlist
+
+signifPaths010_char
+signifPaths010_idx <- which(
+  wikipathways_PS$TERMS %in% signifPaths010_char
+)
+wikipathways_PS$description[signifPaths010_idx]
+```
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+
+# Visualizing the Results
+Given the $p$-values from these pathways, we will now graph their score (negative log of the $p$-value) and description for the top 15 most-significant pathways. Because the Wikipathways pathways set has the names of the pathways in the `description` field, we will need to match the abbreviation for the pathway with the name of the pathway. Some of the pathway names are quite long, so we trim them.
+```{r match_abbrev_to_name}
+pathMatch_df <- tibble(
+  terms     = wikipathways_PS$TERMS,
+  pathNames = wikipathways_PS$description
+) %>% 
+  mutate(
+    pathNames = ifelse(
+      str_length(pathNames) > 30, paste0(str_sub(pathNames, 1, 28), "..."), pathNames
+    )
+  )
+```
+
+Now we match the pathway abbreviations to their full names, subset the top 15 pathways by unadjusted $p$-value, and gather the results data frame from "wide" to "tidy" form.
+```{r join_and_gather}
+pVals_df <- 
+  ovarianAESpVals_df %>% 
+  select(-pathways, -setsize, -trim_size) %>% 
+  left_join(pathMatch_df, by = "terms") %>% 
+  slice(1:15) %>% 
+  select(pathNames, FDR_BH, FDR_BY) %>% 
+  gather(variable, value, -pathNames) %>% 
+  mutate(score = -log(value))
+```
+
+Using this data, we can plot the pathway scores side-by-side for the two adjustment methods.
+```{r bar_plots}
+ggplot(pVals_df) +
+  theme_bw() +
+  aes(x = reorder(pathNames, score), y = score) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#F47321") +
+  ggtitle("AES-PCA Significant Wikipathways: Ovarian Cancer") +
+  xlab("Pathways") +
+  ylab("Negative Log FDR") +
+  geom_hline(yintercept = -log(0.1), size = 1, color = "#005030") +
+  coord_flip() +
+  facet_grid(. ~ variable)
+```
