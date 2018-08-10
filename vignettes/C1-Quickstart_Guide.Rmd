@@ -58,15 +58,10 @@ This section is a quick overview of the material covered in the [Import and Tidy
 
 ## 2.1 Import `.gmt` Files
 The `.gmt` format is a commonly used file format for storing [pathway information](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29). Lists of pathways in the Molecular Signatures Database (MSigDB) can be downloaded from the [MSigDB Collections page](http://software.broadinstitute.org/gsea/msigdb/collections.jsp), and you can use the `read_gmt` function to import such a `.gmt` file into R. All `.gmt` files have a "description" field, which contains additional information on the pathway. However, this field can be left empty. In this example, we use `description = FALSE` to skip importing the "description" field.
-```{r read_example_gmt, eval = FALSE}
+```{r read_gmt}
 gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
                          package = "pathwayPCA", mustWork = TRUE)
 gene_set_ls <- read_gmt(gmt_path, description = FALSE)
-gene_set_ls
-```
-```{r read_real_gmt, echo = FALSE}
-gene_set_ls <- read_gmt("../inst/extdata/c2.cp.v6.0.symbols.gmt",
-                        description = FALSE)
 gene_set_ls
 ```
 
@@ -83,14 +78,10 @@ We assume that the assay data (e.g. transcriptomic data) is either in an Excel f
 ![](example_assay_data.PNG)
 
 In this example data set, the columns are individual samples. The values in each row are the gene expression measurements for that gene. Use the `read_csv` function from the `readr` package to import `.csv` files into `R` as [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html) (table *and* data frame) objects. The `read_csv` function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (`col_double()`) except for the gene name column (`X1 = col_character()`).
-```{r read_example_assay, eval = FALSE}
+```{r read_assay}
 assay_path <- system.file("extdata", "ex_assay_subset.csv",
                           package = "pathwayPCA", mustWork = TRUE)
 assay_df <- read_csv(assay_path)
-```
-```{r read_real_assay, echo = FALSE}
-# Travis requires relative paths
-assay_df <- read_csv("../inst/extdata/ex_assay_subset.csv")
 ```
 
 Incidentally, we consider gene names to adhere to the following conditions:
@@ -107,14 +98,10 @@ assayT_df
 
 ## 2.3 Import Phenotype Info
 Use the `read_csv` function to import the phenotype data. Once again, the `read_csv` function displays a message informing us of the types of data in each column. The following phenotype dataset for subject survival information contains the subject ID (`Sample`), survival time after disease onset in months (`eventTime`), and a logical (or binary) variable indicating if the subject died (`TRUE` or 1) or was lost to follow up (`eventObserved`; 0 or `FALSE`).
-```{r read_example_pinfo, eval = FALSE}
+```{r read_pinfo}
 pInfo_path <- system.file("extdata", "ex_pInfo_subset.csv",
                           package = "pathwayPCA", mustWork = TRUE)
 pInfo_df <- read_csv(pInfo_path)
-pInfo_df
-```
-```{r read_real_pinfo, echo = FALSE}
-pInfo_df <- read_csv("../inst/extdata/ex_pInfo_subset.csv")
 pInfo_df
 ```
 
