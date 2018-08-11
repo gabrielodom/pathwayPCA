@@ -124,7 +124,7 @@ ovarianAESpVals_df <- AESPCA_pVals(
   min.features = 5,
   parallel = TRUE,
   numCores = 18,
-  numReps = 10000,
+  numReps = 1000,
   adjustment = c("BH", "BY")
 )
 Sys.time() - e1
