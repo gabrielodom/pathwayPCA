@@ -36,11 +36,11 @@
 #' @return A data frame with columns:
 #' \itemize{
 #'   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-#'     object (given in \code{object@@pathwaySet$pathways}.)
+#'     object (given in \code{object@@pathwayCollection$pathways}.)
 #'   \item{\code{setsize} : }{The number of genes in each of the original
-#'     pathways (given in the \code{object@@pathwaySet$setsize} object).}
+#'     pathways (given in the \code{object@@pathwayCollection$setsize} object).}
 #'   \item{\code{terms} : }{The pathway description, as given in the
-#'     \code{object@@pathwaySet$TERMS} object.}
+#'     \code{object@@pathwayCollection$TERMS} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
 #'   \item{\code{...} : }{Additional columns as specified through the
 #'     \code{adjustment} argument.}
@@ -87,20 +87,24 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colon_pathwaySet,
-#'                                       eventTime_num = colonSurv_df$OS_time,
-#'                                       eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+#'   colon_OmicsSurv <- create_OmicsSurv(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     eventTime_num = colonSurv_df$OS_time,
+#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
-#'   colonSurv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
-#'                                        parallel = TRUE,
-#'                                        numCores = 2,
-#'                                        adjustpValues = TRUE,
-#'                                        adjustment = c("Hoch", "SidakSD"))
+#'   colonSurv_pVals_df <- superPCA_pVals(
+#'     object = colon_OmicsSurv,
+#'     parallel = TRUE,
+#'     numCores = 16,
+#'     adjustpValues = TRUE,
+#'     adjustment = c("Hoch", "SidakSD")
+#'   )
 #' }
 #'
 #' @rdname superPCA_pVals
@@ -160,7 +164,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
             ###  Extract Information from S4 Object  ###
             geneArray_df <- t(object@assayData_df)
-            pathwayGeneSets_ls <- object@pathwaySet
+            pathwayGeneSets_ls <- object@pathwayCollection
             obj_class <- class(object)
             switch (obj_class,
                     OmicsSurv = {

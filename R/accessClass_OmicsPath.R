@@ -1,8 +1,9 @@
-#' Access and Edit Assay or \code{pathwaySet} Values in \code{Omics*} Objects
+#' Access and Edit Assay or \code{pathwayCollection} Values in \code{Omics*}
+#'    Objects
 #'
 #' @description "Get" or "Set" the values of the \code{assayData_df} or
-#'    \code{pathwaySet} slots of an object of class \code{OmicsPathway} or a
-#'    class that extends this class (\code{OmicsSurv}, \code{OmicsReg}, or
+#'    \code{pathwayCollection} slots of an object of class \code{OmicsPathway}
+#'    or a class that extends this class (\code{OmicsSurv}, \code{OmicsReg}, or
 #'    \code{OmicsCateg}).
 #'
 #' @param object An object of or extending \code{\link{OmicsPathway-class}}:
@@ -12,12 +13,13 @@
 #'
 #' @return The "get" functions return the objects in the slots specified:
 #'    \code{getAssay} returns the \code{assayData_df} data frame object and
-#'    \code{getPathwaySet} returns the \code{pathwaySet} list object. These
-#'    functions can extract these values from any valid \code{OmicsPathway},
-#'    \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg} object.
+#'    \code{getPathwayCollection} returns the \code{pathwayCollection} list
+#'    object. These functions can extract these values from any valid
+#'    \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
+#'    \code{OmicsCateg} object.
 #'
 #'    The "set" functions enable the user to edit or replace objects in the
-#'    \code{assayData_df} or \code{pathwaySet} slots for any
+#'    \code{assayData_df} or \code{pathwayCollection} slots for any
 #'    \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
 #'    \code{OmicsCateg} objects, provided that the new values do not violate
 #'    the validity checks of their respective objects. See "Details" for more
@@ -44,10 +46,10 @@
 #' @examples
 #' \dontrun{
 #'   getAssay(colon_OmicsSurv)
-#'   getPathwaySet(colon_OmicsSurv)
+#'   getPathwayCollection(colon_OmicsSurv)
 #'
 #'   getAssay(colon_OmicsSurv) <- newAssay_df
-#'   getPathwaySet(colon_OmicsSurv) <- new_pathwaySet
+#'   getPathwayCollection(colon_OmicsSurv) <- new_pathwayCollection
 #' }
 
 
@@ -70,16 +72,16 @@ setGeneric("getAssay<-",
 
 #' @export
 #' @rdname get_set_OmicsPathway
-setGeneric("getPathwaySet",
+setGeneric("getPathwayCollection",
            function(object, ...){
-             standardGeneric("getPathwaySet")
+             standardGeneric("getPathwayCollection")
            })
 
 #' @export
 #' @rdname get_set_OmicsPathway
-setGeneric("getPathwaySet<-",
+setGeneric("getPathwayCollection<-",
            function(object, value){
-             standardGeneric("getPathwaySet<-")
+             standardGeneric("getPathwayCollection<-")
            })
 
 
@@ -108,16 +110,16 @@ setMethod(f = "getAssay<-", signature = "OmicsPathway",
           })
 
 #' @rdname get_set_OmicsPathway
-setMethod(f = "getPathwaySet", signature = "OmicsPathway",
+setMethod(f = "getPathwayCollection", signature = "OmicsPathway",
           definition = function(object, ...){
-            object@pathwaySet
+            object@pathwayCollection
           })
 
 #' @rdname get_set_OmicsPathway
-setMethod(f = "getPathwaySet<-", signature = "OmicsPathway",
+setMethod(f = "getPathwayCollection<-", signature = "OmicsPathway",
           definition = function(object, value){
 
-            object@pathwaySet <- value
+            object@pathwayCollection <- value
 
             if(validObject(object)){
               return(object)

@@ -13,7 +13,8 @@ This creates the \code{OmicsSurv} class which extends the
 \describe{
 \item{\code{assayData_df}}{An \eqn{N \times p} data frame with named columns.}
 
-\item{\code{pathwaySet}}{A list of known gene pathways with two elements:
+\item{\code{pathwayCollection}}{A list of known gene pathways with three or four
+   elements:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
@@ -24,6 +25,9 @@ This creates the \code{OmicsSurv} class which extends the
      full pathway name.}
   \item{\code{TERMS} : }{A character vector the same length as the
     \code{pathways} list with the proper names of the pathways.}
+  \item{\code{description} : }{An optional character vector the same length
+     as the \code{pathways} list with additional information about the
+     pathways.}
   \item{\code{setsize} : }{A named integer vector the same length as the
     \code{pathways} list with the number of genes in each pathway. This list
     item is calculated during the creation step of a \code{create_OmicsSurv}

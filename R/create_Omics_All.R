@@ -16,22 +16,22 @@
 #'   analysis.
 #'
 #'   Also note the following: if the supplied \code{pathways} object within your
-#'   \code{pathwaySet_ls} list has no names, then this pathway list will be
-#'   named \code{path1}, \code{path2}, \code{path3}, ...; if any of the pathways
-#'   are missing names, then the missing pathways will be named \code{noName}
-#'   followed by the index of the pathway. For example, if the 112th pathway in
-#'   the \code{pathways} list has no name (but other pathways do), then this
-#'   pathway will be named \code{noName112}. Furthermore, if any of the pathway
-#'   names are duplicated, then the duplicates will have \code{.1}, \code{.2},
-#'   \code{.3}, ... appended to the duplicate names until all pathway names are
-#'   unique. Once all pathways have been verified to have unique names, then
-#'   the pathway names are attached as attributes to the \code{TERMS} and
-#'   \code{setsize} vectors (the \code{setsize} vector is calculated at object
-#'   creation).
+#'   \code{pathwayCollection_ls} list has no names, then this pathway list will
+#'   be named \code{path1}, \code{path2}, \code{path3}, ...; if any of the
+#'   pathways are missing names, then the missing pathways will be named
+#'   \code{noName} followed by the index of the pathway. For example, if the
+#'   112th pathway in the \code{pathways} list has no name (but other pathways
+#'   do), then this pathway will be named \code{noName112}. Furthermore, if any
+#'   of the pathway names are duplicated, then the duplicates will have
+#'   \code{.1}, \code{.2}, \code{.3}, ... appended to the duplicate names until
+#'   all pathway names are unique. Once all pathways have been verified to have
+#'   unique names, then the pathway names are attached as attributes to the
+#'   \code{TERMS} and \code{setsize} vectors (the \code{setsize} vector is
+#'   calculated at object creation).
 #'
 #'   If your gene pathways list is stored in a \code{.gmt} file, use the
 #'   \code{\link{read_gmt}} function to import your pathways list as a
-#'   \code{pathwaySet} list object.
+#'   \code{pathwayCollection} list object.
 #'
 #' @section OmicsPathway:
 #' Valid \code{OmicsPathway} objects will have no response information, just the
@@ -42,8 +42,8 @@
 #'   \code{OmicsPathway} object.
 #'
 #' @param assayData_df An \eqn{N \times p} data frame with named columns.
-#' @param pathwaySet_ls A \code{pathwaySet} list of known gene pathways with two
-#'   elements:
+#' @param pathwayCollection_ls A \code{pathwayCollection} list of known gene
+#'   pathways with two or three elements:
 #'   \itemize{
 #'     \item{\code{pathways} : }{A named list of character vectors. Each vector
 #'        contains the names of the individual genes within that pathway as a
@@ -52,8 +52,11 @@
 #'        \code{assayData_df} data frame. The names of the pathways (the list
 #'        elements themselves) should be the a shorthand representation of the
 #'        full pathway name.}
-#'     \item{\code{TERMS}: }{ A character vector the same length as the
+#'     \item{\code{TERMS}: }{A character vector the same length as the
 #'        \code{pathways} list with the proper names of the pathways.}
+#'     \item{\code{description} : }{An optional character vector the same length
+#'        as the \code{pathways} list with additional information about the
+#'        pathways.}
 #'   }
 #'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
@@ -76,32 +79,40 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsPathway Object  ###
-#'   colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colon_pathwaySet)
+#'   colon_OmicsPath <- create_OmicsPath(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection
+#'   )
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colon_pathwaySet,
-#'                                       eventTime_num = colonSurv_df$OS_time,
-#'                                       eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+#'   colon_OmicsSurv <- create_OmicsSurv(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     eventTime_num = colonSurv_df$OS_time,
+#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'   )
 #'
 #'   ###  Create an OmicsReg Object  ###
-#'   colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
-#'                                     pathwaySet_ls = colon_pathwaySet,
-#'                                     response_num = colonSurv_df$OS_time)
+#'   colon_OmicsReg <- create_OmicsReg(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response_num = colonSurv_df$OS_time
+#'   )
 #'
 #'   ###  Create an OmicsCateg Object  ###
-#'   colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
-#'                                         pathwaySet_ls = colon_pathwaySet,
-#'                                         response_fact = as.factor(colonSurv_df$OS_event))
+#'   colon_OmicsCateg <- create_OmicsCateg(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response_fact = as.factor(colonSurv_df$OS_event)
+#'   )
 #' }
 #'
 #' @export
 #' @rdname create_OmicsPathway
-create_OmicsPath <- function(assayData_df, pathwaySet_ls){
+create_OmicsPath <- function(assayData_df, pathwayCollection_ls){
 
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
@@ -131,45 +142,47 @@ contain alphanumeric characters only, and start with a letter.")
   }
 
 
-  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
+  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
   # If there are no names, create them. If there are missing names, label them.
-  if(is.null(names(pathwaySet_ls$pathways))){
+  if(is.null(names(pathwayCollection_ls$pathways))){
 
-    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
-    names(pathwaySet_ls$pathways) <- pathNames
+    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
+    names(pathwayCollection_ls$pathways) <- pathNames
 
-  } else if(anyNA(names(pathwaySet_ls$pathways))){
+  } else if(anyNA(names(pathwayCollection_ls$pathways))){
 
-    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
-    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
-                                                           missingNm_idx)
-    pathNames <- names(pathwaySet_ls$pathways)
+    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
+    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
+      paste0("noName", missingNm_idx)
+    pathNames <- names(pathwayCollection_ls$pathways)
 
   } else {
-    pathNames <- names(pathwaySet_ls$pathways)
+    pathNames <- names(pathwayCollection_ls$pathways)
   }
 
-  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
 
-    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    shortSet_df <- data.frame(
+      lapply(pathwayCollection_ls$pathways, "length<-", 1)
+    )
     pathNames <- names(shortSet_df)
-    names(pathwaySet_ls$pathways) <- pathNames
+    names(pathwayCollection_ls$pathways) <- pathNames
 
   }
 
 
   ###  Add Name Key to TERMS and setsize  ###
-  names(pathwaySet_ls$TERMS) <- pathNames
-  names(pathwaySet_ls$setsize) <- pathNames
+  names(pathwayCollection_ls$TERMS) <- pathNames
+  names(pathwayCollection_ls$setsize) <- pathNames
 
 
   ###  Create Omics Object  ###
   new("OmicsPathway",
       assayData_df = assayData_df,
-      pathwaySet = pathwaySet_ls)
+      pathwayCollection = pathwayCollection_ls)
 
 }
 
@@ -191,7 +204,7 @@ contain alphanumeric characters only, and start with a letter.")
 #' @export
 #' @rdname create_OmicsPathway
 create_OmicsSurv <- function(assayData_df,
-                             pathwaySet_ls,
+                             pathwayCollection_ls,
                              eventTime_num,
                              eventObserved_lgl){
 
@@ -223,45 +236,47 @@ contain alphanumeric characters only, and start with a letter.")
   }
 
 
-  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
+  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
   # If there are no names, create them. If there are missing names, label them.
-  if(is.null(names(pathwaySet_ls$pathways))){
+  if(is.null(names(pathwayCollection_ls$pathways))){
 
-    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
-    names(pathwaySet_ls$pathways) <- pathNames
+    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
+    names(pathwayCollection_ls$pathways) <- pathNames
 
-  } else if(anyNA(names(pathwaySet_ls$pathways))){
+  } else if(anyNA(names(pathwayCollection_ls$pathways))){
 
-    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
-    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
-                                                           missingNm_idx)
-    pathNames <- names(pathwaySet_ls$pathways)
+    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
+    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
+      paste0("noName", missingNm_idx)
+    pathNames <- names(pathwayCollection_ls$pathways)
 
   } else {
-    pathNames <- names(pathwaySet_ls$pathways)
+    pathNames <- names(pathwayCollection_ls$pathways)
   }
 
-  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
 
-    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    shortSet_df <- data.frame(
+      lapply(pathwayCollection_ls$pathways, "length<-", 1)
+    )
     pathNames <- names(shortSet_df)
-    names(pathwaySet_ls$pathways) <- pathNames
+    names(pathwayCollection_ls$pathways) <- pathNames
 
   }
 
 
   ###  Add Name Key to TERMS and setsize  ###
-  names(pathwaySet_ls$TERMS) <- pathNames
-  names(pathwaySet_ls$setsize) <- pathNames
+  names(pathwayCollection_ls$TERMS) <- pathNames
+  names(pathwayCollection_ls$setsize) <- pathNames
 
 
   ###  Create Omics Object  ###
   new("OmicsSurv",
       assayData_df = assayData_df,
-      pathwaySet = pathwaySet_ls,
+      pathwayCollection = pathwayCollection_ls,
       eventTime = eventTime_num,
       eventObserved = eventObserved_lgl)
 
@@ -281,7 +296,7 @@ contain alphanumeric characters only, and start with a letter.")
 #' @export
 #' @rdname create_OmicsPathway
 create_OmicsReg <- function(assayData_df,
-                            pathwaySet_ls,
+                            pathwayCollection_ls,
                             response_num){
 
   if("matrix" %in% class(assayData_df) &
@@ -312,45 +327,47 @@ contain alphanumeric characters only, and start with a letter.")
   }
 
 
-  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
+  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
   # If there are no names, create them. If there are missing names, label them.
-  if(is.null(names(pathwaySet_ls$pathways))){
+  if(is.null(names(pathwayCollection_ls$pathways))){
 
-    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
-    names(pathwaySet_ls$pathways) <- pathNames
+    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
+    names(pathwayCollection_ls$pathways) <- pathNames
 
-  } else if(anyNA(names(pathwaySet_ls$pathways))){
+  } else if(anyNA(names(pathwayCollection_ls$pathways))){
 
-    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
-    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
-                                                           missingNm_idx)
-    pathNames <- names(pathwaySet_ls$pathways)
+    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
+    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
+      paste0("noName", missingNm_idx)
+    pathNames <- names(pathwayCollection_ls$pathways)
 
   } else {
-    pathNames <- names(pathwaySet_ls$pathways)
+    pathNames <- names(pathwayCollection_ls$pathways)
   }
 
-  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
 
-    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    shortSet_df <- data.frame(
+      lapply(pathwayCollection_ls$pathways, "length<-", 1)
+    )
     pathNames <- names(shortSet_df)
-    names(pathwaySet_ls$pathways) <- pathNames
+    names(pathwayCollection_ls$pathways) <- pathNames
 
   }
 
 
   ###  Add Name Key to TERMS and setsize  ###
-  names(pathwaySet_ls$TERMS) <- pathNames
-  names(pathwaySet_ls$setsize) <- pathNames
+  names(pathwayCollection_ls$TERMS) <- pathNames
+  names(pathwayCollection_ls$setsize) <- pathNames
 
 
   ###  Create Omics Object  ###
   new("OmicsReg",
       assayData_df = assayData_df,
-      pathwaySet = pathwaySet_ls,
+      pathwayCollection = pathwayCollection_ls,
       response = response_num)
 
 }
@@ -363,7 +380,7 @@ contain alphanumeric characters only, and start with a letter.")
 #' @export
 #' @rdname create_OmicsPathway
 create_OmicsCateg <- function(assayData_df,
-                              pathwaySet_ls,
+                              pathwayCollection_ls,
                               response_fact){
 
   if("matrix" %in% class(assayData_df) &
@@ -394,7 +411,7 @@ contain alphanumeric characters only, and start with a letter.")
   }
 
 
-  pathwaySet_ls$setsize <- lengths(pathwaySet_ls$pathways)
+  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
   ###  Pathways List Names Checking  ###
@@ -402,40 +419,42 @@ contain alphanumeric characters only, and start with a letter.")
   #   If there are duplicated names (because R is stupid and allows duplicate
   #   element names in a list -- but not a data frame!), then use the data.frame
   #   name rule to append a period then integers to the end of the name string.
-  if(is.null(names(pathwaySet_ls$pathways))){
+  if(is.null(names(pathwayCollection_ls$pathways))){
 
-    pathNames <- paste0("path", 1:length(pathwaySet_ls$pathways))
-    names(pathwaySet_ls$pathways) <- pathNames
+    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
+    names(pathwayCollection_ls$pathways) <- pathNames
 
-  } else if(anyNA(names(pathwaySet_ls$pathways))){
+  } else if(anyNA(names(pathwayCollection_ls$pathways))){
 
-    missingNm_idx <- which(is.na(names(pathwaySet_ls$pathways)))
-    names(pathwaySet_ls$pathways)[missingNm_idx] <- paste0("noName",
-                                                           missingNm_idx)
-    pathNames <- names(pathwaySet_ls$pathways)
+    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
+    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
+      paste0("noName", missingNm_idx)
+    pathNames <- names(pathwayCollection_ls$pathways)
 
   } else {
-    pathNames <- names(pathwaySet_ls$pathways)
+    pathNames <- names(pathwayCollection_ls$pathways)
   }
 
-  if(anyDuplicated(names(pathwaySet_ls$pathways))){
+  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
 
-    shortSet_df <- data.frame(lapply(pathwaySet_ls$pathways, "length<-", 1))
+    shortSet_df <- data.frame(
+      lapply(pathwayCollection_ls$pathways, "length<-", 1)
+    )
     pathNames <- names(shortSet_df)
-    names(pathwaySet_ls$pathways) <- pathNames
+    names(pathwayCollection_ls$pathways) <- pathNames
 
   }
 
 
   ###  Add Name Key to TERMS and setsize  ###
-  names(pathwaySet_ls$TERMS) <- pathNames
-  names(pathwaySet_ls$setsize) <- pathNames
+  names(pathwayCollection_ls$TERMS) <- pathNames
+  names(pathwayCollection_ls$setsize) <- pathNames
 
 
   ###  Create Omics Object  ###
   new("OmicsCateg",
       assayData_df = assayData_df,
-      pathwaySet = pathwaySet_ls,
+      pathwayCollection = pathwayCollection_ls,
       response = response_fact)
 
 }

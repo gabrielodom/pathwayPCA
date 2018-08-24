@@ -7,19 +7,20 @@
 \alias{create_OmicsCateg}
 \title{Generation functions for \code{-Omics*}-class objects}
 \usage{
-create_OmicsPath(assayData_df, pathwaySet_ls)
+create_OmicsPath(assayData_df, pathwayCollection_ls)
 
-create_OmicsSurv(assayData_df, pathwaySet_ls, eventTime_num, eventObserved_lgl)
+create_OmicsSurv(assayData_df, pathwayCollection_ls, eventTime_num,
+  eventObserved_lgl)
 
-create_OmicsReg(assayData_df, pathwaySet_ls, response_num)
+create_OmicsReg(assayData_df, pathwayCollection_ls, response_num)
 
-create_OmicsCateg(assayData_df, pathwaySet_ls, response_fact)
+create_OmicsCateg(assayData_df, pathwayCollection_ls, response_fact)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
 
-\item{pathwaySet_ls}{A \code{pathwaySet} list of known gene pathways with two
-elements:
+\item{pathwayCollection_ls}{A \code{pathwayCollection} list of known gene
+pathways with two or three elements:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
@@ -28,8 +29,11 @@ elements:
      \code{assayData_df} data frame. The names of the pathways (the list
      elements themselves) should be the a shorthand representation of the
      full pathway name.}
-  \item{\code{TERMS}: }{ A character vector the same length as the
+  \item{\code{TERMS}: }{A character vector the same length as the
      \code{pathways} list with the proper names of the pathways.}
+  \item{\code{description} : }{An optional character vector the same length
+     as the \code{pathways} list with additional information about the
+     pathways.}
 }}
 
 \item{eventTime_num}{A \code{numeric} vector with \eqn{N} observations
@@ -67,22 +71,22 @@ Please note that the classes of the parameters are \emph{not}
   analysis.
 
   Also note the following: if the supplied \code{pathways} object within your
-  \code{pathwaySet_ls} list has no names, then this pathway list will be
-  named \code{path1}, \code{path2}, \code{path3}, ...; if any of the pathways
-  are missing names, then the missing pathways will be named \code{noName}
-  followed by the index of the pathway. For example, if the 112th pathway in
-  the \code{pathways} list has no name (but other pathways do), then this
-  pathway will be named \code{noName112}. Furthermore, if any of the pathway
-  names are duplicated, then the duplicates will have \code{.1}, \code{.2},
-  \code{.3}, ... appended to the duplicate names until all pathway names are
-  unique. Once all pathways have been verified to have unique names, then
-  the pathway names are attached as attributes to the \code{TERMS} and
-  \code{setsize} vectors (the \code{setsize} vector is calculated at object
-  creation).
+  \code{pathwayCollection_ls} list has no names, then this pathway list will
+  be named \code{path1}, \code{path2}, \code{path3}, ...; if any of the
+  pathways are missing names, then the missing pathways will be named
+  \code{noName} followed by the index of the pathway. For example, if the
+  112th pathway in the \code{pathways} list has no name (but other pathways
+  do), then this pathway will be named \code{noName112}. Furthermore, if any
+  of the pathway names are duplicated, then the duplicates will have
+  \code{.1}, \code{.2}, \code{.3}, ... appended to the duplicate names until
+  all pathway names are unique. Once all pathways have been verified to have
+  unique names, then the pathway names are attached as attributes to the
+  \code{TERMS} and \code{setsize} vectors (the \code{setsize} vector is
+  calculated at object creation).
 
   If your gene pathways list is stored in a \code{.gmt} file, use the
   \code{\link{read_gmt}} function to import your pathways list as a
-  \code{pathwaySet} list object.
+  \code{pathwayCollection} list object.
 }
 \section{OmicsPathway}{
 
@@ -113,27 +117,35 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
 \dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
-  data("colon_pathwaySet")
+  data("colon_pathwayCollection")
 
   ###  Create an OmicsPathway Object  ###
-  colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colon_pathwaySet)
+  colon_OmicsPath <- create_OmicsPath(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection
+  )
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colon_pathwaySet,
-                                      eventTime_num = colonSurv_df$OS_time,
-                                      eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+  colon_OmicsSurv <- create_OmicsSurv(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    eventTime_num = colonSurv_df$OS_time,
+    eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+  )
 
   ###  Create an OmicsReg Object  ###
-  colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwaySet_ls = colon_pathwaySet,
-                                    response_num = colonSurv_df$OS_time)
+  colon_OmicsReg <- create_OmicsReg(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response_num = colonSurv_df$OS_time
+  )
 
   ###  Create an OmicsCateg Object  ###
-  colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
-                                        pathwaySet_ls = colon_pathwaySet,
-                                        response_fact = as.factor(colonSurv_df$OS_event))
+  colon_OmicsCateg <- create_OmicsCateg(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response_fact = as.factor(colonSurv_df$OS_event)
+  )
 }
 
 }

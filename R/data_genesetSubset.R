@@ -7,7 +7,7 @@
 #'   list. This subset contains seven pathways which are related to the response
 #'   information in the \code{\link{colonSurv_df}} data file.
 #'
-#' @format A \code{pathwaySet} list of two elements:
+#' @format A \code{pathwayCollection} list of two elements:
 #' \itemize{
 #'   \item{\code{pathways} : }{A list of 15 character vectors. Each vector
 #'      contains the names of the individual genes within that pathway as a
@@ -17,4 +17,4 @@
 #' }
 #'
 #' @source \url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp}
-"colon_pathwaySet"
+"colon_pathwayCollection"

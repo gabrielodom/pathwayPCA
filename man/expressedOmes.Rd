@@ -34,41 +34,43 @@ A valid \code{Omics*}-class object. This output object will be
    each trimmed pathway stored as the \code{trim_setsize} object.
 }
 \description{
-Given a bio-assay design matrix and a \code{pathwaySet} gene
-   pathways list (each within an \code{Omics*}-class object), extract the
-   genes / proteins / lipids / metabolomes / transcriptomes contained in each
-   pathways list which are expressed in the assay data frame.
+Given a bio-assay design matrix and a \code{pathwayCollection}
+   gene pathways list (each within an \code{Omics*}-class object), extract
+   the genes / proteins / lipids / metabolomes / transcriptomes contained in
+   each pathways list which are expressed in the assay data frame.
 }
 \details{
 This function takes in a data frame with named columns and a
-   \code{pathwaySet} list, all through one of the \code{Omics*} classes.
-   This function will then iterate over the list of pathways, extract columns
-   from the bio-assay design matrix which match the genes listed in that
-   pathway, and remove any pathways with fewer than \code{trim} expressed
-   genes. The genes not expressed in the bio-assay design matrix are removed
-   from the \code{pathwaySet} list.
+   \code{pathwayCollection} list, all through one of the \code{Omics*}
+   classes. This function will then iterate over the list of pathways,
+   extract columns from the bio-assay design matrix which match the genes
+   listed in that pathway, and remove any pathways with fewer than
+   \code{trim} expressed genes. The genes not expressed in the bio-assay
+   design matrix are removed from the \code{pathwayCollection} list.
 
    NOTE: some genes will be included in more than one pathway, so these
    pathways are not mutually exclusive. Further note that there may be many
    genes in the assay design matrix that are not included in the pathway
    sets, so these will not be extracted to the list. It is then vitally
-   important to use either a very broad and generic \code{pathwaySet} list
-   or a \code{pathwaySet} list that is appropriate for the assay data
-   supplied. While you can create your own pathway lists, create proper
-   \code{pathwaySet} list objects by importing \code{.gmt} files with the
-   \code{\link{read_gmt}} function.
+   important to use either a very broad and generic \code{pathwayCollection}
+   list or a \code{pathwayCollection} list that is appropriate for the assay
+   data supplied. While you can create your own pathway lists, create proper
+   \code{pathwayCollection} list objects by importing \code{.gmt} files with
+   the \code{\link{read_gmt}} function.
 }
 \examples{
 \dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
-  data("colon_pathwaySet")
+  data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colon_pathwaySet,
-                                      eventTime_num = colonSurv_df$OS_time,
-                                      eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+  colon_OmicsSurv <- create_OmicsSurv(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    eventTime_num = colonSurv_df$OS_time,
+    eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+  )
 
   ###  Extract Expressed Genes  ###
   expressedOmes(colon_OmicsSurv)

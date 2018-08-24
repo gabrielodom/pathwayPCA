@@ -1,9 +1,9 @@
 #' Extract expressed -Omes matching a pathways list from an assay data frame
 #'
-#' @description Given a bio-assay design matrix and a \code{pathwaySet} gene
-#'    pathways list (each within an \code{Omics*}-class object), extract the
-#'    genes / proteins / lipids / metabolomes / transcriptomes contained in each
-#'    pathways list which are expressed in the assay data frame.
+#' @description Given a bio-assay design matrix and a \code{pathwayCollection}
+#'    gene pathways list (each within an \code{Omics*}-class object), extract
+#'    the genes / proteins / lipids / metabolomes / transcriptomes contained in
+#'    each pathways list which are expressed in the assay data frame.
 #'
 #' @param object An object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'    \code{OmicsReg}, or \code{OmicsCateg}.
@@ -23,22 +23,22 @@
 #'    each trimmed pathway stored as the \code{trim_setsize} object.
 #'
 #' @details This function takes in a data frame with named columns and a
-#'    \code{pathwaySet} list, all through one of the \code{Omics*} classes.
-#'    This function will then iterate over the list of pathways, extract columns
-#'    from the bio-assay design matrix which match the genes listed in that
-#'    pathway, and remove any pathways with fewer than \code{trim} expressed
-#'    genes. The genes not expressed in the bio-assay design matrix are removed
-#'    from the \code{pathwaySet} list.
+#'    \code{pathwayCollection} list, all through one of the \code{Omics*}
+#'    classes. This function will then iterate over the list of pathways,
+#'    extract columns from the bio-assay design matrix which match the genes
+#'    listed in that pathway, and remove any pathways with fewer than
+#'    \code{trim} expressed genes. The genes not expressed in the bio-assay
+#'    design matrix are removed from the \code{pathwayCollection} list.
 #'
 #'    NOTE: some genes will be included in more than one pathway, so these
 #'    pathways are not mutually exclusive. Further note that there may be many
 #'    genes in the assay design matrix that are not included in the pathway
 #'    sets, so these will not be extracted to the list. It is then vitally
-#'    important to use either a very broad and generic \code{pathwaySet} list
-#'    or a \code{pathwaySet} list that is appropriate for the assay data
-#'    supplied. While you can create your own pathway lists, create proper
-#'    \code{pathwaySet} list objects by importing \code{.gmt} files with the
-#'    \code{\link{read_gmt}} function.
+#'    important to use either a very broad and generic \code{pathwayCollection}
+#'    list or a \code{pathwayCollection} list that is appropriate for the assay
+#'    data supplied. While you can create your own pathway lists, create proper
+#'    \code{pathwayCollection} list objects by importing \code{.gmt} files with
+#'    the \code{\link{read_gmt}} function.
 #'
 #' @export
 #'
@@ -49,13 +49,15 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colon_pathwaySet,
-#'                                       eventTime_num = colonSurv_df$OS_time,
-#'                                       eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+#'   colon_OmicsSurv <- create_OmicsSurv(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     eventTime_num = colonSurv_df$OS_time,
+#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'   )
 #'
 #'   ###  Extract Expressed Genes  ###
 #'   expressedOmes(colon_OmicsSurv)
@@ -82,9 +84,9 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             # browser()
 
             genelist <- colnames(object@assayData_df)
-            paths_ls <- object@pathwaySet$pathways
+            paths_ls <- object@pathwayCollection$pathways
             genesInPathway_vec <- unique(do.call(c, paths_ls))
-            trimSetsize <- object@pathwaySet$setsize
+            trimSetsize <- object@pathwayCollection$setsize
 
             # Delete the genes from the pathways if they aren't recorded in our
             #   data matrix
@@ -98,7 +100,7 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
               ifelse(size < trim, 0, size)
 
             })
-            names(trimSetsize) <- names(object@pathwaySet$setsize)
+            names(trimSetsize) <- names(object@pathwayCollection$setsize)
 
             # Remove any pathway that now has fewer than "trim" genes
             newPaths_trim <- sapply(seq_along(newPaths), function(i){
@@ -175,8 +177,8 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
               attr(cleanPaths_ls,
                    "removedFeature%") <- pRmFeatures * 100
               out <- object
-              out@pathwaySet$pathways <- cleanPaths_ls
-              out@pathwaySet$trim_setsize <- trimSetsize
+              out@pathwayCollection$pathways <- cleanPaths_ls
+              out@pathwayCollection$trim_setsize <- trimSetsize
 
             # }
 
