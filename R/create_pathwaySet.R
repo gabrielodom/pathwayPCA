@@ -1,7 +1,7 @@
-#' Manually Create a \code{pathwaySet}-class Object.
+#' Manually Create a \code{pathwayCollection}-class Object.
 #'
-#' @description Manually create a \code{pathwaySet} list similar to the output
-#'    of the \code{\link{read_gmt}} function.
+#' @description Manually create a \code{pathwayCollection} list similar to the
+#'    output of the \code{\link{read_gmt}} function.
 #'
 #' @param pathways A named list of character vectors. Each vector should contain
 #'    the names of the individual genes or proteins within that pathway as a
@@ -16,27 +16,30 @@
 #'    \code{pathways} list. These values should be passed as a name-value pair.
 #'    See "Details" for more information.
 #'
-#' @return A list object with class \code{pathwaySet}.
+#' @return A list object with class \code{pathwayCollection}.
 #'
 #' @details This function checks the pathwy list and pathway term inputs and
-#'    then creates a \code{pathwaySet} object from them. Pass additional list
-#'    elements using the form \code{tag = value} through the \code{...}
-#'    argument (as in the \code{\link{list}} function). Because some functions
-#'    in the \code{pathwayPCA} package add and edit elements of
-#'    \code{pathwaySet} objects, please do not create \code{pathwaySet} list
-#'    items named \code{setsize} or \code{trim_setsize}.
+#'    then creates a \code{pathwayCollection} object from them. Pass additional
+#'    list elements (such as the \code{description} of each pathway) using the
+#'    form \code{tag = value} through the \code{...} argument (as in the
+#'    \code{\link{list}} function). Because some functions in the
+#'    \code{pathwayPCA} package add and edit elements of \code{pathwayCollection}
+#'    objects, please do not create \code{pathwayCollection} list items named
+#'    \code{setsize} or \code{trim_setsize}.
 #'
 #' @export
 #'
 #' @seealso \code{\link{read_gmt}}
 #'
 #' @examples
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
-#'   create_pathwaySet(pathways = colon_pathwaySet$pathways,
-#'                     TERMS = colon_pathwaySet$TERMS)
+#'   createPathwayCollection(
+#'     pathways = colon_pathwayCollection$pathways,
+#'     TERMS = colon_pathwayCollection$TERMS
+#'   )
 #'
-create_pathwaySet <- function(pathways, TERMS, ...){
+createPathwayCollection <- function(pathways, TERMS, ...){
 
   ###  Class Checks  ###
   if(!is.list(pathways)){
@@ -55,16 +58,16 @@ create_pathwaySet <- function(pathways, TERMS, ...){
 
   dotNames <- names(list(...))
   if(any(c("setsize", "trim_setsize") %in% dotNames)){
-    warning("The names 'setsize' and 'trim_setsize' are reserved names of a pathwaySet object.
+    warning("The names 'setsize' and 'trim_setsize' are reserved names of a pathwayCollection object.
             Values stored with these names may be overwritten during pathwayPCA function execution.
             Use with extreme caution.")
   }
 
-  ###  Create and Return pathwaySet  ###
+  ###  Create and Return pathwayCollection  ###
   out_ls <- list(pathways = pathways,
                  TERMS = TERMS,
                  ...)
-  class(out_ls) <- c("pathwaySet", "list")
+  class(out_ls) <- c("pathwayCollection", "list")
 
   out_ls
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_gmt.R
 \name{read_gmt}
 \alias{read_gmt}
-\title{Read a \code{.gmt} file in as a \code{pathwaySet} object}
+\title{Read a \code{.gmt} file in as a \code{pathwayCollection} object}
 \usage{
 read_gmt(file, description = FALSE, delim = "\\t")
 }
@@ -19,7 +19,8 @@ for more information.}
 delimited, this defaults to \code{"\\t"}.}
 }
 \value{
-A \code{pathwaySet} list of pathways. This list has three elements:
+A \code{pathwayCollection} list of pathways. This list has three
+   elements:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors. Each vector
      contains the names of the individual genes within that pathway as a
@@ -36,7 +37,7 @@ A \code{pathwaySet} list of pathways. This list has three elements:
 \description{
 Read a pathways list file in Gene Matrix Transposed
    (\code{.gmt}) format, with special performance consideration for large
-   files. Present this object as a \code{pathwaySet} object.
+   files. Present this object as a \code{pathwayCollection} object.
 }
 \details{
 This function uses \code{R}'s \code{\link{readChar}} function to
@@ -60,5 +61,5 @@ This function uses \code{R}'s \code{\link{readChar}} function to
 
 }
 \seealso{
-\code{\link{print.pathwaySet}}; \code{\link{write_gmt}}
+\code{\link{print.pathwayCollection}}; \code{\link{write_gmt}}
 }

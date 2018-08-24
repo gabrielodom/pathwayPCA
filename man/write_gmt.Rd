@@ -2,13 +2,13 @@
 % Please edit documentation in R/write_gmt.R
 \name{write_gmt}
 \alias{write_gmt}
-\title{Write a \code{pathwaySet} Object to a \code{.gmt} File}
+\title{Write a \code{pathwayCollection} Object to a \code{.gmt} File}
 \usage{
-write_gmt(pathwaySet, file)
+write_gmt(pathwayCollection, file)
 }
 \arguments{
-\item{pathwaySet}{A \code{pathwaySet} list of pathways. This list contains
-the following three elements:
+\item{pathwayCollection}{A \code{pathwayCollection} list of pathways. This
+list contains the following two or three elements:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors. Each vector
     contains the names of the individual genes within that pathway as a
@@ -16,19 +16,20 @@ the following three elements:
     symbols, Entrez IDs, Ensembl IDs, GO terms, etc. }
   \item{\code{TERMS} : }{A character vector the same length as the
     \code{pathways} list with the proper names of the pathways.}
-  \item{\code{description} : }{A character vector the same length as the
-    \code{pathways} list with a note on that pathway (such as a url to the
-    description of the pathway). If this element of \code{pathwaySet} is
-    \code{NULL}, then the file will be written with \code{""} (the empty
-    character string) as its second field in each line.}
+  \item{\code{description} : }{An optional character vector the same
+    length as the \code{pathways} list with a note on that pathway (such
+    as a url to the description of the pathway). If this element of the
+    \code{pathwayCollection} is \code{NULL}, then the file will be written
+    with \code{""} (the empty character string) as its second field in
+    each line.}
 }}
 
 \item{file}{Either a character string naming a file or a connection open for
 writing. File names should end in \code{.gmt} for clarity}
 }
 \description{
-Write a \code{pathwaySet} object as a pathways list file in
-   Gene Matrix Transposed (\code{.gmt}) format.
+Write a \code{pathwayCollection} object as a pathways list file
+   in Gene Matrix Transposed (\code{.gmt}) format.
 }
 \details{
 See the Broad Institute's "Data Formats" page for a description of
@@ -38,7 +39,7 @@ See the Broad Institute's "Data Formats" page for a description of
 \examples{
 \dontrun{
   # Toy pathway set
-  toy_pathwaySet <- list(
+  toy_pathwayCollection <- list(
     pathways = list(
       c("C1orf27", "NR5A1", "BLOC1S4", "C4orf50"),
       c("TARS2", "DUSP5", "GPR88"),
@@ -47,13 +48,13 @@ See the Broad Institute's "Data Formats" page for a description of
     TERMS = c("C-or-f_paths", "randomPath2", "randomLINCs"),
     description = c("these are", "totally made up", "pathways")
   )
-  class(toy_pathwaySet) <- c("pathwaySet", "list")
-  print(toy_pathwaySet)
+  class(toy_pathwayCollection) <- c("pathwayCollection", "list")
+  print(toy_pathwayCollection)
 
-  write_gmt(toy_pathwaySet, file = "example_pathway.gmt")
+  write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
 }
 
 }
 \seealso{
-\code{\link{print.pathwaySet}}; \code{\link{read_gmt}}
+\code{\link{print.pathwayCollection}}; \code{\link{read_gmt}}
 }

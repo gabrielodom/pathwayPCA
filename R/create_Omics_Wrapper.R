@@ -7,8 +7,8 @@
 #'    \code{OmicsCateg}, respectively.
 #'
 #' @param assayData_df An \eqn{N \times p} data frame with named columns.
-#' @param pathwaySet_ls A \code{pathwaySet} list of known gene pathways with two
-#'   elements:
+#' @param pathwayCollection_ls A \code{pathwayCollection} list of known gene
+#'   pathways with two or three elements:
 #'   \itemize{
 #'     \item{\code{pathways} : }{A named list of character vectors. Each vector
 #'        contains the names of the individual genes within that pathway as a
@@ -19,6 +19,9 @@
 #'        full pathway name.}
 #'     \item{\code{TERMS}: }{ A character vector the same length as the
 #'        \code{pathways} list with the proper names of the pathways.}
+#'     \item{\code{description} : }{An optional character vector the same length
+#'        as the \code{pathways} list with additional information about the
+#'        pathways.}
 #'   }
 #' @param response An optional response object. See "Details" for more
 #'    information. Defaults to \code{NULL}.
@@ -71,34 +74,34 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsPathway Object  ###
 #'   colon_OmicsPath <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
-#'                                   pathwaySet_ls = colon_pathwaySet)
+#'                                   pathwayCollection_ls = colon_pathwayCollection)
 #'
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_OmicsSurv <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
-#'                                   pathwaySet_ls = colon_pathwaySet,
+#'                                   pathwayCollection_ls = colon_pathwayCollection,
 #'                                   response = colonSurv_df[, 1:2],
 #'                                   respType = "surv")
 #'
 #'   ###  Create an OmicsReg Object  ###
 #'   colon_OmicsReg <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
-#'                                  pathwaySet_ls = colon_pathwaySet,
+#'                                  pathwayCollection_ls = colon_pathwayCollection,
 #'                                  response = colonSurv_df$OS_time,
 #'                                  respType = "reg")
 #'
 #'   ###  Create an OmicsCateg Object  ###
 #'   colon_OmicsCateg <- create_Omics(assayData_df = colonSurv_df[, -(1:2)],
-#'                                    pathwaySet_ls = colon_pathwaySet,
+#'                                    pathwayCollection_ls = colon_pathwayCollection,
 #'                                    response = colonSurv_df$OS_event,
 #'                                    respType = "cat")
 #' }
 #'
 #' @export
 create_Omics <- function(assayData_df,
-                         pathwaySet_ls,
+                         pathwayCollection_ls,
                          response = NULL,
                          respType = c("none", "survival", "regression", "categorical")){
 
@@ -122,14 +125,14 @@ create_Omics <- function(assayData_df,
 
             message("Creating object of class OmicsPathway.")
             create_OmicsPath(assayData_df = assayData_df,
-                             pathwaySet_ls = pathwaySet_ls)
+                             pathwayCollection_ls = pathwayCollection_ls)
 
           },
           survival = {
 
             message("Creating object of class OmicsSurv.")
             create_OmicsSurv(assayData_df = assayData_df,
-                             pathwaySet_ls = pathwaySet_ls,
+                             pathwayCollection_ls = pathwayCollection_ls,
                              eventTime_num = respClean$time,
                              eventObserved_lgl = respClean$dead)
 
@@ -138,7 +141,7 @@ create_Omics <- function(assayData_df,
 
             message("Creating object of class OmicsReg.")
             create_OmicsReg(assayData_df = assayData_df,
-                            pathwaySet_ls = pathwaySet_ls,
+                            pathwayCollection_ls = pathwayCollection_ls,
                             response_num = respClean)
 
           },
@@ -146,7 +149,7 @@ create_Omics <- function(assayData_df,
 
             message("Creating object of class OmicsCateg.")
             create_OmicsCateg(assayData_df = assayData_df,
-                              pathwaySet_ls = pathwaySet_ls,
+                              pathwayCollection_ls = pathwayCollection_ls,
                               response_fact = respClean)
 
           }

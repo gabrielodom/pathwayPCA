@@ -1,13 +1,13 @@
 #' Wikipathways Homosapiens EntrezIDs
 #'
-#' @description A \code{pathwaySet} object containing the homosapiens pathways
-#'   list from Wikipathways (\url{https://www.wikipathways.org/}).
+#' @description A \code{pathwayCollection} object containing the homosapiens
+#'    pathways list from Wikipathways (\url{https://www.wikipathways.org/}).
 #'
-#' @details This \code{pathwaySet} was sent to us from Dr. Alexander Pico at
-#'   the Gladstone Institute
-#'   (\url{https://gladstone.org/our-science/people/alexander-pico}).
+#' @details This \code{pathwayCollection} was sent to us from Dr. Alexander Pico
+#'    at the Gladstone Institute
+#'    (\url{https://gladstone.org/our-science/people/alexander-pico}).
 #'
-#' @format A \code{pathwaySet} list of three elements:
+#' @format A \code{pathwayCollection} list of three elements:
 #' \itemize{
 #'   \item{\code{pathways} : }{A named list of 443 character vectors. Each
 #'      vector contains the Entrez Gene IDs of the individual genes within that
@@ -20,4 +20,4 @@
 #' }
 #'
 #' @source Dr. Alexander Pico, Wikipathways
-"wikipwsHS_Entrez_pathwaySet"
+"wikipwsHS_Entrez_pathwayCollection"
