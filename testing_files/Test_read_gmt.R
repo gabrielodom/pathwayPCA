@@ -62,11 +62,11 @@ read_gmt <- function(file, delim = "\t"){
 
   })
 
-  # Create the pathwaySet output
+  # Create the pathwayCollection output
   out <- list(pathways = genes_ls,
               TERMS = geneset_names,
               GSEA_link = geneset_descr)
-  class(out) <- "pathwaySet"
+  class(out) <- "pathwayCollection"
   out
 
 }

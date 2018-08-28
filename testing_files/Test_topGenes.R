@@ -4,7 +4,7 @@ topFeatures <- function(object, pVals_df, percentile = 0.95){
   # browser()
 
   clean_obj <- expressedOmes(object, message = FALSE)
-  paths_ls <- clean_obj@pathwaySet$pathways
+  paths_ls <- clean_obj@trimPathwaySet$pathways
   genes_char <- unique(do.call(c, paths_ls))
   rm(object, clean_obj)
 
