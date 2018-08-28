@@ -5,7 +5,8 @@
 \title{Generation Wrapper function for \code{-Omics*}-class objects}
 \usage{
 create_Omics(assayData_df, pathwayCollection_ls, response = NULL,
-  respType = c("none", "survival", "regression", "categorical"))
+  respType = c("none", "survival", "regression", "categorical"),
+  minPathSize = 3)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
@@ -34,6 +35,9 @@ information. Defaults to \code{NULL}.}
 \code{"none"}, \code{"survival"}, \code{"regression"}, and
 \code{"categorical"}. Defaults to \code{"none"} to match the default
 \code{response = NULL} value.}
+
+\item{minPathSize}{What is the smallest number of genes allowed in each
+pathway? Defaults to 3.}
 }
 \value{
 A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
@@ -66,6 +70,12 @@ This function is a wrapper around the four \code{create_Omics*}
    time and the second entry the death indicator. The death indicator must
    be a logical or binary (0-1) vector, where 1 or \code{TRUE} represents a
    death and 0 or \code{FALSE} represents right-censoring.
+
+   Some of the pathways in the supplied pathways list will be removed, or
+   "trimmed", during object creation. For the pathway-testing methods, these
+   trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
+   explanation of pathway trimming, see the documentation for the
+   \code{\link{expressedOmes}} function.
 }
 \examples{
 \dontrun{
@@ -104,6 +114,7 @@ This function is a wrapper around the four \code{create_Omics*}
    \code{\link{create_OmicsSurv}},
    \code{\link[=OmicsCateg-class]{OmicsCateg}},
    \code{\link{create_OmicsCateg}}
-   \code{\link[=OmicsReg-class]{OmicsReg}}, and
-   \code{\link{create_OmicsReg}}.
+   \code{\link[=OmicsReg-class]{OmicsReg}},
+   \code{\link{create_OmicsReg}}, and
+  \code{\link{expressedOmes}}
 }

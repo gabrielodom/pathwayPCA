@@ -10,9 +10,6 @@
 #' @param object An object of class \code{OmicsPathway} with a response matrix
 #'   or vector.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
-#' @param min.features What is the smallest number of genes allowed in each
-#'   pathway? This argument must be kept constant across all calls to this
-#'   function which use the same pathway list. Defaults to 3.
 #' @param numReps The number of permutations to take of the data to calculate a
 #'   \eqn{p}-value for each pathway. Defaults to 1000.
 #' @param parallel Should the computation be completed in parallel? Defaults to
@@ -32,20 +29,16 @@
 #' @return A data frame with columns:
 #' \itemize{
 #'   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-#'     object (given in \code{object@@pathwayCollection$pathways}.)
+#'     object (given in \code{object@@trimPathwayCollection$pathways}.)
 #'   \item{\code{setsize} : }{The number of genes in each of the original
-#'     pathways (given in the \code{object@@pathwayCollection$setsize} object).}
+#'     pathways (given in the \code{object@@trimPathwayCollection$setsize}
+#'     object).}
 #'   \item{\code{terms} : }{The pathway description, as given in the
-#'     \code{object@@pathwayCollection$TERMS} object.}
+#'     \code{object@@trimPathwayCollection$TERMS} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
 #'   \item{\code{...} : }{Additional columns as specified through the
 #'     \code{adjustment} argument.}
 #' }
-#'
-#' Some of the pathways in the supplied pathways list will be removed, or
-#'    "trimmed", during function execution. These trimmed pathways will have
-#'    \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
-#'    see the documentation for the \code{\link{expressedOmes}} function.
 #'
 #' The data frame will be sorted in ascending order by the method specified
 #'    first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
@@ -157,11 +150,6 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
                                 ...){
             # browser()
 
-            ###  Remove Unexpressed Genes from the Pathways List  ###
-            object <- expressedOmes(object, trim = min.features)
-            pathwayGeneSets_ls <- object@pathwayCollection
-
-
             ###  Calculate AES-PCs  ###
             message(" Part 1: Calculate Pathway AES-PCs\n")
             pcs_ls <- extract_aesPCs(object = object,
@@ -209,6 +197,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
               message("\n Part 3: Sorting Pathway p-Value Data Frame\n")
             }
 
+            pathwayGeneSets_ls <- object@trimPathwayCollection
             out_df <- adjust_and_sort(pVals_vec = pVals_vec,
                                       genesets_ls = pathwayGeneSets_ls,
                                       adjust = adjustpValues,

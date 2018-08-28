@@ -55,20 +55,16 @@ definitions and citations.}
 A data frame with columns:
 \itemize{
   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-    object (given in \code{object@pathwayCollection$pathways}.)
+    object (given in \code{object@trimPathwayCollection$pathways}.)
   \item{\code{setsize} : }{The number of genes in each of the original
-    pathways (given in the \code{object@pathwayCollection$setsize} object).}
+    pathways (given in the \code{object@trimPathwayCollection$setsize}
+    object).}
   \item{\code{terms} : }{The pathway description, as given in the
-    \code{object@pathwayCollection$TERMS} object.}
+    \code{object@trimPathwayCollection$TERMS} object.}
   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
   \item{\code{...} : }{Additional columns as specified through the
     \code{adjustment} argument.}
 }
-
-Some of the pathways in the supplied pathways list will be removed, or
-   "trimmed", during function execution. These trimmed pathways will have
-   \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
-   see the documentation for the \code{\link{expressedOmes}} function.
 
 The data frame will be sorted in ascending order by the method specified
   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},

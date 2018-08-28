@@ -37,12 +37,12 @@
 #' @return A data frame with columns
 #' \itemize{
 #'   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-#'     object (stored in \code{object@@pathwayCollection$pathways}).
+#'     object (stored in \code{object@@trimPathwayCollection$pathways}).
 #'   \item{\code{setsize} : }{The number of genes in each of the original
-#'     pathways (as stored in the \code{object@@pathwayCollection$setsize}
+#'     pathways (as stored in the \code{object@@trimPathwayCollection$setsize}
 #'     object).}
 #'   \item{\code{terms} : }{The pathway description, as stored in the
-#'     \code{object@@pathwayCollection$TERMS} object.}
+#'     \code{object@@trimPathwayCollection$TERMS} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
 #'   \item{\code{...} : }{Additional columns as specified through the
 #'     \code{adjustment} argument.}

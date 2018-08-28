@@ -29,6 +29,8 @@
 #'    \code{"none"}, \code{"survival"}, \code{"regression"}, and
 #'    \code{"categorical"}. Defaults to \code{"none"} to match the default
 #'    \code{response = NULL} value.
+#' @param minPathSize What is the smallest number of genes allowed in each
+#'   pathway? Defaults to 3.
 #'
 #' @details This function is a wrapper around the four \code{create_Omics*}
 #'    functions, and as such is not necessary for analysis. This function simply
@@ -50,6 +52,12 @@
 #'    be a logical or binary (0-1) vector, where 1 or \code{TRUE} represents a
 #'    death and 0 or \code{FALSE} represents right-censoring.
 #'
+#'    Some of the pathways in the supplied pathways list will be removed, or
+#'    "trimmed", during object creation. For the pathway-testing methods, these
+#'    trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
+#'    explanation of pathway trimming, see the documentation for the
+#'    \code{\link{expressedOmes}} function.
+#'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'   \code{OmicsReg}, or \code{OmicsCateg}.
 #'
@@ -65,8 +73,9 @@
 #'    \code{\link{create_OmicsSurv}},
 #'    \code{\link[=OmicsCateg-class]{OmicsCateg}},
 #'    \code{\link{create_OmicsCateg}}
-#'    \code{\link[=OmicsReg-class]{OmicsReg}}, and
-#'    \code{\link{create_OmicsReg}}.
+#'    \code{\link[=OmicsReg-class]{OmicsReg}},
+#'    \code{\link{create_OmicsReg}}, and
+#'   \code{\link{expressedOmes}}
 #'
 #' @importFrom survival is.Surv
 #'
@@ -103,7 +112,8 @@
 create_Omics <- function(assayData_df,
                          pathwayCollection_ls,
                          response = NULL,
-                         respType = c("none", "survival", "regression", "categorical")){
+                         respType = c("none", "survival", "regression", "categorical"),
+                         minPathSize = 3){
 
   # browser()
 
@@ -125,7 +135,8 @@ create_Omics <- function(assayData_df,
 
             message("Creating object of class OmicsPathway.")
             create_OmicsPath(assayData_df = assayData_df,
-                             pathwayCollection_ls = pathwayCollection_ls)
+                             pathwayCollection_ls = pathwayCollection_ls,
+                             minPathSize = minPathSize)
 
           },
           survival = {
@@ -134,7 +145,8 @@ create_Omics <- function(assayData_df,
             create_OmicsSurv(assayData_df = assayData_df,
                              pathwayCollection_ls = pathwayCollection_ls,
                              eventTime_num = respClean$time,
-                             eventObserved_lgl = respClean$dead)
+                             eventObserved_lgl = respClean$dead,
+                             minPathSize = minPathSize)
 
           },
           regression = {
@@ -142,7 +154,8 @@ create_Omics <- function(assayData_df,
             message("Creating object of class OmicsReg.")
             create_OmicsReg(assayData_df = assayData_df,
                             pathwayCollection_ls = pathwayCollection_ls,
-                            response_num = respClean)
+                            response_num = respClean,
+                            minPathSize = minPathSize)
 
           },
           categorical = {
@@ -150,7 +163,8 @@ create_Omics <- function(assayData_df,
             message("Creating object of class OmicsCateg.")
             create_OmicsCateg(assayData_df = assayData_df,
                               pathwayCollection_ls = pathwayCollection_ls,
-                              response_fact = respClean)
+                              response_fact = respClean,
+                              minPathSize = minPathSize)
 
           }
   )
