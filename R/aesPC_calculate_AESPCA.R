@@ -20,13 +20,13 @@
 #' @return A list of four elements containing the loadings and projected
 #'   predictors:
 #'   \itemize{
-#'     \item{\code{loadings} : }{A \eqn{p \times d} projection matrix of the
+#'     \item{\code{aesLoad} : }{A \eqn{p \times d} projection matrix of the
 #'        \eqn{d} AES-PCs.}
-#'     \item{\code{B0} : }{A \eqn{p \times d} projection matrix of the \eqn{d}
-#'        PCs from the singular value decomposition (SVD).}
-#'     \item{\code{score} : }{An \eqn{n \times d} predictor matrix: the original
-#'        \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
-#'     \item{\code{oldscore} : }{An \eqn{n \times d} predictor matrix: the
+#'     \item{\code{oldLoad} : }{A \eqn{p \times d} projection matrix of the
+#'        \eqn{d} PCs from the singular value decomposition (SVD).}
+#'     \item{\code{aesScore} : }{An \eqn{n \times d} predictor matrix: the
+#'        original \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
+#'     \item{\code{oldScore} : }{An \eqn{n \times d} predictor matrix: the
 #'        original \eqn{n} observations loaded onto the \eqn{d} SVD-PCs.}
 #'   }
 #'
@@ -129,10 +129,13 @@ aespca <- function(X,
 
 
   ###  Return  ###
-  obj <- list(loadings = B,
-              B0 = A0,
-              score = score,
-              oldscore = oldscore)
+  obj <- list(
+    aesLoad   = B,         # p x d
+    oldLoad   = A0,        # p x d
+    aesScore  = score,     # n x d
+    oldScore  = oldscore   # n x d
+  )
+
   obj
 
 }

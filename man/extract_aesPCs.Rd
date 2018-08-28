@@ -7,17 +7,13 @@
 \title{Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
   bio-assay data frame}
 \usage{
-extract_aesPCs(object, trim = 3, numPCs = 1, parallel = FALSE,
-  numCores = NULL, ...)
+extract_aesPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL, ...)
 
-\S4method{extract_aesPCs}{OmicsPathway}(object, trim = 3, numPCs = 1,
+\S4method{extract_aesPCs}{OmicsPathway}(object, numPCs = 1,
   parallel = FALSE, numCores = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway}.}
-
-\item{trim}{The minimum cutoff of expressed -Ome measures before a pathway
-is excluded. Defaults to 3.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
 

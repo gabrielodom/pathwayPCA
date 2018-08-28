@@ -6,13 +6,13 @@
 \alias{AESPCA_pVals,OmicsPathway-method}
 \title{Test pathway association with AES-PCA}
 \usage{
-AESPCA_pVals(object, numPCs = 1, min.features = 3, numReps = 1000,
-  parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
+AESPCA_pVals(object, numPCs = 1, numReps = 1000, parallel = FALSE,
+  numCores = NULL, asPCA = FALSE, adjustpValues = TRUE,
   adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
   "BY", "ABH", "TSBH"), ...)
 
-\S4method{AESPCA_pVals}{OmicsPathway}(object, numPCs = 1, min.features = 3,
-  numReps = 1000, parallel = FALSE, numCores = NULL,
+\S4method{AESPCA_pVals}{OmicsPathway}(object, numPCs = 1, numReps = 1000,
+  parallel = FALSE, numCores = NULL, asPCA = FALSE,
   adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm", "Hochberg",
   "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 }
@@ -31,6 +31,11 @@ or vector.}
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
 computation? Defaults to \code{NULL}.}
 
+\item{asPCA}{Should the computation return the eigenvectors and eigenvalues
+instead of the adaptive, elastic-net, sparse principal components and their
+corresponding loadings. Defaults to \code{FALSE}; this should be used for
+diagnostic or comparative purposes only.}
+
 \item{adjustpValues}{Should you adjust the \eqn{p}-values for multiple
 comparisons? Defaults to TRUE.}
 
@@ -44,18 +49,26 @@ definitions and citations.}
 \item{...}{Dots for additional internal arguments.}
 }
 \value{
-A data frame with columns:
+A results list with class \code{aespcOut}. This list has three
+   components: a data frame of pathway details, pathway \eqn{p}-values, and
+   potential adjustments to those values (\code{pVals_df}); a list of the
+   first \code{numPCs} \emph{score} vectors for each pathway (\code{PCs_ls});
+   and a list of the first \code{numPCs} feature loading vectors for each
+   pathway (\code{loadings_ls}). The \eqn{p}-value data frame has columns:
 \itemize{
   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
     object (given in \code{object@trimPathwayCollection$pathways}.)
   \item{\code{setsize} : }{The number of genes in each of the original
     pathways (given in the \code{object@trimPathwayCollection$setsize}
     object).}
+  \item{\code{trim_size} : }{The number of genes in each of the trimmed
+    pathways (given in the \code{object@trimPathwayCollection$trim_setsize}
+    object).}
   \item{\code{terms} : }{The pathway description, as given in the
     \code{object@trimPathwayCollection$TERMS} object.}
   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
-  \item{\code{...} : }{Additional columns as specified through the
-    \code{adjustment} argument.}
+  \item{\code{...} : }{Additional columns of adjusted \eqn{p}-values as
+    specified through the \code{adjustment} argument.}
 }
 
 The data frame will be sorted in ascending order by the method specified
