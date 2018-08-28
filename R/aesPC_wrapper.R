@@ -16,6 +16,10 @@
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
 #'   computation? Defaults to \code{NULL}.
+#' @param asPCA Should the computation return the eigenvectors and eigenvalues
+#'   instead of the adaptive, elastic-net, sparse principal components and their
+#'   corresponding loadings. Defaults to \code{FALSE}; this should be used for
+#'   diagnostic or comparative purposes only.
 #' @param adjustpValues Should you adjust the \eqn{p}-values for multiple
 #'   comparisons? Defaults to TRUE.
 #' @param adjustment Character vector of procedures. The returned data frame
@@ -26,18 +30,26 @@
 #'   definitions and citations.
 #' @param ... Dots for additional internal arguments.
 #'
-#' @return A data frame with columns:
+#' @return A results list with class \code{aespcOut}. This list has three
+#'    components: a data frame of pathway details, pathway \eqn{p}-values, and
+#'    potential adjustments to those values (\code{pVals_df}); a list of the
+#'    first \code{numPCs} \emph{score} vectors for each pathway (\code{PCs_ls});
+#'    and a list of the first \code{numPCs} feature loading vectors for each
+#'    pathway (\code{loadings_ls}). The \eqn{p}-value data frame has columns:
 #' \itemize{
 #'   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
 #'     object (given in \code{object@@trimPathwayCollection$pathways}.)
 #'   \item{\code{setsize} : }{The number of genes in each of the original
 #'     pathways (given in the \code{object@@trimPathwayCollection$setsize}
 #'     object).}
+#'   \item{\code{trim_size} : }{The number of genes in each of the trimmed
+#'     pathways (given in the \code{object@@trimPathwayCollection$trim_setsize}
+#'     object).}
 #'   \item{\code{terms} : }{The pathway description, as given in the
 #'     \code{object@@trimPathwayCollection$TERMS} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
-#'   \item{\code{...} : }{Additional columns as specified through the
-#'     \code{adjustment} argument.}
+#'   \item{\code{...} : }{Additional columns of adjusted \eqn{p}-values as
+#'     specified through the \code{adjustment} argument.}
 #' }
 #'
 #' The data frame will be sorted in ascending order by the method specified
@@ -104,10 +116,10 @@
 setGeneric("AESPCA_pVals",
            function(object,
                     numPCs = 1,
-                    min.features = 3,
                     numReps = 1000,
                     parallel = FALSE,
                     numCores = NULL,
+                    asPCA = FALSE,
                     adjustpValues = TRUE,
                     adjustment = c("Bonferroni",
                                    "Holm",
@@ -133,10 +145,10 @@ setGeneric("AESPCA_pVals",
 setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
           definition = function(object,
                                 numPCs = 1,
-                                min.features = 3,
                                 numReps = 1000,
                                 parallel = FALSE,
                                 numCores = NULL,
+                                asPCA = FALSE,
                                 adjustpValues = TRUE,
                                 adjustment = c("Bonferroni",
                                                "Holm",
@@ -152,11 +164,26 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
 
             ###  Calculate AES-PCs  ###
             message(" Part 1: Calculate Pathway AES-PCs\n")
-            pcs_ls <- extract_aesPCs(object = object,
-                                     trim = min.features,
-                                     numPCs = numPCs,
-                                     parallel = parallel,
-                                     numCores = numCores)
+            aespca_ls <- extract_aesPCs(
+              object = object,
+              numPCs = numPCs,
+              parallel = parallel,
+              numCores = numCores
+            )
+
+
+            if(asPCA){
+
+              PCs_ls      <- lapply(aespca_ls, `[[`, "oldScore")
+              loadings_ls <- lapply(aespca_ls, `[[`, "oldLoad")
+
+            } else {
+
+              PCs_ls      <- lapply(aespca_ls, `[[`, "aesScore")
+              loadings_ls <- lapply(aespca_ls, `[[`, "aesLoad")
+
+            }
+            rm(aespca_ls)
 
 
             ###  Permutation Pathway p-Values  ###
@@ -165,21 +192,21 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             switch(obj_class,
                    OmicsSurv = {
                      pVals_vec <- permTest_OmicsSurv(OmicsSurv = object,
-                                                     pathwayPCs_ls = pcs_ls,
+                                                     pathwayPCs_ls = PCs_ls,
                                                      numReps = numReps,
                                                      parallel = parallel,
                                                      numCores = numCores)
                    },
                    OmicsReg = {
                      pVals_vec <- permTest_OmicsReg(OmicsReg = object,
-                                                    pathwayPCs_ls = pcs_ls,
+                                                    pathwayPCs_ls = PCs_ls,
                                                     numReps = numReps,
                                                     parallel = parallel,
                                                     numCores = numCores)
                    },
                    OmicsCateg = {
                      pVals_vec <- permTest_OmicsCateg(OmicsCateg = object,
-                                                      pathwayPCs_ls = pcs_ls,
+                                                      pathwayPCs_ls = PCs_ls,
                                                       numReps = numReps,
                                                       parallel = parallel,
                                                       numCores = numCores)
@@ -206,6 +233,13 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             message("DONE")
 
             ###  Return  ###
-            out_df
+            out_ls <- list(
+              pVals_df    = out_df,
+              PCs_ls      = PCs_ls,
+              loadings_ls = loadings_ls
+            )
+
+            class(out_ls) <- c("aespcOut", "list")
+            out_ls
 
           })

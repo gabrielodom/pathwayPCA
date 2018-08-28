@@ -6,8 +6,6 @@
 #'   components from each expressed pathway in the assay design matrix.
 #'
 #' @param object An object of class \code{OmicsPathway}.
-#' @param trim The minimum cutoff of expressed -Ome measures before a pathway
-#'   is excluded. Defaults to 3.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
@@ -55,7 +53,7 @@
 #'
 #' @rdname extract_aesPCs
 setGeneric("extract_aesPCs",
-           function(object, trim = 3, numPCs = 1,
+           function(object, numPCs = 1,
                     parallel = FALSE, numCores = NULL,
                     ...){
              standardGeneric("extract_aesPCs")
@@ -71,7 +69,6 @@ setGeneric("extract_aesPCs",
 #' @rdname extract_aesPCs
 setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
           definition = function(object,
-                                trim = 3,
                                 numPCs = 1,
                                 parallel = FALSE,
                                 numCores = NULL,
@@ -103,7 +100,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
                                     data_Omes,
                                     function(pathway_df){
                                       aespca(X = pathway_df,
-                                             d = numPCs)$score
+                                             d = numPCs)
                                     })
               stopCluster(clust)
               message("DONE")
@@ -114,7 +111,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               PCs_ls <- lapply(data_Omes,
                                function(path_df){
                                  aespca(X = path_df,
-                                        d = numPCs)$score
+                                        d = numPCs)
                                })
               message("DONE")
 

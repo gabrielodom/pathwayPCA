@@ -1,3 +1,5 @@
+
+######  Initial Tests  ########################################################
 # Migrated from inst/Testing_S4.R
 
 
@@ -94,3 +96,45 @@ Sys.time() - a
 #                                      parallel = TRUE,
 #                                      numCores = detectCores() - 2)
 # Sys.time() - b # 7.418932 min for 1000 reps on laptop
+
+
+
+######  Test AESPCA_pVals()  ##################################################
+
+
+library(pathwayPCA)
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+colon_OmicsSurv <- create_Omics(
+  assayData_df = colonSurv_df[, -(1:2)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response = colonSurv_df[, 1:2],
+  respType = "surv"
+)
+
+# AES-PCA
+a0 <- Sys.time()
+colon_aespcOut <- AESPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 1,
+  numReps = 5000,
+  parallel = TRUE,
+  numCores = 15,
+  adjustment = "BY"
+)
+Sys.time() - a0 # 34 seconds
+
+
+# Regular PCA
+a1 <- Sys.time()
+colon_pcOut <- AESPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 1,
+  numReps = 5000,
+  parallel = TRUE,
+  numCores = 15,
+  asPCA = TRUE,
+  adjustment = "BY"
+)
+Sys.time() - a1 # 34 seconds
