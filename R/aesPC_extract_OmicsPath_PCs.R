@@ -77,7 +77,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
                                 numCores = NULL,
                                 ...){
             # browser()
-            pathSets_ls <- object@pathwayCollection
+            pathSets_ls <- object@trimPathwayCollection
             data_Omes <- lapply(pathSets_ls$pathways, function(x){
               object@assayData_df[x]
             })

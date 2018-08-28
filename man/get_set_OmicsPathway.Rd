@@ -5,10 +5,12 @@
 \alias{getAssay}
 \alias{getAssay<-}
 \alias{getPathwayCollection}
+\alias{getTrimPathwayCollection}
 \alias{getPathwayCollection<-}
 \alias{getAssay,OmicsPathway-method}
 \alias{getAssay<-,OmicsPathway-method}
 \alias{getPathwayCollection,OmicsPathway-method}
+\alias{getTrimPathwayCollection,OmicsPathway-method}
 \alias{getPathwayCollection<-,OmicsPathway-method}
 \title{Access and Edit Assay or \code{pathwayCollection} Values in \code{Omics*}
    Objects}
@@ -19,6 +21,8 @@ getAssay(object) <- value
 
 getPathwayCollection(object, ...)
 
+getTrimPathwayCollection(object, ...)
+
 getPathwayCollection(object) <- value
 
 \S4method{getAssay}{OmicsPathway}(object, ...)
@@ -26,6 +30,8 @@ getPathwayCollection(object) <- value
 \S4method{getAssay}{OmicsPathway}(object) <- value
 
 \S4method{getPathwayCollection}{OmicsPathway}(object, ...)
+
+\S4method{getTrimPathwayCollection}{OmicsPathway}(object, ...)
 
 \S4method{getPathwayCollection}{OmicsPathway}(object) <- value
 }
@@ -40,18 +46,23 @@ or \code{\link{OmicsCateg-class}}.}
 }
 \value{
 The "get" functions return the objects in the slots specified:
-   \code{getAssay} returns the \code{assayData_df} data frame object and
+   \code{getAssay} returns the \code{assayData_df} data frame object,
    \code{getPathwayCollection} returns the \code{pathwayCollection} list
-   object. These functions can extract these values from any valid
-   \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
+   object, and \code{getTrimPathwayCollection} returns the
+   \code{trimPathwayCollection}. These functions can extract these values
+   from any valid \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
    \code{OmicsCateg} object.
 
    The "set" functions enable the user to edit or replace objects in the
    \code{assayData_df} or \code{pathwayCollection} slots for any
    \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
    \code{OmicsCateg} objects, provided that the new values do not violate
-   the validity checks of their respective objects. See "Details" for more
-   information.
+   the validity checks of their respective objects. Because the slot for
+   \code{trimPathwayCollection} is filled upon object creation, and to ensure
+   that this pathway collection is "clean", there is no "set" function for
+   the trimmed pathway collection slot. Instead, users can update the pathway
+   collection, and the trimmed pathway collection will be updated
+   automatically. See "Details" for more information on the "set" functions.
 }
 \description{
 "Get" or "Set" the values of the \code{assayData_df} or
@@ -66,6 +77,15 @@ These functions can be useful to set or extract the assay data or
    modifying an existing one. The validity of edited objects is checked with
    the \code{\link{valid_OmicsSurv}}, \code{\link{valid_OmicsCateg}}, or
    \code{\link{valid_OmicsReg}} functions.
+
+   Further, because the \code{pathwayPCA} methods require a cleaned (trimmed)
+   pathway collection, the \code{trimPathwayCollection} slot is read-only.
+   Users may only edit this slot by updating the pathway collection provided
+   to the \code{pathwayCollection} slot. Despite this functionality, we
+   \strong{strongly} recommend that users create a new object with the
+   updated pathway collection, rather than attempting to overwrite the slots
+   within an existing object. See \code{\link{expressedOmes}} for details on
+   trimmed pathway collection.
 }
 \examples{
 \dontrun{

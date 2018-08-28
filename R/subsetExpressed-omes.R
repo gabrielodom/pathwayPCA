@@ -86,7 +86,6 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             genelist <- colnames(object@assayData_df)
             paths_ls <- object@pathwayCollection$pathways
             genesInPathway_vec <- unique(do.call(c, paths_ls))
-            trimSetsize <- object@pathwayCollection$setsize
 
             # Delete the genes from the pathways if they aren't recorded in our
             #   data matrix
@@ -94,19 +93,13 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
               x[x %in% genelist]
             })
 
-            trimSetsize <- sapply(seq_along(trimSetsize), function(i){
-
-              size <- length(newPaths[[i]])
-              ifelse(size < trim, 0, size)
-
-            })
-            names(trimSetsize) <- names(object@pathwayCollection$setsize)
+            newPathsLen <- lengths(newPaths)
+            trimSetsize <- ifelse(newPathsLen < trim, 0, newPathsLen)
 
             # Remove any pathway that now has fewer than "trim" genes
             newPaths_trim <- sapply(seq_along(newPaths), function(i){
 
-              shortPath <- length(newPaths[[i]]) < trim
-              if(shortPath){
+              if(trimSetsize[i] == 0){
                 NULL
               } else {
                 newPaths[[i]]
@@ -153,34 +146,14 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
 
 
             ###  Create the Return Object  ###
-            # if(as.character(returnClass) == "list"){
-            #
-            #   extractedMatrix_ls <- lapply(cleanPaths_ls, function(x){
-            #     object@assayData_df[x]
-            #   })
-            #
-            #
-            #   attr(extractedMatrix_ls,
-            #        "missingPaths") <- missingPaths_char
-            #   attr(extractedMatrix_ls,
-            #        "selectedFeature%") <- pSelectFeatures * 100
-            #   attr(extractedMatrix_ls,
-            #        "removedFeature%") <- pRmFeatures * 100
-            #   out <- extractedMatrix_ls
-            #
-            # } else {
+            attr(cleanPaths_ls, "missingPaths") <- missingPaths_char
+            attr(cleanPaths_ls, "selectedFeature%") <- pSelectFeatures * 100
+            attr(cleanPaths_ls, "removedFeature%") <- pRmFeatures * 100
 
-              attr(cleanPaths_ls,
-                   "missingPaths") <- missingPaths_char
-              attr(cleanPaths_ls,
-                   "selectedFeature%") <- pSelectFeatures * 100
-              attr(cleanPaths_ls,
-                   "removedFeature%") <- pRmFeatures * 100
-              out <- object
-              out@pathwayCollection$pathways <- cleanPaths_ls
-              out@pathwayCollection$trim_setsize <- trimSetsize
-
-            # }
+            out <- object
+            out@trimPathwayCollection <- out@pathwayCollection
+            out@trimPathwayCollection$pathways <- cleanPaths_ls
+            out@trimPathwayCollection$trim_setsize <- trimSetsize
 
             out
 

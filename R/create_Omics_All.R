@@ -15,6 +15,12 @@
 #'   draconian input class restrictions protect the accuracy of your data
 #'   analysis.
 #'
+#'   Some of the pathways in the supplied pathways list will be removed, or
+#'   "trimmed", during object creation. For the pathway-testing methods, these
+#'   trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
+#'   explanation of pathway trimming, see the documentation for the
+#'   \code{\link{expressedOmes}} function.
+#'
 #'   Also note the following: if the supplied \code{pathways} object within your
 #'   \code{pathwayCollection_ls} list has no names, then this pathway list will
 #'   be named \code{path1}, \code{path2}, \code{path3}, ...; if any of the
@@ -58,6 +64,8 @@
 #'        as the \code{pathways} list with additional information about the
 #'        pathways.}
 #'   }
+#' @param minPathSize What is the smallest number of genes allowed in each
+#'   pathway? Defaults to 3.
 #'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'   \code{OmicsReg}, or \code{OmicsCateg}.
@@ -70,8 +78,9 @@
 #'
 #' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
 #'   \code{\link[=OmicsSurv-class]{OmicsSurv}},
-#'   \code{\link[=OmicsReg-class]{OmicsReg}},  and
-#'   \code{\link[=OmicsCateg-class]{OmicsCateg}}
+#'   \code{\link[=OmicsReg-class]{OmicsReg}},
+#'   \code{\link[=OmicsCateg-class]{OmicsCateg}}, and
+#'   \code{\link{expressedOmes}}
 #'
 #' @importFrom methods new
 #'
@@ -112,7 +121,9 @@
 #'
 #' @export
 #' @rdname create_OmicsPathway
-create_OmicsPath <- function(assayData_df, pathwayCollection_ls){
+create_OmicsPath <- function(assayData_df,
+                             pathwayCollection_ls,
+                             minPathSize = 3){
 
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
@@ -180,9 +191,13 @@ contain alphanumeric characters only, and start with a letter.")
 
 
   ###  Create Omics Object  ###
-  new("OmicsPathway",
-      assayData_df = assayData_df,
-      pathwayCollection = pathwayCollection_ls)
+  obj <- new(
+    "OmicsPathway",
+    assayData_df = assayData_df,
+    pathwayCollection = pathwayCollection_ls
+  )
+
+  expressedOmes(obj, trim = minPathSize)
 
 }
 
@@ -206,7 +221,8 @@ contain alphanumeric characters only, and start with a letter.")
 create_OmicsSurv <- function(assayData_df,
                              pathwayCollection_ls,
                              eventTime_num,
-                             eventObserved_lgl){
+                             eventObserved_lgl,
+                             minPathSize = 3){
 
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
@@ -274,11 +290,15 @@ contain alphanumeric characters only, and start with a letter.")
 
 
   ###  Create Omics Object  ###
-  new("OmicsSurv",
-      assayData_df = assayData_df,
-      pathwayCollection = pathwayCollection_ls,
-      eventTime = eventTime_num,
-      eventObserved = eventObserved_lgl)
+  obj <- new(
+    "OmicsSurv",
+    assayData_df = assayData_df,
+    pathwayCollection = pathwayCollection_ls,
+    eventTime = eventTime_num,
+    eventObserved = eventObserved_lgl
+  )
+
+  expressedOmes(obj, trim = minPathSize)
 
 }
 
@@ -297,7 +317,8 @@ contain alphanumeric characters only, and start with a letter.")
 #' @rdname create_OmicsPathway
 create_OmicsReg <- function(assayData_df,
                             pathwayCollection_ls,
-                            response_num){
+                            response_num,
+                            minPathSize = 3){
 
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
@@ -365,10 +386,14 @@ contain alphanumeric characters only, and start with a letter.")
 
 
   ###  Create Omics Object  ###
-  new("OmicsReg",
-      assayData_df = assayData_df,
-      pathwayCollection = pathwayCollection_ls,
-      response = response_num)
+  obj <- new(
+    "OmicsReg",
+    assayData_df = assayData_df,
+    pathwayCollection = pathwayCollection_ls,
+    response = response_num
+  )
+
+  expressedOmes(obj, trim = minPathSize)
 
 }
 
@@ -381,7 +406,8 @@ contain alphanumeric characters only, and start with a letter.")
 #' @rdname create_OmicsPathway
 create_OmicsCateg <- function(assayData_df,
                               pathwayCollection_ls,
-                              response_fact){
+                              response_fact,
+                              minPathSize = 3){
 
   if("matrix" %in% class(assayData_df) &
      !("data.frame" %in% class(assayData_df))){
@@ -452,10 +478,14 @@ contain alphanumeric characters only, and start with a letter.")
 
 
   ###  Create Omics Object  ###
-  new("OmicsCateg",
-      assayData_df = assayData_df,
-      pathwayCollection = pathwayCollection_ls,
-      response = response_fact)
+  obj <- new(
+    "OmicsCateg",
+    assayData_df = assayData_df,
+    pathwayCollection = pathwayCollection_ls,
+    response = response_fact
+  )
+
+  expressedOmes(obj, trim = minPathSize)
 
 }
 
