@@ -586,7 +586,7 @@ superPCA_pathway_pvals <- function(Omics_object,
 
   ###  Extract Information from S4 Object  ###
   geneArray_df <- t(Omics_object@assayData_df)
-  pathwayGeneSets_ls <- Omics_object@pathwaySet
+  pathwayGeneSets_ls <- Omics_object@trimPathwayCollection
   obj_class <- class(Omics_object)
   switch (obj_class,
           OmicsSurv = {
@@ -809,7 +809,7 @@ rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 ###  Tests  ###
 
 tumour_OmicsSurv <- create_OmicsSurv(assayData_df = as.data.frame(t(array)),
-                                     pathwaySet_ls = geneset,
+                                     pathwayCollection_ls = geneset,
                                      eventTime_num = survY_df$SurvivalTime,
                                      eventObserved_lgl = as.logical(survY_df$disease_event))
 a <- Sys.time()
@@ -823,7 +823,7 @@ Sys.time() - a # 1.715719 min
 
 
 tumour_OmicsReg <- create_OmicsReg(assayData_df = as.data.frame(t(array)),
-                                   pathwaySet_ls = geneset,
+                                   pathwayCollection_ls = geneset,
                                    response_num = survY_df$SurvivalTime)
 a <- Sys.time()
 regTest_df <- superPCA_pVals(object = tumour_OmicsReg,
@@ -836,7 +836,7 @@ Sys.time() - a # 1.054811 min
 
 
 tumour_OmicsCateg <- create_OmicsCateg(assayData_df = as.data.frame(t(array)),
-                                       pathwaySet_ls = geneset,
+                                       pathwayCollection_ls = geneset,
                                        response_fact = as.factor(survY_df$disease_event))
 a <- Sys.time()
 classifTest_df <- superPCA_pVals(object = tumour_OmicsCateg,
@@ -888,3 +888,26 @@ Sys.time() - a # 2.206281 min
 
 
 # REQUIRES THE PANG OVARIAN CANCER DATA SET
+
+
+######  v5 Tests  #############################################################
+library(pathwayPCA)
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+colon_OmicsSurv <- create_Omics(
+  assayData_df = colonSurv_df[, -(1:2)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[, 1:2],
+  respType = "survival"
+)
+
+a <- Sys.time()
+survTest_df <- superPCA_pVals(
+  object = colon_OmicsSurv,
+  parallel = TRUE,
+  numCores = 15,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "BY")
+)
+Sys.time() - a

@@ -47,8 +47,8 @@ svd(scale(x_mat))$v
 #   singular vectors. This may not be a problem though. Let's see how many
 #   pathways are very small:
 library(pathwayPCA)
-data("wikipwsHS_Entrez_pathwaySet")
-p_int <- lengths(wikipwsHS_Entrez_pathwaySet$pathways)
+data("wikipwsHS_Entrez_pathwayCollection")
+p_int <- lengths(wikipwsHS_Entrez_pathwayCollection$pathways)
 summary(p_int)
 plot(density(p_int))
 quantile(p_int, 0.10)
@@ -125,8 +125,8 @@ all.equal(abs(RSpectra::eigs(cor(x_mat), k = 5)$vectors),
 ######  Benchmark Simulation  #################################################
 
 ###  Setup  ###
-data("wikipwsHS_Entrez_pathwaySet")
-p_int <- lengths(wikipwsHS_Entrez_pathwaySet$pathways)
+data("wikipwsHS_Entrez_pathwayCollection")
+p_int <- lengths(wikipwsHS_Entrez_pathwayCollection$pathways)
 # min(p_int)
 p_int <- p_int + 4 # now the smallest pathways have length 5
 n <- 100
