@@ -191,7 +191,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                       #   attribute. This even works for ordered factors.
                       response_mat <- object@response
                       dim(response_mat) <- c(length(response_mat), 1)
-                      responseType <- "classification"
+                      responseType <- "categorical"
 
                     }
             )

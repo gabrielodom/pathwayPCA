@@ -46,7 +46,7 @@ This function takes in a list of the first principal components
   response and the pathway principal components as the predictor matrix.
 
   Then, this function will create \code{numReps} permutations of the
-  regression response, fit models to each of these premuted responses
+  regression response, fit models to each of these permuted responses
   (holding the path predictor matrix fixed), and calculate the AIC of each
   model. This function will return a named vector of permutation
   \eqn{p}-values, where the value for each pathway is the proportion of

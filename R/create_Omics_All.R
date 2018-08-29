@@ -5,8 +5,8 @@
 #'
 #' @details Please note that the classes of the parameters are \emph{not}
 #'   flexible. The -Omics assay data \emph{must} be or extend the class
-#'   \code{data.frame}, and the response values (for a survival, regression,
-#'   or classification object) \emph{must} match their expected classes
+#'   \code{data.frame}, and the response values (for a survival-, regression-,
+#'   or categorical-response object) \emph{must} match their expected classes
 #'   \emph{exactly}. The reason for this is to encourage the end user to pay
 #'   attention to the quality and format of their input data. Because the
 #'   functions internal to this package have only been tested on the classes
