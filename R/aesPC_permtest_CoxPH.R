@@ -25,7 +25,7 @@
 #'   response and the pathway principal components as the predictor matrix.
 #'
 #'   Then, this function will create \code{numReps} permutations of the survival
-#'   response, fit models to each of these premuted responses (holding the path
+#'   response, fit models to each of these permuted responses (holding the path
 #'   predictor matrix fixed), and calculate the AIC of each model. This function
 #'   will return a named vector of permutation \eqn{p}-values, where the value
 #'   for each pathway is the proportion of models for which the AIC of the

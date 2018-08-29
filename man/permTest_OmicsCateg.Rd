@@ -47,7 +47,7 @@ This function takes in a list of the first principal components
   principal components as the predictor matrix.
 
   Then, this function will create \code{numReps} permutations of the
-  classification response, fit models to each of these premuted responses
+  categorical response, fit models to each of these permuted responses
   (holding the path predictor matrix fixed), and calculate the AIC of each
   model. This function will return a named vector of permutation
   \eqn{p}-values, where the value for each pathway is the proportion of

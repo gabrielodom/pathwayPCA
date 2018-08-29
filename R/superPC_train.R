@@ -14,7 +14,7 @@
 #'     \code{x}.}
 #'  }
 #' @param type What model relates \code{y} and \code{x}? Options are
-#'    \code{"survival"}, \code{"regression"}, or \code{"classification"}.
+#'    \code{"survival"}, \code{"regression"}, or \code{"categorical"}.
 #' @param s0.perc A stabilization parameter on the interval \eqn{[0,1]}. This is
 #'    an internal argument to each of the called functions. The default value is
 #'    \code{NULL} to ensure an appropriate value is determined internally.
@@ -35,7 +35,7 @@
 #' @details This function is a \code{\link{switch}} call to
 #'    \code{\link{coxTrain_fun}} (for \code{type = "survival"}),
 #'    \code{\link{olsTrain_fun}} (for \code{type = "regression"}), or
-#'    \code{\link{glmTrain_fun}} (for \code{type = "classification"}).
+#'    \code{\link{glmTrain_fun}} (for \code{type = "categorical"}).
 #'
 #' @seealso \code{\link{superpc.st}}; \code{\link{superPCA_pVals}}
 #'
@@ -46,7 +46,7 @@
 #'   # Use superPCA_pVals() instead
 
 superpc.train <- function(data,
-                          type = c("survival", "regression", "classification"),
+                          type = c("survival", "regression", "categorical"),
                           s0.perc = NULL){
 
   # browser()
@@ -80,7 +80,7 @@ superpc.train <- function(data,
            feature.scores <- junk$tt
 
          },
-         classification = {
+         categorical = {
 
            resp <- data$y
            if(!(is.integer(resp) | is.factor(resp))){
