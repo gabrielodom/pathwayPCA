@@ -6,7 +6,7 @@
    for supervised PCA}
 \usage{
 pathway_tControl(pathway_vec, geneArray_df, response_mat,
-  responseType = c("survival", "regression", "classification"),
+  responseType = c("survival", "regression", "categorical"),
   n.threshold = 20, numPCs = 1, min.features = 3)
 }
 \arguments{
@@ -19,13 +19,13 @@ subject or tissue sample is a column, and the rows are the -Ome
 measurements for that sample.}
 
 \item{response_mat}{A response matrix corresponding to \code{responseType}.
-For \code{"regression"} and \code{"classification"}, this will be an
+For \code{"regression"} and \code{"categorical"}, this will be an
 \eqn{N \times 1} matrix of response values. For \code{"survival"}, this
 will be an \eqn{N \times 2} matrix with event times in the first column
 and observed event indicator in the second.}
 
 \item{responseType}{A character string. Options are \code{"survival"},
-\code{"regression"}, and \code{"classification"}.}
+\code{"regression"}, and \code{"categorical"}.}
 
 \item{n.threshold}{The number of bins into which to split the feature scores
 in the \code{fit} object returned internally by the
