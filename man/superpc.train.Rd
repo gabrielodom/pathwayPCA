@@ -4,7 +4,7 @@
 \alias{superpc.train}
 \title{Train a supervised PCA model}
 \usage{
-superpc.train(data, type = c("survival", "regression", "classification"),
+superpc.train(data, type = c("survival", "regression", "categorical"),
   s0.perc = NULL)
 }
 \arguments{
@@ -20,7 +20,7 @@ superpc.train(data, type = c("survival", "regression", "classification"),
  }}
 
 \item{type}{What model relates \code{y} and \code{x}? Options are
-\code{"survival"}, \code{"regression"}, or \code{"classification"}.}
+\code{"survival"}, \code{"regression"}, or \code{"categorical"}.}
 
 \item{s0.perc}{A stabilization parameter on the interval \eqn{[0,1]}. This is
 an internal argument to each of the called functions. The default value is
@@ -48,7 +48,7 @@ Computes feature scores for \eqn{p_{path}} features of a pathway
 This function is a \code{\link{switch}} call to
    \code{\link{coxTrain_fun}} (for \code{type = "survival"}),
    \code{\link{olsTrain_fun}} (for \code{type = "regression"}), or
-   \code{\link{glmTrain_fun}} (for \code{type = "classification"}).
+   \code{\link{glmTrain_fun}} (for \code{type = "categorical"}).
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
