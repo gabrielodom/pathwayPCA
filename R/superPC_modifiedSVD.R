@@ -31,8 +31,6 @@
 #'
 #' @export
 #'
-#' @importFrom corpcor fast.svd
-#'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use superPCA_pVals() instead
@@ -45,16 +43,14 @@ mysvd <- function(mat, n.components = NULL){
 
   # center the observations (rows)
   feature.means <- rowMeans(mat)
-  mat <- t(scale(t(mat),
-                 center = feature.means,
-                 scale = FALSE))
+  mat <- t(scale(t(mat), center = feature.means, scale = FALSE))
 
 
   if(is.null(n.components)){
     n.components <- min(n, p)
   }
 
-  junk <- fast.svd(mat)
+  junk <- svd(mat)
   nc <- min(ncol(junk$u), n.components)
 
   return(list(u = junk$u[, 1:nc],
