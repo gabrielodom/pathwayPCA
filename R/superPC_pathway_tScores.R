@@ -11,12 +11,12 @@
 #'    subject or tissue sample is a column, and the rows are the -Ome
 #'    measurements for that sample.
 #' @param response_mat A response matrix corresponding to \code{responseType}.
-#'    For \code{"regression"} and \code{"classification"}, this will be an
+#'    For \code{"regression"} and \code{"categorical"}, this will be an
 #'    \eqn{N \times 1} matrix of response values. For \code{"survival"}, this
 #'    will be an \eqn{N \times 2} matrix with event times in the first column
 #'    and observed event indicator in the second.
 #' @param responseType A character string. Options are \code{"survival"},
-#'    \code{"regression"}, and \code{"classification"}.
+#'    \code{"regression"}, and \code{"categorical"}.
 #' @param n.threshold The number of bins into which to split the feature scores
 #'    in the \code{fit} object returned internally by the
 #'    \code{\link{superpc.train}} function.
@@ -50,29 +50,35 @@ pathway_tScores <- function(pathway_vec,
                             response_mat,
                             responseType = c("survival",
                                              "regression",
-                                             "classification"),
+                                             "categorical"),
                             n.threshold = 20,
                             numPCs = 1,
                             min.features = 3){
   # browser()
 
   data_ls <- switch(responseType,
-                    survival = {
-                      list(x = geneArray_df[pathway_vec, ],
-                           y = response_mat[, 1],
-                           censoring.status = response_mat[, 2],
-                           featurenames = pathway_vec)
-                    },
-                    regression = {
-                      list(x = geneArray_df[pathway_vec, ],
-                           y = response_mat,
-                           featurenames = pathway_vec)
-                    },
-                    classification = {
-                      list(x = geneArray_df[pathway_vec, ],
-                           y = response_mat,
-                           featurenames = pathway_vec)
-                    })
+    survival = {
+      list(
+        x = geneArray_df[pathway_vec, ],
+        y = response_mat[, 1],
+        censoring.status = response_mat[, 2],
+        featurenames = pathway_vec
+      )
+    },
+    regression = {
+      list(
+        x = geneArray_df[pathway_vec, ],
+        y = response_mat,
+        featurenames = pathway_vec
+      )
+    },
+    categorical = {
+      list(
+        x = geneArray_df[pathway_vec, ],
+        y = response_mat,
+        featurenames = pathway_vec
+      )
+    })
 
   train <- superpc.train(data_ls, type = responseType)
 
@@ -82,6 +88,10 @@ pathway_tScores <- function(pathway_vec,
                        min.features = min.features,
                        n.threshold = n.threshold)
 
-  st.obj$tscor
+  list(
+    tscor = st.obj$tscor,
+    PCs_mat = st.obj$PCs_mat,
+    loadings = st.obj$Loadings_mat
+  )
 
 }

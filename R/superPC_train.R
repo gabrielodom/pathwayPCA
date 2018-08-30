@@ -1,7 +1,7 @@
 #' Train a supervised PCA model
 #'
 #' @description Computes feature scores for \eqn{p_{path}} features of a pathway
-#'    via supervised principal component analysis.
+#'    via a linear model fit.
 #'
 #' @param data A list of test data:
 #' \itemize{
@@ -55,73 +55,71 @@ superpc.train <- function(data,
   type <- match.arg(type)
 
   ###  Error Checks  ###
-  censor_logic <- is.null(data$censoring.status)
+  censor_logi <- is.null(data$censoring.status)
 
-  if(censor_logic & type == "survival"){
+  if(censor_logi & type == "survival"){
     stop("Error: survival specified but censoring.status is null")
   }
 
-  if(!censor_logic & type == "regression"){
+  if(!censor_logi & type == "regression"){
     stop("Error: regression specified but censoring.status is non-null")
   }
 
   ###  Model Switch  ###
   switch(type,
-         survival = {
+    survival = {
+      junk <- coxTrain_fun(
+        data$x, data$y,
+        data$censoring.status,
+        s0.perc = s0.perc
+      )
+    },
+    regression = {
+      junk <- olsTrain_fun(
+        as.matrix(data$x), data$y,
+        s0.perc = s0.perc
+      )
+    },
+    categorical = {
 
-           junk <- coxTrain_fun(data$x, data$y, data$censoring.status,
-                                s0.perc = s0.perc)
-           feature.scores <- junk$tt
+      resp <- data$y
 
-         },
-         regression = {
+      if(!(is.integer(resp) | is.factor(resp))){
+        stop("Response must be an integer or factor for classification.")
+      }
 
-           junk <- olsTrain_fun(as.matrix(data$x), data$y, s0.perc = s0.perc)
-           feature.scores <- junk$tt
+      if(is.ordered(resp)){
 
-         },
-         categorical = {
+        stop("Ordered Logistic Regression not currently implemented.")
+        type <- "ordered"
+        # MASS::polr implementation
 
-           resp <- data$y
-           if(!(is.integer(resp) | is.factor(resp))){
-             stop("Response must be an integer or factor for classification.")
-           }
+      } else if(length(unique(resp)) > 2) {
 
-           if(is.ordered(resp)){
+        stop("Multinomial Regression not currently implemented.")
+        type <- "n_ary"
+        # nnet::multinom implementation
 
-             stop("Ordered Logistic Regression not currently implemented.")
-             type <- "ordered"
-             # MASS::polr implementation
+      } else if(length(unique(resp)) == 2) {
 
-           } else if(length(unique(resp)) > 2){
+        type <- "binary"
+        junk <- glmTrain_fun(data$x, resp, family = binomial)
+        junk$tt[is.na(junk$tt)] <- 0
 
-             stop("Multinomial Regression not currently implemented.")
-             type <- "n_ary"
-             # nnet::multinom implementation
+      } else {
+        stop("Response requires two or more distinct values for classification.")
+      }
 
-           } else if(length(unique(resp)) == 2){
+    })
 
-             type <- "binary"
-             junk <- glmTrain_fun(data$x, resp, family = binomial)
-             feature.scores <- junk$tt
-             feature.scores[is.na(feature.scores)] <- 0
-
-           } else {
-             stop("Response requires two or more distinct values for classification.")
-           }
-
-
-
-         })
-
-  junk <- list(feature.scores = feature.scores,
-               type = type,
-               s0.perc = s0.perc,
-               call = this.call)
+  out_ls <- list(feature.scores = junk$tt,
+                 type = type,
+                 s0.perc = s0.perc,
+                 call = this.call)
 
 
-  class(junk) <- "superpc"
-  return(junk)
+  class(out_ls) <- "superpc"
+  out_ls
 
 }
 

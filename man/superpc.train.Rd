@@ -42,7 +42,7 @@ A list containing:
 }
 \description{
 Computes feature scores for \eqn{p_{path}} features of a pathway
-   via supervised principal component analysis.
+   via a linear model fit.
 }
 \details{
 This function is a \code{\link{switch}} call to

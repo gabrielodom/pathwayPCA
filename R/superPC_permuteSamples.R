@@ -10,18 +10,23 @@
 #' @param event_vec The death / event observation indicator vector for survival
 #'    response. This is coded as 0 for a right-censoring occurence and 1 for a
 #'    recorded event.
+#' @param respType What type of response has been supplied. Options are
+#'    \code{"none"}, \code{"survival"}, \code{"regression"}, and
+#'    \code{"categorical"}. Defaults to \code{"none"} to match the default
+#'    \code{response = NULL} value.
 #' @param parametric Should the random sample be taken using a parametric
 #'    bootstrap sample? Defaults to \code{TRUE}.
 #'
-#' @return A permutation of the supplied response (if \code{parametric = TRUE}).
-#'    Otherwise, a parametric bootstrap sample of the response.
+#' @return If \code{parametric = FALSE}, a permutation of the supplied response
+#'    is returned (for AES-PCA). If \code{parametric = TRUE}, we return a
+#'    parametric bootstrap sample of the response.
 #'
 #' @details The distributions (for \code{parametric = TRUE}) are Weibull for
-#'    survival times, Normal for regression, and n-ary Multinomial for
-#'    classification. Distributional parameters are estimated with their maximum
-#'    likelihood estimates. When \code{parametric = FALSE}, the response vector
-#'    or survival matrix is randomly ordered by row. This option should only be
-#'    used when called from the AES-PCA method.
+#'    survival times, Normal for regression response, and n-ary Multinomial for
+#'    categorical response. Distributional parameters are estimated with their
+#'    maximum likelihood estimates. When \code{parametric = FALSE}, the response
+#'    vector or survival matrix is randomly ordered by row. This option should
+#'    only be used when called from the AES-PCA method.
 #'
 #' @importFrom survival Surv
 #' @importFrom survival survreg
@@ -42,6 +47,35 @@
 #' @rdname permuteSamps
 NULL
 
+
+
+#' @export
+#' @rdname permuteSamps
+SampleResponses <- function(response_vec,
+                            event_vec = NULL,
+                            respType = c("survival",
+                                         "regression",
+                                         "categorical"),
+                            parametric = TRUE){
+
+  switch(respType,
+         survival = {
+           sample_Survivalresp(
+             response_vec, event_vec, parametric = parametric
+           )
+         },
+         regression = {
+           sample_Regresp(
+             response_vec, parametric = parametric
+           )
+         },
+         categorical = {
+           sample_Classifresp(
+             response_vec, parametric = parametric
+           )
+         })
+
+}
 
 
 #' @export

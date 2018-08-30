@@ -232,6 +232,12 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
                                       ...)
             message("DONE")
 
+
+            ###  Wrangle PCA Output  ###
+            PCs_ls <- PCs_ls[out_df$pathways]
+            loadings_ls <- loadings_ls[out_df$pathways]
+
+
             ###  Return  ###
             out_ls <- list(
               pVals_df    = out_df,
@@ -239,7 +245,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
               loadings_ls = loadings_ls
             )
 
-            class(out_ls) <- c("aespcOut", "list")
+            class(out_ls) <- c("aespcOut", "pathwayPCAout", "list")
             out_ls
 
           })

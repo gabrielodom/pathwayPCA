@@ -31,9 +31,9 @@ NULL.}
 A list of four elements containing the loadings and projected
   predictors:
   \itemize{
-    \item{\code{aesLoad} : }{A \eqn{p \times d} projection matrix of the
+    \item{\code{aesLoad} : }{A \eqn{d \times p} projection matrix of the
        \eqn{d} AES-PCs.}
-    \item{\code{oldLoad} : }{A \eqn{p \times d} projection matrix of the
+    \item{\code{oldLoad} : }{A \eqn{d \times p} projection matrix of the
        \eqn{d} PCs from the singular value decomposition (SVD).}
     \item{\code{aesScore} : }{An \eqn{n \times d} predictor matrix: the
        original \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
