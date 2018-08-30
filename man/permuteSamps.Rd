@@ -2,12 +2,16 @@
 % Please edit documentation in R/superPC_permuteSamples.R
 \name{randomControlSample}
 \alias{randomControlSample}
+\alias{SampleResponses}
 \alias{sample_Survivalresp}
 \alias{sample_Regresp}
 \alias{sample_Classifresp}
 \title{Parametric bootstrap and non-parametric permutations of a response vector or
    matrix}
 \usage{
+SampleResponses(response_vec, event_vec = NULL, respType = c("survival",
+  "regression", "categorical"), parametric = TRUE)
+
 sample_Survivalresp(response_vec, event_vec, parametric = TRUE)
 
 sample_Regresp(response_vec, parametric = TRUE)
@@ -23,12 +27,18 @@ classification, this is the vector of responses.}
 response. This is coded as 0 for a right-censoring occurence and 1 for a
 recorded event.}
 
+\item{respType}{What type of response has been supplied. Options are
+\code{"none"}, \code{"survival"}, \code{"regression"}, and
+\code{"categorical"}. Defaults to \code{"none"} to match the default
+\code{response = NULL} value.}
+
 \item{parametric}{Should the random sample be taken using a parametric
 bootstrap sample? Defaults to \code{TRUE}.}
 }
 \value{
-A permutation of the supplied response (if \code{parametric = TRUE}).
-   Otherwise, a parametric bootstrap sample of the response.
+If \code{parametric = FALSE}, a permutation of the supplied response
+   is returned (for AES-PCA). If \code{parametric = TRUE}, we return a
+   parametric bootstrap sample of the response.
 }
 \description{
 Create a random parametric bootstrap sample or a permutation of
@@ -36,11 +46,11 @@ Create a random parametric bootstrap sample or a permutation of
 }
 \details{
 The distributions (for \code{parametric = TRUE}) are Weibull for
-   survival times, Normal for regression, and n-ary Multinomial for
-   classification. Distributional parameters are estimated with their maximum
-   likelihood estimates. When \code{parametric = FALSE}, the response vector
-   or survival matrix is randomly ordered by row. This option should only be
-   used when called from the AES-PCA method.
+   survival times, Normal for regression response, and n-ary Multinomial for
+   categorical response. Distributional parameters are estimated with their
+   maximum likelihood estimates. When \code{parametric = FALSE}, the response
+   vector or survival matrix is randomly ordered by row. This option should
+   only be used when called from the AES-PCA method.
 }
 \examples{
   # DO NOT CALL THESE FUNCTIONS DIRECTLY.

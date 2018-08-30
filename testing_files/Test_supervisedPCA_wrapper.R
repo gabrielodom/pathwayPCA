@@ -902,12 +902,33 @@ colon_OmicsSurv <- create_Omics(
   respType = "survival"
 )
 
-a <- Sys.time()
-survTest_df <- superPCA_pVals(
+survTest_ls <- superPCA_pVals(
   object = colon_OmicsSurv,
-  parallel = TRUE,
-  numCores = 15,
+  numPCs = 1,
+  parallel = FALSE,
   adjustpValues = TRUE,
   adjustment = c("BH", "BY")
 )
+
+survTest_ls <- superPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 4,
+  min.features = 5,
+  parallel = FALSE,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "BY")
+)
+
+
+a <- Sys.time()
+colon_superpcOut <- superPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 15,
+  adjustpValues = TRUE,
+  adjustment = "BY"
+)
 Sys.time() - a
+
+

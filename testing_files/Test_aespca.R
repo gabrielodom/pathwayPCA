@@ -117,13 +117,13 @@ colon_OmicsSurv <- create_Omics(
 a0 <- Sys.time()
 colon_aespcOut <- AESPCA_pVals(
   object = colon_OmicsSurv,
-  numPCs = 1,
-  numReps = 5000,
+  numPCs = 2,
+  numReps = 10000,
   parallel = TRUE,
   numCores = 15,
   adjustment = "BY"
 )
-Sys.time() - a0 # 34 seconds
+Sys.time() - a0 # 34 sec for 5k, 52 sec for 10k
 
 
 # Regular PCA

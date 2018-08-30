@@ -129,7 +129,7 @@ setGeneric("superPCA_pVals",
 #' @importFrom parallel makeCluster
 #' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
-#' @importFrom parallel parSapply
+#' @importFrom parallel parLapply
 #' @importFrom parallel stopCluster
 #'
 #' @rdname superPCA_pVals
@@ -203,12 +203,12 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             }
 
             pathwayGeneSets_ls <- object@trimPathwayCollection
+            paths_ls <- pathwayGeneSets_ls$pathways
             if(parallel){
 
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster")
               clust <- makeCluster(numCores)
-              paths_ls <- pathwayGeneSets_ls$pathways
               clustVars_vec <- c(deparse(quote(paths_ls)),
                                  deparse(quote(geneArray_df)),
                                  deparse(quote(response_mat)))
@@ -222,29 +222,31 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
               ###  Matrix of Student's t Scores and Controls  ###
               message("Calculating Pathway Test Statistics in Parallel")
-              tScores_mat <- parSapply(cl = clust,
-                                       paths_ls,
-                                       pathway_tScores,
-                                       geneArray_df = geneArray_df,
-                                       response_mat = response_mat,
-                                       responseType = responseType,
-                                       n.threshold = n.threshold,
-                                       numPCs = numPCs,
-                                       min.features = min.features)
-              tScores_mat <- t(tScores_mat)
+              tScores_ls <- parLapply(
+                cl = clust,
+                paths_ls,
+                pathway_tScores,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = min.features
+              )
               message("DONE")
 
               message("Calculating Pathway Critical Values in Parallel")
-              tControl_mat <- parSapply(cl = clust,
-                                        paths_ls,
-                                        pathway_tControl,
-                                        geneArray_df = geneArray_df,
-                                        response_mat = response_mat,
-                                        responseType = responseType,
-                                        n.threshold = n.threshold,
-                                        numPCs = numPCs,
-                                        min.features = min.features)
-              tControl_mat <- t(tControl_mat)
+              tControl_ls <- parLapply(
+                cl = clust,
+                paths_ls,
+                pathway_tControl,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = min.features
+              )
               message("DONE")
               stopCluster(clust)
 
@@ -252,27 +254,29 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
               ###  Matrix of Student's t Scores and Controls  ###
               message("Calculating Pathway Test Statistics Serially")
-              tScores_mat <- sapply(paths_ls,
-                                    pathway_tScores,
-                                    geneArray_df = geneArray_df,
-                                    response_mat = response_mat,
-                                    responseType = responseType,
-                                    n.threshold = n.threshold,
-                                    numPCs = numPCs,
-                                    min.features = min.features)
-              tScores_mat <- t(tScores_mat)
+              tScores_ls <- lapply(
+                paths_ls,
+                pathway_tScores,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = min.features
+              )
               message("DONE")
 
               message("Calculating Pathway Critical Values Serially")
-              tControl_mat <- sapply(paths_ls,
-                                     pathway_tControl,
-                                     geneArray_df = geneArray_df,
-                                     response_mat = response_mat,
-                                     responseType = responseType,
-                                     n.threshold = n.threshold,
-                                     numPCs = numPCs,
-                                     min.features = min.features)
-              tControl_mat <- t(tControl_mat)
+              tControl_ls <- lapply(
+                paths_ls,
+                pathway_tControl,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = min.features
+              )
               message("DONE")
 
             }
@@ -284,18 +288,21 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             absMax <- function(vec){
               vec[which.max(abs(vec))]
             }
-            tScoreMax_vec <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
-            tControlMax_vec <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+            # Lily told me that we only care about the t-scores from the first
+            #   PC, so we will only extract the absolute maxima from the first
+            #   row of the t-value matrices
+            tScoreMax_num <- sapply(tScores_ls, function(ls) absMax(ls$tscor[1, ]) )
+            tControlMax_num <- sapply(tControl_ls, function(x) absMax(x[1, ]) )
 
 
             ###  Calculate Raw Pathway p-Values  ###
             message("Calculating Pathway p-Values")
             genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
             genesPerPathway_vec <- genesPerPathway_vec[names(paths_ls)]
-            optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
+            optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_num,
                                                     pathwaySize_vec = genesPerPathway_vec,
                                                     ...)
-            pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
+            pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_num,
                                               pathwaySize_vec = genesPerPathway_vec,
                                               optimParams_vec = optParams_vec)
 
@@ -312,7 +319,20 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                                       ...)
             message("DONE")
 
+
+            ###  Wrangle PCA Output  ###
+            sortedScores_ls <- tScores_ls[out_df$pathways]
+            PCs_ls <- lapply(sortedScores_ls, `[[`, "PCs_mat")
+            loadings_ls <- lapply(sortedScores_ls, `[[`, "loadings")
+
             ###  Return  ###
-            out_df
+            out_ls <- list(
+              pVals_df    = out_df,
+              PCs_ls      = PCs_ls,
+              loadings_ls = loadings_ls
+            )
+
+            class(out_ls) <- c("superpcOut", "pathwayPCAout", "list")
+            out_ls
 
           })
