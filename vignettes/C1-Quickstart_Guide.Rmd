@@ -65,7 +65,7 @@ cp_pathwayCollection <- read_gmt(gmt_path, description = FALSE)
 cp_pathwayCollection
 ```
 
-The imported `.gmt` file is stored as a `pathwaySet` list object. This list contains:
+The imported `.gmt` file is stored as a `pathwayCollection` list object. This list contains:
 
 - a list  of the gene symbols or gene IDs contained in each pathway (`pathways`),
 - the names of the pathways (`TERMS`), and
@@ -127,7 +127,7 @@ Using the data you just imported, create a data object specific to survival, reg
 
 This package includes a subject-matched colon cancer survival assay subset (`colonSurv_df`) and a toy pathway collection with 15 pathways (`colon_pathwayCollection`). When we create this `OmicsSurv` object, the `pathwayPCA` package checks the overlap between the -omes recorded in the assay data and the gene symbols in the supplied pathway collection. The `create_Omics()` function also prints some diagnostic messages to inform you of how well your pathway collection overlaps your data.
 
-<!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwaySet` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
+<!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwayCollection` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
 
 <!-- 1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored). -->
 <!-- 2. `OmicsReg`---a data object for continuous responses (usually a vector of linear regression responses). -->
@@ -156,7 +156,7 @@ Because the printing procedure for `Omics` objects is to show a summary of the c
 getAssay(colon_OmicsSurv)
 ```
 
-### 3.3.2 View the `pathwaySet` List
+### 3.3.2 View the `pathwayCollection` List
 ```{r accessor2}
 getPathwayCollection(colon_OmicsSurv)
 ```
