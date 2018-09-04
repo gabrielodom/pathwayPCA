@@ -33,6 +33,8 @@ print.pathwayCollection <- function(x, ...){
       "' [package 'pathwayPCA'] with ",
       length(x), " elements: \n",
       sep = "")
+
+  x <- unclass(x)
   str(x,
       max.level = 1,
       vec.len = 1,

@@ -60,7 +60,7 @@ Collate:
     'data_wikipathways.R'
     'pathwayPCA.R'
     'printClass_Omics_All.R'
-    'printClass_pathwaySet.R'
+    'printClass_pathwayCollection.R'
     'read_gmt.R'
     'superPC_model_CoxPH.R'
     'superPC_model_GLM.R'

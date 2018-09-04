@@ -108,19 +108,43 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             })
 
             names(newPaths_trim) <- names(paths_ls)
-            genesInTrimPathway_vec <- unique(do.call(c, newPaths_trim))
-            # # If nullPaths resolves to int(0) (because the which() function
-            # #   didn't find anything), then subsetting by -nullPaths will
-            # #   give us an empty list. Filter(), however, can handle NULL and
-            # #   integer(0) / character(0) list entries. We still need the
-            # #   nullPaths object for later.
-            nullPaths <- which(sapply(newPaths_trim, is.null))
-            # paths_ls <- newPaths_trim[-nullPaths]
             cleanPaths_ls <- Filter(length, newPaths_trim)
+
+            # If nullPaths resolves to int(0) (because the which() function
+            #   didn't find anything), then subsetting by -nullPaths will give
+            #   us an empty list. Filter(), however, can handle NULL and
+            #   integer(0) / character(0) list entries, which is why we use it
+            #   above.
+            nullPaths <- which(sapply(newPaths_trim, is.null))
+            TERMS_char <- object@pathwayCollection$TERMS
+            description_char <- object@pathwayCollection$description
+            setsize_int <- object@pathwayCollection$setsize
+            if(length(nullPaths) > 0){
+
+              newTERMS_char <- TERMS_char[-nullPaths]
+
+              if(is.null(description_char)){
+                newDesc_char <- description_char
+              } else {
+                newDesc_char <- description_char[-nullPaths]
+              }
+
+              newSetsize_int <- setsize_int[-nullPaths]
+              trimSetsize <- trimSetsize[-nullPaths]
+
+            } else {
+
+              newTERMS_char <- TERMS_char
+              newDesc_char <- description_char
+              newSetsize_int <- setsize_int
+
+            }
+
+            missingPaths_char <- names(newPaths_trim)[nullPaths]
 
 
             ###  Reporting Gene Overlap  ###
-            missingPaths_char <- names(newPaths_trim)[nullPaths]
+            genesInTrimPathway_vec <- unique(do.call(c, newPaths_trim))
             pRmFeatures <- 1 -
               length(genesInTrimPathway_vec) / length(genesInPathway_vec)
             pSelectFeatures <- length(genesInTrimPathway_vec) / length(genelist)
@@ -145,16 +169,23 @@ setMethod(f = "expressedOmes", signature = "OmicsPathway",
             }
 
 
-            ###  Create the Return Object  ###
+            ###  Create the Trimmed Pathway Collection  ###
             attr(cleanPaths_ls, "minFeatures") <- trim
             attr(cleanPaths_ls, "missingPaths") <- missingPaths_char
             attr(cleanPaths_ls, "selectedFeature%") <- pSelectFeatures * 100
             attr(cleanPaths_ls, "removedFeature%") <- pRmFeatures * 100
 
+            trim_PC <- object@pathwayCollection
+            trim_PC$pathways <- cleanPaths_ls
+            trim_PC$TERMS <- newTERMS_char
+            trim_PC$description <- newDesc_char
+            trim_PC$setsize <- newSetsize_int
+            trim_PC$trim_setsize <- trimSetsize
+
+
+            ###  Create the Return Object  ###
             out <- object
-            out@trimPathwayCollection <- out@pathwayCollection
-            out@trimPathwayCollection$pathways <- cleanPaths_ls
-            out@trimPathwayCollection$trim_setsize <- trimSetsize
+            out@trimPathwayCollection <- trim_PC
 
             out
 
