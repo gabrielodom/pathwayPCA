@@ -16,9 +16,6 @@
 #'   may result in less accurate pathway \eqn{p}-values while larger values
 #'   increase computation time.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
-#' @param min.features What is the smallest number of genes allowed in each
-#'   pathway? This argument must be kept constant across all calls to this
-#'   function which use the same pathway list. Defaults to 3.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
@@ -108,7 +105,6 @@ setGeneric("superPCA_pVals",
            function(object,
                     n.threshold = 20,
                     numPCs = 1,
-                    min.features = 3,
                     parallel = FALSE,
                     numCores = NULL,
                     adjustpValues = TRUE,
@@ -137,7 +133,6 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
           definition = function(object,
                                 n.threshold = 20,
                                 numPCs = 1,
-                                min.features = 3,
                                 parallel = FALSE,
                                 numCores = NULL,
                                 adjustpValues = TRUE,
@@ -156,6 +151,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             ###  Extract Information from S4 Object  ###
             geneArray_df <- t(object@assayData_df)
             obj_class <- class(object)
+
             switch (obj_class,
                     OmicsSurv = {
 
@@ -204,6 +200,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
             pathwayGeneSets_ls <- object@trimPathwayCollection
             paths_ls <- pathwayGeneSets_ls$pathways
+            minFeats <- attr(paths_ls, "minFeatures")
             if(parallel){
 
               ###  Parallel Computing Setup  ###
@@ -231,7 +228,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                 responseType = responseType,
                 n.threshold = n.threshold,
                 numPCs = numPCs,
-                min.features = min.features
+                min.features = minFeats
               )
               message("DONE")
 
@@ -245,7 +242,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                 responseType = responseType,
                 n.threshold = n.threshold,
                 numPCs = numPCs,
-                min.features = min.features
+                min.features = minFeats
               )
               message("DONE")
               stopCluster(clust)
@@ -262,7 +259,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                 responseType = responseType,
                 n.threshold = n.threshold,
                 numPCs = numPCs,
-                min.features = min.features
+                min.features = minFeats
               )
               message("DONE")
 
@@ -275,7 +272,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                 responseType = responseType,
                 n.threshold = n.threshold,
                 numPCs = numPCs,
-                min.features = min.features
+                min.features = minFeats
               )
               message("DONE")
 
