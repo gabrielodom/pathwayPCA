@@ -38,6 +38,7 @@ Collate:
     'accessClass_OmicsRegCateg.R'
     'createClass_OmicsSurv.R'
     'accessClass_OmicsSurv.R'
+    'accessClass_pathwayCollection.R'
     'adjust_and_sort_pValues.R'
     'aesPC_calculate_AESPCA.R'
     'aesPC_calculate_LARS.R'

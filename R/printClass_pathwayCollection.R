@@ -34,7 +34,6 @@ print.pathwayCollection <- function(x, ...){
       length(x), " elements: \n",
       sep = "")
 
-  x <- unclass(x)
   str(x,
       max.level = 1,
       vec.len = 1,
