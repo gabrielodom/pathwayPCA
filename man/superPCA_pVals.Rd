@@ -6,15 +6,14 @@
 \alias{superPCA_pVals,OmicsPathway-method}
 \title{Test pathways with supervised PCA}
 \usage{
-superPCA_pVals(object, n.threshold = 20, numPCs = 1, min.features = 3,
-  parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
-  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
-  "BY", "ABH", "TSBH"), ...)
+superPCA_pVals(object, n.threshold = 20, numPCs = 1, parallel = FALSE,
+  numCores = NULL, adjustpValues = TRUE, adjustment = c("Bonferroni",
+  "Holm", "Hochberg", "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 
 \S4method{superPCA_pVals}{OmicsPathway}(object, n.threshold = 20,
-  numPCs = 1, min.features = 3, parallel = FALSE, numCores = NULL,
-  adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm", "Hochberg",
-  "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
+  numPCs = 1, parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
+  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
+  "BY", "ABH", "TSBH"), ...)
 }
 \arguments{
 \item{object}{An object of superclass \code{OmicsPathway} with a response
@@ -28,10 +27,6 @@ may result in less accurate pathway \eqn{p}-values while larger values
 increase computation time.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
-
-\item{min.features}{What is the smallest number of genes allowed in each
-pathway? This argument must be kept constant across all calls to this
-function which use the same pathway list. Defaults to 3.}
 
 \item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
