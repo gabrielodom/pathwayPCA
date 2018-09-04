@@ -180,7 +180,7 @@ colonSurv_aespcOut <- AESPCA_pVals(
 
 ### 3.2.2 Regression Response
 We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures (as an aside, note that this type of multiple testing violates the independence assumption of the [Simes inequality](https://doi.org/10.1214/193940307000000167)). This calculation took 17 seconds. For 10,000 permutations, this calculation takes 102 seconds ($6.1\times$ longer).
-```{r aes_reg_pvals}
+```{r aes_reg_pvals, eval=FALSE}
 colonReg_aespcOut <- AESPCA_pVals(
   object = colon_OmicsReg,
   numReps = 1000,
@@ -194,7 +194,7 @@ colonReg_aespcOut <- AESPCA_pVals(
 
 ### 3.2.3 Binary Classification Response
 Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 30 seconds. For 10,000 permutations, this calculation takes 226 seconds ($7.6\times$ longer).
-```{r aes_categ_pvals}
+```{r aes_categ_pvals, eval=FALSE}
 colonCateg_aespcOut <- AESPCA_pVals(
   object = colon_OmicsCateg,
   numReps = 1000,
@@ -250,7 +250,7 @@ colonSurv_superpcOut <- superPCA_pVals(
 
 ### 4.2.2 Regression Response
 We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures. This calculation took 5 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $3.4\times$ faster; for 10,000 permutations, it's $20.7\times$ faster.
-```{r super_reg_pvals}
+```{r super_reg_pvals, eval=FALSE}
 colonReg_superpcOut <- superPCA_pVals(
   object = colon_OmicsReg,
   parallel = TRUE,
@@ -262,7 +262,7 @@ colonReg_superpcOut <- superPCA_pVals(
 
 ### 4.2.3 Binary Classification Response
 Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 8 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $3.7\times$ faster; for 10,000 permutations, it's $27.6\times$ faster.
-```{r super_categ_pvals}
+```{r super_categ_pvals, eval=FALSE}
 colonCateg_superpcOut <- superPCA_pVals(
   object = colon_OmicsCateg,
   parallel = TRUE,

@@ -329,7 +329,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               loadings_ls = loadings_ls
             )
 
-            class(out_ls) <- c("superpcOut", "pathwayPCAout", "list")
+            class(out_ls) <- c("superpcOut", "pathwayPCA", "list")
             out_ls
 
           })
