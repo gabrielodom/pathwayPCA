@@ -4,6 +4,8 @@ gmt_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
                         package = "pathwayPCA", mustWork = TRUE)
 cp_pathwayCollection <- read_gmt(gmt_path, description = FALSE)
 cp_pathwayCollection[["REACTOME_MRNA_CAPPING"]]
+cp_pathwayCollection[[]]
+cp_pathwayCollection[[2]]
 
 
 

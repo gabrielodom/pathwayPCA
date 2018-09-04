@@ -160,13 +160,19 @@ signifPaths005_char <-
   ovarian_aespcOut$pVals_df %>% 
   filter(FDR_BH < 0.05) %>% 
   select(terms) %>% 
-  unlist
+  unlist %>% 
+  unname
 
-signifPaths005_idx <- which(
-  wikipathways_PC$TERMS %in% signifPaths005_char
-)
-wikipathways_PC$description[signifPaths005_idx]
+signifPaths005_char
 ```
+
+We can inspect these pathways by subsetting the trimmed pathway collection by the significant pathway names. For instance, we can inspect the first pathway by
+```{r inspect_path1}
+trimmed_PC <- getTrimPathwayCollection(ov_OmicsSurv)
+
+trimmed_PC[[signifPaths005_char[1]]]
+```
+This shows us the pathway name (`Pathway`), gene symbols contained (`IDs`), any relevant details (`Description`), and the number of features in this pathway before and after trimming to match the given assay (`Size`).
 
 These are the additional pathways significant at the $\alpha = 0.10$ level:
 ```{r signif_pathways_0.1}
@@ -175,13 +181,10 @@ signifPaths010_char <-
   filter(FDR_BH < 0.1) %>% 
   filter(FDR_BH >= 0.05) %>% 
   select(terms) %>% 
-  unlist
+  unlist %>% 
+  unname
 
 signifPaths010_char
-signifPaths010_idx <- which(
-  wikipathways_PC$TERMS %in% signifPaths010_char
-)
-wikipathways_PC$description[signifPaths010_idx]
 ```
 
 </br>
