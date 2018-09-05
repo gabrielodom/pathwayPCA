@@ -28,7 +28,7 @@
 #'
 #' @examples
 #'   data("colon_pathwayCollection")
-#'   colon_pathwayCollection["KEGG_RETINOL_METABOLISM"]
+#'   colon_pathwayCollection[["KEGG_RETINOL_METABOLISM"]]
 #'
 `[[.pathwayCollection` <- function(x, name_char){
   # browser()
