@@ -172,7 +172,10 @@ trimmed_PC <- getTrimPathwayCollection(ov_OmicsSurv)
 
 trimmed_PC[[signifPaths005_char[1]]]
 ```
-This shows us the pathway name (`Pathway`), gene symbols contained (`IDs`), any relevant details (`Description`), and the number of features in this pathway before and after trimming to match the given assay (`Size`).
+This shows us the pathway name (`Pathway`), gene symbols contained (`IDs`), any relevant details (`Description`), and the number of features in this pathway (`Size`). Further, we can view the subset of the assay corresponding to this pathway via
+```{r WP75_data}
+SubsetPathwayData(ov_OmicsSurv, signifPaths005_char[1])
+```
 
 These are the additional pathways significant at the $\alpha = 0.10$ level:
 ```{r signif_pathways_0.1}
