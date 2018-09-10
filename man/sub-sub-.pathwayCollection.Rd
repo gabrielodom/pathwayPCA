@@ -37,6 +37,6 @@ This function finds the index matching the \code{name_char} argument
 }
 \examples{
   data("colon_pathwayCollection")
-  colon_pathwayCollection["KEGG_RETINOL_METABOLISM"]
+  colon_pathwayCollection[["KEGG_RETINOL_METABOLISM"]]
 
 }
