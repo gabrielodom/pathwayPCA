@@ -45,12 +45,12 @@
   ###  Calculations and Subsettings  ###
   features_char <- x$pathways[[path_idx]]
   desc_char <- ifelse(is.null(x$description), NA, x$description[path_idx])
-  setSize_int <- ifelse(
-    test = is.null(x$setsize),
-    yes  = length(features_char),
-    no   = x$setsize[path_idx]
-  )
-  trimSize_int <- length(features_char)
+  # setSize_int <- ifelse(
+  #   test = is.null(x$setsize),
+  #   yes  = length(features_char),
+  #   no   = x$setsize[path_idx]
+  # )
+  # trimSize_int <- length(features_char)
 
 
   ###  Return  ###
@@ -58,7 +58,8 @@
     Pathway = x$TERMS[path_idx],
     IDs = features_char,
     Description = desc_char,
-    Size = c(original = setSize_int, trimmed = trimSize_int)
+    # Size = c(original = setSize_int, remaining = trimSize_int)
+    Size = length(features_char)
   )
 
 }
