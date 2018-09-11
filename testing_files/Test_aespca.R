@@ -48,7 +48,6 @@ colon_OmicsPath <- create_Omics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection
 )
-# colonClean_OmicsPath <- expressedOmes(colon_OmicsPath)
 testPathway_vec <- colon_OmicsPath@trimPathwayCollection$pathways[[1]]
 testPathway_df <- colon_OmicsPath@assayData_df[, testPathway_vec]
 
@@ -57,10 +56,10 @@ aespca(X = testPathway_df, d = 2)
 
 
 ######  Full Walkthrough  #####################################################
-# ovarian_OmicsPath <- create_OmicsPath(assayData_df = ovarianFiltered_df[, -(1:3)],
-#                                       pathwayCollection_ls = aespca_Genesets_ls)
-#
-# ovarian_Omes <- expressedOmes(ovarian_OmicsPath)
+# ovarian_OmicsPath <- create_OmicsPath(
+#   assayData_df = ovarianFiltered_df[, -(1:3)],
+#   pathwayCollection_ls = aespca_Genesets_ls
+# )
 
 # EXTRACTED TO extract_aesPCs_from_OmicsPath.R
 

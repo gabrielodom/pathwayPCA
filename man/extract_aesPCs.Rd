@@ -4,7 +4,7 @@
 \name{extract_aesPCs}
 \alias{extract_aesPCs}
 \alias{extract_aesPCs,OmicsPathway-method}
-\title{Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
+\title{Extract AES-PCs from recorded pathway-subsets of a mass spectrometry or
   bio-assay data frame}
 \usage{
 extract_aesPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL, ...)
@@ -33,16 +33,18 @@ A list of matrices. Each element of the list will be named
 }
 \description{
 Given a clean \code{OmicsPath} object (cleaned by the
-  \code{\link{expressedOmes}} function), extract the first principal
-  components from each expressed pathway in the assay design matrix.
+  \code{\link{IntersectOmicsPwyCollct}} function), extract the first
+  principal components (PCs) from each pathway with features recorded in the
+  assay design matrix.
 }
 \details{
 This function takes in a data frame with named columns and a pathway
-  list as an \code{OmicsPathway} object which has had unexpressed -Omes
-  removed by the \code{\link{expressedOmes}} function. This function will
-  then iterate over the list of pathways, extracting columns from the assay
-  design matrix which match the genes listed in that pathway as a sub-matrix
-  (as a \code{data.frame} object). This function will then call the
+  list as an \code{OmicsPathway} object which has had unrecorded -Omes
+  removed from the corresponding pathway collection by the
+  \code{\link{IntersectOmicsPwyCollct}} function. This function will then
+  iterate over the list of pathways, extracting columns from the assay design
+  matrix which match the genes listed in that pathway as a sub-matrix (as a
+  \code{data.frame} object). This function will then call the
   \code{\link{aespca}} on each data frame in the list of pathway-specific
   design matrices, extracting the first \code{numPCs} AES principal
   components from each pathway data frame. These PC matrices are returned as
@@ -61,6 +63,6 @@ This function takes in a data frame with named columns and a pathway
 
 }
 \seealso{
-\code{\link{create_OmicsPath}}; \code{\link{expressedOmes}};
-  \code{\link{aespca}}
+\code{\link{create_OmicsPath}}; \code{\link{aespca}};
+   \code{\link{IntersectOmicsPwyCollct}}
 }

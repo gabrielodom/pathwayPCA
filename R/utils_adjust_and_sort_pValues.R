@@ -22,7 +22,7 @@
 #'     \item{\code{trim_setsize} : }{An integer vector the same length as
 #'        \code{pathways} containing the number of genes present in the pathway
 #'        after trimming. Pathways list trimming is done in the
-#'       \code{\link{expressedOmes}} function.}
+#'       \code{\link{IntersectOmicsPwyCollct}} function.}
 #'   }
 #' @param adjust Should you adjust the \eqn{p}-values for multiple comparisons?
 #'   Defaults to TRUE.

@@ -43,8 +43,8 @@
 #'    to the \code{pathwayCollection} slot. Despite this functionality, we
 #'    \strong{strongly} recommend that users create a new object with the
 #'    updated pathway collection, rather than attempting to overwrite the slots
-#'    within an existing object. See \code{\link{expressedOmes}} for details on
-#'    trimmed pathway collection.
+#'    within an existing object. See \code{\link{IntersectOmicsPwyCollct}} for
+#'    details on trimmed pathway collection.
 #'
 #' @seealso \code{\link{create_OmicsPath}}, \code{\link{create_OmicsSurv}},
 #'    \code{\link{create_OmicsReg}}, \code{\link{create_OmicsCateg}}
@@ -149,7 +149,7 @@ setMethod(f = "getPathwayCollection<-", signature = "OmicsPathway",
             object@pathwayCollection <- value
 
             if(validObject(object)){
-              return(expressedOmes(object))
+              return(IntersectOmicsPwyCollct(object))
             }
 
           })

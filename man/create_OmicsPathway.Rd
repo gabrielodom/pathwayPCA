@@ -79,7 +79,7 @@ Please note that the classes of the parameters are \emph{not}
   "trimmed", during object creation. For the pathway-testing methods, these
   trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
   explanation of pathway trimming, see the documentation for the
-  \code{\link{expressedOmes}} function.
+  \code{\link{IntersectOmicsPwyCollct}} function.
 
   Also note the following: if the supplied \code{pathways} object within your
   \code{pathwayCollection_ls} list has no names, then this pathway list will
@@ -165,5 +165,5 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
   \code{\link[=OmicsSurv-class]{OmicsSurv}},
   \code{\link[=OmicsReg-class]{OmicsReg}},
   \code{\link[=OmicsCateg-class]{OmicsCateg}}, and
-  \code{\link{expressedOmes}}
+  \code{\link{IntersectOmicsPwyCollct}}
 }

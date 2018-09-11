@@ -69,7 +69,7 @@ testOmicsCateg <- create_Omics(
 
 ######  Create Functions for these S4 Classes  ################################
 
-# MIGRATED TO R/subsetExpressed-omes.R FILE
+# MIGRATED TO R/createOmics_TrimPathwayCollection.R FILE
 
 
 

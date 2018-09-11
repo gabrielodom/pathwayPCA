@@ -1,13 +1,15 @@
-#' Extract expressed -Omes matching a pathways list from an assay data frame
+#' Delete -Ome symbols or IDs without matching features recorded in a given
+#'    assay data frame from a pathway collection
 #'
 #' @description Given a bio-assay design matrix and a \code{pathwayCollection}
-#'    gene pathways list (each within an \code{Omics*}-class object), extract
-#'    the genes / proteins / lipids / metabolomes / transcriptomes contained in
-#'    each pathways list which are expressed in the assay data frame.
+#'    gene pathways list (each within an \code{Omics*}-class object), delete
+#'    the genes / proteins / lipids / metabolomes / transcriptomes symbols or
+#'    IDs recorded in each pathway which are not recorded in the assay data
+#'    frame.
 #'
 #' @param object An object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'    \code{OmicsReg}, or \code{OmicsCateg}.
-#' @param trim The minimum cutoff of expressed -Ome measures before a pathway
+#' @param trim The minimum cutoff of matching -Ome measures before a pathway
 #'    is excluded. Defaults to 3.
 #' @param message Should this function return diagnostic messages? Messages
 #'    concern the percentage of genes included in the pathways list but not
@@ -24,11 +26,14 @@
 #'
 #' @details This function takes in a data frame with named columns and a
 #'    \code{pathwayCollection} list, all through one of the \code{Omics*}
-#'    classes. This function will then iterate over the list of pathways,
-#'    extract columns from the bio-assay design matrix which match the genes
-#'    listed in that pathway, and remove any pathways with fewer than
-#'    \code{trim} expressed genes. The genes not expressed in the bio-assay
-#'    design matrix are removed from the \code{pathwayCollection} list.
+#'    classes. This function will then copy the pathway collection, iterate over
+#'    the list of copied pathways, delete symbols or IDs from that pathway
+#'    without matches from the bio-assay design matrix column names, and remove
+#'    any pathways that have fewer than \code{trim} genes with corresponding
+#'    columns in the assay. The genes not recorded in the bio-assay design
+#'    matrix are removed from the copy of the pathway collection (the
+#'    \code{trimPathwayCollection} object), but remain in the original pathway
+#'    collection.
 #'
 #'    NOTE: some genes will be included in more than one pathway, so these
 #'    pathways are not mutually exclusive. Further note that there may be many
@@ -59,23 +64,23 @@
 #'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
 #'   )
 #'
-#'   ###  Extract Expressed Genes  ###
-#'   expressedOmes(colon_OmicsSurv)
+#'   ###  Intersection of Genes Recorded with the Pathway Collection  ###
+#'   IntersectOmicsPwyCollct(colon_OmicsSurv)
 #' }
 #'
 #' @importFrom methods setGeneric
-#' @rdname expressedOmes
-setGeneric("expressedOmes",
+#' @rdname IntersectOmicsPwyCollct
+setGeneric("IntersectOmicsPwyCollct",
            function(object,
                     trim = 3,
                     message = TRUE,
                     ...){
-             standardGeneric("expressedOmes")
+             standardGeneric("IntersectOmicsPwyCollct")
            }
 )
 
-#' @rdname expressedOmes
-setMethod(f = "expressedOmes", signature = "OmicsPathway",
+#' @rdname IntersectOmicsPwyCollct
+setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
           definition = function(object,
                                 trim = 3,
                                 message = TRUE,
