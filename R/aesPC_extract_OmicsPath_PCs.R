@@ -43,7 +43,6 @@
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
-#' @include subsetExpressed-omes.R
 #'
 #' @importFrom methods setGeneric
 #'

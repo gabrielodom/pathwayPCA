@@ -59,11 +59,11 @@
 #'   Please see our Quickstart Guide for this package:
 #'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
 #'
-#' @seealso \code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
-#'   \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
-#'   \code{\link{create_OmicsCateg}}; \code{\link{pathway_tScores}};
-#'   \code{\link{pathway_tControl}}; \code{\link{weibullMix_optimParams}};
-#'   \code{\link{weibullMix_pValues}}; \code{\link{adjust_and_sort}}
+#' @seealso \code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
+#'    \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
+#'    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
+#'    \code{\link{weibullMix_optimParams}}; \code{\link{weibullMix_pValues}};
+#'    \code{\link{adjust_and_sort}}
 #'
 #' @export
 #'
@@ -72,7 +72,6 @@
 #' @include createClass_OmicsSurv.R
 #' @include createClass_OmicsReg.R
 #' @include createClass_OmicsCateg.R
-#' @include subsetExpressed-omes.R
 #'
 #' @importFrom methods setGeneric
 #'
