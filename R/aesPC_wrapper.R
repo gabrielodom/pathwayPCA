@@ -59,19 +59,18 @@
 #'    will print as a \code{\link[tibble]{tibble}}. Otherwise, it will print as
 #'    a data frame.
 #'
-#' @details This is a wrapper function for the \code{\link{expressedOmes}},
-#'   \code{\link{extract_aesPCs}}, \code{\link{permTest_OmicsSurv}},
-#'   \code{\link{permTest_OmicsReg}}, and \code{\link{permTest_OmicsCateg}}
-#'   functions.
+#' @details This is a wrapper function for the \code{\link{extract_aesPCs}},
+#'    \code{\link{permTest_OmicsSurv}}, \code{\link{permTest_OmicsReg}}, and
+#'    \code{\link{permTest_OmicsCateg}} functions.
 #'
 #'   Please see our Quickstart Guide for this package:
 #'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
 #'
-#' @seealso \code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
-#'   \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
-#'   \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
-#'   \code{\link{permTest_OmicsSurv}}; \code{\link{permTest_OmicsReg}};
-#'   \code{\link{permTest_OmicsCateg}}; \code{\link{adjust_and_sort}}
+#' @seealso \code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
+#'    \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
+#'    \code{\link{extract_aesPCs}}; \code{\link{permTest_OmicsSurv}};
+#'    \code{\link{permTest_OmicsReg}}; \code{\link{permTest_OmicsCateg}};
+#'    \code{\link{adjust_and_sort}}
 #'
 #' @export
 #'
@@ -80,7 +79,6 @@
 #' @include createClass_OmicsSurv.R
 #' @include createClass_OmicsReg.R
 #' @include createClass_OmicsCateg.R
-#' @include subsetExpressed-omes.R
 #' @include aesPC_permtest_CoxPH.R
 #' @include aesPC_permtest_LS.R
 #' @include aesPC_permtest_GLM.R

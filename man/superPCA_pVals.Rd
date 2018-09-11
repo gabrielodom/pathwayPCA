@@ -111,9 +111,9 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
 
 }
 \seealso{
-\code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
-  \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
-  \code{\link{create_OmicsCateg}}; \code{\link{pathway_tScores}};
-  \code{\link{pathway_tControl}}; \code{\link{weibullMix_optimParams}};
-  \code{\link{weibullMix_pValues}}; \code{\link{adjust_and_sort}}
+\code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
+   \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
+   \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
+   \code{\link{weibullMix_optimParams}}; \code{\link{weibullMix_pValues}};
+   \code{\link{adjust_and_sort}}
 }

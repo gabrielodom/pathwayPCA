@@ -87,10 +87,9 @@ Given a supervised \code{OmicsPath} object (one of
    adjusted \eqn{p}-values for each pathway.
 }
 \details{
-This is a wrapper function for the \code{\link{expressedOmes}},
-  \code{\link{extract_aesPCs}}, \code{\link{permTest_OmicsSurv}},
-  \code{\link{permTest_OmicsReg}}, and \code{\link{permTest_OmicsCateg}}
-  functions.
+This is a wrapper function for the \code{\link{extract_aesPCs}},
+   \code{\link{permTest_OmicsSurv}}, \code{\link{permTest_OmicsReg}}, and
+   \code{\link{permTest_OmicsCateg}} functions.
 
   Please see our Quickstart Guide for this package:
   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
@@ -122,9 +121,9 @@ This is a wrapper function for the \code{\link{expressedOmes}},
 
 }
 \seealso{
-\code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
-  \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
-  \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
-  \code{\link{permTest_OmicsSurv}}; \code{\link{permTest_OmicsReg}};
-  \code{\link{permTest_OmicsCateg}}; \code{\link{adjust_and_sort}}
+\code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
+   \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
+   \code{\link{extract_aesPCs}}; \code{\link{permTest_OmicsSurv}};
+   \code{\link{permTest_OmicsReg}}; \code{\link{permTest_OmicsCateg}};
+   \code{\link{adjust_and_sort}}
 }
