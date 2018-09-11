@@ -34,9 +34,9 @@ A named vector of pathway permutation \eqn{p}-values.
 }
 \description{
 Given an \code{OmicsReg} object and a list of pathway PCs from
-  the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-  in the bio-assay design matrix is significantly related to the continuous
-  response.
+  the \code{\link{extract_aesPCs}} function, test if each pathway with
+  features recorded in the bio-assay design matrix is significantly related
+  to the continuous response.
 }
 \details{
 This function takes in a list of the first principal components

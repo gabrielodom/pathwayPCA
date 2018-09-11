@@ -19,7 +19,7 @@
 #'   "trimmed", during object creation. For the pathway-testing methods, these
 #'   trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
 #'   explanation of pathway trimming, see the documentation for the
-#'   \code{\link{expressedOmes}} function.
+#'   \code{\link{IntersectOmicsPwyCollct}} function.
 #'
 #'   Also note the following: if the supplied \code{pathways} object within your
 #'   \code{pathwayCollection_ls} list has no names, then this pathway list will
@@ -80,7 +80,7 @@
 #'   \code{\link[=OmicsSurv-class]{OmicsSurv}},
 #'   \code{\link[=OmicsReg-class]{OmicsReg}},
 #'   \code{\link[=OmicsCateg-class]{OmicsCateg}}, and
-#'   \code{\link{expressedOmes}}
+#'   \code{\link{IntersectOmicsPwyCollct}}
 #'
 #' @importFrom methods new
 #'
@@ -197,7 +197,7 @@ contain alphanumeric characters only, and start with a letter.")
     pathwayCollection = pathwayCollection_ls
   )
 
-  expressedOmes(obj, trim = minPathSize)
+  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 
@@ -298,7 +298,7 @@ contain alphanumeric characters only, and start with a letter.")
     eventObserved = eventObserved_lgl
   )
 
-  expressedOmes(obj, trim = minPathSize)
+  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 
@@ -393,7 +393,7 @@ contain alphanumeric characters only, and start with a letter.")
     response = response_num
   )
 
-  expressedOmes(obj, trim = minPathSize)
+  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 
@@ -485,7 +485,7 @@ contain alphanumeric characters only, and start with a letter.")
     response = response_fact
   )
 
-  expressedOmes(obj, trim = minPathSize)
+  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 

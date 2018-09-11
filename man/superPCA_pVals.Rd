@@ -71,8 +71,8 @@ The data frame will be sorted in ascending order by the method specified
 \description{
 Given a supervised \code{OmicsPath} object (one of
    \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the
-   first \eqn{k} principal components (PCs) from each expressed pathway in
-   the -Omics assay design matrix, test their association with the response
+   first \eqn{k} principal components (PCs) from each pathway-subset of the
+   -Omics assay design matrix, test their association with the response
    matrix, and return a data frame of the adjusted \eqn{p}-values for each
    pathway.
 }

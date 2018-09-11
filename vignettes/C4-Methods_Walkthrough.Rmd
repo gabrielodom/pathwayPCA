@@ -87,7 +87,7 @@ Also, when we compare computing times in this vignette, we use a Dell Precision 
 ## 2.1 Pathway Significance Testing Overview
 Now that we have our data stored in an `Omics`-class object, we can test the significance of each pathway with AES- or Supervised PCA. These functions both
 
-1. Extract the first principal components (PCs) from each expressed pathway in the assay design matrix.
+1. Extract the first principal components (PCs) from each pathway-subset of the assay design matrix.
 2. Test the association between the extracted PCs and the response matrix (survival) or vector (all others).
 3. Adjust the pathway $p$-values for False Discovery Rate (FDR) or Family-wise Error Rate (FWER).
 4. Return a sorted data frame of the adjusted $p$-values, a list of the first PCs, and a list of the first loading vectors, all for each pathway.

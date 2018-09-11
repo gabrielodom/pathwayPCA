@@ -8,7 +8,7 @@ load("data/genesets_ls.rda")
 
 # Test and Compare PC Extraction
 
-testRedPath <- expressedOmes(testOmicsPath)
+testRedPath <- IntersectOmicsPwyCollct(testOmicsPath)
 
 # Notes: the symmetric = TRUE argument saves about 0.7 sec
 gram <- function(X_mat){

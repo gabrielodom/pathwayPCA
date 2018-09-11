@@ -84,8 +84,8 @@ These functions can be useful to set or extract the assay data or
    to the \code{pathwayCollection} slot. Despite this functionality, we
    \strong{strongly} recommend that users create a new object with the
    updated pathway collection, rather than attempting to overwrite the slots
-   within an existing object. See \code{\link{expressedOmes}} for details on
-   trimmed pathway collection.
+   within an existing object. See \code{\link{IntersectOmicsPwyCollct}} for
+   details on trimmed pathway collection.
 }
 \examples{
 \dontrun{

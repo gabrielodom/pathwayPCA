@@ -2,8 +2,8 @@
 #'
 #' @description Given an \code{OmicsSurv} object and a list of pathway principal
 #'    components (PCs) from the \code{\link{extract_aesPCs}} function, test if
-#'    each expressed pathway in the bio-assay design matrix is significantly
-#'    related to the survival output.
+#'    each pathway with features recorded in the bio-assay design matrix is
+#'    significantly related to the survival output.
 #'
 #' @param OmicsSurv A data object of class \code{OmicsSurv}, created by the
 #'   \code{\link{create_OmicsSurv}} function.

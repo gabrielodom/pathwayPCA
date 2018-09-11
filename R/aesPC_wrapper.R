@@ -3,9 +3,9 @@
 #' @description Given a supervised \code{OmicsPath} object (one of
 #'    \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the
 #'    first \eqn{k} adaptive, elastic-net, sparse principal components (PCs)
-#'    from each expressed pathway in the -Omics assay design matrix, test their
-#'    association with the response matrix, and return a data frame of the
-#'    adjusted \eqn{p}-values for each pathway.
+#'    from each pathway-subset of the features in the -Omics assay design
+#'    matrix, test their association with the response matrix, and return a
+#'    data frame of the adjusted \eqn{p}-values for each pathway.
 #'
 #' @param object An object of class \code{OmicsPathway} with a response matrix
 #'   or vector.

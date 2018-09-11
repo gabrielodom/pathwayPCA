@@ -56,7 +56,7 @@
 #'    "trimmed", during object creation. For the pathway-testing methods, these
 #'    trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
 #'    explanation of pathway trimming, see the documentation for the
-#'    \code{\link{expressedOmes}} function.
+#'    \code{\link{IntersectOmicsPwyCollct}} function.
 #'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'   \code{OmicsReg}, or \code{OmicsCateg}.
@@ -75,7 +75,7 @@
 #'    \code{\link{create_OmicsCateg}}
 #'    \code{\link[=OmicsReg-class]{OmicsReg}},
 #'    \code{\link{create_OmicsReg}}, and
-#'   \code{\link{expressedOmes}}
+#'   \code{\link{IntersectOmicsPwyCollct}}
 #'
 #' @importFrom survival is.Surv
 #'

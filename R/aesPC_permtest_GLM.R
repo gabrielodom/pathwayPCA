@@ -1,9 +1,9 @@
 #' AES-PCA permutation test of categorical response for pathway PCs
 #'
 #' @description Given an \code{OmicsCateg} object and a list of pathway PCs from
-#'   the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-#'   in the bio-assay design matrix is significantly related to the categorical
-#'   response.
+#'   the \code{\link{extract_aesPCs}} function, test if each pathway with
+#'   features recorded in the bio-assay design matrix is significantly related
+#'   to the categorical response.
 #'
 #' @param OmicsCateg A data object of class \code{OmicsCateg}, created by the
 #'   \code{\link{create_OmicsCateg}} function.

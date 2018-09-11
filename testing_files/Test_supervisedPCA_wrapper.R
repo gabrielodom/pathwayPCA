@@ -756,8 +756,8 @@ superPCA_pathway_pvals <- function(Omics_object,
 # paths_ls[[1257]] # 4 genes
 # paths_ls[[1310]] # 4 genes
 # # Both of these pathways have enough genes so that the pass the `trim` argument
-# #   in the `extract_aesPCs()` or `expressedOmes()` functions, but too few for
-# #   the `min.features = 5` argument in the `pathway_tScores()` and
+# #   in the `extract_aesPCs()` or `IntersectOmicsPwyCollct()` functions, but
+# #   too few for the `min.features = 5` argument in the `pathway_tScores()` and
 # #   `pathway_tControl` functions (which pass this argument on to the internal
 # #   `superpc.st()` function).
 # pathway_tScores(pathway_vec = paths_ls[[1257]],
@@ -808,10 +808,12 @@ rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 # REQUIRES THE TUMOUR SURVIVAL DATA SET
 ###  Tests  ###
 
-tumour_OmicsSurv <- create_OmicsSurv(assayData_df = as.data.frame(t(array)),
-                                     pathwayCollection_ls = geneset,
-                                     eventTime_num = survY_df$SurvivalTime,
-                                     eventObserved_lgl = as.logical(survY_df$disease_event))
+tumour_OmicsSurv <- create_OmicsSurv(
+  assayData_df = as.data.frame(t(array)),
+  pathwayCollection_ls = geneset,
+  eventTime_num = survY_df$SurvivalTime,
+  eventObserved_lgl = as.logical(survY_df$disease_event)
+)
 a <- Sys.time()
 survTest_df <- superPCA_pVals(object = tumour_OmicsSurv,
                               parallel = TRUE,
@@ -855,7 +857,7 @@ Sys.time() - a # 2.206281 min
 
 # REQUIRES THE VANDERBILT COLON CANCER DATA SET
 # ###  Survival Test  ###
-# colon2_OmicsSurv <- expressedOmes(colon_OmicsSurv)
+# colon2_OmicsSurv <- IntersectOmicsPwyCollct(colon_OmicsSurv)
 # a <- Sys.time()
 # survTest_df <- superPCA_pathway_pvals(Omics_object = colon2_OmicsSurv,
 #                                       parallel = TRUE,
@@ -866,7 +868,7 @@ Sys.time() - a # 2.206281 min
 #
 #
 # ###  Regression Test  ###
-# colon2_OmicsReg <- expressedOmes(colon_OmicsReg)
+# colon2_OmicsReg <- IntersectOmicsPwyCollct(colon_OmicsReg)
 # b <- Sys.time()
 # regTest_df <- superPCA_pathway_pvals(Omics_object = colon2_OmicsReg,
 #                                      parallel = TRUE,
@@ -877,7 +879,7 @@ Sys.time() - a # 2.206281 min
 #
 #
 # ### Classification Test  ###
-# colon2_OmicsCateg <- expressedOmes(colon_OmicsCateg)
+# colon2_OmicsCateg <- IntersectOmicsPwyCollct(colon_OmicsCateg)
 # c <- Sys.time()
 # classifTest_df <- superPCA_pathway_pvals(Omics_object = colon2_OmicsCateg,
 #                                          parallel = TRUE,

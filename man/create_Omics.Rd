@@ -75,7 +75,7 @@ This function is a wrapper around the four \code{create_Omics*}
    "trimmed", during object creation. For the pathway-testing methods, these
    trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
    explanation of pathway trimming, see the documentation for the
-   \code{\link{expressedOmes}} function.
+   \code{\link{IntersectOmicsPwyCollct}} function.
 }
 \examples{
 \dontrun{
@@ -116,5 +116,5 @@ This function is a wrapper around the four \code{create_Omics*}
    \code{\link{create_OmicsCateg}}
    \code{\link[=OmicsReg-class]{OmicsReg}},
    \code{\link{create_OmicsReg}}, and
-  \code{\link{expressedOmes}}
+  \code{\link{IntersectOmicsPwyCollct}}
 }
