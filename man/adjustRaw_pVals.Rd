@@ -5,8 +5,8 @@
 \title{Adjust \eqn{p}-values for simple multiple-testing procedures}
 \usage{
 adjustRaw_pVals(rawp, proc = c("BH", "Bonferroni", "Holm", "Hochberg",
-  "SidakSS", "SidakSD", "BY", "ABH", "TSBH"), alpha = 0.05, na.rm = FALSE,
-  as.multtest.out = FALSE)
+  "SidakSS", "SidakSD", "BY", "ABH", "TSBH"), alpha = 0.05,
+  na.rm = FALSE, as.multtest.out = FALSE)
 }
 \arguments{
 \item{rawp}{A vector of raw (unadjusted) \eqn{p}-values for each hypothesis

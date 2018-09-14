@@ -21,9 +21,11 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # Overview of `pathwayPCA`
 ## Motivation
-For over six decades, the scientific community has been on a quest to find how gene expression relates to particular clinical outcomes. For many years, this research was focused on detecting single-gene markers. However, clinical results of knock-down experiments of single genes have shown mixed results. Often, when one gene is knocked down by a treatment compound, one or two other genes increase their expression to compensate. This has motivated testing the clinical effect of groups of similar genes concurrently.
+For over six decades, the scientific community has been on a quest to find how gene expression relates to particular clinical outcomes. For many years, this research was focused on detecting single-gene markers. However, clinical results of knock-down experiments of single genes have shown mixed results. Often, when one gene is knocked down by a treatment compound, one or two other genes increase their expression to compensate. Additionally, while testing all genes in an assay, genes with biological significance but weaker statistical significance often go undetected due to controlling the Type-I error. These constraints motivate concurrent testing the clinical effect of groups of genes with similar biological effect.
 
-In recent years, we have seen the benefits of testing bundles of genes, called "pathways", in order to define *molecular signatures* related to a particular disease. One such approach is to group the expression features per subject by pathway, then apply *principal components analysis* (PCA) to the expression-subset data matrix in order to extract a single hidden genetic effect. This is similar in philosophy to the setup of a *structural equation model*, in the sense that we expect genes or proteins in a single pathway to be biologically related to one another. Once we have calculated the eigen-decomposition of the pathway-specific data matrix subset, we then test the association of the first few principal components (PCs) of this subset with the clinical outcome. We repeat this process for each pathway given in a pre-defined pathway collection (such as the [Canonical Pathways](http://software.broadinstitute.org/gsea/msigdb/genesets.jsp?collection=CP), [Wikipathways](https://www.wikipathways.org/), or [Hallmark](http://software.broadinstitute.org/gsea/msigdb/genesets.jsp?collection=H) gene sets). After adjusting the $p$-values from such a test for multiple comparisons, we return a table of the "most significant" pathways based on the strength of the relationship between pathway PCs and the outcome.
+These bundles of genes, called *pathways*, define *molecular signatures* related to a particular disease. In recent years, we have seen practical benefits of testing clinical or experimental pathway effects. One such approach is to group the expression features per subject by pathway, then apply *principal components analysis* (PCA) to the expression-subset data matrix in order to extract a single hidden genetic effect. This is similar in philosophy to the setup of a *structural equation model*, in the sense that we expect genes or proteins in a single pathway to be biologically related to one another. Once we have calculated the eigen-decomposition of the pathway-specific data matrix subset, we then test the association of the first few principal components (PCs) of this subset with the clinical outcome.
+
+The effectiveness of this process depends on the quality of the pathways used to group the genes. Some well-regarded pathway collections are the [Canonical Pathways](http://software.broadinstitute.org/gsea/msigdb/genesets.jsp?collection=CP), [Wikipathways](https://www.wikipathways.org/), or [Hallmark](http://software.broadinstitute.org/gsea/msigdb/genesets.jsp?collection=H) gene sets. After we have selected a pathway appropriate to the data assay, we repeat the above process (extracting a PC from each pathway-specific subset of the assay) for each pathway in the specified pathway collection. After adjusting the $p$-values from such a test for multiple comparisons, we return a table of the "most significant" pathways based on the strength of the relationship between pathway PCs and the outcome.
 
 In summary, given a proteomic or genomic expression data set and a collection of molecular signatures (pathway collection), we can use this package to test the association between the expression data for each pathway and a given phenotypical response. 
 
@@ -38,7 +40,7 @@ library(pathwayPCA)
 Additionally, you will need
 
 1. an $n \times p$ data frame of expression data with gene / protein names as the column names,
-2. a pathways set with gene / protein names matching the measurement names of the expression data frame, and
+2. a pathway collection in `.gmt` format with gene / protein names matching the measurement names of the expression data frame, and
 3. a $p$-dimensional vector (or matrix) of regression / classification (or survival) response data.
 
 </br>
@@ -49,7 +51,7 @@ Additionally, you will need
 
 
 # Pathways Sets and the `.gmt` File Format
-The most common form of pathway collection files, especially from the Molecular Signatures Database, is the `.gmt` file. These files adhere to a [very specific and rigid](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) data format. Use the `read_gmt` function to import a pathway collection and store it as an object of class `pathwayCollection` in `R`. We will import the June 2018 pathway collection from Wikipathways for *homo sapiens*. The `pathwayPCA` package will have updated pathway collections with each major Bioconductor release.
+The most common form of pathway collection files, especially from the Molecular Signatures Database, is the `.gmt` file. These files adhere to a [very specific and rigid](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) data format. Use the `read_gmt` function to import a pathway collection and store it as an object of class `pathwayCollection` in `R`. We will import the June 2018 pathway collection from Wikipathways for *homo sapiens*. The `pathwayPCA` package also has a copy of the [MSigDB Canonical Pathways version 6.0](http://software.broadinstitute.org/gsea/msigdb/genesets.jsp?collection=CP) pathway collection, and this package will update these pathway collections with each major Bioconductor release.
 ```{r read_gmt}
 gmt_path <- system.file("extdata", "wikipathways_human_symbol.gmt",
                          package = "pathwayPCA", mustWork = TRUE)
@@ -61,6 +63,13 @@ In a `.gmt` file, the first column maps to the `TERMS` element, the second colum
 wikipathways_PC
 ```
 
+To view the information related to an individual pathway, use the "double-subset" operator with the pathway name. For example, we can see the details of pathway "WP23" by
+```{r seeWP23_1}
+wikipathways_PC[["WP23"]]
+```
+
+This shows us the "name" of the pathway ("WP23"), the gene symbols in this pathway (shown in the `IDs` element), the description of the pathway ("B Cell Receptor Signaling Pathway"), and the number of genes in the pathway (97).
+
 </br>
 
 *******************************************************************************
@@ -69,19 +78,19 @@ wikipathways_PC
 
 
 # Creating Data Objects
-In order to analyze the expression and response data with respect to a given `pathwayCollection` object, first create an object of class `Omics` to store these data components. The `ovarian_PNNL_survival.RDS` included with the `pathwayPCA` package is a data frame with expression and response matched by samples. The expression data are recorded protein levels, and the response is overall survival time and event-observation indicator (in that order). This data is from **DATA SOURCE HERE**.
+In order to analyze the expression and response data with respect to a given `pathwayCollection` object, first create an object of class `Omics` to store these data components. The `ovarian_PNNL_survival.RDS` data set included with the `pathwayPCA` package is a data frame with expression data and response matched by sample IDs. The expression data are recorded protein levels, and the response is overall survival time and event-observation indicator (in that order). This data is from **DATA SOURCE HERE**.
 ```{r read_assay}
 data_path <- system.file("extdata", "ovarian_PNNL_survival.RDS",
                          package = "pathwayPCA", mustWork = TRUE)
 ovSurv_df <- readRDS(data_path)
 ```
 
-The `ovSurv_df` is a [tibble](https://tibble.tidyverse.org/) data frame with 83 observations (rows) and 5165 features (columns). The first column is the sample ID, the second and third columns are the overall survival information, and the other 5k+ columns are protein expression levels.
+The `ovSurv_df` object is a [tibble](https://tibble.tidyverse.org/) data frame (a modern `R` data frame with enhanced properties) with 83 observations (rows) and 5165 features (columns). The first column is the sample ID, the second and third columns are the overall survival information, and the other 5k+ columns are protein expression levels.
 ```{r view_data}
 ovSurv_df
 ```
 
-Next, we create an `OmicsSurv` data container. This is an S4-class object with slots for the expression data, the response vector (or survival data matrix, in our case), and a `pathwayCollection` object. All further data analysis will require this `Omics` object. Because the response is survival data, the class of the object is specifically `OmicsSurv`. 
+Next, we create an `OmicsSurv` data container. This is an S4-class object with slots for the expression data, the response vector, and a `pathwayCollection` object. In our case, the expression data are the 5,162 columns of `ovSurv_df` which measure the protein expression, the response is the second and third column of `ovSurv_df` which contains the survival data, and the pathway collection is the Wikipathways collection we imported above. 
 ```{r createOvarianPNNLOmics}
 ov_OmicsSurv <- create_Omics(
   assayData_df = ovSurv_df[, -(1:3)],
@@ -92,12 +101,12 @@ ov_OmicsSurv <- create_Omics(
 )
 ```
 
-The `create_Omics()` function prints diagnostic messages at object creation, based on the `minPathSize` argument. This parameter sets the threshold for pathways used for analysis in the following manner:
+All further data analysis will require this `Omics` object. Because the response is survival data, we see the `create_Omics()` function print a message that the class of the object is specifically `OmicsSurv`. Based on the chosen `minPathSize` argument, this function additionally prints diagnostic messages about the set intersection between the supplied pathway collection and recorded features in the assay data at object creation. This parameter sets the threshold for pathways used for analysis in the following manner:
 
-1. Biological features in each pathway are checked against the names of the features in the expression data set. Any feature that doesn't have a matching data column is removed from the pathway. Therefore, it is imperative that the format of the feature names for the expression data match the format of the names in the pathways set---gene symbols with gene symbols, Entrez IDs with Entrez IDs, etc.
-2. After the "trimming" described in Step 1, any pathway with fewer than `minPathSize` features is dropped from the `pathwayCollection` in the supplied `Omics` object. The names pathways that were dropped are stored as an attribute of the `pathwayCollection`.
+1. Biological features in each pathway are checked against the names of the features in the expression data. Any feature that doesn't have a matching data column is removed from the pathway. Therefore, it is imperative that the format of the feature names for the expression data match the format of the names in the pathways set---gene symbols with gene symbols, Entrez IDs with Entrez IDs, etc.
+2. After the "trimming" described in Step 1, any pathway with fewer than `minPathSize` features is dropped from the `pathwayCollection` in the supplied `Omics` object. The names of the pathways that were dropped are stored as an internal attribute of the new trimmed `pathwayCollection`.
 
-The last three messages inform you of how strong the overlap is between the genes measured in your data and the genes selected in your pathway collection. This messages tells us that 65% of the 5831 total proteins included in all pathways were not measured in the assay; 133 of the 457 pathways were removed from the pathway collection for having too few genes (less than 5) after gene trimming; and the genes in the pathways list call for 40% of the 5162 genes measured in the assay. The last number is the most important: it measures how well your pathway collection overlaps with the genes measured in your assay. This number should be as close to 100% as possible, but this is rarely the case for real data. 
+The last three messages inform you of how strong the overlap is between the genes measured in your data and the genes selected in your pathway collection. These messages tell us that 65% of the 5831 total proteins included in all pathways were not measured in the assay; 133 of the 457 pathways were removed from the pathway collection for having too few genes (less than `minPathSize = 5`) after gene trimming; and the genes in the pathways list call for 40% of the 5162 genes measured in the assay. The last number is the most important: it measures how well your pathway collection overlaps with the genes measured in your assay. This number should be as close to 100% as possible, but this is rarely the case for real data. 
 
 Print the object to confirm that the the `eventTime` and `eventObserved` slots are the survival time and event indicator, respectively.
 ```{r printOmics}
@@ -116,13 +125,13 @@ Now that we have a valid `Omics` object, we can perform pathway-specific PCA. We
 
 
 ## Method Descriptions
-The [AES-PCA method](https://doi.org/10.2202/1544-6115.1697) is unsupervised: it does not use the response information to extract pathway PC vectors. Further, this method uses a permutation test within each pathway to estimate the pathway's significance. Therefore, this method's accuracy depends on the number of permutations taken and thus can be computationally expensive.
+The [AES-PCA method](https://doi.org/10.2202/1544-6115.1697) of Chen (2011) is unsupervised: it does not use the response information to extract pathway PC vectors. Further, this method uses a permutation test within each pathway to estimate the pathway's significance. Therefore, this method's accuracy depends on the number of permutations taken and thus can be computationally expensive.
 
-The [Supervised PCA](https://doi.org/10.1002/gepi.20532) method tests each feature within each pathway against the response, then extracts PCs from the most significant subset of features. Further, this method estimates a mixture of Gumbel Extreme Value distributions to calculate the pathway $p$-values.
+The [Supervised PCA](https://doi.org/10.1002/gepi.20532) method of Chen et al. (2010) tests each feature within each pathway against the response, then extracts PCs from the most significant subset of features. Further, this method estimates a mixture of Gumbel Extreme Value distributions to calculate the pathway $p$-values.
 
 
 ## AES-PCA Implementation
-Because the syntax for performing Supervised PCA is nearly identical to the AES-PCA syntax (other than specifying the number of permutations), we will simply show the AES-PCA workflow. For 1k permutations over 18 computing cores, this takes 1.5 minutes (not shown). For 10k permutations, this takes 10 minutes. For 100k permutations, this takes roughly an hour and a half (not shown).
+Because the syntax for performing Supervised PCA is nearly identical to the AES-PCA syntax (other than specifying the number of permutations), we will simply show the AES-PCA workflow. For 1k permutations over 18 computing cores, this takes 1.5 minutes; of this time, approximately 20% will be extracting the PCs, and about 75% will be calculating the permutation $p$-values. For 10k permutations, this takes 10 minutes (not shown). For 100k permutations, this takes roughly an hour and a half (also not shown).
 <!-- ```{r seed, echo=FALSE} -->
 <!-- set.seed(123456) -->
 <!-- ``` -->
@@ -135,7 +144,7 @@ ovarian_aespcOut <- AESPCA_pVals(
   parallel = TRUE,
   numCores = 18,
   numReps = 1000,
-  adjustment = c("BH", "BY")
+  adjustment = "BH"
 )
 Sys.time() - e1
 ```
@@ -144,8 +153,8 @@ Sys.time() - e1
 The above function has the following computational options (unless stated, these options are identical for the `AESPCA_pVals()` and `superPCA_pVals()` functions):
 
 - `numPCs` controls the number of principal components extracted from each pathway-specific expression subset.
-- `parallel` turns distributed computing on or off. our parallelization routine works on both Windows and Unix-based systems (Mac and Linux). For AES-PCA, this option is critical (as this method is uses computationally-expensive resampling techniques). The corresponding `numCores` argument dictates the number of processors you will let `R` use for parallel computation.
-- `numReps` controls the number of permutations used to calculate the $p$-values for each pathway. For low-signal data, you may need to increase this to 10k or even 100k to adequately distinguish between a $p$-value of $0/1000,\ 1/1000$, or $2/1000$. For reproducibility, you can to control the random seed via the `base::` package `set.seed` function when this function is executed serially. Because Supervised PCA is a parametric technique, this argument is unavailable for the `superPCA_pVals()` function.
+- `parallel` turns distributed computing on or off. Our parallelization routine works on both Windows and Unix-based systems (Mac and Linux). For AES-PCA, this option is critical (as this method is uses computationally-expensive resampling techniques). The corresponding `numCores` argument dictates the number of processors you will let `R` use for parallel computation.
+- `numReps` (AESPCA only) controls the number of permutations used to calculate the $p$-values for each pathway. For low-signal data, you may need to increase this to 10k or even 100k to adequately distinguish between a $p$-value of $0/1000,\ 1/1000$, or $2/1000$. For reproducibility, you can to control the random seed via the `base::` package `set.seed` function when this function is executed serially. Because Supervised PCA is a parametric technique, this argument is unavailable for the `superPCA_pVals()` function.
 - `adjustment` specifies which family-wise error rate or false discovery rate adjustment to apply to the $p$-values from each pathway. See `?adjustRaw_pVals` for adjustment options and citations.
 
 
@@ -154,15 +163,31 @@ The top 15 pathways with AES-PCA are:
 head(ovarian_aespcOut$pVals_df, 15)
 ```
 
+This data frame has the following columns:
+
+- `pathways`: the `pathwayPCA` internal identification labels for each pathway in the `Omics*` object (stored as the `names` attribute of the `ov_OmicsSurv@@trimPathwayCollection$$pathways` object).
+- `setsize`: number of genes in each of the original pathways (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$setsize` object).
+- `trim_size`: number of genes in each pathway after being trimmed to match the assay data (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$trim_setsize` object).
+- `terms`: title of the pathway (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$TERMS` object).
+- `rawp`: unadjusted $p$-values of each pathway.
+- `...` additional columns---one for each method supplied to the `adjustment` argument.
+
+
 These are the significant pathways at the $\alpha = 0.05$ level (if you are not familiar with the `tidyverse` pipe [` %>% `] operator, see [this article](https://magrittr.tidyverse.org/)):
 ```{r signif_pathways_0.05}
 signifPaths005_char <- 
+  # Take the resulting table of pathway p-values,
   ovarian_aespcOut$pVals_df %>% 
+  # and filter out any rows with non-significant FDR values.
   filter(FDR_BH < 0.05) %>% 
+  # Of the remaining data, select the column of pathway titles,
   select(terms) %>% 
+  # turn that column into a vector,
   unlist %>% 
+  # and remove the duplicated names.
   unname
 
+# Print the names of the significant pathways
 signifPaths005_char
 ```
 
@@ -172,10 +197,13 @@ trimmed_PC <- getTrimPathwayCollection(ov_OmicsSurv)
 
 trimmed_PC[[signifPaths005_char[1]]]
 ```
-This shows us the pathway name (`Pathway`), gene symbols contained (`IDs`), any relevant details (`Description`), and the number of features in this pathway (`Size`). Further, we can view the subset of the assay corresponding to this pathway via
+This shows us the pathway name (`Pathway`), gene symbols contained (`IDs`), any relevant details (`Description`), and the number of features currently in this pathway (`Size`). Further, we can view the subset of the assay corresponding to this pathway via
 ```{r WP75_data}
+trimmed_PC[[signifPaths005_char[1]]]$Description
 SubsetPathwayData(ov_OmicsSurv, signifPaths005_char[1])
 ```
+
+The `SubsetPathwayData()` function returns a data frame of the survival response (first two columns) and the recorded protein expression levels in the assay corresponding to the pathway selected.
 
 These are the additional pathways significant at the $\alpha = 0.10$ level:
 ```{r signif_pathways_0.1}
@@ -202,22 +230,30 @@ Given the $p$-values from these pathways, we will now graph their score (negativ
 
 
 ## Match Pathway Name to Shorthand 
-Because the Wikipathways pathways set included with this package stores the full names of the pathways in the `description` field, we will need to match the abbreviation for the pathway with the name of the pathway. Also, some of the pathway names are quite long, so we trim them.
+Because Wikipathways pathway collections currently store the full names of their pathways in the `description` field, we will need to match the abbreviation for the pathway with the name of the pathway. If the pathway collection you choose has the proper names of the pathways in the `TERMS` field instead of the `description` field, this step is unnecessary. Also, some of the pathway names are quite long, so we truncate them for better graphical display.
 ```{r match_abbrev_to_name}
+# Pair TERMS to description
 pathMatch_df <- tibble(
-  terms     = wikipathways_PC$TERMS,
-  pathNames = wikipathways_PC$description
-) %>% 
+  terms     = trimmed_PC$TERMS,
+  pathNames = trimmed_PC$description,
+  intKey    = names(trimmed_PC$pathways)
+)
+
+# Truncate names longer than 30 characters
+pathMatch_df <- 
+  pathMatch_df %>% 
   mutate(
     pathNames = ifelse(
-      str_length(pathNames) > 30, paste0(str_sub(pathNames, 1, 28), "..."), pathNames
+      str_length(pathNames) > 30,
+      paste0(str_sub(pathNames, 1, 28), "..."),
+      pathNames
     )
   )
 ```
 
 
 ## Clean and Wrangle the Data Results
-Now we match the pathway abbreviations to their full names, subset the top 15 pathways by unadjusted $p$-value, and gather the results data frame from "wide" to "tidy" form.
+Now we match the pathway abbreviations to their full names, subset the top 15 pathways by unadjusted $p$-value, and [gather](https://rpubs.com/mm-c/gather-and-spread) the results data frame from "wide" to "tidy" form.
 ```{r join_and_gather}
 pVals_df <- 
   # Results data frame
@@ -241,7 +277,7 @@ pVals_df <-
 
 
 ## Plot the Tidy Results
-Using this data, we can plot the pathway scores side-by-side for the two adjustment methods.
+Using this data, we can plot the top 15 pathway scores for the Benjamini-Hochberg adjustment method.
 ```{r bar_plots, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # The modified data frame from the previous step
 ggplot(pVals_df) +
@@ -260,6 +296,32 @@ ggplot(pVals_df) +
   # Flip the x and y axes
   coord_flip()
 ```
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+# Inspecting the Driving Proteins
+Now that we have a few significant pathways, we can look at the loadings of each gene onto the first AES-PC from these pathways. Because the pathway loadings are named by the internal pathway key, we will filter the `pathMatch_df` data frame to the pathways we want.
+```{r significant_pathway_keys}
+pathMatch_df %>% 
+  filter(terms %in% c(signifPaths005_char, signifPaths010_char))
+```
+
+Now we can inspect the loadings from each gene onto the first PC in a few of these pathways.
+```{r inspect_top_loadings}
+# Toll-like Receptor Signaling Pathway
+proteinLoad110 <- ovarian_aespcOut$loadings_ls[["path110"]][1, ]
+sort(proteinLoad110[proteinLoad110 != 0], decreasing = TRUE)
+
+# Toll-like Receptor Signaling
+proteinLoad253 <- ovarian_aespcOut$loadings_ls[["path253"]][1, ]
+sort(proteinLoad253[proteinLoad253 != 0], decreasing = TRUE)
+```
+
+The intersecting genes shared by these two pathways with non-zero AES-PC loadings are [NFKB1](https://www.ncbi.nlm.nih.gov/pubmed/26345753), [MYD88](https://journals.lww.com/greenjournal/Abstract/2015/05001/Role_of_MyD88_expression_in_Epithelial_Ovarian.259.aspx), [TLR2 & TLR3](https://www.ncbi.nlm.nih.gov/pubmed/19184006), and [IKBKB & TBK1](https://www.ncbi.nlm.nih.gov/pubmed/30084832) (external literature validating the relatioship between these genes and ovarian cancer survival are linked).
 
 </br>
 
