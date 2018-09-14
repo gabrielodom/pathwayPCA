@@ -41,7 +41,10 @@
 #'   \item{\code{setsize} : }{The number of genes in each of the original
 #'     pathways (as stored in the \code{object@@trimPathwayCollection$setsize}
 #'     object).}
-#'   \item{\code{terms} : }{The pathway description, as stored in the
+#'   \item{\code{trim_size} : }{The number of genes in each pathway after being
+#'    trimmed to match the assay. Given in the \code{trim_setsize} element of
+#'    the trimmed pathway collection.}
+#'   \item{\code{terms} : }{The pathway title, as stored in the
 #'     \code{object@@trimPathwayCollection$TERMS} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
 #'   \item{\code{...} : }{Additional columns as specified through the

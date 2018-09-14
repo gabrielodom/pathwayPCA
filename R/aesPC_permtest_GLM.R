@@ -129,7 +129,7 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(OmicsCateg)),
@@ -141,7 +141,8 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway p-Values in Parallel")
+              message("Extracting Pathway p-Values in Parallel: ",
+                      appendLF = FALSE)
               pValues_vec <- parSapply(cl = clust,
                                        pathwayPCs_ls,
                                        permute_CategFit,
@@ -152,7 +153,8 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
 
             } else {
 
-              message("Extracting Pathway p-Values Serially")
+              message("Extracting Pathway p-Values Serially: ",
+                      appendLF = FALSE)
               pValues_vec <- sapply(pathwayPCs_ls,
                                     permute_CategFit,
                                     obj_OmicsCateg = OmicsCateg,

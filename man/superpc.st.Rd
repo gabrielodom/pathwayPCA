@@ -4,8 +4,8 @@
 \alias{superpc.st}
 \title{Extract and test principal components from supervised PCA}
 \usage{
-superpc.st(fit, data, n.threshold = 20, threshold.ignore = 0, n.PCs = 1,
-  min.features = 3, epsilon = 1e-06)
+superpc.st(fit, data, n.threshold = 20, threshold.ignore = 0,
+  n.PCs = 1, min.features = 3, epsilon = 1e-06)
 }
 \arguments{
 \item{fit}{An object of class \code{superpc} returned by the function

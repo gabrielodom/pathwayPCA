@@ -6,14 +6,15 @@
 \alias{superPCA_pVals,OmicsPathway-method}
 \title{Test pathways with supervised PCA}
 \usage{
-superPCA_pVals(object, n.threshold = 20, numPCs = 1, parallel = FALSE,
-  numCores = NULL, adjustpValues = TRUE, adjustment = c("Bonferroni",
-  "Holm", "Hochberg", "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
+superPCA_pVals(object, n.threshold = 20, numPCs = 1,
+  parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
+  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD",
+  "BH", "BY", "ABH", "TSBH"), ...)
 
 \S4method{superPCA_pVals}{OmicsPathway}(object, n.threshold = 20,
-  numPCs = 1, parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
-  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
-  "BY", "ABH", "TSBH"), ...)
+  numPCs = 1, parallel = FALSE, numCores = NULL,
+  adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm",
+  "Hochberg", "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 }
 \arguments{
 \item{object}{An object of superclass \code{OmicsPathway} with a response

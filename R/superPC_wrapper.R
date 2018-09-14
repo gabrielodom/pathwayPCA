@@ -203,7 +203,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             if(parallel){
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(paths_ls)),
                                  deparse(quote(geneArray_df)),
@@ -217,7 +217,8 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               # browser()
 
               ###  Matrix of Student's t Scores and Controls  ###
-              message("Calculating Pathway Test Statistics in Parallel")
+              message("Calculating Pathway Test Statistics in Parallel: ",
+                      appendLF = FALSE)
               tScores_ls <- parLapply(
                 cl = clust,
                 paths_ls,
@@ -231,7 +232,8 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               )
               message("DONE")
 
-              message("Calculating Pathway Critical Values in Parallel")
+              message("Calculating Pathway Critical Values in Parallel: ",
+                      appendLF = FALSE)
               tControl_ls <- parLapply(
                 cl = clust,
                 paths_ls,
@@ -249,7 +251,8 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             } else {
 
               ###  Matrix of Student's t Scores and Controls  ###
-              message("Calculating Pathway Test Statistics Serially")
+              message("Calculating Pathway Test Statistics Serially: ",
+                      appendLF = FALSE)
               tScores_ls <- lapply(
                 paths_ls,
                 pathway_tScores,
@@ -262,7 +265,8 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               )
               message("DONE")
 
-              message("Calculating Pathway Critical Values Serially")
+              message("Calculating Pathway Critical Values Serially: ",
+                      appendLF = FALSE)
               tControl_ls <- lapply(
                 paths_ls,
                 pathway_tControl,
@@ -292,20 +296,26 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
 
 
             ###  Calculate Raw Pathway p-Values  ###
-            message("Calculating Pathway p-Values")
+            message("Calculating Pathway p-Values: ", appendLF = FALSE)
             genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
             genesPerPathway_vec <- genesPerPathway_vec[names(paths_ls)]
-            optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_num,
-                                                    pathwaySize_vec = genesPerPathway_vec,
-                                                    ...)
-            pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_num,
-                                              pathwaySize_vec = genesPerPathway_vec,
-                                              optimParams_vec = optParams_vec)
+            optParams_vec <- weibullMix_optimParams(
+              max_tControl_vec = tControlMax_num,
+              pathwaySize_vec = genesPerPathway_vec,
+              ...
+            )
+            pvalues_vec <- weibullMix_pValues(
+              tScore_vec = tScoreMax_num,
+              pathwaySize_vec = genesPerPathway_vec,
+              optimParams_vec = optParams_vec
+            )
+            message("DONE")
 
             if(adjustpValues){
-              message("Adjusting p-Values and Sorting Pathway p-Value Data Frame")
+              message("Adjusting p-Values and Sorting Pathway p-Value Data Frame: ",
+                      appendLF = FALSE)
             } else {
-              message("Sorting Pathway p-Value Data Frame")
+              message("Sorting Pathway p-Value Data Frame: ", appendLF = FALSE)
             }
 
             out_df <- adjust_and_sort(pVals_vec = pvalues_vec,

@@ -84,7 +84,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(data_Omes)),
@@ -96,7 +96,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway PCs in Parallel")
+              message("Extracting Pathway PCs in Parallel: ", appendLF = FALSE)
               PCs_ls <- parLapplyLB(cl = clust,
                                     data_Omes,
                                     function(pathway_df){
@@ -108,7 +108,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
 
             } else {
 
-              message("Extracting Pathway PCs Serially")
+              message("Extracting Pathway PCs Serially: ", appendLF = FALSE)
               PCs_ls <- lapply(data_Omes,
                                function(path_df){
                                  aespca(X = path_df,
