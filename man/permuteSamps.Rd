@@ -9,8 +9,9 @@
 \title{Parametric bootstrap and non-parametric permutations of a response vector or
    matrix}
 \usage{
-SampleResponses(response_vec, event_vec = NULL, respType = c("survival",
-  "regression", "categorical"), parametric = TRUE)
+SampleResponses(response_vec, event_vec = NULL,
+  respType = c("survival", "regression", "categorical"),
+  parametric = TRUE)
 
 sample_Survivalresp(response_vec, event_vec, parametric = TRUE)
 

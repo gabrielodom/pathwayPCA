@@ -6,8 +6,8 @@
 \alias{permTest_OmicsReg,OmicsReg-method}
 \title{AES-PCA permutation test of continuous response for pathway PCs}
 \usage{
-permTest_OmicsReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
-  numCores = NULL, ...)
+permTest_OmicsReg(OmicsReg, pathwayPCs_ls, numReps = 1000,
+  parallel = FALSE, numCores = NULL, ...)
 
 \S4method{permTest_OmicsReg}{OmicsReg}(OmicsReg, pathwayPCs_ls,
   numReps = 1000, parallel = FALSE, numCores = NULL, ...)

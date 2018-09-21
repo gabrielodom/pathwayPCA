@@ -118,7 +118,7 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(OmicsSurv)),
@@ -130,7 +130,8 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway p-Values in Parallel")
+              message("Extracting Pathway p-Values in Parallel: ",
+                      appendLF = FALSE)
               pValues_vec <- parSapply(cl = clust,
                                        pathwayPCs_ls,
                                        permute_SurvFit,

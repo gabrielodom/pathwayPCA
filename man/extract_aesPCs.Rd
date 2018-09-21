@@ -7,7 +7,8 @@
 \title{Extract AES-PCs from recorded pathway-subsets of a mass spectrometry or
   bio-assay data frame}
 \usage{
-extract_aesPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL, ...)
+extract_aesPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL,
+  ...)
 
 \S4method{extract_aesPCs}{OmicsPathway}(object, numPCs = 1,
   parallel = FALSE, numCores = NULL, ...)

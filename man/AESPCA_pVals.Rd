@@ -8,13 +8,13 @@
 \usage{
 AESPCA_pVals(object, numPCs = 1, numReps = 1000, parallel = FALSE,
   numCores = NULL, asPCA = FALSE, adjustpValues = TRUE,
-  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
-  "BY", "ABH", "TSBH"), ...)
+  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD",
+  "BH", "BY", "ABH", "TSBH"), ...)
 
-\S4method{AESPCA_pVals}{OmicsPathway}(object, numPCs = 1, numReps = 1000,
-  parallel = FALSE, numCores = NULL, asPCA = FALSE,
-  adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm", "Hochberg",
-  "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
+\S4method{AESPCA_pVals}{OmicsPathway}(object, numPCs = 1,
+  numReps = 1000, parallel = FALSE, numCores = NULL, asPCA = FALSE,
+  adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm",
+  "Hochberg", "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway} with a response matrix

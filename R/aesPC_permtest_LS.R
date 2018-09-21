@@ -111,7 +111,7 @@ setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(OmicsReg)),
@@ -123,7 +123,8 @@ setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway p-Values in Parallel")
+              message("Extracting Pathway p-Values in Parallel: ",
+                      appendLF = FALSE)
               pValues_vec <- parSapply(cl = clust,
                                        pathwayPCs_ls,
                                        permute_RegFit,
@@ -134,7 +135,8 @@ setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
 
             } else {
 
-              message("Extracting Pathway p-Values Serially")
+              message("Extracting Pathway p-Values Serially: ",
+                      appendLF = FALSE)
               pValues_vec <- sapply(pathwayPCs_ls,
                                     permute_RegFit,
                                     obj_OmicsReg = OmicsReg,
