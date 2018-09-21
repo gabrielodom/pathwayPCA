@@ -161,7 +161,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             # browser()
 
             ###  Calculate AES-PCs  ###
-            message(" Part 1: Calculate Pathway AES-PCs\n")
+            message("Part 1: Calculate Pathway AES-PCs")
             aespca_ls <- extract_aesPCs(
               object = object,
               numPCs = numPCs,
@@ -185,7 +185,8 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
 
 
             ###  Permutation Pathway p-Values  ###
-            message("\n Part 2: Calculate Permuted Pathway p-Values\n")
+            message("")
+            message("Part 2: Calculate Permuted Pathway p-Values")
             obj_class <- class(object)
             switch(obj_class,
                    OmicsSurv = {
@@ -213,13 +214,14 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
 
 
             ###  Adjust Pathway p-Values  ###
+            message("")
             if(adjustpValues){
 
-              message("\n Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame\n")
+              message("Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame")
               adjustment <- match.arg(adjustment, several.ok = TRUE)
 
             } else {
-              message("\n Part 3: Sorting Pathway p-Value Data Frame\n")
+              message("Part 3: Sorting Pathway p-Value Data Frame")
             }
 
             pathwayGeneSets_ls <- object@trimPathwayCollection
