@@ -156,7 +156,7 @@ Because the syntax for performing Supervised PCA is nearly identical to the AES-
 <!-- set.seed(123456) -->
 <!-- ``` -->
 <!-- set.seed doesn't work with parallel computing. See Issue #15. -->
-```{r AESPCA_run}
+```{r AESPCA_run, cache = TRUE}
 e1 <- Sys.time()
 ovarian_aespcOut <- AESPCA_pVals(
   object = ov_OmicsSurv,
