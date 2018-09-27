@@ -1,5 +1,5 @@
 ---
-title: "Chapter 5 - Guide for Advanced R Users"
+title: "pathwayPCA Guide for Advanced R Users"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
