@@ -14,10 +14,10 @@ r_packages:
   - devtools
 
 r_build_args:
-  "--no-build-vignettes"
+  --no-build-vignettes
 r_check_args:
-  "--no-vignettes"
-  "--no-build-vignettes"
+  --no-vignettes
+  --no-build-vignettes
 
 sudo: true
 cache: packages
