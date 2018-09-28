@@ -1,4 +1,4 @@
-create_pathwayCollection <- function(pathways, TERMS, ...){
+CreatePathwayCollection <- function(pathways, TERMS, ...){
 
   ###  Class Checks  ###
   if(!is.list(pathways)){
@@ -33,12 +33,12 @@ create_pathwayCollection <- function(pathways, TERMS, ...){
 }
 
 # Test
-create_pathwayCollection(pathways = 5, TERMS = "five", setsize = 1)
-create_pathwayCollection(pathways = list(one = 1, five = 5),
+CreatePathwayCollection(pathways = 5, TERMS = "five", setsize = 1)
+CreatePathwayCollection(pathways = list(one = 1, five = 5),
                   TERMS = list(five = "five"), setsize = 1)
-create_pathwayCollection(pathways = list(one = 1, five = 5),
+CreatePathwayCollection(pathways = list(one = 1, five = 5),
                   TERMS = "five", setsize = 1)
-create_pathwayCollection(pathways = list(one = 1,
+CreatePathwayCollection(pathways = list(one = 1,
                                   two = 1:2,
                                   three = 1:3,
                                   four = 1:4,
@@ -48,7 +48,7 @@ create_pathwayCollection(pathways = list(one = 1,
 # I can't do anything to check that other values of the list match the number
 #   of pathways in "pathways", but I probably don't want to. If I leave it
 #   flexible, we can add other stuff later.
-create_pathwayCollection(pathways = list(one = 1,
+CreatePathwayCollection(pathways = list(one = 1,
                                   two = 1:2,
                                   three = 1:3,
                                   four = 1:4,

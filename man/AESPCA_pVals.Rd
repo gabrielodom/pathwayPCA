@@ -87,7 +87,7 @@ Given a supervised \code{OmicsPath} object (one of
    data frame of the adjusted \eqn{p}-values for each pathway.
 }
 \details{
-This is a wrapper function for the \code{\link{extract_aesPCs}},
+This is a wrapper function for the \code{\link{ExtractAESPCs}},
    \code{\link{permTest_OmicsSurv}}, \code{\link{permTest_OmicsReg}}, and
    \code{\link{permTest_OmicsCateg}} functions.
 
@@ -101,7 +101,7 @@ This is a wrapper function for the \code{\link{extract_aesPCs}},
   data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(
+  colon_OmicsSurv <- CreateOmicsSurv(
     assayData_df = colonSurv_df[, -(1:2)],
     pathwayCollection_ls = colon_pathwayCollection,
     eventTime_num = colonSurv_df$OS_time,
@@ -121,9 +121,9 @@ This is a wrapper function for the \code{\link{extract_aesPCs}},
 
 }
 \seealso{
-\code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
-   \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
-   \code{\link{extract_aesPCs}}; \code{\link{permTest_OmicsSurv}};
+\code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
+   \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
+   \code{\link{ExtractAESPCs}}; \code{\link{permTest_OmicsSurv}};
    \code{\link{permTest_OmicsReg}}; \code{\link{permTest_OmicsCateg}};
    \code{\link{adjust_and_sort}}
 }

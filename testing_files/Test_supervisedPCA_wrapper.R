@@ -756,7 +756,7 @@ superPCA_pathway_pvals <- function(Omics_object,
 # paths_ls[[1257]] # 4 genes
 # paths_ls[[1310]] # 4 genes
 # # Both of these pathways have enough genes so that the pass the `trim` argument
-# #   in the `extract_aesPCs()` or `IntersectOmicsPwyCollct()` functions, but
+# #   in the `ExtractAESPCs()` or `IntersectOmicsPwyCollct()` functions, but
 # #   too few for the `min.features = 5` argument in the `pathway_tScores()` and
 # #   `pathway_tControl` functions (which pass this argument on to the internal
 # #   `superpc.st()` function).
@@ -808,7 +808,7 @@ rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 # REQUIRES THE TUMOUR SURVIVAL DATA SET
 ###  Tests  ###
 
-tumour_OmicsSurv <- create_OmicsSurv(
+tumour_OmicsSurv <- CreateOmicsSurv(
   assayData_df = as.data.frame(t(array)),
   pathwayCollection_ls = geneset,
   eventTime_num = survY_df$SurvivalTime,
@@ -824,9 +824,11 @@ Sys.time() - a # 1.715719 min
 # It works
 
 
-tumour_OmicsReg <- create_OmicsReg(assayData_df = as.data.frame(t(array)),
-                                   pathwayCollection_ls = geneset,
-                                   response_num = survY_df$SurvivalTime)
+tumour_OmicsReg <- CreateOmicsReg(
+  assayData_df = as.data.frame(t(array)),
+  pathwayCollection_ls = geneset,
+  response_num = survY_df$SurvivalTime
+)
 a <- Sys.time()
 regTest_df <- superPCA_pVals(object = tumour_OmicsReg,
                              parallel = TRUE,
@@ -837,9 +839,11 @@ Sys.time() - a # 1.054811 min
 # It works
 
 
-tumour_OmicsCateg <- create_OmicsCateg(assayData_df = as.data.frame(t(array)),
-                                       pathwayCollection_ls = geneset,
-                                       response_fact = as.factor(survY_df$disease_event))
+tumour_OmicsCateg <- CreateOmicsCateg(
+  assayData_df = as.data.frame(t(array)),
+  pathwayCollection_ls = geneset,
+  response_fact = as.factor(survY_df$disease_event)
+)
 a <- Sys.time()
 classifTest_df <- superPCA_pVals(object = tumour_OmicsCateg,
                                  parallel = TRUE,
@@ -897,7 +901,7 @@ library(pathwayPCA)
 data("colonSurv_df")
 data("colon_pathwayCollection")
 
-colon_OmicsSurv <- create_Omics(
+colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],

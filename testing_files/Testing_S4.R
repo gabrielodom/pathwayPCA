@@ -16,20 +16,20 @@ data("colon_pathwayCollection")
 ######  Load S4 Classes  ######################################################
 
 # Pathway Extraction only
-testOmicsPath <- create_Omics(
+testOmicsPath <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection
 )
 
 
 # Survival (numeric and factor response)
-testOmicsSurv <- create_Omics(
+testOmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],
   respType = "survival"
 )
-testOmicsSurv <- create_Omics(
+testOmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df[-1, 1:2],
@@ -38,13 +38,13 @@ testOmicsSurv <- create_Omics(
 
 
 # Regression (continuous response)
-testOmicsReg <- create_Omics(
+testOmicsReg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df$OS_time,
   respType = "regression"
 )
-testOmicsReg <- create_Omics(
+testOmicsReg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df$OS_time[-1],
@@ -53,13 +53,13 @@ testOmicsReg <- create_Omics(
 
 
 # Classification (factor response)
-testOmicsCateg <- create_Omics(
+testOmicsCateg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df$OS_event,
   respType = "categorical"
 )
-testOmicsCateg <- create_Omics(
+testOmicsCateg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df$OS_event[-1],

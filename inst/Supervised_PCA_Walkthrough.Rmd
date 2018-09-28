@@ -41,20 +41,26 @@ library(parallel)
 ### Load `Omics*` Data
 ```{r data_setup, echo = FALSE}
 data("colonSurv_df")
-data("colon_pathwaySet")
+data("colon_pathwayCollection")
 
-colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwaySet_ls = colon_pathwaySet,
-                                    eventTime_num = as.numeric(colonSurv_df$OS_time),
-                                    eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+colon_OmicsSurv <- CreateOmicsSurv(
+  assayData_df = colonSurv_df[, -(1:2)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  eventTime_num = as.numeric(colonSurv_df$OS_time),
+  eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+)
 
-colon_OmicsReg <- create_OmicsReg(assayData_df = colonSurv_df[, -(1:2)],
-                                  pathwaySet_ls = colon_pathwaySet,
-                                  response_num = as.numeric(colonSurv_df$OS_time))
+colon_OmicsReg <- CreateOmicsReg(
+  assayData_df = colonSurv_df[, -(1:2)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response_num = as.numeric(colonSurv_df$OS_time)
+)
 
-colon_OmicsCateg <- create_OmicsCateg(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colon_pathwaySet,
-                                      response_fact = as.factor(colonSurv_df$OS_event))
+colon_OmicsCateg <- CreateOmicsCateg(
+  assayData_df = colonSurv_df[, -(1:2)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response_fact = as.factor(colonSurv_df$OS_event)
+)
 ```
 Because you have already read through the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and [Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes, we will pick up with the `colon_OmicsSurv` object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The `colon_OmicsSurv` data container we constructed in [Chapter 3](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) has all of this.
 ```{r data_show}
@@ -69,7 +75,7 @@ colon_OmicsSurv
 # Clean Up the Pathway List
 The analysis functions within the `pathwayPCA::` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren't recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.
 
-However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `expressedOmes()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwaySet` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
+However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `expressedOmes()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwayCollection` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
 
 This function is called and executed within the `superPCA_pVals()` function.
 
@@ -81,7 +87,7 @@ This function is called and executed within the `superPCA_pVals()` function.
 <!-- ``` -->
 <!-- As we can see, none of the pathways we started with have been removed. -->
 <!-- ```{r missingPaths} -->
-<!-- attr(tumourClean_OmicsSurv@pathwaySet$pathways, "missingPaths") -->
+<!-- attr(tumourClean_OmicsSurv@pathwayCollection$pathways, "missingPaths") -->
 <!-- ``` -->
 
 
@@ -101,11 +107,13 @@ Of note: we use the FDR adjustments executed in the `mt.rawp2adjp` function from
 We will use all but two of our available cores, and use the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures.
 ```{r surv_pvals}
 a <- Sys.time()
-surv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
-                                parallel = TRUE,
-                                numCores = 2,
-                                adjustpValues = TRUE,
-                                adjustment = c("Hoch", "SidakSD"))
+surv_pVals_df <- superPCA_pVals(
+  object = colon_OmicsSurv,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Hoch", "SidakSD")
+)
 Sys.time() - a
 ```
 
@@ -114,11 +122,13 @@ Sys.time() - a
 We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.
 ```{r reg_pvals}
 b <- Sys.time()
-reg_pVals_df <- superPCA_pVals(object = colon_OmicsReg,
-                               parallel = TRUE,
-                               numCores = 2,
-                               adjustpValues = TRUE,
-                               adjustment = c("Holm", "BH"))
+reg_pVals_df <- superPCA_pVals(
+  object = colon_OmicsReg,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Holm", "BH")
+)
 Sys.time() - b
 ```
 
@@ -127,11 +137,13 @@ Sys.time() - b
 We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.
 ```{r categ_pvals}
 d <- Sys.time()
-categ_pVals_df <- superPCA_pVals(object = colon_OmicsCateg,
-                                 parallel = TRUE,
-                                 numCores = 2,
-                                 adjustpValues = TRUE,
-                                 adjustment = c("SidakSS", "BY"))
+categ_pVals_df <- superPCA_pVals(
+  object = colon_OmicsCateg,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("SidakSS", "BY")
+)
 Sys.time() - d
 ```
 
@@ -149,7 +161,7 @@ For each pathway $p$-value data frame, we will select the top pathways, and tran
 ### Significant Survival Pathways
 ```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
-surv_melt_df <- surv_pVals_df %>%
+surv_melt_df <- surv_pVals_df$pVals_df %>%
   select(-terms, - setsize, -trim_size) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
@@ -176,7 +188,7 @@ ggplot(surv_melt_df) +
 ### Significant Regression Pathways
 ```{r reg_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
-reg_melt_df <- reg_pVals_df %>%
+reg_melt_df <- reg_pVals_df$pVals_df %>%
   select(-terms, - setsize, -trim_size) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%
@@ -203,7 +215,7 @@ ggplot(reg_melt_df) +
 ### Significant Binary Classification Pathways
 ```{r categ_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # Melt the data
-categ_melt_df <- categ_pVals_df %>%
+categ_melt_df <- categ_pVals_df$pVals_df %>%
   select(-terms, - setsize, -trim_size) %>%
   melt(id.vars = "pathways") %>%
   mutate(score = -log(value)) %>%

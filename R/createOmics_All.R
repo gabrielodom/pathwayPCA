@@ -91,13 +91,13 @@
 #'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsPathway Object  ###
-#'   colon_OmicsPath <- create_OmicsPath(
+#'   colon_OmicsPath <- CreateOmicsPath(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection
 #'   )
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(
+#'   colon_OmicsSurv <- CreateOmicsSurv(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
 #'     eventTime_num = colonSurv_df$OS_time,
@@ -105,14 +105,14 @@
 #'   )
 #'
 #'   ###  Create an OmicsReg Object  ###
-#'   colon_OmicsReg <- create_OmicsReg(
+#'   colon_OmicsReg <- CreateOmicsReg(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
 #'     response_num = colonSurv_df$OS_time
 #'   )
 #'
 #'   ###  Create an OmicsCateg Object  ###
-#'   colon_OmicsCateg <- create_OmicsCateg(
+#'   colon_OmicsCateg <- CreateOmicsCateg(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
 #'     response_fact = as.factor(colonSurv_df$OS_event)
@@ -120,8 +120,8 @@
 #' }
 #'
 #' @export
-#' @rdname create_OmicsPathway
-create_OmicsPath <- function(assayData_df,
+#' @rdname CreateOmicsPathway
+CreateOmicsPath <- function(assayData_df,
                              pathwayCollection_ls,
                              minPathSize = 3){
 
@@ -134,7 +134,7 @@ create_OmicsPath <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsPath for more details. If
+    see the help information found in ?CreateOmicsPath for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
 
@@ -217,8 +217,8 @@ contain alphanumeric characters only, and start with a letter.")
 #'   observation was censored (i.e., we did not observe an event).
 #'
 #' @export
-#' @rdname create_OmicsPathway
-create_OmicsSurv <- function(assayData_df,
+#' @rdname CreateOmicsPathway
+CreateOmicsSurv <- function(assayData_df,
                              pathwayCollection_ls,
                              eventTime_num,
                              eventObserved_lgl,
@@ -233,7 +233,7 @@ create_OmicsSurv <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsSurv for more details. If
+    see the help information found in ?CreateOmicsSurv for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
 
@@ -314,8 +314,8 @@ contain alphanumeric characters only, and start with a letter.")
 #'   variable in an ordinary regression exercise.
 #'
 #' @export
-#' @rdname create_OmicsPathway
-create_OmicsReg <- function(assayData_df,
+#' @rdname CreateOmicsPathway
+CreateOmicsReg <- function(assayData_df,
                             pathwayCollection_ls,
                             response_num,
                             minPathSize = 3){
@@ -329,7 +329,7 @@ create_OmicsReg <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsReg for more details. If
+    see the help information found in ?CreateOmicsReg for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
 
@@ -403,8 +403,8 @@ contain alphanumeric characters only, and start with a letter.")
 #' @param response_fact A \code{factor} vector of length \eqn{N}: the dependent
 #'   variable of a generalized linear regression exercise.
 #' @export
-#' @rdname create_OmicsPathway
-create_OmicsCateg <- function(assayData_df,
+#' @rdname CreateOmicsPathway
+CreateOmicsCateg <- function(assayData_df,
                               pathwayCollection_ls,
                               response_fact,
                               minPathSize = 3){
@@ -418,7 +418,7 @@ create_OmicsCateg <- function(assayData_df,
     transpose your matrix with the 't()' function (but pay attention to your
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?create_OmicsCateg for more details. If
+    see the help information found in ?CreateOmicsCateg for more details. If
     you have a p x N data frame, please see the ?transpose_assay function.")
   }
 

@@ -30,7 +30,7 @@ This creates the \code{OmicsSurv} class which extends the
      pathways.}
   \item{\code{setsize} : }{A named integer vector the same length as the
     \code{pathways} list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a \code{create_OmicsSurv}
+    item is calculated during the creation step of a \code{CreateOmicsSurv}
     function call.}
 }}
 
@@ -44,5 +44,5 @@ observation was censored (i.e., we did not observe an event).}
 
 \seealso{
 \code{\link[=OmicsPathway-class]{OmicsPathway}},
-  \code{\link{create_OmicsSurv}}
+  \code{\link{CreateOmicsSurv}}
 }

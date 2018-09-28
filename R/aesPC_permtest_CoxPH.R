@@ -1,14 +1,14 @@
 #' AES-PCA permutation test of survival response for pathway PCs
 #'
 #' @description Given an \code{OmicsSurv} object and a list of pathway principal
-#'    components (PCs) from the \code{\link{extract_aesPCs}} function, test if
+#'    components (PCs) from the \code{\link{ExtractAESPCs}} function, test if
 #'    each pathway with features recorded in the bio-assay design matrix is
 #'    significantly related to the survival output.
 #'
 #' @param OmicsSurv A data object of class \code{OmicsSurv}, created by the
-#'   \code{\link{create_OmicsSurv}} function.
+#'   \code{\link{CreateOmicsSurv}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
-#'   \code{\link{extract_aesPCs}} function.
+#'   \code{\link{ExtractAESPCs}} function.
 #' @param numReps How many permuted models to fit? Defaults to 1000.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
@@ -31,16 +31,18 @@
 #'   for each pathway is the proportion of models for which the AIC of the
 #'   permuted response model is less than the AIC of the original model.
 #'
-#' @seealso \code{\link{create_OmicsSurv}}; \code{\link{extract_aesPCs}};
+#' @seealso \code{\link{CreateOmicsSurv}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}
-#'
-#' @export
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsSurv.R
 #' @include aesPC_extract_OmicsPath_PCs.R
 #'
 #' @importFrom methods setGeneric
+#'
+#' @keywords internal
+#'
+#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.

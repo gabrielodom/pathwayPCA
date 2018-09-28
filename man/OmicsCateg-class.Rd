@@ -30,7 +30,7 @@ This creates the \code{OmicsCateg} class which extends the
      pathways.}
   \item{\code{setsize} : }{A named integer vector the same length as the
     \code{pathways} list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a \code{create_OmicsReg}
+    item is calculated during the creation step of a \code{CreateOmicsReg}
     function call.}
 }}
 
@@ -42,5 +42,5 @@ responses in the next package version.}
 
 \seealso{
 \code{\link[=OmicsPathway-class]{OmicsPathway}},
-  \code{\link{create_OmicsCateg}}
+  \code{\link{CreateOmicsCateg}}
 }

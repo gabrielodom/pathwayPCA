@@ -42,7 +42,7 @@ invalid class “OmicsCateg” object: 2: invalid object for slot "massSpec" in 
 
 ## Functionality:
 
-create_OmicsSurv()—
+CreateOmicsSurv()—
 
 1. can we return data validity summary, for example,
 
@@ -53,7 +53,7 @@ create_OmicsSurv()—
 2. can we change the name ‘massSpec’ to ‘assayData’ or something more general terms that include data generated from mass spectrum, gene expression, and other types of genomic data.
 3. is it possible to simplify or hide the values of the return object that is printed on the screen?
 
-create_OmicsCateg()—should we change it to OmicsBinary since we only support binary response at the moment?
+CreateOmicsCateg()—should we change it to OmicsBinary since we only support binary response at the moment?
 
 AESPCA_pVals()—
 
@@ -89,7 +89,7 @@ tumor.ind—vector of 150 binary values
 
 Code and function I used:
 ```
-create_OmicsCateg(prot.voom.spca, cp5.1.ls,  tumor.ind)
+CreateOmicsCateg(prot.voom.spca, cp5.1.ls,  tumor.ind)
 AESPCA_pVals
 
 Error in data.frame(pathways = names(pVals_vec), setsize = genesets_ls$setsize,  : 

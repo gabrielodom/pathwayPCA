@@ -14,10 +14,10 @@ permTest_OmicsReg(OmicsReg, pathwayPCs_ls, numReps = 1000,
 }
 \arguments{
 \item{OmicsReg}{A data object of class \code{OmicsReg}, created by the
-\code{\link{create_OmicsReg}} function.}
+\code{\link{CreateOmicsReg}} function.}
 
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
-\code{\link{extract_aesPCs}} function.}
+\code{\link{ExtractAESPCs}} function.}
 
 \item{numReps}{How many permuted models to fit? Defaults to 1000.}
 
@@ -34,7 +34,7 @@ A named vector of pathway permutation \eqn{p}-values.
 }
 \description{
 Given an \code{OmicsReg} object and a list of pathway PCs from
-  the \code{\link{extract_aesPCs}} function, test if each pathway with
+  the \code{\link{ExtractAESPCs}} function, test if each pathway with
   features recorded in the bio-assay design matrix is significantly related
   to the continuous response.
 }
@@ -59,6 +59,7 @@ This function takes in a list of the first principal components
 
 }
 \seealso{
-\code{\link{create_OmicsReg}}; \code{\link{extract_aesPCs}};
+\code{\link{CreateOmicsReg}}; \code{\link{ExtractAESPCs}};
   \code{\link[stats]{lm}}; \code{\link{sample_Regresp}}
 }
+\keyword{internal}

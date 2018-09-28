@@ -34,12 +34,12 @@
 #' @examples
 #'   data("colon_pathwayCollection")
 #'
-#'   createPathwayCollection(
+#'   CreatePathwayCollection(
 #'     pathways = colon_pathwayCollection$pathways,
 #'     TERMS = colon_pathwayCollection$TERMS
 #'   )
 #'
-createPathwayCollection <- function(pathways, TERMS, ...){
+CreatePathwayCollection <- function(pathways, TERMS, ...){
 
   ###  Class Checks  ###
   if(!is.list(pathways)){

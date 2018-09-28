@@ -29,7 +29,7 @@ An S4 class for mass spectrometry or bio-assay data and gene pathway lists
      pathways.}
   \item{\code{setsize} : }{A named integer vector the same length as the
     \code{pathways} list with the number of genes in each pathway. This list
-    item is calculated during the creation step of a \code{create_OmicsReg}
+    item is calculated during the creation step of a \code{CreateOmicsReg}
     function call.}
 }}
 
@@ -39,5 +39,5 @@ contain genes that are present in the assay data frame.}
 }}
 
 \seealso{
-\code{\link{create_OmicsPath}}
+\code{\link{CreateOmicsPath}}
 }

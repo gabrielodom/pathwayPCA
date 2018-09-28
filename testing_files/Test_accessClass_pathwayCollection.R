@@ -15,7 +15,7 @@ wikipathways_PC <- read_gmt(gmt_path, description = TRUE)
 data_path <- system.file("extdata", "ovarian_PNNL_survival.RDS",
                          package = "pathwayPCA", mustWork = TRUE)
 ovSurv_df <- readRDS(data_path)
-ov_OmicsSurv <- create_Omics(
+ov_OmicsSurv <- CreateOmics(
   assayData_df = ovSurv_df[, -(1:3)],
   pathwayCollection_ls = wikipathways_PC,
   response = ovSurv_df[, 2:3],

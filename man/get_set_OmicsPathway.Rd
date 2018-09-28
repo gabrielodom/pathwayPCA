@@ -97,6 +97,6 @@ These functions can be useful to set or extract the assay data or
 }
 }
 \seealso{
-\code{\link{create_OmicsPath}}, \code{\link{create_OmicsSurv}},
-   \code{\link{create_OmicsReg}}, \code{\link{create_OmicsCateg}}
+\code{\link{CreateOmicsPath}}, \code{\link{CreateOmicsSurv}},
+   \code{\link{CreateOmicsReg}}, \code{\link{CreateOmicsCateg}}
 }

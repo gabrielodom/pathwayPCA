@@ -20,8 +20,6 @@
 #' @details This function subsets the assay by the matching gene symbols or IDs
 #'    in the specified pathway.
 #'
-#' @export
-#'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #' @include createClass_OmicsSurv.R
@@ -32,6 +30,8 @@
 #' @include accessClass_OmicsSurv.R
 #'
 #' @importFrom methods setGeneric
+#'
+#' @export
 #'
 #' @examples
 #'   NULL
