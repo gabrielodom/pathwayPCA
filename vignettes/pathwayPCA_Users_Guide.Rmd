@@ -156,17 +156,17 @@ Because the syntax for performing Supervised PCA is nearly identical to the AES-
 <!-- set.seed(123456) -->
 <!-- ``` -->
 <!-- set.seed doesn't work with parallel computing. See Issue #15. -->
-```{r AESPCA_run}
-e1 <- Sys.time()
+```{r AESPCA_run, eval = FALSE}
+# e1 <- Sys.time()
 ovarian_aespcOut <- AESPCA_pVals(
   object = ov_OmicsSurv,
   numPCs = 3,
   parallel = TRUE,
-  numCores = 2,
-  numReps = 10,
+  numCores = 20,
+  numReps = 100000,
   adjustment = "BH"
 )
-Sys.time() - e1
+# Sys.time() - e1
 ```
 
 ## Function Details
@@ -180,7 +180,7 @@ The above function has the following computational options (unless stated, these
 
 The top 15 pathways with AES-PCA are (from the results for 100k permutations):
 ```{r echo=FALSE}
-ovarian_aespcOut <- readRDS("aespcaOut.RDS")
+ovarian_aespcOut <- readRDS("aespcaOut_20180928.RDS")
 ```
 ```{r ovarian2_AESPCA_pVals_wikiP}
 head(ovarian_aespcOut$pVals_df, 15)
@@ -192,53 +192,47 @@ This data frame has the following columns:
 - `setsize`: number of genes in each of the original pathways (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$setsize` object).
 - `trim_size`: number of genes in each pathway after being trimmed to match the assay data (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$trim_setsize` object).
 - `terms`: title of the pathway (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$TERMS` object).
+- `description`: (OPTIONAL) description of the pathway (if stored in the `ov_OmicsSurv@@trimPathwayCollection$$description` object).
 - `rawp`: unadjusted $p$-values of each pathway.
 - `...` additional columns---one for each method supplied to the `adjustment` argument.
 
 
 These are the significant pathways at the $\alpha = 0.05$ level (if you are not familiar with the `tidyverse` pipe [` %>% `] operator, see [this article](https://magrittr.tidyverse.org/)):
 ```{r signif_pathways_0.05}
-signifPaths005_char <- 
+signifPaths005_df <- 
   # Take the resulting table of pathway p-values,
   ovarian_aespcOut$pVals_df %>% 
   # and filter out any rows with non-significant FDR values.
   filter(FDR_BH < 0.05) %>% 
-  # Of the remaining data, select the column of pathway titles,
-  select(terms) %>% 
-  # turn that column into a vector,
-  unlist %>% 
-  # and remove the duplicated names.
-  unname
+  # Of the remaining data, select the column of pathway titles and descriptions.
+  select(terms, description)
 
-# Print the names of the significant pathways
-signifPaths005_char
+signifPaths005_df
 ```
 
 We can inspect these pathways by subsetting the trimmed pathway collection by the significant pathway names. For instance, we can inspect the first pathway by
 ```{r inspect_path1}
 trimmed_PC <- getTrimPathwayCollection(ov_OmicsSurv)
 
-trimmed_PC[[signifPaths005_char[1]]]
+trimmed_PC[["WP3858"]]
 ```
 This shows us the pathway name (`Pathway`), gene symbols contained (`IDs`), any relevant details (`Description`), and the number of features currently in this pathway (`Size`). Further, we can view the subset of the assay corresponding to this pathway via
 ```{r WP75_data}
-trimmed_PC[[signifPaths005_char[1]]]$Description
-SubsetPathwayData(ov_OmicsSurv, signifPaths005_char[1])
+trimmed_PC[["WP3858"]]$Description
+SubsetPathwayData(ov_OmicsSurv, "WP3858")
 ```
 
 The `SubsetPathwayData()` function returns a data frame of the survival response (first two columns) and the recorded protein expression levels in the assay corresponding to the pathway selected.
 
-These are the additional pathways significant at the $\alpha = 0.10$ level:
-```{r signif_pathways_0.1}
-signifPaths010_char <-
+These are the additional pathways significant at the $\alpha = 0.2$ FDR-level:
+```{r signif_pathways_0.2}
+signifPaths020_df <-
   ovarian_aespcOut$pVals_df %>% 
-  filter(FDR_BH < 0.1) %>% 
+  filter(FDR_BH < 0.2) %>% 
   filter(FDR_BH >= 0.05) %>% 
-  select(terms) %>% 
-  unlist %>% 
-  unname
+  select(terms, description)
 
-signifPaths010_char
+signifPaths020_df
 ```
 
 </br>
@@ -252,50 +246,38 @@ signifPaths010_char
 Given the $p$-values from these pathways, we will now graph their score (negative log of the $p$-value) and description for the top 15 most-significant pathways.
 
 
-## Match Pathway Name to Shorthand 
-Because Wikipathways pathway collections currently store the full names of their pathways in the `description` field, we will need to match the abbreviation for the pathway with the name of the pathway. If the pathway collection you choose has the proper names of the pathways in the `TERMS` field instead of the `description` field, this step is unnecessary. Also, some of the pathway names are quite long, so we truncate them for better graphical display.
+## Trim Pathway Names
+Because Wikipathways pathway collections are quite long, we truncate them for better graphical display.
 ```{r match_abbrev_to_name}
-# Pair TERMS to description
-pathMatch_df <- tibble(
-  terms     = trimmed_PC$TERMS,
-  pathNames = trimmed_PC$description,
-  intKey    = names(trimmed_PC$pathways)
-)
-
 # Truncate names longer than 30 characters
-pathMatch_df <- 
-  pathMatch_df %>% 
+pVals_df <- 
+  ovarian_aespcOut$pVals_df %>% 
   mutate(
-    pathNames = ifelse(
-      str_length(pathNames) > 30,
-      paste0(str_sub(pathNames, 1, 28), "..."),
-      pathNames
+    description = ifelse(
+      str_length(description) > 35,
+      paste0(str_sub(description, 1, 33), "..."),
+      description
     )
   )
 ```
 
 
 ## Clean and Wrangle the Data Results
-Now we match the pathway abbreviations to their full names, subset the top 15 pathways by unadjusted $p$-value, and [gather](https://rpubs.com/mm-c/gather-and-spread) the results data frame from "wide" to "tidy" form.
+Now we subset the top 15 pathways by unadjusted $p$-value. If we had multiple adjustment columns, then we would also have to [gather](https://rpubs.com/mm-c/gather-and-spread) the results of these columns from "wide" to "tidy" form.
 ```{r join_and_gather}
-pVals_df <- 
+pValsClean_df <- 
   # Results data frame
-  ovarian_aespcOut$pVals_df %>% 
+  pVals_df %>% 
   # remove the columns we don't need
-  select(-pathways, -setsize, -trim_size) %>% 
-  # match the pathways to their proper names
-  left_join(pathMatch_df, by = "terms") %>% 
+  select(-pathways, -setsize, -trim_size, -terms, -rawp) %>% 
   # take the first 15 rows
   slice(1:15) %>% 
-  # select the columns we want to keep
-  select(pathNames, FDR_BH) %>% 
-  # "stack" the columns and add an indicator column
-  gather(variable, value, -pathNames) %>% 
   # add the score variable
-  mutate(score = -log(value)) %>% 
-  # Rename the FDR-adjustment methods
-  mutate(variable = factor(variable)) %>% 
-  mutate(variable = recode_factor(variable, FDR_BH = "Benjamini-Hochberg"))
+  mutate(score = -log(FDR_BH)) %>%
+  rename(
+    "Pathway" = description,
+    "Benjamini-Hochberg FDR" = FDR_BH
+  )
 ```
 
 
@@ -303,17 +285,17 @@ pVals_df <-
 Using this data, we can plot the top 15 pathway scores for the Benjamini-Hochberg adjustment method.
 ```{r bar_plots, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 # The modified data frame from the previous step
-ggplot(pVals_df) +
+ggplot(pValsClean_df) +
   # set overall appearance of the plot
   theme_bw() +
   # Define the dependent and independent variables
-  aes(x = reorder(pathNames, score), y = score) +
+  aes(x = reorder(Pathway, score), y = score) +
   # From the defined variables, create a vertical bar chart
   geom_bar(stat = "identity", position = "dodge", fill = "#F47321") +
   # Set main and axis titles
   ggtitle("AES-PCA Significant Wikipathways: Ovarian Cancer") +
   xlab("Pathways") +
-  ylab("Negative Log FDR") +
+  ylab("Negative Log BH-FDR") +
   # Add a line showing the alpha = 0.10 level
   geom_hline(yintercept = -log(0.1), size = 1, color = "#005030") +
   # Flip the x and y axes
@@ -329,19 +311,20 @@ ggplot(pVals_df) +
 # Inspecting the Driving Proteins
 Now that we have a few significant pathways, we can look at the loadings of each gene onto the first AES-PC from these pathways. Because the pathway loadings are named by the internal pathway key, we will filter the `pathMatch_df` data frame to the pathways we want.
 ```{r significant_pathway_keys}
-pathMatch_df %>% 
-  filter(terms %in% c(signifPaths005_char, signifPaths010_char))
+pVals_df %>% 
+  filter(FDR_BH < 0.05) %>% 
+  select(pathways)
 ```
 
 Now we can inspect the loadings from each gene onto the first PC in a few of these pathways.
 ```{r inspect_top_loadings}
-# Toll-like Receptor Signaling Pathway
-proteinLoad110 <- ovarian_aespcOut$loadings_ls[["path110"]][1, ]
-sort(proteinLoad110[proteinLoad110 != 0], decreasing = TRUE)
-
 # Toll-like Receptor Signaling
 proteinLoad253 <- ovarian_aespcOut$loadings_ls[["path253"]][1, ]
 sort(proteinLoad253[proteinLoad253 != 0], decreasing = TRUE)
+
+# Toll-like Receptor Signaling Pathway
+proteinLoad110 <- ovarian_aespcOut$loadings_ls[["path110"]][1, ]
+sort(proteinLoad110[proteinLoad110 != 0], decreasing = TRUE)
 ```
 
 The intersecting genes shared by these two pathways with non-zero AES-PC loadings are [NFKB1](https://www.ncbi.nlm.nih.gov/pubmed/26345753), [MYD88](https://journals.lww.com/greenjournal/Abstract/2015/05001/Role_of_MyD88_expression_in_Epithelial_Ovarian.259.aspx), [TLR2 & TLR3](https://www.ncbi.nlm.nih.gov/pubmed/19184006), and [IKBKB & TBK1](https://www.ncbi.nlm.nih.gov/pubmed/30084832) (external literature validating the relatioship between these genes and ovarian cancer survival are linked).
