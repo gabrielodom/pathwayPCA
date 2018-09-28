@@ -57,6 +57,8 @@ A data frame with columns
    the trimmed pathway collection.}
   \item{\code{terms} : }{The pathway title, as stored in the
     \code{object@trimPathwayCollection$TERMS} object.}
+  \item{\code{description} : }{The pathway description, if it is stored in
+    the \code{object@trimPathwayCollection$description} object.}
   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
   \item{\code{...} : }{Additional columns as specified through the
     \code{adjustment} argument.}

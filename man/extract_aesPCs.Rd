@@ -8,10 +8,10 @@
   bio-assay data frame}
 \usage{
 extract_aesPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL,
-  ...)
+  standardPCA = FALSE, ...)
 
 \S4method{extract_aesPCs}{OmicsPathway}(object, numPCs = 1,
-  parallel = FALSE, numCores = NULL, ...)
+  parallel = FALSE, numCores = NULL, standardPCA = FALSE, ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway}.}
@@ -24,13 +24,20 @@ extract_aesPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL,
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
 computation? Defaults to \code{NULL}.}
 
+\item{standardPCA}{Should the function return the AES-PCA PCs and loadings
+(\code{FALSE}) or the standard PCA PCs and loadings (\code{TRUE})? Defaults
+to \code{FALSE}.}
+
 \item{...}{Dots for additional internal arguments (currently unused).}
 }
 \value{
-A list of matrices. Each element of the list will be named
-  by its pathway, and the elements will be \eqn{N \times} \code{numPCs}
-  matrices containing the first \code{numPCs} principal components from each
-  pathway. See "Details" for more information.
+Two lists of matrices: \code{PCs} and \code{loadings}. Each element
+  of both lists will be named by its pathway. The elements of the \code{PCs}
+  list will be \eqn{N \times} \code{numPCs} matrices containing the first
+  \code{numPCs} principal components from each pathway. The elements of the
+  \code{loadings} list will be \code{numPCs} \eqn{\times p} projection
+  matrices containing the loadings corresponding to the first \code{numPCs}
+  principal components from each pathway. See "Details" for more information.
 }
 \description{
 Given a clean \code{OmicsPath} object (cleaned by the
