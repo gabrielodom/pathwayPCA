@@ -32,6 +32,8 @@
 #' @importFrom lars backsolvet
 #' @importFrom lars downdateR
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples

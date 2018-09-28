@@ -50,13 +50,15 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colon_pathwaySet,
-#'                                       eventTime_num = colonSurv_df$OS_time,
-#'                                       eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+#'   colon_OmicsSurv <- CreateOmicsSurv(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     eventTime_num = colonSurv_df$OS_time,
+#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
 #'   colonSurv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
@@ -83,7 +85,7 @@ setMethod(f = "topGenes", signature = "OmicsPathway",
             # browser()
 
             clean_obj <- expressedOmes(object, message = FALSE)
-            paths_ls <- clean_obj@pathwaySet$pathways
+            paths_ls <- clean_obj@pathwayCollection$pathways
             genes_char <- unique(do.call(c, paths_ls))
             rm(object, clean_obj)
 

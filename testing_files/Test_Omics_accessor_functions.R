@@ -3,24 +3,24 @@ library(pathwayPCA)
 data("colonSurv_df")
 data("colon_pathwayCollection")
 
-colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
+colon_OmicsPath <- CreateOmicsPath(assayData_df = colonSurv_df[, -(1:2)],
                                     pathwayCollection_ls = colon_pathwayCollection)
 
-colon_OmicsSurv <- create_Omics(
+colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],
   respType = "survival"
 )
 
-colon_OmicsReg <- create_Omics(
+colon_OmicsReg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df$OS_time,
   respType = "regression"
 )
 
-colon_OmicsCateg <- create_Omics(
+colon_OmicsCateg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
   response = colonSurv_df$OS_event,
@@ -165,7 +165,7 @@ getAssay(test_OS) <- data.frame(a = rep(1, 250))
 getPathwayCollection(test_OS) <- 12
 getPathwayCollection(test_OS) <- list(a = 12)
 getPathwayCollection(test_OS) <-
-  createPathwayCollection(pathways = list(a = "a0"), TERMS = "b0")
+  CreatePathwayCollection(pathways = list(a = "a0"), TERMS = "b0")
 
 
 ###  Event Time  ###

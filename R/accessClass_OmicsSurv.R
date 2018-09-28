@@ -23,7 +23,7 @@
 #'    modifying an existing one. The validity of edited objects is checked with
 #'    the \code{\link{valid_OmicsSurv}} function.
 #'
-#' @seealso \code{\link{create_OmicsSurv}}
+#' @seealso \code{\link{CreateOmicsSurv}}
 #'
 #'
 #' @include createClass_validOmics.R

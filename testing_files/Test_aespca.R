@@ -44,7 +44,7 @@ library(pathwayPCA)
 data("colonSurv_df")
 data("colon_pathwayCollection")
 
-colon_OmicsPath <- create_Omics(
+colon_OmicsPath <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection
 )
@@ -56,7 +56,7 @@ aespca(X = testPathway_df, d = 2)
 
 
 ######  Full Walkthrough  #####################################################
-# ovarian_OmicsPath <- create_OmicsPath(
+# ovarian_OmicsPath <- CreateOmicsPath(
 #   assayData_df = ovarianFiltered_df[, -(1:3)],
 #   pathwayCollection_ls = aespca_Genesets_ls
 # )
@@ -66,9 +66,9 @@ aespca(X = testPathway_df, d = 2)
 
 
 # Test
-# extract_aesPCs(object = colon_OmicsPath)
+# ExtractAESPCs(object = colon_OmicsPath)
 a <- Sys.time()
-pcs_ls <- extract_aesPCs(colon_OmicsPath,
+pcs_ls <- ExtractAESPCs(colon_OmicsPath,
                          parallel = TRUE,
                          numCores = 15)
 Sys.time() - a
@@ -77,14 +77,14 @@ Sys.time() - a
 # computation was done very quickly.)
 
 # a <- Sys.time()
-# pcs2_ls <- extract_aesPCs(ovarian_OmicsPath,
+# pcs2_ls <- ExtractAESPCs(ovarian_OmicsPath,
 #                           parallel = TRUE,
 #                           numCores = detectCores() - 2)
 # Sys.time() - a # 3.229954 min; so, it works...
 #
 # ###  Create Ovarian OmicsCateg Object  ###
 # tumour_fact <- as.factor(ovarianFiltered_df$Tumor_Stage_Ovary_FIGO)
-# ovarian_OmicsCateg <- create_OmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
+# ovarian_OmicsCateg <- CreateOmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
 #                                         pathwayCollection_ls = aespca_Genesets_ls,
 #                                         response_fact = tumour_fact)
 #
@@ -105,7 +105,7 @@ library(pathwayPCA)
 data("colonSurv_df")
 data("colon_pathwayCollection")
 
-colon_OmicsSurv <- create_Omics(
+colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],

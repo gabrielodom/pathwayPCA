@@ -1,14 +1,14 @@
 #' AES-PCA permutation test of categorical response for pathway PCs
 #'
 #' @description Given an \code{OmicsCateg} object and a list of pathway PCs from
-#'   the \code{\link{extract_aesPCs}} function, test if each pathway with
+#'   the \code{\link{ExtractAESPCs}} function, test if each pathway with
 #'   features recorded in the bio-assay design matrix is significantly related
 #'   to the categorical response.
 #'
 #' @param OmicsCateg A data object of class \code{OmicsCateg}, created by the
-#'   \code{\link{create_OmicsCateg}} function.
+#'   \code{\link{CreateOmicsCateg}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
-#'   \code{\link{extract_aesPCs}} function.
+#'   \code{\link{ExtractAESPCs}} function.
 #' @param numReps How many permuted models to fit? Defaults to 1000.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
@@ -38,17 +38,19 @@
 #'   logistic regression models, for n-ary and ordered categorical responses,
 #'   respectively.
 #'
-#' @seealso \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
+#' @seealso \code{\link{CreateOmicsCateg}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
 #'   \code{\link{sample_Classifresp}}
-#'
-#' @export
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsCateg.R
 #' @include aesPC_extract_OmicsPath_PCs.R
 #'
 #' @importFrom methods setGeneric
+#'
+#' @keywords internal
+#'
+#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
@@ -87,7 +89,7 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
             ###  Function Setup  ###
             # The distribution object will be passed in either indirectly or
             #   directly through the OmicsCateg object. I will probably put some
-            #   sort of class / ordering check in the create_OmicsCateg()
+            #   sort of class / ordering check in the CreateOmicsCateg()
             #   function to add a slot or attribute for "binary", "n_ary" or
             #   "ordered" responses. Then, all I need is a switch here to define
             #   the "dist" object.

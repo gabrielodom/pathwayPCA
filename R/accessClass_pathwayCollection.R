@@ -21,7 +21,7 @@
 #'    Also, this function does not allow for users to overwrite any portion of
 #'    a pathway collection. These objects should rarely, if ever, be changed.
 #'    If you absolutely must change the components of a \code{pathwayCollection}
-#'    object, then create a new one with the code{\link{createPathwayCollection}}
+#'    object, then create a new one with the code{\link{CreatePathwayCollection}}
 #'    function.
 #'
 #' @export

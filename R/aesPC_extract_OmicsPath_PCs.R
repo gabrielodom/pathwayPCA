@@ -44,27 +44,27 @@
 #'   use either a very broad and generic list of pathways or a pathways list
 #'   that is compatible to the assay data supplied.
 #'
-#' @seealso \code{\link{create_OmicsPath}}; \code{\link{aespca}};
+#' @seealso \code{\link{CreateOmicsPath}}; \code{\link{aespca}};
 #'    \code{\link{IntersectOmicsPwyCollct}}
-#'
-#' @export
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #'
 #' @importFrom methods setGeneric
 #'
+#' @export
+#'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname extract_aesPCs
-setGeneric("extract_aesPCs",
+#' @rdname ExtractAESPCs
+setGeneric("ExtractAESPCs",
            function(object, numPCs = 1,
                     parallel = FALSE, numCores = NULL,
                     standardPCA = FALSE,
                     ...){
-             standardGeneric("extract_aesPCs")
+             standardGeneric("ExtractAESPCs")
            }
 )
 
@@ -74,8 +74,8 @@ setGeneric("extract_aesPCs",
 #' @importFrom parallel parLapplyLB
 #' @importFrom parallel stopCluster
 #'
-#' @rdname extract_aesPCs
-setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
+#' @rdname ExtractAESPCs
+setMethod(f = "ExtractAESPCs", signature = "OmicsPathway",
           definition = function(object,
                                 numPCs = 1,
                                 parallel = FALSE,

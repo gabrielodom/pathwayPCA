@@ -48,21 +48,21 @@ library(parallel)
 data("colonSurv_df")
 data("colon_pathwayCollection")
 
-colon_OmicsSurv <- create_Omics(
+colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],
   respType = "surv"
 )
 
-colon_OmicsReg <- create_Omics(
+colon_OmicsReg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df$OS_time,
   respType = "reg"
 )
 
-colon_OmicsCateg <- create_Omics(
+colon_OmicsCateg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df$OS_event,

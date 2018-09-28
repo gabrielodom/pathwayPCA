@@ -123,18 +123,18 @@ joinedExperiment_df
 This section is a quick overview of the material covered in the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
 
 ## 3.1 Create an Object
-Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival `Omics` object to hold our assay, pathways, and survival responses. If your indicator is a binary variable, the `create_Omics` function will attempt to coerce it to a logical variable. Therefore, death indicators should be coded as 0-1, not 1-2.
+Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival `Omics` object to hold our assay, pathways, and survival responses. If your indicator is a binary variable, the `CreateOmics` function will attempt to coerce it to a logical variable. Therefore, death indicators should be coded as 0-1, not 1-2.
 
-This package includes a subject-matched colon cancer survival assay subset (`colonSurv_df`) and a toy pathway collection with 15 pathways (`colon_pathwayCollection`). When we create this `OmicsSurv` object, the `pathwayPCA` package checks the overlap between the -omes recorded in the assay data and the gene symbols in the supplied pathway collection. The `create_Omics()` function also prints some diagnostic messages to inform you of how well your pathway collection overlaps your data.
+This package includes a subject-matched colon cancer survival assay subset (`colonSurv_df`) and a toy pathway collection with 15 pathways (`colon_pathwayCollection`). When we create this `OmicsSurv` object, the `pathwayPCA` package checks the overlap between the -omes recorded in the assay data and the gene symbols in the supplied pathway collection. The `CreateOmics()` function also prints some diagnostic messages to inform you of how well your pathway collection overlaps your data.
 
-<!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `create_Omics` function. Each class contains assay information (in tidy format) and `pathwayCollection` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
+<!-- There are three classes of `Omics` objects to match the three types of response, but only one function to learn: the `CreateOmics` function. Each class contains assay information (in tidy format) and `pathwayCollection` (in list format), but the classes differ in the type of response information they can hold. The classes, and their responses, are -->
 
 <!-- 1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored). -->
 <!-- 2. `OmicsReg`---a data object for continuous responses (usually a vector of linear regression responses). -->
 <!-- 3. `OmicsCateg`---a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression). -->
 
 ```{r create_OmicsSurv_object}
-colon_OmicsSurv <- create_Omics(
+colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],
@@ -178,7 +178,7 @@ getEvent(colon_OmicsSurv)[1:10]
 
 
 # 4. Test Pathways for Significance
-After you have confirmed that the `create_Omics` function created the `Omics` object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the "AES-PCA" and "Supervised PCA" sections of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. For details of these methods functions, please see their respective sections in Chapter 4.
+After you have confirmed that the `CreateOmics` function created the `Omics` object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the "AES-PCA" and "Supervised PCA" sections of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. For details of these methods functions, please see their respective sections in Chapter 4.
 
 The function arguments are as follows. Both the `AESPCA_pVals` and `superPCA_pVals` functions take in an `Omics` object as the value to the `object` argument. AES-PCA uses permutation-based $p$-values, so the `numReps` argument controls how many permutations to take. The `numPCs` argument specifies how many principal components will be extracted from each pathway. The `parallel` and `numCores` arguments are used to control if and how the functions make use of parallel computing. Finally, the `adjustment` argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway $p$-values. These options are documented in the `adjustRaw_pVals` function (see the [help documentation](https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html) for details).
 

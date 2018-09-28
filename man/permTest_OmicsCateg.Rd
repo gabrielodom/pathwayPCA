@@ -14,10 +14,10 @@ permTest_OmicsCateg(OmicsCateg, pathwayPCs_ls, numReps = 1000,
 }
 \arguments{
 \item{OmicsCateg}{A data object of class \code{OmicsCateg}, created by the
-\code{\link{create_OmicsCateg}} function.}
+\code{\link{CreateOmicsCateg}} function.}
 
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
-\code{\link{extract_aesPCs}} function.}
+\code{\link{ExtractAESPCs}} function.}
 
 \item{numReps}{How many permuted models to fit? Defaults to 1000.}
 
@@ -34,7 +34,7 @@ A named vector of pathway permutation \eqn{p}-values.
 }
 \description{
 Given an \code{OmicsCateg} object and a list of pathway PCs from
-  the \code{\link{extract_aesPCs}} function, test if each pathway with
+  the \code{\link{ExtractAESPCs}} function, test if each pathway with
   features recorded in the bio-assay design matrix is significantly related
   to the categorical response.
 }
@@ -65,7 +65,8 @@ This function takes in a list of the first principal components
 
 }
 \seealso{
-\code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
+\code{\link{CreateOmicsCateg}}; \code{\link{ExtractAESPCs}};
   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
   \code{\link{sample_Classifresp}}
 }
+\keyword{internal}

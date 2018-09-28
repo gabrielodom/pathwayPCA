@@ -40,7 +40,9 @@
 #'    section of \code{\link{normalize}}.
 #'
 #' @seealso \code{\link{normalize}}; \code{\link{lars.lsa}};
-#'    \code{\link{extract_aesPCs}}; \code{\link{AESPCA_pVals}}
+#'    \code{\link{ExtractAESPCs}}; \code{\link{AESPCA_pVals}}
+#'
+#' @keywords internal
 #'
 #' @export
 #'

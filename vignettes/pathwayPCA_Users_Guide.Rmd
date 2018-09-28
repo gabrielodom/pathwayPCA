@@ -112,7 +112,7 @@ ovSurv_df
 
 Next, we create an `OmicsSurv` data container. This is an S4-class object with slots for the expression data, the response vector, and a `pathwayCollection` object. In our case, the expression data are the 5,162 columns of `ovSurv_df` which measure the protein expression, the response is the second and third column of `ovSurv_df` which contains the survival data, and the pathway collection is the Wikipathways collection we imported above. 
 ```{r createOvarianPNNLOmics}
-ov_OmicsSurv <- create_Omics(
+ov_OmicsSurv <- CreateOmics(
   assayData_df = ovSurv_df[, -(1:3)],
   pathwayCollection_ls = wikipathways_PC,
   response = ovSurv_df[, 2:3],
@@ -121,7 +121,7 @@ ov_OmicsSurv <- create_Omics(
 )
 ```
 
-All further data analysis will require this `Omics` object. Because the response is survival data, we see the `create_Omics()` function print a message that the class of the object is specifically `OmicsSurv`. Based on the chosen `minPathSize` argument, this function additionally prints diagnostic messages about the set intersection between the supplied pathway collection and recorded features in the assay data at object creation. This parameter sets the threshold for pathways used for analysis in the following manner:
+All further data analysis will require this `Omics` object. Because the response is survival data, we see the `CreateOmics()` function print a message that the class of the object is specifically `OmicsSurv`. Based on the chosen `minPathSize` argument, this function additionally prints diagnostic messages about the set intersection between the supplied pathway collection and recorded features in the assay data at object creation. This parameter sets the threshold for pathways used for analysis in the following manner:
 
 1. Biological features in each pathway are checked against the names of the features in the expression data. Any feature that doesn't have a matching data column is removed from the pathway. Therefore, it is imperative that the format of the feature names for the expression data match the format of the names in the pathways set---gene symbols with gene symbols, Entrez IDs with Entrez IDs, etc.
 2. After the "trimming" described in Step 1, any pathway with fewer than `minPathSize` features is dropped from the `pathwayCollection` in the supplied `Omics` object. The names of the pathways that were dropped are stored as an internal attribute of the new trimmed `pathwayCollection`.

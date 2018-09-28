@@ -93,7 +93,7 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
   data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(
+  colon_OmicsSurv <- CreateOmicsSurv(
     assayData_df = colonSurv_df[, -(1:2)],
     pathwayCollection_ls = colon_pathwayCollection,
     eventTime_num = colonSurv_df$OS_time,
@@ -112,8 +112,8 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
 
 }
 \seealso{
-\code{\link{create_OmicsPath}}; \code{\link{create_OmicsSurv}};
-   \code{\link{create_OmicsReg}}; \code{\link{create_OmicsCateg}};
+\code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
+   \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
    \code{\link{weibullMix_optimParams}}; \code{\link{weibullMix_pValues}};
    \code{\link{adjust_and_sort}}

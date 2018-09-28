@@ -1,14 +1,14 @@
 #' AES-PCA permutation test of continuous response for pathway PCs
 #'
 #' @description Given an \code{OmicsReg} object and a list of pathway PCs from
-#'   the \code{\link{extract_aesPCs}} function, test if each pathway with
+#'   the \code{\link{ExtractAESPCs}} function, test if each pathway with
 #'   features recorded in the bio-assay design matrix is significantly related
 #'   to the continuous response.
 #'
 #' @param OmicsReg A data object of class \code{OmicsReg}, created by the
-#'   \code{\link{create_OmicsReg}} function.
+#'   \code{\link{CreateOmicsReg}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
-#'   \code{\link{extract_aesPCs}} function.
+#'   \code{\link{ExtractAESPCs}} function.
 #' @param numReps How many permuted models to fit? Defaults to 1000.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
@@ -32,16 +32,18 @@
 #'   models for which the AIC of the permuted response model is less than the
 #'   AIC of the original model.
 #'
-#' @seealso \code{\link{create_OmicsReg}}; \code{\link{extract_aesPCs}};
+#' @seealso \code{\link{CreateOmicsReg}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[stats]{lm}}; \code{\link{sample_Regresp}}
-#'
-#' @export
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsReg.R
 #' @include aesPC_extract_OmicsPath_PCs.R
 #'
 #' @importFrom methods setGeneric
+#'
+#' @keywords internal
+#'
+#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.

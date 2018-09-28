@@ -14,10 +14,10 @@ permTest_OmicsSurv(OmicsSurv, pathwayPCs_ls, numReps = 1000,
 }
 \arguments{
 \item{OmicsSurv}{A data object of class \code{OmicsSurv}, created by the
-\code{\link{create_OmicsSurv}} function.}
+\code{\link{CreateOmicsSurv}} function.}
 
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
-\code{\link{extract_aesPCs}} function.}
+\code{\link{ExtractAESPCs}} function.}
 
 \item{numReps}{How many permuted models to fit? Defaults to 1000.}
 
@@ -34,7 +34,7 @@ A named vector of pathway permutation \eqn{p}-values.
 }
 \description{
 Given an \code{OmicsSurv} object and a list of pathway principal
-   components (PCs) from the \code{\link{extract_aesPCs}} function, test if
+   components (PCs) from the \code{\link{ExtractAESPCs}} function, test if
    each pathway with features recorded in the bio-assay design matrix is
    significantly related to the survival output.
 }
@@ -58,6 +58,7 @@ This function takes in a list of the first principal components
 
 }
 \seealso{
-\code{\link{create_OmicsSurv}}; \code{\link{extract_aesPCs}};
+\code{\link{CreateOmicsSurv}}; \code{\link{ExtractAESPCs}};
   \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}
 }
+\keyword{internal}

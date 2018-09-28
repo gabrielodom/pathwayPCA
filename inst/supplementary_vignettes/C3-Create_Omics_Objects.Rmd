@@ -69,7 +69,7 @@ The pathway collection and tidy assay (with matched phenotype information) are a
 Now that we have our data loaded, we can create an analysis object for the `pathwayPCA` package.
 
 ## 2.1 Class Overview
-In this package, all primary input data will be in an `Omics` data object. There are three classes of `Omics*` objects, but one function (`create_Omics`) creates all of them. Each class contains a tidy assay and `pathwayCollection` list. The classes differ in the type of response information they can hold. The classes, and their responses, are
+In this package, all primary input data will be in an `Omics` data object. There are three classes of `Omics*` objects, but one function (`CreateOmics`) creates all of them. Each class contains a tidy assay and `pathwayCollection` list. The classes differ in the type of response information they can hold. The classes, and their responses, are
 
 1. `OmicsSurv`---a data object for survival information, which includes event time (the time of last follow-up with a subject) and event indicator (did the subject die, or was the observation right-censored).
 2. `OmicsReg`---a data object for continuous responses (usually a linear regression response).
@@ -94,7 +94,7 @@ head(as.logical(colonSurv_df$OS_event), 10)
 head(as.factor(colonSurv_df$OS_event), 10)
 ```
 
-The `create_Omics` function puts the response information into specific classes:
+The `CreateOmics` function puts the response information into specific classes:
 
 - Survival data is stored as a pair of `numeric` (time) and `logical` (death indicator) vectors.
 - Regression data is stored in a `numeric` or `integer` vector.
@@ -109,30 +109,30 @@ These restrictions are on purpose: the internal data creation functions in the `
 
 # 3. Create New `Omics` Objects
 ## 3.1 Overview of Subtypes
-All new `Omics` objects are created with the `create_Omics` function. You should use this function to create `Omics`-class objects for survival, regression, or categorical responses. This `create_Omics` function *internally* calls on a specific creation function for each response type:
+All new `Omics` objects are created with the `CreateOmics` function. You should use this function to create `Omics`-class objects for survival, regression, or categorical responses. This `CreateOmics` function *internally* calls on a specific creation function for each response type:
 
-  - Survival response: the `create_OmicsSurv()` function creates an `Omics` object with class `OmicsSurv`. This object will contain:
+  - Survival response: the `CreateOmicsSurv()` function creates an `Omics` object with class `OmicsSurv`. This object will contain:
     + `eventTime`: a `numeric` vector of event times.
     + `eventObserved`: a `logical` vector of death (or other event) indicators. This format precludes the option of recurrent-event survival analysis.
     + `assayData_df`: a tidy `data.frame` or `tibble` of assay data. Rows are observations or subjects; the columns are -Omics measures (e.g. transcriptome). The column names *must* match a subset of the genes provided in the pathways list (in the `pathwayCollection` object).
     + `pathwayCollection`: a `list` of pathway information, as returned by the `read_gmt` function (see the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html#the-read_gmt-function) vignette for more details). The names of the genes in these pathways *must* match a subset of the genes recorded in the assay data frame (in the `assayData_df` object).
-  - Regression response: the `create_OmicsReg()` function creates an `Omics` object with class `OmicsReg`. This object will contain:
+  - Regression response: the `CreateOmicsReg()` function creates an `Omics` object with class `OmicsReg`. This object will contain:
     + `response`: a `numeric` vector of the response.
     + `assayData_df`: a tidy `data.frame` or `tibble` of assay data, as described above.
     + `pathwayCollection`: a `list` of pathway information, as described above.
-  - Binary Classification response: the `create_OmicsCateg()` function creates an `Omics` object with class `OmicsCateg`. In future versions, this function will be able to take in $n$-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
+  - Binary Classification response: the `CreateOmicsCateg()` function creates an `Omics` object with class `OmicsCateg`. In future versions, this function will be able to take in $n$-ary responses and ordered categorical responses, but we only support binary responses for now. This object will contain:
     + `response`: a `factor` vector of the response.
     + `assayData_df`: a tidy `data.frame` or `tibble` of assay data, as described above.
     + `pathwayCollection`: a `list` of pathway information, as described above.
 
 
-<!-- ### Data Types and the `create_Omics*` Functions -->
-<!-- As we previously mentioned, the response fields of the `create_OmicsSurv`, `create_OmicsReg`, or `create_OmicsCateg` functions require specific types of data: -->
+<!-- ### Data Types and the `CreateOmics*` Functions -->
+<!-- As we previously mentioned, the response fields of the `CreateOmicsSurv`, `CreateOmicsReg`, or `CreateOmicsCateg` functions require specific types of data: -->
 
-<!-- * `create_OmicsSurv` requires two response vectors: -->
+<!-- * `CreateOmicsSurv` requires two response vectors: -->
 <!--     - `eventTime_num` = a *numeric* vector. The column in your imported data corresponding to the event time should have the `<int>` or `<dbl>` tag. If this column is a character column (it has the `<chr>` tag), then the most likely cause is that you had an additional column of character information in your assay data frame before transposing. Remove this extra character information and transpose your assay again. -->
 <!--     - `eventObserved_lgl` = a *logical* vector. The column in your imported data corresponding to the event indicator should have the `<lgl>` tag. Also note that this indicator records if an event **was observed**, not if the event was censored. If the event occured at the corresponding event time (i.e. the subject died), then this vector entry will be `TRUE`. If the subject was right-censored, then this entry will be `FALSE`. -->
-<!-- * `create_OmicsReg` and `create_OmicsCateg` require one response vector: -->
+<!-- * `CreateOmicsReg` and `CreateOmicsCateg` require one response vector: -->
 <!--     - `response_num` = regression response as a *numeric* vector. The column in your imported data corresponding to the regression response should have the `<int>` or `<dbl>` tag. See the comment above about the `eventTime_num` argument if your column is a character. -->
 <!--     - `response_fact` = classification response as a *factor* vector. The column in your imported data corresponding to the classification / categorical regression response should have the `<fct>` tag. It is highly likely that the classification response was imported as an integer (if the original values were coded as 0/1) or a character (if the original values were given character names, such as "benign" / "malignent"). Either way, use the `as.factor` command to transform that column from a character or integer column into a factor column. For example, the `as.factor` function can turn our logical censoring indicator from a vector of `TRUE` and `FALSE` to a categorical (factor) vector with levels `TRUE` and `FALSE`. This will not overwrite the original column, so make sure you save this new factor. -->
 <!-- ```{r factors_eg, eval = FALSE} -->
@@ -143,17 +143,17 @@ In order to create example `Omics`-class objects, we will consider the overall p
 
 
 ## 3.2 Create a Survival `Omics` Data Object
-Now we are prepared to create our first survival `Omics` object for later analysis with either AES-PCA or Supervised PCA. Recall that the `colonSurv_df` data frame has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `create_Omics` function will be:
+Now we are prepared to create our first survival `Omics` object for later analysis with either AES-PCA or Supervised PCA. Recall that the `colonSurv_df` data frame has the survival time in the first column, the event indicator in the second column, and the assay expression data in the subsequent columns. Therefore, the four arguments to the `CreateOmics` function will be:
 
 - `assayData_df`: this will be only the *expression columns* of the `colonSurv_df` data frame (i.e. all but the first two columns). In `R`, we can remove the first two columns of the `colonSurv_df` data frame by negative subsetting: `colonSurv_df[, -(1:2)]`.
-- `pathwayCollection_ls`: this will be the `colon_pathwayCollection` list object. Recall that you can import a `.gmt` file into a `pathwayCollection` object via the `read_gmt` function, or create a `pathwayCollection` list object by hand with the `createPathwayCollection` function.
+- `pathwayCollection_ls`: this will be the `colon_pathwayCollection` list object. Recall that you can import a `.gmt` file into a `pathwayCollection` object via the `read_gmt` function, or create a `pathwayCollection` list object by hand with the `CreatePathwayCollection` function.
 - `response`: this will be the first two columns of the `colonSurv_df` data frame. The survival time stored in the `OS_time` column and the event indicator stored in the `OS_event` column.
 - `respType`: this will be the word `"survival"` or an abbreviation of it.
 
-Also, when you create an `Omics*`-class object, the `create_Omics()` function prints helpful diagnostic messages about the overlap between the features in the supplied assay data and those in the pathway collection. 
+Also, when you create an `Omics*`-class object, the `CreateOmics()` function prints helpful diagnostic messages about the overlap between the features in the supplied assay data and those in the pathway collection. 
 
 ```{r create_OmicsSurv_object}
-colon_OmicsSurv <- create_Omics(
+colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],
@@ -169,7 +169,7 @@ In order to view a summary of the contents of the `colon_OmicsSurv` object, you 
 colon_OmicsSurv
 ```
 
-Also notice that the `create_Omics()` function stores a "cleaned" copy of the pathway collection. The object creation functions within the `pathwayPCA` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that are not recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we check if each gene in each pathway is recorded in the data frame, and remove from each pathway the genes for which the assay does not have recorded expression levels. However, if we remove genes from pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a given pathway. Thus, we also check to make sure that each pathway in the given pathways list still has some minimum number of genes present (defaulting to three or more) after we have removed genes without corresponding expression levels.
+Also notice that the `CreateOmics()` function stores a "cleaned" copy of the pathway collection. The object creation functions within the `pathwayPCA` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that are not recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we check if each gene in each pathway is recorded in the data frame, and remove from each pathway the genes for which the assay does not have recorded expression levels. However, if we remove genes from pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a given pathway. Thus, we also check to make sure that each pathway in the given pathways list still has some minimum number of genes present (defaulting to three or more) after we have removed genes without corresponding expression levels.
 
 The `IntersectOmicsPwyCollct()` function performs these two actions simultaneously, and this function is called and executed automatically within the object creation step. This function removes the unrecorded genes from each pathway, trims the pathways that have fewer than the minimum number of genes allowed, and returns a "trimmed" pathway collection. If there are any pathways removed by this execution, the `pathways` list within the `trimPathwayCollection` object within the `Omics` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
 
@@ -177,7 +177,7 @@ The `IntersectOmicsPwyCollct()` function performs these two actions simultaneous
 We create regression- and categorical-type `Omics` data objects identically to survival-type `Omics` objects. We will use the survival time as our toy regression response and the death indicator as the toy classification response.
 
 ```{r create_OmicsReg_object}
-colon_OmicsReg <- create_Omics(
+colon_OmicsReg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df$OS_time,
@@ -187,7 +187,7 @@ colon_OmicsReg
 ```
 
 ```{r create_OmicsCateg_object}
-colon_OmicsCateg <- create_Omics(
+colon_OmicsCateg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df$OS_event,
