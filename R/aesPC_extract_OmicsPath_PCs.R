@@ -12,12 +12,18 @@
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
 #'   computation? Defaults to \code{NULL}.
+#' @param standardPCA Should the function return the AES-PCA PCs and loadings
+#'   (\code{FALSE}) or the standard PCA PCs and loadings (\code{TRUE})? Defaults
+#'   to \code{FALSE}.
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
-#' @return A list of matrices. Each element of the list will be named
-#'   by its pathway, and the elements will be \eqn{N \times} \code{numPCs}
-#'   matrices containing the first \code{numPCs} principal components from each
-#'   pathway. See "Details" for more information.
+#' @return Two lists of matrices: \code{PCs} and \code{loadings}. Each element
+#'   of both lists will be named by its pathway. The elements of the \code{PCs}
+#'   list will be \eqn{N \times} \code{numPCs} matrices containing the first
+#'   \code{numPCs} principal components from each pathway. The elements of the
+#'   \code{loadings} list will be \code{numPCs} \eqn{\times p} projection
+#'   matrices containing the loadings corresponding to the first \code{numPCs}
+#'   principal components from each pathway. See "Details" for more information.
 #'
 #' @details This function takes in a data frame with named columns and a pathway
 #'   list as an \code{OmicsPathway} object which has had unrecorded -Omes
@@ -56,6 +62,7 @@
 setGeneric("extract_aesPCs",
            function(object, numPCs = 1,
                     parallel = FALSE, numCores = NULL,
+                    standardPCA = FALSE,
                     ...){
              standardGeneric("extract_aesPCs")
            }
@@ -73,6 +80,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
                                 numPCs = 1,
                                 parallel = FALSE,
                                 numCores = NULL,
+                                standardPCA = FALSE,
                                 ...){
             # browser()
             pathSets_ls <- object@trimPathwayCollection
@@ -97,7 +105,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
 
               ###  Extract PCs  ###
               message("Extracting Pathway PCs in Parallel: ", appendLF = FALSE)
-              PCs_ls <- parLapplyLB(cl = clust,
+              out_ls <- parLapplyLB(cl = clust,
                                     data_Omes,
                                     function(pathway_df){
                                       aespca(X = pathway_df,
@@ -109,7 +117,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
             } else {
 
               message("Extracting Pathway PCs Serially: ", appendLF = FALSE)
-              PCs_ls <- lapply(data_Omes,
+              out_ls <- lapply(data_Omes,
                                function(path_df){
                                  aespca(X = path_df,
                                         d = numPCs)
@@ -118,6 +126,23 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
 
             }
 
-            PCs_ls
+
+            ###  Return  ###
+            if(standardPCA){
+
+              PCs_ls      <- lapply(out_ls, `[[`, "oldScore")
+              loadings_ls <- lapply(out_ls, `[[`, "oldLoad")
+
+            } else {
+
+              PCs_ls      <- lapply(out_ls, `[[`, "aesScore")
+              loadings_ls <- lapply(out_ls, `[[`, "aesLoad")
+
+            }
+
+            list(
+              PCs = PCs_ls,
+              loadings = loadings_ls
+            )
 
           })
