@@ -46,6 +46,8 @@
 #'    the trimmed pathway collection.}
 #'   \item{\code{terms} : }{The pathway title, as stored in the
 #'     \code{object@@trimPathwayCollection$TERMS} object.}
+#'   \item{\code{description} : }{The pathway description, if it is stored in
+#'     the \code{object@@trimPathwayCollection$description} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
 #'   \item{\code{...} : }{Additional columns as specified through the
 #'     \code{adjustment} argument.}
@@ -93,12 +95,26 @@ adjust_and_sort <- function(pVals_vec,
   names(pValsFull_vec) <- names(genesets_ls$TERMS)
   pValsFull_vec[names(pVals_vec)] <- pVals_vec
 
-  pVals_df <- data.frame(pathways = names(genesets_ls$TERMS),
-                         setsize = genesets_ls$setsize,
-                         trim_size = genesets_ls$trim_setsize,
-                         terms = genesets_ls$TERMS,
-                         rawp = unname(pValsFull_vec),
-                         stringsAsFactors = FALSE)
+  if(is.null(genesets_ls$description)){
+    pVals_df <- data.frame(
+      pathways = names(genesets_ls$TERMS),
+      setsize = genesets_ls$setsize,
+      trim_size = genesets_ls$trim_setsize,
+      terms = genesets_ls$TERMS,
+      rawp = unname(pValsFull_vec),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    pVals_df <- data.frame(
+      pathways = names(genesets_ls$TERMS),
+      setsize = genesets_ls$setsize,
+      trim_size = genesets_ls$trim_setsize,
+      terms = genesets_ls$TERMS,
+      description = genesets_ls$description,
+      rawp = unname(pValsFull_vec),
+      stringsAsFactors = FALSE
+    )
+  }
   rownames(pVals_df) <- NULL
 
   if(adjust){
