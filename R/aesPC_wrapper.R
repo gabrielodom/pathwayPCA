@@ -166,22 +166,9 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
               object = object,
               numPCs = numPCs,
               parallel = parallel,
-              numCores = numCores
+              numCores = numCores,
+              standardPCA = asPCA
             )
-
-
-            if(asPCA){
-
-              PCs_ls      <- lapply(aespca_ls, `[[`, "oldScore")
-              loadings_ls <- lapply(aespca_ls, `[[`, "oldLoad")
-
-            } else {
-
-              PCs_ls      <- lapply(aespca_ls, `[[`, "aesScore")
-              loadings_ls <- lapply(aespca_ls, `[[`, "aesLoad")
-
-            }
-            rm(aespca_ls)
 
 
             ###  Permutation Pathway p-Values  ###
@@ -190,25 +177,31 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             obj_class <- class(object)
             switch(obj_class,
                    OmicsSurv = {
-                     pVals_vec <- permTest_OmicsSurv(OmicsSurv = object,
-                                                     pathwayPCs_ls = PCs_ls,
-                                                     numReps = numReps,
-                                                     parallel = parallel,
-                                                     numCores = numCores)
+                     pVals_vec <- permTest_OmicsSurv(
+                       OmicsSurv = object,
+                       pathwayPCs_ls = aespca_ls$PCs,
+                       numReps = numReps,
+                       parallel = parallel,
+                       numCores = numCores
+                     )
                    },
                    OmicsReg = {
-                     pVals_vec <- permTest_OmicsReg(OmicsReg = object,
-                                                    pathwayPCs_ls = PCs_ls,
-                                                    numReps = numReps,
-                                                    parallel = parallel,
-                                                    numCores = numCores)
+                     pVals_vec <- permTest_OmicsReg(
+                       OmicsReg = object,
+                       pathwayPCs_ls = aespca_ls$PCs,
+                       numReps = numReps,
+                       parallel = parallel,
+                       numCores = numCores
+                     )
                    },
                    OmicsCateg = {
-                     pVals_vec <- permTest_OmicsCateg(OmicsCateg = object,
-                                                      pathwayPCs_ls = PCs_ls,
-                                                      numReps = numReps,
-                                                      parallel = parallel,
-                                                      numCores = numCores)
+                     pVals_vec <- permTest_OmicsCateg(
+                       OmicsCateg = object,
+                       pathwayPCs_ls = aespca_ls$PCs,
+                       numReps = numReps,
+                       parallel = parallel,
+                       numCores = numCores
+                     )
                    }
             )
 
@@ -225,17 +218,19 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             }
 
             pathwayGeneSets_ls <- object@trimPathwayCollection
-            out_df <- adjust_and_sort(pVals_vec = pVals_vec,
-                                      genesets_ls = pathwayGeneSets_ls,
-                                      adjust = adjustpValues,
-                                      proc_vec = adjustment,
-                                      ...)
+            out_df <- adjust_and_sort(
+              pVals_vec = pVals_vec,
+              genesets_ls = pathwayGeneSets_ls,
+              adjust = adjustpValues,
+              proc_vec = adjustment,
+              ...
+            )
             message("DONE")
 
 
             ###  Re-order PCA Output  ###
-            PCs_ls <- PCs_ls[out_df$pathways]
-            loadings_ls <- loadings_ls[out_df$pathways]
+            PCs_ls <- aespca_ls$PCs[out_df$pathways]
+            loadings_ls <- aespca_ls$loadings[out_df$pathways]
 
 
             ###  Return  ###
