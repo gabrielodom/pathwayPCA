@@ -10,8 +10,8 @@ adjust_and_sort(pVals_vec, genesets_ls, adjust = TRUE,
 }
 \arguments{
 \item{pVals_vec}{A named vector of permutation \eqn{p}-values returned by the
-\code{\link{permTest_OmicsSurv}}, \code{\link{permTest_OmicsReg}}, or
-\code{\link{permTest_OmicsCateg}} functions when the analysis performed was
+\code{\link{PermTestSurv}}, \code{\link{PermTestReg}}, or
+\code{\link{PermTestCateg}} functions when the analysis performed was
 AES-PCA. Otherwise, when the analysis was performed with Supervised PCA, a
 named vector of \eqn{p}-values from the \code{\link{weibullMix_pValues}}
 function.}

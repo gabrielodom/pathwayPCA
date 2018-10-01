@@ -88,8 +88,8 @@ Given a supervised \code{OmicsPath} object (one of
 }
 \details{
 This is a wrapper function for the \code{\link{ExtractAESPCs}},
-   \code{\link{permTest_OmicsSurv}}, \code{\link{permTest_OmicsReg}}, and
-   \code{\link{permTest_OmicsCateg}} functions.
+   \code{\link{PermTestSurv}}, \code{\link{PermTestReg}}, and
+   \code{\link{PermTestCateg}} functions.
 
   Please see our Quickstart Guide for this package:
   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
@@ -123,7 +123,7 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
 \seealso{
 \code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
-   \code{\link{ExtractAESPCs}}; \code{\link{permTest_OmicsSurv}};
-   \code{\link{permTest_OmicsReg}}; \code{\link{permTest_OmicsCateg}};
+   \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
+   \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
    \code{\link{adjust_and_sort}}
 }

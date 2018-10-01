@@ -57,7 +57,7 @@
 #'
 #' @seealso \code{\link{superpc.train}}; \code{\link{superPCA_pVals}}
 #'
-#' @export
+#' @keywords internal
 #'
 #' @importFrom stats binomial
 #' @importFrom stats glm
@@ -66,6 +66,8 @@
 #' @importFrom survival coxph
 #' @importFrom survival coxph.control
 #' @importFrom survival Surv
+#'
+#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
@@ -204,13 +206,15 @@ superpc.st <- function(fit,
 
 
   ###  Return  ###
-  out_ls <- list(thresholds = thresholds,
-                 n.threshold = n.threshold,
-                 scor = scor,
-                 tscor = tscor,
-                 PCs_mat = bestPCs_mat,
-                 Loadings_mat = bestLoadings_mat,
-                 type = type)
+  out_ls <- list(
+    thresholds = thresholds,
+    n.threshold = n.threshold,
+    scor = scor,
+    tscor = tscor,
+    PCs_mat = bestPCs_mat,
+    Loadings_mat = bestLoadings_mat,
+    type = type
+  )
   class(out_ls) <- "superpc.st"
   out_ls
 

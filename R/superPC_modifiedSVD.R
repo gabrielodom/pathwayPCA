@@ -1,11 +1,15 @@
 #' Singular Value Decomposition wrapper for supervised PCA
 #'
 #' @param mat A matrix of data frame in "tall" format (\eqn{p \times n}).
+#' @param method What function should be used to extract the left- and right-
+#'   singular vectors and singular values? Any function that returns the values
+#'   as a list with components \code{u}, \code{v}, and \code{d} is appropriate.
+#'   Defaults to \code{\link[base]{svd}}.
 #' @param n.components How many singular values / vectors to return? Must be an
 #'   integer less than \eqn{min(p, n)}. Best performance increase is for values
 #'   much less than \eqn{min(p, n)}. Defaults to \code{NULL}.
 #'
-#' @description Center and compute the fast SVD of a matrix
+#' @description Center and compute the SVD of a matrix
 #'
 #' @return A list containing:
 #' \itemize{
@@ -29,13 +33,15 @@
 #'   functions, such as the \code{\link[rsvd]{rsvd}} function from the
 #'   \code{rsvd} package. ENHANCEMENT.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use superPCA_pVals() instead
 
-mysvd <- function(mat, n.components = NULL){
+mysvd <- function(mat, method = svd, n.components = NULL){
 
   # finds PCs of matrix x
   p <- nrow(mat)
@@ -50,12 +56,14 @@ mysvd <- function(mat, n.components = NULL){
     n.components <- min(n, p)
   }
 
-  junk <- svd(mat)
+  junk <- method(mat)
   nc <- min(ncol(junk$u), n.components)
 
-  return(list(u = junk$u[, 1:nc],
-              d = junk$d[1:nc],
-              v = junk$v[, 1:nc],
-              feature.means = feature.means))
+  list(
+    u = junk$u[, 1:nc],
+    d = junk$d[1:nc],
+    v = junk$v[, 1:nc],
+    feature.means = feature.means
+  )
 
 }

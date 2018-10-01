@@ -56,15 +56,15 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname permTest_OmicsCateg
-setGeneric("permTest_OmicsCateg",
+#' @rdname PermTestCateg
+setGeneric("PermTestCateg",
            function(OmicsCateg,
                     pathwayPCs_ls,
                     numReps = 1000,
                     parallel = FALSE,
                     numCores = NULL,
                     ...){
-             standardGeneric("permTest_OmicsCateg")
+             standardGeneric("PermTestCateg")
            }
 )
 
@@ -77,8 +77,8 @@ setGeneric("permTest_OmicsCateg",
 #' @importFrom parallel parSapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname permTest_OmicsCateg
-setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
+#' @rdname PermTestCateg
+setMethod(f = "PermTestCateg", signature = "OmicsCateg",
           definition = function(OmicsCateg,
                                 pathwayPCs_ls,
                                 numReps = 1000,
@@ -111,8 +111,10 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
               ###  Permuted Model  ###
               permuteAIC_fun <- function(){
 
-                perm_resp <- sample_Classifresp(obj_OmicsCateg@response,
-                                            parametric = parametric)
+                perm_resp <- sample_Classifresp(
+                  obj_OmicsCateg@response,
+                  parametric = parametric
+                )
                 AIC(glm(perm_resp ~ pathwayPCs_mat, family = binomial))
 
               }
@@ -145,11 +147,13 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
               ###  Extract PCs  ###
               message("Extracting Pathway p-Values in Parallel: ",
                       appendLF = FALSE)
-              pValues_vec <- parSapply(cl = clust,
-                                       pathwayPCs_ls,
-                                       permute_CategFit,
-                                       obj_OmicsCateg = OmicsCateg,
-                                       numReps_int = numReps)
+              pValues_vec <- parSapply(
+                cl = clust,
+                pathwayPCs_ls,
+                permute_CategFit,
+                obj_OmicsCateg = OmicsCateg,
+                numReps_int = numReps
+              )
               stopCluster(clust)
               message("DONE")
 
@@ -157,10 +161,12 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
 
               message("Extracting Pathway p-Values Serially: ",
                       appendLF = FALSE)
-              pValues_vec <- sapply(pathwayPCs_ls,
-                                    permute_CategFit,
-                                    obj_OmicsCateg = OmicsCateg,
-                                    numReps_int = numReps)
+              pValues_vec <- sapply(
+                pathwayPCs_ls,
+                permute_CategFit,
+                obj_OmicsCateg = OmicsCateg,
+                numReps_int = numReps
+              )
               message("DONE")
 
             }
