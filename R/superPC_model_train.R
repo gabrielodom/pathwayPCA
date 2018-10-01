@@ -39,6 +39,8 @@
 #'
 #' @seealso \code{\link{superpc.st}}; \code{\link{superPCA_pVals}}
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples

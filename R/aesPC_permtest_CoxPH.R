@@ -48,15 +48,15 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname permTest_OmicsSurv
-setGeneric("permTest_OmicsSurv",
+#' @rdname PermTestSurv
+setGeneric("PermTestSurv",
            function(OmicsSurv,
                     pathwayPCs_ls,
                     numReps = 1000,
                     parallel = FALSE,
                     numCores = NULL,
                     ...){
-             standardGeneric("permTest_OmicsSurv")
+             standardGeneric("PermTestSurv")
            }
 )
 
@@ -69,8 +69,8 @@ setGeneric("permTest_OmicsSurv",
 #' @importFrom parallel parSapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname permTest_OmicsSurv
-setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
+#' @rdname PermTestSurv
+setMethod(f = "PermTestSurv", signature = "OmicsSurv",
           definition = function(OmicsSurv,
                                 pathwayPCs_ls,
                                 numReps = 1000,
@@ -97,9 +97,11 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
               ###  Permuted Model  ###
               permuteAIC_fun <- function(){
 
-                perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
-                                                 event_vec = obj_OmicsSurv@eventObserved,
-                                                 parametric = parametric)
+                perm_resp <- sample_Survivalresp(
+                  response_vec = obj_OmicsSurv@eventTime,
+                  event_vec = obj_OmicsSurv@eventObserved,
+                  parametric = parametric
+                )
                 perm_Surv <- Surv(time = perm_resp$response_vec,
                                   event = perm_resp$event_vec)
                 AIC(coxph(perm_Surv ~ pathwayPCs_mat))
@@ -134,21 +136,25 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
               ###  Extract PCs  ###
               message("Extracting Pathway p-Values in Parallel: ",
                       appendLF = FALSE)
-              pValues_vec <- parSapply(cl = clust,
-                                       pathwayPCs_ls,
-                                       permute_SurvFit,
-                                       obj_OmicsSurv = OmicsSurv,
-                                       numReps_int = numReps)
+              pValues_vec <- parSapply(
+                cl = clust,
+                pathwayPCs_ls,
+                permute_SurvFit,
+                obj_OmicsSurv = OmicsSurv,
+                numReps_int = numReps
+              )
               stopCluster(clust)
               message("DONE")
 
             } else {
 
               message("Extracting Pathway p-Values Serially")
-              pValues_vec <- sapply(pathwayPCs_ls,
-                                    permute_SurvFit,
-                                    obj_OmicsSurv = OmicsSurv,
-                                    numReps_int = numReps)
+              pValues_vec <- sapply(
+                pathwayPCs_ls,
+                permute_SurvFit,
+                obj_OmicsSurv = OmicsSurv,
+                numReps_int = numReps
+              )
               message("DONE")
 
             }

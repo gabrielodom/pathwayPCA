@@ -4,8 +4,8 @@
 #'   the relevant pathway information, sorted by adjusted significance.
 #'
 #' @param pVals_vec A named vector of permutation \eqn{p}-values returned by the
-#'   \code{\link{permTest_OmicsSurv}}, \code{\link{permTest_OmicsReg}}, or
-#'   \code{\link{permTest_OmicsCateg}} functions when the analysis performed was
+#'   \code{\link{PermTestSurv}}, \code{\link{PermTestReg}}, or
+#'   \code{\link{PermTestCateg}} functions when the analysis performed was
 #'   AES-PCA. Otherwise, when the analysis was performed with Supervised PCA, a
 #'   named vector of \eqn{p}-values from the \code{\link{weibullMix_pValues}}
 #'   function.
@@ -122,10 +122,12 @@ adjust_and_sort <- function(pVals_vec,
     proc_vec <- match.arg(proc_vec, several.ok = TRUE)
     proc_vec <- unique(proc_vec)
 
-    adjusted_df <- adjustRaw_pVals(rawp = pVals_df$rawp,
-                                   proc = proc_vec,
-                                   na.rm = anyNA(pVals_df$rawp),
-                                   ...)
+    adjusted_df <- adjustRaw_pVals(
+      rawp = pVals_df$rawp,
+      proc = proc_vec,
+      na.rm = anyNA(pVals_df$rawp),
+      ...
+    )
 
     TSBHplace_idx <- which(proc_vec == "TSBH")
 
@@ -154,9 +156,11 @@ adjust_and_sort <- function(pVals_vec,
       } else {
 
         # "TSBH" is some procedure in the middle of the proc list
-        orderedNames <- c(proc_vec[1:(TSBHplace_idx - 1)],
-                          TSBHnames,
-                          proc_vec[(TSBHplace_idx + 1):nProcs])
+        orderedNames <- c(
+          proc_vec[1:(TSBHplace_idx - 1)],
+          TSBHnames,
+          proc_vec[(TSBHplace_idx + 1):nProcs]
+        )
 
       }
 

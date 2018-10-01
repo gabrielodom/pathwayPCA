@@ -35,3 +35,4 @@ While this function currently supports any GLM family from the
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use superPCA_pVals() instead
 }
+\keyword{internal}

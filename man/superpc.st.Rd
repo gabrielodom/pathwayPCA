@@ -79,3 +79,4 @@ NOTE: the number of thresholds at which to test (\code{n.threshold})
 \seealso{
 \code{\link{superpc.train}}; \code{\link{superPCA_pVals}}
 }
+\keyword{internal}

@@ -49,15 +49,15 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname permTest_OmicsReg
-setGeneric("permTest_OmicsReg",
+#' @rdname PermTestReg
+setGeneric("PermTestReg",
            function(OmicsReg,
                     pathwayPCs_ls,
                     numReps = 1000,
                     parallel = FALSE,
                     numCores = NULL,
                     ...){
-             standardGeneric("permTest_OmicsReg")
+             standardGeneric("PermTestReg")
            }
 )
 
@@ -69,8 +69,8 @@ setGeneric("permTest_OmicsReg",
 #' @importFrom parallel parSapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname permTest_OmicsReg
-setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
+#' @rdname PermTestReg
+setMethod(f = "PermTestReg", signature = "OmicsReg",
           definition = function(OmicsReg,
                                 pathwayPCs_ls,
                                 numReps = 1000,
@@ -93,8 +93,10 @@ setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
               ###  Permuted Model  ###
               permuteAIC_fun <- function(){
 
-                perm_resp <- sample_Regresp(obj_OmicsReg@response,
-                                            parametric = parametric)
+                perm_resp <- sample_Regresp(
+                  obj_OmicsReg@response,
+                  parametric = parametric
+                )
                 AIC(lm(perm_resp ~ pathwayPCs_mat))
 
               }
@@ -127,11 +129,13 @@ setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
               ###  Extract PCs  ###
               message("Extracting Pathway p-Values in Parallel: ",
                       appendLF = FALSE)
-              pValues_vec <- parSapply(cl = clust,
-                                       pathwayPCs_ls,
-                                       permute_RegFit,
-                                       obj_OmicsReg = OmicsReg,
-                                       numReps_int = numReps)
+              pValues_vec <- parSapply(
+                cl = clust,
+                pathwayPCs_ls,
+                permute_RegFit,
+                obj_OmicsReg = OmicsReg,
+                numReps_int = numReps
+              )
               stopCluster(clust)
               message("DONE")
 
@@ -139,10 +143,12 @@ setMethod(f = "permTest_OmicsReg", signature = "OmicsReg",
 
               message("Extracting Pathway p-Values Serially: ",
                       appendLF = FALSE)
-              pValues_vec <- sapply(pathwayPCs_ls,
-                                    permute_RegFit,
-                                    obj_OmicsReg = OmicsReg,
-                                    numReps_int = numReps)
+              pValues_vec <- sapply(
+                pathwayPCs_ls,
+                permute_RegFit,
+                obj_OmicsReg = OmicsReg,
+                numReps_int = numReps
+              )
               message("DONE")
 
             }

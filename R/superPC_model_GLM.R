@@ -19,6 +19,8 @@
 #'   classification through \code{\link[nnet]{multinom}} and ordinal logistic
 #'   regression through \code{\link[MASS]{polr}}.
 #'
+#' @keywords internal
+#'
 #' @importFrom stats binomial
 #' @importFrom stats glm
 #'

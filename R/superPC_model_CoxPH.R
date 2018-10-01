@@ -31,6 +31,8 @@
 #'
 #'    NOTE: No missing values allowed.
 #'
+#' @keywords internal
+#'
 #' @importFrom stats median
 #' @importFrom stats quantile
 #'

@@ -62,9 +62,9 @@ reference:
       - '`aespca`'
       - '`lars.lsa`'
       - '`ExtractAESPCs`'
-      - '`permTest_OmicsSurv`'
-      - '`permTest_OmicsReg`'
-      - '`permTest_OmicsCateg`'
+      - '`PermTestSurv`'
+      - '`PermTestReg`'
+      - '`PermTestCateg`'
       - '`normalize`'
   - title: Internal Supervised PCA Functions
     desc: Functions designed to be called by the Supervised PCA wrapper above
