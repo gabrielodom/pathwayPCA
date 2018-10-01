@@ -7,7 +7,7 @@
 #'   \code{\link{PermTestSurv}}, \code{\link{PermTestReg}}, or
 #'   \code{\link{PermTestCateg}} functions when the analysis performed was
 #'   AES-PCA. Otherwise, when the analysis was performed with Supervised PCA, a
-#'   named vector of \eqn{p}-values from the \code{\link{weibullMix_pValues}}
+#'   named vector of \eqn{p}-values from the \code{\link{GumbelMixpValues}}
 #'   function.
 #' @param genesets_ls A list of known gene pathways. This pathway list must
 #'   contain:
@@ -70,7 +70,7 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Call this function through AESPCA_pVals() or superPCA_pVals() instead.
+#'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 adjust_and_sort <- function(pVals_vec,
                             genesets_ls,
                             adjust = TRUE,

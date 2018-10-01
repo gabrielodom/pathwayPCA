@@ -170,11 +170,11 @@ ovarian_aespcOut <- AESPCA_pVals(
 ```
 
 ## Function Details
-The above function has the following computational options (unless stated, these options are identical for the `AESPCA_pVals()` and `superPCA_pVals()` functions):
+The above function has the following computational options (unless stated, these options are identical for the `AESPCA_pVals()` and `SuperPCA_pVals()` functions):
 
 - `numPCs` controls the number of principal components extracted from each pathway-specific expression subset.
 - `parallel` turns distributed computing on or off. Our parallelization routine works on both Windows and Unix-based systems (Mac and Linux). For AES-PCA, this option is critical (as this method is uses computationally-expensive resampling techniques). The corresponding `numCores` argument dictates the number of processors you will let `R` use for parallel computation.
-- `numReps` (AESPCA only) controls the number of permutations used to calculate the $p$-values for each pathway. For low-signal data, you may need to increase this to 10k or even 100k to adequately distinguish between a $p$-value of $0/1000,\ 1/1000$, or $2/1000$. For reproducibility, you can to control the random seed via the `base::` package `set.seed` function when this function is executed serially. Because Supervised PCA is a parametric technique, this argument is unavailable for the `superPCA_pVals()` function.
+- `numReps` (AESPCA only) controls the number of permutations used to calculate the $p$-values for each pathway. For low-signal data, you may need to increase this to 10k or even 100k to adequately distinguish between a $p$-value of $0/1000,\ 1/1000$, or $2/1000$. For reproducibility, you can to control the random seed via the `base::` package `set.seed` function when this function is executed serially. Because Supervised PCA is a parametric technique, this argument is unavailable for the `SuperPCA_pVals()` function.
 - `adjustment` specifies which family-wise error rate or false discovery rate adjustment to apply to the $p$-values from each pathway. See `?adjustRaw_pVals` for adjustment options and citations.
 
 

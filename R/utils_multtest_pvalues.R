@@ -105,7 +105,7 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Call this function through AESPCA_pVals() or superPCA_pVals() instead.
+#'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 adjustRaw_pVals <- function (rawp,
                              proc = c("BH",
                                       "Bonferroni",

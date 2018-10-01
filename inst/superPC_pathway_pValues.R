@@ -6,7 +6,7 @@
 #'
 #' @param optimParams_vec A named vector of the estimated values for the
 #'    parameters which minimize the likelihood as returned by the function
-#'    \code{\link{weibullMix_optimParams}}.
+#'    \code{\link{OptimGumbelMixParams}}.
 #' @param max_tScores_vec A vector of the maximum absolute \eqn{t}-scores for
 #'    each pathway when under the alternative model (the response vector as is).
 #' @param genelist_ls A list of three elements:
@@ -31,22 +31,20 @@
 #'    for each adjustment method specified.
 #'
 #' @details This function takes in the optimal parameters returned by the
-#'    \code{\link{weibullMix_optimParams}} function, the maximum \eqn{t}-scores
+#'    \code{\link{OptimGumbelMixParams}} function, the maximum \eqn{t}-scores
 #'    for each gene pathway, and the list of gene pathway information. This
 #'    function will calculate the \eqn{p}-value for each \eqn{t}-score given the
 #'    Gumbel Extreme Value mixture distribution parametrized by the values
-#'    returned by the \code{\link{weibullMix_optimParams}} function. If
+#'    returned by the \code{\link{OptimGumbelMixParams}} function. If
 #'    requested, this function will also calculate the FDR associated with all
 #'    pathway \eqn{p}-values via requested FDR-adjustment procedure. The default
 #'    procedure is the Benjamini & Hochberg (1995) step-up FDR-controlling
 #'    procedure, but any procedure implemented in the
 #'    \code{\link{adjustRaw_pVals}} function is available.
 #'
-#' @export
-#'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 pathway_pValues <- function(optimParams_vec,
                             max_tScores_vec,
                             genelist_ls,
@@ -55,7 +53,7 @@ pathway_pValues <- function(optimParams_vec,
   # browser()
 
   ###  Pathway Cardinality  ###
-  # Don't know what this does, but it's also in the weibullMix_optimParams
+  # Don't know what this does, but it's also in the OptimGumbelMixParams
   #   function
   calc_anbn <- function(length_vec){
 
@@ -71,7 +69,7 @@ pathway_pValues <- function(optimParams_vec,
   abn_ls <- calc_anbn(genelist_ls$setsize)
 
 
-  ###  Weibull Mixture p-Value Calculation  ###
+  ###  Gumbel Mixture p-Value Calculation  ###
   newP_fun <- function(tScore_vec, optimParams_vec, abCounts_ls){
 
     an_s1 <- abCounts_ls$an * optimParams_vec["s1"]

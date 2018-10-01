@@ -39,7 +39,7 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 
 mysvd <- function(mat, method = svd, n.components = NULL){
 

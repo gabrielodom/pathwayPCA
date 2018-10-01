@@ -10,7 +10,7 @@
 #' @param pathwaySize_vec A vector of the number of genes in each pathway.
 #' @param optimParams_vec The \emph{NAMED} vector of optimal Weibull Extreme
 #'    Value mixture distribution parameters returned by the
-#'    \code{\link{weibullMix_optimParams}} function.
+#'    \code{\link{OptimGumbelMixParams}} function.
 #'
 #' @return A named vector of the estimated raw \eqn{p}-values for each gene
 #'    pathway.
@@ -24,18 +24,20 @@
 #'    See \url{https://doi.org/10.1093/bioinformatics/btn458} for more
 #'    information.
 #'
-#' @seealso \code{\link{weibullMix_optimParams}}; \code{\link{pathway_tScores}};
-#'    \code{\link{superPCA_pVals}}
+#' @seealso \code{\link{OptimGumbelMixParams}}; \code{\link{pathway_tScores}};
+#'    \code{\link{SuperPCA_pVals}}
+#'
+#' @keywords internal
 #'
 #' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead.
+#'   # Use SuperPCA_pVals() instead.
 
-weibullMix_pValues <- function(tScore_vec,
-                               pathwaySize_vec,
-                               optimParams_vec){
+GumbelMixpValues <- function(tScore_vec,
+                             pathwaySize_vec,
+                             optimParams_vec){
 
   ###  Pathway Cardinality  ###
   # Still don't know what this does

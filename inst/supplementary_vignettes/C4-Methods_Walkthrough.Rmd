@@ -80,7 +80,7 @@ colon_OmicsSurv
 
 
 # 2. Pathway Testing Setup
-In this section, we will describe the workflow of the Supervised PCA (`superPCA_pVals`) and AES-PCA (`AESPCA_pVals`) pathway significance-testing methods. **The implementation of Supervised PCA in this package does not currently support analysis of responses with missingness.** If you plan to test your pathways using the Supervised PCA method, please remove observations with missing entries before analysis. Unlike the current implementation of Supervised PCA, our current implementation of AES-PCA can handle some missingness in the response.
+In this section, we will describe the workflow of the Supervised PCA (`SuperPCA_pVals`) and AES-PCA (`AESPCA_pVals`) pathway significance-testing methods. **The implementation of Supervised PCA in this package does not currently support analysis of responses with missingness.** If you plan to test your pathways using the Supervised PCA method, please remove observations with missing entries before analysis. Unlike the current implementation of Supervised PCA, our current implementation of AES-PCA can handle some missingness in the response.
 
 Also, when we compare computing times in this vignette, we use a Dell Precision Tower 5810 with 64-bit Windows 7 Enterprise OS. This machine has 64 GB of RAM and an Intel Xeon E5-2640 v4 2.40 GHz processor with 20 threads. We use two threads for parallel computing. Please adjust your expectations of computing time accordingly.
 
@@ -239,7 +239,7 @@ Cons:
 ### 4.2.1 Survival Response
 We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 6 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $4.6\times$ faster; for 10,000 permutations, it's $36.1\times$ faster.
 ```{r super_surv_pvals}
-colonSurv_superpcOut <- superPCA_pVals(
+colonSurv_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsSurv,
   parallel = TRUE,
   numCores = 2,
@@ -251,7 +251,7 @@ colonSurv_superpcOut <- superPCA_pVals(
 ### 4.2.2 Regression Response
 We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures. This calculation took 5 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $3.4\times$ faster; for 10,000 permutations, it's $20.7\times$ faster.
 ```{r super_reg_pvals, eval=FALSE}
-colonReg_superpcOut <- superPCA_pVals(
+colonReg_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsReg,
   parallel = TRUE,
   numCores = 2,
@@ -263,7 +263,7 @@ colonReg_superpcOut <- superPCA_pVals(
 ### 4.2.3 Binary Classification Response
 Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 8 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $3.7\times$ faster; for 10,000 permutations, it's $27.6\times$ faster.
 ```{r super_categ_pvals, eval=FALSE}
-colonCateg_superpcOut <- superPCA_pVals(
+colonCateg_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsCateg,
   parallel = TRUE,
   numCores = 2,
@@ -278,7 +278,7 @@ colonCateg_superpcOut <- superPCA_pVals(
 
 
 # 5. Analyze the Results
-Now that we have the pathway-specific $p$-values, we can inspect the top pathways ordered by significance. Also, we will plot the most significant $p$-values using the [`ggplot2` package](http://ggplot2.org/). In order to use the `ggplot` function, we must first "tidy" the data frame returned by the `superPCA_pVals()` and `AESPCA_pVals()` functions. For graphics and data tidying, we will need the suite of `tidyverse` packages:
+Now that we have the pathway-specific $p$-values, we can inspect the top pathways ordered by significance. Also, we will plot the most significant $p$-values using the [`ggplot2` package](http://ggplot2.org/). In order to use the `ggplot` function, we must first "tidy" the data frame returned by the `SuperPCA_pVals()` and `AESPCA_pVals()` functions. For graphics and data tidying, we will need the suite of `tidyverse` packages:
 ```{r graphcs_packages, message=FALSE}
 library(tidyverse)
 ```
