@@ -74,9 +74,9 @@ NOTE: the number of thresholds at which to test (\code{n.threshold})
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
 \seealso{
-\code{\link{superpc.train}}; \code{\link{superPCA_pVals}}
+\code{\link{superpc.train}}; \code{\link{SuperPCA_pVals}}
 }
 \keyword{internal}

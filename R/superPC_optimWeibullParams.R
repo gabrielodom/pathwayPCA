@@ -52,8 +52,10 @@
 #'    See \url{https://doi.org/10.1093/bioinformatics/btn458} for more
 #'    information.
 #'
-#' @seealso \code{\link[stats]{optim}}; \code{\link{weibullMix_pValues}};
-#'    \code{\link{pathway_tControl}}; \code{\link{superPCA_pVals}}
+#' @seealso \code{\link[stats]{optim}}; \code{\link{GumbelMixpValues}};
+#'    \code{\link{pathway_tControl}}; \code{\link{SuperPCA_pVals}}
+#'
+#' @keywords internal
 #'
 #' @export
 #'
@@ -63,16 +65,16 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead.
+#'   # Use SuperPCA_pVals() instead.
 
-weibullMix_optimParams <- function(max_tControl_vec,
-                                   pathwaySize_vec,
-                                   initialVals = c(p = 0.5,
-                                                   mu1 = 1, s1 = 0.5,
-                                                   mu2 = 1, s2 = 0.5),
-                                   optimMethod = "L-BFGS-B",
-                                   lowerBD = c(0, -Inf, 0, -Inf, 0),
-                                   upperBD = c(1, Inf, Inf, Inf, Inf)){
+OptimGumbelMixParams <- function(max_tControl_vec,
+                                 pathwaySize_vec,
+                                 initialVals = c(p = 0.5,
+                                                 mu1 = 1, s1 = 0.5,
+                                                 mu2 = 1, s2 = 0.5),
+                                 optimMethod = "L-BFGS-B",
+                                 lowerBD = c(0, -Inf, 0, -Inf, 0),
+                                 upperBD = c(1, Inf, Inf, Inf, Inf)){
   # browser()
 
   ###  Pathway Cardinality  ###

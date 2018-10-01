@@ -55,6 +55,6 @@ The distributions (for \code{parametric = TRUE}) are Weibull for
 }
 \examples{
   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
-  # Use AESPCA_pVals() or superPCA_pVals() instead
+  # Use AESPCA_pVals() or SuperPCA_pVals() instead
 
 }

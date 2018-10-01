@@ -2,14 +2,14 @@
 #'
 #' @description Given a supervised \code{Omics*}-class object and a ranked
 #'    pathways data frame returned by either the \code{\link{AESPCA_pVals}} or
-#'    \code{\link{superPCA_pVals}} functions, calculate the weighted rank the
+#'    \code{\link{SuperPCA_pVals}} functions, calculate the weighted rank the
 #'    genes / proteins / lipids / metabolomes / transcriptomes contained in each
 #'    pathway by the significance of their container pathways.
 #'
 #' @param object An object of class \code{OmicsSurv}, \code{OmicsReg}, or
 #'    \code{OmicsCateg}.
 #' @param pVals_df The ranked pathways data frame returned by either the
-#'    \code{\link{AESPCA_pVals}} or \code{\link{superPCA_pVals}} functions.
+#'    \code{\link{AESPCA_pVals}} or \code{\link{SuperPCA_pVals}} functions.
 #'    Missing \eqn{p}-values (from trimmed pathways) are omitted.
 #' @param percentile Return the most significant \eqn{q} percent of the features
 #'    contained in all pathways. Defaults to 0.01.
@@ -26,7 +26,7 @@
 #' @details This function takes in the pathway set information in a valid
 #'    \code{Omics*}-class object and a data frame of ranked pathways (as
 #'    returned by either the \code{\link{AESPCA_pVals}} or
-#'    \code{\link{superPCA_pVals}} functions). This function creates a matrix
+#'    \code{\link{SuperPCA_pVals}} functions). This function creates a matrix
 #'    with pathways as the columns and all genes included in those pathways as
 #'    the rows: the \eqn{i, j} entry of the matrix equals 1 if gene \eqn{i} is
 #'    an element of pathway \eqn{j}. (This is created after trimming the
@@ -61,11 +61,13 @@
 #'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
-#'   colonSurv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
-#'                                        parallel = TRUE,
-#'                                        numCores = 2,
-#'                                        adjustpValues = TRUE,
-#'                                        adjustment = c("Hoch", "SidakSD"))
+#'   colonSurv_pVals_df <- SuperPCA_pVals(
+#'     object = colon_OmicsSurv,
+#'     parallel = TRUE,
+#'     numCores = 2,
+#'     adjustpValues = TRUE,
+#'     adjustment = c("Hoch", "SidakSD")
+#'   )
 #'
 #'   ###  Find the Top Genes  ###
 #'   topGenes(object = colon_OmicsSurv, pVals_df = colonSurv_pVals_df)

@@ -41,7 +41,7 @@
 #'
 #' @examples
 #'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
-#'   # Use AESPCA_pVals() or superPCA_pVals() instead
+#'   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 #'
 #' @name randomControlSample
 #' @rdname permuteSamps

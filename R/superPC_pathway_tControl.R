@@ -48,11 +48,13 @@
 #' @seealso \code{\link{pathway_tScores}}; \code{\link{randomControlSample}};
 #'    \code{\link{superpc.train}}; \code{\link{superpc.st}}
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 pathway_tControl <- function(pathway_vec,
                              geneArray_df,
                              response_mat,
@@ -97,11 +99,13 @@ pathway_tControl <- function(pathway_vec,
 
   train <- superpc.train(data_ls, type = responseType)
 
-  st.obj <- superpc.st(fit = train,
-                       data = data_ls,
-                       n.PCs = numPCs,
-                       min.features = min.features,
-                       n.threshold = n.threshold)
+  st.obj <- superpc.st(
+    fit = train,
+    data = data_ls,
+    n.PCs = numPCs,
+    min.features = min.features,
+    n.threshold = n.threshold
+  )
 
   st.obj$tscor
 

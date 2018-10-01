@@ -58,7 +58,7 @@ This is a wrapper function to call \code{\link{superpc.train}}
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
 \seealso{
 \code{\link{superpc.train}}; \code{\link{superpc.st}}

@@ -33,6 +33,6 @@ While this function currently supports any GLM family from the
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
 \keyword{internal}

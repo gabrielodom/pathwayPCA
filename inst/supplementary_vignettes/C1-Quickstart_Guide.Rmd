@@ -180,7 +180,7 @@ getEvent(colon_OmicsSurv)[1:10]
 # 4. Test Pathways for Significance
 After you have confirmed that the `CreateOmics` function created the `Omics` object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the "AES-PCA" and "Supervised PCA" sections of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. For details of these methods functions, please see their respective sections in Chapter 4.
 
-The function arguments are as follows. Both the `AESPCA_pVals` and `superPCA_pVals` functions take in an `Omics` object as the value to the `object` argument. AES-PCA uses permutation-based $p$-values, so the `numReps` argument controls how many permutations to take. The `numPCs` argument specifies how many principal components will be extracted from each pathway. The `parallel` and `numCores` arguments are used to control if and how the functions make use of parallel computing. Finally, the `adjustment` argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway $p$-values. These options are documented in the `adjustRaw_pVals` function (see the [help documentation](https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html) for details).
+The function arguments are as follows. Both the `AESPCA_pVals` and `SuperPCA_pVals` functions take in an `Omics` object as the value to the `object` argument. AES-PCA uses permutation-based $p$-values, so the `numReps` argument controls how many permutations to take. The `numPCs` argument specifies how many principal components will be extracted from each pathway. The `parallel` and `numCores` arguments are used to control if and how the functions make use of parallel computing. Finally, the `adjustment` argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway $p$-values. These options are documented in the `adjustRaw_pVals` function (see the [help documentation](https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html) for details).
 
 
 ## 4.1 AES-PCA
@@ -198,9 +198,9 @@ colon_aespcOut <- AESPCA_pVals(
 ```
 
 ## 4.2 Supervised PCA
-Perform Supervised PCA pathway significance testing on the `Omics` object with the `superPCA_pVals` function. For more details on this function, see the [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#supervised-pca) section of Chapter 4.
+Perform Supervised PCA pathway significance testing on the `Omics` object with the `SuperPCA_pVals` function. For more details on this function, see the [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#supervised-pca) section of Chapter 4.
 ```{r superpca}
-colon_superpcOut <- superPCA_pVals(
+colon_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsSurv,
   numPCs = 2,
   parallel = TRUE,
@@ -216,7 +216,7 @@ colon_superpcOut <- superPCA_pVals(
 
 
 # 5. Inspect Results
-This section is a quick overview of the material covered in the "Analyze the Results" section of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. The output of `AESPCA_pVals()` is list object with class `aespcOut`. The output of `superPCA_pVals()` is a list object with class `superpcOut`. Both of these objects have the following three elements:
+This section is a quick overview of the material covered in the "Analyze the Results" section of the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. The output of `AESPCA_pVals()` is list object with class `aespcOut`. The output of `SuperPCA_pVals()` is a list object with class `superpcOut`. Both of these objects have the following three elements:
 
 - `pVals_df`: a data frame with $p$-values and their details each pathway
 - `PCs_ls`: a list of the matrices of the first selected principal component(s) extracted from the assay data subset corresponding to each pathway.
@@ -232,7 +232,7 @@ colon_superpcOut$pVals_df
 To visualize the significance of the pathways based on FDR or uncorrected $p$-values, we can use the [`ggplot2` package](http://ggplot2.org/) to create summary graphics of the analysis results.
 
 ### 5.2.1 Tidy Up the Data
-In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `superPCA_pVals` functions. The following code takes in the $p$-values data frame (`surv_spr_pVals_df`) from the Supervised PCA method, modifies it to be compatible with the `ggplot` function, and saves the new data frame (`surv_spr_gather_df`).
+In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `SuperPCA_pVals` functions. The following code takes in the $p$-values data frame (`surv_spr_pVals_df`) from the Supervised PCA method, modifies it to be compatible with the `ggplot` function, and saves the new data frame (`surv_spr_gather_df`).
 ```{r tidyOutput}
 colonOutGather_df <- colon_superpcOut$pVals_df %>%
   select(-pathways, - setsize, -trim_size) %>%

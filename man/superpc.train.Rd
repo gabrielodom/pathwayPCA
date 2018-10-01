@@ -52,9 +52,9 @@ This function is a \code{\link{switch}} call to
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
 \seealso{
-\code{\link{superpc.st}}; \code{\link{superPCA_pVals}}
+\code{\link{superpc.st}}; \code{\link{SuperPCA_pVals}}
 }
 \keyword{internal}

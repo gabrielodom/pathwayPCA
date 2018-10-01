@@ -47,6 +47,6 @@ The \code{mysvd} function takes in a tall -Omics data matrix,
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
 \keyword{internal}

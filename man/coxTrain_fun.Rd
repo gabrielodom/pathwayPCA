@@ -46,6 +46,6 @@ See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf},
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
 \keyword{internal}

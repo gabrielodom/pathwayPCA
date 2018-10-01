@@ -37,7 +37,7 @@
 #'    \code{\link{olsTrain_fun}} (for \code{type = "regression"}), or
 #'    \code{\link{glmTrain_fun}} (for \code{type = "categorical"}).
 #'
-#' @seealso \code{\link{superpc.st}}; \code{\link{superPCA_pVals}}
+#' @seealso \code{\link{superpc.st}}; \code{\link{SuperPCA_pVals}}
 #'
 #' @keywords internal
 #'
@@ -45,7 +45,7 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 
 superpc.train <- function(data,
                           type = c("survival", "regression", "categorical"),

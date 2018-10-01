@@ -77,7 +77,7 @@ The analysis functions within the `pathwayPCA::` package subset the feature data
 
 However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `IntersectOmicsPwyCollct()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwayCollection` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
 
-This function is called and executed within the `superPCA_pVals()` function.
+This function is called and executed within the `SuperPCA_pVals()` function.
 
 <!-- We will use this function to clean each of our `Omics*` data objects. -->
 <!-- ```{r clean_OmicsObjs} -->
@@ -107,7 +107,7 @@ Of note: we use the FDR adjustments executed in the `mt.rawp2adjp` function from
 We will use all but two of our available cores, and use the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures.
 ```{r surv_pvals}
 a <- Sys.time()
-surv_pVals_df <- superPCA_pVals(
+surv_pVals_df <- SuperPCA_pVals(
   object = colon_OmicsSurv,
   parallel = TRUE,
   numCores = 2,
@@ -122,7 +122,7 @@ Sys.time() - a
 We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.
 ```{r reg_pvals}
 b <- Sys.time()
-reg_pVals_df <- superPCA_pVals(
+reg_pVals_df <- SuperPCA_pVals(
   object = colon_OmicsReg,
   parallel = TRUE,
   numCores = 2,
@@ -137,7 +137,7 @@ Sys.time() - b
 We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.
 ```{r categ_pvals}
 d <- Sys.time()
-categ_pVals_df <- superPCA_pVals(
+categ_pVals_df <- SuperPCA_pVals(
   object = colon_OmicsCateg,
   parallel = TRUE,
   numCores = 2,
@@ -150,7 +150,7 @@ Sys.time() - d
 
 
 ## Subset the Top Pathways
-Now that we have the pathway-specific $p$-values, we can inspect the top pathways by significance. We will first subset the data frame returned by the `superPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
+Now that we have the pathway-specific $p$-values, we can inspect the top pathways by significance. We will first subset the data frame returned by the `SuperPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
 ```{r graphcs_packages}
 library(tidyverse)
 library(reshape2)

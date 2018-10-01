@@ -55,7 +55,7 @@
 #'
 #'   See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}.
 #'
-#' @seealso \code{\link{superpc.train}}; \code{\link{superPCA_pVals}}
+#' @seealso \code{\link{superpc.train}}; \code{\link{SuperPCA_pVals}}
 #'
 #' @keywords internal
 #'
@@ -71,7 +71,7 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 
 superpc.st <- function(fit,
                        data,

@@ -35,7 +35,7 @@ reference:
       - '`CreateOmicsReg`'
       - '`CreateOmicsCateg`'
       - '`AESPCA_pVals`'
-      - '`superPCA_pVals`'
+      - '`SuperPCA_pVals`'
       - '`IntersectOmicsPwyCollct`'
   - title: S4-Class Objects and Basic Methods
     desc: Descriptions of the S4 classes in this package
@@ -75,9 +75,8 @@ reference:
       - '`superpc.st`'
       - '`superpc.train`'
       - '`mysvd`'
-      - '`weibullMix_pValues`'
-      - '`weibullMix_optimParams`'
-      - '`pathway_pValues`'
+      - '`OptimGumbelMixParams`'
+      - '`GumbelMixpValues`'
       - '`pathway_tControl`'
       - '`pathway_tScores`'
   - title: Internal Supplemental Functions and Data

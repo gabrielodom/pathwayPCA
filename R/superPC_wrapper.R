@@ -52,8 +52,8 @@
 #'   a data frame.
 #'
 #' @details This is a wrapper function for the \code{\link{pathway_tScores}},
-#'   \code{\link{pathway_tControl}}, \code{\link{weibullMix_optimParams}},
-#'   \code{\link{weibullMix_pValues}}, and \code{\link{adjust_and_sort}}
+#'   \code{\link{pathway_tControl}}, \code{\link{OptimGumbelMixParams}},
+#'   \code{\link{GumbelMixpValues}}, and \code{\link{adjust_and_sort}}
 #'   functions.
 #'
 #'   Please see our Quickstart Guide for this package:
@@ -62,7 +62,7 @@
 #' @seealso \code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
 #'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
 #'    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
-#'    \code{\link{weibullMix_optimParams}}; \code{\link{weibullMix_pValues}};
+#'    \code{\link{OptimGumbelMixParams}}; \code{\link{GumbelMixpValues}};
 #'    \code{\link{adjust_and_sort}}
 #'
 #' @export
@@ -90,7 +90,7 @@
 #'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
-#'   colonSurv_pVals_df <- superPCA_pVals(
+#'   colonSurv_pVals_df <- SuperPCA_pVals(
 #'     object = colon_OmicsSurv,
 #'     parallel = TRUE,
 #'     numCores = 16,
@@ -99,8 +99,8 @@
 #'   )
 #' }
 #'
-#' @rdname superPCA_pVals
-setGeneric("superPCA_pVals",
+#' @rdname SuperPCA_pVals
+setGeneric("SuperPCA_pVals",
            function(object,
                     n.threshold = 20,
                     numPCs = 1,
@@ -117,7 +117,7 @@ setGeneric("superPCA_pVals",
                                    "ABH",
                                    "TSBH"),
                     ...){
-             standardGeneric("superPCA_pVals")
+             standardGeneric("SuperPCA_pVals")
            }
 )
 
@@ -127,8 +127,8 @@ setGeneric("superPCA_pVals",
 #' @importFrom parallel parLapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname superPCA_pVals
-setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
+#' @rdname SuperPCA_pVals
+setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
           definition = function(object,
                                 n.threshold = 20,
                                 numPCs = 1,
@@ -299,12 +299,12 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
             message("Calculating Pathway p-Values: ", appendLF = FALSE)
             genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
             genesPerPathway_vec <- genesPerPathway_vec[names(paths_ls)]
-            optParams_vec <- weibullMix_optimParams(
+            optParams_vec <- OptimGumbelMixParams(
               max_tControl_vec = tControlMax_num,
               pathwaySize_vec = genesPerPathway_vec,
               ...
             )
-            pvalues_vec <- weibullMix_pValues(
+            pvalues_vec <- GumbelMixpValues(
               tScore_vec = tScoreMax_num,
               pathwaySize_vec = genesPerPathway_vec,
               optimParams_vec = optParams_vec
@@ -318,11 +318,13 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               message("Sorting Pathway p-Value Data Frame: ", appendLF = FALSE)
             }
 
-            out_df <- adjust_and_sort(pVals_vec = pvalues_vec,
-                                      genesets_ls = pathwayGeneSets_ls,
-                                      adjust = adjustpValues,
-                                      proc_vec = adjustment,
-                                      ...)
+            out_df <- adjust_and_sort(
+              pVals_vec = pvalues_vec,
+              genesets_ls = pathwayGeneSets_ls,
+              adjust = adjustpValues,
+              proc_vec = adjustment,
+              ...
+            )
             message("DONE")
 
 
