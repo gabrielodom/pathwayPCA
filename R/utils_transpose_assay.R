@@ -5,9 +5,10 @@
 #'    names.
 #'
 #' @param assay_df A data frame with numeric values to transpose
-#' @param firstColIsFeatureNames Are the data row names in the first column of
-#'    \code{df}? Defaults to \code{TRUE}. If not, this function assumes that the
-#'    data row names are accesible by the \code{\link{rownames}} function.
+#' @param useRowNames Are the data feature names accesible by the
+#'    \code{\link{rownames}} function called on \code{df}? Defaults to
+#'    \code{FALSE}. If \code{TRUE}, this function assumes that the data feature
+#'    names are in the first column of \code{df}.
 #' @param stringsAsFactors Should columns containing string information be
 #'    coerced to factors? Defaults to \code{FALSE}.
 #'
@@ -18,7 +19,8 @@
 #'    rows and columns (other than the feature name column, as applicable) are
 #'    numeric.
 #'
-#' @return The transposition of \code{df}, with row and column names preserved.
+#' @return The transposition of \code{df}, with row and column names preserved
+#'    and reversed.
 #'
 #' @export
 #'
@@ -28,37 +30,43 @@
 #'    colnames(x_mat) <- paste0("sample_", 1:20)
 #'    x_df <- as.data.frame(x_mat, row.names = rownames(x_mat))
 #'
-#'    transpose_assay(x_df, firstColIsFeatureNames = FALSE)
+#'    TransposeAssay(x_df, useRowNames = TRUE)
 #'
-transpose_assay <- function(assay_df,
-                            firstColIsFeatureNames = TRUE,
-                            stringsAsFactors = FALSE){
+TransposeAssay <- function(assay_df,
+                           useRowNames = FALSE,
+                           stringsAsFactors = FALSE){
 
-  if(firstColIsFeatureNames){
-
-    featureNames_vec <- assay_df[, 1, drop = TRUE]
-    sampleNames_vec <- colnames(assay_df)[-1]
-
-    transpose_df <- as.data.frame(t(assay_df[, -1]),
-                                  stringsAsFactors = stringsAsFactors)
-    rownames(transpose_df) <- NULL
-
-    colnames(transpose_df) <- featureNames_vec
-
-    sampleNames_df <- data.frame(Sample = sampleNames_vec,
-                                 stringsAsFactors = stringsAsFactors)
-    transpose_df <- cbind(sampleNames_df, transpose_df)
-
-  } else {
+  if(useRowNames){
 
     featureNames_vec <- rownames(assay_df)
     sampleNames_vec <- colnames(assay_df)
 
-    transpose_df <- as.data.frame(t(assay_df),
-                                  stringsAsFactors = stringsAsFactors)
+    transpose_df <- as.data.frame(
+      t(assay_df),
+      stringsAsFactors = stringsAsFactors
+    )
 
     colnames(transpose_df) <- featureNames_vec
     rownames(transpose_df) <- sampleNames_vec
+
+  } else {
+
+    featureNames_vec <- assay_df[, 1, drop = TRUE]
+    sampleNames_vec <- colnames(assay_df)[-1]
+
+    transpose_df <- as.data.frame(
+      t(assay_df[, -1]),
+      stringsAsFactors = stringsAsFactors
+    )
+    rownames(transpose_df) <- NULL
+
+    colnames(transpose_df) <- featureNames_vec
+
+    sampleNames_df <- data.frame(
+      Sample = sampleNames_vec,
+      stringsAsFactors = stringsAsFactors
+    )
+    transpose_df <- cbind(sampleNames_df, transpose_df)
 
   }
 

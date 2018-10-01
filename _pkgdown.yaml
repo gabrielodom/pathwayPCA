@@ -28,7 +28,7 @@ reference:
       - '`read_gmt`'
       - '`CreatePathwayCollection`'
       - '`print.pathwayCollection`'
-      - '`transpose_assay`'
+      - '`TransposeAssay`'
       - '`CreateOmics`'
       - '`CreateOmicsPath`'
       - '`CreateOmicsSurv`'
