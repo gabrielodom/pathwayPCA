@@ -42,5 +42,5 @@
 setClass("OmicsSurv",
          slots = c(eventTime = "numeric",
                    eventObserved = "logical"),
-         validity = valid_OmicsSurv,
+         validity = ValidOmicsSurv,
          contains = "OmicsPathway")

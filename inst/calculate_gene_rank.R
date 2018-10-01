@@ -31,13 +31,13 @@
 #'    the rows: the \eqn{i, j} entry of the matrix equals 1 if gene \eqn{i} is
 #'    an element of pathway \eqn{j}. (This is created after trimming the
 #'    pathways to the assay data frame supplied using the
-#'    \code{\link{expressedOmes}} function.) The \code{topGenes} function then
-#'    multiplies each pathway membership indicator column by the negative
-#'    natural logarithm of the adjusted \eqn{p}-values for that pathway; if
-#'    multiple FDR adjustment methods are used, then the score is the average of
-#'    each negative logged \eqn{p}-values. This function then returns two named
-#'    numeric vectors: the sum of these gene scores and the means of the non-
-#'    zero gene scores, sorted in descending order.
+#'    \code{\link{IntersectOmicsPwyCollct}} function.) The \code{topGenes}
+#'    function then multiplies each pathway membership indicator column by the
+#'    negative natural logarithm of the adjusted \eqn{p}-values for that
+#'    pathway; if multiple FDR adjustment methods are used, then the score is
+#'    the average of each negative logged \eqn{p}-values. This function then
+#'    returns two named numeric vectors: the sum of these gene scores and the
+#'    means of the non-zero gene scores, sorted in descending order.
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
@@ -84,7 +84,7 @@ setMethod(f = "topGenes", signature = "OmicsPathway",
 
             # browser()
 
-            clean_obj <- expressedOmes(object, message = FALSE)
+            clean_obj <- IntersectOmicsPwyCollct(object, message = FALSE)
             paths_ls <- clean_obj@pathwayCollection$pathways
             genes_char <- unique(do.call(c, paths_ls))
             rm(object, clean_obj)

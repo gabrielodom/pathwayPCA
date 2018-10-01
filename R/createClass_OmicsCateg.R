@@ -40,5 +40,5 @@
 #' @export
 setClass("OmicsCateg",
          slots = c(response = "factor"),
-         validity = valid_OmicsCateg,
+         validity = ValidOmicsCateg,
          contains = "OmicsPathway")
