@@ -36,7 +36,7 @@ reference:
       - '`CreateOmicsCateg`'
       - '`AESPCA_pVals`'
       - '`superPCA_pVals`'
-      - '`expressedOmes`'
+      - '`IntersectOmicsPwyCollct`'
   - title: S4-Class Objects and Basic Methods
     desc: Descriptions of the S4 classes in this package
     contents:
@@ -44,7 +44,7 @@ reference:
       - '`OmicsSurv-class`'
       - '`OmicsReg-class`'
       - '`OmicsCateg-class`'
-      - '`valid_OmicsSurv`'
+      - '`ValidOmicsSurv`'
       - '`show,OmicsPathway-method`'
       - '`getAssay`'
       - '`getAssay<-`'

@@ -21,7 +21,7 @@
 #'    death indicator from an \code{OmicsSurv} object. However, we recommend
 #'    that users simply create a new, valid \code{OmicsSurv} object instead of
 #'    modifying an existing one. The validity of edited objects is checked with
-#'    the \code{\link{valid_OmicsSurv}} function.
+#'    the \code{\link{ValidOmicsSurv}} function.
 #'
 #' @seealso \code{\link{CreateOmicsSurv}}
 #'

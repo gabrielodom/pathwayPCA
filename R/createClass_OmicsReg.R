@@ -38,5 +38,5 @@
 #' @export
 setClass("OmicsReg",
          slots = c(response = "numeric"),
-         validity = valid_OmicsReg,
+         validity = ValidOmicsReg,
          contains = "OmicsPathway")

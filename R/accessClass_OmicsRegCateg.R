@@ -24,8 +24,8 @@
 #'    from an object of class \code{OmicsReg} or \code{OmicsReg}. However, we
 #'    recommend that users simply create a new, valid object instead of
 #'    modifying an existing one. The validity of edited objects is checked with
-#'    their respective \code{\link{valid_OmicsCateg}} or
-#'    \code{\link{valid_OmicsReg}} function. Because both classes have a
+#'    their respective \code{\link{ValidOmicsCateg}} or
+#'    \code{\link{ValidOmicsReg}} function. Because both classes have a
 #'    \code{response} slot, we set this method for the parent class,
 #'    \code{\link{OmicsPathway-class}}.
 #'

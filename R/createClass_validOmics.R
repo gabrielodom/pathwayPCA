@@ -20,8 +20,8 @@
 #' @return \code{TRUE} if the object is a valid object, else an error message
 #'    with the rule broken.
 #'
-#' @rdname valid_OmicsSurv
-valid_OmicsSurv <- function(object){
+#' @rdname ValidOmicsSurv
+ValidOmicsSurv <- function(object){
 
   nX <- nrow(object@assayData_df)
   nY <- length(object@eventTime)
@@ -42,8 +42,8 @@ valid_OmicsSurv <- function(object){
 #'    vector of continuous (\code{numeric}) or categorial (\code{factor})
 #'    observations, respectively.
 #'
-#' @rdname valid_OmicsSurv
-valid_OmicsReg <- function(object){
+#' @rdname ValidOmicsSurv
+ValidOmicsReg <- function(object){
 
   nX <- nrow(object@assayData_df)
   nY <- length(object@response)
@@ -56,8 +56,8 @@ valid_OmicsReg <- function(object){
 
 }
 
-#' @rdname valid_OmicsSurv
-valid_OmicsCateg <- function(object){
+#' @rdname ValidOmicsSurv
+ValidOmicsCateg <- function(object){
 
   nX <- nrow(object@assayData_df)
   nY <- length(object@response)

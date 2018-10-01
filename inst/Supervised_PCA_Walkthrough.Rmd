@@ -75,15 +75,15 @@ colon_OmicsSurv
 # Clean Up the Pathway List
 The analysis functions within the `pathwayPCA::` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren't recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.
 
-However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `expressedOmes()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwayCollection` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
+However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `IntersectOmicsPwyCollct()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwayCollection` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
 
 This function is called and executed within the `superPCA_pVals()` function.
 
 <!-- We will use this function to clean each of our `Omics*` data objects. -->
 <!-- ```{r clean_OmicsObjs} -->
-<!-- tumourClean_OmicsSurv <- expressedOmes(tumour_OmicsSurv) -->
-<!-- tumourClean_OmicsReg <- expressedOmes(tumour_OmicsReg) -->
-<!-- tumourClean_OmicsCateg <- expressedOmes(tumour_OmicsCateg) -->
+<!-- tumourClean_OmicsSurv <- IntersectOmicsPwyCollct(tumour_OmicsSurv) -->
+<!-- tumourClean_OmicsReg <- IntersectOmicsPwyCollct(tumour_OmicsReg) -->
+<!-- tumourClean_OmicsCateg <- IntersectOmicsPwyCollct(tumour_OmicsCateg) -->
 <!-- ``` -->
 <!-- As we can see, none of the pathways we started with have been removed. -->
 <!-- ```{r missingPaths} -->
