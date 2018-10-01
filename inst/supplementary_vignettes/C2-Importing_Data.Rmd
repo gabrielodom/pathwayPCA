@@ -25,7 +25,7 @@ This vignette is the second chapter in the "Pathway Significance Testing with `p
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
 1. Import a `.gmt` file and save the pathways stored therein as a `pathwayCollection` object using the `read_gmt` function.
-2. Import an assay `.csv` file with the `read_csv` function from the `readr` package, and transpose this data frame into "tidy" form with the `transpose_assay` function.
+2. Import an assay `.csv` file with the `read_csv` function from the `readr` package, and transpose this data frame into "tidy" form with the `TransposeAssay` function.
 3. Import phenotype information stored in a `.csv` file, and join (merge) it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
 First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/).
@@ -130,9 +130,9 @@ assay_df
 ## 3.2 Tidy the Assay Data Frame
 The assay input to the `pathwayPCA` package must be in [*tidy data*](https://www.jstatsoft.org/article/view/v059i10) format. The "Tidy Data" format requires that each observation be its own row, and each measurement its own column. This means that we must transpose our assay data frame, while preserving the row and column names.
 
-To do this, we can use the `transpose_assay` function. This function takes in a data frame as imported by the three `readr` functions based on data in a format similar to that shown above: genes are the rows, gene names are the first column, samples are stored in the subsequent columns, and all values in the assay (other than the gene names in the first column) are numeric.
+To do this, we can use the `TransposeAssay` function. This function takes in a data frame as imported by the three `readr` functions based on data in a format similar to that shown above: genes are the rows, gene names are the first column, samples are stored in the subsequent columns, and all values in the assay (other than the gene names in the first column) are numeric.
 ```{r transpose}
-(assayT_df <- transpose_assay(assay_df))
+(assayT_df <- TransposeAssay(assay_df))
 ```
 
 This transposed data frame has the gene names as the column names and the sample names as a column of character (`chr`) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the `assayData_df` argument in the `CreateOmics` function. (*See the [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignette for more information on creating `Omics`-class objects.*)
@@ -218,7 +218,7 @@ The pathways list and tidy assay (with matched phenotype information) are all th
 We now summarize our steps so far. We have
 
 1. Imported a `.gmt` file and saved the pathways stored therein as a `pathwayCollection` object using the `read_gmt` function.
-2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `transpose_assay` function.
+2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `TransposeAssay` function.
 3. Imported a phenotype information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
 Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read vignette 3 / 4: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html).

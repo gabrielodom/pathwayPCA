@@ -89,9 +89,9 @@ Incidentally, we consider gene symbols to adhere to the following conditions:
 - gene symbols must start with an English letter (a-z or A-Z), and
 - gene symbols can only contain English letters, Arabic numerals (0-9), and possibly a dash (-).
 
-Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you'll need to "tidy" the imported assay with the `transpose_assay` function. The transposed data set will appear similar to the following:
-```{r transpose_assay}
-assayT_df <- transpose_assay(assay_df)
+Furthermore, if your data has samples in the columns and -omic feature measurements in the rows (like the data set above), you'll need to "tidy" the imported assay with the `TransposeAssay` function. The transposed data set will appear similar to the following:
+```{r TransposeAssay}
+assayT_df <- TransposeAssay(assay_df)
 assayT_df
 ```
 

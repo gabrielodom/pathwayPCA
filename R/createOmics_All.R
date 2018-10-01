@@ -135,12 +135,21 @@ CreateOmicsPath <- function(assayData_df,
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
     see the help information found in ?CreateOmicsPath for more details. If
-    you have a p x N data frame, please see the ?transpose_assay function.")
+    you have a p x N data frame, please see the ?TransposeAssay function.")
   }
 
   ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
+  }
+
+  if(nrow(assayData_df) > ncol(assayData_df)){
+    warning("\n The assayData_df argument has more rows than columns. The
+    pathwayPCA package functions require -Omics data as an N x p data frame
+    object: this data frame will have one observation per row and one feature
+    per column. If your assay is in 'tall' (p x N) format, please transpose your
+    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
+    function help file for more information.")
   }
 
   bad_names <- .detect_invalid_names(colnames(assayData_df))
@@ -234,12 +243,21 @@ CreateOmicsSurv <- function(assayData_df,
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
     see the help information found in ?CreateOmicsSurv for more details. If
-    you have a p x N data frame, please see the ?transpose_assay function.")
+    you have a p x N data frame, please see the ?TransposeAssay function.")
   }
 
   ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
+  }
+
+  if(nrow(assayData_df) > ncol(assayData_df)){
+    warning("\n The assayData_df argument has more rows than columns. The
+    pathwayPCA package functions require -Omics data as an N x p data frame
+    object: this data frame will have one observation per row and one feature
+    per column. If your assay is in 'tall' (p x N) format, please transpose your
+    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
+    function help file for more information.")
   }
 
   bad_names <- .detect_invalid_names(colnames(assayData_df))
@@ -330,12 +348,21 @@ CreateOmicsReg <- function(assayData_df,
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
     see the help information found in ?CreateOmicsReg for more details. If
-    you have a p x N data frame, please see the ?transpose_assay function.")
+    you have a p x N data frame, please see the ?TransposeAssay function.")
   }
 
   ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
+  }
+
+  if(nrow(assayData_df) > ncol(assayData_df)){
+    warning("\n The assayData_df argument has more rows than columns. The
+    pathwayPCA package functions require -Omics data as an N x p data frame
+    object: this data frame will have one observation per row and one feature
+    per column. If your assay is in 'tall' (p x N) format, please transpose your
+    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
+    function help file for more information.")
   }
 
   bad_names <- .detect_invalid_names(colnames(assayData_df))
@@ -419,12 +446,21 @@ CreateOmicsCateg <- function(assayData_df,
     column names after transposition). Next, you can use the 'as.data.frame()'
     function to transform your -Omics data matrix to class 'data.frame'. Please
     see the help information found in ?CreateOmicsCateg for more details. If
-    you have a p x N data frame, please see the ?transpose_assay function.")
+    you have a p x N data frame, please see the ?TransposeAssay function.")
   }
 
   ###  Proper Data Frame  ###
   if(anyNA(assayData_df)){
     stop("Missing observations are not permitted in the assay data.")
+  }
+
+  if(nrow(assayData_df) > ncol(assayData_df)){
+    warning("\n The assayData_df argument has more rows than columns. The
+    pathwayPCA package functions require -Omics data as an N x p data frame
+    object: this data frame will have one observation per row and one feature
+    per column. If your assay is in 'tall' (p x N) format, please transpose your
+    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
+    function help file for more information.")
   }
 
   bad_names <- .detect_invalid_names(colnames(assayData_df))
