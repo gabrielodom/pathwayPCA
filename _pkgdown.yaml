@@ -30,13 +30,8 @@ reference:
       - '`print.pathwayCollection`'
       - '`TransposeAssay`'
       - '`CreateOmics`'
-      - '`CreateOmicsPath`'
-      - '`CreateOmicsSurv`'
-      - '`CreateOmicsReg`'
-      - '`CreateOmicsCateg`'
       - '`AESPCA_pVals`'
       - '`SuperPCA_pVals`'
-      - '`IntersectOmicsPwyCollct`'
   - title: S4-Class Objects and Basic Methods
     desc: Descriptions of the S4 classes in this package
     contents:
@@ -80,10 +75,15 @@ reference:
       - '`pathway_tControl`'
       - '`pathway_tScores`'
   - title: Internal Supplemental Functions and Data
-    desc: Utility functions shared by both the AES-PCA and supervised PCA methods
+    desc: Utility functions shared by both the AES-PCA and supervised PCA methods or CreateOmics
     contents:
-      - '`adjust_and_sort`'
-      - '`adjustRaw_pVals`'
+      - '`CreateOmicsPath`'
+      - '`CreateOmicsSurv`'
+      - '`CreateOmicsReg`'
+      - '`CreateOmicsCateg`'
+      - '`IntersectOmicsPwyCollct`'
+      - '`TabulatepValues`'
+      - '`ControlFDR`'
       - '`matrixRoot`'
       - '`randomControlSample`'
       - '`colon_pathwayCollection`'

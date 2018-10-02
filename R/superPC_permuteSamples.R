@@ -60,17 +60,17 @@ SampleResponses <- function(response_vec,
 
   switch(respType,
          survival = {
-           sample_Survivalresp(
+           SampleSurv(
              response_vec, event_vec, parametric = parametric
            )
          },
          regression = {
-           sample_Regresp(
+           SampleReg(
              response_vec, parametric = parametric
            )
          },
          categorical = {
-           sample_Classifresp(
+           SampleCateg(
              response_vec, parametric = parametric
            )
          })
@@ -80,9 +80,9 @@ SampleResponses <- function(response_vec,
 
 #' @export
 #' @rdname permuteSamps
-sample_Survivalresp <- function(response_vec,
-                                event_vec,
-                                parametric = TRUE){
+SampleSurv <- function(response_vec,
+                       event_vec,
+                       parametric = TRUE){
 
   # browser()
   n <- length(event_vec)
@@ -126,8 +126,8 @@ sample_Survivalresp <- function(response_vec,
 
 #' @export
 #' @rdname permuteSamps
-sample_Regresp <- function(response_vec,
-                           parametric = TRUE){
+SampleReg <- function(response_vec,
+                      parametric = TRUE){
 
   # browser()
   n <- length(response_vec)
@@ -148,8 +148,8 @@ sample_Regresp <- function(response_vec,
 
 #' @export
 #' @rdname permuteSamps
-sample_Classifresp <- function(response_vec,
-                               parametric = TRUE){
+SampleCateg <- function(response_vec,
+                        parametric = TRUE){
 
   # browser()
   responseType <- class(response_vec)

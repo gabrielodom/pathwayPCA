@@ -3,9 +3,9 @@
 \name{randomControlSample}
 \alias{randomControlSample}
 \alias{SampleResponses}
-\alias{sample_Survivalresp}
-\alias{sample_Regresp}
-\alias{sample_Classifresp}
+\alias{SampleSurv}
+\alias{SampleReg}
+\alias{SampleCateg}
 \title{Parametric bootstrap and non-parametric permutations of a response vector or
    matrix}
 \usage{
@@ -13,11 +13,11 @@ SampleResponses(response_vec, event_vec = NULL,
   respType = c("survival", "regression", "categorical"),
   parametric = TRUE)
 
-sample_Survivalresp(response_vec, event_vec, parametric = TRUE)
+SampleSurv(response_vec, event_vec, parametric = TRUE)
 
-sample_Regresp(response_vec, parametric = TRUE)
+SampleReg(response_vec, parametric = TRUE)
 
-sample_Classifresp(response_vec, parametric = TRUE)
+SampleCateg(response_vec, parametric = TRUE)
 }
 \arguments{
 \item{response_vec}{The dependent vector to sample from. For survival

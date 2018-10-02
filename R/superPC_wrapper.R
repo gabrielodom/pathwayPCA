@@ -26,7 +26,7 @@
 #'   will be sorted in ascending order by the first procedure in this vector,
 #'   with ties broken by the unadjusted \eqn{p}-value. If only one procedure is
 #'   selected, then it is necessarily the first procedure. See the documentation
-#'   for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
+#'   for the \code{\link{ControlFDR}} function for the adjustment procedure
 #'   definitions and citations.
 #' @param ... Dots for additional internal arguments.
 #'
@@ -53,7 +53,7 @@
 #'
 #' @details This is a wrapper function for the \code{\link{pathway_tScores}},
 #'   \code{\link{pathway_tControl}}, \code{\link{OptimGumbelMixParams}},
-#'   \code{\link{GumbelMixpValues}}, and \code{\link{adjust_and_sort}}
+#'   \code{\link{GumbelMixpValues}}, and \code{\link{TabulatepValues}}
 #'   functions.
 #'
 #'   Please see our Quickstart Guide for this package:
@@ -63,7 +63,7 @@
 #'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
 #'    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
 #'    \code{\link{OptimGumbelMixParams}}; \code{\link{GumbelMixpValues}};
-#'    \code{\link{adjust_and_sort}}
+#'    \code{\link{TabulatepValues}}
 #'
 #' @export
 #'
@@ -318,7 +318,7 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
               message("Sorting Pathway p-Value Data Frame: ", appendLF = FALSE)
             }
 
-            out_df <- adjust_and_sort(
+            out_df <- TabulatepValues(
               pVals_vec = pvalues_vec,
               genesets_ls = pathwayGeneSets_ls,
               adjust = adjustpValues,

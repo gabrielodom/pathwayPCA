@@ -32,7 +32,7 @@
 #'   permuted response model is less than the AIC of the original model.
 #'
 #' @seealso \code{\link{CreateOmicsSurv}}; \code{\link{ExtractAESPCs}};
-#'   \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}
+#'   \code{\link[survival]{coxph}}; \code{\link{SampleSurv}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsSurv.R
@@ -87,8 +87,7 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
 
               ###  True Model  ###
               # I know I'm doing this more than once, but I don't know how to
-              #   rewrite the sample_Survivalresp() function to take in a
-              #   Surv object
+              #   rewrite the SampleSurv() function to take in a Surv object
               response <- Surv(time = obj_OmicsSurv@eventTime,
                                event = obj_OmicsSurv@eventObserved)
               trueAIC <- AIC(coxph(response ~ pathwayPCs_mat))
@@ -97,7 +96,7 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
               ###  Permuted Model  ###
               permuteAIC_fun <- function(){
 
-                perm_resp <- sample_Survivalresp(
+                perm_resp <- SampleSurv(
                   response_vec = obj_OmicsSurv@eventTime,
                   event_vec = obj_OmicsSurv@eventObserved,
                   parametric = parametric

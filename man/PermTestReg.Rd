@@ -60,6 +60,6 @@ This function takes in a list of the first principal components
 }
 \seealso{
 \code{\link{CreateOmicsReg}}; \code{\link{ExtractAESPCs}};
-  \code{\link[stats]{lm}}; \code{\link{sample_Regresp}}
+  \code{\link[stats]{lm}}; \code{\link{SampleReg}}
 }
 \keyword{internal}

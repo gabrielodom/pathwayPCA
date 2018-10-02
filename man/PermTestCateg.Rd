@@ -67,6 +67,6 @@ This function takes in a list of the first principal components
 \seealso{
 \code{\link{CreateOmicsCateg}}; \code{\link{ExtractAESPCs}};
   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
-  \code{\link{sample_Classifresp}}
+  \code{\link{SampleCateg}}
 }
 \keyword{internal}

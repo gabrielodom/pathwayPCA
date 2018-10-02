@@ -40,7 +40,7 @@
 #'
 #' @seealso \code{\link{CreateOmicsCateg}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
-#'   \code{\link{sample_Classifresp}}
+#'   \code{\link{SampleCateg}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsCateg.R
@@ -111,7 +111,7 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
               ###  Permuted Model  ###
               permuteAIC_fun <- function(){
 
-                perm_resp <- sample_Classifresp(
+                perm_resp <- SampleCateg(
                   obj_OmicsCateg@response,
                   parametric = parametric
                 )

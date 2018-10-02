@@ -43,7 +43,7 @@ comparisons? Defaults to TRUE.}
 will be sorted in ascending order by the first procedure in this vector,
 with ties broken by the unadjusted \eqn{p}-value. If only one procedure is
 selected, then it is necessarily the first procedure. See the documentation
-for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
+for the \code{\link{ControlFDR}} function for the adjustment procedure
 definitions and citations.}
 
 \item{...}{Dots for additional internal arguments.}
@@ -125,5 +125,5 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
    \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
    \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
-   \code{\link{adjust_and_sort}}
+   \code{\link{TabulatepValues}}
 }

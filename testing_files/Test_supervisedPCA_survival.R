@@ -330,23 +330,25 @@ Sys.time() - a # 1min 47 sec for first 100 pathways, 7 min 50 sec for first 500
 # Exported to superPC_permuteSamples.R
 
 # Test
-sample_Survivalresp(response_vec = survY_df$SurvivalTime,
-                    censor_vec = survY_df$disease_event)
+SampleSurv(
+  response_vec = survY_df$SurvivalTime,
+  censor_vec = survY_df$disease_event
+)
 
 ###  Regression  ###
 # Exported to superPC_permuteSamples.R
 
 # Test
-sample_Regresp(response_vec = survY_df$SurvivalTime)
+SampleReg(response_vec = survY_df$SurvivalTime)
 
 
 ###  Classification  ###
 # Exported to superPC_permuteSamples.R
 
 # Test
-sample_Classifresp(response_vec = survY_df$disease_event)
-sample_Classifresp(response_vec = c(rep("A", 20), rep("B", 10), rep("C", 15)))
-sample_Classifresp(response_vec = as.factor(survY_df$disease_event))
+SampleCateg(response_vec = survY_df$disease_event)
+SampleCateg(response_vec = c(rep("A", 20), rep("B", 10), rep("C", 15)))
+SampleCateg(response_vec = as.factor(survY_df$disease_event))
 
 
 ###  The Control Data  ###
