@@ -108,7 +108,7 @@ calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
 
   ###  Adjust Pathway p-Values for Multiple Comparisons  ###
   print("Adjusting Pathway p-Values for Multiple Comparisons")
-  adjusted_df <- data.frame(adjustRaw_pVals(out_df$rawp, adjustment))
+  adjusted_df <- data.frame(ControlFDR(out_df$rawp, adjustment))
   adjusted_df <- adjusted_df[, -1, drop = FALSE]
   out_df <- cbind(out_df, adjusted_df)
 
@@ -288,9 +288,9 @@ calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
 
     ###  Adjust Pathway p-Values for Multiple Comparisons  ###
     message("Adjusting Pathway p-Values for Multiple Comparisons")
-    adjusted_df <- data.frame(adjustRaw_pVals(out_df$rawp,
-                                              adjustment,
-                                              alpha = alpha))
+    adjusted_df <- data.frame(
+      ControlFDR(out_df$rawp, adjustment, alpha = alpha)
+    )
     adjusted_df <- adjusted_df[, -1, drop = FALSE]
     out_df <- cbind(out_df, adjusted_df)
 
@@ -508,7 +508,7 @@ superPCA_pathway_pvals <- function(pathwayGeneSets_ls,
     message("Sorting Pathway p-Value Data Frame")
   }
 
-  out_df <- adjust_and_sort(
+  out_df <- TabulatepValues(
     pVals_vec = pvalues_vec,
     genesets_ls = pathwayGeneSets_ls,
     adjust = adjustpValues,
@@ -769,7 +769,7 @@ superPCA_pathway_pvals <- function(Omics_object,
     message("Sorting Pathway p-Value Data Frame")
   }
 
-  out_df <- adjust_and_sort(
+  out_df <- TabulatepValues(
     pVals_vec = pvalues_vec,
     genesets_ls = pathwayGeneSets_ls,
     adjust = adjustpValues,

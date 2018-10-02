@@ -59,6 +59,6 @@ This function takes in a list of the first principal components
 }
 \seealso{
 \code{\link{CreateOmicsSurv}}; \code{\link{ExtractAESPCs}};
-  \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}
+  \code{\link[survival]{coxph}}; \code{\link{SampleSurv}}
 }
 \keyword{internal}

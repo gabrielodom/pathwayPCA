@@ -33,7 +33,7 @@
 #'   AIC of the original model.
 #'
 #' @seealso \code{\link{CreateOmicsReg}}; \code{\link{ExtractAESPCs}};
-#'   \code{\link[stats]{lm}}; \code{\link{sample_Regresp}}
+#'   \code{\link[stats]{lm}}; \code{\link{SampleReg}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsReg.R
@@ -93,7 +93,7 @@ setMethod(f = "PermTestReg", signature = "OmicsReg",
               ###  Permuted Model  ###
               permuteAIC_fun <- function(){
 
-                perm_resp <- sample_Regresp(
+                perm_resp <- SampleReg(
                   obj_OmicsReg@response,
                   parametric = parametric
                 )

@@ -76,7 +76,7 @@ Sys.time() - a # 3 min, 5 sec for first 132 pathways (10%). 29 min, 28 sec for
 #   the whole pathway set.
 
 # Adjust the p-values
-adjustedP <- adjustRaw_pVals(pathwayAIC_p, "BH")
+adjustedP <- ControlFDR(pathwayAIC_p, "BH")
 
 # identical(names(pathway_AESPCs_1323_ls), names(pathwayAIC_p))
 pathSize <- sapply(names(pathwayAIC_p), function(x){
@@ -111,9 +111,11 @@ aespcaPathwaypVals_df <- aespcaPathwaypVals_df[order(aespcaPathwaypVals_df$BH,
 #   ###  Permuted Model  ###
 #   permuteAIC_fun <- function(){
 #
-#     perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
-#                                      censor_vec = obj_OmicsSurv@eventObserved,
-#                                      parametric = parametric)
+#     perm_resp <- SampleSurv(
+#       response_vec = obj_OmicsSurv@eventTime,
+#       censor_vec = obj_OmicsSurv@eventObserved,
+#       parametric = parametric
+#     )
 #     perm_Surv <- survival::Surv(time = perm_resp$response_vec,
 #                                 event = perm_resp$censor_vec)
 #     AIC(survival::coxph(perm_Surv ~ pathwayPCs_mat))

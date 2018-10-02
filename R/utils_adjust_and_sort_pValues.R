@@ -1,4 +1,4 @@
-#' Adjust and sort pathway \eqn{p}-values
+#' Tabulate, adjust, and sort pathway \eqn{p}-values
 #'
 #' @description Adjust the pathway \eqn{p}-values, then return a data frame of
 #'   the relevant pathway information, sorted by adjusted significance.
@@ -31,7 +31,7 @@
 #'   ties broken by the unadjusted \eqn{p}-value. If only one procedure is
 #'   selected, then it is necessarily the first procedure. Defaults to
 #'   \code{"BH"} (Benjamini and Hochberg, 1995).
-#' @param ... Additional arguments to pass to the \code{\link{adjustRaw_pVals}}
+#' @param ... Additional arguments to pass to the \code{\link{ControlFDR}}
 #'   function.
 #'
 #' @return A data frame with columns
@@ -60,7 +60,7 @@
 #'   will print as a \code{\link[tibble]{tibble}}. Otherwise, it will stay a
 #'   simple data frame.
 #'
-#' @details This is a wrapper function for the \code{\link{adjustRaw_pVals}}
+#' @details This is a wrapper function for the \code{\link{ControlFDR}}
 #'   function. The number of \eqn{p}-values passed to the \code{pVals_vec}
 #'   argument \emph{must} equal the number of pathways and set size values in
 #'   the \code{genesets_ls} argument. If you trimmed a pathway from \eqn{p}-
@@ -71,7 +71,7 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
-adjust_and_sort <- function(pVals_vec,
+TabulatepValues <- function(pVals_vec,
                             genesets_ls,
                             adjust = TRUE,
                             proc_vec = c("BH",
@@ -122,7 +122,7 @@ adjust_and_sort <- function(pVals_vec,
     proc_vec <- match.arg(proc_vec, several.ok = TRUE)
     proc_vec <- unique(proc_vec)
 
-    adjusted_df <- adjustRaw_pVals(
+    adjusted_df <- ControlFDR(
       rawp = pVals_df$rawp,
       proc = proc_vec,
       na.rm = anyNA(pVals_df$rawp),

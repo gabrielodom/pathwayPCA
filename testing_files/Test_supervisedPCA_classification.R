@@ -170,7 +170,7 @@ ntest <- data.frame(goterms = names(geneset$pathways),
                     rawp = newp)
 rownames(ntest) <- NULL
 
-bh <- adjustRaw_pVals(ntest$rawp, "BH")
+bh <- ControlFDR(ntest$rawp, "BH")
 
 ntest$FDR <- bh[, 2]
 ntest$terms <- unlist(geneset$TERMS)

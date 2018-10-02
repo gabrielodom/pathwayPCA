@@ -46,19 +46,6 @@
 #'       \item{\code{"BH"} : }{Adjusted \eqn{p}-values for the Benjamini &
 #'         Hochberg (1995) step-up FDR-controlling procedure (independent and
 #'         positive regression dependent test statistics).}
-#'      \item{\code{"Bonferroni"} : }{Bonferroni single-step adjusted \eqn{p}-
-#'         values for strong control of the FWER.}
-#'      \item{\code{"Holm"} : }{Holm (1979) step-down adjusted \eqn{p}-values
-#'         for strong control of the FWER.}
-#'      \item{\code{"Hochberg"} : }{Hochberg (1988) step-up adjusted \eqn{p}-
-#'         values for strong control of the FWER (for raw (unadjusted) \eqn{p}-
-#'         values satisfying the Simes inequality).}
-#'      \item{\code{"SidakSS"} : }{Sidak single-step adjusted \eqn{p}-values for
-#'         strong control of the FWER (for positive orthant dependent test
-#'         statistics).}
-#'      \item{\code{"SidakSD"} : }{Sidak step-down adjusted \eqn{p}-values for
-#'         strong control of the FWER (for positive orthant dependent test
-#'         statistics).}
 #'     \item{\code{"BY"} : }{Adjusted \eqn{p}-values for the Benjamini &
 #'         Yekutieli (2001) step-up FDR-controlling procedure (general
 #'         dependency structures).}
@@ -74,6 +61,19 @@
 #'         of \code{"BH"}. The adjusted \eqn{p}-values are \eqn{\alpha}-
 #'         dependent, therefore \eqn{\alpha} must be set in the function
 #'         arguments when using this procedure.}
+#'      \item{\code{"Bonferroni"} : }{Bonferroni single-step adjusted \eqn{p}-
+#'         values for strong control of the FWER.}
+#'      \item{\code{"Holm"} : }{Holm (1979) step-down adjusted \eqn{p}-values
+#'         for strong control of the FWER.}
+#'      \item{\code{"Hochberg"} : }{Hochberg (1988) step-up adjusted \eqn{p}-
+#'         values for strong control of the FWER (for raw (unadjusted) \eqn{p}-
+#'         values satisfying the Simes inequality).}
+#'      \item{\code{"SidakSS"} : }{Sidak single-step adjusted \eqn{p}-values for
+#'         strong control of the FWER (for positive orthant dependent test
+#'         statistics).}
+#'      \item{\code{"SidakSD"} : }{Sidak step-down adjusted \eqn{p}-values for
+#'         strong control of the FWER (for positive orthant dependent test
+#'         statistics).}
 #'    }
 #'
 #'
@@ -106,19 +106,13 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
-adjustRaw_pVals <- function (rawp,
-                             proc = c("BH",
-                                      "Bonferroni",
-                                      "Holm",
-                                      "Hochberg",
-                                      "SidakSS",
-                                      "SidakSD",
-                                      "BY",
-                                      "ABH",
-                                      "TSBH"),
-                             alpha = 0.05,
-                             na.rm = FALSE,
-                             as.multtest.out = FALSE){
+ControlFDR <- function(rawp,
+                       proc = c("BH", "BY", "ABH", "TSBH",
+                                "Bonferroni", "Holm", "Hochberg",
+                                "SidakSS", "SidakSD"),
+                       alpha = 0.05,
+                       na.rm = FALSE,
+                       as.multtest.out = FALSE){
   # browser()
 
   ###  Proc Setup  ###

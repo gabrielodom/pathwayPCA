@@ -26,7 +26,7 @@
 #'   will be sorted in ascending order by the first procedure in this vector,
 #'   with ties broken by the unadjusted \eqn{p}-value. If only one procedure is
 #'   selected, then it is necessarily the first procedure. See the documentation
-#'   for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
+#'   for the \code{\link{ControlFDR}} function for the adjustment procedure
 #'   definitions and citations.
 #' @param ... Dots for additional internal arguments.
 #'
@@ -70,7 +70,7 @@
 #'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
 #'    \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
 #'    \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
-#'    \code{\link{adjust_and_sort}}
+#'    \code{\link{TabulatepValues}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
@@ -218,7 +218,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             }
 
             pathwayGeneSets_ls <- object@trimPathwayCollection
-            out_df <- adjust_and_sort(
+            out_df <- TabulatepValues(
               pVals_vec = pVals_vec,
               genesets_ls = pathwayGeneSets_ls,
               adjust = adjustpValues,
