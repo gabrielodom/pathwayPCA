@@ -160,6 +160,9 @@ aespca <- function(X,
 
   }
 
+  score <- as.data.frame(score)
+  oldscore <- as.data.frame(oldscore)
+
 
   ###  Return  ###
   obj <- list(
