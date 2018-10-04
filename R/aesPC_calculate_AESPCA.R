@@ -67,7 +67,8 @@ aespca <- function(X,
   ###  SVD  ###
   X <- scale(X, center = TRUE, scale = TRUE)
   xtx <- t(X) %*% X
-  A <- svd(xtx)$v[, 1:d, drop = FALSE]
+  svdGram <- svd(xtx)
+  A <- svdGram$v[, 1:d, drop = FALSE]
 
 
   ###  LARS Setup  ###
@@ -90,17 +91,47 @@ aespca <- function(X,
     # browser()
 
     k <- k + 1
+    LARSerror <- rep(FALSE, d)
 
     for(i in 1:d){
 
       xtx1 <- xtx
-      lfit <- lars.lsa(Sigma0 = xtx1,
-                       b0 = A[, i],
-                       n = n,
-                       adaptive = adaptive,
-                       type = "lasso",
-                       para = para[i])
-      B[, i] <- lfit$beta.bic
+      lfit <- tryCatch(
+        {
+          lars.lsa(
+            Sigma0 = xtx1,
+            b0 = A[, i],
+            n = n,
+            adaptive = adaptive,
+            type = "lasso",
+            para = para[i]
+          )
+        },
+        error = function(e) NULL
+      )
+
+      if(is.null(lfit)){
+
+        LARSerror[i] <- TRUE
+        next
+
+      } else {
+        B[, i] <- lfit$beta.bic
+      }
+
+    }
+
+    # Escape while() if lars.lsa() craps out
+    if(any(LARSerror)){
+
+      message("LARS algorithm encountered an error. Using SVD instead.")
+
+      A <- svdGram$v[, 1:d, drop = FALSE]
+      for(i in 1:d){
+        A[, i] <- A[, i] * sign(A[1, i])
+      }
+      B <- A0 <- A
+      break
 
     }
 
