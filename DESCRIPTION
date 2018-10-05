@@ -73,6 +73,7 @@ Collate:
     'superPC_permuteSamples.R'
     'superPC_wrapper.R'
     'utils_adjust_and_sort_pValues.R'
+    'utils_load_test_data_onto_PCs.R'
     'utils_matrixRoot.R'
     'utils_multtest_pvalues.R'
     'utils_read_gmt.R'
