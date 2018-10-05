@@ -131,6 +131,7 @@ aespca <- function(X,
         A[, i] <- A[, i] * sign(A[1, i])
       }
       B <- A0 <- A
+      dimnames(A0) <- dimnames(B) <- list(vn, paste0("PC", 1:d))
       break
 
     }
@@ -166,8 +167,8 @@ aespca <- function(X,
 
   ###  Return  ###
   obj <- list(
-    aesLoad   = t(B),      # d x p
-    oldLoad   = t(A0),     # d x p
+    aesLoad   = B,         # p x d
+    oldLoad   = A0,        # p x d
     aesScore  = score,     # n x d
     oldScore  = oldscore   # n x d
   )
