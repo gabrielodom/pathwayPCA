@@ -20,6 +20,8 @@ name.}
 }
 \value{
 A data frame with the PCs from each pathway concatenated by column.
+   If you have the \code{tidyverse} loaded, this object will display as a
+   \code{\link[tibble]{tibble}}.
 }
 \description{
 Given a list of loading vectors from a training data set,

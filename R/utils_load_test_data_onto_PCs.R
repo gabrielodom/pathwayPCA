@@ -14,6 +14,8 @@
 #'    name.
 #'
 #' @return A data frame with the PCs from each pathway concatenated by column.
+#'    If you have the \code{tidyverse} loaded, this object will display as a
+#'    \code{\link[tibble]{tibble}}.
 #'
 #' @details This function takes in a list of loadings and a training-centered
 #'    test data set, applies over the list of loadings, subsets the columns of
@@ -63,5 +65,6 @@ LoadOntoPCs <- function(design_df, loadings_ls){
   ###  Return  ###
   out_df <- as.data.frame(out_mat)
   colnames(out_df) <- names_char
+  class(out_df) <- c("tbl_df", "tbl", "data.frame")
   out_df
 }
