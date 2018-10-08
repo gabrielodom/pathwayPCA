@@ -66,6 +66,8 @@
 #'   }
 #' @param minPathSize What is the smallest number of genes allowed in each
 #'   pathway? Defaults to 3.
+#' @param ... Dots for additional arguments passed to the internal
+#'   \code{\link{CheckAssay}} function.
 #'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'   \code{OmicsReg}, or \code{OmicsCateg}.
@@ -122,50 +124,17 @@
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsPath <- function(assayData_df,
-                             pathwayCollection_ls,
-                             minPathSize = 3){
+                            pathwayCollection_ls,
+                            minPathSize = 3,
+                            ...){
 
-  if("matrix" %in% class(assayData_df) &
-     !("data.frame" %in% class(assayData_df))){
-    stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA package functions require -Omics data as an N x p
-    data frame object: this data frame will have one observation per row and one
-    measurement per column. If your matrix is in 'tall' (p x N) format, please
-    transpose your matrix with the 't()' function (but pay attention to your
-    column names after transposition). Next, you can use the 'as.data.frame()'
-    function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?CreateOmicsPath for more details. If
-    you have a p x N data frame, please see the ?TransposeAssay function.")
-  }
-
-  ###  Proper Data Frame  ###
-  if(anyNA(assayData_df)){
-    stop("Missing observations are not permitted in the assay data.")
-  }
-
-  if(nrow(assayData_df) > ncol(assayData_df)){
-    warning("\n The assayData_df argument has more rows than columns. The
-    pathwayPCA package functions require -Omics data as an N x p data frame
-    object: this data frame will have one observation per row and one feature
-    per column. If your assay is in 'tall' (p x N) format, please transpose your
-    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
-    function help file for more information.")
-  }
-
-  bad_names <- .detect_invalid_names(colnames(assayData_df))
-  if(length(bad_names) > 0){
-    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
-                    length(bad_names)))
-    print(bad_names)
-    message("These genes may be excluded from analysis. Proper gene names
-contain alphanumeric characters only, and start with a letter.")
-  }
+  ###  Error Checks and Warnings for supplied assay  ###
+  assayData_df <- CheckAssay(assayData_df, ...)
 
 
+  ###  Process Pathway Collection  ###
   pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
-
-  ###  Pathways List Names Checking  ###
   # If there are no names, create them. If there are missing names, label them.
   if(is.null(names(pathwayCollection_ls$pathways))){
 
@@ -193,8 +162,7 @@ contain alphanumeric characters only, and start with a letter.")
 
   }
 
-
-  ###  Add Name Key to TERMS and setsize  ###
+  # Add Name Key to TERMS and setsize
   names(pathwayCollection_ls$TERMS) <- pathNames
   names(pathwayCollection_ls$setsize) <- pathNames
 
@@ -228,48 +196,17 @@ contain alphanumeric characters only, and start with a letter.")
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsSurv <- function(assayData_df,
-                             pathwayCollection_ls,
-                             eventTime_num,
-                             eventObserved_lgl,
-                             minPathSize = 3){
+                            pathwayCollection_ls,
+                            eventTime_num,
+                            eventObserved_lgl,
+                            minPathSize = 3,
+                            ...){
 
-  if("matrix" %in% class(assayData_df) &
-     !("data.frame" %in% class(assayData_df))){
-    stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA package functions require -Omics data as an N x p
-    data frame object: this data frame will have one observation per row and one
-    measurement per column. If your matrix is in 'tall' (p x N) format, please
-    transpose your matrix with the 't()' function (but pay attention to your
-    column names after transposition). Next, you can use the 'as.data.frame()'
-    function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?CreateOmicsSurv for more details. If
-    you have a p x N data frame, please see the ?TransposeAssay function.")
-  }
-
-  ###  Proper Data Frame  ###
-  if(anyNA(assayData_df)){
-    stop("Missing observations are not permitted in the assay data.")
-  }
-
-  if(nrow(assayData_df) > ncol(assayData_df)){
-    warning("\n The assayData_df argument has more rows than columns. The
-    pathwayPCA package functions require -Omics data as an N x p data frame
-    object: this data frame will have one observation per row and one feature
-    per column. If your assay is in 'tall' (p x N) format, please transpose your
-    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
-    function help file for more information.")
-  }
-
-  bad_names <- .detect_invalid_names(colnames(assayData_df))
-  if(length(bad_names) > 0){
-    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
-                    length(bad_names)))
-    print(bad_names)
-    message("These genes may be excluded from analysis. Proper gene names
-contain alphanumeric characters only, and start with a letter.")
-  }
+  ###  Error Checks and Warnings for supplied assay  ###
+  assayData_df <- CheckAssay(assayData_df, ...)
 
 
+  ###  Process Pathway Collection  ###
   pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
@@ -336,45 +273,14 @@ contain alphanumeric characters only, and start with a letter.")
 CreateOmicsReg <- function(assayData_df,
                             pathwayCollection_ls,
                             response_num,
-                            minPathSize = 3){
+                            minPathSize = 3,
+                           ...){
 
-  if("matrix" %in% class(assayData_df) &
-     !("data.frame" %in% class(assayData_df))){
-    stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA package functions require -Omics data as an N x p
-    data frame object: this data frame will have one observation per row and one
-    measurement per column. If your matrix is in 'tall' (p x N) format, please
-    transpose your matrix with the 't()' function (but pay attention to your
-    column names after transposition). Next, you can use the 'as.data.frame()'
-    function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?CreateOmicsReg for more details. If
-    you have a p x N data frame, please see the ?TransposeAssay function.")
-  }
-
-  ###  Proper Data Frame  ###
-  if(anyNA(assayData_df)){
-    stop("Missing observations are not permitted in the assay data.")
-  }
-
-  if(nrow(assayData_df) > ncol(assayData_df)){
-    warning("\n The assayData_df argument has more rows than columns. The
-    pathwayPCA package functions require -Omics data as an N x p data frame
-    object: this data frame will have one observation per row and one feature
-    per column. If your assay is in 'tall' (p x N) format, please transpose your
-    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
-    function help file for more information.")
-  }
-
-  bad_names <- .detect_invalid_names(colnames(assayData_df))
-  if(length(bad_names) > 0){
-    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
-                    length(bad_names)))
-    print(bad_names)
-    message("These genes may be excluded from analysis. Proper gene names
-contain alphanumeric characters only, and start with a letter.")
-  }
+  ###  Error Checks and Warnings for supplied assay  ###
+  assayData_df <- CheckAssay(assayData_df, ...)
 
 
+  ###  Process Pathway Collection  ###
   pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
@@ -434,45 +340,14 @@ contain alphanumeric characters only, and start with a letter.")
 CreateOmicsCateg <- function(assayData_df,
                               pathwayCollection_ls,
                               response_fact,
-                              minPathSize = 3){
+                              minPathSize = 3,
+                             ...){
 
-  if("matrix" %in% class(assayData_df) &
-     !("data.frame" %in% class(assayData_df))){
-    stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA package functions require -Omics data as an N x p
-    data frame object: this data frame will have one observation per row and one
-    measurement per column. If your matrix is in 'tall' (p x N) format, please
-    transpose your matrix with the 't()' function (but pay attention to your
-    column names after transposition). Next, you can use the 'as.data.frame()'
-    function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?CreateOmicsCateg for more details. If
-    you have a p x N data frame, please see the ?TransposeAssay function.")
-  }
-
-  ###  Proper Data Frame  ###
-  if(anyNA(assayData_df)){
-    stop("Missing observations are not permitted in the assay data.")
-  }
-
-  if(nrow(assayData_df) > ncol(assayData_df)){
-    warning("\n The assayData_df argument has more rows than columns. The
-    pathwayPCA package functions require -Omics data as an N x p data frame
-    object: this data frame will have one observation per row and one feature
-    per column. If your assay is in 'tall' (p x N) format, please transpose your
-    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
-    function help file for more information.")
-  }
-
-  bad_names <- .detect_invalid_names(colnames(assayData_df))
-  if(length(bad_names) > 0){
-    message(sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
-                    length(bad_names)))
-    print(bad_names)
-    message("These genes may be excluded from analysis. Proper gene names
-contain alphanumeric characters only, and start with a letter.")
-  }
+  ###  Error Checks and Warnings for supplied assay  ###
+  assayData_df <- CheckAssay(assayData_df, ...)
 
 
+  ###  Process Pathway Collection  ###
   pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
 
 
@@ -522,25 +397,5 @@ contain alphanumeric characters only, and start with a letter.")
   )
 
   IntersectOmicsPwyCollct(obj, trim = minPathSize)
-
-}
-
-
-###  Utility Function  ###
-.detect_invalid_names <- function(string_ls){
-  # browser()
-
-  unmatchedSingleQ <- grepl("'", string_ls)
-  unmatchedDoubleQ <- grepl('"', string_ls)
-  nonAlphaNum_idx <- grepl("[^-a-zA-Z0-9-]", string_ls)
-  leadingNum_idx <- grepl("^\\d", string_ls)
-
-  bad_idx <- unmatchedSingleQ +
-    unmatchedDoubleQ +
-    nonAlphaNum_idx +
-    leadingNum_idx
-  bad_idx <- as.logical(bad_idx)
-
-  string_ls[bad_idx]
 
 }

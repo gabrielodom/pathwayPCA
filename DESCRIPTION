@@ -52,6 +52,7 @@ Collate:
     'aesPC_unknown_matrixNorm.R'
     'aesPC_wrapper.R'
     'createOmics_All.R'
+    'createOmics_CheckAssay.R'
     'createOmics_TrimPathwayCollection.R'
     'createOmics_Wrapper.R'
     'data_colonSubset.R'
