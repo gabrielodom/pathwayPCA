@@ -7,16 +7,16 @@
 \alias{CreateOmicsCateg}
 \title{Generation functions for \code{-Omics*}-class objects}
 \usage{
-CreateOmicsPath(assayData_df, pathwayCollection_ls, minPathSize = 3)
+CreateOmicsPath(assayData_df, pathwayCollection_ls, minPathSize = 3, ...)
 
 CreateOmicsSurv(assayData_df, pathwayCollection_ls, eventTime_num,
-  eventObserved_lgl, minPathSize = 3)
+  eventObserved_lgl, minPathSize = 3, ...)
 
 CreateOmicsReg(assayData_df, pathwayCollection_ls, response_num,
-  minPathSize = 3)
+  minPathSize = 3, ...)
 
 CreateOmicsCateg(assayData_df, pathwayCollection_ls, response_fact,
-  minPathSize = 3)
+  minPathSize = 3, ...)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
@@ -40,6 +40,9 @@ pathways with two or three elements:
 
 \item{minPathSize}{What is the smallest number of genes allowed in each
 pathway? Defaults to 3.}
+
+\item{...}{Dots for additional arguments passed to the internal
+\code{\link{CheckAssay}} function.}
 
 \item{eventTime_num}{A \code{numeric} vector with \eqn{N} observations
 corresponding to the last observed time of follow up.}
