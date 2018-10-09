@@ -127,6 +127,7 @@ CreateOmicsPath <- function(assayData_df,
                             pathwayCollection_ls,
                             minPathSize = 3,
                             ...){
+  # browser()
 
   ###  Error Checks and Warnings for supplied assay  ###
   assayData_df <- CheckAssay(assayData_df, ...)
