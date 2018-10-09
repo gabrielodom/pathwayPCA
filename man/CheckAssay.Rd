@@ -35,3 +35,4 @@ This function checks that the data frame is not a matrix, that the
 \examples{
  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
 }
+\keyword{internal}

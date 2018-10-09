@@ -20,6 +20,8 @@
 #'    features if \code{removeNear0 = TRUE}), and checks the data frame for
 #'    valid column names.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @importFrom stats sd
