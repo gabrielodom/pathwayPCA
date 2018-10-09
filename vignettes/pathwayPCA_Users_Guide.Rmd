@@ -117,7 +117,8 @@ ov_OmicsSurv <- CreateOmics(
   pathwayCollection_ls = wikipathways_PC,
   response = ovSurv_df[, 2:3],
   respType = "survival",
-  minPathSize = 5
+  minPathSize = 5,
+  centerScale = c(TRUE, TRUE)
 )
 ```
 
@@ -156,14 +157,14 @@ Because the syntax for performing Supervised PCA is nearly identical to the AES-
 <!-- set.seed(123456) -->
 <!-- ``` -->
 <!-- set.seed doesn't work with parallel computing. See Issue #15. -->
-```{r AESPCA_run, eval = FALSE}
+```{r AESPCA_run}
 # e1 <- Sys.time()
 ovarian_aespcOut <- AESPCA_pVals(
   object = ov_OmicsSurv,
   numPCs = 3,
   parallel = TRUE,
-  numCores = 20,
-  numReps = 100000,
+  numCores = 2,
+  numReps = 10,
   adjustment = "BH"
 )
 # Sys.time() - e1
@@ -180,6 +181,7 @@ The above function has the following computational options (unless stated, these
 
 The top 15 pathways with AES-PCA are (from the results for 100k permutations):
 ```{r echo=FALSE}
+# saveRDS(ovarian_aespcOut, file = "vignettes/aespcaOut_20180928.RDS")
 ovarian_aespcOut <- readRDS("aespcaOut_20180928.RDS")
 ```
 ```{r ovarian2_AESPCA_pVals_wikiP}
@@ -278,6 +280,8 @@ pValsClean_df <-
     "Pathway" = description,
     "Benjamini-Hochberg FDR" = FDR_BH
   )
+
+pValsClean_df
 ```
 
 

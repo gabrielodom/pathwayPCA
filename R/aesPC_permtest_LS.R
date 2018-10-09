@@ -87,6 +87,7 @@ setMethod(f = "PermTestReg", signature = "OmicsReg",
 
               ###  True Model  ###
               response <- obj_OmicsReg@response
+              pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
               trueAIC <- AIC(lm(response ~ pathwayPCs_mat))
 
 

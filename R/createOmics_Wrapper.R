@@ -29,6 +29,9 @@
 #'    \code{"none"}, \code{"survival"}, \code{"regression"}, and
 #'    \code{"categorical"}. Defaults to \code{"none"} to match the default
 #'    \code{response = NULL} value.
+#' @param centerScale Should the values in \code{assayData_df} be centered and
+#'    scaled? Defaults to \code{TRUE} for centering and scaling, respectively.
+#'    See \code{\link{scale}} for more information.
 #' @param minPathSize What is the smallest number of genes allowed in each
 #'   pathway? Defaults to 3.
 #'
@@ -118,15 +121,16 @@
 #'
 #' @export
 CreateOmics <- function(assayData_df,
-                         pathwayCollection_ls,
-                         response = NULL,
-                         respType = c("none", "survival", "regression", "categorical"),
-                         minPathSize = 3){
+                        pathwayCollection_ls,
+                        response = NULL,
+                        respType = c("none", "survival", "regression", "categorical"),
+                        centerScale = c(TRUE, TRUE),
+                        minPathSize = 3){
 
   # browser()
 
+  ###  Match and Check Response  ###
   respType <- match.arg(respType)
-
   if(respType != "none" && is.null(response)){
     stop(paste0("Response must be specified for type = ", respType))
   }
@@ -136,6 +140,18 @@ CreateOmics <- function(assayData_df,
 
   if(!is.null(response)){
     respClean <- .convertResponse(response, type = respType)
+  }
+
+
+  ###  Create Data Object  ###
+  if(any(centerScale)){
+
+    origClass <- class(assayData_df)
+    assayData_df <- as.data.frame(
+      scale(assayData_df, center = centerScale[1], scale = centerScale[2])
+    )
+    class(assayData_df) <- origClass
+
   }
 
   switch (respType,

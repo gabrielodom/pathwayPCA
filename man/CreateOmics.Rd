@@ -6,7 +6,7 @@
 \usage{
 CreateOmics(assayData_df, pathwayCollection_ls, response = NULL,
   respType = c("none", "survival", "regression", "categorical"),
-  minPathSize = 3)
+  centerScale = c(TRUE, TRUE), minPathSize = 3)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
@@ -35,6 +35,10 @@ information. Defaults to \code{NULL}.}
 \code{"none"}, \code{"survival"}, \code{"regression"}, and
 \code{"categorical"}. Defaults to \code{"none"} to match the default
 \code{response = NULL} value.}
+
+\item{centerScale}{Should the values in \code{assayData_df} be centered and
+scaled? Defaults to \code{TRUE} for centering and scaling, respectively.
+See \code{\link{scale}} for more information.}
 
 \item{minPathSize}{What is the smallest number of genes allowed in each
 pathway? Defaults to 3.}
