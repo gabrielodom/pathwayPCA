@@ -33,27 +33,35 @@ CheckAssay <- function(df, removeNear0 = TRUE, epsilon = 10^-6){
   ###  Check Classes  ###
   if("matrix" %in% class(df) &
      !("data.frame" %in% class(df))){
-    stop("\n You have supplied a matrix object to the assayData_df argument.
-    Note that the pathwayPCA package functions require -Omics data as an N x p
-    data frame object: this data frame will have one observation per row and one
-    measurement per column. If your matrix is in 'tall' (p x N) format, please
-    transpose your matrix with the 't()' function (but pay attention to your
-    column names after transposition). Next, you can use the 'as.data.frame()'
-    function to transform your -Omics data matrix to class 'data.frame'. Please
-    see the help information found in ?CreateOmicsPath for more details. If
-    you have a p x N data frame, please see the ?TransposeAssay function.")
+    stop(
+"\n  You have supplied a matrix object to the assayData_df argument. Note that
+the pathwayPCA package functions require -Omics data as an N x p data frame
+object: this data frame will have one observation per row and one measurement
+per column. If your matrix is in 'tall' (p x N) format, please transpose your
+matrix with the 't()' function (but pay attention to your column names after
+transposition). Next, you can use the 'as.data.frame()' function to transform
+your -Omics data matrix to class 'data.frame'. Please see the help information
+found in ?CreateOmicsPath for more details. If you have a p x N data frame,
+please see the ?TransposeAssay function.")
   }
 
 
   ###  Warn for "tall" Data  ###
+  warnLvl <- options("warn")$warn
+  options(warn = 1)
   if(nrow(df) > ncol(df)){
-    warning("\n The assayData_df argument has more rows than columns. The
-    pathwayPCA package functions require -Omics data as an N x p data frame
-    object: this data frame will have one observation per row and one feature
-    per column. If your assay is in 'tall' (p x N) format, please transpose your
-    assay with the 'TransposeAssay()' function. Please see the ?TransposeAssay
-    function help file for more information.")
+    warning(
+"  The assayData_df argument has more rows than columns. The pathwayPCA
+package functions require -Omics data as an N x p data frame object: this data
+frame will have one observation per row and one feature per column. If your
+assay is in 'tall' (p x N) format, please transpose your assay with the
+'TransposeAssay()' function. Please see the ?TransposeAssay function help file
+for more information.
+")
   }
+  options(warn = warnLvl)
+  # Warnings are cached and only printed when control returns to the top level.
+  # See https://adv-r.hadley.nz/conditions.html for more information.
 
 
   ###  Check for Missing or Non-Numeric Values or 0 Variance Features  ###

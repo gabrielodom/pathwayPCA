@@ -159,18 +159,35 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
             #   from column 30 to 110 in the code.
             if(message){
 
-              message(sprintf("Of the %i unique genes in the input pathways list, %.1f%% were not found in the
+              message(
+                sprintf("Of the %i unique genes in the input pathways list, %.1f%% were not found in the
   input assay data and were therefore removed.",
-                              length(genesInPathway_vec), pRmFeatures * 100))
+                  length(genesInPathway_vec), pRmFeatures * 100
+                )
+              )
 
-              message(sprintf("After trimming these genes from the %i supplied pathways, we removed %i
+              message(
+                sprintf("After trimming these genes from the %i supplied pathways, we removed %i
   pathway(s) because they contained %i or fewer genes.",
-                              length(paths_ls), length(missingPaths_char), trim))
+                  length(paths_ls), length(missingPaths_char), trim
+                )
+              )
 
-              message(sprintf("Of the %i measured genes in the input assay data, %.1f%% were included in at
+              message(
+                sprintf("Of the %i measured genes in the input assay data, %.1f%% (%i) were included in at
   least one pathway after trimming. \n",
-                              length(genelist), pSelectFeatures * 100))
+                  length(genelist), pSelectFeatures * 100,
+                  length(genesInTrimPathway_vec)
+                )
+              )
 
+            }
+
+            if(length(genesInTrimPathway_vec) < 1){
+              stop(
+  "The feature names of the assay do not match the supplied features within the
+pathway collection. Please supply a different pathway collection."
+              )
             }
 
 
