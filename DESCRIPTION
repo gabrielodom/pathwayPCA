@@ -53,6 +53,7 @@ Collate:
     'aesPC_wrapper.R'
     'createOmics_All.R'
     'createOmics_CheckAssay.R'
+    'createOmics_CheckPathwayCollection.R'
     'createOmics_TrimPathwayCollection.R'
     'createOmics_Wrapper.R'
     'data_colonSubset.R'

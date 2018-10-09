@@ -64,6 +64,8 @@
 #'        as the \code{pathways} list with additional information about the
 #'        pathways.}
 #'   }
+#'   This object is checked and modified by the \code{\link{CheckPwyColl}}
+#'   function.
 #' @param minPathSize What is the smallest number of genes allowed in each
 #'   pathway? Defaults to 3.
 #' @param ... Dots for additional arguments passed to the internal
@@ -129,44 +131,11 @@ CreateOmicsPath <- function(assayData_df,
                             ...){
   # browser()
 
-  ###  Error Checks and Warnings for supplied assay  ###
+  ###  Error Checks and Warnings for Supplied Assay  ###
   assayData_df <- CheckAssay(assayData_df, ...)
 
-
   ###  Process Pathway Collection  ###
-  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
-
-  # If there are no names, create them. If there are missing names, label them.
-  if(is.null(names(pathwayCollection_ls$pathways))){
-
-    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  } else if(anyNA(names(pathwayCollection_ls$pathways))){
-
-    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
-    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
-      paste0("noName", missingNm_idx)
-    pathNames <- names(pathwayCollection_ls$pathways)
-
-  } else {
-    pathNames <- names(pathwayCollection_ls$pathways)
-  }
-
-  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
-
-    shortSet_df <- data.frame(
-      lapply(pathwayCollection_ls$pathways, "length<-", 1)
-    )
-    pathNames <- names(shortSet_df)
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  }
-
-  # Add Name Key to TERMS and setsize
-  names(pathwayCollection_ls$TERMS) <- pathNames
-  names(pathwayCollection_ls$setsize) <- pathNames
-
+  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
 
   ###  Create Omics Object  ###
   obj <- new(
@@ -203,47 +172,11 @@ CreateOmicsSurv <- function(assayData_df,
                             minPathSize = 3,
                             ...){
 
-  ###  Error Checks and Warnings for supplied assay  ###
+  ###  Error Checks and Warnings for Supplied Assay  ###
   assayData_df <- CheckAssay(assayData_df, ...)
 
-
   ###  Process Pathway Collection  ###
-  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
-
-
-  ###  Pathways List Names Checking  ###
-  # If there are no names, create them. If there are missing names, label them.
-  if(is.null(names(pathwayCollection_ls$pathways))){
-
-    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  } else if(anyNA(names(pathwayCollection_ls$pathways))){
-
-    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
-    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
-      paste0("noName", missingNm_idx)
-    pathNames <- names(pathwayCollection_ls$pathways)
-
-  } else {
-    pathNames <- names(pathwayCollection_ls$pathways)
-  }
-
-  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
-
-    shortSet_df <- data.frame(
-      lapply(pathwayCollection_ls$pathways, "length<-", 1)
-    )
-    pathNames <- names(shortSet_df)
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  }
-
-
-  ###  Add Name Key to TERMS and setsize  ###
-  names(pathwayCollection_ls$TERMS) <- pathNames
-  names(pathwayCollection_ls$setsize) <- pathNames
-
+  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
 
   ###  Create Omics Object  ###
   obj <- new(
@@ -280,44 +213,8 @@ CreateOmicsReg <- function(assayData_df,
   ###  Error Checks and Warnings for supplied assay  ###
   assayData_df <- CheckAssay(assayData_df, ...)
 
-
   ###  Process Pathway Collection  ###
-  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
-
-
-  ###  Pathways List Names Checking  ###
-  # If there are no names, create them. If there are missing names, label them.
-  if(is.null(names(pathwayCollection_ls$pathways))){
-
-    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  } else if(anyNA(names(pathwayCollection_ls$pathways))){
-
-    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
-    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
-      paste0("noName", missingNm_idx)
-    pathNames <- names(pathwayCollection_ls$pathways)
-
-  } else {
-    pathNames <- names(pathwayCollection_ls$pathways)
-  }
-
-  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
-
-    shortSet_df <- data.frame(
-      lapply(pathwayCollection_ls$pathways, "length<-", 1)
-    )
-    pathNames <- names(shortSet_df)
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  }
-
-
-  ###  Add Name Key to TERMS and setsize  ###
-  names(pathwayCollection_ls$TERMS) <- pathNames
-  names(pathwayCollection_ls$setsize) <- pathNames
-
+  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
 
   ###  Create Omics Object  ###
   obj <- new(
@@ -344,50 +241,11 @@ CreateOmicsCateg <- function(assayData_df,
                               minPathSize = 3,
                              ...){
 
-  ###  Error Checks and Warnings for supplied assay  ###
+  ###  Error Checks and Warnings for Supplied Assay  ###
   assayData_df <- CheckAssay(assayData_df, ...)
 
-
   ###  Process Pathway Collection  ###
-  pathwayCollection_ls$setsize <- lengths(pathwayCollection_ls$pathways)
-
-
-  ###  Pathways List Names Checking  ###
-  # If there are no names, create them. If there are missing names, label them.
-  #   If there are duplicated names (because R is stupid and allows duplicate
-  #   element names in a list -- but not a data frame!), then use the data.frame
-  #   name rule to append a period then integers to the end of the name string.
-  if(is.null(names(pathwayCollection_ls$pathways))){
-
-    pathNames <- paste0("path", 1:length(pathwayCollection_ls$pathways))
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  } else if(anyNA(names(pathwayCollection_ls$pathways))){
-
-    missingNm_idx <- which(is.na(names(pathwayCollection_ls$pathways)))
-    names(pathwayCollection_ls$pathways)[missingNm_idx] <-
-      paste0("noName", missingNm_idx)
-    pathNames <- names(pathwayCollection_ls$pathways)
-
-  } else {
-    pathNames <- names(pathwayCollection_ls$pathways)
-  }
-
-  if(anyDuplicated(names(pathwayCollection_ls$pathways))){
-
-    shortSet_df <- data.frame(
-      lapply(pathwayCollection_ls$pathways, "length<-", 1)
-    )
-    pathNames <- names(shortSet_df)
-    names(pathwayCollection_ls$pathways) <- pathNames
-
-  }
-
-
-  ###  Add Name Key to TERMS and setsize  ###
-  names(pathwayCollection_ls$TERMS) <- pathNames
-  names(pathwayCollection_ls$setsize) <- pathNames
-
+  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
 
   ###  Create Omics Object  ###
   obj <- new(
