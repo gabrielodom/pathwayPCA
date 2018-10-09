@@ -105,6 +105,7 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
 
               ###  True Model  ###
               response <- obj_OmicsCateg@response
+              pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
               trueAIC <- AIC(glm(response ~ pathwayPCs_mat, family = binomial))
 
 

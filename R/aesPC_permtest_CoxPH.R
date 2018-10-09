@@ -90,6 +90,7 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
               #   rewrite the SampleSurv() function to take in a Surv object
               response <- Surv(time = obj_OmicsSurv@eventTime,
                                event = obj_OmicsSurv@eventObserved)
+              pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
               trueAIC <- AIC(coxph(response ~ pathwayPCs_mat))
 
 
