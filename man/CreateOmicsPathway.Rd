@@ -36,7 +36,9 @@ pathways with two or three elements:
   \item{\code{description} : }{An optional character vector the same length
      as the \code{pathways} list with additional information about the
      pathways.}
-}}
+}
+This object is checked and modified by the \code{\link{CheckPwyColl}}
+function.}
 
 \item{minPathSize}{What is the smallest number of genes allowed in each
 pathway? Defaults to 3.}
