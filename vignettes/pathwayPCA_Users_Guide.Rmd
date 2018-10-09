@@ -181,8 +181,8 @@ The above function has the following computational options (unless stated, these
 
 The top 15 pathways with AES-PCA are (from the results for 100k permutations):
 ```{r echo=FALSE}
-# saveRDS(ovarian_aespcOut, file = "vignettes/aespcaOut_20180928.RDS")
-ovarian_aespcOut <- readRDS("aespcaOut_20180928.RDS")
+# saveRDS(ovarian_aespcOut, file = "vignettes/aespcaOut_20181009.RDS")
+ovarian_aespcOut <- readRDS("aespcaOut_20181009.RDS")
 ```
 ```{r ovarian2_AESPCA_pVals_wikiP}
 head(ovarian_aespcOut$pVals_df, 15)
@@ -323,11 +323,11 @@ pVals_df %>%
 Now we can inspect the loadings from each gene onto the first PC in a few of these pathways.
 ```{r inspect_top_loadings}
 # Toll-like Receptor Signaling
-proteinLoad253 <- ovarian_aespcOut$loadings_ls[["path253"]][1, ]
+proteinLoad253 <- ovarian_aespcOut$loadings_ls[["path253"]][, 1]
 sort(proteinLoad253[proteinLoad253 != 0], decreasing = TRUE)
 
 # Toll-like Receptor Signaling Pathway
-proteinLoad110 <- ovarian_aespcOut$loadings_ls[["path110"]][1, ]
+proteinLoad110 <- ovarian_aespcOut$loadings_ls[["path110"]][, 1]
 sort(proteinLoad110[proteinLoad110 != 0], decreasing = TRUE)
 ```
 
