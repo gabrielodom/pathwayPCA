@@ -67,7 +67,26 @@ aespca <- function(X,
   ###  SVD  ###
   X <- scale(X, center = TRUE, scale = TRUE)
   xtx <- t(X) %*% X
-  svdGram <- svd(xtx)
+
+  svdGram <- tryCatch(svd(xtx), error = function(e) NULL)
+  if(is.null(svdGram)){
+
+    B <- A0 <- as.data.frame(
+      matrix(NA, nrow = p, ncol = d)
+    )
+    score <- oldscore <- as.data.frame(
+      matrix(NA, nrow = n, ncol = d)
+    )
+    obj <- list(
+      aesLoad  = B,         # p x d
+      oldLoad  = A0,        # p x d
+      aesScore = score,     # n x d
+      oldScore = oldscore   # n x d
+    )
+
+    return(obj)
+  }
+
   A <- svdGram$v[, 1:d, drop = FALSE]
 
 
@@ -167,10 +186,10 @@ aespca <- function(X,
 
   ###  Return  ###
   obj <- list(
-    aesLoad   = B,         # p x d
-    oldLoad   = A0,        # p x d
-    aesScore  = score,     # n x d
-    oldScore  = oldscore   # n x d
+    aesLoad  = B,         # p x d
+    oldLoad  = A0,        # p x d
+    aesScore = score,     # n x d
+    oldScore = oldscore   # n x d
   )
 
   obj
