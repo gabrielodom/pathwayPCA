@@ -253,6 +253,8 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
               ###  Matrix of Student's t Scores and Controls  ###
               message("Calculating Pathway Test Statistics Serially: ",
                       appendLF = FALSE)
+              # browser()
+
               tScores_ls <- lapply(
                 paths_ls,
                 pathway_tScores,
