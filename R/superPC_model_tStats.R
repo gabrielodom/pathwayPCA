@@ -201,6 +201,7 @@ superpc.st <- function(fit,
   bestFeatures <- abs(cur.tt) + epsilon > thresholds[max(bestT_idx)]
   bestSVD <- mysvd(data$x[bestFeatures, ], n.components = n.PCs)
   bestLoadings_mat <- diag(bestSVD$d, ncol = length(bestSVD$d)) %*% t(bestSVD$u)
+  rownames(bestLoadings_mat) <- paste0("PC", 1:n.PCs)
   colnames(bestLoadings_mat) <- names(bestSVD$feature.means)
   bestPCs_mat <- as.matrix(bestSVD$v, ncol = n.PCs)
 

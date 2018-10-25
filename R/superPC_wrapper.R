@@ -333,7 +333,9 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
             ###  Wrangle PCA Output  ###
             sortedScores_ls <- tScores_ls[out_df$pathways]
             PCs_ls <- lapply(sortedScores_ls, `[[`, "PCs_mat")
+            PCs_ls <- lapply(PCs_ls, as.data.frame)
             loadings_ls <- lapply(sortedScores_ls, `[[`, "loadings")
+            loadings_ls <- lapply(loadings_ls, t)
 
             ###  Return  ###
             out_ls <- list(
