@@ -49,7 +49,9 @@ mysvd <- function(mat, method = svd, n.components = NULL){
 
   # center the observations (rows)
   feature.means <- rowMeans(mat)
-  mat <- t(scale(t(mat), center = feature.means, scale = FALSE))
+  # mat <- t(scale(t(mat), center = feature.means, scale = FALSE))
+  # We moved the scaling step to object creation. See CreateOmics()
+  mat <- as.matrix(mat)
 
 
   if(is.null(n.components)){

@@ -65,7 +65,9 @@ aespca <- function(X,
 
 
   ###  SVD  ###
-  X <- scale(X, center = TRUE, scale = TRUE)
+  # X <- scale(X, center = TRUE, scale = TRUE)
+  # We moved the scaling step to object creation. See CreateOmics()
+  X <- as.matrix(X)
   xtx <- t(X) %*% X
 
   svdGram <- tryCatch(svd(xtx), error = function(e) NULL)
