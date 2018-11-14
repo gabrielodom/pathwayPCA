@@ -33,7 +33,7 @@ increase computation time.}
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation? Defaults to \code{NULL}.}
+computation? Internally defaults to the number of available cores minus 2.}
 
 \item{adjustpValues}{Should you adjust the \eqn{p}-values for multiple
 comparisons? Defaults to TRUE.}
@@ -116,5 +116,5 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
    \code{\link{OptimGumbelMixParams}}; \code{\link{GumbelMixpValues}};
-   \code{\link{TabulatepValues}}
+   \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
 }

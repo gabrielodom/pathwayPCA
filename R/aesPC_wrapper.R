@@ -15,7 +15,7 @@
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
 #' @param asPCA Should the computation return the eigenvectors and eigenvalues
 #'   instead of the adaptive, elastic-net, sparse principal components and their
 #'   corresponding loadings. Defaults to \code{FALSE}; this should be used for
@@ -70,7 +70,7 @@
 #'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
 #'    \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
 #'    \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
-#'    \code{\link{TabulatepValues}}
+#'    \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
@@ -133,11 +133,7 @@ setGeneric("AESPCA_pVals",
            }
 )
 
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
-#' @importFrom parallel clusterEvalQ
-#' @importFrom parallel parSapply
-#' @importFrom parallel stopCluster
+#' @importFrom parallel detectCores
 #'
 #' @rdname AESPCA_pVals
 setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
@@ -159,6 +155,9 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
                                                "TSBH"),
                                 ...){
             # browser()
+            if(parallel){
+              numCores <- ifelse(is.null(numCores), detectCores() - 2, numCores)
+            }
 
             ###  Calculate AES-PCs  ###
             message("Part 1: Calculate Pathway AES-PCs")

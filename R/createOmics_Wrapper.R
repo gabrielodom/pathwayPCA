@@ -34,6 +34,8 @@
 #'    See \code{\link{scale}} for more information.
 #' @param minPathSize What is the smallest number of genes allowed in each
 #'   pathway? Defaults to 3.
+#' @param ... Dots for additional arguments passed to the internal
+#'   \code{\link{CheckAssay}} function.
 #'
 #' @details This function is a wrapper around the four \code{CreateOmics*}
 #'    functions, and as such is not necessary for analysis. This function simply
@@ -77,8 +79,10 @@
 #'    \code{\link[=OmicsCateg-class]{OmicsCateg}},
 #'    \code{\link{CreateOmicsCateg}}
 #'    \code{\link[=OmicsReg-class]{OmicsReg}},
-#'    \code{\link{CreateOmicsReg}}, and
-#'   \code{\link{IntersectOmicsPwyCollct}}
+#'    \code{\link{CreateOmicsReg}},
+#'    \code{\link{CheckAssay}},
+#'    \code{\link{CheckPwyColl}}, and
+#'    \code{\link{IntersectOmicsPwyCollct}}
 #'
 #' @importFrom survival is.Surv
 #'
@@ -125,7 +129,8 @@ CreateOmics <- function(assayData_df,
                         response = NULL,
                         respType = c("none", "survival", "regression", "categorical"),
                         centerScale = c(TRUE, TRUE),
-                        minPathSize = 3){
+                        minPathSize = 3,
+                        ...){
 
   # browser()
 
@@ -143,7 +148,14 @@ CreateOmics <- function(assayData_df,
   }
 
 
-  ###  Create Data Object  ###
+  ###  Data Error Checks and Warnings  ###
+  # Assay
+  assayData_df <- CheckAssay(assayData_df, ...)
+  # Pathway Collection
+  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
+
+
+  ###  Centre and Scale Assay  ###
   if(any(centerScale)){
 
     origClass <- class(assayData_df)
@@ -154,10 +166,12 @@ CreateOmics <- function(assayData_df,
 
   }
 
+
+  ###  Create Data Object  ###
   switch (respType,
           none = {
 
-            message("Creating object of class OmicsPathway.")
+            message("\n Creating object of class OmicsPathway.")
             CreateOmicsPath(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,
@@ -167,7 +181,7 @@ CreateOmics <- function(assayData_df,
           },
           survival = {
 
-            message("Creating object of class OmicsSurv.")
+            message("\n Creating object of class OmicsSurv.")
             CreateOmicsSurv(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,
@@ -179,7 +193,7 @@ CreateOmics <- function(assayData_df,
           },
           regression = {
 
-            message("Creating object of class OmicsReg.")
+            message("\n Creating object of class OmicsReg.")
             CreateOmicsReg(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,
@@ -190,7 +204,7 @@ CreateOmics <- function(assayData_df,
           },
           categorical = {
 
-            message("Creating object of class OmicsCateg.")
+            message("\n Creating object of class OmicsCateg.")
             CreateOmicsCateg(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,

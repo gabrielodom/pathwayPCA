@@ -22,7 +22,7 @@ ExtractAESPCs(object, numPCs = 1, parallel = FALSE, numCores = NULL,
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation? Defaults to \code{NULL}.}
+computation? Internally defaults to the number of available cores minus 2.}
 
 \item{standardPCA}{Should the function return the AES-PCA PCs and loadings
 (\code{FALSE}) or the standard PCA PCs and loadings (\code{TRUE})? Defaults
@@ -71,6 +71,6 @@ This function takes in a data frame with named columns and a pathway
 
 }
 \seealso{
-\code{\link{CreateOmicsPath}}; \code{\link{aespca}};
+\code{\link{CreateOmicsPath}}; \code{\link{aespca}}
    \code{\link{IntersectOmicsPwyCollct}}
 }

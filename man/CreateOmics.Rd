@@ -6,7 +6,7 @@
 \usage{
 CreateOmics(assayData_df, pathwayCollection_ls, response = NULL,
   respType = c("none", "survival", "regression", "categorical"),
-  centerScale = c(TRUE, TRUE), minPathSize = 3)
+  centerScale = c(TRUE, TRUE), minPathSize = 3, ...)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
@@ -42,6 +42,9 @@ See \code{\link{scale}} for more information.}
 
 \item{minPathSize}{What is the smallest number of genes allowed in each
 pathway? Defaults to 3.}
+
+\item{...}{Dots for additional arguments passed to the internal
+\code{\link{CheckAssay}} function.}
 }
 \value{
 A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
@@ -127,6 +130,8 @@ This function is a wrapper around the four \code{CreateOmics*}
    \code{\link[=OmicsCateg-class]{OmicsCateg}},
    \code{\link{CreateOmicsCateg}}
    \code{\link[=OmicsReg-class]{OmicsReg}},
-   \code{\link{CreateOmicsReg}}, and
-  \code{\link{IntersectOmicsPwyCollct}}
+   \code{\link{CreateOmicsReg}},
+   \code{\link{CheckAssay}},
+   \code{\link{CheckPwyColl}}, and
+   \code{\link{IntersectOmicsPwyCollct}}
 }
