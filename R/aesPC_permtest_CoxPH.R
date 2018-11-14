@@ -13,7 +13,7 @@
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A named vector of pathway permutation \eqn{p}-values.
@@ -63,9 +63,9 @@ setGeneric("PermTestSurv",
 #' @importFrom survival Surv
 #' @importFrom survival coxph
 #' @importFrom stats AIC
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
+#' @importFrom parallel clusterExport
+#' @importFrom parallel makeCluster
 #' @importFrom parallel parSapply
 #' @importFrom parallel stopCluster
 #'
@@ -123,7 +123,6 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
 
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster: ", appendLF = FALSE)
-              # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(OmicsSurv)),
                                  deparse(quote(numReps)))

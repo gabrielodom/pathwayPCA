@@ -25,7 +25,7 @@ PermTestCateg(OmicsCateg, pathwayPCs_ls, numReps = 1000,
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation? Defaults to \code{NULL}.}
+computation? Internally defaults to the number of available cores minus 2.}
 
 \item{...}{Dots for additional internal arguments (currently unused).}
 }

@@ -19,7 +19,7 @@
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
 #' @param adjustpValues Should you adjust the \eqn{p}-values for multiple
 #'   comparisons? Defaults to TRUE.
 #' @param adjustment Character vector of procedures. The returned data frame
@@ -63,7 +63,7 @@
 #'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
 #'    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
 #'    \code{\link{OptimGumbelMixParams}}; \code{\link{GumbelMixpValues}};
-#'    \code{\link{TabulatepValues}}
+#'    \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
 #'
 #' @export
 #'
@@ -121,9 +121,10 @@ setGeneric("SuperPCA_pVals",
            }
 )
 
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
+#' @importFrom parallel clusterExport
+#' @importFrom parallel detectCores
+#' @importFrom parallel makeCluster
 #' @importFrom parallel parLapply
 #' @importFrom parallel stopCluster
 #'
@@ -204,6 +205,7 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
 
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster: ", appendLF = FALSE)
+              numCores <- ifelse(is.null(numCores), detectCores() - 2, numCores)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(paths_ls)),
                                  deparse(quote(geneArray_df)),

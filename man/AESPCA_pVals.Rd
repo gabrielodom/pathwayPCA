@@ -29,7 +29,7 @@ or vector.}
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation? Defaults to \code{NULL}.}
+computation? Internally defaults to the number of available cores minus 2.}
 
 \item{asPCA}{Should the computation return the eigenvectors and eigenvalues
 instead of the adaptive, elastic-net, sparse principal components and their
@@ -125,5 +125,5 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
    \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
    \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
-   \code{\link{TabulatepValues}}
+   \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
 }

@@ -79,7 +79,7 @@ for more information.
 
     var0Genes <- colnames(df)[smallVars]
     message(
-      sprintf("%i genes have variance < epsilon. These gene(s) are:",
+      sprintf("%i genes have variance < epsilon and will be removed. These gene(s) are:",
               length(var0Genes))
     )
     print(var0Genes)

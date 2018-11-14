@@ -11,7 +11,7 @@
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
 #' @param standardPCA Should the function return the AES-PCA PCs and loadings
 #'   (\code{FALSE}) or the standard PCA PCs and loadings (\code{TRUE})? Defaults
 #'   to \code{FALSE}.
@@ -44,7 +44,7 @@
 #'   use either a very broad and generic list of pathways or a pathways list
 #'   that is compatible to the assay data supplied.
 #'
-#' @seealso \code{\link{CreateOmicsPath}}; \code{\link{aespca}};
+#' @seealso \code{\link{CreateOmicsPath}}; \code{\link{aespca}}
 #'    \code{\link{IntersectOmicsPwyCollct}}
 #'
 #' @include createClass_validOmics.R
@@ -68,9 +68,9 @@ setGeneric("ExtractAESPCs",
            }
 )
 
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
+#' @importFrom parallel clusterExport
+#' @importFrom parallel makeCluster
 #' @importFrom parallel parLapplyLB
 #' @importFrom parallel stopCluster
 #'
@@ -93,7 +93,6 @@ setMethod(f = "ExtractAESPCs", signature = "OmicsPathway",
 
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster: ", appendLF = FALSE)
-              # require(parallel)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(data_Omes)),
                                  deparse(quote(numPCs)))

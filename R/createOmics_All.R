@@ -68,8 +68,6 @@
 #'   function.
 #' @param minPathSize What is the smallest number of genes allowed in each
 #'   pathway? Defaults to 3.
-#' @param ... Dots for additional arguments passed to the internal
-#'   \code{\link{CheckAssay}} function.
 #'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'   \code{OmicsReg}, or \code{OmicsCateg}.
@@ -127,17 +125,8 @@
 #' @rdname CreateOmicsPathway
 CreateOmicsPath <- function(assayData_df,
                             pathwayCollection_ls,
-                            minPathSize = 3,
-                            ...){
-  # browser()
+                            minPathSize = 3){
 
-  ###  Error Checks and Warnings for Supplied Assay  ###
-  assayData_df <- CheckAssay(assayData_df, ...)
-
-  ###  Process Pathway Collection  ###
-  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
-
-  ###  Create Omics Object  ###
   obj <- new(
     "OmicsPathway",
     assayData_df = assayData_df,
@@ -169,16 +158,8 @@ CreateOmicsSurv <- function(assayData_df,
                             pathwayCollection_ls,
                             eventTime_num,
                             eventObserved_lgl,
-                            minPathSize = 3,
-                            ...){
+                            minPathSize = 3){
 
-  ###  Error Checks and Warnings for Supplied Assay  ###
-  assayData_df <- CheckAssay(assayData_df, ...)
-
-  ###  Process Pathway Collection  ###
-  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
-
-  ###  Create Omics Object  ###
   obj <- new(
     "OmicsSurv",
     assayData_df = assayData_df,
@@ -207,16 +188,8 @@ CreateOmicsSurv <- function(assayData_df,
 CreateOmicsReg <- function(assayData_df,
                             pathwayCollection_ls,
                             response_num,
-                            minPathSize = 3,
-                           ...){
+                            minPathSize = 3){
 
-  ###  Error Checks and Warnings for supplied assay  ###
-  assayData_df <- CheckAssay(assayData_df, ...)
-
-  ###  Process Pathway Collection  ###
-  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
-
-  ###  Create Omics Object  ###
   obj <- new(
     "OmicsReg",
     assayData_df = assayData_df,
@@ -238,16 +211,8 @@ CreateOmicsReg <- function(assayData_df,
 CreateOmicsCateg <- function(assayData_df,
                               pathwayCollection_ls,
                               response_fact,
-                              minPathSize = 3,
-                             ...){
+                              minPathSize = 3){
 
-  ###  Error Checks and Warnings for Supplied Assay  ###
-  assayData_df <- CheckAssay(assayData_df, ...)
-
-  ###  Process Pathway Collection  ###
-  pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
-
-  ###  Create Omics Object  ###
   obj <- new(
     "OmicsCateg",
     assayData_df = assayData_df,
