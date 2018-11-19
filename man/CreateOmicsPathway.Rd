@@ -96,7 +96,7 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
 }
 
 \examples{
-  DO NOT CALL THESE FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
+# DO NOT CALL THESE FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 
 }
 \seealso{
