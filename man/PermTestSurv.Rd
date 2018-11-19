@@ -14,7 +14,7 @@ PermTestSurv(OmicsSurv, pathwayPCs_ls, numReps = 1000,
 }
 \arguments{
 \item{OmicsSurv}{A data object of class \code{OmicsSurv}, created by the
-\code{\link{CreateOmicsSurv}} function.}
+\code{\link{CreateOmics}} function.}
 
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
 \code{\link{ExtractAESPCs}} function.}
@@ -58,7 +58,7 @@ This function takes in a list of the first principal components
 
 }
 \seealso{
-\code{\link{CreateOmicsSurv}}; \code{\link{ExtractAESPCs}};
+\code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
   \code{\link[survival]{coxph}}; \code{\link{SampleSurv}}
 }
 \keyword{internal}

@@ -26,6 +26,20 @@ If there are no names, create them. If there are missing names,
    duplicate element names in a list---but not a data frame!), then use the
    \code{data.frame} name rule to append a period followed by integers to
    the end of the name string.
+
+   Notes: if the supplied \code{pathways} object within your \code{pwyColl_ls}
+   list has no names, then this pathway list will be named \code{path1},
+   \code{path2}, \code{path3}, ...; if any of the pathways are missing names,
+   then the missing pathways will be named \code{noName} followed by the
+   index of the pathway. For example, if the 112th pathway in the
+   \code{pathways} list has no name (but other pathways do), then this
+   pathway will be named \code{noName112}. Furthermore, if any of the pathway
+   names are duplicated, then the duplicates will have \code{.1}, \code{.2},
+   \code{.3}, ... appended to the duplicate names until all pathway names are
+   unique. Once all pathways have been verified to have unique names, then
+   the pathway names are attached as attributes to the \code{TERMS} and
+   \code{setsize} vectors (the \code{setsize} vector is calculated at object
+   creation).
 }
 \examples{
  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().

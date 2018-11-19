@@ -6,7 +6,7 @@
 #'    significantly related to the survival output.
 #'
 #' @param OmicsSurv A data object of class \code{OmicsSurv}, created by the
-#'   \code{\link{CreateOmicsSurv}} function.
+#'   \code{\link{CreateOmics}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{ExtractAESPCs}} function.
 #' @param numReps How many permuted models to fit? Defaults to 1000.
@@ -31,7 +31,7 @@
 #'   for each pathway is the proportion of models for which the AIC of the
 #'   permuted response model is less than the AIC of the original model.
 #'
-#' @seealso \code{\link{CreateOmicsSurv}}; \code{\link{ExtractAESPCs}};
+#' @seealso \code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[survival]{coxph}}; \code{\link{SampleSurv}}
 #'
 #' @include createClass_validOmics.R

@@ -1,6 +1,6 @@
 #' Generation Wrapper function for \code{-Omics*}-class objects
 #'
-#' This function calls the \code{\link{CreateOmicsPath}},
+#' @description This function calls the \code{\link{CreateOmicsPath}},
 #'    \code{\link{CreateOmicsSurv}}, \code{\link{CreateOmicsReg}}, and
 #'    \code{\link{CreateOmicsCateg}} functions to create valid objects of the
 #'    classes \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
@@ -23,6 +23,9 @@
 #'        as the \code{pathways} list with additional information about the
 #'        pathways.}
 #'   }
+#'   If your gene pathways list is stored in a \code{.gmt} file, use the
+#'   \code{\link{read_gmt}} function to import your pathways list as a
+#'   \code{pathwayCollection} list object.
 #' @param response An optional response object. See "Details" for more
 #'    information. Defaults to \code{NULL}.
 #' @param respType What type of response has been supplied. Options are
@@ -38,15 +41,14 @@
 #'   \code{\link{CheckAssay}} function.
 #'
 #' @details This function is a wrapper around the four \code{CreateOmics*}
-#'    functions, and as such is not necessary for analysis. This function simply
-#'    exists to make \code{Omics*}-object creation easier. The values supplied
-#'    to the \code{response} function argument can be in a list, data frame,
-#'    matrix, vector, \code{\link[survival]{Surv}} object, or any class which
-#'    extends these. Because this function makes "best guess" type conversions
-#'    based on the \code{respType} argument, this argument is mandatory if
-#'    \code{response} is non-\code{NULL}. Further, it is the responsibility of
-#'    the user to ensure that the coerced response contained in the resulting
-#'    code{Omics} object accurately reflects the supplied response.
+#'    functions. The values supplied to the \code{response} function argument
+#'    can be in a list, data frame, matrix, vector, \code{\link[survival]{Surv}}
+#'    object, or any class which extends these. Because this function makes
+#'    "best guess" type conversions based on the \code{respType} argument, this
+#'    argument is mandatory if \code{response} is non-\code{NULL}. Further, it
+#'    is the responsibility of the user to ensure that the coerced response
+#'    contained in the resulting \code{Omics} object accurately reflects the
+#'    supplied response.
 #'
 #'    For \code{respType = "survival"}, \code{response} is assumed to be ordered
 #'    by event time, then event indicator. For example, if the response is a
@@ -172,48 +174,47 @@ CreateOmics <- function(assayData_df,
           none = {
 
             message("\n Creating object of class OmicsPathway.")
-            CreateOmicsPath(
+            out <- CreateOmicsPath(
               assayData_df = assayData_df,
-              pathwayCollection_ls = pathwayCollection_ls,
-              minPathSize = minPathSize
+              pathwayCollection_ls = pathwayCollection_ls
             )
 
           },
           survival = {
 
             message("\n Creating object of class OmicsSurv.")
-            CreateOmicsSurv(
+            out <- CreateOmicsSurv(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,
               eventTime_num = respClean$time,
-              eventObserved_lgl = respClean$dead,
-              minPathSize = minPathSize
+              eventObserved_lgl = respClean$dead
             )
 
           },
           regression = {
 
             message("\n Creating object of class OmicsReg.")
-            CreateOmicsReg(
+            out <- CreateOmicsReg(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,
-              response_num = respClean,
-              minPathSize = minPathSize
+              response_num = respClean
             )
 
           },
           categorical = {
 
             message("\n Creating object of class OmicsCateg.")
-            CreateOmicsCateg(
+            out <- CreateOmicsCateg(
               assayData_df = assayData_df,
               pathwayCollection_ls = pathwayCollection_ls,
-              response_fact = respClean,
-              minPathSize = minPathSize
+              response_fact = respClean
             )
 
           }
   )
+
+  ###  Return  ###
+  IntersectOmicsPwyCollct(out, trim = minPathSize)
 
 }
 

@@ -21,7 +21,7 @@
 #'      pathways.}
 #'   \item{\code{setsize} : }{A named integer vector the same length as the
 #'     \code{pathways} list with the number of genes in each pathway. This list
-#'     item is calculated during the creation step of a \code{CreateOmicsReg}
+#'     item is calculated during the creation step of a \code{CreateOmics}
 #'     function call.}
 #' }
 #' @slot response A \code{numeric} vector of length \eqn{N}: the dependent
@@ -33,7 +33,7 @@
 #' @include createClass_validOmics.R
 #'
 #' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
-#'   \code{\link{CreateOmicsReg}}
+#'   \code{\link{CreateOmics}}
 #'
 #' @export
 setClass("OmicsReg",

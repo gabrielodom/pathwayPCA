@@ -14,7 +14,7 @@ PermTestReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
 }
 \arguments{
 \item{OmicsReg}{A data object of class \code{OmicsReg}, created by the
-\code{\link{CreateOmicsReg}} function.}
+\code{\link{CreateOmics}} function.}
 
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
 \code{\link{ExtractAESPCs}} function.}
@@ -59,7 +59,7 @@ This function takes in a list of the first principal components
 
 }
 \seealso{
-\code{\link{CreateOmicsReg}}; \code{\link{ExtractAESPCs}};
+\code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
   \code{\link[stats]{lm}}; \code{\link{SampleReg}}
 }
 \keyword{internal}

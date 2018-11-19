@@ -28,11 +28,11 @@
 #'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- CreateOmicsSurv(
+#'   colon_OmicsSurv <- CreateOmics(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     eventTime_num = colonSurv_df$OS_time,
-#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'     response = colonSurv_df[, 1:2],
+#'     respType = "surv"
 #'   )
 #'
 #'   ###  Print / Show  ###

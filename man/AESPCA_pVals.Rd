@@ -101,11 +101,11 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
   data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- CreateOmicsSurv(
+  colon_OmicsSurv <- CreateOmics(
     assayData_df = colonSurv_df[, -(1:2)],
     pathwayCollection_ls = colon_pathwayCollection,
-    eventTime_num = colonSurv_df$OS_time,
-    eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+    response = colonSurv_df[, 1:2],
+    respType = "surv"
   )
 
   ###  Calculate Pathway p-Values  ###
@@ -121,9 +121,8 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
 
 }
 \seealso{
-\code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
-   \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
-   \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
-   \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
-   \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
+\code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
+   \code{\link{PermTestSurv}}; \code{\link{PermTestReg}};
+   \code{\link{PermTestCateg}}; \code{\link{TabulatepValues}};
+   \code{\link[parallel]{clusterApply}}
 }

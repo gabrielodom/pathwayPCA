@@ -29,7 +29,7 @@
 #'    \code{response} slot, we set this method for the parent class,
 #'    \code{\link{OmicsPathway-class}}.
 #'
-#' @seealso \code{\link{CreateOmicsReg}}, \code{\link{CreateOmicsCateg}}
+#' @seealso \code{\link{CreateOmics}}
 #'
 #'
 #' @include createClass_validOmics.R
