@@ -15,30 +15,6 @@
 #'   draconian input class restrictions protect the accuracy of your data
 #'   analysis.
 #'
-#'   Some of the pathways in the supplied pathways list will be removed, or
-#'   "trimmed", during object creation. For the pathway-testing methods, these
-#'   trimmed pathways will have \eqn{p}-values given as \code{NA}. For an
-#'   explanation of pathway trimming, see the documentation for the
-#'   \code{\link{IntersectOmicsPwyCollct}} function.
-#'
-#'   Also note the following: if the supplied \code{pathways} object within your
-#'   \code{pathwayCollection_ls} list has no names, then this pathway list will
-#'   be named \code{path1}, \code{path2}, \code{path3}, ...; if any of the
-#'   pathways are missing names, then the missing pathways will be named
-#'   \code{noName} followed by the index of the pathway. For example, if the
-#'   112th pathway in the \code{pathways} list has no name (but other pathways
-#'   do), then this pathway will be named \code{noName112}. Furthermore, if any
-#'   of the pathway names are duplicated, then the duplicates will have
-#'   \code{.1}, \code{.2}, \code{.3}, ... appended to the duplicate names until
-#'   all pathway names are unique. Once all pathways have been verified to have
-#'   unique names, then the pathway names are attached as attributes to the
-#'   \code{TERMS} and \code{setsize} vectors (the \code{setsize} vector is
-#'   calculated at object creation).
-#'
-#'   If your gene pathways list is stored in a \code{.gmt} file, use the
-#'   \code{\link{read_gmt}} function to import your pathways list as a
-#'   \code{pathwayCollection} list object.
-#'
 #' @section OmicsPathway:
 #' Valid \code{OmicsPathway} objects will have no response information, just the
 #'   mass spectrometry or bio-assay ("design") matrix and the pathway list.
@@ -64,10 +40,6 @@
 #'        as the \code{pathways} list with additional information about the
 #'        pathways.}
 #'   }
-#'   This object is checked and modified by the \code{\link{CheckPwyColl}}
-#'   function.
-#' @param minPathSize What is the smallest number of genes allowed in each
-#'   pathway? Defaults to 3.
 #'
 #' @return A valid object of class \code{OmicsPathway}, \code{OmicsSurv},
 #'   \code{OmicsReg}, or \code{OmicsCateg}.
@@ -80,60 +52,24 @@
 #'
 #' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
 #'   \code{\link[=OmicsSurv-class]{OmicsSurv}},
-#'   \code{\link[=OmicsReg-class]{OmicsReg}},
-#'   \code{\link[=OmicsCateg-class]{OmicsCateg}}, and
-#'   \code{\link{IntersectOmicsPwyCollct}}
+#'   \code{\link[=OmicsReg-class]{OmicsReg}}, and
+#'   \code{\link[=OmicsCateg-class]{OmicsCateg}}
 #'
 #' @importFrom methods new
 #'
 #' @examples
-#' \dontrun{
-#'   ###  Load the Example Data  ###
-#'   data("colonSurv_df")
-#'   data("colon_pathwayCollection")
-#'
-#'   ###  Create an OmicsPathway Object  ###
-#'   colon_OmicsPath <- CreateOmicsPath(
-#'     assayData_df = colonSurv_df[, -(1:2)],
-#'     pathwayCollection_ls = colon_pathwayCollection
-#'   )
-#'
-#'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- CreateOmicsSurv(
-#'     assayData_df = colonSurv_df[, -(1:2)],
-#'     pathwayCollection_ls = colon_pathwayCollection,
-#'     eventTime_num = colonSurv_df$OS_time,
-#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
-#'   )
-#'
-#'   ###  Create an OmicsReg Object  ###
-#'   colon_OmicsReg <- CreateOmicsReg(
-#'     assayData_df = colonSurv_df[, -(1:2)],
-#'     pathwayCollection_ls = colon_pathwayCollection,
-#'     response_num = colonSurv_df$OS_time
-#'   )
-#'
-#'   ###  Create an OmicsCateg Object  ###
-#'   colon_OmicsCateg <- CreateOmicsCateg(
-#'     assayData_df = colonSurv_df[, -(1:2)],
-#'     pathwayCollection_ls = colon_pathwayCollection,
-#'     response_fact = as.factor(colonSurv_df$OS_event)
-#'   )
-#' }
+#'   DO NOT CALL THESE FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 #'
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsPath <- function(assayData_df,
-                            pathwayCollection_ls,
-                            minPathSize = 3){
+                            pathwayCollection_ls){
 
   obj <- new(
     "OmicsPathway",
     assayData_df = assayData_df,
     pathwayCollection = pathwayCollection_ls
   )
-
-  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 
@@ -157,8 +93,7 @@ CreateOmicsPath <- function(assayData_df,
 CreateOmicsSurv <- function(assayData_df,
                             pathwayCollection_ls,
                             eventTime_num,
-                            eventObserved_lgl,
-                            minPathSize = 3){
+                            eventObserved_lgl){
 
   obj <- new(
     "OmicsSurv",
@@ -167,8 +102,6 @@ CreateOmicsSurv <- function(assayData_df,
     eventTime = eventTime_num,
     eventObserved = eventObserved_lgl
   )
-
-  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 
@@ -187,8 +120,7 @@ CreateOmicsSurv <- function(assayData_df,
 #' @rdname CreateOmicsPathway
 CreateOmicsReg <- function(assayData_df,
                             pathwayCollection_ls,
-                            response_num,
-                            minPathSize = 3){
+                            response_num){
 
   obj <- new(
     "OmicsReg",
@@ -196,8 +128,6 @@ CreateOmicsReg <- function(assayData_df,
     pathwayCollection = pathwayCollection_ls,
     response = response_num
   )
-
-  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }
 
@@ -210,8 +140,7 @@ CreateOmicsReg <- function(assayData_df,
 #' @rdname CreateOmicsPathway
 CreateOmicsCateg <- function(assayData_df,
                               pathwayCollection_ls,
-                              response_fact,
-                              minPathSize = 3){
+                              response_fact){
 
   obj <- new(
     "OmicsCateg",
@@ -219,7 +148,5 @@ CreateOmicsCateg <- function(assayData_df,
     pathwayCollection = pathwayCollection_ls,
     response = response_fact
   )
-
-  IntersectOmicsPwyCollct(obj, trim = minPathSize)
 
 }

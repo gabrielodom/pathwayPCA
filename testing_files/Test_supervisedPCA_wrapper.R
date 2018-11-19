@@ -856,11 +856,11 @@ rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
 # REQUIRES THE TUMOUR SURVIVAL DATA SET
 ###  Tests  ###
 
-tumour_OmicsSurv <- CreateOmicsSurv(
+tumour_OmicsSurv <- CreateOmics(
   assayData_df = as.data.frame(t(array)),
   pathwayCollection_ls = geneset,
-  eventTime_num = survY_df$SurvivalTime,
-  eventObserved_lgl = as.logical(survY_df$disease_event)
+  response = survY_df,
+  respType = "surv"
 )
 a <- Sys.time()
 survTest_df <- SuperPCA_pVals(
@@ -874,10 +874,11 @@ Sys.time() - a # 1.715719 min
 # It works
 
 
-tumour_OmicsReg <- CreateOmicsReg(
+tumour_OmicsReg <- CreateOmics(
   assayData_df = as.data.frame(t(array)),
   pathwayCollection_ls = geneset,
-  response_num = survY_df$SurvivalTime
+  response = survY_df$SurvivalTime,
+  respType = "reg"
 )
 a <- Sys.time()
 regTest_df <- SuperPCA_pVals(
@@ -891,10 +892,11 @@ Sys.time() - a # 1.054811 min
 # It works
 
 
-tumour_OmicsCateg <- CreateOmicsCateg(
+tumour_OmicsCateg <- CreateOmics(
   assayData_df = as.data.frame(t(array)),
   pathwayCollection_ls = geneset,
-  response_fact = as.factor(survY_df$disease_event)
+  response = survY_df$disease_event,
+  respType = "categ"
 )
 a <- Sys.time()
 classifTest_df <- SuperPCA_pVals(

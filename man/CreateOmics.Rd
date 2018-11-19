@@ -26,7 +26,10 @@ pathways with two or three elements:
   \item{\code{description} : }{An optional character vector the same length
      as the \code{pathways} list with additional information about the
      pathways.}
-}}
+}
+If your gene pathways list is stored in a \code{.gmt} file, use the
+\code{\link{read_gmt}} function to import your pathways list as a
+\code{pathwayCollection} list object.}
 
 \item{response}{An optional response object. See "Details" for more
 information. Defaults to \code{NULL}.}
@@ -59,15 +62,14 @@ This function calls the \code{\link{CreateOmicsPath}},
 }
 \details{
 This function is a wrapper around the four \code{CreateOmics*}
-   functions, and as such is not necessary for analysis. This function simply
-   exists to make \code{Omics*}-object creation easier. The values supplied
-   to the \code{response} function argument can be in a list, data frame,
-   matrix, vector, \code{\link[survival]{Surv}} object, or any class which
-   extends these. Because this function makes "best guess" type conversions
-   based on the \code{respType} argument, this argument is mandatory if
-   \code{response} is non-\code{NULL}. Further, it is the responsibility of
-   the user to ensure that the coerced response contained in the resulting
-   code{Omics} object accurately reflects the supplied response.
+   functions. The values supplied to the \code{response} function argument
+   can be in a list, data frame, matrix, vector, \code{\link[survival]{Surv}}
+   object, or any class which extends these. Because this function makes
+   "best guess" type conversions based on the \code{respType} argument, this
+   argument is mandatory if \code{response} is non-\code{NULL}. Further, it
+   is the responsibility of the user to ensure that the coerced response
+   contained in the resulting \code{Omics} object accurately reflects the
+   supplied response.
 
    For \code{respType = "survival"}, \code{response} is assumed to be ordered
    by event time, then event indicator. For example, if the response is a

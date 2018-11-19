@@ -51,22 +51,8 @@
 #' @include createClass_OmicsPath.R
 #'
 #' @examples
-#' \dontrun{
-#'   ###  Load the Example Data  ###
-#'   data("colonSurv_df")
-#'   data("colon_pathwayCollection")
+#'   DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
 #'
-#'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- CreateOmicsSurv(
-#'     assayData_df = colonSurv_df[, -(1:2)],
-#'     pathwayCollection_ls = colon_pathwayCollection,
-#'     eventTime_num = colonSurv_df$OS_time,
-#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
-#'   )
-#'
-#'   ###  Intersection of Genes Recorded with the Pathway Collection  ###
-#'   IntersectOmicsPwyCollct(colon_OmicsSurv)
-#' }
 #'
 #' @importFrom methods setGeneric
 #' @rdname IntersectOmicsPwyCollct

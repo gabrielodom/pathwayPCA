@@ -59,11 +59,10 @@
 #'   Please see our Quickstart Guide for this package:
 #'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
 #'
-#' @seealso \code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
-#'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
+#' @seealso \code{\link{CreateOmics}}; \code{\link{TabulatepValues}};
 #'    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
 #'    \code{\link{OptimGumbelMixParams}}; \code{\link{GumbelMixpValues}};
-#'    \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
+#'    \code{\link[parallel]{clusterApply}}
 #'
 #' @export
 #'
@@ -82,11 +81,11 @@
 #'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- CreateOmicsSurv(
+#'   colon_OmicsSurv <- CreateOmics(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     eventTime_num = colonSurv_df$OS_time,
-#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'     response = colonSurv_df[, 1:2],
+#'     respType = "surv"
 #'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###

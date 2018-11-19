@@ -14,7 +14,7 @@ PermTestCateg(OmicsCateg, pathwayPCs_ls, numReps = 1000,
 }
 \arguments{
 \item{OmicsCateg}{A data object of class \code{OmicsCateg}, created by the
-\code{\link{CreateOmicsCateg}} function.}
+\code{\link{CreateOmics}} function.}
 
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
 \code{\link{ExtractAESPCs}} function.}
@@ -65,7 +65,7 @@ This function takes in a list of the first principal components
 
 }
 \seealso{
-\code{\link{CreateOmicsCateg}}; \code{\link{ExtractAESPCs}};
+\code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
   \code{\link{SampleCateg}}
 }

@@ -68,5 +68,5 @@ These functions can be useful to set or extract the event time or
 }
 }
 \seealso{
-\code{\link{CreateOmicsSurv}}
+\code{\link{CreateOmics}}
 }

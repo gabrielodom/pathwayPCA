@@ -66,11 +66,10 @@
 #'   Please see our Quickstart Guide for this package:
 #'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
 #'
-#' @seealso \code{\link{CreateOmicsPath}}; \code{\link{CreateOmicsSurv}};
-#'    \code{\link{CreateOmicsReg}}; \code{\link{CreateOmicsCateg}};
-#'    \code{\link{ExtractAESPCs}}; \code{\link{PermTestSurv}};
-#'    \code{\link{PermTestReg}}; \code{\link{PermTestCateg}};
-#'    \code{\link{TabulatepValues}}; \code{\link[parallel]{clusterApply}}
+#' @seealso \code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
+#'    \code{\link{PermTestSurv}}; \code{\link{PermTestReg}};
+#'    \code{\link{PermTestCateg}}; \code{\link{TabulatepValues}};
+#'    \code{\link[parallel]{clusterApply}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
@@ -92,11 +91,11 @@
 #'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- CreateOmicsSurv(
+#'   colon_OmicsSurv <- CreateOmics(
 #'     assayData_df = colonSurv_df[, -(1:2)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     eventTime_num = colonSurv_df$OS_time,
-#'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+#'     response = colonSurv_df[, 1:2],
+#'     respType = "surv"
 #'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###

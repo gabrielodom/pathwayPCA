@@ -18,14 +18,14 @@
 #'      pathways.}
 #'   \item{\code{setsize} : }{A named integer vector the same length as the
 #'     \code{pathways} list with the number of genes in each pathway. This list
-#'     item is calculated during the creation step of a \code{CreateOmicsReg}
+#'     item is calculated during the creation step of a \code{CreateOmics}
 #'     function call.}
 #' }
 #' @slot trimPathwayCollection A subset of the list stored in the
 #'    \code{pathwayCollection} slot. This list will have pathways that only
 #'    contain genes that are present in the assay data frame.
 #'
-#' @seealso \code{\link{CreateOmicsPath}}
+#' @seealso \code{\link{CreateOmics}}
 #'
 #' @importFrom methods setClass
 #' @importFrom methods setOldClass

@@ -6,7 +6,7 @@
 #'   to the continuous response.
 #'
 #' @param OmicsReg A data object of class \code{OmicsReg}, created by the
-#'   \code{\link{CreateOmicsReg}} function.
+#'   \code{\link{CreateOmics}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{ExtractAESPCs}} function.
 #' @param numReps How many permuted models to fit? Defaults to 1000.
@@ -32,7 +32,7 @@
 #'   models for which the AIC of the permuted response model is less than the
 #'   AIC of the original model.
 #'
-#' @seealso \code{\link{CreateOmicsReg}}; \code{\link{ExtractAESPCs}};
+#' @seealso \code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[stats]{lm}}; \code{\link{SampleReg}}
 #'
 #' @include createClass_validOmics.R

@@ -46,8 +46,7 @@
 #'    within an existing object. See \code{\link{IntersectOmicsPwyCollct}} for
 #'    details on trimmed pathway collection.
 #'
-#' @seealso \code{\link{CreateOmicsPath}}, \code{\link{CreateOmicsSurv}},
-#'    \code{\link{CreateOmicsReg}}, \code{\link{CreateOmicsCateg}}
+#' @seealso \code{\link{CreateOmics}}
 #'
 #'
 #' @include createClass_validOmics.R

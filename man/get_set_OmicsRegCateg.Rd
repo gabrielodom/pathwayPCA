@@ -63,5 +63,5 @@ These functions can be useful to set or extract the response vector
 }
 }
 \seealso{
-\code{\link{CreateOmicsReg}}, \code{\link{CreateOmicsCateg}}
+\code{\link{CreateOmics}}
 }

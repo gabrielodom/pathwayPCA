@@ -132,12 +132,12 @@ aespcaPathwaypVals_df <- aespcaPathwaypVals_df[order(aespcaPathwaypVals_df$BH,
 # # Test
 # test_time <- rnorm(58, mean = 65, sd = 3)
 # test_censor <- ovarianFiltered_df$Tumor_Stage_Ovary_FIGO == "IIIC"
-# ovarian_OmicsSurv <- CreateOmicsSurv(
-#   assayData_df = ovarianFiltered_df[, -(1:3)],
-#   pathwayCollection_ls = aespca_Genesets_ls,
-#   eventTime_num = test_time,
-#   eventObserved_lgl = test_censor
-# )
+# ovarian_OmicsSurv <- CreateOmics(
+#     assayData_df = colonSurv_df[, -(1:2)],
+#     pathwayCollection_ls = colon_pathwayCollection,
+#     response = colonSurv_df[, 1:2],
+#     respType = "surv"
+#   )
 #
 # a <- Sys.time()
 # permute_SurvFit(pathwayPCs_mat = pcs2_ls[[1]],
