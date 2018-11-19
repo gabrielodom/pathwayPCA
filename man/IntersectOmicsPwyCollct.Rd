@@ -64,7 +64,7 @@ This function takes in a data frame with named columns and a
    the \code{\link{read_gmt}} function.
 }
 \examples{
-  DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
+# DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
 
 
 }

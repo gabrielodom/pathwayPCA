@@ -58,7 +58,7 @@
 #' @importFrom methods new
 #'
 #' @examples
-#'   DO NOT CALL THESE FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
+#' # DO NOT CALL THESE FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 #'
 #' @export
 #' @rdname CreateOmicsPathway

@@ -51,7 +51,7 @@
 #' @include createClass_OmicsPath.R
 #'
 #' @examples
-#'   DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
+#' # DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
 #'
 #'
 #' @importFrom methods setGeneric
