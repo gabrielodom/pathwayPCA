@@ -65,7 +65,7 @@
 CreateOmicsPath <- function(assayData_df,
                             pathwayCollection_ls){
 
-  obj <- new(
+  new(
     "OmicsPathway",
     assayData_df = assayData_df,
     pathwayCollection = pathwayCollection_ls
@@ -95,7 +95,7 @@ CreateOmicsSurv <- function(assayData_df,
                             eventTime_num,
                             eventObserved_lgl){
 
-  obj <- new(
+  new(
     "OmicsSurv",
     assayData_df = assayData_df,
     pathwayCollection = pathwayCollection_ls,
@@ -122,7 +122,7 @@ CreateOmicsReg <- function(assayData_df,
                             pathwayCollection_ls,
                             response_num){
 
-  obj <- new(
+  new(
     "OmicsReg",
     assayData_df = assayData_df,
     pathwayCollection = pathwayCollection_ls,
@@ -142,7 +142,7 @@ CreateOmicsCateg <- function(assayData_df,
                               pathwayCollection_ls,
                               response_fact){
 
-  obj <- new(
+  new(
     "OmicsCateg",
     assayData_df = assayData_df,
     pathwayCollection = pathwayCollection_ls,
