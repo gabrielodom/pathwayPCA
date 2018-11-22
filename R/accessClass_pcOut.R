@@ -44,7 +44,7 @@ getPathSVD <- function(pcOut, pathway_char, ...){
 #' @rdname getPathSVD
 #' @method getPathSVD superpcOut
 #' @S3method getPathSVD superpcOut
-getPathSVD.superpcOut <- function(pcOut, pathway_char){
+getPathSVD.superpcOut <- function(pcOut, pathway_char, ...){
 
   ###  Check for Matches  ###
   pathID_idx <- which(pcOut$pVals_df$pathways == pathway_char)
