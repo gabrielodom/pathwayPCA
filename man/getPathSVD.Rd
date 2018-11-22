@@ -9,9 +9,9 @@
 \usage{
 getPathSVD(pcOut, pathway_char, ...)
 
-\method{getPathSVD}{superpcOut}(pcOut, pathway_char)
+\method{getPathSVD}{superpcOut}(pcOut, pathway_char, ...)
 
-\method{getPathSVD}{aespcOut}(pcOut, pathway_char)
+\method{getPathSVD}{aespcOut}(pcOut, pathway_char, ...)
 }
 \arguments{
 \item{pcOut}{An object of classes \code{superpcOut} or \code{aespcOut} as
