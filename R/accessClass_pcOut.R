@@ -33,22 +33,25 @@
 #' @examples
 #'   NULL
 #'
-#' @rdname getPathSVD
-#' @export getPathSVD
-getPathSVD <- function(pcOut, pathway_char, ...){
-  UseMethod("getPathSVD")
+#' @rdname getPathPCLs
+#' @export getPathPCLs
+getPathPCLs <- function(pcOut, pathway_char, ...){
+  UseMethod("getPathPCLs")
 }
 
 #' @return \code{NULL}
 #'
-#' @rdname getPathSVD
-#' @method getPathSVD superpcOut
-#' @S3method getPathSVD superpcOut
-getPathSVD.superpcOut <- function(pcOut, pathway_char, ...){
+#' @rdname getPathPCLs
+#' @method getPathPCLs superpcOut
+#' @S3method getPathPCLs superpcOut
+getPathPCLs.superpcOut <- function(pcOut, pathway_char, ...){
+  # browser()
 
+  pVals_df <- pcOut$pVals_df
   ###  Check for Matches  ###
-  pathID_idx <- which(pcOut$pVals_df$pathways == pathway_char)
-  term_idx   <- which(pcOut$pVals_df$terms == pathway_char)
+  pathID_idx <- which(pVals_df$pathways == pathway_char)
+  term_idx   <- which(pVals_df$terms == pathway_char)
+  existDescr <- "description" %in% colnames(pVals_df)
   if(length(pathID_idx) + length(term_idx) == 0){
     stop("Supplied pathway does not match any pathway in the supplied object.")
   }
@@ -56,13 +59,23 @@ getPathSVD.superpcOut <- function(pcOut, pathway_char, ...){
   ###  Match pathway ID to pathway name  ###
   if(length(term_idx) == 1){
 
-    pathID  <- as.character(pcOut$pVals_df[term_idx, "pathways"])
-    pathway <- pathway_char
+    pathID   <- as.character(pVals_df[term_idx, "pathways"])
+    pathway  <- pathway_char
+    descript <- ifelse(
+      existDescr,
+      as.character(pVals_df[term_idx, "description"]),
+      NA_character_
+    )
 
   } else if(length(pathID_idx) == 1) {
 
-    pathID  <- pathway_char
-    pathway <- as.character(pcOut$pVals_df[pathID_idx, "terms"])
+    pathID   <- pathway_char
+    pathway  <- as.character(pVals_df[pathID_idx, "terms"])
+    descript <- ifelse(
+      existDescr,
+      as.character(pVals_df[pathID_idx, "description"]),
+      NA_character_
+    )
 
   }
 
@@ -71,14 +84,15 @@ getPathSVD.superpcOut <- function(pcOut, pathway_char, ...){
     PCs = pcOut$PCs_ls[[pathID]],
     Loadings = pcOut$loadings_ls[[pathID]],
     pathway = pathID,
-    term = pathway
+    term = pathway,
+    description = descript
   )
 
 }
 
 #' @return \code{NULL}
 #'
-#' @rdname getPathSVD
-#' @method getPathSVD aespcOut
-#' @S3method getPathSVD aespcOut
-getPathSVD.aespcOut <- getPathSVD.superpcOut
+#' @rdname getPathPCLs
+#' @method getPathPCLs aespcOut
+#' @S3method getPathPCLs aespcOut
+getPathPCLs.aespcOut <- getPathPCLs.superpcOut
