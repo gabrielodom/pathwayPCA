@@ -22,7 +22,7 @@
 #'    identical to the input object, except that any genes present in the
 #'    pathways list, but not present in the MS design matrix, will have been
 #'    removed. Additionally, the pathway list will have the number of genes in
-#'    each trimmed pathway stored as the \code{trim_setsize} object.
+#'    each trimmed pathway stored as the \code{n_tested} object.
 #'
 #' @details This function takes in a data frame with named columns and a
 #'    \code{pathwayCollection} list, all through one of the \code{Omics*}
@@ -188,7 +188,7 @@ pathway collection. Please supply a different pathway collection."
             trim_PC$TERMS <- newTERMS_char
             trim_PC$description <- newDesc_char
             trim_PC$setsize <- newSetsize_int
-            trim_PC$trim_setsize <- trimSetsize
+            trim_PC$n_tested <- trimSetsize
 
 
             ###  Create the Return Object  ###

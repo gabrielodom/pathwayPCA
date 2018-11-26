@@ -32,7 +32,7 @@ A valid \code{Omics*}-class object. This output object will be
    identical to the input object, except that any genes present in the
    pathways list, but not present in the MS design matrix, will have been
    removed. Additionally, the pathway list will have the number of genes in
-   each trimmed pathway stored as the \code{trim_setsize} object.
+   each trimmed pathway stored as the \code{n_tested} object.
 }
 \description{
 Given a bio-assay design matrix and a \code{pathwayCollection}

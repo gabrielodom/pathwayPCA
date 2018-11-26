@@ -42,8 +42,8 @@
 #'   \item{\code{setsize} : }{The number of genes in each of the original
 #'     pathways (given in the \code{object@@trimPathwayCollection$setsize}
 #'     object).}
-#'   \item{\code{trim_size} : }{The number of genes in each of the trimmed
-#'     pathways (given in the \code{object@@trimPathwayCollection$trim_setsize}
+#'   \item{\code{n_tested} : }{The number of genes in each of the trimmed
+#'     pathways (given in the \code{object@@trimPathwayCollection$n_tested}
 #'     object).}
 #'   \item{\code{terms} : }{The pathway description, as given in the
 #'     \code{object@@trimPathwayCollection$TERMS} object.}
