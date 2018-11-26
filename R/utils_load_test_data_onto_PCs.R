@@ -26,7 +26,35 @@
 #' @export
 #'
 #' @examples
-#'    NULL
+#' \dontrun{
+#'
+#'   ###  Load the Data  ###
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
+#'
+#'   ###  Create -Omics Container  ###
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:2],
+#'     respType = "survival"
+#'   )
+#'
+#'   ###  Extract SuperPCs  ###
+#'   colon_superpc <- SuperPCA_pVals(
+#'     colon_Omics,
+#'     parallel = TRUE,
+#'     adjustment = "BH"
+#'   )
+#'
+#'   ###  Project Data onto Pathway First PCs  ###
+#'   LoadOntoPCs(
+#'     design_df = colonSurv_df,
+#'     loadings_ls = colon_superpc$loadings_ls
+#'   )
+#'
+#' }
+#'
 LoadOntoPCs <- function(design_df, loadings_ls){
   # browser()
 
