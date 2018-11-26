@@ -53,6 +53,34 @@ Match the supplied pathway character string to either the
    Finally, return a list of the PCs, loadings, and the pathway ID and name.
 }
 \examples{
-  NULL
+\dontrun{
+
+  ###  Load Data  ###
+  data("colonSurv_df")
+  data("colon_pathwayCollection")
+
+  ###  Create -Omics Container  ###
+  colon_Omics <- CreateOmics(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1:2],
+    respType = "survival"
+  )
+
+  ###  Calculate Supervised PCA Pathway p-Values  ###
+  colon_superpc <- SuperPCA_pVals(
+    colon_Omics,
+    numPCs = 2,
+    parallel = TRUE,
+    adjustment = "BH"
+  )
+
+  ###  Extract PCs and Loadings  ###
+  getPathPCLs(
+    colon_superpc,
+    "KEGG_PENTOSE_PHOSPHATE_PATHWAY"
+  )
+
+}
 
 }

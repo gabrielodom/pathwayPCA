@@ -9,12 +9,12 @@
 \arguments{
 \item{x}{An object of class \code{pathwayCollection}.}
 
-\item{name_char}{The name of a pathway in the collection}
+\item{name_char}{The name of a pathway in the collection or its unique ID.}
 }
 \value{
-A list of the pathway name (\code{pathway}), contents (\code{IDs}),
-   description (\code{description}), and number of features (\code{Size})
-   before and after pathway collection trimming (if applicable).
+A list of the pathway name (\code{Term}), unique ID (\code{pathID}),
+   contents (\code{IDs}), description (\code{description}), and number of
+   features (\code{Size}).
 }
 \description{
 The subset method for pathways lists as returned by the

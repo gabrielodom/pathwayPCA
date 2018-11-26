@@ -58,6 +58,16 @@
 #'
 #' @examples
 #' \dontrun{
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
+#'
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:2],
+#'     respType = "survival"
+#'   )
+#'
 #'   getAssay(colon_OmicsSurv)
 #'   getPathwayCollection(colon_OmicsSurv)
 #'

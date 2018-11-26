@@ -60,11 +60,21 @@ These functions can be useful to set or extract the event time or
 }
 \examples{
 \dontrun{
-  getEventTime(colon_OmicsSurv)
-  getEvent(colon_OmicsSurv)
+  data("colonSurv_df")
+  data("colon_pathwayCollection")
 
-  getEventTime(colon_OmicsSurv) <- newTime_num
-  getEvent(colon_OmicsSurv) <- newEvent_lgl
+  colon_Omics <- CreateOmics(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1:2],
+    respType = "survival"
+  )
+
+  getEventTime(colon_Omics)
+  getEvent(colon_Omics)
+
+  getEventTime(colon_Omics) <- newTime_num
+  getEvent(colon_Omics) <- newEvent_lgl
 }
 }
 \seealso{

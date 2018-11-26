@@ -34,7 +34,23 @@
 #' @export
 #'
 #' @examples
-#'   NULL
+#' \dontrun{
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
+#'
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:2],
+#'     respType = "survival"
+#'   )
+#'
+#'   SubsetPathwayData(
+#'     colon_Omics,
+#'     "KEGG_RETINOL_METABOLISM"
+#'   )
+#'
+#' }
 #'
 #' @rdname SubsetPathwayData
 setGeneric("SubsetPathwayData",

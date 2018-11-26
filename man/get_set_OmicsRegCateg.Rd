@@ -55,11 +55,18 @@ These functions can be useful to set or extract the response vector
 }
 \examples{
 \dontrun{
-  getResponse(colon_OmicsReg)
-  getResponse(colon_OmicsCateg)
+  data("colonSurv_df")
+  data("colon_pathwayCollection")
 
-  getResponse(colon_OmicsReg) <- newResponse_num
-  getResponse(colon_OmicsCateg) <- newResponse_fct
+  colon_Omics <- CreateOmics(
+    assayData_df = colonSurv_df[, -(1:2)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1],
+    respType = "reg"
+  )
+
+  getResponse(colon_Omics)
+  getResponse(colon_Omics) <- newResponse_num
 }
 }
 \seealso{
