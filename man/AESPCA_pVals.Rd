@@ -101,7 +101,7 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
   data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- CreateOmics(
+  colon_Omics <- CreateOmics(
     assayData_df = colonSurv_df[, -(1:2)],
     pathwayCollection_ls = colon_pathwayCollection,
     response = colonSurv_df[, 1:2],
@@ -110,7 +110,7 @@ This is a wrapper function for the \code{\link{ExtractAESPCs}},
 
   ###  Calculate Pathway p-Values  ###
   colonSurv_pVals_df <- AESPCA_pVals(
-    object = colon_OmicsSurv,
+    object = colon_Omics,
     numReps = 5000,
     parallel = TRUE,
     numCores = 16,
