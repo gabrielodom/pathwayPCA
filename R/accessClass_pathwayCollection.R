@@ -58,7 +58,6 @@
     Pathway = x$TERMS[path_idx],
     IDs = features_char,
     Description = desc_char,
-    # Size = c(original = setSize_int, remaining = trimSize_int)
     Size = length(features_char)
   )
 

@@ -37,7 +37,7 @@ This function checks the pathwy list and pathway term inputs and
    \code{\link{list}} function). Because some functions in the
    \code{pathwayPCA} package add and edit elements of \code{pathwayCollection}
    objects, please do not create \code{pathwayCollection} list items named
-   \code{setsize} or \code{trim_setsize}.
+   \code{setsize} or \code{n_tested}.
 }
 \examples{
   data("colon_pathwayCollection")

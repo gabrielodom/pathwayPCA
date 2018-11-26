@@ -25,7 +25,7 @@
 #'    \code{\link{list}} function). Because some functions in the
 #'    \code{pathwayPCA} package add and edit elements of \code{pathwayCollection}
 #'    objects, please do not create \code{pathwayCollection} list items named
-#'    \code{setsize} or \code{trim_setsize}.
+#'    \code{setsize} or \code{n_tested}.
 #'
 #' @export
 #'
@@ -57,8 +57,8 @@ CreatePathwayCollection <- function(pathways, TERMS, ...){
   }
 
   dotNames <- names(list(...))
-  if(any(c("setsize", "trim_setsize") %in% dotNames)){
-    warning("The names 'setsize' and 'trim_setsize' are reserved names of a pathwayCollection object.
+  if(any(c("setsize", "n_tested") %in% dotNames)){
+    warning("The names 'setsize' and 'n_tested' are reserved names of a pathwayCollection object.
             Values stored with these names may be overwritten during pathwayPCA function execution.
             Use with extreme caution.")
   }

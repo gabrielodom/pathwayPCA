@@ -16,10 +16,7 @@
 #'        vector contains the names of the genes in that specific pathway.}
 #'     \item{\code{TERMS} : }{A character vector the same length as
 #'        \code{pathways} containing the full pathway descriptions.}
-#'     \item{\code{setsize} : }{An integer vector the same length as
-#'        \code{pathways} containing the number of genes contained in the
-#'        original pathways list.}
-#'     \item{\code{trim_setsize} : }{An integer vector the same length as
+#'     \item{\code{n_tested} : }{An integer vector the same length as
 #'        \code{pathways} containing the number of genes present in the pathway
 #'        after trimming. Pathways list trimming is done in the
 #'       \code{\link{IntersectOmicsPwyCollct}} function.}
@@ -38,12 +35,9 @@
 #' \itemize{
 #'   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
 #'     object (stored in \code{object@@trimPathwayCollection$pathways}).
-#'   \item{\code{setsize} : }{The number of genes in each of the original
-#'     pathways (as stored in the \code{object@@trimPathwayCollection$setsize}
-#'     object).}
-#'   \item{\code{trim_size} : }{The number of genes in each pathway after being
-#'    trimmed to match the assay. Given in the \code{trim_setsize} element of
-#'    the trimmed pathway collection.}
+#'   \item{\code{n_tested} : }{The number of genes in each pathway after being
+#'    trimmed to match the assay. Given in the \code{n_tested} element of the
+#'    trimmed pathway collection.}
 #'   \item{\code{terms} : }{The pathway title, as stored in the
 #'     \code{object@@trimPathwayCollection$TERMS} object.}
 #'   \item{\code{description} : }{The pathway description, if it is stored in
@@ -98,8 +92,7 @@ TabulatepValues <- function(pVals_vec,
   if(is.null(genesets_ls$description)){
     pVals_df <- data.frame(
       pathways = names(genesets_ls$TERMS),
-      setsize = genesets_ls$setsize,
-      trim_size = genesets_ls$trim_setsize,
+      n_tested = genesets_ls$n_tested,
       terms = genesets_ls$TERMS,
       rawp = unname(pValsFull_vec),
       stringsAsFactors = FALSE
@@ -107,8 +100,7 @@ TabulatepValues <- function(pVals_vec,
   } else {
     pVals_df <- data.frame(
       pathways = names(genesets_ls$TERMS),
-      setsize = genesets_ls$setsize,
-      trim_size = genesets_ls$trim_setsize,
+      n_tested = genesets_ls$n_tested,
       terms = genesets_ls$TERMS,
       description = genesets_ls$description,
       rawp = unname(pValsFull_vec),
