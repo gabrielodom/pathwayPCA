@@ -23,7 +23,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This vignette is the fourth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Pathway Significance Testing](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#test-pathways-for-significance) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics`-class objects with pathway-level adaptive, elastic-net, sparse or supervised modifications to principal components analysis (PCA), abbreviated AES-PCA and Supervised PCA, respectively. We will consider examples for three types of response information: survival, regression, and binary responses. The predictor information is subsets of assay data which correspond to individual pathways, where a pathway is a bundle of genes with shared biological function. The main goal of pathway significance testing is to discover potential relationships between a given collection of pathways and the response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
+This vignette is the fourth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Pathway Significance Testing](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#test-pathways-for-significance) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics`-class objects with pathway-level adaptive, elastic-net, sparse or supervised modifications to principal components analysis (PCA), abbreviated AES-PCA and Supervised PCA, respectively. We will consider examples for three types of response information: survival, regression, and binary responses. The predictor information is subsets of assay data which correspond to individual pathways, where a pathway is a bundle of genes with shared biological function. The main goal of pathway significance testing is to discover potential relationships between a given collection of pathways and the response.
 
 ## 1.1 Outline
 Before we move on, we will outline our steps. After reading this vignette, you should
@@ -33,9 +33,9 @@ Before we move on, we will outline our steps. After reading this vignette, you s
 3. Be able to apply AES-PCA or Supervised PCA to analyze `Omics` data objects with survival, regression, or classification response.
 
 ## 1.2 Load Packages
-Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA/tree/devel) from [GitHub](https://github.com/):
 ```
-devtools::install_github("gabrielodom/pathwayPCA")
+devtools::install_github("gabrielodom/pathwayPCA", ref = "devel")
 ```
 ```{r}
 library(pathwayPCA)
@@ -53,20 +53,6 @@ colon_OmicsSurv <- CreateOmics(
   pathwayCollection_ls = colon_pathwayCollection,
   response = colonSurv_df[, 1:2],
   respType = "surv"
-)
-
-colon_OmicsReg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
-  pathwayCollection_ls = colon_pathwayCollection,
-  response = colonSurv_df$OS_time,
-  respType = "reg"
-)
-
-colon_OmicsCateg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
-  pathwayCollection_ls = colon_pathwayCollection,
-  response = colonSurv_df$OS_event,
-  respType = "categ"
 )
 ```
 Because you have already read through the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and [Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes, we will pick up with the `colon_OmicsSurv` object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a pathways list. The `colon_OmicsSurv` data object we constructed in [Chapter 3](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) has all of this.
@@ -111,14 +97,9 @@ The end result of either PCA variant is a data frame (`pVals_df`), list of PCs (
 names(getPathwayCollection(colon_OmicsSurv)$pathways)
 ```
 
-- `setsize`: The number of genes in each of the original pathways. The number of genes per pathway given in
+- `n_tested`: The number of genes in each of the pathways after trimming to match the given data assay. The number of genes per pathway given in
 ```{r}
-getPathwayCollection(colon_OmicsSurv)$setsize
-```
-
-- `trim_size`: The number of genes in each of the pathways after trimming to match the given data assay. The number of genes per pathway given in
-```{r}
-getTrimPathwayCollection(colon_OmicsSurv)$trim_setsize
+getTrimPathwayCollection(colon_OmicsSurv)$n_tested
 ```
 
 - `terms`: The pathway description, as given in
@@ -166,15 +147,19 @@ Now that we have discussed both the overview of the AES-PCA method and some of i
 
 ### 3.2.1 Survival Response
 We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds ($7.9\times$ longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway, which does not depend on the number of permutations). Additionally, the AES-PCA and Supervised PCA functions give some messages concerning the setup and progress of the computation. 
-```{r aes_surv_pvals}
+```{r aes_surv_pvals, eval = FALSE}
 colonSurv_aespcOut <- AESPCA_pVals(
   object = colon_OmicsSurv,
   numReps = 1000,
+  numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
   adjustment = c("Hoch", "SidakSD")
 )
+```
+```{r, echo = FALSE}
+colonSurv_aespcOut <- readRDS("suppl_data/colon_aespcOut.RDS")
 ```
 
 
@@ -184,6 +169,7 @@ We can also make a mock regression data set by treating the event time as the ne
 colonReg_aespcOut <- AESPCA_pVals(
   object = colon_OmicsReg,
   numReps = 1000,
+  numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
@@ -198,6 +184,7 @@ Finally, we can simulate a mock classification data set by treating the event in
 colonCateg_aespcOut <- AESPCA_pVals(
   object = colon_OmicsCateg,
   numReps = 1000,
+  numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
@@ -238,14 +225,18 @@ Cons:
 
 ### 4.2.1 Survival Response
 We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 6 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $4.6\times$ faster; for 10,000 permutations, it's $36.1\times$ faster.
-```{r super_surv_pvals}
+```{r super_surv_pvals, eval = FALSE}
 colonSurv_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsSurv,
+  numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
   adjustment = c("Hoch", "SidakSD")
 )
+```
+```{r, echo = FALSE}
+colonSurv_superpcOut <- readRDS("suppl_data/colon_superpcOut.RDS")
 ```
 
 ### 4.2.2 Regression Response
@@ -253,6 +244,7 @@ We can also make a mock regression data set by treating the event time as the ne
 ```{r super_reg_pvals, eval=FALSE}
 colonReg_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsReg,
+  numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
@@ -265,6 +257,7 @@ Finally, we can simulate a mock classification data set by treating the event in
 ```{r super_categ_pvals, eval=FALSE}
 colonCateg_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsCateg,
+  numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
@@ -277,76 +270,22 @@ colonCateg_superpcOut <- SuperPCA_pVals(
 </br>
 
 
-# 5. Analyze the Results
-Now that we have the pathway-specific $p$-values, we can inspect the top pathways ordered by significance. Also, we will plot the most significant $p$-values using the [`ggplot2` package](http://ggplot2.org/). In order to use the `ggplot` function, we must first "tidy" the data frame returned by the `SuperPCA_pVals()` and `AESPCA_pVals()` functions. For graphics and data tidying, we will need the suite of `tidyverse` packages:
-```{r graphcs_packages, message=FALSE}
-library(tidyverse)
-```
+# 5. Inspect the Results
+Now that we have the pathway-specific $p$-values, we can inspect the top pathways ordered by significance. Further, we can assess the loadings of each gene, or the first principal component, corresponding to each pathway.
 
-## 5.1 Analysis Function Output
+## 5.1 Table of $p$-Values
 For a quick and easy view of the pathway significance testing results, we can simply print the `pVals_df` data frame in the output object. (Note: if you are not using the `tidyverse` package suite, your results will print differently. Use the `head` function to print the top pathways instead.)
 ```{r viewPathwayRanks}
 colonSurv_aespcOut$pVals_df
 ```
 
-## 5.2 Tidy the Pathway Results
-For the two data frames containing the survival data pathway $p$-values, we will transform the data for better graphics. This code takes in the pathway $p$-values data frames (`colonSurv_aespcOut$pVals_df` and `colonSurv_superpcOut$pVals_df`) from the two PCA methods and modifies ("gathers") them into data frames compatible with `ggplot` (`surv_aes_gather_df` and `surv_spr_gather_df`, respectively). We also add on a column for the negative natural logarithm of the pathway $p$-values (called `score`) and recode the label of the $p$-value adjustment method.
-```{r subset_top_genes}
-colonOutGatherAES_df <- colonSurv_aespcOut$pVals_df %>%
-  select(-pathways, - setsize, -trim_size) %>%
-  gather(variable, value, -terms) %>%
-  mutate(score = -log(value)) %>%
-  mutate(variable = factor(variable)) %>% 
-  mutate(variable = recode_factor(variable,
-                                  rawp = "None",
-                                  FWER_Hochberg = "Hochberg",
-                                  FWER_SidakSD = "Sidak SD"))
-
-colonOutGatherSpr_df <- colonSurv_superpcOut$pVals_df %>%
-  select(-pathways, - setsize, -trim_size) %>%
-  gather(variable, value, -terms) %>%
-  mutate(score = -log(value)) %>%
-  mutate(variable = factor(variable)) %>% 
-  mutate(variable = recode_factor(variable,
-                                  rawp = "None",
-                                  FWER_Hochberg = "Hochberg",
-                                  FWER_SidakSD = "Sidak SD"))
+## 5.2 Pathway PC and Loading Vectors
+We also may be interested in which genes or proteins "drive" a specific pathway. We can extract the pathway-specific PCs and loadings (PC & L) from either the AESPCA or Supervised PCA output with the `getPathPCLs()` function. This function will take in either the proper name of a pathway (as given in the `terms` column) or the unique pathway identifier (as shown in the `pathways` column).
+```{r getPathPCLs}
+getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
 ```
 
-
-## 5.3 Plot Significant Survival Pathways
-Now we will plot the pathway $p$-values for the most significant pathways as a horizontal bar chart. These figures are slightly different from the two figures shown in the [Graph Top Pathways](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#graph-of-top-pathways) subsection of the Quickstart Guide. For more information on how to modify `ggplot` graphs, or to learn how to create your own, please see Chang's [R Graphics Cookbook](https://www.amazon.com/dp/1449316956/ref=cm_sw_su_dp?tag=ggplot2-20) or Wickham's [`ggplot2`: Elegant Graphics for Data Analysis](http://ggplot2.org/book/).
-
-This figure shows that a few of the simulated pathways are significant at the $\alpha = 0.05$ for either the Hochberg or Sidak FWER approaches. The thick vertical black line is at $-\log(p = 0.05)$. 
-
-```{r surv_aes_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
-ggplot(colonOutGatherAES_df) +
-  theme_bw() +
-  aes(x = reorder(terms, score), y = score) +
-  geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) +
-  scale_fill_discrete(guide = FALSE) +
-  ggtitle("AES-PCA Significant Colon Pathways by FWER Adjustment") +
-  xlab("Pathways") +
-  ylab("Negative Log p-Value") +
-  geom_hline(yintercept = -log(0.05), size = 2) +
-  coord_flip() + 
-  facet_grid(. ~ variable)
-```
-
-Here are the similar bar graphs for the Supervised PCA pathway $p$-values.
-```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
-ggplot(colonOutGatherSpr_df) +
-  theme_bw() +
-  aes(x = reorder(terms, score), y = score) +
-  geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) +
-  scale_fill_discrete(guide = FALSE) +
-  ggtitle("Supervised PCA Significant Colon Pathways by FWER Adjustment") +
-  xlab("Pathways") +
-  ylab("Negative Log p-Value") +
-  geom_hline(yintercept = -log(0.05), size = 2) +
-  coord_flip() + 
-  facet_grid(. ~ variable)
-```
+As an example, we see that the HLA-DRA gene positively loads onto this pathway, and [has been shown to be related to colorectal cancer](https://www.ncbi.nlm.nih.gov/pubmed/16367922).
 
 
 *******************************************************************************
@@ -360,7 +299,9 @@ We have has covered in this vignette:
 2. The basics of the Supervised PCA pathway-significance testing approach.
 3. Applying AES-PCA or Supervised PCA to analyze survival, regression, or classification `Omics` data objects.
 
-Currently, this is the last vignette in the workflow. We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, comments, complaints, or suggestions, please [email us](mailto:gabriel.odom@med.miami.edu) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).
+Please read vignette chapter 5 next: [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
+
+We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, comments, complaints, or suggestions, please [email us](mailto:gabriel.odom@med.miami.edu) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

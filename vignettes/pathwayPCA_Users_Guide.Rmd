@@ -192,7 +192,7 @@ This data frame has the following columns:
 
 - `pathways`: the `pathwayPCA` internal identification labels for each pathway in the `Omics*` object (stored as the `names` attribute of the `ov_OmicsSurv@@trimPathwayCollection$$pathways` object).
 - `setsize`: number of genes in each of the original pathways (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$setsize` object).
-- `trim_size`: number of genes in each pathway after being trimmed to match the assay data (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$trim_setsize` object).
+- `n_tested`: number of genes in each pathway after being trimmed to match the assay data (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$n_tested` object).
 - `terms`: title of the pathway (as stored in the `ov_OmicsSurv@@trimPathwayCollection$$TERMS` object).
 - `description`: (OPTIONAL) description of the pathway (if stored in the `ov_OmicsSurv@@trimPathwayCollection$$description` object).
 - `rawp`: unadjusted $p$-values of each pathway.

@@ -261,7 +261,7 @@ We now summarize our steps so far. We have
 2. Created an `Omics` object for the three sub-classes.
 3. Inspected and edited individual elements contained in these objects.
 
-Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette 4 / 4 next: [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
+Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette chapter 4 next: [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

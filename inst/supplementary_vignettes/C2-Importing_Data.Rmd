@@ -66,7 +66,7 @@ We now carefully discuss the form of this information. This `cp_pathwayCollectio
 
 2. `TERMS`: A character vector comprised of the proper name of each pathway in the pathway collection.
 3. `description`: (OPTIONAL) A character vector the same length as the pathways list with descriptive information. For instance, the `.gmt` file included with this package has hyperlinks to the MSigDB description card for that pathway in this field. This field will be imported by the `read_gmt` function when `description = TRUE` (it defaults to `FALSE`).
-4. `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathways list at `Omics`-class object creation (later in the workflow).* This information is useful to measure the ratio of the number of genes from each pathway recorded in your assay to the number of genes defined to be in that pathway. For each pathway, this ratio should be very close to 1 for best pathway analysis results.
+4. `setsize`: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: *this information is calculated and added to the pathways list at `Omics`-class object creation (later in the workflow).* This information is useful to measure the ratio of the number of genes from each pathway recorded in your assay to the number of genes defined to be in that pathway. For each pathway, this ratio should be at least 0.5 for best pathway analysis results.
 
 The object itself has the following structure:
 ```{r pathwayCollection_structure}
@@ -90,6 +90,23 @@ CreatePathwayCollection(
   website = "URL_TO_PATHWAY_CITATION"
 )
 ```
+
+## 2.4 Importing a Pathway Collection from Wikipathways
+To download a `.gmt` file from Wikipathways, we recommend the `R` package [`rWikiPathways`](https://bioconductor.org/packages/release/bioc/html/rWikiPathways.html). From their [vignette](https://bioconductor.org/packages/release/bioc/vignettes/rWikiPathways/inst/doc/Overview.html):
+
+> WikiPathways also provides a monthly data release archived at http://data.wikipathways.org. The archive includes GPML, GMT and SVG collections by organism and timestamped. There’s an R function for grabbing files from the archive...
+>
+>    `downloadPathwayArchive()`
+> 
+> This will simply open the archive in your default browser so you can look around (in case you don’t know what you are looking for). By default, it opens to the latest collection of GPML files. However, if you provide an organism, then it will download that file to your current working directory or specified destpath. For example, here’s how you’d get the latest GMT file for mouse:
+>
+>    `downloadPathwayArchive(organism = "Mus musculus", format = "gmt")`
+>
+> And if you might want to specify an archive date so that you can easily share and reproduce your script at any time in the future and get the same result. Remember, new pathways are being added to WikiPathways every month and existing pathways are improved continuously!
+>
+>    `downloadPathwayArchive(date = "20171010", organism = "Mus musculus", format = "gmt")`
+>
+
 
 ## 2.4 Writing a `pathwayCollection` Object to a `.gmt` File
 Finally, we can save the `pathwayCollection` object we just created via the `write_gmt()` function:
@@ -205,7 +222,6 @@ We also have a small list of 15 pathways which correspond to our example colon c
 ```{r pathway_list_load}
 data("colon_pathwayCollection")
 colon_pathwayCollection
-str(colon_pathwayCollection$pathways, list.len = 10)
 ```
 
 The pathways list and tidy assay (with matched phenotype information) are all the information we need to create an `Omics`-class data object. 
@@ -221,7 +237,7 @@ We now summarize our steps so far. We have
 2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `TransposeAssay` function.
 3. Imported a phenotype information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
-Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read vignette 3 / 4: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html).
+Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read vignette chapter 3: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}
