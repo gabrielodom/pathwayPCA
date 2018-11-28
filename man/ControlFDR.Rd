@@ -117,6 +117,9 @@ This function computes adjusted \eqn{p}-values for simple multiple
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 }
+\seealso{
+\code{\link{AESPCA_pVals}} \code{\link{SuperPCA_pVals}}
+}
 \author{
 Sandrine Dudoit, \url{http://www.stat.berkeley.edu/~sandrine}
 
