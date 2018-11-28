@@ -101,6 +101,9 @@
 #'         (2006)) when computing adjusted \eqn{p}-values for the \code{"TSBH"}
 #'         procedure (see Dudoit et al., 2007).}
 #'    }
+#'
+#' @seealso \code{\link{AESPCA_pVals}} \code{\link{SuperPCA_pVals}}
+#'
 #' @export
 #'
 #' @examples
