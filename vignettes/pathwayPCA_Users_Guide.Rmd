@@ -237,6 +237,9 @@ signifPaths020_df <-
 signifPaths020_df
 ```
 
+<!-- ## Pathway Interpretation -->
+<!-- The intersecting genes shared by these two pathways with non-zero AES-PC loadings are [NFKB1](https://www.ncbi.nlm.nih.gov/pubmed/26345753), [MYD88](https://journals.lww.com/greenjournal/Abstract/2015/05001/Role_of_MyD88_expression_in_Epithelial_Ovarian.259.aspx), [TLR2 & TLR3](https://www.ncbi.nlm.nih.gov/pubmed/19184006), and [IKBKB & TBK1](https://www.ncbi.nlm.nih.gov/pubmed/30084832) (external literature validating the relatioship between these genes and ovarian cancer survival are linked). -->
+
 </br>
 
 *******************************************************************************
