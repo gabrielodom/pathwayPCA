@@ -22,6 +22,69 @@ library(pathwayPCA)
 ```
 
 
+
+## 5.2 Tidy the Pathway Results
+For the two data frames containing the survival data pathway $p$-values, we will transform the data for better graphics. This code takes in the pathway $p$-values data frames (`colonSurv_aespcOut$pVals_df` and `colonSurv_superpcOut$pVals_df`) from the two PCA methods and modifies ("gathers") them into data frames compatible with `ggplot` (`surv_aes_gather_df` and `surv_spr_gather_df`, respectively). We also add on a column for the negative natural logarithm of the pathway $p$-values (called `score`) and recode the label of the $p$-value adjustment method.
+```{r subset_top_genes}
+colonOutGatherAES_df <- colonSurv_aespcOut$pVals_df %>%
+  select(-pathways, - setsize, -trim_size) %>%
+  gather(variable, value, -terms) %>%
+  mutate(score = -log(value)) %>%
+  mutate(variable = factor(variable)) %>% 
+  mutate(variable = recode_factor(variable,
+                                  rawp = "None",
+                                  FWER_Hochberg = "Hochberg",
+                                  FWER_SidakSD = "Sidak SD"))
+
+colonOutGatherSpr_df <- colonSurv_superpcOut$pVals_df %>%
+  select(-pathways, - setsize, -trim_size) %>%
+  gather(variable, value, -terms) %>%
+  mutate(score = -log(value)) %>%
+  mutate(variable = factor(variable)) %>% 
+  mutate(variable = recode_factor(variable,
+                                  rawp = "None",
+                                  FWER_Hochberg = "Hochberg",
+                                  FWER_SidakSD = "Sidak SD"))
+```
+
+
+## 5.3 Plot Significant Survival Pathways
+Now we will plot the pathway $p$-values for the most significant pathways as a horizontal bar chart. These figures are slightly different from the two figures shown in the [Graph Top Pathways](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#graph-of-top-pathways) subsection of the Quickstart Guide. For more information on how to modify `ggplot` graphs, or to learn how to create your own, please see Chang's [R Graphics Cookbook](https://www.amazon.com/dp/1449316956/ref=cm_sw_su_dp?tag=ggplot2-20) or Wickham's [`ggplot2`: Elegant Graphics for Data Analysis](http://ggplot2.org/book/).
+
+This figure shows that a few of the simulated pathways are significant at the $\alpha = 0.05$ for either the Hochberg or Sidak FWER approaches. The thick vertical black line is at $-\log(p = 0.05)$. 
+
+```{r surv_aes_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+ggplot(colonOutGatherAES_df) +
+  theme_bw() +
+  aes(x = reorder(terms, score), y = score) +
+  geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) +
+  scale_fill_discrete(guide = FALSE) +
+  ggtitle("AES-PCA Significant Colon Pathways by FWER Adjustment") +
+  xlab("Pathways") +
+  ylab("Negative Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  coord_flip() + 
+  facet_grid(. ~ variable)
+```
+
+Here are the similar bar graphs for the Supervised PCA pathway $p$-values.
+```{r surv_spr_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+ggplot(colonOutGatherSpr_df) +
+  theme_bw() +
+  aes(x = reorder(terms, score), y = score) +
+  geom_bar(stat = "identity", position = "dodge", aes(fill = variable)) +
+  scale_fill_discrete(guide = FALSE) +
+  ggtitle("Supervised PCA Significant Colon Pathways by FWER Adjustment") +
+  xlab("Pathways") +
+  ylab("Negative Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  coord_flip() + 
+  facet_grid(. ~ variable)
+```
+
+
+
+
 ## Trim Pathway Names
 Because Wikipathways pathway collections are quite long, we truncate them for better graphical display.
 ```{r match_abbrev_to_name}
