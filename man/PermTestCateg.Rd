@@ -19,7 +19,9 @@ PermTestCateg(OmicsCateg, pathwayPCs_ls, numReps = 1000,
 \item{pathwayPCs_ls}{A list of pathway PC matrices returned by the
 \code{\link{ExtractAESPCs}} function.}
 
-\item{numReps}{How many permuted models to fit? Defaults to 1000.}
+\item{numReps}{How many permutations to estimate the \eqn{p}-value? Defaults
+to 1000. If \code{numReps = 0}, then the analysis of deviance \eqn{p}-
+value will be returned.}
 
 \item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}

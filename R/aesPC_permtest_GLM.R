@@ -9,7 +9,9 @@
 #'   \code{\link{CreateOmics}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{ExtractAESPCs}} function.
-#' @param numReps How many permuted models to fit? Defaults to 1000.
+#' @param numReps How many permutations to estimate the \eqn{p}-value? Defaults
+#'    to 1000. If \code{numReps = 0}, then the analysis of deviance \eqn{p}-
+#'    value will be returned.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
@@ -69,6 +71,7 @@ setGeneric("PermTestCateg",
 )
 
 #' @importFrom stats AIC
+#' @importFrom stats anova
 #' @importFrom stats binomial
 #' @importFrom stats glm
 #' @importFrom parallel clusterEvalQ
@@ -98,37 +101,52 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
             #   the apply statements. No thanks. I don't like how inneficient
             #   this is.
             permute_CategFit <- function(pathwayPCs_mat,
-                                         obj_OmicsCateg,
-                                         numReps_int = numReps,
-                                         parametric = FALSE){
+                                         response,
+                                         nullMod,
+                                         numReps_int = numReps){
               # browser()
 
               ###  True Model  ###
-              response <- obj_OmicsCateg@response
               pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
-              trueAIC <- AIC(glm(response ~ pathwayPCs_mat, family = binomial))
+              true_mod <- glm(response ~ pathwayPCs_mat, family = binomial)
 
+              ###  p-Values  ###
+              # Switch between real and permutation p-value
+              if(numReps_int == 0){
+                # Real score-based p-value
 
-              ###  Permuted Model  ###
-              permuteAIC_fun <- function(){
+                mod_anova <- anova(true_mod, nullMod, test = "Chisq")
+                out_num <- mod_anova[2, "Pr(>Chi)"]
 
-                perm_resp <- SampleCateg(
-                  obj_OmicsCateg@response,
-                  parametric = parametric
-                )
-                AIC(glm(perm_resp ~ pathwayPCs_mat, family = binomial))
+              } else {
+                # Permutation p-value
+
+                permuteAIC_fun <- function(){
+
+                  perm_resp <- SampleCateg(
+                    response,
+                    parametric = FALSE
+                  )
+
+                  AIC(glm(perm_resp ~ pathwayPCs_mat, family = binomial))
+
+                }
+
+                trueAIC <- AIC(true_mod)
+                permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
+                out_num <- mean(permAIC < trueAIC)
 
               }
 
-              permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
-
               ###  Return  ###
-              mean(permAIC < trueAIC)
+              out_num
 
             }
 
             ###  Computation  ###
             # browser()
+            response <- OmicsCateg@response
+            null_mod <- glm(response ~ 1, family = binomial)
 
             if(parallel){
               # browser()
@@ -136,12 +154,19 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster: ", appendLF = FALSE)
               clust <- makeCluster(numCores)
-              clustVars_vec <- c(deparse(quote(OmicsCateg)),
-                                 deparse(quote(numReps)))
-              clusterExport(cl = clust,
-                            varlist = clustVars_vec,
-                            envir = environment())
-              invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+              clustVars_vec <- c(
+                deparse(quote(response)),
+                deparse(quote(numReps)),
+                deparse(quote(null_mod))
+              )
+              clusterExport(
+                cl = clust,
+                varlist = clustVars_vec,
+                envir = environment()
+              )
+              invisible(
+                clusterEvalQ(cl = clust, library(pathwayPCA))
+              )
               message("DONE")
 
               ###  Extract PCs  ###
@@ -151,8 +176,9 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
                 cl = clust,
                 pathwayPCs_ls,
                 permute_CategFit,
-                obj_OmicsCateg = OmicsCateg,
-                numReps_int = numReps
+                response = response,
+                numReps_int = numReps,
+                nullMod = null_mod
               )
               stopCluster(clust)
               message("DONE")
@@ -164,8 +190,9 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
               pValues_vec <- sapply(
                 pathwayPCs_ls,
                 permute_CategFit,
-                obj_OmicsCateg = OmicsCateg,
-                numReps_int = numReps
+                response = response,
+                numReps_int = numReps,
+                nullMod = null_mod
               )
               message("DONE")
 

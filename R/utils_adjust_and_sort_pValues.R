@@ -81,20 +81,22 @@ TabulatepValues <- function(pVals_vec,
 
   # browser()
 
-  # If we remove a pathway, then the pValue for that pathway should
-  #   exist, and it should be NA. Right now, if we remove 10 pathways,
-  #   then the pVals_vec will be 10 shorter. We need these vectors to
-  #   be the same size.
-  pValsFull_vec <- rep(NA, length(genesets_ls$TERMS))
-  names(pValsFull_vec) <- names(genesets_ls$TERMS)
-  pValsFull_vec[names(pVals_vec)] <- pVals_vec
+  # # If we remove a pathway, then the pValue for that pathway should
+  # #   exist, and it should be NA. Right now, if we remove 10 pathways,
+  # #   then the pVals_vec will be 10 shorter. We need these vectors to
+  # #   be the same size.
+  # pValsFull_vec <- rep(NA, length(genesets_ls$TERMS))
+  # names(pValsFull_vec) <- names(genesets_ls$TERMS)
+  # pValsFull_vec[names(pVals_vec)] <- pVals_vec
+  # # We are passing in the trimmed pathway collection anyway, so this is now
+  # #   pointless.
 
   if(is.null(genesets_ls$description)){
     pVals_df <- data.frame(
       pathways = names(genesets_ls$TERMS),
       n_tested = genesets_ls$n_tested,
       terms = genesets_ls$TERMS,
-      rawp = unname(pValsFull_vec),
+      rawp = unname(pVals_vec),
       stringsAsFactors = FALSE
     )
   } else {
@@ -103,7 +105,7 @@ TabulatepValues <- function(pVals_vec,
       n_tested = genesets_ls$n_tested,
       terms = genesets_ls$TERMS,
       description = genesets_ls$description,
-      rawp = unname(pValsFull_vec),
+      rawp = unname(pVals_vec),
       stringsAsFactors = FALSE
     )
   }
