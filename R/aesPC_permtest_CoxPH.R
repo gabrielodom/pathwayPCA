@@ -9,7 +9,9 @@
 #'   \code{\link{CreateOmics}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{ExtractAESPCs}} function.
-#' @param numReps How many permuted models to fit? Defaults to 1000.
+#' @param numReps How many permutations to estimate the \eqn{p}-value? Defaults
+#'    to 1000. If \code{numReps = 0}, then the score \eqn{p}-value will be
+#'    returned.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
@@ -80,43 +82,60 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
 
             ###  Function Setup  ###
             permute_SurvFit <- function(pathwayPCs_mat,
-                                        obj_OmicsSurv,
-                                        numReps_int = numReps,
-                                        parametric = FALSE){
+                                        resp_Surv,
+                                        numReps_int = numReps){
               # browser()
 
               ###  True Model  ###
-              # I know I'm doing this more than once, but I don't know how to
-              #   rewrite the SampleSurv() function to take in a Surv object
-              response <- Surv(time = obj_OmicsSurv@eventTime,
-                               event = obj_OmicsSurv@eventObserved)
               pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
-              trueAIC <- AIC(coxph(response ~ pathwayPCs_mat))
+              true_mod <- coxph(resp_Surv ~ pathwayPCs_mat)
 
+              ###  p-Values  ###
+              # Switch between real and permutation p-value
+              if(numReps_int == 0){
+                # Real score-based p-value
 
-              ###  Permuted Model  ###
-              permuteAIC_fun <- function(){
+                trueMod_summ <- summary(true_mod)
+                out_num <- unname(trueMod_summ$sctest["pvalue"])
 
-                perm_resp <- SampleSurv(
-                  response_vec = obj_OmicsSurv@eventTime,
-                  event_vec = obj_OmicsSurv@eventObserved,
-                  parametric = parametric
-                )
-                perm_Surv <- Surv(time = perm_resp$response_vec,
-                                  event = perm_resp$event_vec)
-                AIC(coxph(perm_Surv ~ pathwayPCs_mat))
+              } else {
+                # Permutation p-value
+
+                permuteAIC_fun <- function(){
+
+                  perm_resp <- SampleSurv(
+                    response_vec = resp_Surv[, "time"],
+                    event_vec = resp_Surv[, "status"],
+                    parametric = FALSE
+                  )
+
+                  perm_Surv <- Surv(
+                    time = perm_resp$response_vec,
+                    event = perm_resp$event_vec
+                  )
+
+                  AIC(coxph(perm_Surv ~ pathwayPCs_mat))
+
+                }
+
+                trueAIC <- AIC(true_mod)
+                permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
+                out_num <- mean(permAIC < trueAIC)
 
               }
 
-              permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
 
               ###  Return  ###
-              mean(permAIC < trueAIC)
+              out_num
 
             }
 
             ###  Computation  ###
             # browser()
+            response <- Surv(
+              time = OmicsSurv@eventTime,
+              event = OmicsSurv@eventObserved
+            )
 
             if(parallel){
               # browser()
@@ -124,12 +143,18 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster: ", appendLF = FALSE)
               clust <- makeCluster(numCores)
-              clustVars_vec <- c(deparse(quote(OmicsSurv)),
-                                 deparse(quote(numReps)))
-              clusterExport(cl = clust,
-                            varlist = clustVars_vec,
-                            envir = environment())
-              invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+              clustVars_vec <- c(
+                deparse(quote(response)),
+                deparse(quote(numReps))
+              )
+              clusterExport(
+                cl = clust,
+                varlist = clustVars_vec,
+                envir = environment()
+              )
+              invisible(
+                clusterEvalQ(cl = clust, library(pathwayPCA))
+              )
               message("DONE")
 
               ###  Extract PCs  ###
@@ -139,7 +164,7 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
                 cl = clust,
                 pathwayPCs_ls,
                 permute_SurvFit,
-                obj_OmicsSurv = OmicsSurv,
+                resp_Surv = response,
                 numReps_int = numReps
               )
               stopCluster(clust)
@@ -151,7 +176,7 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
               pValues_vec <- sapply(
                 pathwayPCs_ls,
                 permute_SurvFit,
-                obj_OmicsSurv = OmicsSurv,
+                resp_Surv = response,
                 numReps_int = numReps
               )
               message("DONE")
