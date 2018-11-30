@@ -8,6 +8,8 @@
 #'    match. Other checks should be added in response to user feedback during or
 #'    after beta testing. ENHANCEMENT.
 #'
+#' @keywords internal
+#'
 #' @section OmicsSurv:
 #' Valid \code{OmicsSurv} objects will have two response vectors: a vector of
 #'    the most recently recorded follow-up times and a logical vector if that

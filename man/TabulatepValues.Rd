@@ -80,3 +80,4 @@ This is a wrapper function for the \code{\link{ControlFDR}}
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 }
+\keyword{internal}

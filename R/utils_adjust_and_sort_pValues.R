@@ -60,6 +60,8 @@
 #'   the \code{genesets_ls} argument. If you trimmed a pathway from \eqn{p}-
 #'   value calculation, then pad this missing value with an \code{NA}.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples

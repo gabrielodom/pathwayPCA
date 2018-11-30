@@ -47,6 +47,8 @@
 #' @seealso \code{\link{CreateOmicsPath}}; \code{\link{aespca}}
 #'    \code{\link{IntersectOmicsPwyCollct}}
 #'
+#' @keywords internal
+#'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
 #'

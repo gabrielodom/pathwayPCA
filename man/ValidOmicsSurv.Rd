@@ -45,3 +45,4 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
    observations, respectively.
 }
 
+\keyword{internal}

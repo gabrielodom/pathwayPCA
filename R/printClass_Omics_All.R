@@ -14,6 +14,8 @@
 #'    function. This function sets a \code{show} method for \code{OmicsPathway}
 #'    objects.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @include createClass_OmicsPath.R

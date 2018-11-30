@@ -40,6 +40,8 @@
 #'
 #' @seealso \code{\link{superpc.train}}; \code{\link{superpc.st}}
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples

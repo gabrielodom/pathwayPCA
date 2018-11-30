@@ -34,7 +34,7 @@
 #'
 #' @details This is a wrapper function to call \code{\link{superpc.train}}
 #'    and \code{\link{superpc.st}} after response parametric bootstrapping with
-#'    the \code{\link{randomControlSample}} suite of functions. This response
+#'    the \code{\link{RandomControlSample}} suite of functions. This response
 #'    sampling will act as a null distribution against which to compare
 #'    the results from the \code{\link{pathway_tScores}} function.
 #'
@@ -45,7 +45,7 @@
 #'    \code{parSapply} (shown in \code{\link[parallel]{clusterApply}}), then
 #'    transposing the resulting matrix.
 #'
-#' @seealso \code{\link{pathway_tScores}}; \code{\link{randomControlSample}};
+#' @seealso \code{\link{pathway_tScores}}; \code{\link{RandomControlSample}};
 #'    \code{\link{superpc.train}}; \code{\link{superpc.st}}
 #'
 #' @keywords internal

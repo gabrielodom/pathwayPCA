@@ -32,3 +32,4 @@ This function decomposes \code{x} into \eqn{V \times D \times V^T}
   matrixRoot(xTx)
   matrixRoot(xTx, root = 3)
 }
+\keyword{internal}

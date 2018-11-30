@@ -45,6 +45,8 @@
 #'    \code{pathwayCollection} list objects by importing \code{.gmt} files with
 #'    the \code{\link{read_gmt}} function.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @include createClass_validOmics.R

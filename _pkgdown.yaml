@@ -85,6 +85,6 @@ reference:
       - '`TabulatepValues`'
       - '`ControlFDR`'
       - '`matrixRoot`'
-      - '`randomControlSample`'
+      - '`RandomControlSample`'
       - '`colon_pathwayCollection`'
       - '`colonSurv_df`'

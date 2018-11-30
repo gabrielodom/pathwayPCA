@@ -74,3 +74,4 @@ This function takes in a data frame with named columns and a pathway
 \code{\link{CreateOmicsPath}}; \code{\link{aespca}}
    \code{\link{IntersectOmicsPwyCollct}}
 }
+\keyword{internal}

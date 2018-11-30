@@ -28,6 +28,8 @@
 #'    vector or survival matrix is randomly ordered by row. This option should
 #'    only be used when called from the AES-PCA method.
 #'
+#' @keywords internal
+#'
 #' @importFrom survival Surv
 #' @importFrom survival survreg
 #' @importFrom stats rweibull
@@ -43,7 +45,7 @@
 #'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
 #'   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 #'
-#' @name randomControlSample
+#' @name RandomControlSample
 #' @rdname permuteSamps
 NULL
 
