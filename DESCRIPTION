@@ -49,7 +49,7 @@ Collate:
     'aesPC_extract_OmicsPath_PCs.R'
     'aesPC_permtest_CoxPH.R'
     'aesPC_permtest_GLM.R'
-    'aesPC_permtest_LS.R'
+    'aesPC_permtest_LM.R'
     'aesPC_unknown_matrixNorm.R'
     'aesPC_wrapper.R'
     'createOmics_All.R'

@@ -77,7 +77,7 @@
 #' @include createClass_OmicsReg.R
 #' @include createClass_OmicsCateg.R
 #' @include aesPC_permtest_CoxPH.R
-#' @include aesPC_permtest_LS.R
+#' @include aesPC_permtest_LM.R
 #' @include aesPC_permtest_GLM.R
 #'
 #' @importFrom methods setGeneric
