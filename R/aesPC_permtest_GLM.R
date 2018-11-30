@@ -115,7 +115,7 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
               if(numReps_int == 0){
                 # Real score-based p-value
 
-                mod_anova <- anova(true_mod, nullMod, test = "Chisq")
+                mod_anova <- anova(nullMod, true_mod, test = "Chisq")
                 out_num <- mod_anova[2, "Pr(>Chi)"]
 
               } else {
