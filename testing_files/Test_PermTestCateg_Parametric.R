@@ -37,6 +37,10 @@ succ_mod
 str(succ_mod)
 summary(succ_mod)
 
+anova(succ_mod, test = "Chisq")
+logLik(succ_mod)[1]
+AIC(succ_mod)
+
 # After reading this reminder handout on GLMs:
 # http://www.stat.columbia.edu/~martin/W2024/R11.pdf,
 # I need to compare this model to the null model with ANODA
@@ -45,7 +49,7 @@ null_mod <- glm(
   family = binomial,
   data = anxiety_df
 )
-succ_anova <- anova(succ_mod, null_mod, test = "Chisq")
+succ_anova <- anova(null_mod, succ_mod, test = "Chisq")
 succ_anova
 succ_anova[2, "Pr(>Chi)"]
 

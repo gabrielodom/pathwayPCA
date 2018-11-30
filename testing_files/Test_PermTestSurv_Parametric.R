@@ -17,6 +17,10 @@ lung_mod
 # printing this object shows me a p-value, but I don't know how to access it
 str(lung_mod)
 
+# to get at the log-likelihood
+anova(lung_mod)
+logLik(lung_mod)[1]
+
 summary(lung_mod)
 lung_mod$loglik
 lung_mod$score

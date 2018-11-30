@@ -33,6 +33,10 @@ anx_mod <- lm(
 )
 anx_mod
 # printing this objecct does not show me a p-value
+anova(anx_mod, test = "Chisq")
+logLik(anx_mod)[1]
+AIC(anx_mod)
+
 anxMod_summ <- summary(anx_mod)
 anxMod_summ
 str(anxMod_summ)
