@@ -104,6 +104,8 @@
 #'
 #' @seealso \code{\link{AESPCA_pVals}} \code{\link{SuperPCA_pVals}}
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples

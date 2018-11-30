@@ -63,3 +63,4 @@ This is a wrapper function to call \code{\link{superpc.train}}
 \seealso{
 \code{\link{superpc.train}}; \code{\link{superpc.st}}
 }
+\keyword{internal}

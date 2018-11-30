@@ -52,7 +52,7 @@ Randomly permute or parametrically resample the response vector
 \details{
 This is a wrapper function to call \code{\link{superpc.train}}
    and \code{\link{superpc.st}} after response parametric bootstrapping with
-   the \code{\link{randomControlSample}} suite of functions. This response
+   the \code{\link{RandomControlSample}} suite of functions. This response
    sampling will act as a null distribution against which to compare
    the results from the \code{\link{pathway_tScores}} function.
 
@@ -68,7 +68,7 @@ This is a wrapper function to call \code{\link{superpc.train}}
   # Use SuperPCA_pVals() instead
 }
 \seealso{
-\code{\link{pathway_tScores}}; \code{\link{randomControlSample}};
+\code{\link{pathway_tScores}}; \code{\link{RandomControlSample}};
    \code{\link{superpc.train}}; \code{\link{superpc.st}}
 }
 \keyword{internal}

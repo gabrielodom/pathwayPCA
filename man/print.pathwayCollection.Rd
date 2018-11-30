@@ -34,3 +34,4 @@ This function sets a \code{print} method for
 \seealso{
 \code{\link{read_gmt}}; \code{\link{write_gmt}}
 }
+\keyword{internal}

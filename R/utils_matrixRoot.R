@@ -16,6 +16,8 @@
 #'
 #'   See \url{https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix}.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples

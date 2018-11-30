@@ -42,3 +42,4 @@ S4 objects print to the screen via the \code{\link[methods]{show}}
   colon_OmicsSurv
 
 }
+\keyword{internal}

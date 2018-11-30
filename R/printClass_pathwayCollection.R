@@ -16,6 +16,8 @@
 #'
 #' @seealso \code{\link{read_gmt}}; \code{\link{write_gmt}}
 #'
+#' @keywords internal
+#'
 #' @importFrom utils str
 #'
 #' @examples
