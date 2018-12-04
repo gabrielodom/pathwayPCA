@@ -148,23 +148,28 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
             if(message){
 
               message(
-                sprintf("Of the %i unique genes in the input pathways list, %.1f%% were not found in the
-  input assay data and were therefore removed.",
-                  length(genesInPathway_vec), pRmFeatures * 100
+                sprintf("The input pathway database included %i unique features.",
+                  length(genesInPathway_vec)
                 )
               )
 
               message(
-                sprintf("After trimming these genes from the %i supplied pathways, we removed %i
-  pathway(s) because they contained %i or fewer genes.",
-                  length(paths_ls), length(missingPaths_char), trim
+                sprintf("The input assay dataset included %i features.",
+                  length(genelist)
                 )
               )
 
               message(
-                sprintf("Of the %i measured genes in the input assay data, %.1f%% (%i) were included in at
-  least one pathway after trimming. \n",
-                  length(genelist), pSelectFeatures * 100,
+                sprintf("Only pathways with at least %i or more features are tested (specified by minPathSize
+  parameter). There are %i pathways which meet this criterion.",
+                  trim, length(paths_ls) - length(missingPaths_char)
+                )
+              )
+
+              message(
+                sprintf("Because pathwayPCA is a self-contained test (PMID: 17303618), only features in both
+  assay data and pathway database are considered for analysis. There are %i such
+  features shared by the input assay and pathway database.",
                   length(genesInTrimPathway_vec)
                 )
               )

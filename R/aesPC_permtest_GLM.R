@@ -10,8 +10,9 @@
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
 #'   \code{\link{ExtractAESPCs}} function.
 #' @param numReps How many permutations to estimate the \eqn{p}-value? Defaults
-#'    to 1000. If \code{numReps = 0}, then the analysis of deviance \eqn{p}-
-#'    value will be returned.
+#'    to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+#'    \code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+#'    will be returned based on the number of random samples specified.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
@@ -33,7 +34,8 @@
 #'   model. This function will return a named vector of permutation
 #'   \eqn{p}-values, where the value for each pathway is the proportion of
 #'   models for which the AIC of the permuted response model is less than the
-#'   AIC of the original model.
+#'   AIC of the original model.  Note that the AIC and log-likelihood are
+#'   proportional because the number of parameters in each pathway is constant.
 #'
 #'   In future versions, this function will also be able to calculate permuted
 #'   \eqn{p}-values for multinomial logistic regression and proportional odds
@@ -62,7 +64,7 @@
 setGeneric("PermTestCateg",
            function(OmicsCateg,
                     pathwayPCs_ls,
-                    numReps = 1000,
+                    numReps = 0L,
                     parallel = FALSE,
                     numCores = NULL,
                     ...){

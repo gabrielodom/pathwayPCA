@@ -6,7 +6,7 @@
 \alias{AESPCA_pVals,OmicsPathway-method}
 \title{Test pathway association with AES-PCA}
 \usage{
-AESPCA_pVals(object, numPCs = 1, numReps = 1000, parallel = FALSE,
+AESPCA_pVals(object, numPCs = 1, numReps = 0L, parallel = FALSE,
   numCores = NULL, asPCA = FALSE, adjustpValues = TRUE,
   adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD",
   "BH", "BY", "ABH", "TSBH"), ...)
@@ -22,8 +22,10 @@ or vector.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
 
-\item{numReps}{The number of permutations to take of the data to calculate a
-\eqn{p}-value for each pathway. Defaults to 1000.}
+\item{numReps}{How many permutations to estimate the \eqn{p}-value? Defaults
+to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+\code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+will be returned based on the number of random samples specified.}
 
 \item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}

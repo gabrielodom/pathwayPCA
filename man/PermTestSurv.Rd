@@ -6,8 +6,8 @@
 \alias{PermTestSurv,OmicsSurv-method}
 \title{AES-PCA permutation test of survival response for pathway PCs}
 \usage{
-PermTestSurv(OmicsSurv, pathwayPCs_ls, numReps = 1000,
-  parallel = FALSE, numCores = NULL, ...)
+PermTestSurv(OmicsSurv, pathwayPCs_ls, numReps = 0L, parallel = FALSE,
+  numCores = NULL, ...)
 
 \S4method{PermTestSurv}{OmicsSurv}(OmicsSurv, pathwayPCs_ls,
   numReps = 1000, parallel = FALSE, numCores = NULL, ...)
@@ -20,8 +20,9 @@ PermTestSurv(OmicsSurv, pathwayPCs_ls, numReps = 1000,
 \code{\link{ExtractAESPCs}} function.}
 
 \item{numReps}{How many permutations to estimate the \eqn{p}-value? Defaults
-to 1000. If \code{numReps = 0}, then the score \eqn{p}-value will be
-returned.}
+to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+\code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+will be returned based on the number of random samples specified.}
 
 \item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
@@ -45,7 +46,9 @@ This function takes in a list of the first principal components
   from each pathway and an object of class \code{OmicsSurv}. This function
   will then calculate the AIC of a Cox Proportional Hazards model (via the
   \code{\link[survival]{coxph}} function) with the original observations as
-  response and the pathway principal components as the predictor matrix.
+  response and the pathway principal components as the predictor matrix. Note
+  that the AIC and log-likelihood are proportional because the number of
+  parameters in each pathway is constant.
 
   Then, this function will create \code{numReps} permutations of the survival
   response, fit models to each of these permuted responses (holding the path
