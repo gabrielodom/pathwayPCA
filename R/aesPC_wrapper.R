@@ -10,8 +10,10 @@
 #' @param object An object of class \code{OmicsPathway} with a response matrix
 #'   or vector.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
-#' @param numReps The number of permutations to take of the data to calculate a
-#'   \eqn{p}-value for each pathway. Defaults to 1000.
+#' @param numReps How many permutations to estimate the \eqn{p}-value? Defaults
+#'    to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+#'    \code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+#'    will be returned based on the number of random samples specified.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
@@ -113,7 +115,7 @@
 setGeneric("AESPCA_pVals",
            function(object,
                     numPCs = 1,
-                    numReps = 1000,
+                    numReps = 0L,
                     parallel = FALSE,
                     numCores = NULL,
                     asPCA = FALSE,
@@ -171,7 +173,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
 
             ###  Permutation Pathway p-Values  ###
             message("")
-            message("Part 2: Calculate Permuted Pathway p-Values")
+            message("Part 2: Calculate Pathway p-Values")
             obj_class <- class(object)
             switch(obj_class,
                    OmicsSurv = {

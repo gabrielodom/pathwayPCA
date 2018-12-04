@@ -164,7 +164,7 @@ ovarian_aespcOut <- AESPCA_pVals(
   numPCs = 3,
   parallel = TRUE,
   numCores = 2,
-  numReps = 10,
+  numReps = 0,
   adjustment = "BH"
 )
 # Sys.time() - e1

@@ -6,7 +6,7 @@
 \alias{PermTestReg,OmicsReg-method}
 \title{AES-PCA permutation test of continuous response for pathway PCs}
 \usage{
-PermTestReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
+PermTestReg(OmicsReg, pathwayPCs_ls, numReps = 0L, parallel = FALSE,
   numCores = NULL, ...)
 
 \S4method{PermTestReg}{OmicsReg}(OmicsReg, pathwayPCs_ls, numReps = 1000,
@@ -20,8 +20,9 @@ PermTestReg(OmicsReg, pathwayPCs_ls, numReps = 1000, parallel = FALSE,
 \code{\link{ExtractAESPCs}} function.}
 
 \item{numReps}{How many permutations to estimate the \eqn{p}-value? Defaults
-to 1000. If \code{numReps = 0}, then the analysis of deviance \eqn{p}-
-value will be returned.}
+to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+\code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+will be returned based on the number of random samples specified.}
 
 \item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
@@ -45,7 +46,9 @@ This function takes in a list of the first principal components
   from each pathway and an object of class \code{OmicsReg}. This function
   will then calculate the AIC of a multivariate linear model (via the
   \code{\link[stats]{lm}} function) with the original observations as
-  response and the pathway principal components as the predictor matrix.
+  response and the pathway principal components as the predictor matrix. Note
+  that the AIC and log-likelihood are proportional because the number of
+  parameters in each pathway is constant.
 
   Then, this function will create \code{numReps} permutations of the
   regression response, fit models to each of these permuted responses
