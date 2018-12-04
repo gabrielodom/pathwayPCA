@@ -82,7 +82,7 @@ ov_OmicsCateg <- CreateOmics(
 a1 <- Sys.time()
 ovarian_aespcOut <- AESPCA_pVals(
   object = ov_OmicsCateg,
-  numPCs = 3,
+  numPCs = 2,
   parallel = TRUE,
   numReps = 0,
   adjustment = "BH"
@@ -93,9 +93,9 @@ Sys.time() - a1 # 45.33376 sec
 a2 <- Sys.time()
 ovarian_aespcOut2 <- AESPCA_pVals(
   object = ov_OmicsCateg,
-  numPCs = 3,
+  numPCs = 2,
   parallel = TRUE,
-  numReps = 10000,
+  numReps = 1000,
   adjustment = "BH"
 )
 Sys.time() - a2 # 48.63173 sec for 100 resp (1.1x longer); 1.582723 min for
@@ -120,8 +120,9 @@ compareP_df <- inner_join(
 
 # Raw p-values
 ggplot(data = compareP_df) +
-  aes(x = rawp.x, y = rawp.y) +
-  geom_point()
+  aes(x = -log10(rawp.x), y = -log10(rawp.y)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1)
 # scale_x_log10() +
 # scale_y_log10()
 cor(compareP_df$rawp.x, compareP_df$rawp.y)
