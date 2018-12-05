@@ -30,6 +30,7 @@
 #'   data("colon_pathwayCollection")
 #'   colon_pathwayCollection[["KEGG_RETINOL_METABOLISM"]]
 #'
+#' @name SubsetPathwayCollection
 `[[.pathwayCollection` <- function(x, name_char){
   # browser()
 

@@ -51,6 +51,10 @@
 #'   getEventTime(colon_Omics) <- newTime_num
 #'   getEvent(colon_Omics) <- newEvent_lgl
 #' }
+#'
+#' @name SubsetOmicsSurv
+#' @rdname get_set_OmicsSurv
+NULL
 
 
 

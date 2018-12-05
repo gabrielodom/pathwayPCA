@@ -4,15 +4,16 @@
 \alias{TransposeAssay}
 \title{Transpose an Assay (Data Frame)}
 \usage{
-TransposeAssay(assay_df, useRowNames = FALSE, stringsAsFactors = FALSE)
+TransposeAssay(assay_df, namesInFirstColumn = TRUE,
+  stringsAsFactors = FALSE)
 }
 \arguments{
 \item{assay_df}{A data frame with numeric values to transpose}
 
-\item{useRowNames}{Are the data feature names accesible by the
-\code{\link{rownames}} function called on \code{df}? Defaults to
-\code{FALSE}. If \code{TRUE}, this function assumes that the data feature
-names are in the first column of \code{df}.}
+\item{namesInFirstColumn}{Are the data feature names in the first column of
+\code{df}? Defaults to \code{TRUE}. If \code{FALSE}, this function assumes
+that the data feature names are accesible by the \code{\link{rownames}}
+function called on \code{df}.}
 
 \item{stringsAsFactors}{Should columns containing string information be
 coerced to factors? Defaults to \code{FALSE}.}
@@ -40,6 +41,6 @@ This function is designed to transpose "tall" assay data frames
    colnames(x_mat) <- paste0("sample_", 1:20)
    x_df <- as.data.frame(x_mat, row.names = rownames(x_mat))
 
-   TransposeAssay(x_df, useRowNames = TRUE)
+   TransposeAssay(x_df, namesInFirstColumn = FALSE)
 
 }

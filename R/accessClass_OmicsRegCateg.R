@@ -39,6 +39,7 @@
 #' @importFrom methods setMethod
 #' @importFrom methods validObject
 #'
+#'
 #' @examples
 #' \dontrun{
 #'   data("colonSurv_df")
@@ -54,6 +55,9 @@
 #'   getResponse(colon_Omics)
 #'   getResponse(colon_Omics) <- newResponse_num
 #' }
+#' @name SubsetOmicsResponse
+#' @rdname get_set_OmicsRegCateg
+NULL
 
 
 

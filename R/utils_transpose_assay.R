@@ -5,10 +5,10 @@
 #'    names.
 #'
 #' @param assay_df A data frame with numeric values to transpose
-#' @param useRowNames Are the data feature names accesible by the
-#'    \code{\link{rownames}} function called on \code{df}? Defaults to
-#'    \code{FALSE}. If \code{TRUE}, this function assumes that the data feature
-#'    names are in the first column of \code{df}.
+#' @param namesInFirstColumn Are the data feature names in the first column of
+#'    \code{df}? Defaults to \code{TRUE}. If \code{FALSE}, this function assumes
+#'    that the data feature names are accesible by the \code{\link{rownames}}
+#'    function called on \code{df}.
 #' @param stringsAsFactors Should columns containing string information be
 #'    coerced to factors? Defaults to \code{FALSE}.
 #'
@@ -30,26 +30,13 @@
 #'    colnames(x_mat) <- paste0("sample_", 1:20)
 #'    x_df <- as.data.frame(x_mat, row.names = rownames(x_mat))
 #'
-#'    TransposeAssay(x_df, useRowNames = TRUE)
+#'    TransposeAssay(x_df, namesInFirstColumn = FALSE)
 #'
 TransposeAssay <- function(assay_df,
-                           useRowNames = FALSE,
+                           namesInFirstColumn = TRUE,
                            stringsAsFactors = FALSE){
 
-  if(useRowNames){
-
-    featureNames_vec <- rownames(assay_df)
-    sampleNames_vec <- colnames(assay_df)
-
-    transpose_df <- as.data.frame(
-      t(assay_df),
-      stringsAsFactors = stringsAsFactors
-    )
-
-    colnames(transpose_df) <- featureNames_vec
-    rownames(transpose_df) <- sampleNames_vec
-
-  } else {
+  if(namesInFirstColumn){
 
     featureNames_vec <- assay_df[, 1, drop = TRUE]
     sampleNames_vec <- colnames(assay_df)[-1]
@@ -68,7 +55,20 @@ TransposeAssay <- function(assay_df,
     )
     transpose_df <- cbind(sampleNames_df, transpose_df)
 
-  }
+  } else {
+
+    featureNames_vec <- rownames(assay_df)
+    sampleNames_vec <- colnames(assay_df)
+
+    transpose_df <- as.data.frame(
+      t(assay_df),
+      stringsAsFactors = stringsAsFactors
+    )
+
+    colnames(transpose_df) <- featureNames_vec
+    rownames(transpose_df) <- sampleNames_vec
+
+    }
 
   class(transpose_df) <- class(assay_df)
   transpose_df

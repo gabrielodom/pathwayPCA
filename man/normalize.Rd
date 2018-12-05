@@ -57,3 +57,4 @@ This function is designed to reconstruct the original first \code{d}
 \code{\link{aespca}}; \code{\link{lars.lsa}};
    \code{\link{AESPCA_pVals}}
 }
+\keyword{internal}
