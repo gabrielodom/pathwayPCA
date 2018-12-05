@@ -12,6 +12,8 @@ An S4 class for mass spectrometry or bio-assay data and gene pathway lists
 \describe{
 \item{\code{assayData_df}}{An \eqn{N \times p} data frame with named columns.}
 
+\item{\code{sampleIDs_char}}{A character vector with the N sample names.}
+
 \item{\code{pathwayCollection}}{A list of known gene pathways with three or four
    elements:
 \itemize{

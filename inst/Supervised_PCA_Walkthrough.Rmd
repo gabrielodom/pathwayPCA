@@ -44,20 +44,23 @@ data("colonSurv_df")
 data("colon_pathwayCollection")
 
 colon_OmicsSurv <- CreateOmicsSurv(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
   pathwayCollection_ls = colon_pathwayCollection,
   eventTime_num = as.numeric(colonSurv_df$OS_time),
   eventObserved_lgl = as.logical(colonSurv_df$OS_event)
 )
 
 colon_OmicsReg <- CreateOmicsReg(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
   pathwayCollection_ls = colon_pathwayCollection,
   response_num = as.numeric(colonSurv_df$OS_time)
 )
 
 colon_OmicsCateg <- CreateOmicsCateg(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
   pathwayCollection_ls = colon_pathwayCollection,
   response_fact = as.factor(colonSurv_df$OS_event)
 )

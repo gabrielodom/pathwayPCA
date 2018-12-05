@@ -54,7 +54,8 @@
 #'
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_OmicsSurv <- CreateOmicsSurv(
-#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
 #'     pathwayCollection_ls = colon_pathwayCollection,
 #'     eventTime_num = colonSurv_df$OS_time,
 #'     eventObserved_lgl = as.logical(colonSurv_df$OS_event)
