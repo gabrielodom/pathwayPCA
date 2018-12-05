@@ -335,6 +335,7 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
             sortedScores_ls <- tScores_ls[out_df$pathways]
             PCs_ls <- lapply(sortedScores_ls, `[[`, "PCs_mat")
             PCs_ls <- lapply(PCs_ls, as.data.frame)
+            attr(PCs_ls, "sampleIDs") <- object@sampleIDs_char
             loadings_ls <- lapply(sortedScores_ls, `[[`, "loadings")
             loadings_ls <- lapply(loadings_ls, t)
 

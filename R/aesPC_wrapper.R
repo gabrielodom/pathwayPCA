@@ -230,6 +230,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
 
             ###  Re-order PCA Output  ###
             PCs_ls <- aespca_ls$PCs[out_df$pathways]
+            attr(PCs_ls, "sampleIDs") <- object@sampleIDs_char
             loadings_ls <- aespca_ls$loadings[out_df$pathways]
 
 
