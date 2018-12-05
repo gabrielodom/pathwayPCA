@@ -57,6 +57,7 @@
 #' @importFrom methods setMethod
 #' @importFrom methods validObject
 #'
+#'
 #' @examples
 #' \dontrun{
 #'   data("colonSurv_df")
@@ -75,6 +76,10 @@
 #'   getAssay(colon_OmicsSurv) <- newAssay_df
 #'   getPathwayCollection(colon_OmicsSurv) <- new_pathwayCollection
 #' }
+#'
+#' @name SubsetOmicsPath
+#' @rdname get_set_OmicsPathway
+NULL
 
 
 
