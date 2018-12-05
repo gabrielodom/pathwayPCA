@@ -4,14 +4,18 @@
 \name{getAssay}
 \alias{getAssay}
 \alias{getAssay<-}
+\alias{getSampleIDs}
+\alias{getSampleIDs<-}
 \alias{getPathwayCollection}
-\alias{getTrimPathwayCollection}
 \alias{getPathwayCollection<-}
+\alias{getTrimPathwayCollection}
 \alias{getAssay,OmicsPathway-method}
 \alias{getAssay<-,OmicsPathway-method}
+\alias{getSampleIDs,OmicsPathway-method}
+\alias{getSampleIDs<-,OmicsPathway-method}
 \alias{getPathwayCollection,OmicsPathway-method}
-\alias{getTrimPathwayCollection,OmicsPathway-method}
 \alias{getPathwayCollection<-,OmicsPathway-method}
+\alias{getTrimPathwayCollection,OmicsPathway-method}
 \title{Access and Edit Assay or \code{pathwayCollection} Values in \code{Omics*}
    Objects}
 \usage{
@@ -19,21 +23,29 @@ getAssay(object, ...)
 
 getAssay(object) <- value
 
+getSampleIDs(object, ...)
+
+getSampleIDs(object) <- value
+
 getPathwayCollection(object, ...)
 
-getTrimPathwayCollection(object, ...)
-
 getPathwayCollection(object) <- value
+
+getTrimPathwayCollection(object, ...)
 
 \S4method{getAssay}{OmicsPathway}(object, ...)
 
 \S4method{getAssay}{OmicsPathway}(object) <- value
 
+\S4method{getSampleIDs}{OmicsPathway}(object, ...)
+
+\S4method{getSampleIDs}{OmicsPathway}(object) <- value
+
 \S4method{getPathwayCollection}{OmicsPathway}(object, ...)
 
-\S4method{getTrimPathwayCollection}{OmicsPathway}(object, ...)
-
 \S4method{getPathwayCollection}{OmicsPathway}(object) <- value
+
+\S4method{getTrimPathwayCollection}{OmicsPathway}(object, ...)
 }
 \arguments{
 \item{object}{An object of or extending \code{\link{OmicsPathway-class}}:
@@ -47,6 +59,7 @@ or \code{\link{OmicsCateg-class}}.}
 \value{
 The "get" functions return the objects in the slots specified:
    \code{getAssay} returns the \code{assayData_df} data frame object,
+   \code{getSampleIDs} returns the \code{sampleIDs_char} character vector,
    \code{getPathwayCollection} returns the \code{pathwayCollection} list
    object, and \code{getTrimPathwayCollection} returns the
    \code{trimPathwayCollection}. These functions can extract these values
@@ -54,8 +67,8 @@ The "get" functions return the objects in the slots specified:
    \code{OmicsCateg} object.
 
    The "set" functions enable the user to edit or replace objects in the
-   \code{assayData_df} or \code{pathwayCollection} slots for any
-   \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
+   \code{assayData_df}, \code{sampleIDs_char}, or \code{pathwayCollection}
+   slots for any \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
    \code{OmicsCateg} objects, provided that the new values do not violate
    the validity checks of their respective objects. Because the slot for
    \code{trimPathwayCollection} is filled upon object creation, and to ensure
@@ -65,10 +78,10 @@ The "get" functions return the objects in the slots specified:
    automatically. See "Details" for more information on the "set" functions.
 }
 \description{
-"Get" or "Set" the values of the \code{assayData_df} or
-   \code{pathwayCollection} slots of an object of class \code{OmicsPathway}
-   or a class that extends this class (\code{OmicsSurv}, \code{OmicsReg}, or
-   \code{OmicsCateg}).
+"Get" or "Set" the values of the \code{assayData_df},
+   \code{sampleIDs_char}, or \code{pathwayCollection} slots of an object of
+   class \code{OmicsPathway} or a class that extends this class
+   (\code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}).
 }
 \details{
 These functions can be useful to set or extract the assay data or
