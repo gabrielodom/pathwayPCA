@@ -17,52 +17,52 @@ data("colon_pathwayCollection")
 
 # Pathway Extraction only
 testOmicsPath <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection
 )
 
 
 # Survival (numeric and factor response)
 testOmicsSurv <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df[, 1:2],
+  response = colonSurv_df[, 1:3],
   respType = "survival"
 )
 testOmicsSurv <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df[-1, 1:2],
+  response = colonSurv_df[-1, 1:3],
   respType = "survival"
 )
 
 
 # Regression (continuous response)
 testOmicsReg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df$OS_time,
+  response = colonSurv_df[, 1:2],
   respType = "regression"
 )
 testOmicsReg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df$OS_time[-1],
+  response = colonSurv_df[-1, 1:2],
   respType = "regression"
 )
 
 
 # Classification (factor response)
 testOmicsCateg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df$OS_event,
+  response = colonSurv_df[, c(1, 3)],
   respType = "categorical"
 )
 testOmicsCateg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df$OS_event[-1],
+  response = colonSurv_df[-1, c(1, 3)],
   respType = "categorical"
 )
 

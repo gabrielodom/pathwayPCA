@@ -96,31 +96,31 @@
 #'
 #'   ###  Create an OmicsPathway Object  ###
 #'   colon_OmicsPath <- CreateOmics(
-#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     assayData_df = colonSurv_df[, -(2:3)],
 #'     pathwayCollection_ls = colon_pathwayCollection
 #'   )
 #'
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_OmicsSurv <- CreateOmics(
-#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     assayData_df = colonSurv_df[, -(2:3)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     response = colonSurv_df[, 1:2],
+#'     response = colonSurv_df[, 1:3],
 #'     respType = "surv"
 #'   )
 #'
 #'   ###  Create an OmicsReg Object  ###
 #'   colon_OmicsReg <- CreateOmics(
-#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     assayData_df = colonSurv_df[, -(2:3)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     response = colonSurv_df$OS_time,
+#'     response = colonSurv_df[, 1:2],
 #'     respType = "reg"
 #'   )
 #'
 #'   ###  Create an OmicsCateg Object  ###
 #'   colon_OmicsCateg <- CreateOmics(
-#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     assayData_df = colonSurv_df[, -(2:3)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     response = colonSurv_df$OS_event,
+#'     response = colonSurv_df[, c(1,3)],
 #'     respType = "cat"
 #'   )
 #' }
@@ -145,22 +145,35 @@ CreateOmics <- function(assayData_df,
     stop("Response type required when a response is given.")
   }
 
-  if(!is.null(response)){
-    respClean <- .convertResponse(response, type = respType)
-  }
-
 
   ###  Data Error Checks and Warnings  ###
   # Assay
-  assayData_df <- CheckAssay(assayData_df, ...)
+  origClass <- class(assayData_df)
+  assayData_df[, 2:ncol(assayData_df)] <- CheckAssay(assayData_df[, -1], ...)
   # Pathway Collection
   pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
+
+  # merge the pheno and assay data
+  if(!is.null(response)){
+
+    respClean_df <- .convertPhenoDF(response, type = respType)
+    data_ls <- JoinPhenoAssay(
+      pheno_df = respClean_df,
+      assay_df = assayData_df
+    )
+
+    assayData_df <- data_ls$assay
+    respClean_df <- data_ls$response
+    sampleID     <- data_ls$sampleID
+
+    respClean <- .convertResponse(respClean_df, type = respType)
+
+  }
 
 
   ###  Centre and Scale Assay  ###
   if(any(centerScale)){
 
-    origClass <- class(assayData_df)
     assayData_df <- as.data.frame(
       scale(assayData_df, center = centerScale[1], scale = centerScale[2])
     )
@@ -308,5 +321,48 @@ CreateOmics <- function(assayData_df,
     object
 
   }
+
+}
+
+
+.convertPhenoDF <- function(pheno_df,
+                            type = c("survival", "regression", "categorical")){
+
+  type <- match.arg(type)
+
+  if(!inherits(pheno_df, "data.frame")){
+    stop("The response must be a data frame.")
+  }
+
+  if(type == "survival"){
+
+    if(ncol(pheno_df) != 3){
+      stop("Survival data must be a data frame with three columns, sample ID, event time,
+  and death indicator, in exactly that order.")
+    } else {
+
+      pheno_df[, 2] <- as.numeric(pheno_df[, 2, drop = TRUE])
+      pheno_df[, 3] <- as.logical(pheno_df[, 3, drop = TRUE])
+
+    }
+
+  } else {
+
+    if(ncol(pheno_df) != 2){
+      stop("Regression and categorical data must be a data frame with two columns, sample ID
+  and response, in exactly that order.")
+    } else {
+
+      if(type == "regression"){
+        pheno_df[, 2] <- as.numeric(pheno_df[, 2, drop = TRUE])
+      } else {
+        pheno_df[, 2] <- as.factor(pheno_df[, 2, drop = TRUE])
+      }
+
+    }
+
+  }
+
+  pheno_df
 
 }
