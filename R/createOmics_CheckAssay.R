@@ -4,7 +4,8 @@
 #'   feature type, and feature names of a data frame.
 #'
 #' @param df An assay data frame supplied to the \code{\link{CreateOmics}}
-#'    function
+#'    function. The first column is assumed to be the sample IDs, and will be
+#'    ignored. See \code{\link{CheckSampleIDs}} for checking sample IDs.
 #' @param removeNear0 Should columns of \code{df} with variance near 0 be
 #'    removed? Defaults to \code{TRUE}.
 #' @param epsilon Threshold to consider the variance of a column equal to 0.
@@ -66,18 +67,23 @@ for more information.
   # See https://adv-r.hadley.nz/conditions.html for more information.
 
 
+  ###  Set Aside Sample IDs Column  ###
+  outClass <- class(df)
+  df2 <- df[, -1]
+
+
   ###  Check for Missing or Non-Numeric Values or 0 Variance Features  ###
-  if(anyNA(df)){
+  if(anyNA(df2)){
     stop("Missing observations are not permitted in the assay data.")
   }
-  if(any(sapply(df, is.character))){
+  if(any(sapply(df2, function(x) {!is.numeric(x)}))){
     stop("Non-numeric values are not permitted in the assay data.")
   }
 
-  smallVars <- sapply(df, sd) < sqrt(epsilon)
+  smallVars <- sapply(df2, sd) < sqrt(epsilon)
   if(any(smallVars)){
 
-    var0Genes <- colnames(df)[smallVars]
+    var0Genes <- colnames(df2)[smallVars]
     message(
       sprintf("%i genes have variance < epsilon and will be removed. These gene(s) are:",
               length(var0Genes))
@@ -85,14 +91,14 @@ for more information.
     print(var0Genes)
 
     if(removeNear0){
-      df <- df[, !smallVars]
+      df2 <- df2[, !smallVars]
     }
 
   }
 
 
   ###  Check Column Names  ###
-  bad_names <- .detect_invalid_names(colnames(df))
+  bad_names <- .detect_invalid_names(colnames(df2))
   if(length(bad_names) > 0){
     message(
       sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
@@ -105,7 +111,13 @@ contain alphanumeric characters only, and start with a letter.")
 
 
   ###  Return  ###
-  df
+  out <- cbind(
+    df[, 1, drop = FALSE],
+    df2
+  )
+  class(out) <- outClass
+
+  out
 
 }
 

@@ -8,7 +8,8 @@ CheckAssay(df, removeNear0 = TRUE, epsilon = 10^-6)
 }
 \arguments{
 \item{df}{An assay data frame supplied to the \code{\link{CreateOmics}}
-function}
+function. The first column is assumed to be the sample IDs, and will be
+ignored. See \code{\link{CheckSampleIDs}} for checking sample IDs.}
 
 \item{removeNear0}{Should columns of \code{df} with variance near 0 be
 removed? Defaults to \code{TRUE}.}

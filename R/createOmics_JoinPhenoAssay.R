@@ -33,37 +33,8 @@
 #'   # DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 JoinPhenoAssay <- function(pheno_df, assay_df){
 
-  ###  Check Phenotype Sample IDs  ###
-  phSamp <- pheno_df[, 1, drop = TRUE]
-
-  if(inherits(phSamp, "factor")){
-    phSamp_char <- levels(phSamp)[phSamp]
-  } else if(inherits(phSamp, "numeric")){
-    phSamp_char <- as.character(phSamp)
-  } else if(inherits(phSamp, "character")){
-    phSamp_char <- phSamp
-  } else {
-    stop("Sample IDs should be stored in the first column of the phenotype data frame.
-         These IDs must be or extend class numeric, factor, or character.")
-  }
-
-  pheno_df[, 1] <- phSamp_char
-
-  ###  Check Assay Sample IDs
-  assSamp <- assay_df[, 1, drop = TRUE]
-
-  if(inherits(assSamp, "factor")){
-    assSamp_char <- levels(assSamp)[assSamp]
-  } else if(inherits(assSamp, "numeric")){
-    assSamp_char <- as.character(assSamp)
-  } else if(inherits(assSamp, "character")){
-    assSamp_char <- assSamp
-  } else {
-    stop("Sample IDs should be stored in the first column of the assay data frame. These
-         IDs must be or extend class numeric, factor, or character.")
-  }
-
-  assay_df[, 1] <- assSamp_char
+  phSamp_char  <- pheno_df[, 1, drop = TRUE]
+  assSamp_char <- assay_df[, 1, drop = TRUE]
 
   ###  Check Equality  ###
   keepIDs <- intersect(assSamp_char, phSamp_char)
