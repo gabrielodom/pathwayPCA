@@ -94,31 +94,31 @@ This function is a wrapper around the four \code{CreateOmics*}
 
   ###  Create an OmicsPathway Object  ###
   colon_OmicsPath <- CreateOmics(
-    assayData_df = colonSurv_df[, -(1:2)],
+    assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection
   )
 
   ###  Create an OmicsSurv Object  ###
   colon_OmicsSurv <- CreateOmics(
-    assayData_df = colonSurv_df[, -(1:2)],
+    assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
-    response = colonSurv_df[, 1:2],
+    response = colonSurv_df[, 1:3],
     respType = "surv"
   )
 
   ###  Create an OmicsReg Object  ###
   colon_OmicsReg <- CreateOmics(
-    assayData_df = colonSurv_df[, -(1:2)],
+    assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
-    response = colonSurv_df$OS_time,
+    response = colonSurv_df[, 1:2],
     respType = "reg"
   )
 
   ###  Create an OmicsCateg Object  ###
   colon_OmicsCateg <- CreateOmics(
-    assayData_df = colonSurv_df[, -(1:2)],
+    assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
-    response = colonSurv_df$OS_event,
+    response = colonSurv_df[, c(1,3)],
     respType = "cat"
   )
 }

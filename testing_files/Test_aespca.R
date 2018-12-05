@@ -45,7 +45,7 @@ data("colonSurv_df")
 data("colon_pathwayCollection")
 
 colon_OmicsPath <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection
 )
 testPathway_vec <- colon_OmicsPath@trimPathwayCollection$pathways[[1]]
@@ -106,9 +106,9 @@ data("colonSurv_df")
 data("colon_pathwayCollection")
 
 colon_OmicsSurv <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection_ls = colon_pathwayCollection,
-  response = colonSurv_df[, 1:2],
+  response = colonSurv_df[, 1:3],
   respType = "surv"
 )
 

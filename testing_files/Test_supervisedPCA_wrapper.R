@@ -837,76 +837,76 @@ superPCA_pathway_pvals <- function(Omics_object,
 
 ######  V 4 Tests  ############################################################
 
-# FUNCTION EXTRACTED TO: superPC_wrapper.R
-
-library(parallel)
-library(pathwayPCA)
-
-data("supervised_Tumors_df")
-array <- supervised_Tumors_df
-data("supervised_patInfo_df")
-data("supervised_Genesets4240_ls")
-geneset <- supervised_Genesets4240_ls
-
-# Note that the data is p x n
-survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
-rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
-
-
-# REQUIRES THE TUMOUR SURVIVAL DATA SET
-###  Tests  ###
-
-tumour_OmicsSurv <- CreateOmics(
-  assayData_df = as.data.frame(t(array)),
-  pathwayCollection_ls = geneset,
-  response = survY_df,
-  respType = "surv"
-)
-a <- Sys.time()
-survTest_df <- SuperPCA_pVals(
-  object = tumour_OmicsSurv,
-  parallel = TRUE,
-  numCores = detectCores() - 2,
-  adjustpValues = TRUE,
-  adjustment = c("BH", "SidakSS")
-)
-Sys.time() - a # 1.715719 min
-# It works
-
-
-tumour_OmicsReg <- CreateOmics(
-  assayData_df = as.data.frame(t(array)),
-  pathwayCollection_ls = geneset,
-  response = survY_df$SurvivalTime,
-  respType = "reg"
-)
-a <- Sys.time()
-regTest_df <- SuperPCA_pVals(
-  object = tumour_OmicsReg,
-  parallel = TRUE,
-  numCores = detectCores() - 2,
-  adjustpValues = TRUE,
-  adjustment = c("BH", "SidakSS")
-)
-Sys.time() - a # 1.054811 min
-# It works
-
-
-tumour_OmicsCateg <- CreateOmics(
-  assayData_df = as.data.frame(t(array)),
-  pathwayCollection_ls = geneset,
-  response = survY_df$disease_event,
-  respType = "categ"
-)
-a <- Sys.time()
-classifTest_df <- SuperPCA_pVals(
-  object = tumour_OmicsCateg,
-  parallel = TRUE,
-  numCores = detectCores() - 2,
-  adjustpValues = TRUE,
-  adjustment = c("BH", "SidakSS")
-)
-Sys.time() - a # 2.206281 min
+# # FUNCTION EXTRACTED TO: superPC_wrapper.R
+#
+# library(parallel)
+# library(pathwayPCA)
+#
+# data("supervised_Tumors_df")
+# array <- supervised_Tumors_df
+# data("supervised_patInfo_df")
+# data("supervised_Genesets4240_ls")
+# geneset <- supervised_Genesets4240_ls
+#
+# # Note that the data is p x n
+# survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
+# rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
+#
+#
+# # REQUIRES THE TUMOUR SURVIVAL DATA SET
+# ###  Tests  ###
+#
+# tumour_OmicsSurv <- CreateOmics(
+#   assayData_df = as.data.frame(t(array)),
+#   pathwayCollection_ls = geneset,
+#   response = survY_df,
+#   respType = "surv"
+# )
+# a <- Sys.time()
+# survTest_df <- SuperPCA_pVals(
+#   object = tumour_OmicsSurv,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2,
+#   adjustpValues = TRUE,
+#   adjustment = c("BH", "SidakSS")
+# )
+# Sys.time() - a # 1.715719 min
+# # It works
+#
+#
+# tumour_OmicsReg <- CreateOmics(
+#   assayData_df = as.data.frame(t(array)),
+#   pathwayCollection_ls = geneset,
+#   response = survY_df$SurvivalTime,
+#   respType = "reg"
+# )
+# a <- Sys.time()
+# regTest_df <- SuperPCA_pVals(
+#   object = tumour_OmicsReg,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2,
+#   adjustpValues = TRUE,
+#   adjustment = c("BH", "SidakSS")
+# )
+# Sys.time() - a # 1.054811 min
+# # It works
+#
+#
+# tumour_OmicsCateg <- CreateOmics(
+#   assayData_df = as.data.frame(t(array)),
+#   pathwayCollection_ls = geneset,
+#   response = survY_df$disease_event,
+#   respType = "categ"
+# )
+# a <- Sys.time()
+# classifTest_df <- SuperPCA_pVals(
+#   object = tumour_OmicsCateg,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2,
+#   adjustpValues = TRUE,
+#   adjustment = c("BH", "SidakSS")
+# )
+# Sys.time() - a # 2.206281 min
 
 ###  Guts Checks  ###
 # pathway_tScores(pathway_vec = paths_ls[[2]],
@@ -958,9 +958,9 @@ data("colonSurv_df")
 data("colon_pathwayCollection")
 
 colon_OmicsSurv <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:2)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df[, 1:2],
+  response = colonSurv_df[, 1:3],
   respType = "survival"
 )
 

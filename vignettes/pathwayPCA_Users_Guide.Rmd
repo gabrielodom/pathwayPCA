@@ -113,9 +113,9 @@ ovSurv_df
 Next, we create an `OmicsSurv` data container. This is an S4-class object with slots for the expression data, the response vector, and a `pathwayCollection` object. In our case, the expression data are the 5,162 columns of `ovSurv_df` which measure the protein expression, the response is the second and third column of `ovSurv_df` which contains the survival data, and the pathway collection is the Wikipathways collection we imported above. 
 ```{r createOvarianPNNLOmics}
 ov_OmicsSurv <- CreateOmics(
-  assayData_df = ovSurv_df[, -(1:3)],
+  assayData_df = ovSurv_df[, -(2:3)],
   pathwayCollection_ls = wikipathways_PC,
-  response = ovSurv_df[, 2:3],
+  response = ovSurv_df[, 1:3],
   respType = "survival",
   minPathSize = 5,
   centerScale = c(TRUE, TRUE)

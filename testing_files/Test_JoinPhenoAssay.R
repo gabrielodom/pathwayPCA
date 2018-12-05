@@ -26,79 +26,79 @@ ovSurv_df <- readRDS(data_path)
 
 
 ######  Joining Function  #####################################################
-JoinPhenoAssay <- function(pheno_df, assay_df){
-  browser()
-
-  ###  Check Phenotype Sample IDs  ###
-  phSamp <- pheno_df[, 1, drop = TRUE]
-
-  if(inherits(phSamp, "factor")){
-    phSamp_char <- levels(phSamp)[phSamp]
-  } else if(inherits(phSamp, "numeric")){
-    phSamp_char <- as.character(phSamp)
-  } else if(inherits(phSamp, "character")){
-    phSamp_char <- phSamp
-  } else {
-    stop("Sample IDs should be stored in the first column of the phenotype data frame.
-  These IDs must be or extend class numeric, factor, or character.")
-  }
-
-  pheno_df[, 1] <- phSamp_char
-
-  ###  Check Assay Sample IDs
-  assSamp <- assay_df[, 1, drop = TRUE]
-
-  if(inherits(assSamp, "factor")){
-    assSamp_char <- levels(assSamp)[assSamp]
-  } else if(inherits(assSamp, "numeric")){
-    assSamp_char <- as.character(assSamp)
-  } else if(inherits(assSamp, "character")){
-    assSamp_char <- assSamp
-  } else {
-    stop("Sample IDs should be stored in the first column of the assay data frame. These
-  IDs must be or extend class numeric, factor, or character.")
-  }
-
-  assay_df[, 1] <- assSamp_char
-
-  ###  Check Equality  ###
-  keepIDs <- intersect(assSamp_char, phSamp_char)
-
-  if(identical(assSamp_char, phSamp_char)){
-
-    out_ls <- list(
-      assay = assay_df[, -1],
-      response = pheno_df[, -1, drop = FALSE],
-      sampleID = phSamp_char
-    )
-
-  } else if(length(keepIDs) > 0){
-
-    message(
-      sprintf("There are %i samples shared by the assay and phenotype data.",
-              length(keepIDs))
-    )
-
-    out_df <- merge(pheno_df, assay_df, 1)
-    outClass_char <- union(
-      class(pheno_df), class(assay_df)
-    )
-    class(out_df) <- outClass_char
-
-    out_ls <- list(
-      assay    = out_df[, -(1:ncol(pheno_df))],
-      response = out_df[, 2:ncol(pheno_df), drop = FALSE],
-      sampleID = out_df[, 1]
-    )
-
-  } else {
-    stop("There are no samples with the same sample IDs in the assay and phenotype data.")
-  }
-
-  ###  Return  ###
-  out_ls
-
-}
+# JoinPhenoAssay <- function(pheno_df, assay_df){
+#   browser()
+#
+#   ###  Check Phenotype Sample IDs  ###
+#   phSamp <- pheno_df[, 1, drop = TRUE]
+#
+#   if(inherits(phSamp, "factor")){
+#     phSamp_char <- levels(phSamp)[phSamp]
+#   } else if(inherits(phSamp, "numeric")){
+#     phSamp_char <- as.character(phSamp)
+#   } else if(inherits(phSamp, "character")){
+#     phSamp_char <- phSamp
+#   } else {
+#     stop("Sample IDs should be stored in the first column of the phenotype data frame.
+#   These IDs must be or extend class numeric, factor, or character.")
+#   }
+#
+#   pheno_df[, 1] <- phSamp_char
+#
+#   ###  Check Assay Sample IDs
+#   assSamp <- assay_df[, 1, drop = TRUE]
+#
+#   if(inherits(assSamp, "factor")){
+#     assSamp_char <- levels(assSamp)[assSamp]
+#   } else if(inherits(assSamp, "numeric")){
+#     assSamp_char <- as.character(assSamp)
+#   } else if(inherits(assSamp, "character")){
+#     assSamp_char <- assSamp
+#   } else {
+#     stop("Sample IDs should be stored in the first column of the assay data frame. These
+#   IDs must be or extend class numeric, factor, or character.")
+#   }
+#
+#   assay_df[, 1] <- assSamp_char
+#
+#   ###  Check Equality  ###
+#   keepIDs <- intersect(assSamp_char, phSamp_char)
+#
+#   if(identical(assSamp_char, phSamp_char)){
+#
+#     out_ls <- list(
+#       assay = assay_df[, -1],
+#       response = pheno_df[, -1, drop = FALSE],
+#       sampleID = phSamp_char
+#     )
+#
+#   } else if(length(keepIDs) > 0){
+#
+#     message(
+#       sprintf("There are %i samples shared by the assay and phenotype data.",
+#               length(keepIDs))
+#     )
+#
+#     out_df <- merge(pheno_df, assay_df, 1)
+#     outClass_char <- union(
+#       class(pheno_df), class(assay_df)
+#     )
+#     class(out_df) <- outClass_char
+#
+#     out_ls <- list(
+#       assay    = out_df[, -(1:ncol(pheno_df))],
+#       response = out_df[, 2:ncol(pheno_df), drop = FALSE],
+#       sampleID = out_df[, 1]
+#     )
+#
+#   } else {
+#     stop("There are no samples with the same sample IDs in the assay and phenotype data.")
+#   }
+#
+#   ###  Return  ###
+#   out_ls
+#
+# }
 
 # Test
 JoinPhenoAssay(

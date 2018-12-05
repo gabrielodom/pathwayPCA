@@ -133,9 +133,9 @@ aespcaPathwaypVals_df <- aespcaPathwaypVals_df[order(aespcaPathwaypVals_df$BH,
 # test_time <- rnorm(58, mean = 65, sd = 3)
 # test_censor <- ovarianFiltered_df$Tumor_Stage_Ovary_FIGO == "IIIC"
 # ovarian_OmicsSurv <- CreateOmics(
-#     assayData_df = colonSurv_df[, -(1:2)],
+#     assayData_df = colonSurv_df[, -(2:2)],
 #     pathwayCollection_ls = colon_pathwayCollection,
-#     response = colonSurv_df[, 1:2],
+#     response = colonSurv_df[, 1:3],
 #     respType = "surv"
 #   )
 #

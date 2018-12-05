@@ -154,9 +154,9 @@ Also, when you create an `Omics*`-class object, the `CreateOmics()` function pri
 
 ```{r create_OmicsSurv_object}
 colon_OmicsSurv <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection_ls = colon_pathwayCollection,
-  response = colonSurv_df[, 1:2],
+  response = colonSurv_df[, 1:3],
   respType = "surv"
 )
 ```
@@ -178,9 +178,9 @@ We create regression- and categorical-type `Omics` data objects identically to s
 
 ```{r create_OmicsReg_object}
 colon_OmicsReg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection_ls = colon_pathwayCollection,
-  response = colonSurv_df$OS_time,
+  response = colonSurv_df[, 1:2],
   respType = "reg"
 )
 colon_OmicsReg
@@ -188,9 +188,9 @@ colon_OmicsReg
 
 ```{r create_OmicsCateg_object}
 colon_OmicsCateg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection_ls = colon_pathwayCollection,
-  response = colonSurv_df$OS_event,
+  response = colonSurv_df[, c(1, 3)],
   respType = "categ"
 )
 colon_OmicsCateg

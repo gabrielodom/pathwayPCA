@@ -58,9 +58,9 @@ data_path <- system.file(
 ovSurv_df <- readRDS(data_path)
 
 ov_OmicsReg <- CreateOmics(
-  assayData_df = ovSurv_df[, -(1:3)],
+  assayData_df = ovSurv_df[, -(2:3)],
   pathwayCollection_ls = wikipathways_PC,
-  response = ovSurv_df[, 2],
+  response = ovSurv_df[, 1:2],
   respType = "reg",
   minPathSize = 5,
   centerScale = c(TRUE, TRUE)

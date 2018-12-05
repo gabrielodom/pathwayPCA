@@ -32,9 +32,9 @@ S4 objects print to the screen via the \code{\link[methods]{show}}
 
   ###  Create an OmicsSurv Object  ###
   colon_OmicsSurv <- CreateOmics(
-    assayData_df = colonSurv_df[, -(1:2)],
+    assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
-    response = colonSurv_df[, 1:2],
+    response = colonSurv_df[, 1:3],
     respType = "surv"
   )
 

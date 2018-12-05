@@ -94,9 +94,9 @@
 #'
 #'   ###  Create an OmicsSurv Object  ###
 #'   colon_Omics <- CreateOmics(
-#'     assayData_df = colonSurv_df[, -(1:2)],
+#'     assayData_df = colonSurv_df[, -(2:3)],
 #'     pathwayCollection_ls = colon_pathwayCollection,
-#'     response = colonSurv_df[, 1:2],
+#'     response = colonSurv_df[, 1:3],
 #'     respType = "surv"
 #'   )
 #'

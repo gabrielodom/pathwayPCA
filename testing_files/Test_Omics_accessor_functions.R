@@ -7,23 +7,23 @@ colon_OmicsPath <- CreateOmicsPath(assayData_df = colonSurv_df[, -(1:2)],
                                     pathwayCollection_ls = colon_pathwayCollection)
 
 colon_OmicsSurv <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df[, 1:2],
+  response = colonSurv_df[, 1:3],
   respType = "survival"
 )
 
 colon_OmicsReg <- CreateOmics(
-  assayData_df = colonSurv_df[, -(1:2)],
+  assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df$OS_time,
+  response = colonSurv_df[, 1:2],
   respType = "regression"
 )
 
 colon_OmicsCateg <- CreateOmics(
   assayData_df = colonSurv_df[, -(1:2)],
   pathwayCollection = colon_pathwayCollection,
-  response = colonSurv_df$OS_event,
+  response = colonSurv_df[, c(1, 3)],
   respType = "categorical"
 )
 
