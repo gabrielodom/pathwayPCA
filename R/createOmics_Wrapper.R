@@ -148,8 +148,10 @@ CreateOmics <- function(assayData_df,
 
   ###  Data Error Checks and Warnings  ###
   # Assay
-  origClass <- class(assayData_df)
-  assayData_df[, 2:ncol(assayData_df)] <- CheckAssay(assayData_df[, -1], ...)
+  origClass    <- class(assayData_df)
+  assayData_df <- CheckAssay(assayData_df, ...)
+  assayData_df <- CheckSampleIDs(assayData_df)
+
   # Pathway Collection
   pathwayCollection_ls <- CheckPwyColl(pathwayCollection_ls)
 
@@ -157,6 +159,7 @@ CreateOmics <- function(assayData_df,
   if(!is.null(response)){
 
     respClean_df <- .convertPhenoDF(response, type = respType)
+    respClean_df <- CheckSampleIDs(respClean_df)
     data_ls <- JoinPhenoAssay(
       pheno_df = respClean_df,
       assay_df = assayData_df
