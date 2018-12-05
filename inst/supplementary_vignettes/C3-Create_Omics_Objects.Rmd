@@ -232,6 +232,8 @@ Here is a table listing each of the "get" and "set" methods for the `Omics` clas
 |----------------------------------|:-----------------:|------------------------------------------------------------|
 | `getAssay(object)`               | All               | Extract the `assayData_df` data frame stored in `object`.  |
 | `getAssay(object) <- value`      | All               | Set `assayData_df` stored in `object` to `value`.          |
+| `getSampleIDs(object)`           | All               | Extract the `sampleIDs_char` vector stored in `object`.    |
+| `getSampleIDs(object) <- value`  | All               | Set `sampleIDs_char` stored in `object` to `value`.        |
 | `getPathwayCollection(object)`   | All               | Extract the `pathwayCollection` list stored in `object`.   |
 | `getPathwayCollection(object) <- value` | All        | Set `pathwayCollection` stored in `object` to `value`.     |
 | `getEventTime(object)`           | `Surv`            | Extract the `eventTime_num` vector stored in `object`.     |
