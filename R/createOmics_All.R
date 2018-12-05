@@ -24,6 +24,7 @@
 #'   \code{OmicsPathway} object.
 #'
 #' @param assayData_df An \eqn{N \times p} data frame with named columns.
+#' @param sampleIDs_char A character vector with the N sample names.
 #' @param pathwayCollection_ls A \code{pathwayCollection} list of known gene
 #'   pathways with two or three elements:
 #'   \itemize{
@@ -63,11 +64,13 @@
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsPath <- function(assayData_df,
+                            sampleIDs_char,
                             pathwayCollection_ls){
 
   new(
     "OmicsPathway",
     assayData_df = assayData_df,
+    sampleIDs_char = sampleIDs_char,
     pathwayCollection = pathwayCollection_ls
   )
 
@@ -91,6 +94,7 @@ CreateOmicsPath <- function(assayData_df,
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsSurv <- function(assayData_df,
+                            sampleIDs_char,
                             pathwayCollection_ls,
                             eventTime_num,
                             eventObserved_lgl){
@@ -98,6 +102,7 @@ CreateOmicsSurv <- function(assayData_df,
   new(
     "OmicsSurv",
     assayData_df = assayData_df,
+    sampleIDs_char = sampleIDs_char,
     pathwayCollection = pathwayCollection_ls,
     eventTime = eventTime_num,
     eventObserved = eventObserved_lgl
@@ -119,12 +124,14 @@ CreateOmicsSurv <- function(assayData_df,
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsReg <- function(assayData_df,
-                            pathwayCollection_ls,
-                            response_num){
+                           sampleIDs_char,
+                           pathwayCollection_ls,
+                           response_num){
 
   new(
     "OmicsReg",
     assayData_df = assayData_df,
+    sampleIDs_char = sampleIDs_char,
     pathwayCollection = pathwayCollection_ls,
     response = response_num
   )
@@ -139,12 +146,14 @@ CreateOmicsReg <- function(assayData_df,
 #' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsCateg <- function(assayData_df,
-                              pathwayCollection_ls,
-                              response_fact){
+                             sampleIDs_char,
+                             pathwayCollection_ls,
+                             response_fact){
 
   new(
     "OmicsCateg",
     assayData_df = assayData_df,
+    sampleIDs_char = sampleIDs_char,
     pathwayCollection = pathwayCollection_ls,
     response = response_fact
   )

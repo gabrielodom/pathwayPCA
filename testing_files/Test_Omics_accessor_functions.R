@@ -3,8 +3,11 @@ library(pathwayPCA)
 data("colonSurv_df")
 data("colon_pathwayCollection")
 
-colon_OmicsPath <- CreateOmicsPath(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwayCollection_ls = colon_pathwayCollection)
+colon_OmicsPath <- CreateOmicsPath(
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
+  pathwayCollection_ls = colon_pathwayCollection
+)
 
 colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(2:3)],

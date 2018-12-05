@@ -2,9 +2,10 @@
 # source Test_ResponseConversion.R first
 
 # CreateOmics <- function(assayData_df,
-#                          pathwayCollection_ls,
-#                          response = NULL,
-#                          respType = c("none", "survival", "regression", "categorical")){
+#                         sampleIDs_char,
+#                         pathwayCollection_ls,
+#                         response = NULL,
+#                         respType = c("none", "survival", "regression", "categorical")){
 #
 #   # browser()
 #
@@ -25,33 +26,45 @@
 #     none = {
 #
 #       message("Creating object of class OmicsPathway.")
-#       CreateOmicsPath(assayData_df = assayData_df,
-#                        pathwayCollection_ls = pathwayCollection_ls)
+#       CreateOmicsPath(
+#         assayData_df = assayData_df,
+#         sampleIDs_char = sampleIDs_char,
+#         pathwayCollection_ls = pathwayCollection_ls
+#       )
 #
 #     },
 #     survival = {
 #
 #       message("Creating object of class OmicsSurv.")
-#       CreateOmicsSurv(assayData_df = assayData_df,
-#                        pathwayCollection_ls = pathwayCollection_ls,
-#                        eventTime_num = respClean$time,
-#                        eventObserved_lgl = respClean$dead)
+#       CreateOmicsSurv(
+#         assayData_df = assayData_df,
+#         sampleIDs_char = sampleIDs_char,
+#         pathwayCollection_ls = pathwayCollection_ls,
+#         eventTime_num = respClean$time,
+#         eventObserved_lgl = respClean$dead
+#       )
 #
 #     },
 #     regression = {
 #
 #       message("Creating object of class OmicsReg.")
-#       CreateOmicsReg(assayData_df = assayData_df,
-#                       pathwayCollection_ls = pathwayCollection_ls,
-#                       response_num = respClean)
+#       CreateOmicsReg(
+#         assayData_df = assayData_df,
+#         sampleIDs_char = sampleIDs_char,
+#         pathwayCollection_ls = pathwayCollection_ls,
+#         response_num = respClean
+#       )
 #
 #     },
 #     categorical = {
 #
 #       message("Creating object of class OmicsCateg.")
-#       CreateOmicsCateg(assayData_df = assayData_df,
-#                         pathwayCollection_ls = pathwayCollection_ls,
-#                         response_fact = respClean)
+#       CreateOmicsCateg(
+#         assayData_df = assayData_df,
+#         sampleIDs_char = sampleIDs_char,
+#         pathwayCollection_ls = pathwayCollection_ls,
+#         response_fact = respClean
+#       )
 #
 #     }
 #   )

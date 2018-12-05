@@ -57,7 +57,8 @@ aespca(X = testPathway_df, d = 2)
 
 ######  Full Walkthrough  #####################################################
 # ovarian_OmicsPath <- CreateOmicsPath(
-#   assayData_df = ovarianFiltered_df[, -(1:3)],
+#   assayData_df = ovarianFiltered_df[, -(2:3)],
+#   sampleIDs_char = ovarianFiltered_df[, 1, drop = TRUE]
 #   pathwayCollection_ls = aespca_Genesets_ls
 # )
 
@@ -77,23 +78,30 @@ Sys.time() - a
 # computation was done very quickly.)
 
 # a <- Sys.time()
-# pcs2_ls <- ExtractAESPCs(ovarian_OmicsPath,
-#                           parallel = TRUE,
-#                           numCores = detectCores() - 2)
+# pcs2_ls <- ExtractAESPCs(
+#   ovarian_OmicsPath,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2
+# )
 # Sys.time() - a # 3.229954 min; so, it works...
 #
 # ###  Create Ovarian OmicsCateg Object  ###
 # tumour_fact <- as.factor(ovarianFiltered_df$Tumor_Stage_Ovary_FIGO)
-# ovarian_OmicsCateg <- CreateOmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
-#                                         pathwayCollection_ls = aespca_Genesets_ls,
-#                                         response_fact = tumour_fact)
+# ovarian_OmicsCateg <- CreateOmicsCateg(
+#   assayData_df = ovarianFiltered_df[, -(1:3)],
+#   sampleIDs_char = ovarianFiltered_df[, 1, drop = TRUE],
+#   pathwayCollection_ls = aespca_Genesets_ls,
+#   response_fact = tumour_fact
+# )
 #
 # b <- Sys.time()
-# ovarian_pVals <- permTest_OmicsCateg(OmicsCateg = ovarian_OmicsCateg,
-#                                      pathwayPCs_ls = pcs2_ls,
-#                                      numReps = 1000,
-#                                      parallel = TRUE,
-#                                      numCores = detectCores() - 2)
+# ovarian_pVals <- permTest_OmicsCateg(
+#   OmicsCateg = ovarian_OmicsCateg,
+#   pathwayPCs_ls = pcs2_ls,
+#   numReps = 1000,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2
+# )
 # Sys.time() - b # 7.418932 min for 1000 reps on laptop
 
 

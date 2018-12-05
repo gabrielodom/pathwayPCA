@@ -168,6 +168,11 @@ CreateOmics <- function(assayData_df,
 
     respClean <- .convertResponse(respClean_df, type = respType)
 
+  } else {
+
+    sampleID     <- assayData_df[, 1, drop = TRUE]
+    assayData_df <- assayData_df[, -1]
+
   }
 
 
@@ -189,6 +194,7 @@ CreateOmics <- function(assayData_df,
             message("\n Creating object of class OmicsPathway.")
             out <- CreateOmicsPath(
               assayData_df = assayData_df,
+              sampleIDs_char = sampleID,
               pathwayCollection_ls = pathwayCollection_ls
             )
 
@@ -198,6 +204,7 @@ CreateOmics <- function(assayData_df,
             message("\n Creating object of class OmicsSurv.")
             out <- CreateOmicsSurv(
               assayData_df = assayData_df,
+              sampleIDs_char = sampleID,
               pathwayCollection_ls = pathwayCollection_ls,
               eventTime_num = respClean$time,
               eventObserved_lgl = respClean$dead
@@ -209,6 +216,7 @@ CreateOmics <- function(assayData_df,
             message("\n Creating object of class OmicsReg.")
             out <- CreateOmicsReg(
               assayData_df = assayData_df,
+              sampleIDs_char = sampleID,
               pathwayCollection_ls = pathwayCollection_ls,
               response_num = respClean
             )
@@ -219,6 +227,7 @@ CreateOmics <- function(assayData_df,
             message("\n Creating object of class OmicsCateg.")
             out <- CreateOmicsCateg(
               assayData_df = assayData_df,
+              sampleIDs_char = sampleID,
               pathwayCollection_ls = pathwayCollection_ls,
               response_fact = respClean
             )

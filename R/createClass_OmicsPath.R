@@ -1,6 +1,7 @@
 #' An S4 class for mass spectrometry or bio-assay data and gene pathway lists
 #'
 #' @slot assayData_df An \eqn{N \times p} data frame with named columns.
+#' @slot sampleIDs_char A character vector with the N sample names.
 #' @slot pathwayCollection A list of known gene pathways with three or four
 #'    elements:
 #' \itemize{
@@ -33,9 +34,12 @@
 #' @export
 setClass(
   "OmicsPathway",
-  slots = c(assayData_df = "data.frame",
-            pathwayCollection = "list",
-            trimPathwayCollection = "list")
+  slots = c(
+    assayData_df = "data.frame",
+    sampleIDs_char = "character",
+    pathwayCollection = "list",
+    trimPathwayCollection = "list"
+  )
 )
 # so my create.*() functions don't throw a fit when they see a tibble:
 setOldClass(c("tbl_df", "tbl", "data.frame"))

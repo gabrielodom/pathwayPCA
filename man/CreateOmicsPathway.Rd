@@ -7,17 +7,21 @@
 \alias{CreateOmicsCateg}
 \title{Generation functions for \code{-Omics*}-class objects}
 \usage{
-CreateOmicsPath(assayData_df, pathwayCollection_ls)
+CreateOmicsPath(assayData_df, sampleIDs_char, pathwayCollection_ls)
 
-CreateOmicsSurv(assayData_df, pathwayCollection_ls, eventTime_num,
-  eventObserved_lgl)
+CreateOmicsSurv(assayData_df, sampleIDs_char, pathwayCollection_ls,
+  eventTime_num, eventObserved_lgl)
 
-CreateOmicsReg(assayData_df, pathwayCollection_ls, response_num)
+CreateOmicsReg(assayData_df, sampleIDs_char, pathwayCollection_ls,
+  response_num)
 
-CreateOmicsCateg(assayData_df, pathwayCollection_ls, response_fact)
+CreateOmicsCateg(assayData_df, sampleIDs_char, pathwayCollection_ls,
+  response_fact)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}
+
+\item{sampleIDs_char}{A character vector with the N sample names.}
 
 \item{pathwayCollection_ls}{A \code{pathwayCollection} list of known gene
 pathways with two or three elements:
