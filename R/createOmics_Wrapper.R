@@ -194,7 +194,7 @@ CreateOmics <- function(assayData_df,
   switch (respType,
           none = {
 
-            message("\n Creating object of class OmicsPathway.")
+            message("\n  ======  Creating object of class OmicsPathway  ======")
             out <- CreateOmicsPath(
               assayData_df = assayData_df,
               sampleIDs_char = sampleID,
@@ -204,7 +204,7 @@ CreateOmics <- function(assayData_df,
           },
           survival = {
 
-            message("\n Creating object of class OmicsSurv.")
+            message("\n  ======  Creating object of class OmicsSurv  =======")
             out <- CreateOmicsSurv(
               assayData_df = assayData_df,
               sampleIDs_char = sampleID,
@@ -216,7 +216,7 @@ CreateOmics <- function(assayData_df,
           },
           regression = {
 
-            message("\n Creating object of class OmicsReg.")
+            message("\n  ======  Creating object of class OmicsReg  =======")
             out <- CreateOmicsReg(
               assayData_df = assayData_df,
               sampleIDs_char = sampleID,
@@ -227,7 +227,7 @@ CreateOmics <- function(assayData_df,
           },
           categorical = {
 
-            message("\n Creating object of class OmicsCateg.")
+            message("\n  ======  Creating object of class OmicsCateg  =======")
             out <- CreateOmicsCateg(
               assayData_df = assayData_df,
               sampleIDs_char = sampleID,

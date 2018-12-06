@@ -39,6 +39,7 @@ devtools::install_github("gabrielodom/pathwayPCA", ref = "devel")
 ```
 ```{r}
 library(pathwayPCA)
+library(tidyverse)
 library(parallel)
 ```
 
@@ -110,7 +111,7 @@ getPathwayCollection(colon_OmicsSurv)$TERMS
 - `rawp`: The unadjusted $p$-values of each pathway.
 - `...`: Additional columns for each requested FDR/FWER adjustment.
 
-The data frame will have its rows sorted in increasing order by the adjusted $p$-value corresponding to the first adjustment method requested. Ties are broken by the raw $p$-values. Additionally, if you use the `tidyverse` package suite (and have these packages loaded), then the output will be a tibble object, rather than a data frame object. This object class comes with enhanced printing methods and some other benefits.
+The data frame will have its rows sorted in increasing order by the adjusted $p$-value corresponding to the first adjustment method requested. Ties are broken by the raw $p$-values. Additionally, if you use the [`tidyverse`](https://www.tidyverse.org/) package suite (and have these packages loaded), then the output will be a tibble object, rather than a data frame object. This object class comes with enhanced printing methods and some other benefits.
 
 *******************************************************************************
 
@@ -280,7 +281,7 @@ colonSurv_aespcOut$pVals_df
 ```
 
 ## 5.2 Pathway PC and Loading Vectors
-We also may be interested in which genes or proteins "drive" a specific pathway. We can extract the pathway-specific PCs and loadings (PC & L) from either the AESPCA or Supervised PCA output with the `getPathPCLs()` function. This function will take in either the proper name of a pathway (as given in the `terms` column) or the unique pathway identifier (as shown in the `pathways` column).
+We also may be interested in which genes or proteins "drive" a specific pathway. We can extract the pathway-specific PCs and loadings (PC & L) from either the AESPCA or Supervised PCA output with the `getPathPCLs()` function. This function will take in either the proper name of a pathway (as given in the `terms` column) or the unique pathway identifier (as shown in the `pathways` column). Note that the PCs and Loadings are stored in tidy data frames, so they will have enhanced printing properties if you have the `tidyverse` package suite loaded.
 ```{r getPathPCLs}
 getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
 ```

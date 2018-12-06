@@ -144,7 +144,7 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
 
             ###  Print Messages  ###
             # To display at 80 characters on the screen, our message can run
-            #   from column 30 to 110 in the code.
+            #   from column 26 to 106 in the code.
             if(message){
 
               message(
@@ -160,16 +160,17 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
               )
 
               message(
-                sprintf("Only pathways with at least %i or more features are tested (specified by minPathSize
-  parameter). There are %i pathways which meet this criterion.",
+                sprintf("Only pathways with at least %i or more features included in the assay dataset are
+  tested (specified by minPathSize parameter). There are %i pathways which meet
+  this criterion.",
                   trim, length(paths_ls) - length(missingPaths_char)
                 )
               )
 
               message(
-                sprintf("Because pathwayPCA is a self-contained test (PMID: 17303618), only features in both
-  assay data and pathway database are considered for analysis. There are %i such
-  features shared by the input assay and pathway database.",
+                sprintf("Because pathwayPCA is a self-contained test (PMID: 17303618), only features in
+  both assay data and pathway database are considered for analysis. There are %i
+  such features shared by the input assay and pathway database.",
                   length(genesInTrimPathway_vec)
                 )
               )

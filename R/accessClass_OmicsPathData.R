@@ -10,9 +10,10 @@
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A data frame of the columns of the assay in the \code{Omics} object
-#'    which are listed in the specified pathway. If the \code{Omics} object has
-#'    response information, these are also included as the first column(s) of
-#'    the data frame. If you have the suggested \code{tidyverse} package suite
+#'    which are listed in the specified pathway, with a leading column for
+#'    sample IDs. If the \code{Omics} object has response information, these
+#'    are also included as the first column(s) of the data frame, after the
+#'    sample IDs. If you have the suggested \code{tidyverse} package suite
 #'    loaded, then this data frame will print as a \code{\link[tibble]{tibble}}.
 #'    Otherwise, it will print as a data frame.
 #'
@@ -67,30 +68,41 @@ setMethod(f = "SubsetPathwayData", signature = "OmicsPathway",
             path_ls <- getTrimPathwayCollection(object)[[pathName]]
             genes_char <- path_ls$IDs
             design_df <- getAssay(object)[, genes_char]
+            sampleIDs <- getSampleIDs(object)
 
             ###  The Response Vectors  ###
             obj_class <- class(object)
             switch(obj_class,
                    OmicsPathway = {
-                     out_df <- design_df
+                     out_df <- data.frame(
+                       sampleID = sampleIDs,
+                       design_df,
+                       stringsAsFactors = FALSE
+                     )
                    },
                    OmicsSurv = {
                      out_df <- data.frame(
+                       sampleID = sampleIDs,
                        EventTime = getEventTime(object),
                        EventObs  = getEvent(object),
-                       design_df
+                       design_df,
+                       stringsAsFactors = FALSE
                      )
                    },
                    OmicsReg = {
                      out_df <- data.frame(
+                       sampleID = sampleIDs,
                        Response = getResponse(object),
-                       design_df
+                       design_df,
+                       stringsAsFactors = FALSE
                      )
                    },
                    OmicsCateg = {
                      out_df <- data.frame(
+                       sampleID = sampleIDs,
                        Response = getResponse(object),
-                       design_df
+                       design_df,
+                       stringsAsFactors = FALSE
                      )
                    }
             )

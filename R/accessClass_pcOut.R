@@ -77,8 +77,8 @@ getPathPCLs.superpcOut <- function(pcOut, pathway_char, ...){
 
   pVals_df <- pcOut$pVals_df
   ###  Check for Matches  ###
-  pathID_idx <- which(pVals_df$pathways == pathway_char)
-  term_idx   <- which(pVals_df$terms == pathway_char)
+  pathID_idx <- which(pVals_df$pathways %in% pathway_char)
+  term_idx   <- which(pVals_df$terms %in% pathway_char)
   existDescr <- "description" %in% colnames(pVals_df)
   if(length(pathID_idx) + length(term_idx) == 0){
     stop("Supplied pathway does not match any pathway in the supplied object.")
@@ -105,12 +105,33 @@ getPathPCLs.superpcOut <- function(pcOut, pathway_char, ...){
       NA_character_
     )
 
+  } else {
+    stop("Multiple pathways are not allowed.")
   }
 
   ###  Select the PCs and Loadings that Match this Pathway ID  ###
+  tidyClasses <- c("tbl_df", "tbl", "data.frame")
+
+  PCs_df <- data.frame(
+    sampleID = attr(pcOut$PCs_ls, "sampleIDs"),
+    pcOut$PCs_ls[[pathID]],
+    stringsAsFactors = FALSE
+  )
+
+  Load_mat <- pcOut$loadings_ls[[pathID]]
+  Load_df  <- data.frame(
+    featureID = rownames(Load_mat),
+    Load_mat,
+    row.names = NULL,
+    stringsAsFactors = FALSE
+  )
+
+  class(PCs_df) <- class(Load_df) <- tidyClasses
+
+  ###  Return  ###
   list(
-    PCs = pcOut$PCs_ls[[pathID]],
-    Loadings = pcOut$loadings_ls[[pathID]],
+    PCs = PCs_df,
+    Loadings = Load_df,
     pathway = pathID,
     term = pathway,
     description = descript
