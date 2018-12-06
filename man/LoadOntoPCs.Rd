@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_load_test_data_onto_PCs.R
 \name{LoadOntoPCs}
 \alias{LoadOntoPCs}
-\title{Load Test Data onto Training-Data Estimated PCs}
+\title{Calculate Test Data PCs from Training-Data Estimated Loadings}
 \usage{
 LoadOntoPCs(design_df, loadings_ls)
 }

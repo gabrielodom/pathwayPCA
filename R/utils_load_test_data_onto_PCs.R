@@ -1,4 +1,4 @@
-#' Load Test Data onto Training-Data Estimated PCs
+#' Calculate Test Data PCs from Training-Data Estimated Loadings
 #'
 #' @description Given a list of loading vectors from a training data set,
 #'    calculate the PCs of the test data set.
