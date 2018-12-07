@@ -5,10 +5,10 @@
 #'    names.
 #'
 #' @param assay_df A data frame with numeric values to transpose
-#' @param namesInFirstColumn Are the data feature names in the first column of
-#'    \code{df}? Defaults to \code{TRUE}. If \code{FALSE}, this function assumes
-#'    that the data feature names are accesible by the \code{\link{rownames}}
-#'    function called on \code{df}.
+#' @param omeNames Are the data feature names in the first column or in the row
+#'    names of \code{df}? Defaults to the first column. If the feature names
+#'    are in the row names, this function assumes that these names are accesible
+#'    by the \code{\link{rownames}} function called on \code{df}.
 #' @param stringsAsFactors Should columns containing string information be
 #'    coerced to factors? Defaults to \code{FALSE}.
 #'
@@ -18,6 +18,11 @@
 #'    column names and the column (sample) names to row names. Notice that all
 #'    rows and columns (other than the feature name column, as applicable) are
 #'    numeric.
+#'
+#'    Recall that data frames require that all elements of a single column to
+#'    have the same \code{\link{class}}. Therefore, sample IDs of a "tall" data
+#'    frame \strong{must} be stored as the column names rather than in the
+#'    first row.
 #'
 #' @return The transposition of \code{df}, with row and column names preserved
 #'    and reversed.
@@ -30,13 +35,15 @@
 #'    colnames(x_mat) <- paste0("sample_", 1:20)
 #'    x_df <- as.data.frame(x_mat, row.names = rownames(x_mat))
 #'
-#'    TransposeAssay(x_df, namesInFirstColumn = FALSE)
+#'    TransposeAssay(x_df, omeNames = "rowNames")
 #'
 TransposeAssay <- function(assay_df,
-                           namesInFirstColumn = TRUE,
+                           omeNames = c("firstCol", "rowNames"),
                            stringsAsFactors = FALSE){
 
-  if(namesInFirstColumn){
+  omeNames <- match.arg(omeNames)
+
+  if(omeNames == "firstCol"){
 
     featureNames_vec <- assay_df[, 1, drop = TRUE]
     sampleNames_vec <- colnames(assay_df)[-1]

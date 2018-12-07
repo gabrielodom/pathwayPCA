@@ -4,16 +4,16 @@
 \alias{TransposeAssay}
 \title{Transpose an Assay (Data Frame)}
 \usage{
-TransposeAssay(assay_df, namesInFirstColumn = TRUE,
+TransposeAssay(assay_df, omeNames = c("firstCol", "rowNames"),
   stringsAsFactors = FALSE)
 }
 \arguments{
 \item{assay_df}{A data frame with numeric values to transpose}
 
-\item{namesInFirstColumn}{Are the data feature names in the first column of
-\code{df}? Defaults to \code{TRUE}. If \code{FALSE}, this function assumes
-that the data feature names are accesible by the \code{\link{rownames}}
-function called on \code{df}.}
+\item{omeNames}{Are the data feature names in the first column or in the row
+names of \code{df}? Defaults to the first column. If the feature names
+are in the row names, this function assumes that these names are accesible
+by the \code{\link{rownames}} function called on \code{df}.}
 
 \item{stringsAsFactors}{Should columns containing string information be
 coerced to factors? Defaults to \code{FALSE}.}
@@ -34,6 +34,11 @@ This function is designed to transpose "tall" assay data frames
    column names and the column (sample) names to row names. Notice that all
    rows and columns (other than the feature name column, as applicable) are
    numeric.
+
+   Recall that data frames require that all elements of a single column to
+   have the same \code{\link{class}}. Therefore, sample IDs of a "tall" data
+   frame \strong{must} be stored as the column names rather than in the
+   first row.
 }
 \examples{
    x_mat <- matrix(rnorm(5000), ncol = 20, nrow = 250)
@@ -41,6 +46,6 @@ This function is designed to transpose "tall" assay data frames
    colnames(x_mat) <- paste0("sample_", 1:20)
    x_df <- as.data.frame(x_mat, row.names = rownames(x_mat))
 
-   TransposeAssay(x_df, namesInFirstColumn = FALSE)
+   TransposeAssay(x_df, omeNames = "rowNames")
 
 }
