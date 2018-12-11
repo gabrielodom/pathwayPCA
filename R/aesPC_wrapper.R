@@ -176,6 +176,11 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
             message("Part 2: Calculate Pathway p-Values")
             obj_class <- class(object)
             switch(obj_class,
+                   OmicsPathway = {
+                     adjustpValues <- FALSE
+                     numPaths <- length(getTrimPathwayCollection(object)$TERMS)
+                     pVals_vec <- rep(1, numPaths)
+                   },
                    OmicsSurv = {
                      pVals_vec <- PermTestSurv(
                        OmicsSurv = object,
