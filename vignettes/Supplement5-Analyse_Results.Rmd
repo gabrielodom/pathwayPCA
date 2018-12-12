@@ -55,20 +55,17 @@ colon_OmicsSurv <- CreateOmics(
 ```
 
 We will resume inspection of the analysis results from the [chapter 4 vignette](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) for the AESPCA method.
-```{r show_AESPCA, eval = FALSE}
+```{r show_AESPCA}
 # AESPCA Analysis: see Chapter 4
 colonSurv_aespcOut <- AESPCA_pVals(
   object = colon_OmicsSurv,
-  numReps = 1000,
+  numReps = 0,
   numPCs = 2,
   parallel = TRUE,
   numCores = 2,
   adjustpValues = TRUE,
   adjustment = c("BH", "Bonf")
 )
-```
-```{r, echo = FALSE}
-colonSurv_aespcOut <- readRDS("suppl_data/colon_aespcOut_20181127.RDS")
 ```
 
 </br>
@@ -199,7 +196,7 @@ pVals_df %>%
 We will chose the top two significant pathways for closer inspection, and we want to ascertain which genes load onto the pathway PCs. Notice that the pathway loadings are named by the internal pathway key, so we need to use the `getPathPCL()` to match this key to its pathway and extract the pathway PCs and loadings (PC & L) list from the `colonSurv_aespcOut` object. Here are the loading vectors and pathway details from `pathway491`:
 ```{r path491_PCL}
 pathway491_ls <- getPathPCLs(colonSurv_aespcOut, "pathway491")
-pathway491_ls[-1] # don't display the PCs
+pathway491_ls
 ```
 
 This tells us that `pathway491` represents the [EPHB forward signaling](http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=PID_EPHB_FWD_PATHWAY) pathway.
@@ -217,22 +214,23 @@ Given the loading vectors from the EPHB forward signaling pathway, we need to wr
 TidyLoading <- function(pathwayPCL, numPCs = 1){
   
   # Remove rows with 0 loading from the first numPCs columns
-  loadings_mat <- pathwayPCL$Loadings
-  keepRows_idx <- rowSums(abs(loadings_mat[, 1:numPCs, drop = FALSE])) > 0
-  loadings_mat <- loadings_mat[keepRows_idx, , drop = FALSE]
+  loadings_df <- pathwayPCL$Loadings
+  totLoad_num  <- rowSums(abs(
+    loadings_df[, 2:(numPCs + 1), drop = FALSE]
+  ))
+  keepRows_idx <- totLoad_num > 0
+  loadings_df <- loadings_df[keepRows_idx, , drop = FALSE]
   
   # Sort the value on first feature
-  load_df <- as.data.frame(loadings_mat)
-  load_df <- load_df[
-    order(load_df[, 1], decreasing = TRUE), 1:numPCs, drop = FALSE
-  ]
+  load_df <- loadings_df %>% 
+    arrange(desc(PC1))
   
   # Wrangle the sorted loadings:
-  gg_df <- load_df %>% 
-    # Turn the rownames into the ID column,
-    rownames_to_column(var = "ID") %>% 
-    # make that ID column a factor,
-    mutate(ID = factor(ID, levels = ID)) %>% 
+  gg_df <- load_df %>%
+    # make the featureID column a factor,
+    mutate(featureID = factor(featureID, levels = featureID)) %>% 
+    # rename the ID column,
+    rename(ID = featureID) %>% 
     # "tidy" the data, and
     gather(Feature, Value, -ID) %>% 
     # add the up / down indicator.
@@ -346,20 +344,29 @@ Additionally, we can calculate the correlation between gene expression in the as
 ```{r TidyCorrelation_fun}
 TidyCorrelation <- function(Omics, pathwayPCL, numPCs = 1){
   
-  loadings_mat <- pathwayPCL$Loadings
-  keepRows_idx <- rowSums(abs(loadings_mat[, 1:numPCs, drop = FALSE])) > 0
-  loadings_mat <- loadings_mat[keepRows_idx, , drop = FALSE]
+  loadings_df <- pathwayPCL$Loadings
+  totLoad_num  <- rowSums(abs(
+    loadings_df[, 2:(numPCs + 1), drop = FALSE]
+  ))
+  keepRows_idx <- totLoad_num > 0
+  loadings_df <- loadings_df[keepRows_idx, , drop = FALSE]
   
-  geneNames <- rownames(loadings_mat)
+  geneNames <- loadings_df$featureID
   geneCorr_mat <- t(
     cor(
-      pathwayPCL$PCs,
+      pathwayPCL$PCs[, -1],
       getAssay(Omics)[geneNames],
       method = "spearman"
     )
   )
+  colnames(geneCorr_mat) <- paste0("PC", 1:ncol(geneCorr_mat))
 
-  pathwayPCL$Loadings <- geneCorr_mat
+  pathwayPCL$Loadings <- data.frame(
+    featureID = rownames(geneCorr_mat),
+    geneCorr_mat,
+    stringsAsFactors = FALSE,
+    row.names = NULL
+  )
   
   TidyLoading(pathwayPCL, numPCs = numPCs)
   
@@ -412,7 +419,7 @@ We have has covered in this vignette:
 2. Plotting the feature loadings for a single pathway.
 3. Plotting the correlations between a pathway principal component and the features within that pathway.
 
-We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, comments, complaints, or suggestions, please [email us](mailto:gabriel.odom@med.miami.edu) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).
+We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, comments, complaints, or suggestions, please [submit an issue ticket](https://github.com/gabrielodom/pathwayPCA/issues/new) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

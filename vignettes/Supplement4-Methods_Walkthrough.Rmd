@@ -37,10 +37,10 @@ Before we begin, make sure you have the latest version of the package. In order 
 ```
 devtools::install_github("gabrielodom/pathwayPCA", ref = "devel")
 ```
-```{r}
-library(pathwayPCA)
-library(tidyverse)
+```{r packLoad, message=FALSE}
 library(parallel)
+library(tidyverse)
+library(pathwayPCA)
 ```
 
 
@@ -128,14 +128,14 @@ Adaptive, elastic-net, sparse PCA is a combination of the [Adaptive Elastic-Net]
 
 
 ### 3.1.2 Calculate Pathway-Specific Model $p$-Values
-For the AES-PCA method, pathway $p$-values are calculated with a permutation test. Therefore, when testing the relationship between the response and the PCs extracted by AES-PCA, the accuracy of the permuted $p$-values will depend on how many permutations you call for. The default number in the `AESPCA_pVals()` function is 1000. Be warned, however, that this may be too few permutations to create accurate seperation in pathway significance $p$-values. You could increase the permutations to a larger value, should your computing resources allow for that. For even moderately-sized data sets (~2000 features) and 1000 pathways, this could take half an hour or more. About 20-30% of the computing costs will be extracting the AES-PCs from each pathway (though this proportion will increase if the LARS algorithm has convergence issues with the given pathway), and the remaining 70-80% of the cost will be the permutation test (for 1000 permutations).
+For the AES-PCA method, pathway $p$-values can be calculated with a permutation test. Therefore, when testing the relationship between the response and the PCs extracted by AES-PCA, the accuracy of the permuted $p$-values will depend on how many permutations you call for. We recommend 1000. Be warned, however, that this may be too few permutations to create accurate seperation in pathway significance $p$-values. You could increase the permutations to a larger value, should your computing resources allow for that. For even moderately-sized data sets (~2000 features) and 1000 pathways, this could take half an hour or more. If you choose to calculate the pathway $p$-values non-parametrically, about 20-30% of the computing costs will be extracting the AES-PCs from each pathway (though this proportion will increase if the LARS algorithm has convergence issues with the given pathway). The remaining 70-80% of the cost will be the permutation test (for 1000 permutations).
 
 ### 3.1.3 AES-PCA Pros and Cons
 
 Pros:
 
 - The AES-PCA method can handle some missingness in the response.
-- The $p$-values are calculated non-parametrically.
+- The $p$-values can be calculated non-parametrically.
 
 Cons:
 
@@ -147,11 +147,15 @@ Cons:
 Now that we have discussed both the overview of the AES-PCA method and some of its specific details, we can run some examples. We have included in this package a toy data collection: a small tidy assay and corresponding pathway collection. This assay has 656 gene expression measurements on 250 colon cancer patients. Survival responses pertaining to these patients are also included. Further, the subset of the pathways collection containts 15 pathways which match most of the genes measured in our example colon cancer assay.
 
 ### 3.2.1 Survival Response
-We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds ($7.9\times$ longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway, which does not depend on the number of permutations). Additionally, the AES-PCA and Supervised PCA functions give some messages concerning the setup and progress of the computation. 
-```{r aes_surv_pvals, eval = FALSE}
+We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. We will now describe the computational cost for the non-parametric approach.
+
+For the tiny $250 \times 656$ assay with 15 associated pathways, calculating pathway $p$-values with 1000 replicates completes in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds ($7.9\times$ longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway, which does not depend on the number of permutations).
+
+In the example that we show, we will calculate the pathway $p$-values parametrically, by specifying `numReps = 0`. Furthermore, the AES-PCA and Supervised PCA functions give some messages concerning the setup and progress of the computation. 
+```{r aes_surv_pvals}
 colonSurv_aespcOut <- AESPCA_pVals(
   object = colon_OmicsSurv,
-  numReps = 1000,
+  numReps = 0,
   numPCs = 2,
   parallel = TRUE,
   numCores = 2,
@@ -159,17 +163,14 @@ colonSurv_aespcOut <- AESPCA_pVals(
   adjustment = c("Hoch", "SidakSD")
 )
 ```
-```{r, echo = FALSE}
-colonSurv_aespcOut <- readRDS("suppl_data/colon_aespcOut.RDS")
-```
 
 
 ### 3.2.2 Regression Response
-We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures (as an aside, note that this type of multiple testing violates the independence assumption of the [Simes inequality](https://doi.org/10.1214/193940307000000167)). This calculation took 17 seconds. For 10,000 permutations, this calculation takes 102 seconds ($6.1\times$ longer).
+We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures (as an aside, note that this type of multiple testing violates the independence assumption of the [Simes inequality](https://doi.org/10.1214/193940307000000167)). For 1000 permutations, this calculation takes 17 seconds. For 10,000 permutations, this calculation takes 102 seconds ($6.1\times$ longer).
 ```{r aes_reg_pvals, eval=FALSE}
 colonReg_aespcOut <- AESPCA_pVals(
   object = colon_OmicsReg,
-  numReps = 1000,
+  numReps = 0,
   numPCs = 2,
   parallel = TRUE,
   numCores = 2,
@@ -180,11 +181,11 @@ colonReg_aespcOut <- AESPCA_pVals(
 
 
 ### 3.2.3 Binary Classification Response
-Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 30 seconds. For 10,000 permutations, this calculation takes 226 seconds ($7.6\times$ longer).
+Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. For 1000 permutations, this calculation takes 30 seconds. For 10,000 permutations, this calculation takes 226 seconds ($7.6\times$ longer).
 ```{r aes_categ_pvals, eval=FALSE}
 colonCateg_aespcOut <- AESPCA_pVals(
   object = colon_OmicsCateg,
-  numReps = 1000,
+  numReps = 0,
   numPCs = 2,
   parallel = TRUE,
   numCores = 2,
@@ -214,7 +215,7 @@ As thoroughly discussed in Chen et al. (2008), the model fit and regression coef
 Pros:
 
 - The Supervised PCs are extracted without numerical optimization, so calculating the PCs for each pathway is considerably faster than calculating AES-PCs.
-- The $p$-values are calculated parametrically, so calculating the $p$-values is considerably faster than AES-PCA.
+- The $p$-values are calculated parametrically, so calculating the $p$-values is considerably faster than the non-parametric AES-PCA option, while holding better distributional properties than the parametric AES-PCA option.
 
 Cons:
 
@@ -226,7 +227,7 @@ Cons:
 
 ### 4.2.1 Survival Response
 We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 6 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $4.6\times$ faster; for 10,000 permutations, it's $36.1\times$ faster.
-```{r super_surv_pvals, eval = FALSE}
+```{r super_surv_pvals, eval=FALSE}
 colonSurv_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsSurv,
   numPCs = 2,
@@ -236,8 +237,12 @@ colonSurv_superpcOut <- SuperPCA_pVals(
   adjustment = c("Hoch", "SidakSD")
 )
 ```
-```{r, echo = FALSE}
-colonSurv_superpcOut <- readRDS("suppl_data/colon_superpcOut.RDS")
+```
+#> Initializing Computing Cluster: DONE
+#> Calculating Pathway Test Statistics in Parallel: DONE
+#> Calculating Pathway Critical Values in Parallel: DONE
+#> Calculating Pathway p-Values: DONE
+#> Adjusting p-Values and Sorting Pathway p-Value Data Frame: DONE
 ```
 
 ### 4.2.2 Regression Response
@@ -283,10 +288,17 @@ colonSurv_aespcOut$pVals_df
 ## 5.2 Pathway PC and Loading Vectors
 We also may be interested in which genes or proteins "drive" a specific pathway. We can extract the pathway-specific PCs and loadings (PC & L) from either the AESPCA or Supervised PCA output with the `getPathPCLs()` function. This function will take in either the proper name of a pathway (as given in the `terms` column) or the unique pathway identifier (as shown in the `pathways` column). Note that the PCs and Loadings are stored in tidy data frames, so they will have enhanced printing properties if you have the `tidyverse` package suite loaded.
 ```{r getPathPCLs}
-getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
+PCLs_ls <- getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
+PCLs_ls
 ```
 
 As an example, we see that the HLA-DRA gene positively loads onto this pathway, and [has been shown to be related to colorectal cancer](https://www.ncbi.nlm.nih.gov/pubmed/16367922).
+```{r HLARDA}
+PCLs_ls$Loadings %>% 
+  filter(PC1 != 0) %>% 
+  select(-PC2) %>% 
+  arrange(desc(PC1))
+```
 
 
 *******************************************************************************
@@ -301,8 +313,6 @@ We have has covered in this vignette:
 3. Applying AES-PCA or Supervised PCA to analyze survival, regression, or classification `Omics` data objects.
 
 Please read vignette chapter 5 next: [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
-
-We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, comments, complaints, or suggestions, please [email us](mailto:gabriel.odom@med.miami.edu) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}
