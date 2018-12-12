@@ -41,9 +41,9 @@ Also, if you want your analysis to be performed with parallel computing, you wil
 install.packages("tidyverse")
 ```
 ```{r, message = FALSE}
-library(pathwayPCA)
-library(tidyverse)
 library(parallel)
+library(tidyverse)
+library(pathwayPCA)
 ```
 
 
@@ -109,8 +109,8 @@ pInfo_df
 ## 2.4 Match the Phenotype and Assay Data
 Now that you have the assay data in tidy form (`assayT_df`) and the phenotype data (`pInfo_df`), you can use the `inner_join` function from the `dplyr` package to match the assay measurements to phenotype information by subject identifier.
 ```{r innerJoin}
-joinedExperiment_df <- inner_join(pInfo_df, assayT_df, by = "Sample")
-joinedExperiment_df
+exSurv_df <- inner_join(pInfo_df, assayT_df, by = "Sample")
+exSurv_df
 ```
 
 
@@ -134,6 +134,9 @@ This package includes a subject-matched colon cancer survival assay subset (`col
 <!-- 3. `OmicsCateg`---a data object for categorical responses, the dependent variable of a generalized linear model. Currently, we only support binary classification (through logistic regression). -->
 
 ```{r create_OmicsSurv_object}
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
 colon_OmicsSurv <- CreateOmics(
   assayData_df = colonSurv_df[, -(2:3)],
   pathwayCollection_ls = colon_pathwayCollection,
@@ -180,15 +183,15 @@ getEvent(colon_OmicsSurv)[1:10]
 # 4. Test Pathways for Significance
 After you have confirmed that the `CreateOmics` function created the `Omics` object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. For details of these methods functions, please see their respective sections in Chapter 4.
 
-The function arguments are as follows. Both the `AESPCA_pVals` and `SuperPCA_pVals` functions take in an `Omics` object as the value to the `object` argument. AES-PCA uses permutation-based $p$-values, so the `numReps` argument controls how many permutations to take. The `numPCs` argument specifies how many principal components will be extracted from each pathway. The `parallel` and `numCores` arguments are used to control if and how the functions make use of parallel computing. Finally, the `adjustment` argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway $p$-values. These options are documented in the `adjustRaw_pVals` function (see the [help documentation](https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html) for details).
+The function arguments are as follows. Both the `AESPCA_pVals` and `SuperPCA_pVals` functions take in an `Omics` object as the value to the `object` argument. AES-PCA can use permutation-based $p$-values, so the `numReps` argument controls how many permutations to take. If we set the number of permutations to 0, then the $p$-values will be calculated parametrically. The `numPCs` argument specifies how many principal components will be extracted from each pathway. The `parallel` and `numCores` arguments are used to control if and how the functions make use of parallel computing. Finally, the `adjustment` argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway $p$-values. These options are documented in the `adjustRaw_pVals` function (see the [help documentation](https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html) for details).
 
 
 ## 4.1 AES-PCA
 Perform AES-PCA pathway significance testing on the `Omics` object with the `AESPCA_pVals` function. For more details on this function, see the [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca) section of Chapter 4. We will adjust the pathway $p$-values by the estimated FDR calculated with the `"BH"` procedure (Benjamini and Hochberg, 1995). 
-```{r aespca, eval = FALSE}
+```{r aespca}
 colon_aespcOut <- AESPCA_pVals(
   object = colon_OmicsSurv,
-  numReps = 1000,
+  numReps = 0,
   numPCs = 2,
   parallel = TRUE,
   numCores = 2,
@@ -196,14 +199,11 @@ colon_aespcOut <- AESPCA_pVals(
   adjustment = "BH"
 )
 ```
-```{r, echo = FALSE}
-colon_aespcOut <- readRDS("suppl_data/colon_aespcOut.RDS")
-```
 
 
 ## 4.2 Supervised PCA
 Perform Supervised PCA pathway significance testing on the `Omics` object with the `SuperPCA_pVals` function. For more details on this function, see the [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#supervised-pca) section of Chapter 4.
-```{r superpca, eval = FALSE}
+```{r superpca}
 colon_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsSurv,
   numPCs = 2,
@@ -212,9 +212,6 @@ colon_superpcOut <- SuperPCA_pVals(
   adjustpValues = TRUE,
   adjustment = "BH"
 )
-```
-```{r, echo = FALSE}
-colon_superpcOut <- readRDS("suppl_data/colon_superpcOut.RDS")
 ```
 
 *******************************************************************************
@@ -273,29 +270,6 @@ ggplot(raw_df) +
   geom_hline(yintercept = -log(0.01), size = 2) +
   coord_flip()
 ```
-
-<!-- Now, we consider the FDR-values. -->
-<!-- ```{r surv_spr_FDR_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"} -->
-<!-- fdr_df <- colonOutGather_df %>%  -->
-<!--   filter(variable == "FDR") %>%  -->
-<!--   select(-variable, -value) -->
-
-<!-- ggplot(fdr_df) + -->
-<!--   theme_bw() + -->
-<!--   aes(x = reorder(terms, score), y = score) + -->
-<!--   geom_bar(stat = "identity", position = "dodge", fill = "#f47321") + -->
-<!--   scale_fill_discrete(guide = FALSE) + -->
-<!--   ggtitle("Supervised PCA FDR-Significant Colon Pathways") + -->
-<!--   xlab("Pathways") + -->
-<!--   scale_y_continuous("Negative Log FDR", limits = c(0, graphMax)) + -->
-<!--   geom_hline(yintercept = -log(0.01), size = 2) + -->
-<!--   coord_flip() -->
-<!-- ``` -->
-
-
-<!-- ## Extract Genes from the Top Pathways -->
-<!-- Use the `topGenes` function to "score" the genes contained in the top significant pathways. Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. -->
-
 
 *******************************************************************************
 
