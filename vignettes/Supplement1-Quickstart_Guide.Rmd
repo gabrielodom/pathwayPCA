@@ -23,7 +23,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This guide will serve as a brief introduction to pathway significance testing with the `pathwayPCA` package. We will discuss the four basic steps of pathway significance testing with the `pathwayPCA` package. These steps are: importing data, creating an `Omics` data object, testing pathways for significance, and inspecting the results. For detailed discussions of these steps, see the following appropriate vignettes: 
+This guide will serve as a brief overview to the pathway significance testing workflow with the `pathwayPCA` package. We will discuss the four basic steps of pathway significance testing with the `pathwayPCA` package. These steps are: importing data, creating an `Omics` data object, testing pathways for significance, and inspecting the results. For detailed discussions of these steps, see the following appropriate vignettes: 
 
 1. Download Packages
 2. Import and Tidy Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html))
