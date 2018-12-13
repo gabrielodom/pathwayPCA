@@ -21,36 +21,52 @@ navbar:
       text: Version Logs
 
 reference:
-  - title: External Functions
-    desc: Functions designed for direct end-user interaction
+  - title: Pathway Collections
+    desc: Functions to create or modify pathway collection objects
     contents:
-      - '`pathwayPCA-package`'
       - '`read_gmt`'
+      - '`write_gmt`'
       - '`CreatePathwayCollection`'
       - '`print.pathwayCollection`'
-      - '`TransposeAssay`'
-      - '`CreateOmics`'
-      - '`AESPCA_pVals`'
-      - '`SuperPCA_pVals`'
-  - title: S4-Class Objects and Basic Methods
-    desc: Descriptions of the S4 classes in this package
+      - '`SubsetPathwayCollection`'
+  - title: Creating S4-Class Objects and Basic Methods
+    desc: Descriptions, creators, and accessors of the Omics* S4 classes
     contents:
       - '`OmicsPathway-class`'
       - '`OmicsSurv-class`'
       - '`OmicsReg-class`'
       - '`OmicsCateg-class`'
       - '`ValidOmicsSurv`'
+      - '`TransposeAssay`'
+      - '`CreateOmics`'
       - '`show,OmicsPathway-method`'
       - '`getAssay`'
       - '`getAssay<-`'
-      - '`getPathwaySet`'
-      - '`getPathwaySet<-`'
+      - '`getPathwayCollection`'
+      - '`getPathwayCollection<-`'
+      - '`getSampleIDs`'
+      - '`getSampleIDs<-`'
       - '`getEventTime`'
       - '`getEventTime<-`'
       - '`getEvent`'
       - '`getEvent<-`'
       - '`getResponse`'
       - '`getResponse<-`'
+  - title: PCA-method Functions
+    desc: Functions to analyze Omics-class objects
+    contents:
+      - '`pathwayPCA-package`'
+      - '`AESPCA_pVals`'
+      - '`SuperPCA_pVals`'
+      - '`SubsetPathwayData`'
+      - '`getPathPCLs`'
+      - '`LoadOntoPCs`'
+  - title: Example Data Sets
+    desc: Data for function examples
+    contents:
+      - '`colon_pathwayCollection`'
+      - '`colonSurv_df`'
+      - '`wikipwsHS_Entrez_pathwayCollection`'
   - title: Internal AES-PCA Functions
     desc: Functions designed to be called by the AES-PCA wrapper above
     contents:
@@ -74,7 +90,7 @@ reference:
       - '`GumbelMixpValues`'
       - '`pathway_tControl`'
       - '`pathway_tScores`'
-  - title: Internal Supplemental Functions and Data
+  - title: Internal Supplemental Functions
     desc: Utility functions shared by both the AES-PCA and supervised PCA methods or CreateOmics
     contents:
       - '`CreateOmicsPath`'
@@ -84,7 +100,4 @@ reference:
       - '`IntersectOmicsPwyCollct`'
       - '`TabulatepValues`'
       - '`ControlFDR`'
-      - '`matrixRoot`'
       - '`RandomControlSample`'
-      - '`colon_pathwayCollection`'
-      - '`colonSurv_df`'
