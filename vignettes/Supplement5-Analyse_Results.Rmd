@@ -1,5 +1,5 @@
 ---
-title: "Chapter 5 - Visualizing the Results"
+title: "Suppl. Ch.  5 - Visualizing the Results"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This vignette is the fifth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Inspect Results](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#inspect-results) section of the Quickstart Guide. This vignette will discuss graphing the pathway-specific $p$-values, FDR values, and associated log-scores. Also, we will discuss how to plot the gene- or protein-specific loadings within a certain pathway and further how to plot the correlation between a gene or protein within a pathway and the principal component representing that pathway.
+This vignette is the fifth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Inspect Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#inspect-results) section of the Quickstart Guide. This vignette will discuss graphing the pathway-specific $p$-values, FDR values, and associated log-scores. Also, we will discuss how to plot the gene- or protein-specific loadings within a certain pathway and further how to plot the correlation between a gene or protein within a pathway and the principal component representing that pathway.
 
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
@@ -39,7 +39,7 @@ library(pathwayPCA)
 ```
 
 ## 1.2 Example Results
-First, we will replicate the data setup from the previous vignette chapters on importing data and creating data objects ([chapter 2](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) and [chapter 3](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html), respectively). See these chapters for detailed explination of the code below.
+First, we will replicate the data setup from the previous vignette chapters on importing data and creating data objects ( [Chapter 2: Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html) and [Chapter 3: Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html), respectively). See these chapters for detailed explination of the code below.
 ```{r load_data}
 # Load Data: see Chapter 2
 data("colonSurv_df")
@@ -54,7 +54,7 @@ colon_OmicsSurv <- CreateOmics(
 )
 ```
 
-We will resume inspection of the analysis results from the [chapter 4 vignette](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) for the AESPCA method.
+We will resume inspection of the analysis results from the [chapter 4 vignette](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html) for the AESPCA method.
 ```{r show_AESPCA}
 # AESPCA Analysis: see Chapter 4
 colonSurv_aespcOut <- AESPCA_pVals(
@@ -155,7 +155,7 @@ ggplot(BHpVals_df) +
 
 
 ## 2.4 Plot Significant Survival Pathways for All Adjustments
-If we were interested in comparing adjustment methods, we can. This figure shows that a few of the simulated pathways are significant at the $\alpha = 0.01$ for either the Benjamini and Hochberg or Bonferroni FWER approaches. The vertical black line is at $-\log(p = 0.01)$. This figure is slightly different from the figures shown in the [Graph Top Pathways](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#graph-of-top-pathways) subsection of the Quickstart Guide.
+If we were interested in comparing adjustment methods, we can. This figure shows that a few of the simulated pathways are significant at the $\alpha = 0.01$ for either the Benjamini and Hochberg or Bonferroni FWER approaches. The vertical black line is at $-\log(p = 0.01)$. This figure is slightly different from the figures shown in the [Graph Top Pathways](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#graph-of-top-pathways) subsection of the Quickstart Guide.
 ```{r surv_aes_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 ggplot(colonOutGather_df) +
   # set overall appearance of the plot

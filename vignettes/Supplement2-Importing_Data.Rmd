@@ -1,5 +1,5 @@
 ---
-title: "Chapter 2 - Import and Tidy Data"
+title: "Suppl. Ch. 2 - Import and Tidy Data"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 ```
 
 # 1. Overview
-This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Import Data](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#import-data) section of the Quickstart Guide. This vignette will discuss using the the `read_gmt` function to import Gene Matrix Transposed (`.gmt`) [pathway collection files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) as a list object with class `pathwayCollection`. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a pathway collection.
+This vignette is the second chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Import Data](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#import-data) section of the Quickstart Guide. This vignette will discuss using the the `read_gmt` function to import Gene Matrix Transposed (`.gmt`) [pathway collection files](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29) as a list object with class `pathwayCollection`. Also, we will discuss importing assay and response data, and how to make your assay data [tidy](https://www.jstatsoft.org/article/view/v059i10). For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a pathway collection.
 
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
 
@@ -237,7 +237,7 @@ We now summarize our steps so far. We have
 2. Imported an assay `.csv` file with the `read_csv` function from the `readr` package, and transposed this data frame into "tidy" form with the `TransposeAssay` function.
 3. Imported a phenotype information `.csv` file, and joined it to the assay data frame with the `inner_join` function from the `dplyr` package.
 
-Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read vignette chapter 3: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html).
+Now we are prepared to create our first `Omics`-class object for analysis with either AES-PCA or Supervised PCA. Please read vignette chapter 3: [Creating `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

@@ -1,5 +1,5 @@
 ---
-title: "Chapter 4 - Test Pathway Significance"
+title: "Suppl. Ch. 4 - Test Pathway Significance"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This vignette is the fourth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Pathway Significance Testing](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#test-pathways-for-significance) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics`-class objects with pathway-level adaptive, elastic-net, sparse or supervised modifications to principal components analysis (PCA), abbreviated AES-PCA and Supervised PCA, respectively. We will consider examples for three types of response information: survival, regression, and binary responses. The predictor information is subsets of assay data which correspond to individual pathways, where a pathway is a bundle of genes with shared biological function. The main goal of pathway significance testing is to discover potential relationships between a given collection of pathways and the response.
+This vignette is the fourth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Pathway Significance Testing](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#test-pathways-for-significance) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics`-class objects with pathway-level adaptive, elastic-net, sparse or supervised modifications to principal components analysis (PCA), abbreviated AES-PCA and Supervised PCA, respectively. We will consider examples for three types of response information: survival, regression, and binary responses. The predictor information is subsets of assay data which correspond to individual pathways, where a pathway is a bundle of genes with shared biological function. The main goal of pathway significance testing is to discover potential relationships between a given collection of pathways and the response.
 
 ## 1.1 Outline
 Before we move on, we will outline our steps. After reading this vignette, you should
@@ -312,7 +312,7 @@ We have has covered in this vignette:
 2. The basics of the Supervised PCA pathway-significance testing approach.
 3. Applying AES-PCA or Supervised PCA to analyze survival, regression, or classification `Omics` data objects.
 
-Please read vignette chapter 5 next: [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
+Please read vignette chapter 5 next: [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

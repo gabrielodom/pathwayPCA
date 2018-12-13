@@ -1,5 +1,5 @@
 ---
-title: "Chapter 1 - Quickstart Guide for New R Users"
+title: "Suppl. Ch. 1 - Quickstart Guide for New R Users"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -26,10 +26,10 @@ knitr::opts_chunk$set(collapse = TRUE,
 This guide will serve as a brief overview to the pathway significance testing workflow with the `pathwayPCA` package. We will discuss the four basic steps of pathway significance testing with the `pathwayPCA` package. These steps are: importing data, creating an `Omics` data object, testing pathways for significance, and inspecting the results. For detailed discussions of these steps, see the following appropriate vignettes: 
 
 1. Download Packages
-2. Import and Tidy Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html))
-3. Create Data Objects ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html))
-4. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html))
-5. Visualize Results (*vignette* in progress)
+2. Import and Tidy Data ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html))
+3. Create Data Objects ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html))
+4. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html))
+5. Visualize Results ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html))
 
 Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
 ```
@@ -53,7 +53,7 @@ library(pathwayPCA)
 
 
 # 2. Import Data
-This section is a quick overview of the material covered in the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. Here we show how to import pathway information, assay and phenotype data, and how to join the assay and phenotype data into one data frame.
+This section is a quick overview of the material covered in the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html) vignette. Here we show how to import pathway information, assay and phenotype data, and how to join the assay and phenotype data into one data frame.
 
 
 ## 2.1 Import `.gmt` Files
@@ -120,7 +120,7 @@ exSurv_df
 
 
 # 3. Create an `Omics` Data Object
-This section is a quick overview of the material covered in the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html) vignette.
+This section is a quick overview of the material covered in the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html) vignette.
 
 ## 3.1 Create an Object
 Using the data you just imported, create a data object specific to survival, regression, or categorical responses. For our example dataset, we will create a survival `Omics` object to hold our assay, pathways, and survival responses. If your indicator is a binary variable, the `CreateOmics` function will attempt to coerce it to a logical variable. Therefore, death indicators should be coded as 0-1, not 1-2.
@@ -152,7 +152,7 @@ colon_OmicsSurv
 ```
 
 ## 3.3 Detailed Object Views
-Because the printing procedure for `Omics` objects is to show a summary of the contents, you need to use the `get*()` functions to view the individual components of the `colon_OmicsSurv` object we just created. Overall, you can use accessor functions to extract, edit, or replace data contained in the object. The accessor functions are listed in more detail in the [Table of Accessors](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html#table-of-accessors) subsection of Chapter 3. Use these functions to confirm that the data object you created accurately reflects the data you intend to analyze.
+Because the printing procedure for `Omics` objects is to show a summary of the contents, you need to use the `get*()` functions to view the individual components of the `colon_OmicsSurv` object we just created. Overall, you can use accessor functions to extract, edit, or replace data contained in the object. The accessor functions are listed in more detail in the [Table of Accessors](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html#table-of-accessors) subsection of Chapter 3. Use these functions to confirm that the data object you created accurately reflects the data you intend to analyze.
 
 ### 3.3.1 View the Assay
 ```{r accessor1}
@@ -181,13 +181,13 @@ getEvent(colon_OmicsSurv)[1:10]
 
 
 # 4. Test Pathways for Significance
-After you have confirmed that the `CreateOmics` function created the `Omics` object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. For details of these methods functions, please see their respective sections in Chapter 4.
+After you have confirmed that the `CreateOmics` function created the `Omics` object you wanted, you can analyze the object with adaptive, elastic-net, sparse (AES) PCA or supervised PCA. This section is a quick overview of the material covered in the [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html) vignette. For details of these methods functions, please see their respective sections in Chapter 4.
 
 The function arguments are as follows. Both the `AESPCA_pVals` and `SuperPCA_pVals` functions take in an `Omics` object as the value to the `object` argument. AES-PCA can use permutation-based $p$-values, so the `numReps` argument controls how many permutations to take. If we set the number of permutations to 0, then the $p$-values will be calculated parametrically. The `numPCs` argument specifies how many principal components will be extracted from each pathway. The `parallel` and `numCores` arguments are used to control if and how the functions make use of parallel computing. Finally, the `adjustment` argument allows you to specify a family-wise error rate (FWER) or false discovery rate (FDR) adjustment for the pathway $p$-values. These options are documented in the `adjustRaw_pVals` function (see the [help documentation](https://gabrielodom.github.io/pathwayPCA/reference/adjustRaw_pVals.html) for details).
 
 
 ## 4.1 AES-PCA
-Perform AES-PCA pathway significance testing on the `Omics` object with the `AESPCA_pVals` function. For more details on this function, see the [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#aes-pca) section of Chapter 4. We will adjust the pathway $p$-values by the estimated FDR calculated with the `"BH"` procedure (Benjamini and Hochberg, 1995). 
+Perform AES-PCA pathway significance testing on the `Omics` object with the `AESPCA_pVals` function. For more details on this function, see the [AES-PCA](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html#aes-pca) section of Chapter 4. We will adjust the pathway $p$-values by the estimated FDR calculated with the `"BH"` procedure (Benjamini and Hochberg, 1995). 
 ```{r aespca}
 colon_aespcOut <- AESPCA_pVals(
   object = colon_OmicsSurv,
@@ -202,7 +202,7 @@ colon_aespcOut <- AESPCA_pVals(
 
 
 ## 4.2 Supervised PCA
-Perform Supervised PCA pathway significance testing on the `Omics` object with the `SuperPCA_pVals` function. For more details on this function, see the [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html#supervised-pca) section of Chapter 4.
+Perform Supervised PCA pathway significance testing on the `Omics` object with the `SuperPCA_pVals` function. For more details on this function, see the [Supervised PCA](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html#supervised-pca) section of Chapter 4.
 ```{r superpca}
 colon_superpcOut <- SuperPCA_pVals(
   object = colon_OmicsSurv,
@@ -220,7 +220,7 @@ colon_superpcOut <- SuperPCA_pVals(
 
 
 # 5. Inspect Results
-This section is a quick overview of the material covered in the [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html) vignette. The output of `AESPCA_pVals()` is list object with class `aespcOut`. The output of `SuperPCA_pVals()` is a list object with class `superpcOut`. Both of these objects have the following three elements:
+This section is a quick overview of the material covered in the [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html) vignette. The output of `AESPCA_pVals()` is list object with class `aespcOut`. The output of `SuperPCA_pVals()` is a list object with class `superpcOut`. Both of these objects have the following three elements:
 
 - `pVals_df`: a data frame with $p$-values and their details each pathway
 - `PCs_ls`: a list of the data frames of the first selected principal component(s) extracted from the assay data subset corresponding to each pathway.
@@ -278,10 +278,10 @@ ggplot(raw_df) +
 # 6. Links to Detailed Information
 Now that you have an idea of how to use this package, please see each of our vignettes for detailed and thorough commentary and guiding information on each of the three topics discussed herein. The vignettes are:
 
-- [Chapter 2: Import Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html)
-- [Chapter 3: Create `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html)
-- [Chapter 4: Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html)
-- [Chapter 5: Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html)
+- [Chapter 2: Import Data](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html)
+- [Chapter 3: Create `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html)
+- [Chapter 4: Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html)
+- [Chapter 5: Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html)
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}
