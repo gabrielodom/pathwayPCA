@@ -26,16 +26,16 @@
 #'   matrixRoot(xTx, root = 3)
 matrixRoot <- function(x, root = 2){
 
-  x.eigen <- eigen(x)
-  d <- x.eigen$values
-  # Zero-out any negative eigenvalues
-  d <- (d + abs(d))/2
-  v <- x.eigen$vectors
-
-  if(root == 2){
-    return(v %*% diag(sqrt(d)) %*% t(v))
-  } else {
-    return(v %*% diag(d ^ (1 / root)) %*% t(v))
-  }
+  # x.eigen <- eigen(x)
+  # d <- x.eigen$values
+  # # Zero-out any negative eigenvalues
+  # d <- (d + abs(d))/2
+  # v <- x.eigen$vectors
+  #
+  # if(root == 2){
+  #   return(v %*% diag(sqrt(d)) %*% t(v))
+  # } else {
+  #   return(v %*% diag(d ^ (1 / root)) %*% t(v))
+  # }
 
 }
