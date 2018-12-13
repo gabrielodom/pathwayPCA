@@ -1,5 +1,5 @@
 ---
-title: "Introduction to pathwayPCA"
+title: "Integrative Pathway Analysis with pathwayPCA"
 author: "Lily Wang and Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -136,8 +136,9 @@ ovarian_aespcOut <- AESPCA_pVals(
   object = ov_OmicsSurv,
   # One principal component per pathway
   numPCs = 1,
-  # Use parallel computing
+  # Use parallel computing with 2 cores
   parallel = TRUE,
+  numCores = 2,
   # Estimate the p-values parametrically
   numReps = 0,
   # Control FDR via Benjamini-Hochberg
@@ -359,6 +360,7 @@ ovCNV_aespcOut <- AESPCA_pVals(
   object = ovCNV_Surv,
   numPCs = 1,
   parallel = TRUE,
+  numCores = 2,
   numReps = 0,
   adjustment = "BH"
 )
@@ -538,6 +540,7 @@ kidney_aespcOut <- AESPCA_pVals(
   object = kidney_Omics,
   numPCs = 1,
   parallel = TRUE,
+  numCores = 2,
   numReps = 0,
   adjustment = "BH"
 )
