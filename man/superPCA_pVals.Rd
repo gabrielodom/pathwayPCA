@@ -33,7 +33,7 @@ increase computation time.}
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation? Internally defaults to the number of available cores minus 2.}
+computation? Internally defaults to the number of available cores minus 1.}
 
 \item{adjustpValues}{Should you adjust the \eqn{p}-values for multiple
 comparisons? Defaults to TRUE.}

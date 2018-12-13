@@ -19,7 +19,7 @@
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Internally defaults to the number of available cores minus 2.
+#'   computation? Internally defaults to the number of available cores minus 1.
 #' @param adjustpValues Should you adjust the \eqn{p}-values for multiple
 #'   comparisons? Defaults to TRUE.
 #' @param adjustment Character vector of procedures. The returned data frame
@@ -204,7 +204,7 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
 
               ###  Parallel Computing Setup  ###
               message("Initializing Computing Cluster: ", appendLF = FALSE)
-              numCores <- ifelse(is.null(numCores), detectCores() - 2, numCores)
+              numCores <- ifelse(is.null(numCores), detectCores() - 1, numCores)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(paths_ls)),
                                  deparse(quote(geneArray_df)),

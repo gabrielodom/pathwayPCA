@@ -17,7 +17,7 @@
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Internally defaults to the number of available cores minus 2.
+#'   computation? Internally defaults to the number of available cores minus 1.
 #' @param asPCA Should the computation return the eigenvectors and eigenvalues
 #'   instead of the adaptive, elastic-net, sparse principal components and their
 #'   corresponding loadings. Defaults to \code{FALSE}; this should be used for
@@ -157,7 +157,7 @@ setMethod(f = "AESPCA_pVals", signature = "OmicsPathway",
                                 ...){
             # browser()
             if(parallel){
-              numCores <- ifelse(is.null(numCores), detectCores() - 2, numCores)
+              numCores <- ifelse(is.null(numCores), detectCores() - 1, numCores)
             }
 
             ###  Calculate AES-PCs  ###
