@@ -1,5 +1,5 @@
 ---
-title: "Chapter 3 - Creating Data Objects"
+title: "Suppl. Ch. 3 - Creating Data Objects"
 author: "Gabriel Odom"
 date: "`r Sys.Date()`"
 output:
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 
 # 1. Overview
-This vignette is the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html#create-an-omics-data-object) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html) vignette. This guide will outline the major steps needed to create a data object for analysis with the `pathwayPCA` package. These objects are called `Omics`-class objects.
+This vignette is the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Creating Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#create-an-omics-data-object) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html) vignette. This guide will outline the major steps needed to create a data object for analysis with the `pathwayPCA` package. These objects are called `Omics`-class objects.
 
 ## 1.1 Outline
 Before we move on, we will outline our steps. After reading this vignette, you should be able to
@@ -246,7 +246,7 @@ Here is a table listing each of the "get" and "set" methods for the `Omics` clas
 The `response` vector accessed or edited with the `getResponse` method depends on if the `object` supplied is a "regression" `Omics`-class object or a "categorical" one. For regression `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_num` slot. However, for categorical `Omics` objects, `getResponse(object)` and `getResponse(object) <- value` get and set, respectively, the `response_fact` slot. This is because regression objects contain `numeric` response vectors while categorical objects contain `factor` response vectors.
  
 ## 4.4 Inspect the Updated `pathwayCollection` List
-As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html#import-gmt-files-with-read_gmt) subsection of the previous vignette, the `pathwayCollection` object will be modified upon `Omics`-object creation. Before, this list only had two elements, `pathways` and `TERMS` (we skipped importing the "description" field). Now, it has a third element: `setsize`---the number of genes contained in each pathway.
+As we mentioned in the [Importing with the `read_gmt` Function](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html#import-gmt-files-with-read_gmt) subsection of the previous vignette, the `pathwayCollection` object will be modified upon `Omics`-object creation. Before, this list only had two elements, `pathways` and `TERMS` (we skipped importing the "description" field). Now, it has a third element: `setsize`---the number of genes contained in each pathway.
 ```{r inspect_updated_pathwayCollection}
 getPathwayCollection(colon_OmicsSurv)
 ```
@@ -263,7 +263,7 @@ We now summarize our steps so far. We have
 2. Created an `Omics` object for the three sub-classes.
 3. Inspected and edited individual elements contained in these objects.
 
-Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette chapter 4 next: [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html).
+Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette chapter 4 next: [Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html).
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

@@ -66,7 +66,7 @@
 #'    \code{\link{PermTestCateg}} functions.
 #'
 #'   Please see our Quickstart Guide for this package:
-#'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
+#'   \url{https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html}
 #'
 #' @seealso \code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
 #'    \code{\link{PermTestSurv}}; \code{\link{PermTestReg}};

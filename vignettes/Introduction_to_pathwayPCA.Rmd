@@ -685,10 +685,10 @@ As shown by these Kaplan-Meier curves, for the "TFs Regulate miRNAs related to c
 # 5. Conclusion
 Now that you have an idea of what questions can be answered with this package, please see each of our supplementary vignette chapters for detailed and thorough commentary and guiding information on each of the three topics discussed herein. The vignettes are:
 
-- [Chapter 2: Import Data](https://gabrielodom.github.io/pathwayPCA/articles/C2-Importing_Data.html)
-- [Chapter 3: Create `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/C3-Create_Omics_Objects.html)
-- [Chapter 4: Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html)
-- [Chapter 5: Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/C4-Methods_Walkthrough.html)
+- [Chapter 2: Import Data](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html)
+- [Chapter 3: Create `Omics` Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html)
+- [Chapter 4: Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html)
+- [Chapter 5: Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html)
 
 Here is the R session information for this vignette:
 ```{r sessionDetails}

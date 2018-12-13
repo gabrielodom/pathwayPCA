@@ -4,7 +4,7 @@
 \name{SuperPCA_pVals}
 \alias{SuperPCA_pVals}
 \alias{SuperPCA_pVals,OmicsPathway-method}
-\title{Test pathways with supervised PCA}
+\title{Test pathways with Supervised PCA}
 \usage{
 SuperPCA_pVals(object, n.threshold = 20, numPCs = 1,
   parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
@@ -84,7 +84,7 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
   functions.
 
   Please see our Quickstart Guide for this package:
-  \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
+  \url{https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html}
 }
 \examples{
 \dontrun{
