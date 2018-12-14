@@ -85,24 +85,30 @@ calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
   ###  Calculate Raw Pathway p-Values  ###
   print("Calculating Pathway p-Values")
   genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
-  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
-                                   pathwaySize_vec = genesPerPathway_vec)
-  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
-                                    pathwaySize_vec = genesPerPathway_vec,
-                                    optimParams_vec = optParams_vec)
+  optParams_vec <- OptimGumbelMixParams(
+    max_tControl_vec = tControlMax_vec,
+    pathwaySize_vec = genesPerPathway_vec
+  )
+  pvalues_vec <- GumbelMixpValues(
+    tScore_vec = tScoreMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    optimParams_vec = optParams_vec
+  )
 
-  out_df <- data.frame(goterms = names(pathwayGeneSets_ls$pathways),
-                       terms = unlist(pathwayGeneSets_ls$TERMS),
-                       setsize = genesPerPathway_vec,
-                       rawp = pvalues_vec,
-                       stringsAsFactors = FALSE)
+  out_df <- data.frame(
+    goterms = names(pathwayGeneSets_ls$pathways),
+    terms = unlist(pathwayGeneSets_ls$TERMS),
+    setsize = genesPerPathway_vec,
+    rawp = pvalues_vec,
+    stringsAsFactors = FALSE
+  )
   rownames(out_df) <- NULL
   print("DONE")
 
 
   ###  Adjust Pathway p-Values for Multiple Comparisons  ###
   print("Adjusting Pathway p-Values for Multiple Comparisons")
-  adjusted_df <- data.frame(adjustRaw_pVals(out_df$rawp, adjustment))
+  adjusted_df <- data.frame(ControlFDR(out_df$rawp, adjustment))
   adjusted_df <- adjusted_df[, -1, drop = FALSE]
   out_df <- cbind(out_df, adjusted_df)
 
@@ -256,18 +262,24 @@ calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
   ###  Calculate Raw Pathway p-Values  ###
   message("Calculating Pathway p-Values")
   genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
-  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
-                                          pathwaySize_vec = genesPerPathway_vec,
-                                          ...)
-  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
-                                    pathwaySize_vec = genesPerPathway_vec,
-                                    optimParams_vec = optParams_vec)
+  optParams_vec <- OptimGumbelMixParams(
+    max_tControl_vec = tControlMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    ...
+  )
+  pvalues_vec <- GumbelMixpValues(
+    tScore_vec = tScoreMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    optimParams_vec = optParams_vec
+  )
 
-  out_df <- data.frame(goterms = names(pathwayGeneSets_ls$pathways),
-                       terms = unlist(pathwayGeneSets_ls$TERMS),
-                       setsize = genesPerPathway_vec,
-                       rawp = pvalues_vec,
-                       stringsAsFactors = FALSE)
+  out_df <- data.frame(
+    goterms = names(pathwayGeneSets_ls$pathways),
+    terms = unlist(pathwayGeneSets_ls$TERMS),
+    setsize = genesPerPathway_vec,
+    rawp = pvalues_vec,
+    stringsAsFactors = FALSE
+  )
   rownames(out_df) <- NULL
   message("DONE")
 
@@ -276,9 +288,9 @@ calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
 
     ###  Adjust Pathway p-Values for Multiple Comparisons  ###
     message("Adjusting Pathway p-Values for Multiple Comparisons")
-    adjusted_df <- data.frame(adjustRaw_pVals(out_df$rawp,
-                                              adjustment,
-                                              alpha = alpha))
+    adjusted_df <- data.frame(
+      ControlFDR(out_df$rawp, adjustment, alpha = alpha)
+    )
     adjusted_df <- adjusted_df[, -1, drop = FALSE]
     out_df <- cbind(out_df, adjusted_df)
 
@@ -297,57 +309,65 @@ calculate_pathway_pvalues <- function(pathwayGeneSets_ls,
 
 ###  Tests  ###
 a <- Sys.time()
-survTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
-                                         geneArray_df = array,
-                                         response_mat = survY_df,
-                                         responseType = "survival",
-                                         parallel = TRUE,
-                                         numCores = detectCores() - 2,
-                                         adjustpValues = TRUE,
-                                         adjustment = c("BH", "Hoch"))
+survTest_df <- calculate_pathway_pvalues(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df,
+  responseType = "survival",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Hoch")
+)
 Sys.time() - a # 10.19451 min
 # It works
 
 a <- Sys.time()
-regTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
-                                        geneArray_df = array,
-                                        response_mat = survY_df$SurvivalTime,
-                                        responseType = "regression",
-                                        parallel = TRUE,
-                                        numCores = detectCores() - 2,
-                                        adjustpValues = TRUE,
-                                        adjustment = c("BH", "Hoch"))
+regTest_df <- calculate_pathway_pvalues(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df$SurvivalTime,
+  responseType = "regression",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Hoch")
+)
 Sys.time() - a # 2.704036 min
 # It works
 
-# I need to test passing some arguments to the weibullMix_optimParams() function,
+# I need to test passing some arguments to the OptimGumbelMixParams() function,
 #   but this looks good overall. As a note, I don't want people passing any
 #   arguments to the internal optim() function, because it is very sensitive.
 a <- Sys.time()
-regTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
-                                        geneArray_df = array,
-                                        response_mat = survY_df$SurvivalTime,
-                                        responseType = "regression",
-                                        parallel = TRUE,
-                                        numCores = detectCores() - 2,
-                                        adjustpValues = TRUE,
-                                        adjustment = c("BH", "Hoch"),
-                                        initialVals = c(p = 0.02,
-                                                        mu1 = 1, s1 = 0.5,
-                                                        mu2 = 1, s2 = 0.5))
+regTest_df <- calculate_pathway_pvalues(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df$SurvivalTime,
+  responseType = "regression",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Hoch"),
+  initialVals = c(p = 0.02,
+                  mu1 = 1, s1 = 0.5,
+                  mu2 = 1, s2 = 0.5)
+)
 Sys.time() - a # 2.704036 min
 # Dots work
 
 
 a <- Sys.time()
-classifTest_df <- calculate_pathway_pvalues(pathwayGeneSets_ls = geneset,
-                                            geneArray_df = array,
-                                            response_mat = survY_df$disease_event,
-                                            responseType = "classification",
-                                            parallel = TRUE,
-                                            numCores = detectCores() - 2,
-                                            adjustpValues = TRUE,
-                                            adjustment = c("BH", "SidakSS"))
+classifTest_df <- calculate_pathway_pvalues(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df$disease_event,
+  responseType = "classification",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "SidakSS")
+)
 Sys.time() - a # 3.700761 min
 
 
@@ -471,12 +491,16 @@ superPCA_pathway_pvals <- function(pathwayGeneSets_ls,
   ###  Calculate Raw Pathway p-Values  ###
   message("Calculating Pathway p-Values")
   genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
-  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
-                                          pathwaySize_vec = genesPerPathway_vec,
-                                          ...)
-  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
-                                    pathwaySize_vec = genesPerPathway_vec,
-                                    optimParams_vec = optParams_vec)
+  optParams_vec <- OptimGumbelMixParams(
+    max_tControl_vec = tControlMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    ...
+  )
+  pvalues_vec <- GumbelMixpValues(
+    tScore_vec = tScoreMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    optimParams_vec = optParams_vec
+  )
 
   if(adjustpValues){
     message("Adjusting p-Values and Sorting Pathway p-Value Data Frame")
@@ -484,11 +508,13 @@ superPCA_pathway_pvals <- function(pathwayGeneSets_ls,
     message("Sorting Pathway p-Value Data Frame")
   }
 
-  out_df <- adjust_and_sort(pVals_vec = pvalues_vec,
-                            genesets_ls = pathwayGeneSets_ls,
-                            adjust = adjustpValues,
-                            proc_vec = adjustment,
-                            ...)
+  out_df <- TabulatepValues(
+    pVals_vec = pvalues_vec,
+    genesets_ls = pathwayGeneSets_ls,
+    adjust = adjustpValues,
+    proc_vec = adjustment,
+    ...
+  )
   message("DONE")
 
   ###  Return  ###
@@ -498,57 +524,65 @@ superPCA_pathway_pvals <- function(pathwayGeneSets_ls,
 
 ###  Tests  ###
 a <- Sys.time()
-survTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
-                                      geneArray_df = array,
-                                      response_mat = survY_df,
-                                      responseType = "survival",
-                                      parallel = TRUE,
-                                      numCores = detectCores() - 2,
-                                      adjustpValues = TRUE,
-                                      adjustment = c("BH", "Hoch"))
+survTest_df <- superPCA_pathway_pvals(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df,
+  responseType = "survival",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Hoch")
+)
 Sys.time() - a # 10.19451 min
 # It works
 
 a <- Sys.time()
-regTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
-                                     geneArray_df = array,
-                                     response_mat = survY_df$SurvivalTime,
-                                     responseType = "regression",
-                                     parallel = TRUE,
-                                     numCores = detectCores() - 2,
-                                     adjustpValues = TRUE,
-                                     adjustment = c("BH", "Hoch"))
+regTest_df <- superPCA_pathway_pvals(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df$SurvivalTime,
+  responseType = "regression",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Hoch")
+)
 Sys.time() - a # 2.704036 min
 # It works
 
-# I need to test passing some arguments to the weibullMix_optimParams() function,
+# I need to test passing some arguments to the OptimGumbelMixParams() function,
 #   but this looks good overall. As a note, I don't want people passing any
 #   arguments to the internal optim() function, because it is very sensitive.
 a <- Sys.time()
-regTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
-                                     geneArray_df = array,
-                                     response_mat = survY_df$SurvivalTime,
-                                     responseType = "regression",
-                                     parallel = TRUE,
-                                     numCores = detectCores() - 2,
-                                     adjustpValues = TRUE,
-                                     adjustment = c("BH", "Hoch"),
-                                     initialVals = c(p = 0.02,
-                                                     mu1 = 1, s1 = 0.5,
-                                                     mu2 = 1, s2 = 0.5))
+regTest_df <- superPCA_pathway_pvals(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df$SurvivalTime,
+  responseType = "regression",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Hoch"),
+  initialVals = c(p = 0.02,
+                  mu1 = 1, s1 = 0.5,
+                  mu2 = 1, s2 = 0.5)
+)
 Sys.time() - a # 2.704036 min
 # Dots work
 
 
 a <- Sys.time()
-classifTest_df <- superPCA_pathway_pvals(pathwayGeneSets_ls = geneset,
-                                         geneArray_df = array,
-                                         response_mat = survY_df$disease_event,
-                                         responseType = "classification",
-                                         parallel = TRUE,
-                                         numCores = detectCores() - 2,
-                                         adjustpValues = TRUE,
-                                         adjustment = c("BH", "SidakSS"))
+classifTest_df <- superPCA_pathway_pvals(
+  pathwayGeneSets_ls = geneset,
+  geneArray_df = array,
+  response_mat = survY_df$disease_event,
+  responseType = "classification",
+  parallel = TRUE,
+  numCores = detectCores() - 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "SidakSS")
+)
 Sys.time() - a # 3.700761 min
 
 
@@ -586,7 +620,7 @@ superPCA_pathway_pvals <- function(Omics_object,
 
   ###  Extract Information from S4 Object  ###
   geneArray_df <- t(Omics_object@assayData_df)
-  pathwayGeneSets_ls <- Omics_object@pathwaySet
+  pathwayGeneSets_ls <- Omics_object@trimPathwayCollection
   obj_class <- class(Omics_object)
   switch (obj_class,
           OmicsSurv = {
@@ -641,28 +675,32 @@ superPCA_pathway_pvals <- function(Omics_object,
 
     ###  Matrix of Student's t Scores and Controls  ###
     message("Calculating Pathway Test Statistics in Parallel")
-    tScores_mat <- parSapply(cl = clust,
-                             paths_ls,
-                             pathway_tScores,
-                             geneArray_df = geneArray_df,
-                             response_mat = response_mat,
-                             responseType = responseType,
-                             n.threshold = n.threshold,
-                             numPCs = numPCs,
-                             min.features = min.features)
+    tScores_mat <- parSapply(
+      cl = clust,
+      paths_ls,
+      pathway_tScores,
+      geneArray_df = geneArray_df,
+      response_mat = response_mat,
+      responseType = responseType,
+      n.threshold = n.threshold,
+      numPCs = numPCs,
+      min.features = min.features
+    )
     tScores_mat <- t(tScores_mat)
     message("DONE")
 
     message("Calculating Pathway Critical Values in Parallel")
-    tControl_mat <- parSapply(cl = clust,
-                              paths_ls,
-                              pathway_tControl,
-                              geneArray_df = geneArray_df,
-                              response_mat = response_mat,
-                              responseType = responseType,
-                              n.threshold = n.threshold,
-                              numPCs = numPCs,
-                              min.features = min.features)
+    tControl_mat <- parSapply(
+      cl = clust,
+      paths_ls,
+      pathway_tControl,
+      geneArray_df = geneArray_df,
+      response_mat = response_mat,
+      responseType = responseType,
+      n.threshold = n.threshold,
+      numPCs = numPCs,
+      min.features = min.features
+    )
     tControl_mat <- t(tControl_mat)
     message("DONE")
     stopCluster(clust)
@@ -671,26 +709,30 @@ superPCA_pathway_pvals <- function(Omics_object,
 
     ###  Matrix of Student's t Scores and Controls  ###
     message("Calculating Pathway Test Statistics Serially")
-    tScores_mat <- sapply(paths_ls,
-                          pathway_tScores,
-                          geneArray_df = geneArray_df,
-                          response_mat = response_mat,
-                          responseType = responseType,
-                          n.threshold = n.threshold,
-                          numPCs = numPCs,
-                          min.features = min.features)
+    tScores_mat <- sapply(
+      paths_ls,
+      pathway_tScores,
+      geneArray_df = geneArray_df,
+      response_mat = response_mat,
+      responseType = responseType,
+      n.threshold = n.threshold,
+      numPCs = numPCs,
+      min.features = min.features
+    )
     tScores_mat <- t(tScores_mat)
     message("DONE")
 
     message("Calculating Pathway Critical Values Serially")
-    tControl_mat <- sapply(paths_ls,
-                           pathway_tControl,
-                           geneArray_df = geneArray_df,
-                           response_mat = response_mat,
-                           responseType = responseType,
-                           n.threshold = n.threshold,
-                           numPCs = numPCs,
-                           min.features = min.features)
+    tControl_mat <- sapply(
+      paths_ls,
+      pathway_tControl,
+      geneArray_df = geneArray_df,
+      response_mat = response_mat,
+      responseType = responseType,
+      n.threshold = n.threshold,
+      numPCs = numPCs,
+      min.features = min.features
+    )
     tControl_mat <- t(tControl_mat)
     message("DONE")
 
@@ -710,12 +752,16 @@ superPCA_pathway_pvals <- function(Omics_object,
   ###  Calculate Raw Pathway p-Values  ###
   message("Calculating Pathway p-Values")
   genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
-  optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
-                                          pathwaySize_vec = genesPerPathway_vec,
-                                          ...)
-  pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
-                                    pathwaySize_vec = genesPerPathway_vec,
-                                    optimParams_vec = optParams_vec)
+  optParams_vec <- OptimGumbelMixParams(
+    max_tControl_vec = tControlMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    ...
+  )
+  pvalues_vec <- GumbelMixpValues(
+    tScore_vec = tScoreMax_vec,
+    pathwaySize_vec = genesPerPathway_vec,
+    optimParams_vec = optParams_vec
+  )
 
   if(adjustpValues){
     message("Adjusting p-Values and Sorting Pathway p-Value Data Frame")
@@ -723,11 +769,13 @@ superPCA_pathway_pvals <- function(Omics_object,
     message("Sorting Pathway p-Value Data Frame")
   }
 
-  out_df <- adjust_and_sort(pVals_vec = pvalues_vec,
-                            genesets_ls = pathwayGeneSets_ls,
-                            adjust = adjustpValues,
-                            proc_vec = adjustment,
-                            ...)
+  out_df <- TabulatepValues(
+    pVals_vec = pvalues_vec,
+    genesets_ls = pathwayGeneSets_ls,
+    adjust = adjustpValues,
+    proc_vec = adjustment,
+    ...
+  )
   message("DONE")
 
   ###  Return  ###
@@ -756,8 +804,8 @@ superPCA_pathway_pvals <- function(Omics_object,
 # paths_ls[[1257]] # 4 genes
 # paths_ls[[1310]] # 4 genes
 # # Both of these pathways have enough genes so that the pass the `trim` argument
-# #   in the `extract_aesPCs()` or `expressedOmes()` functions, but too few for
-# #   the `min.features = 5` argument in the `pathway_tScores()` and
+# #   in the `ExtractAESPCs()` or `IntersectOmicsPwyCollct()` functions, but
+# #   too few for the `min.features = 5` argument in the `pathway_tScores()` and
 # #   `pathway_tControl` functions (which pass this argument on to the internal
 # #   `superpc.st()` function).
 # pathway_tScores(pathway_vec = paths_ls[[1257]],
@@ -789,62 +837,76 @@ superPCA_pathway_pvals <- function(Omics_object,
 
 ######  V 4 Tests  ############################################################
 
-# FUNCTION EXTRACTED TO: superPC_wrapper.R
-
-library(parallel)
-library(pathwayPCA)
-
-data("supervised_Tumors_df")
-array <- supervised_Tumors_df
-data("supervised_patInfo_df")
-data("supervised_Genesets4240_ls")
-geneset <- supervised_Genesets4240_ls
-
-# Note that the data is p x n
-survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
-rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
-
-
-# REQUIRES THE TUMOUR SURVIVAL DATA SET
-###  Tests  ###
-
-tumour_OmicsSurv <- create_OmicsSurv(assayData_df = as.data.frame(t(array)),
-                                     pathwaySet_ls = geneset,
-                                     eventTime_num = survY_df$SurvivalTime,
-                                     eventObserved_lgl = as.logical(survY_df$disease_event))
-a <- Sys.time()
-survTest_df <- superPCA_pVals(object = tumour_OmicsSurv,
-                              parallel = TRUE,
-                              numCores = detectCores() - 2,
-                              adjustpValues = TRUE,
-                              adjustment = c("BH", "SidakSS"))
-Sys.time() - a # 1.715719 min
-# It works
-
-
-tumour_OmicsReg <- create_OmicsReg(assayData_df = as.data.frame(t(array)),
-                                   pathwaySet_ls = geneset,
-                                   response_num = survY_df$SurvivalTime)
-a <- Sys.time()
-regTest_df <- superPCA_pVals(object = tumour_OmicsReg,
-                             parallel = TRUE,
-                             numCores = detectCores() - 2,
-                             adjustpValues = TRUE,
-                             adjustment = c("BH", "SidakSS"))
-Sys.time() - a # 1.054811 min
-# It works
-
-
-tumour_OmicsCateg <- create_OmicsCateg(assayData_df = as.data.frame(t(array)),
-                                       pathwaySet_ls = geneset,
-                                       response_fact = as.factor(survY_df$disease_event))
-a <- Sys.time()
-classifTest_df <- superPCA_pVals(object = tumour_OmicsCateg,
-                                 parallel = TRUE,
-                                 numCores = detectCores() - 2,
-                                 adjustpValues = TRUE,
-                                 adjustment = c("BH", "SidakSS"))
-Sys.time() - a # 2.206281 min
+# # FUNCTION EXTRACTED TO: superPC_wrapper.R
+#
+# library(parallel)
+# library(pathwayPCA)
+#
+# data("supervised_Tumors_df")
+# array <- supervised_Tumors_df
+# data("supervised_patInfo_df")
+# data("supervised_Genesets4240_ls")
+# geneset <- supervised_Genesets4240_ls
+#
+# # Note that the data is p x n
+# survY_df <- supervised_patInfo_df[, c("SurvivalTime", "disease_event")]
+# rm(supervised_Tumors_df, supervised_Genesets4240_ls, supervised_patInfo_df)
+#
+#
+# # REQUIRES THE TUMOUR SURVIVAL DATA SET
+# ###  Tests  ###
+#
+# tumour_OmicsSurv <- CreateOmics(
+#   assayData_df = as.data.frame(t(array)),
+#   pathwayCollection_ls = geneset,
+#   response = survY_df,
+#   respType = "surv"
+# )
+# a <- Sys.time()
+# survTest_df <- SuperPCA_pVals(
+#   object = tumour_OmicsSurv,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2,
+#   adjustpValues = TRUE,
+#   adjustment = c("BH", "SidakSS")
+# )
+# Sys.time() - a # 1.715719 min
+# # It works
+#
+#
+# tumour_OmicsReg <- CreateOmics(
+#   assayData_df = as.data.frame(t(array)),
+#   pathwayCollection_ls = geneset,
+#   response = survY_df$SurvivalTime,
+#   respType = "reg"
+# )
+# a <- Sys.time()
+# regTest_df <- SuperPCA_pVals(
+#   object = tumour_OmicsReg,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2,
+#   adjustpValues = TRUE,
+#   adjustment = c("BH", "SidakSS")
+# )
+# Sys.time() - a # 1.054811 min
+# # It works
+#
+#
+# tumour_OmicsCateg <- CreateOmics(
+#   assayData_df = as.data.frame(t(array)),
+#   pathwayCollection_ls = geneset,
+#   response = survY_df$disease_event,
+#   respType = "categ"
+# )
+# a <- Sys.time()
+# classifTest_df <- SuperPCA_pVals(
+#   object = tumour_OmicsCateg,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2,
+#   adjustpValues = TRUE,
+#   adjustment = c("BH", "SidakSS")
+# )
+# Sys.time() - a # 2.206281 min
 
 ###  Guts Checks  ###
 # pathway_tScores(pathway_vec = paths_ls[[2]],
@@ -855,9 +917,9 @@ Sys.time() - a # 2.206281 min
 
 # REQUIRES THE VANDERBILT COLON CANCER DATA SET
 # ###  Survival Test  ###
-# colon2_OmicsSurv <- expressedOmes(colon_OmicsSurv)
+# colon2_OmicsSurv <- IntersectOmicsPwyCollct(colon_OmicsSurv)
 # a <- Sys.time()
-# survTest_df <- superPCA_pathway_pvals(Omics_object = colon2_OmicsSurv,
+# survTest_df <- SuperPCA_pathway_pvals(Omics_object = colon2_OmicsSurv,
 #                                       parallel = TRUE,
 #                                       numCores = detectCores() - 2,
 #                                       adjustpValues = TRUE,
@@ -866,7 +928,7 @@ Sys.time() - a # 2.206281 min
 #
 #
 # ###  Regression Test  ###
-# colon2_OmicsReg <- expressedOmes(colon_OmicsReg)
+# colon2_OmicsReg <- IntersectOmicsPwyCollct(colon_OmicsReg)
 # b <- Sys.time()
 # regTest_df <- superPCA_pathway_pvals(Omics_object = colon2_OmicsReg,
 #                                      parallel = TRUE,
@@ -877,7 +939,7 @@ Sys.time() - a # 2.206281 min
 #
 #
 # ### Classification Test  ###
-# colon2_OmicsCateg <- expressedOmes(colon_OmicsCateg)
+# colon2_OmicsCateg <- IntersectOmicsPwyCollct(colon_OmicsCateg)
 # c <- Sys.time()
 # classifTest_df <- superPCA_pathway_pvals(Omics_object = colon2_OmicsCateg,
 #                                          parallel = TRUE,
@@ -888,3 +950,47 @@ Sys.time() - a # 2.206281 min
 
 
 # REQUIRES THE PANG OVARIAN CANCER DATA SET
+
+
+######  v5 Tests  #############################################################
+library(pathwayPCA)
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+colon_OmicsSurv <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:2)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[, 1:3],
+  respType = "survival"
+)
+
+survTest_ls <- SuperPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 1,
+  parallel = FALSE,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "BY")
+)
+
+survTest_ls <- SuperPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 4,
+  min.features = 5,
+  parallel = FALSE,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "BY")
+)
+
+
+a <- Sys.time()
+colon_superpcOut <- SuperPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 15,
+  adjustpValues = TRUE,
+  adjustment = "BY"
+)
+Sys.time() - a
+
+

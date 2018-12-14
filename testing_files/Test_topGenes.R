@@ -3,8 +3,8 @@
 topFeatures <- function(object, pVals_df, percentile = 0.95){
   # browser()
 
-  clean_obj <- expressedOmes(object, message = FALSE)
-  paths_ls <- clean_obj@pathwaySet$pathways
+  clean_obj <- IntersectOmicsPwyCollct(object, message = FALSE)
+  paths_ls <- clean_obj@trimPathwayCollection$pathways
   genes_char <- unique(do.call(c, paths_ls))
   rm(object, clean_obj)
 
@@ -38,8 +38,8 @@ topFeatures <- function(object, pVals_df, percentile = 0.95){
 
 # Test
 # # The gene set list must come from the clean Omics* object (after it has been
-# #   passed through the expressedOmes() function).
-# genesetsClean_ls <- expressedOmes(colon_OmicsSurv)@pathwaySet
+# #   passed through the IntersectOmicsPwyCollct() function).
+# genesetsClean_ls <- IntersectOmicsPwyCollct(colon_OmicsSurv)@pathwayCollection
 topFeatures(object = colon_OmicsSurv, pVals_df = surv_pVals_df)
 
 # If you stored the results from the supervised PCA and AES-PCA runs as

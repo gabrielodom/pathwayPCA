@@ -1,0 +1,320 @@
+---
+title: "Suppl. Ch. 4 - Test Pathway Significance"
+author: "Gabriel Odom"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+  word_document:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Test Pathway Significance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      cache = FALSE,
+                      comment = "#>")
+```
+
+
+# 1. Overview
+This vignette is the fourth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Pathway Significance Testing](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#test-pathways-for-significance) section of the Quickstart Guide. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics`-class objects with pathway-level adaptive, elastic-net, sparse or supervised modifications to principal components analysis (PCA), abbreviated AES-PCA and Supervised PCA, respectively. We will consider examples for three types of response information: survival, regression, and binary responses. The predictor information is subsets of assay data which correspond to individual pathways, where a pathway is a bundle of genes with shared biological function. The main goal of pathway significance testing is to discover potential relationships between a given collection of pathways and the response.
+
+## 1.1 Outline
+Before we move on, we will outline our steps. After reading this vignette, you should
+
+1. Understand the basics of the AES-PCA pathway-significance testing approach.
+2. Understand the basics of the Supervised PCA pathway-significance testing approach.
+3. Be able to apply AES-PCA or Supervised PCA to analyze `Omics` data objects with survival, regression, or classification response.
+
+## 1.2 Load Packages
+Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA/tree/devel) from [GitHub](https://github.com/):
+```
+devtools::install_github("gabrielodom/pathwayPCA", ref = "devel")
+```
+```{r packLoad, message=FALSE}
+library(parallel)
+library(tidyverse)
+library(pathwayPCA)
+```
+
+
+## 1.3 Load `Omics` Data
+```{r data_setup, echo = FALSE, message = FALSE}
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+colon_OmicsSurv <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response = colonSurv_df[, 1:3],
+  respType = "surv"
+)
+```
+Because you have already read through the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and [Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes, we will pick up with the `colon_OmicsSurv` object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a pathways list. The `colon_OmicsSurv` data object we constructed in [Chapter 3](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) has all of this.
+```{r data_show}
+colon_OmicsSurv
+```
+
+*******************************************************************************
+
+</br>
+
+
+# 2. Pathway Testing Setup
+In this section, we will describe the workflow of the Supervised PCA (`SuperPCA_pVals`) and AES-PCA (`AESPCA_pVals`) pathway significance-testing methods. **The implementation of Supervised PCA in this package does not currently support analysis of responses with missingness.** If you plan to test your pathways using the Supervised PCA method, please remove observations with missing entries before analysis. Unlike the current implementation of Supervised PCA, our current implementation of AES-PCA can handle some missingness in the response.
+
+Also, when we compare computing times in this vignette, we use a Dell Precision Tower 5810 with 64-bit Windows 7 Enterprise OS. This machine has 64 GB of RAM and an Intel Xeon E5-2640 v4 2.40 GHz processor with 20 threads. We use two threads for parallel computing. Please adjust your expectations of computing time accordingly.
+
+## 2.1 Pathway Significance Testing Overview
+Now that we have our data stored in an `Omics`-class object, we can test the significance of each pathway with AES- or Supervised PCA. These functions both
+
+1. Extract the first principal components (PCs) from each pathway-subset of the assay design matrix.
+2. Test the association between the extracted PCs and the response matrix (survival) or vector (all others).
+3. Adjust the pathway $p$-values for False Discovery Rate (FDR) or Family-wise Error Rate (FWER).
+4. Return a sorted data frame of the adjusted $p$-values, a list of the first PCs, and a list of the first loading vectors, all for each pathway.
+
+The major differences between the AES-PCA and Supervised PCA methods involve the execution of (1) and (2), which we will describe in their respective methods sections.
+
+## 2.2 Extract Pathway PCs
+The details of this step will depend on the method, but the overall idea remains the same. For each pathway in the trimmed pathway collection, select the columns of the assay data frame that correspond to each genes contained within that pathway. Then, given the pathway-specific assay data subset, use the chosen PCA method to extract the first PCs from that subset of the assay data. The end result of this step is a list of the first PCs and a list of the loading vectors which correspond to these PCs.
+
+## 2.3 Test Pathway Association
+The details of this step will also depend on the method. At this point in the method execution, we will have a list of PCs representing the data corresponding to each pathway. We then apply simple models to test if the PCs associated with that pathway are significantly related to the output. For survival output, we use Cox Proportional Hazards (Cox PH) regression. For categorical output, (because we only support binary responses in this version) we use logistic regression to test for a relationship between pathway PCs and the response. For continuous output, we use a simple multiple regression model. The AES- and Supervised PCA methods differ on *how* the $p$-values from these models are calculated, but the end result of this step is a $p$-value for each of the trimmed pathways.
+
+## 2.4 Adjust the Pathway $p$-Values for FDR
+At this step, we have a vector of $p$-values corresponding to the list of trimmed pathways. We know that repeated comparisons inflate the Type-I error rate, so we adjust these $p$-values to control the Type-I error. We use the FDR adjustments executed in the `mt.rawp2adjp` function from the `multtest` [Bioconductor package](https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf). We modified this function's code to better fit into our package workflow. While we do not depend on this package directly, we acknowledge their work in this area and express our gratitude. Common adjustment methods to control the FWER or FDR are the Bonferroni, Sidak, Holm, or Benjamini and Hochberg techniques.
+
+## 2.5 Output a Sorted Data Frame / Tibble
+The end result of either PCA variant is a data frame (`pVals_df`), list of PCs (`PCs_ls`), and list of loadings to match the PCs (`loadings_ls`). The $p$-values data frame has the following columns:
+
+- `pathways`: The names of the pathways in the `Omics` object. The names will match those given in
+```{r}
+names(getPathwayCollection(colon_OmicsSurv)$pathways)
+```
+
+- `n_tested`: The number of genes in each of the pathways after trimming to match the given data assay. The number of genes per pathway given in
+```{r}
+getTrimPathwayCollection(colon_OmicsSurv)$n_tested
+```
+
+- `terms`: The pathway description, as given in
+```{r}
+getPathwayCollection(colon_OmicsSurv)$TERMS
+```
+
+- `rawp`: The unadjusted $p$-values of each pathway.
+- `...`: Additional columns for each requested FDR/FWER adjustment.
+
+The data frame will have its rows sorted in increasing order by the adjusted $p$-value corresponding to the first adjustment method requested. Ties are broken by the raw $p$-values. Additionally, if you use the [`tidyverse`](https://www.tidyverse.org/) package suite (and have these packages loaded), then the output will be a tibble object, rather than a data frame object. This object class comes with enhanced printing methods and some other benefits.
+
+*******************************************************************************
+
+</br>
+
+
+# 3. AES-PCA
+Now that we have described the overview of the pathway analysis methods, we can discuss and give examples in more detail.
+
+## 3.1 Method Details
+
+### 3.1.1 AES-PCA Method Sources
+Adaptive, elastic-net, sparse PCA is a combination of the [Adaptive Elastic-Net](https://doi.org/10.1214/08-AOS625) of Zou and Zhang (2009) and [Sparse PCA](https://doi.org/10.1198/106186006X113430) of Zou et al. (2006). This method was applied to pathways association testing by [Chen (2011)](https://doi.org/10.2202/1544-6115.1697). Accoding to Chen (2011), the "AES-PCA method removes noisy expression signals and also account[s] for correlation structure between the genes. It is computationally efficient, and the estimation of the PCs does not depend on clinical outcomes." This package uses a legacy version of the [LARS algorithm](https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf) of Efron et al. (2003) to calculate the PCs.
+
+
+### 3.1.2 Calculate Pathway-Specific Model $p$-Values
+For the AES-PCA method, pathway $p$-values can be calculated with a permutation test. Therefore, when testing the relationship between the response and the PCs extracted by AES-PCA, the accuracy of the permuted $p$-values will depend on how many permutations you call for. We recommend 1000. Be warned, however, that this may be too few permutations to create accurate seperation in pathway significance $p$-values. You could increase the permutations to a larger value, should your computing resources allow for that. For even moderately-sized data sets (~2000 features) and 1000 pathways, this could take half an hour or more. If you choose to calculate the pathway $p$-values non-parametrically, about 20-30% of the computing costs will be extracting the AES-PCs from each pathway (though this proportion will increase if the LARS algorithm has convergence issues with the given pathway). The remaining 70-80% of the cost will be the permutation test (for 1000 permutations).
+
+### 3.1.3 AES-PCA Pros and Cons
+
+Pros:
+
+- The AES-PCA method can handle some missingness in the response.
+- The $p$-values can be calculated non-parametrically.
+
+Cons:
+
+- The AES-PCA algorithm requires optimization over two tuning parameters and can therefore be considerably slower than using the singular value decomposition or eigendecomposition to extract PCs.
+- The $p$-values calculated may be too discrete for fewer than 10,000 permutations, which can affect the behavior of the adjustment procedures.
+
+
+## 3.2 AES-PCA Examples
+Now that we have discussed both the overview of the AES-PCA method and some of its specific details, we can run some examples. We have included in this package a toy data collection: a small tidy assay and corresponding pathway collection. This assay has 656 gene expression measurements on 250 colon cancer patients. Survival responses pertaining to these patients are also included. Further, the subset of the pathways collection containts 15 pathways which match most of the genes measured in our example colon cancer assay.
+
+### 3.2.1 Survival Response
+We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. We will now describe the computational cost for the non-parametric approach.
+
+For the tiny $250 \times 656$ assay with 15 associated pathways, calculating pathway $p$-values with 1000 replicates completes in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds ($7.9\times$ longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway, which does not depend on the number of permutations).
+
+In the example that we show, we will calculate the pathway $p$-values parametrically, by specifying `numReps = 0`. Furthermore, the AES-PCA and Supervised PCA functions give some messages concerning the setup and progress of the computation. 
+```{r aes_surv_pvals}
+colonSurv_aespcOut <- AESPCA_pVals(
+  object = colon_OmicsSurv,
+  numReps = 0,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Hoch", "SidakSD")
+)
+```
+
+
+### 3.2.2 Regression Response
+We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures (as an aside, note that this type of multiple testing violates the independence assumption of the [Simes inequality](https://doi.org/10.1214/193940307000000167)). For 1000 permutations, this calculation takes 17 seconds. For 10,000 permutations, this calculation takes 102 seconds ($6.1\times$ longer).
+```{r aes_reg_pvals, eval=FALSE}
+colonReg_aespcOut <- AESPCA_pVals(
+  object = colon_OmicsReg,
+  numReps = 0,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Holm", "BH")
+)
+```
+
+
+### 3.2.3 Binary Classification Response
+Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. For 1000 permutations, this calculation takes 30 seconds. For 10,000 permutations, this calculation takes 226 seconds ($7.6\times$ longer).
+```{r aes_categ_pvals, eval=FALSE}
+colonCateg_aespcOut <- AESPCA_pVals(
+  object = colon_OmicsCateg,
+  numReps = 0,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("SidakSS", "BY")
+)
+```
+
+*******************************************************************************
+
+</br>
+
+
+# 4. Supervised PCA
+We now discuss and give examples of the Supervised PCA method.
+
+## 4.1 Method Details
+
+### 4.1.1 Supervised PCA Method Sources
+While PCA is a commonly-applied *unsupervised* learning technique (i.e., response information is unnecessary), one limitation of this method is that ignoring response information may yield a first PC completely unrelated to outcome. In an effort to bolster this weakness, [Bair et al. (2006)](https://doi.org/10.1198/016214505000000628) employed response information to rank predictors by the strength of their association. Then, they extracted PCs from feature design matrix subsets constructed from the predictors most strongly associated with the response. [Chen et al. (2008)](https://doi.org/10.1093/bioinformatics/btn458) extend this technique to subsets of biological features within pre-defined biological pathways; they applied the Supervised PCA routine independently to each pathway in a pathway collection. [Chen et al. (2010)](https://doi.org/10.1002/gepi.20532) built on this work, testing if pathways were significantly associated with a given biological or clinical response.
+
+### 4.1.2 Calculate Pathway-Specific Model $p$-Values
+As thoroughly discussed in Chen et al. (2008), the model fit and regression coefficient test statistics no longer come from their expected distributions. Necessarily, this is due to Supervised PCA's strength in finding features already associated with outcome. Therefore, for the Supervised PCA method, pathway $p$-values are calculated from a mixture of extreme value distributions. We use a constrained numerical optimization routine to calculate the maximum likelihood estimates of the mean, precision, and mixing proportion components of a mixture of two Gumbel extreme value distributions (for minima and maxima of a random normal sample). The $p$-values from the pathways after permuting the response is used to estimate this null distribution, so result accuracy may be degraded for a very small set of pathways.
+
+### 4.1.3 Supervised-PCA Pros and Cons
+
+Pros:
+
+- The Supervised PCs are extracted without numerical optimization, so calculating the PCs for each pathway is considerably faster than calculating AES-PCs.
+- The $p$-values are calculated parametrically, so calculating the $p$-values is considerably faster than the non-parametric AES-PCA option, while holding better distributional properties than the parametric AES-PCA option.
+
+Cons:
+
+- In rare cases, numerical routines used to find the maximum likelihood estimates for the mixture distribution needed to calculate the $p$-values in Supervised PCA can fail to converge.
+- The Supervised PCA method cannot have missing values in the response.
+
+
+## 4.2 Supervised PCA Examples
+
+### 4.2.1 Survival Response
+We will use two of our available cores with the parallel computing approach. We will adjust the $p$-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny $250 \times 656$ assay with 15 associated pathways, this calculation is completed in 6 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $4.6\times$ faster; for 10,000 permutations, it's $36.1\times$ faster.
+```{r super_surv_pvals, eval=FALSE}
+colonSurv_superpcOut <- SuperPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Hoch", "SidakSD")
+)
+```
+```
+#> Initializing Computing Cluster: DONE
+#> Calculating Pathway Test Statistics in Parallel: DONE
+#> Calculating Pathway Critical Values in Parallel: DONE
+#> Calculating Pathway p-Values: DONE
+#> Adjusting p-Values and Sorting Pathway p-Value Data Frame: DONE
+```
+
+### 4.2.2 Regression Response
+We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the $p$-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures. This calculation took 5 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $3.4\times$ faster; for 10,000 permutations, it's $20.7\times$ faster.
+```{r super_reg_pvals, eval=FALSE}
+colonReg_superpcOut <- SuperPCA_pVals(
+  object = colon_OmicsReg,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Holm", "BH")
+)
+```
+
+### 4.2.3 Binary Classification Response
+Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the $p$-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 8 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is $3.7\times$ faster; for 10,000 permutations, it's $27.6\times$ faster.
+```{r super_categ_pvals, eval=FALSE}
+colonCateg_superpcOut <- SuperPCA_pVals(
+  object = colon_OmicsCateg,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("SidakSS", "BY")
+)
+```
+
+*******************************************************************************
+
+</br>
+
+
+# 5. Inspect the Results
+Now that we have the pathway-specific $p$-values, we can inspect the top pathways ordered by significance. Further, we can assess the loadings of each gene, or the first principal component, corresponding to each pathway.
+
+## 5.1 Table of $p$-Values
+For a quick and easy view of the pathway significance testing results, we can simply print the `pVals_df` data frame in the output object. (Note: if you are not using the `tidyverse` package suite, your results will print differently. Use the `head` function to print the top pathways instead.)
+```{r viewPathwayRanks}
+colonSurv_aespcOut$pVals_df
+```
+
+## 5.2 Pathway PC and Loading Vectors
+We also may be interested in which genes or proteins "drive" a specific pathway. We can extract the pathway-specific PCs and loadings (PC & L) from either the AESPCA or Supervised PCA output with the `getPathPCLs()` function. This function will take in either the proper name of a pathway (as given in the `terms` column) or the unique pathway identifier (as shown in the `pathways` column). Note that the PCs and Loadings are stored in tidy data frames, so they will have enhanced printing properties if you have the `tidyverse` package suite loaded.
+```{r getPathPCLs}
+PCLs_ls <- getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
+PCLs_ls
+```
+
+As an example, we see that the HLA-DRA gene positively loads onto this pathway, and [has been shown to be related to colorectal cancer](https://www.ncbi.nlm.nih.gov/pubmed/16367922).
+```{r HLARDA}
+PCLs_ls$Loadings %>% 
+  filter(PC1 != 0) %>% 
+  select(-PC2) %>% 
+  arrange(desc(PC1))
+```
+
+
+*******************************************************************************
+
+</br>
+
+# 6. Review
+We have has covered in this vignette:
+
+1. The basics of the AES-PCA pathway-significance testing approach.
+2. The basics of the Supervised PCA pathway-significance testing approach.
+3. Applying AES-PCA or Supervised PCA to analyze survival, regression, or classification `Omics` data objects.
+
+Please read vignette chapter 5 next: [Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html).
+
+Here is the R session information for this vignette:
+```{r sessionDetails}
+sessionInfo()
+```

@@ -20,13 +20,13 @@
 #' @return A list of four elements containing the loadings and projected
 #'   predictors:
 #'   \itemize{
-#'     \item{\code{loadings} : }{A \eqn{p \times d} projection matrix of the
+#'     \item{\code{aesLoad} : }{A \eqn{d \times p} projection matrix of the
 #'        \eqn{d} AES-PCs.}
-#'     \item{\code{B0} : }{A \eqn{p \times d} projection matrix of the \eqn{d}
-#'        PCs from the singular value decomposition (SVD).}
-#'     \item{\code{score} : }{An \eqn{n \times d} predictor matrix: the original
-#'        \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
-#'     \item{\code{oldscore} : }{An \eqn{n \times d} predictor matrix: the
+#'     \item{\code{oldLoad} : }{A \eqn{d \times p} projection matrix of the
+#'        \eqn{d} PCs from the singular value decomposition (SVD).}
+#'     \item{\code{aesScore} : }{An \eqn{n \times d} predictor matrix: the
+#'        original \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
+#'     \item{\code{oldScore} : }{An \eqn{n \times d} predictor matrix: the
 #'        original \eqn{n} observations loaded onto the \eqn{d} SVD-PCs.}
 #'   }
 #'
@@ -40,7 +40,9 @@
 #'    section of \code{\link{normalize}}.
 #'
 #' @seealso \code{\link{normalize}}; \code{\link{lars.lsa}};
-#'    \code{\link{extract_aesPCs}}; \code{\link{AESPCA_pVals}}
+#'    \code{\link{ExtractAESPCs}}; \code{\link{AESPCA_pVals}}
+#'
+#' @keywords internal
 #'
 #' @export
 #'
@@ -63,9 +65,31 @@ aespca <- function(X,
 
 
   ###  SVD  ###
-  X <- scale(X, center = TRUE, scale = TRUE)
+  # X <- scale(X, center = TRUE, scale = TRUE)
+  # We moved the scaling step to object creation. See CreateOmics()
+  X <- as.matrix(X)
   xtx <- t(X) %*% X
-  A <- svd(xtx)$v[, 1:d, drop = FALSE]
+
+  svdGram <- tryCatch(svd(xtx), error = function(e) NULL)
+  if(is.null(svdGram)){
+
+    B <- A0 <- as.data.frame(
+      matrix(NA, nrow = p, ncol = d)
+    )
+    score <- oldscore <- as.data.frame(
+      matrix(NA, nrow = n, ncol = d)
+    )
+    obj <- list(
+      aesLoad  = B,         # p x d
+      oldLoad  = A0,        # p x d
+      aesScore = score,     # n x d
+      oldScore = oldscore   # n x d
+    )
+
+    return(obj)
+  }
+
+  A <- svdGram$v[, 1:d, drop = FALSE]
 
 
   ###  LARS Setup  ###
@@ -88,17 +112,48 @@ aespca <- function(X,
     # browser()
 
     k <- k + 1
+    LARSerror <- rep(FALSE, d)
 
     for(i in 1:d){
 
       xtx1 <- xtx
-      lfit <- lars.lsa(Sigma0 = xtx1,
-                       b0 = A[, i],
-                       n = n,
-                       adaptive = adaptive,
-                       type = "lasso",
-                       para = para[i])
-      B[, i] <- lfit$beta.bic
+      lfit <- tryCatch(
+        {
+          lars.lsa(
+            Sigma0 = xtx1,
+            b0 = A[, i],
+            n = n,
+            adaptive = adaptive,
+            type = "lasso",
+            para = para[i]
+          )
+        },
+        error = function(e) NULL
+      )
+
+      if(is.null(lfit)){
+
+        LARSerror[i] <- TRUE
+        next
+
+      } else {
+        B[, i] <- lfit$beta.bic
+      }
+
+    }
+
+    # Escape while() if lars.lsa() craps out
+    if(any(LARSerror)){
+
+      message("LARS algorithm encountered an error. Using SVD instead.")
+
+      A <- svdGram$v[, 1:d, drop = FALSE]
+      for(i in 1:d){
+        A[, i] <- A[, i] * sign(A[1, i])
+      }
+      B <- A0 <- A
+      dimnames(A0) <- dimnames(B) <- list(vn, paste0("PC", 1:d))
+      break
 
     }
 
@@ -127,12 +182,18 @@ aespca <- function(X,
 
   }
 
+  score <- as.data.frame(score)
+  oldscore <- as.data.frame(oldscore)
+
 
   ###  Return  ###
-  obj <- list(loadings = B,
-              B0 = A0,
-              score = score,
-              oldscore = oldscore)
+  obj <- list(
+    aesLoad  = B,         # p x d
+    oldLoad  = A0,        # p x d
+    aesScore = score,     # n x d
+    oldScore = oldscore   # n x d
+  )
+
   obj
 
 }

@@ -76,7 +76,7 @@ Sys.time() - a # 3 min, 5 sec for first 132 pathways (10%). 29 min, 28 sec for
 #   the whole pathway set.
 
 # Adjust the p-values
-adjustedP <- adjustRaw_pVals(pathwayAIC_p, "BH")
+adjustedP <- ControlFDR(pathwayAIC_p, "BH")
 
 # identical(names(pathway_AESPCs_1323_ls), names(pathwayAIC_p))
 pathSize <- sapply(names(pathwayAIC_p), function(x){
@@ -111,9 +111,11 @@ aespcaPathwaypVals_df <- aespcaPathwaypVals_df[order(aespcaPathwaypVals_df$BH,
 #   ###  Permuted Model  ###
 #   permuteAIC_fun <- function(){
 #
-#     perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
-#                                      censor_vec = obj_OmicsSurv@eventObserved,
-#                                      parametric = parametric)
+#     perm_resp <- SampleSurv(
+#       response_vec = obj_OmicsSurv@eventTime,
+#       censor_vec = obj_OmicsSurv@eventObserved,
+#       parametric = parametric
+#     )
 #     perm_Surv <- survival::Surv(time = perm_resp$response_vec,
 #                                 event = perm_resp$censor_vec)
 #     AIC(survival::coxph(perm_Surv ~ pathwayPCs_mat))
@@ -130,10 +132,12 @@ aespcaPathwaypVals_df <- aespcaPathwaypVals_df[order(aespcaPathwaypVals_df$BH,
 # # Test
 # test_time <- rnorm(58, mean = 65, sd = 3)
 # test_censor <- ovarianFiltered_df$Tumor_Stage_Ovary_FIGO == "IIIC"
-# ovarian_OmicsSurv <- create_OmicsSurv(assayData_df = ovarianFiltered_df[, -(1:3)],
-#                                       pathwaySet_ls = aespca_Genesets_ls,
-#                                       eventTime_num = test_time,
-#                                       eventObserved_lgl = test_censor)
+# ovarian_OmicsSurv <- CreateOmics(
+#     assayData_df = colonSurv_df[, -(2:2)],
+#     pathwayCollection_ls = colon_pathwayCollection,
+#     response = colonSurv_df[, 1:3],
+#     respType = "surv"
+#   )
 #
 # a <- Sys.time()
 # permute_SurvFit(pathwayPCs_mat = pcs2_ls[[1]],

@@ -6,15 +6,15 @@
 \alias{AESPCA_pVals,OmicsPathway-method}
 \title{Test pathway association with AES-PCA}
 \usage{
-AESPCA_pVals(object, numPCs = 1, min.features = 3, numReps = 1000,
-  parallel = FALSE, numCores = NULL, adjustpValues = TRUE,
-  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BH",
-  "BY", "ABH", "TSBH"), ...)
+AESPCA_pVals(object, numPCs = 1, numReps = 0L, parallel = FALSE,
+  numCores = NULL, asPCA = FALSE, adjustpValues = TRUE,
+  adjustment = c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD",
+  "BH", "BY", "ABH", "TSBH"), ...)
 
-\S4method{AESPCA_pVals}{OmicsPathway}(object, numPCs = 1, min.features = 3,
-  numReps = 1000, parallel = FALSE, numCores = NULL,
-  adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm", "Hochberg",
-  "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
+\S4method{AESPCA_pVals}{OmicsPathway}(object, numPCs = 1,
+  numReps = 1000, parallel = FALSE, numCores = NULL, asPCA = FALSE,
+  adjustpValues = TRUE, adjustment = c("Bonferroni", "Holm",
+  "Hochberg", "SidakSS", "SidakSD", "BH", "BY", "ABH", "TSBH"), ...)
 }
 \arguments{
 \item{object}{An object of class \code{OmicsPathway} with a response matrix
@@ -22,18 +22,21 @@ or vector.}
 
 \item{numPCs}{The number of PCs to extract from each pathway. Defaults to 1.}
 
-\item{min.features}{What is the smallest number of genes allowed in each
-pathway? This argument must be kept constant across all calls to this
-function which use the same pathway list. Defaults to 3.}
-
-\item{numReps}{The number of permutations to take of the data to calculate a
-\eqn{p}-value for each pathway. Defaults to 1000.}
+\item{numReps}{How many permutations to estimate the \eqn{p}-value? Defaults
+to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+\code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+will be returned based on the number of random samples specified.}
 
 \item{parallel}{Should the computation be completed in parallel? Defaults to
 \code{FALSE}.}
 
 \item{numCores}{If \code{parallel = TRUE}, how many cores should be used for
-computation? Defaults to \code{NULL}.}
+computation? Internally defaults to the number of available cores minus 1.}
+
+\item{asPCA}{Should the computation return the eigenvectors and eigenvalues
+instead of the adaptive, elastic-net, sparse principal components and their
+corresponding loadings. Defaults to \code{FALSE}; this should be used for
+diagnostic or comparative purposes only.}
 
 \item{adjustpValues}{Should you adjust the \eqn{p}-values for multiple
 comparisons? Defaults to TRUE.}
@@ -42,29 +45,33 @@ comparisons? Defaults to TRUE.}
 will be sorted in ascending order by the first procedure in this vector,
 with ties broken by the unadjusted \eqn{p}-value. If only one procedure is
 selected, then it is necessarily the first procedure. See the documentation
-for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
+for the \code{\link{ControlFDR}} function for the adjustment procedure
 definitions and citations.}
 
 \item{...}{Dots for additional internal arguments.}
 }
 \value{
-A data frame with columns:
+A results list with class \code{aespcOut}. This list has three
+   components: a data frame of pathway details, pathway \eqn{p}-values, and
+   potential adjustments to those values (\code{pVals_df}); a list of the
+   first \code{numPCs} \emph{score} vectors for each pathway (\code{PCs_ls});
+   and a list of the first \code{numPCs} feature loading vectors for each
+   pathway (\code{loadings_ls}). The \eqn{p}-value data frame has columns:
 \itemize{
   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-    object (given in \code{object@pathwaySet$pathways}.)
+    object (given in \code{object@trimPathwayCollection$pathways}.)
   \item{\code{setsize} : }{The number of genes in each of the original
-    pathways (given in the \code{object@pathwaySet$setsize} object).}
+    pathways (given in the \code{object@trimPathwayCollection$setsize}
+    object).}
+  \item{\code{n_tested} : }{The number of genes in each of the trimmed
+    pathways (given in the \code{object@trimPathwayCollection$n_tested}
+    object).}
   \item{\code{terms} : }{The pathway description, as given in the
-    \code{object@pathwaySet$TERMS} object.}
+    \code{object@trimPathwayCollection$TERMS} object.}
   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
-  \item{\code{...} : }{Additional columns as specified through the
-    \code{adjustment} argument.}
+  \item{\code{...} : }{Additional columns of adjusted \eqn{p}-values as
+    specified through the \code{adjustment} argument.}
 }
-
-Some of the pathways in the supplied pathways list will be removed, or
-   "trimmed", during function execution. These trimmed pathways will have
-   \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
-   see the documentation for the \code{\link{expressedOmes}} function.
 
 The data frame will be sorted in ascending order by the method specified
    first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
@@ -77,45 +84,47 @@ The data frame will be sorted in ascending order by the method specified
 Given a supervised \code{OmicsPath} object (one of
    \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the
    first \eqn{k} adaptive, elastic-net, sparse principal components (PCs)
-   from each expressed pathway in the -Omics assay design matrix, test their
-   association with the response matrix, and return a data frame of the
-   adjusted \eqn{p}-values for each pathway.
+   from each pathway-subset of the features in the -Omics assay design
+   matrix, test their association with the response matrix, and return a
+   data frame of the adjusted \eqn{p}-values for each pathway.
 }
 \details{
-This is a wrapper function for the \code{\link{expressedOmes}},
-  \code{\link{extract_aesPCs}}, \code{\link{permTest_OmicsSurv}},
-  \code{\link{permTest_OmicsReg}}, and \code{\link{permTest_OmicsCateg}}
-  functions.
+This is a wrapper function for the \code{\link{ExtractAESPCs}},
+   \code{\link{PermTestSurv}}, \code{\link{PermTestReg}}, and
+   \code{\link{PermTestCateg}} functions.
 
   Please see our Quickstart Guide for this package:
-  \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
+  \url{https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html}
 }
 \examples{
 \dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
-  data("colon_pathwaySet")
+  data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colon_pathwaySet,
-                                      eventTime_num = colonSurv_df$OS_time,
-                                      eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+  colon_Omics <- CreateOmics(
+    assayData_df = colonSurv_df[, -(2:3)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1:3],
+    respType = "surv"
+  )
 
   ###  Calculate Pathway p-Values  ###
-  colonSurv_pVals_df <- AESPCA_pVals(object = colon_OmicsSurv,
-                                     numReps = 500,
-                                     parallel = TRUE,
-                                     numCores = 2,
-                                     adjustpValues = TRUE,
-                                     adjustment = c("Hoch", "SidakSD"))
+  colonSurv_pVals_df <- AESPCA_pVals(
+    object = colon_Omics,
+    numReps = 5000,
+    parallel = TRUE,
+    numCores = 16,
+    adjustpValues = TRUE,
+    adjustment = c("Hoch", "SidakSD")
+  )
 }
 
 }
 \seealso{
-\code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
-  \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
-  \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
-  \code{\link{permTest_OmicsSurv}}; \code{\link{permTest_OmicsReg}};
-  \code{\link{permTest_OmicsCateg}}; \code{\link{adjust_and_sort}}
+\code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
+   \code{\link{PermTestSurv}}; \code{\link{PermTestReg}};
+   \code{\link{PermTestCateg}}; \code{\link{TabulatepValues}};
+   \code{\link[parallel]{clusterApply}}
 }

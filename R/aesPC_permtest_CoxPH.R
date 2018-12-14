@@ -1,19 +1,22 @@
 #' AES-PCA permutation test of survival response for pathway PCs
 #'
 #' @description Given an \code{OmicsSurv} object and a list of pathway principal
-#'    components (PCs) from the \code{\link{extract_aesPCs}} function, test if
-#'    each expressed pathway in the bio-assay design matrix is significantly
-#'    related to the survival output.
+#'    components (PCs) from the \code{\link{ExtractAESPCs}} function, test if
+#'    each pathway with features recorded in the bio-assay design matrix is
+#'    significantly related to the survival output.
 #'
 #' @param OmicsSurv A data object of class \code{OmicsSurv}, created by the
-#'   \code{\link{create_OmicsSurv}} function.
+#'   \code{\link{CreateOmics}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
-#'   \code{\link{extract_aesPCs}} function.
-#' @param numReps How many permuted models to fit? Defaults to 1000.
+#'   \code{\link{ExtractAESPCs}} function.
+#' @param numReps How many permutations to estimate the \eqn{p}-value? Defaults
+#'    to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+#'    \code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+#'    will be returned based on the number of random samples specified.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A named vector of pathway permutation \eqn{p}-values.
@@ -22,19 +25,19 @@
 #'   from each pathway and an object of class \code{OmicsSurv}. This function
 #'   will then calculate the AIC of a Cox Proportional Hazards model (via the
 #'   \code{\link[survival]{coxph}} function) with the original observations as
-#'   response and the pathway principal components as the predictor matrix.
+#'   response and the pathway principal components as the predictor matrix. Note
+#'   that the AIC and log-likelihood are proportional because the number of
+#'   parameters in each pathway is constant.
 #'
 #'   Then, this function will create \code{numReps} permutations of the survival
-#'   response, fit models to each of these premuted responses (holding the path
+#'   response, fit models to each of these permuted responses (holding the path
 #'   predictor matrix fixed), and calculate the AIC of each model. This function
 #'   will return a named vector of permutation \eqn{p}-values, where the value
 #'   for each pathway is the proportion of models for which the AIC of the
 #'   permuted response model is less than the AIC of the original model.
 #'
-#' @seealso \code{\link{create_OmicsSurv}}; \code{\link{extract_aesPCs}};
-#'   \code{\link[survival]{coxph}}; \code{\link{sample_Survivalresp}}
-#'
-#' @export
+#' @seealso \code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
+#'   \code{\link[survival]{coxph}}; \code{\link{SampleSurv}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsSurv.R
@@ -42,33 +45,37 @@
 #'
 #' @importFrom methods setGeneric
 #'
+#' @keywords internal
+#'
+#' @export
+#'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname permTest_OmicsSurv
-setGeneric("permTest_OmicsSurv",
+#' @rdname PermTestSurv
+setGeneric("PermTestSurv",
            function(OmicsSurv,
                     pathwayPCs_ls,
-                    numReps = 1000,
+                    numReps = 0L,
                     parallel = FALSE,
                     numCores = NULL,
                     ...){
-             standardGeneric("permTest_OmicsSurv")
+             standardGeneric("PermTestSurv")
            }
 )
 
 #' @importFrom survival Surv
 #' @importFrom survival coxph
 #' @importFrom stats AIC
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
+#' @importFrom parallel clusterExport
+#' @importFrom parallel makeCluster
 #' @importFrom parallel parSapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname permTest_OmicsSurv
-setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
+#' @rdname PermTestSurv
+setMethod(f = "PermTestSurv", signature = "OmicsSurv",
           definition = function(OmicsSurv,
                                 pathwayPCs_ls,
                                 numReps = 1000,
@@ -78,74 +85,103 @@ setMethod(f = "permTest_OmicsSurv", signature = "OmicsSurv",
 
             ###  Function Setup  ###
             permute_SurvFit <- function(pathwayPCs_mat,
-                                        obj_OmicsSurv,
-                                        numReps_int = numReps,
-                                        parametric = FALSE){
+                                        resp_Surv,
+                                        numReps_int = numReps){
               # browser()
 
               ###  True Model  ###
-              # I know I'm doing this more than once, but I don't know how to
-              #   rewrite the sample_Survivalresp() function to take in a
-              #   Surv object
-              response <- Surv(time = obj_OmicsSurv@eventTime,
-                               event = obj_OmicsSurv@eventObserved)
-              trueAIC <- AIC(coxph(response ~ pathwayPCs_mat))
+              pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
+              true_mod <- coxph(resp_Surv ~ pathwayPCs_mat)
 
+              ###  p-Values  ###
+              # Switch between real and permutation p-value
+              if(numReps_int == 0){
+                # Real score-based p-value
 
-              ###  Permuted Model  ###
-              permuteAIC_fun <- function(){
+                trueMod_summ <- summary(true_mod)
+                out_num <- unname(trueMod_summ$sctest["pvalue"])
 
-                perm_resp <- sample_Survivalresp(response_vec = obj_OmicsSurv@eventTime,
-                                                 event_vec = obj_OmicsSurv@eventObserved,
-                                                 parametric = parametric)
-                perm_Surv <- Surv(time = perm_resp$response_vec,
-                                  event = perm_resp$event_vec)
-                AIC(coxph(perm_Surv ~ pathwayPCs_mat))
+              } else {
+                # Permutation p-value
+
+                permuteAIC_fun <- function(){
+
+                  perm_resp <- SampleSurv(
+                    response_vec = resp_Surv[, "time"],
+                    event_vec = resp_Surv[, "status"],
+                    parametric = FALSE
+                  )
+
+                  perm_Surv <- Surv(
+                    time = perm_resp$response_vec,
+                    event = perm_resp$event_vec
+                  )
+
+                  AIC(coxph(perm_Surv ~ pathwayPCs_mat))
+
+                }
+
+                trueAIC <- AIC(true_mod)
+                permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
+                out_num <- mean(permAIC < trueAIC)
 
               }
 
-              permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
 
               ###  Return  ###
-              mean(permAIC < trueAIC)
+              out_num
 
             }
 
             ###  Computation  ###
             # browser()
+            response <- Surv(
+              time = OmicsSurv@eventTime,
+              event = OmicsSurv@eventObserved
+            )
 
             if(parallel){
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
-              # require(parallel)
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               clust <- makeCluster(numCores)
-              clustVars_vec <- c(deparse(quote(OmicsSurv)),
-                                 deparse(quote(numReps)))
-              clusterExport(cl = clust,
-                            varlist = clustVars_vec,
-                            envir = environment())
-              invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+              clustVars_vec <- c(
+                deparse(quote(response)),
+                deparse(quote(numReps))
+              )
+              clusterExport(
+                cl = clust,
+                varlist = clustVars_vec,
+                envir = environment()
+              )
+              invisible(
+                clusterEvalQ(cl = clust, library(pathwayPCA))
+              )
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway p-Values in Parallel")
-              pValues_vec <- parSapply(cl = clust,
-                                       pathwayPCs_ls,
-                                       permute_SurvFit,
-                                       obj_OmicsSurv = OmicsSurv,
-                                       numReps_int = numReps)
+              message("Extracting Pathway p-Values in Parallel: ",
+                      appendLF = FALSE)
+              pValues_vec <- parSapply(
+                cl = clust,
+                pathwayPCs_ls,
+                permute_SurvFit,
+                resp_Surv = response,
+                numReps_int = numReps
+              )
               stopCluster(clust)
               message("DONE")
 
             } else {
 
               message("Extracting Pathway p-Values Serially")
-              pValues_vec <- sapply(pathwayPCs_ls,
-                                    permute_SurvFit,
-                                    obj_OmicsSurv = OmicsSurv,
-                                    numReps_int = numReps)
+              pValues_vec <- sapply(
+                pathwayPCs_ls,
+                permute_SurvFit,
+                resp_Surv = response,
+                numReps_int = numReps
+              )
               message("DONE")
 
             }

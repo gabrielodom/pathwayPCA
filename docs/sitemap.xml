@@ -4,52 +4,46 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//index.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/aespca.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/AESPCA_pVals.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsCateg-class.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/CheckAssay.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsPathway-class.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/CheckPwyColl.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsReg-class.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsSurv-class.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/adjustRaw_pVals.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/adjust_and_sort.html</loc>
-  </url>
-  <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/aespca.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/CheckSampleIDs.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/colonSurv_df.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/colon_pathwaySet.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/colon_pathwayCollection.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/ControlFDR.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/coxTrain_fun.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/create_Omics.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/CreateOmics.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/create_OmicsPathway.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/CreateOmicsPathway.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/create_pathwaySet.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/CreatePathwayCollection.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/expressedOmes.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/ExtractAESPCs.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/extract_aesPCs.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/getPathPCLs.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/get_set_OmicsPathway.html</loc>
@@ -64,10 +58,19 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/glmTrain_fun.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/GumbelMixpValues.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/IntersectOmicsPwyCollct.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/JoinPhenoAssay.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/lars.lsa.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/matrixRoot.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/LoadOntoPCs.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/mysvd.html</loc>
@@ -79,7 +82,22 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/olsTrain_fun.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathway_pValues.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsCateg-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsPathway-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsReg-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OmicsSurv-class.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/OptimGumbelMixParams.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathwayPCA-package.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathway_tControl.html</loc>
@@ -88,19 +106,19 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathway_tScores.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/permTest_OmicsCateg.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/PermTestCateg.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/permTest_OmicsReg.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/PermTestReg.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/permTest_OmicsSurv.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/PermTestSurv.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/permuteSamps.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/print.pathwaySet.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/print.pathwayCollection.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/read_gmt.html</loc>
@@ -109,7 +127,10 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/show-OmicsPathway-method.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/superPCA_pVals.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/SubsetPathwayCollection.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/SubsetPathwayData.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/superpc.st.html</loc>
@@ -118,33 +139,39 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/superpc.train.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/topGenes.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/SuperPCA_pVals.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/transpose_assay.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/TabulatepValues.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/valid_OmicsSurv.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/TransposeAssay.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/weibullMix_optimParams.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/ValidOmicsSurv.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//reference/weibullMix_pValues.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/wikipwsHS_Entrez_pathwayCollection.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C1-Quickstart_Guide.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/write_gmt.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C2-Importing_Data.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Introduction_to_pathwayPCA.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C3-Create_Omics_Objects.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Supplement1-Quickstart_Guide.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/C4-Methods_Walkthrough.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Supplement2-Importing_Data.html</loc>
   </url>
   <url>
-    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Package_Dev_Notes.html</loc>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Supplement3-Create_Omics_Objects.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Supplement4-Methods_Walkthrough.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//articles/Supplement5-Analyse_Results.html</loc>
   </url>
 </urlset>

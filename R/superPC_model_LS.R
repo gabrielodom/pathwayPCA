@@ -29,11 +29,13 @@
 #'   If \code{s0.perc} is \code{NULL}, then \eqn{e} is median of the \code{sd}
 #'   values. Otherwise, \eqn{e} is set equal to \code{quantile(sd, s0.perc)}.
 #'
+#' @keywords internal
+#'
 #' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 olsTrain_fun <- function(x, y, s0.perc = NULL){
   # browser()
 

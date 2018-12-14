@@ -139,9 +139,11 @@ tControl_max <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
 
 
 
-###  Find the Optimal Weibull EV Mixture Parameters  ###
-pOptim <- weibullMix_optimParams(max_tControl_vec = tControl_max,
-                                 pathwaySize_vec = pathwaylength_vec)
+###  Find the Optimal Gumbel EV Mixture Parameters  ###
+pOptim <- OptimGumbelMixParams(
+  max_tControl_vec = tControl_max,
+  pathwaySize_vec = pathwaylength_vec
+)
 
 pOptim
 
@@ -153,9 +155,11 @@ pOptim
 
 # Because pOptim was calculated using the tControl_max vector, that is how we
 #   adjust our tScores_max vector by the control data set.
-newp <- weibullMix_pValues(tScore_vec = tScore_max,
-                           pathwaySize_vec = pathwaylength_vec,
-                           optimParams_vec = pOptim)
+newp <- GumbelMixpValues(
+  tScore_vec = tScore_max,
+  pathwaySize_vec = pathwaylength_vec,
+  optimParams_vec = pOptim
+)
 
 
 ###  Adjust the p-Values  ###
@@ -166,7 +170,7 @@ ntest <- data.frame(goterms = names(geneset$pathways),
                     rawp = newp)
 rownames(ntest) <- NULL
 
-bh <- adjustRaw_pVals(ntest$rawp, "BH")
+bh <- ControlFDR(ntest$rawp, "BH")
 
 ntest$FDR <- bh[, 2]
 ntest$terms <- unlist(geneset$TERMS)

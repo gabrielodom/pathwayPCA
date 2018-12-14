@@ -31,13 +31,13 @@ NULL.}
 A list of four elements containing the loadings and projected
   predictors:
   \itemize{
-    \item{\code{loadings} : }{A \eqn{p \times d} projection matrix of the
+    \item{\code{aesLoad} : }{A \eqn{d \times p} projection matrix of the
        \eqn{d} AES-PCs.}
-    \item{\code{B0} : }{A \eqn{p \times d} projection matrix of the \eqn{d}
-       PCs from the singular value decomposition (SVD).}
-    \item{\code{score} : }{An \eqn{n \times d} predictor matrix: the original
-       \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
-    \item{\code{oldscore} : }{An \eqn{n \times d} predictor matrix: the
+    \item{\code{oldLoad} : }{A \eqn{d \times p} projection matrix of the
+       \eqn{d} PCs from the singular value decomposition (SVD).}
+    \item{\code{aesScore} : }{An \eqn{n \times d} predictor matrix: the
+       original \eqn{n} observations loaded onto the \eqn{d} AES-PCs.}
+    \item{\code{oldScore} : }{An \eqn{n \times d} predictor matrix: the
        original \eqn{n} observations loaded onto the \eqn{d} SVD-PCs.}
   }
 }
@@ -61,5 +61,6 @@ This function calculates the loadings and reduced-dimension
 }
 \seealso{
 \code{\link{normalize}}; \code{\link{lars.lsa}};
-   \code{\link{extract_aesPCs}}; \code{\link{AESPCA_pVals}}
+   \code{\link{ExtractAESPCs}}; \code{\link{AESPCA_pVals}}
 }
+\keyword{internal}

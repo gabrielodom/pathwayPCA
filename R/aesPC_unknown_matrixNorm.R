@@ -38,7 +38,10 @@
 #'    update our copy of the lars function in \code{\link{lars.lsa}}, or make a
 #'    call to the exported \code{\link[lars]{lars}} function. ENHANCEMENT.
 #'
-#' @seealso \code{\link{aespca}}; \code{\link{lars.lsa}}; \code{\link{AESPCA_pVals}}
+#' @keywords internal
+#'
+#' @seealso \code{\link{aespca}}; \code{\link{lars.lsa}};
+#'    \code{\link{AESPCA_pVals}}
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.

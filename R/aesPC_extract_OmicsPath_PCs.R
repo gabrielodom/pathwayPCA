@@ -1,31 +1,37 @@
-#' Extract AES-PCs from expressed pathway-subsets of a mass spectrometry or
+#' Extract AES-PCs from recorded pathway-subsets of a mass spectrometry or
 #'   bio-assay data frame
 #'
 #' @description Given a clean \code{OmicsPath} object (cleaned by the
-#'   \code{\link{expressedOmes}} function), extract the first principal
-#'   components from each expressed pathway in the assay design matrix.
+#'   \code{\link{IntersectOmicsPwyCollct}} function), extract the first
+#'   principal components (PCs) from each pathway with features recorded in the
+#'   assay design matrix.
 #'
 #' @param object An object of class \code{OmicsPathway}.
-#' @param trim The minimum cutoff of expressed -Ome measures before a pathway
-#'   is excluded. Defaults to 3.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
+#' @param standardPCA Should the function return the AES-PCA PCs and loadings
+#'   (\code{FALSE}) or the standard PCA PCs and loadings (\code{TRUE})? Defaults
+#'   to \code{FALSE}.
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
-#' @return A list of matrices. Each element of the list will be named
-#'   by its pathway, and the elements will be \eqn{N \times} \code{numPCs}
-#'   matrices containing the first \code{numPCs} principal components from each
-#'   pathway. See "Details" for more information.
+#' @return Two lists of matrices: \code{PCs} and \code{loadings}. Each element
+#'   of both lists will be named by its pathway. The elements of the \code{PCs}
+#'   list will be \eqn{N \times} \code{numPCs} matrices containing the first
+#'   \code{numPCs} principal components from each pathway. The elements of the
+#'   \code{loadings} list will be \code{numPCs} \eqn{\times p} projection
+#'   matrices containing the loadings corresponding to the first \code{numPCs}
+#'   principal components from each pathway. See "Details" for more information.
 #'
 #' @details This function takes in a data frame with named columns and a pathway
-#'   list as an \code{OmicsPathway} object which has had unexpressed -Omes
-#'   removed by the \code{\link{expressedOmes}} function. This function will
-#'   then iterate over the list of pathways, extracting columns from the assay
-#'   design matrix which match the genes listed in that pathway as a sub-matrix
-#'   (as a \code{data.frame} object). This function will then call the
+#'   list as an \code{OmicsPathway} object which has had unrecorded -Omes
+#'   removed from the corresponding pathway collection by the
+#'   \code{\link{IntersectOmicsPwyCollct}} function. This function will then
+#'   iterate over the list of pathways, extracting columns from the assay design
+#'   matrix which match the genes listed in that pathway as a sub-matrix (as a
+#'   \code{data.frame} object). This function will then call the
 #'   \code{\link{aespca}} on each data frame in the list of pathway-specific
 #'   design matrices, extracting the first \code{numPCs} AES principal
 #'   components from each pathway data frame. These PC matrices are returned as
@@ -38,46 +44,48 @@
 #'   use either a very broad and generic list of pathways or a pathways list
 #'   that is compatible to the assay data supplied.
 #'
-#' @seealso \code{\link{create_OmicsPath}}; \code{\link{expressedOmes}};
-#'   \code{\link{aespca}}
+#' @seealso \code{\link{CreateOmicsPath}}; \code{\link{aespca}}
+#'    \code{\link{IntersectOmicsPwyCollct}}
 #'
-#' @export
+#' @keywords internal
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
-#' @include subsetExpressed-omes.R
 #'
 #' @importFrom methods setGeneric
+#'
+#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname extract_aesPCs
-setGeneric("extract_aesPCs",
-           function(object, trim = 3, numPCs = 1,
+#' @rdname ExtractAESPCs
+setGeneric("ExtractAESPCs",
+           function(object, numPCs = 1,
                     parallel = FALSE, numCores = NULL,
+                    standardPCA = FALSE,
                     ...){
-             standardGeneric("extract_aesPCs")
+             standardGeneric("ExtractAESPCs")
            }
 )
 
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
+#' @importFrom parallel clusterExport
+#' @importFrom parallel makeCluster
 #' @importFrom parallel parLapplyLB
 #' @importFrom parallel stopCluster
 #'
-#' @rdname extract_aesPCs
-setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
+#' @rdname ExtractAESPCs
+setMethod(f = "ExtractAESPCs", signature = "OmicsPathway",
           definition = function(object,
-                                trim = 3,
                                 numPCs = 1,
                                 parallel = FALSE,
                                 numCores = NULL,
+                                standardPCA = FALSE,
                                 ...){
             # browser()
-            pathSets_ls <- object@pathwaySet
+            pathSets_ls <- object@trimPathwayCollection
             data_Omes <- lapply(pathSets_ls$pathways, function(x){
               object@assayData_df[x]
             })
@@ -86,8 +94,7 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
-              # require(parallel)
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               clust <- makeCluster(numCores)
               clustVars_vec <- c(deparse(quote(data_Omes)),
                                  deparse(quote(numPCs)))
@@ -98,28 +105,45 @@ setMethod(f = "extract_aesPCs", signature = "OmicsPathway",
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway PCs in Parallel")
-              PCs_ls <- parLapplyLB(cl = clust,
+              message("Extracting Pathway PCs in Parallel: ", appendLF = FALSE)
+              out_ls <- parLapplyLB(cl = clust,
                                     data_Omes,
                                     function(pathway_df){
                                       aespca(X = pathway_df,
-                                             d = numPCs)$score
+                                             d = numPCs)
                                     })
               stopCluster(clust)
               message("DONE")
 
             } else {
 
-              message("Extracting Pathway PCs Serially")
-              PCs_ls <- lapply(data_Omes,
+              message("Extracting Pathway PCs Serially: ", appendLF = FALSE)
+              out_ls <- lapply(data_Omes,
                                function(path_df){
                                  aespca(X = path_df,
-                                        d = numPCs)$score
+                                        d = numPCs)
                                })
               message("DONE")
 
             }
 
-            PCs_ls
+
+            ###  Return  ###
+            if(standardPCA){
+
+              PCs_ls      <- lapply(out_ls, `[[`, "oldScore")
+              loadings_ls <- lapply(out_ls, `[[`, "oldLoad")
+
+            } else {
+
+              PCs_ls      <- lapply(out_ls, `[[`, "aesScore")
+              loadings_ls <- lapply(out_ls, `[[`, "aesLoad")
+
+            }
+
+            list(
+              PCs = PCs_ls,
+              loadings = loadings_ls
+            )
 
           })

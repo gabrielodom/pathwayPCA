@@ -23,7 +23,7 @@ write.csv(samps_mat, file = "inst/extdata/ex_assay_subset.csv")
 
 ######  Response Data  ########################################################
 assay_df <- readr::read_csv("inst/extdata/ex_assay_subset.csv")
-assayT_df <- transpose_assay(assay_df)
+assayT_df <- TransposeAssay(assay_df)
 
 beta <- rnorm(ncol(assayT_df) - 1, sd = 0.1)
 y <- apply(as.matrix(assayT_df[, -1]), 1, function(row){
@@ -47,7 +47,7 @@ write.csv(pInfo_df, file = "inst/extdata/ex_pInfo_subset.csv")
 
 ######  Test Joined Data  #####################################################
 assay_df <- readr::read_csv("inst/extdata/ex_assay_subset.csv")
-assayT_df <- transpose_assay(assay_df)
+assayT_df <- TransposeAssay(assay_df)
 pInfo_df <- readr::read_csv("inst/extdata/ex_pInfo_subset.csv")
 
 test_df <- full_join(pInfo_df, assayT_df, by = "Sample")

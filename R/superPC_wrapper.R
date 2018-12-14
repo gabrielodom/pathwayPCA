@@ -1,9 +1,9 @@
-#' Test pathways with supervised PCA
+#' Test pathways with Supervised PCA
 #'
 #' @description Given a supervised \code{OmicsPath} object (one of
 #'    \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}), extract the
-#'    first \eqn{k} principal components (PCs) from each expressed pathway in
-#'    the -Omics assay design matrix, test their association with the response
+#'    first \eqn{k} principal components (PCs) from each pathway-subset of the
+#'    -Omics assay design matrix, test their association with the response
 #'    matrix, and return a data frame of the adjusted \eqn{p}-values for each
 #'    pathway.
 #'
@@ -16,40 +16,33 @@
 #'   may result in less accurate pathway \eqn{p}-values while larger values
 #'   increase computation time.
 #' @param numPCs The number of PCs to extract from each pathway. Defaults to 1.
-#' @param min.features What is the smallest number of genes allowed in each
-#'   pathway? This argument must be kept constant across all calls to this
-#'   function which use the same pathway list. Defaults to 3.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 1.
 #' @param adjustpValues Should you adjust the \eqn{p}-values for multiple
 #'   comparisons? Defaults to TRUE.
 #' @param adjustment Character vector of procedures. The returned data frame
 #'   will be sorted in ascending order by the first procedure in this vector,
 #'   with ties broken by the unadjusted \eqn{p}-value. If only one procedure is
 #'   selected, then it is necessarily the first procedure. See the documentation
-#'   for the \code{\link{adjustRaw_pVals}} function for the adjustment procedure
+#'   for the \code{\link{ControlFDR}} function for the adjustment procedure
 #'   definitions and citations.
 #' @param ... Dots for additional internal arguments.
 #'
 #' @return A data frame with columns:
 #' \itemize{
 #'   \item{\code{pathways} : }{The names of the pathways in the \code{Omics*}}
-#'     object (given in \code{object@@pathwaySet$pathways}.)
+#'     object (given in \code{object@@trimPathwayCollection$pathways}.)
 #'   \item{\code{setsize} : }{The number of genes in each of the original
-#'     pathways (given in the \code{object@@pathwaySet$setsize} object).}
+#'     pathways (given in the \code{object@@trimPathwayCollection$setsize}
+#'     object).}
 #'   \item{\code{terms} : }{The pathway description, as given in the
-#'     \code{object@@pathwaySet$TERMS} object.}
+#'     \code{object@@trimPathwayCollection$TERMS} object.}
 #'   \item{\code{rawp} : }{The unadjusted \eqn{p}-values of each pathway.}
 #'   \item{\code{...} : }{Additional columns as specified through the
 #'     \code{adjustment} argument.}
 #' }
-#'
-#' Some of the pathways in the supplied pathways list will be removed, or
-#'    "trimmed", during function execution. These trimmed pathways will have
-#'    \eqn{p}-values given as \code{NA}. For an explanation of pathway trimming,
-#'    see the documentation for the \code{\link{expressedOmes}} function.
 #'
 #' The data frame will be sorted in ascending order by the method specified
 #'   first in the \code{adjustment} argument. If \code{adjustpValues = FALSE},
@@ -59,18 +52,17 @@
 #'   a data frame.
 #'
 #' @details This is a wrapper function for the \code{\link{pathway_tScores}},
-#'   \code{\link{pathway_tControl}}, \code{\link{weibullMix_optimParams}},
-#'   \code{\link{weibullMix_pValues}}, and \code{\link{adjust_and_sort}}
+#'   \code{\link{pathway_tControl}}, \code{\link{OptimGumbelMixParams}},
+#'   \code{\link{GumbelMixpValues}}, and \code{\link{TabulatepValues}}
 #'   functions.
 #'
 #'   Please see our Quickstart Guide for this package:
-#'   \url{https://gabrielodom.github.io/pathwayPCA/articles/C1-Quickstart_Guide.html}
+#'   \url{https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html}
 #'
-#' @seealso \code{\link{expressedOmes}}; \code{\link{create_OmicsPath}};
-#'   \code{\link{create_OmicsSurv}}; \code{\link{create_OmicsReg}};
-#'   \code{\link{create_OmicsCateg}}; \code{\link{pathway_tScores}};
-#'   \code{\link{pathway_tControl}}; \code{\link{weibullMix_optimParams}};
-#'   \code{\link{weibullMix_pValues}}; \code{\link{adjust_and_sort}}
+#' @seealso \code{\link{CreateOmics}}; \code{\link{TabulatepValues}};
+#'    \code{\link{pathway_tScores}}; \code{\link{pathway_tControl}};
+#'    \code{\link{OptimGumbelMixParams}}; \code{\link{GumbelMixpValues}};
+#'    \code{\link[parallel]{clusterApply}}
 #'
 #' @export
 #'
@@ -79,7 +71,6 @@
 #' @include createClass_OmicsSurv.R
 #' @include createClass_OmicsReg.R
 #' @include createClass_OmicsCateg.R
-#' @include subsetExpressed-omes.R
 #'
 #' @importFrom methods setGeneric
 #'
@@ -87,28 +78,31 @@
 #' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
-#'   data("colon_pathwaySet")
+#'   data("colon_pathwayCollection")
 #'
 #'   ###  Create an OmicsSurv Object  ###
-#'   colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-#'                                       pathwaySet_ls = colon_pathwaySet,
-#'                                       eventTime_num = colonSurv_df$OS_time,
-#'                                       eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+#'   colon_OmicsSurv <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "surv"
+#'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
-#'   colonSurv_pVals_df <- superPCA_pVals(object = colon_OmicsSurv,
-#'                                        parallel = TRUE,
-#'                                        numCores = 2,
-#'                                        adjustpValues = TRUE,
-#'                                        adjustment = c("Hoch", "SidakSD"))
+#'   colonSurv_pVals_df <- SuperPCA_pVals(
+#'     object = colon_OmicsSurv,
+#'     parallel = TRUE,
+#'     numCores = 16,
+#'     adjustpValues = TRUE,
+#'     adjustment = c("Hoch", "SidakSD")
+#'   )
 #' }
 #'
-#' @rdname superPCA_pVals
-setGeneric("superPCA_pVals",
+#' @rdname SuperPCA_pVals
+setGeneric("SuperPCA_pVals",
            function(object,
                     n.threshold = 20,
                     numPCs = 1,
-                    min.features = 3,
                     parallel = FALSE,
                     numCores = NULL,
                     adjustpValues = TRUE,
@@ -122,22 +116,22 @@ setGeneric("superPCA_pVals",
                                    "ABH",
                                    "TSBH"),
                     ...){
-             standardGeneric("superPCA_pVals")
+             standardGeneric("SuperPCA_pVals")
            }
 )
 
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
 #' @importFrom parallel clusterEvalQ
-#' @importFrom parallel parSapply
+#' @importFrom parallel clusterExport
+#' @importFrom parallel detectCores
+#' @importFrom parallel makeCluster
+#' @importFrom parallel parLapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname superPCA_pVals
-setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
+#' @rdname SuperPCA_pVals
+setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
           definition = function(object,
                                 n.threshold = 20,
                                 numPCs = 1,
-                                min.features = 3,
                                 parallel = FALSE,
                                 numCores = NULL,
                                 adjustpValues = TRUE,
@@ -153,15 +147,10 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                                 ...){
             # browser()
 
-
-
-            ###  Remove Unexpressed Genes from the Pathways List  ###
-            object <- expressedOmes(object, trim = min.features)
-
             ###  Extract Information from S4 Object  ###
             geneArray_df <- t(object@assayData_df)
-            pathwayGeneSets_ls <- object@pathwaySet
             obj_class <- class(object)
+
             switch (obj_class,
                     OmicsSurv = {
 
@@ -197,7 +186,7 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
                       #   attribute. This even works for ordered factors.
                       response_mat <- object@response
                       dim(response_mat) <- c(length(response_mat), 1)
-                      responseType <- "classification"
+                      responseType <- "categorical"
 
                     }
             )
@@ -208,12 +197,15 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               adjustment <- match.arg(adjustment, several.ok = TRUE)
             }
 
+            pathwayGeneSets_ls <- object@trimPathwayCollection
+            paths_ls <- pathwayGeneSets_ls$pathways
+            minFeats <- attr(paths_ls, "minFeatures")
             if(parallel){
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
+              numCores <- ifelse(is.null(numCores), detectCores() - 1, numCores)
               clust <- makeCluster(numCores)
-              paths_ls <- pathwayGeneSets_ls$pathways
               clustVars_vec <- c(deparse(quote(paths_ls)),
                                  deparse(quote(geneArray_df)),
                                  deparse(quote(response_mat)))
@@ -226,98 +218,135 @@ setMethod(f = "superPCA_pVals", signature = "OmicsPathway",
               # browser()
 
               ###  Matrix of Student's t Scores and Controls  ###
-              message("Calculating Pathway Test Statistics in Parallel")
-              tScores_mat <- parSapply(cl = clust,
-                                       paths_ls,
-                                       pathway_tScores,
-                                       geneArray_df = geneArray_df,
-                                       response_mat = response_mat,
-                                       responseType = responseType,
-                                       n.threshold = n.threshold,
-                                       numPCs = numPCs,
-                                       min.features = min.features)
-              tScores_mat <- t(tScores_mat)
+              message("Calculating Pathway Test Statistics in Parallel: ",
+                      appendLF = FALSE)
+              tScores_ls <- parLapply(
+                cl = clust,
+                paths_ls,
+                pathway_tScores,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = minFeats
+              )
               message("DONE")
 
-              message("Calculating Pathway Critical Values in Parallel")
-              tControl_mat <- parSapply(cl = clust,
-                                        paths_ls,
-                                        pathway_tControl,
-                                        geneArray_df = geneArray_df,
-                                        response_mat = response_mat,
-                                        responseType = responseType,
-                                        n.threshold = n.threshold,
-                                        numPCs = numPCs,
-                                        min.features = min.features)
-              tControl_mat <- t(tControl_mat)
+              message("Calculating Pathway Critical Values in Parallel: ",
+                      appendLF = FALSE)
+              tControl_ls <- parLapply(
+                cl = clust,
+                paths_ls,
+                pathway_tControl,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = minFeats
+              )
               message("DONE")
               stopCluster(clust)
 
             } else {
 
               ###  Matrix of Student's t Scores and Controls  ###
-              message("Calculating Pathway Test Statistics Serially")
-              tScores_mat <- sapply(paths_ls,
-                                    pathway_tScores,
-                                    geneArray_df = geneArray_df,
-                                    response_mat = response_mat,
-                                    responseType = responseType,
-                                    n.threshold = n.threshold,
-                                    numPCs = numPCs,
-                                    min.features = min.features)
-              tScores_mat <- t(tScores_mat)
+              message("Calculating Pathway Test Statistics Serially: ",
+                      appendLF = FALSE)
+              # browser()
+
+              tScores_ls <- lapply(
+                paths_ls,
+                pathway_tScores,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = minFeats
+              )
               message("DONE")
 
-              message("Calculating Pathway Critical Values Serially")
-              tControl_mat <- sapply(paths_ls,
-                                     pathway_tControl,
-                                     geneArray_df = geneArray_df,
-                                     response_mat = response_mat,
-                                     responseType = responseType,
-                                     n.threshold = n.threshold,
-                                     numPCs = numPCs,
-                                     min.features = min.features)
-              tControl_mat <- t(tControl_mat)
+              message("Calculating Pathway Critical Values Serially: ",
+                      appendLF = FALSE)
+              tControl_ls <- lapply(
+                paths_ls,
+                pathway_tControl,
+                geneArray_df = geneArray_df,
+                response_mat = response_mat,
+                responseType = responseType,
+                n.threshold = n.threshold,
+                numPCs = numPCs,
+                min.features = minFeats
+              )
               message("DONE")
 
             }
 
-
+            # browser()
 
 
             ###  Maximum t-Score for each Gene Pathway  ###
             absMax <- function(vec){
               vec[which.max(abs(vec))]
             }
-            tScoreMax_vec <- apply(tScores_mat, MARGIN = 1, FUN = absMax)
-            tControlMax_vec <- apply(tControl_mat, MARGIN = 1, FUN = absMax)
+            # Lily told me that we only care about the t-scores from the first
+            #   PC, so we will only extract the absolute maxima from the first
+            #   row of the t-value matrices
+            tScoreMax_num <- sapply(tScores_ls, function(ls) absMax(ls$tscor[1, ]) )
+            tControlMax_num <- sapply(tControl_ls, function(x) absMax(x[1, ]) )
 
 
             ###  Calculate Raw Pathway p-Values  ###
-            message("Calculating Pathway p-Values")
+            message("Calculating Pathway p-Values: ", appendLF = FALSE)
             genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
             genesPerPathway_vec <- genesPerPathway_vec[names(paths_ls)]
-            optParams_vec <- weibullMix_optimParams(max_tControl_vec = tControlMax_vec,
-                                                    pathwaySize_vec = genesPerPathway_vec,
-                                                    ...)
-            pvalues_vec <- weibullMix_pValues(tScore_vec = tScoreMax_vec,
-                                              pathwaySize_vec = genesPerPathway_vec,
-                                              optimParams_vec = optParams_vec)
-
-            if(adjustpValues){
-              message("Adjusting p-Values and Sorting Pathway p-Value Data Frame")
-            } else {
-              message("Sorting Pathway p-Value Data Frame")
-            }
-
-            out_df <- adjust_and_sort(pVals_vec = pvalues_vec,
-                                      genesets_ls = pathwayGeneSets_ls,
-                                      adjust = adjustpValues,
-                                      proc_vec = adjustment,
-                                      ...)
+            optParams_vec <- OptimGumbelMixParams(
+              max_tControl_vec = tControlMax_num,
+              pathwaySize_vec = genesPerPathway_vec,
+              ...
+            )
+            pvalues_vec <- GumbelMixpValues(
+              tScore_vec = tScoreMax_num,
+              pathwaySize_vec = genesPerPathway_vec,
+              optimParams_vec = optParams_vec
+            )
             message("DONE")
 
+            if(adjustpValues){
+              message("Adjusting p-Values and Sorting Pathway p-Value Data Frame: ",
+                      appendLF = FALSE)
+            } else {
+              message("Sorting Pathway p-Value Data Frame: ", appendLF = FALSE)
+            }
+
+            out_df <- TabulatepValues(
+              pVals_vec = pvalues_vec,
+              genesets_ls = pathwayGeneSets_ls,
+              adjust = adjustpValues,
+              proc_vec = adjustment,
+              ...
+            )
+            message("DONE")
+
+
+            ###  Wrangle PCA Output  ###
+            sortedScores_ls <- tScores_ls[out_df$pathways]
+            PCs_ls <- lapply(sortedScores_ls, `[[`, "PCs_mat")
+            PCs_ls <- lapply(PCs_ls, as.data.frame)
+            attr(PCs_ls, "sampleIDs") <- object@sampleIDs_char
+            loadings_ls <- lapply(sortedScores_ls, `[[`, "loadings")
+            loadings_ls <- lapply(loadings_ls, t)
+
             ###  Return  ###
-            out_df
+            out_ls <- list(
+              pVals_df    = out_df,
+              PCs_ls      = PCs_ls,
+              loadings_ls = loadings_ls
+            )
+
+            class(out_ls) <- c("superpcOut", "pathwayPCA", "list")
+            out_ls
 
           })

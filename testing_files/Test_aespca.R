@@ -1,10 +1,12 @@
+
+######  Initial Tests  ########################################################
 # Migrated from inst/Testing_S4.R
 
 
 library(methods)
 library(pathwayPCA)
-load("data/ovarianFiltered_df.rda")
-load("data/aespca_Genesets_ls.rda")
+data("colonSurv_df")
+data("colon_pathwayCollection")
 
 # # ** Source the functions in the aes_pca.R file first **
 # # Also, the aespca function should run on the unscaled original pathways. Thus,
@@ -40,53 +42,106 @@ load("data/aespca_Genesets_ls.rda")
 #   better understand how the function works and what it is returning.
 library(pathwayPCA)
 data("colonSurv_df")
-data("colon_pathwaySet")
+data("colon_pathwayCollection")
 
-colon_OmicsPath <- create_OmicsPath(assayData_df = colonSurv_df[, -(1:2)],
-                                    pathwaySet_ls = colon_pathwaySet)
-colonClean_OmicsPath <- expressedOmes(colon_OmicsPath)
-testPathway_vec <- colonClean_OmicsPath@pathwaySet$pathways[[1]]
-testPathway_df <- colonClean_OmicsPath@assayData_df[, testPathway_vec]
+colon_OmicsPath <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection
+)
+testPathway_vec <- colon_OmicsPath@trimPathwayCollection$pathways[[1]]
+testPathway_df <- colon_OmicsPath@assayData_df[, testPathway_vec]
 
 aespca(X = testPathway_df, d = 2)
 
 
 
 ######  Full Walkthrough  #####################################################
-ovarian_OmicsPath <- create_OmicsPath(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                      pathwaySet_ls = aespca_Genesets_ls)
-
-ovarian_Omes <- expressedOmes(ovarian_OmicsPath)
+# ovarian_OmicsPath <- CreateOmicsPath(
+#   assayData_df = ovarianFiltered_df[, -(2:3)],
+#   sampleIDs_char = ovarianFiltered_df[, 1, drop = TRUE]
+#   pathwayCollection_ls = aespca_Genesets_ls
+# )
 
 # EXTRACTED TO extract_aesPCs_from_OmicsPath.R
 
 
 
 # Test
+# ExtractAESPCs(object = colon_OmicsPath)
 a <- Sys.time()
-pcs_ls <- extract_aesPCs(ovarian_OmicsPath,
+pcs_ls <- ExtractAESPCs(colon_OmicsPath,
                          parallel = TRUE,
-                         numCores = detectCores() - 2)
-Sys.time() - a # 3.688258 min to print to screen; 3.321165 min to save;
+                         numCores = 15)
+Sys.time() - a
+# 3.688258 min to print to screen; 3.321165 min to save;
 # 3.262908 min for load balancing (the upside to LB is that the brunt of the
 # computation was done very quickly.)
 
-a <- Sys.time()
-pcs2_ls <- extract_aesPCs(ovarian_OmicsPath,
-                          parallel = TRUE,
-                          numCores = detectCores() - 2)
-Sys.time() - a # 3.229954 min; so, it works...
+# a <- Sys.time()
+# pcs2_ls <- ExtractAESPCs(
+#   ovarian_OmicsPath,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2
+# )
+# Sys.time() - a # 3.229954 min; so, it works...
+#
+# ###  Create Ovarian OmicsCateg Object  ###
+# tumour_fact <- as.factor(ovarianFiltered_df$Tumor_Stage_Ovary_FIGO)
+# ovarian_OmicsCateg <- CreateOmicsCateg(
+#   assayData_df = ovarianFiltered_df[, -(1:3)],
+#   sampleIDs_char = ovarianFiltered_df[, 1, drop = TRUE],
+#   pathwayCollection_ls = aespca_Genesets_ls,
+#   response_fact = tumour_fact
+# )
+#
+# b <- Sys.time()
+# ovarian_pVals <- permTest_OmicsCateg(
+#   OmicsCateg = ovarian_OmicsCateg,
+#   pathwayPCs_ls = pcs2_ls,
+#   numReps = 1000,
+#   parallel = TRUE,
+#   numCores = detectCores() - 2
+# )
+# Sys.time() - b # 7.418932 min for 1000 reps on laptop
 
-###  Create Ovarian OmicsCateg Object  ###
-tumour_fact <- as.factor(ovarianFiltered_df$Tumor_Stage_Ovary_FIGO)
-ovarian_OmicsCateg <- create_OmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                        pathwaySet_ls = aespca_Genesets_ls,
-                                        response_fact = tumour_fact)
 
-b <- Sys.time()
-ovarian_pVals <- permTest_OmicsCateg(OmicsCateg = ovarian_OmicsCateg,
-                                     pathwayPCs_ls = pcs2_ls,
-                                     numReps = 1000,
-                                     parallel = TRUE,
-                                     numCores = detectCores() - 2)
-Sys.time() - b # 7.418932 min for 1000 reps on laptop
+
+######  Test AESPCA_pVals()  ##################################################
+
+
+library(pathwayPCA)
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+colon_OmicsSurv <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response = colonSurv_df[, 1:3],
+  respType = "surv"
+)
+
+# AES-PCA
+a0 <- Sys.time()
+colon_aespcOut <- AESPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 2,
+  numReps = 10000,
+  parallel = TRUE,
+  numCores = 15,
+  adjustment = "BY"
+)
+Sys.time() - a0 # 34 sec for 5k, 52 sec for 10k
+
+
+# Regular PCA
+a1 <- Sys.time()
+colon_pcOut <- AESPCA_pVals(
+  object = colon_OmicsSurv,
+  numPCs = 1,
+  numReps = 5000,
+  parallel = TRUE,
+  numCores = 15,
+  asPCA = TRUE,
+  adjustment = "BY"
+)
+Sys.time() - a1 # 34 seconds

@@ -4,7 +4,8 @@
 #'   \code{OmicsPathway} master class.
 #'
 #' @slot assayData_df An \eqn{N \times p} data frame with named columns.
-#' @slot pathwaySet A list of known gene pathways with two elements:
+#' @slot pathwayCollection A list of known gene pathways with three or four
+#'    elements:
 #' \itemize{
 #'   \item{\code{pathways} : }{A named list of character vectors. Each vector
 #'      contains the names of the individual genes within that pathway as a
@@ -15,9 +16,12 @@
 #'      full pathway name.}
 #'   \item{\code{TERMS} : }{A character vector the same length as the
 #'     \code{pathways} list with the proper names of the pathways.}
+#'   \item{\code{description} : }{An optional character vector the same length
+#'      as the \code{pathways} list with additional information about the
+#'      pathways.}
 #'   \item{\code{setsize} : }{A named integer vector the same length as the
 #'     \code{pathways} list with the number of genes in each pathway. This list
-#'     item is calculated during the creation step of a \code{create_OmicsSurv}
+#'     item is calculated during the creation step of a \code{CreateOmics}
 #'     function call.}
 #' }
 #' @slot eventTime A \code{numeric} vector with \eqn{N} observations
@@ -32,11 +36,11 @@
 #' @include createClass_validOmics.R
 #'
 #' @seealso \code{\link[=OmicsPathway-class]{OmicsPathway}},
-#'   \code{\link{create_OmicsSurv}}
+#'   \code{\link{CreateOmics}}
 #'
 #' @export
 setClass("OmicsSurv",
          slots = c(eventTime = "numeric",
                    eventObserved = "logical"),
-         validity = valid_OmicsSurv,
+         validity = ValidOmicsSurv,
          contains = "OmicsPathway")

@@ -24,12 +24,12 @@
 #'    from an object of class \code{OmicsReg} or \code{OmicsReg}. However, we
 #'    recommend that users simply create a new, valid object instead of
 #'    modifying an existing one. The validity of edited objects is checked with
-#'    their respective \code{\link{valid_OmicsCateg}} or
-#'    \code{\link{valid_OmicsReg}} function. Because both classes have a
+#'    their respective \code{\link{ValidOmicsCateg}} or
+#'    \code{\link{ValidOmicsReg}} function. Because both classes have a
 #'    \code{response} slot, we set this method for the parent class,
 #'    \code{\link{OmicsPathway-class}}.
 #'
-#' @seealso \code{\link{create_OmicsReg}}, \code{\link{create_OmicsCateg}}
+#' @seealso \code{\link{CreateOmics}}
 #'
 #'
 #' @include createClass_validOmics.R
@@ -39,14 +39,25 @@
 #' @importFrom methods setMethod
 #' @importFrom methods validObject
 #'
+#'
 #' @examples
 #' \dontrun{
-#'   getResponse(colon_OmicsReg)
-#'   getResponse(colon_OmicsCateg)
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
 #'
-#'   getResponse(colon_OmicsReg) <- newResponse_num
-#'   getResponse(colon_OmicsCateg) <- newResponse_fct
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, c(1, 3)],
+#'     respType = "reg"
+#'   )
+#'
+#'   getResponse(colon_Omics)
+#'   getResponse(colon_Omics) <- newResponse_num
 #' }
+#' @name SubsetOmicsResponse
+#' @rdname get_set_OmicsRegCateg
+NULL
 
 
 

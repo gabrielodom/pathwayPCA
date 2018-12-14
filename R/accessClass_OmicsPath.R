@@ -1,9 +1,10 @@
-#' Access and Edit Assay or \code{pathwaySet} Values in \code{Omics*} Objects
+#' Access and Edit Assay or \code{pathwayCollection} Values in \code{Omics*}
+#'    Objects
 #'
-#' @description "Get" or "Set" the values of the \code{assayData_df} or
-#'    \code{pathwaySet} slots of an object of class \code{OmicsPathway} or a
-#'    class that extends this class (\code{OmicsSurv}, \code{OmicsReg}, or
-#'    \code{OmicsCateg}).
+#' @description "Get" or "Set" the values of the \code{assayData_df},
+#'    \code{sampleIDs_char}, or \code{pathwayCollection} slots of an object of
+#'    class \code{OmicsPathway} or a class that extends this class
+#'    (\code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg}).
 #'
 #' @param object An object of or extending \code{\link{OmicsPathway-class}}:
 #'    that class, \code{\link{OmicsSurv-class}}, \code{\link{OmicsReg-class}},
@@ -11,27 +12,42 @@
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return The "get" functions return the objects in the slots specified:
-#'    \code{getAssay} returns the \code{assayData_df} data frame object and
-#'    \code{getPathwaySet} returns the \code{pathwaySet} list object. These
-#'    functions can extract these values from any valid \code{OmicsPathway},
-#'    \code{OmicsSurv}, \code{OmicsReg}, or \code{OmicsCateg} object.
+#'    \code{getAssay} returns the \code{assayData_df} data frame object,
+#'    \code{getSampleIDs} returns the \code{sampleIDs_char} character vector,
+#'    \code{getPathwayCollection} returns the \code{pathwayCollection} list
+#'    object, and \code{getTrimPathwayCollection} returns the
+#'    \code{trimPathwayCollection}. These functions can extract these values
+#'    from any valid \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
+#'    \code{OmicsCateg} object.
 #'
 #'    The "set" functions enable the user to edit or replace objects in the
-#'    \code{assayData_df} or \code{pathwaySet} slots for any
-#'    \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
+#'    \code{assayData_df}, \code{sampleIDs_char}, or \code{pathwayCollection}
+#'    slots for any \code{OmicsPathway}, \code{OmicsSurv}, \code{OmicsReg}, or
 #'    \code{OmicsCateg} objects, provided that the new values do not violate
-#'    the validity checks of their respective objects. See "Details" for more
-#'    information.
+#'    the validity checks of their respective objects. Because the slot for
+#'    \code{trimPathwayCollection} is filled upon object creation, and to ensure
+#'    that this pathway collection is "clean", there is no "set" function for
+#'    the trimmed pathway collection slot. Instead, users can update the pathway
+#'    collection, and the trimmed pathway collection will be updated
+#'    automatically. See "Details" for more information on the "set" functions.
 #'
 #' @details These functions can be useful to set or extract the assay data or
 #'    pathways list from an \code{Omics*}-class object. However, we recommend
 #'    that users simply create a new, valid \code{Omics*} object instead of
 #'    modifying an existing one. The validity of edited objects is checked with
-#'    the \code{\link{valid_OmicsSurv}}, \code{\link{valid_OmicsCateg}}, or
-#'    \code{\link{valid_OmicsReg}} functions.
+#'    the \code{\link{ValidOmicsSurv}}, \code{\link{ValidOmicsCateg}}, or
+#'    \code{\link{ValidOmicsReg}} functions.
 #'
-#' @seealso \code{\link{create_OmicsPath}}, \code{\link{create_OmicsSurv}},
-#'    \code{\link{create_OmicsReg}}, \code{\link{create_OmicsCateg}}
+#'    Further, because the \code{pathwayPCA} methods require a cleaned (trimmed)
+#'    pathway collection, the \code{trimPathwayCollection} slot is read-only.
+#'    Users may only edit this slot by updating the pathway collection provided
+#'    to the \code{pathwayCollection} slot. Despite this functionality, we
+#'    \strong{strongly} recommend that users create a new object with the
+#'    updated pathway collection, rather than attempting to overwrite the slots
+#'    within an existing object. See \code{\link{IntersectOmicsPwyCollct}} for
+#'    details on trimmed pathway collection.
+#'
+#' @seealso \code{\link{CreateOmics}}
 #'
 #'
 #' @include createClass_validOmics.R
@@ -41,18 +57,33 @@
 #' @importFrom methods setMethod
 #' @importFrom methods validObject
 #'
+#'
 #' @examples
 #' \dontrun{
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
+#'
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "survival"
+#'   )
+#'
 #'   getAssay(colon_OmicsSurv)
-#'   getPathwaySet(colon_OmicsSurv)
+#'   getPathwayCollection(colon_OmicsSurv)
 #'
 #'   getAssay(colon_OmicsSurv) <- newAssay_df
-#'   getPathwaySet(colon_OmicsSurv) <- new_pathwaySet
+#'   getPathwayCollection(colon_OmicsSurv) <- new_pathwayCollection
 #' }
+#'
+#' @name SubsetOmicsPath
+#' @rdname get_set_OmicsPathway
+NULL
 
 
 
-######  Set Generics  ######
+######  Create Generics  ######
 
 #' @export
 #' @rdname get_set_OmicsPathway
@@ -67,24 +98,44 @@ setGeneric("getAssay<-",
            function(object, value){
              standardGeneric("getAssay<-")
            })
-
 #' @export
 #' @rdname get_set_OmicsPathway
-setGeneric("getPathwaySet",
+setGeneric("getSampleIDs",
            function(object, ...){
-             standardGeneric("getPathwaySet")
+             standardGeneric("getSampleIDs")
            })
 
 #' @export
 #' @rdname get_set_OmicsPathway
-setGeneric("getPathwaySet<-",
+setGeneric("getSampleIDs<-",
            function(object, value){
-             standardGeneric("getPathwaySet<-")
+             standardGeneric("getSampleIDs<-")
+           })
+
+#' @export
+#' @rdname get_set_OmicsPathway
+setGeneric("getPathwayCollection",
+           function(object, ...){
+             standardGeneric("getPathwayCollection")
+           })
+
+#' @export
+#' @rdname get_set_OmicsPathway
+setGeneric("getPathwayCollection<-",
+           function(object, value){
+             standardGeneric("getPathwayCollection<-")
+           })
+
+#' @export
+#' @rdname get_set_OmicsPathway
+setGeneric("getTrimPathwayCollection",
+           function(object, ...){
+             standardGeneric("getTrimPathwayCollection")
            })
 
 
 
-######  Set Methods  ######
+######  Create Methods  ######
 
 #' @rdname get_set_OmicsPathway
 setMethod(f = "getAssay", signature = "OmicsPathway",
@@ -108,19 +159,43 @@ setMethod(f = "getAssay<-", signature = "OmicsPathway",
           })
 
 #' @rdname get_set_OmicsPathway
-setMethod(f = "getPathwaySet", signature = "OmicsPathway",
+setMethod(f = "getSampleIDs", signature = "OmicsPathway",
           definition = function(object, ...){
-            object@pathwaySet
+            object@sampleIDs_char
           })
 
 #' @rdname get_set_OmicsPathway
-setMethod(f = "getPathwaySet<-", signature = "OmicsPathway",
+setMethod(f = "getSampleIDs<-", signature = "OmicsPathway",
           definition = function(object, value){
 
-            object@pathwaySet <- value
+            object@sampleIDs_char <- value
 
             if(validObject(object)){
               return(object)
             }
 
+          })
+
+#' @rdname get_set_OmicsPathway
+setMethod(f = "getPathwayCollection", signature = "OmicsPathway",
+          definition = function(object, ...){
+            object@pathwayCollection
+          })
+
+#' @rdname get_set_OmicsPathway
+setMethod(f = "getPathwayCollection<-", signature = "OmicsPathway",
+          definition = function(object, value){
+
+            object@pathwayCollection <- value
+
+            if(validObject(object)){
+              return(IntersectOmicsPwyCollct(object))
+            }
+
+          })
+
+#' @rdname get_set_OmicsPathway
+setMethod(f = "getTrimPathwayCollection", signature = "OmicsPathway",
+          definition = function(object, ...){
+            object@trimPathwayCollection
           })

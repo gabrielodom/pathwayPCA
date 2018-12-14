@@ -4,10 +4,15 @@
 \alias{mysvd}
 \title{Singular Value Decomposition wrapper for supervised PCA}
 \usage{
-mysvd(mat, n.components = NULL)
+mysvd(mat, method = svd, n.components = NULL)
 }
 \arguments{
 \item{mat}{A matrix of data frame in "tall" format (\eqn{p \times n}).}
+
+\item{method}{What function should be used to extract the left- and right-
+singular vectors and singular values? Any function that returns the values
+as a list with components \code{u}, \code{v}, and \code{d} is appropriate.
+Defaults to \code{\link[base]{svd}}.}
 
 \item{n.components}{How many singular values / vectors to return? Must be an
 integer less than \eqn{min(p, n)}. Best performance increase is for values
@@ -27,7 +32,7 @@ A list containing:
 }
 }
 \description{
-Center and compute the fast SVD of a matrix
+Center and compute the SVD of a matrix
 }
 \details{
 The \code{mysvd} function takes in a tall -Omics data matrix,
@@ -42,5 +47,6 @@ The \code{mysvd} function takes in a tall -Omics data matrix,
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
+\keyword{internal}

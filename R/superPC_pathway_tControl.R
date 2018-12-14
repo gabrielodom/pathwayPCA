@@ -14,14 +14,12 @@
 #'    subject or tissue sample is a column, and the rows are the -Ome
 #'    measurements for that sample.
 #' @param response_mat A response matrix corresponding to \code{responseType}.
-#'    For \code{"regression"} and \code{"classification"}, this will be an
+#'    For \code{"regression"} and \code{"categorical"}, this will be an
 #'    \eqn{N \times 1} matrix of response values. For \code{"survival"}, this
 #'    will be an \eqn{N \times 2} matrix with event times in the first column
 #'    and observed event indicator in the second.
 #' @param responseType A character string. Options are \code{"survival"},
-#'    \code{"regression"}, and \code{"classification"}.
-#' @param parametric Should the random sample be taken using a parametric
-#'    bootstrap sample? Defaults to \code{FALSE}.
+#'    \code{"regression"}, and \code{"categorical"}.
 #' @param n.threshold The number of bins into which to split the feature scores
 #'    in the \code{fit} object returned internally by the
 #'    \code{\link{superpc.train}} function.
@@ -35,9 +33,9 @@
 #'    at each threshold level (columns).
 #'
 #' @details This is a wrapper function to call \code{\link{superpc.train}}
-#'    and \code{\link{superpc.st}} after response sampling or permutation with
-#'    the \code{\link{randomControlSample}} suite of functions. This response
-#'    randomization will act as a null distribution against which to compare
+#'    and \code{\link{superpc.st}} after response parametric bootstrapping with
+#'    the \code{\link{RandomControlSample}} suite of functions. This response
+#'    sampling will act as a null distribution against which to compare
 #'    the results from the \code{\link{pathway_tScores}} function.
 #'
 #'    This wrapper is designed to facilitate apply calls (in parallel or
@@ -47,63 +45,67 @@
 #'    \code{parSapply} (shown in \code{\link[parallel]{clusterApply}}), then
 #'    transposing the resulting matrix.
 #'
-#' @seealso \code{\link{pathway_tScores}}; \code{\link{randomControlSample}};
+#' @seealso \code{\link{pathway_tScores}}; \code{\link{RandomControlSample}};
 #'    \code{\link{superpc.train}}; \code{\link{superpc.st}}
+#'
+#' @keywords internal
 #'
 #' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 pathway_tControl <- function(pathway_vec,
                              geneArray_df,
                              response_mat,
                              responseType = c("survival",
                                               "regression",
-                                              "classification"),
-                             parametric = FALSE,
+                                              "categorical"),
                              n.threshold = 20,
                              numPCs = 1,
                              min.features = 3){
   # browser()
 
+  sampResp <- SampleResponses(
+    response_vec = response_mat[, 1],
+    event_vec = response_mat[, 2],
+    respType = responseType,
+    parametric = TRUE
+  )
+
   data_ls <- switch(responseType,
     survival = {
-
-      surv_ls <- sample_Survivalresp(response_vec = response_mat[, 1],
-                                     event_vec = response_mat[, 2],
-                                     parametric = parametric)
-      list(x = geneArray_df[pathway_vec, ],
-           y = surv_ls$response_vec,
-           censoring.status = surv_ls$event_vec,
-           featurenames = pathway_vec)
-
-      },
+      list(
+        x = geneArray_df[pathway_vec, ],
+        y = sampResp$response_vec,
+        censoring.status = sampResp$event_vec,
+        featurenames = pathway_vec
+      )
+    },
     regression = {
-
-      list(x = geneArray_df[pathway_vec, ],
-           y = sample_Regresp(response_vec = response_mat,
-                              parametric = parametric),
-           featurenames = pathway_vec)
-
-      },
-    classification = {
-
-      list(x = geneArray_df[pathway_vec, ],
-           y = sample_Classifresp(response_vec = response_mat,
-                                  parametric = parametric),
-           featurenames = pathway_vec)
-
-      }
-    )
+      list(
+        x = geneArray_df[pathway_vec, ],
+        y = sampResp,
+        featurenames = pathway_vec
+      )
+    },
+    categorical = {
+      list(
+        x = geneArray_df[pathway_vec, ],
+        y = sampResp,
+        featurenames = pathway_vec
+      )
+    })
 
   train <- superpc.train(data_ls, type = responseType)
 
-  st.obj <- superpc.st(fit = train,
-                       data = data_ls,
-                       n.PCs = numPCs,
-                       min.features = min.features,
-                       n.threshold = n.threshold)
+  st.obj <- superpc.st(
+    fit = train,
+    data = data_ls,
+    n.PCs = numPCs,
+    min.features = min.features,
+    n.threshold = n.threshold
+  )
 
   st.obj$tscor
 

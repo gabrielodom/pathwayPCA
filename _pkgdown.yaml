@@ -21,50 +21,61 @@ navbar:
       text: Version Logs
 
 reference:
-  - title: External Functions
-    desc: Functions designed for direct end-user interaction
+  - title: Pathway Collections
+    desc: Functions to create or modify pathway collection objects
     contents:
-      - '`pathwayPCA-package`'
       - '`read_gmt`'
-      - '`create_pathwaySet`'
-      - '`print.pathwaySet`'
-      - '`transpose_assay`'
-      - '`create_Omics`'
-      - '`create_OmicsPath`'
-      - '`create_OmicsSurv`'
-      - '`create_OmicsReg`'
-      - '`create_OmicsCateg`'
-      - '`AESPCA_pVals`'
-      - '`superPCA_pVals`'
-      - '`expressedOmes`'
-  - title: S4-Class Objects and Basic Methods
-    desc: Descriptions of the S4 classes in this package
+      - '`write_gmt`'
+      - '`CreatePathwayCollection`'
+      - '`print.pathwayCollection`'
+      - '`SubsetPathwayCollection`'
+  - title: Creating S4-Class Objects and Basic Methods
+    desc: Descriptions, creators, and accessors of the Omics* S4 classes
     contents:
       - '`OmicsPathway-class`'
       - '`OmicsSurv-class`'
       - '`OmicsReg-class`'
       - '`OmicsCateg-class`'
-      - '`valid_OmicsSurv`'
+      - '`ValidOmicsSurv`'
+      - '`TransposeAssay`'
+      - '`CreateOmics`'
       - '`show,OmicsPathway-method`'
       - '`getAssay`'
       - '`getAssay<-`'
-      - '`getPathwaySet`'
-      - '`getPathwaySet<-`'
+      - '`getPathwayCollection`'
+      - '`getPathwayCollection<-`'
+      - '`getSampleIDs`'
+      - '`getSampleIDs<-`'
       - '`getEventTime`'
       - '`getEventTime<-`'
       - '`getEvent`'
       - '`getEvent<-`'
       - '`getResponse`'
       - '`getResponse<-`'
+  - title: PCA-method Functions
+    desc: Functions to analyze Omics-class objects
+    contents:
+      - '`pathwayPCA-package`'
+      - '`AESPCA_pVals`'
+      - '`SuperPCA_pVals`'
+      - '`SubsetPathwayData`'
+      - '`getPathPCLs`'
+      - '`LoadOntoPCs`'
+  - title: Example Data Sets
+    desc: Data for function examples
+    contents:
+      - '`colon_pathwayCollection`'
+      - '`colonSurv_df`'
+      - '`wikipwsHS_Entrez_pathwayCollection`'
   - title: Internal AES-PCA Functions
     desc: Functions designed to be called by the AES-PCA wrapper above
     contents:
       - '`aespca`'
       - '`lars.lsa`'
-      - '`extract_aesPCs`'
-      - '`permTest_OmicsSurv`'
-      - '`permTest_OmicsReg`'
-      - '`permTest_OmicsCateg`'
+      - '`ExtractAESPCs`'
+      - '`PermTestSurv`'
+      - '`PermTestReg`'
+      - '`PermTestCateg`'
       - '`normalize`'
   - title: Internal Supervised PCA Functions
     desc: Functions designed to be called by the Supervised PCA wrapper above
@@ -75,17 +86,18 @@ reference:
       - '`superpc.st`'
       - '`superpc.train`'
       - '`mysvd`'
-      - '`weibullMix_pValues`'
-      - '`weibullMix_optimParams`'
-      - '`pathway_pValues`'
+      - '`OptimGumbelMixParams`'
+      - '`GumbelMixpValues`'
       - '`pathway_tControl`'
       - '`pathway_tScores`'
-  - title: Internal Supplemental Functions and Data
-    desc: Utility functions shared by both the AES-PCA and supervised PCA methods
+  - title: Internal Supplemental Functions
+    desc: Utility functions shared by both the AES-PCA and supervised PCA methods or CreateOmics
     contents:
-      - '`adjust_and_sort`'
-      - '`adjustRaw_pVals`'
-      - '`matrixRoot`'
-      - '`randomControlSample`'
-      - '`colon_pathwaySet`'
-      - '`colonSurv_df`'
+      - '`CreateOmicsPath`'
+      - '`CreateOmicsSurv`'
+      - '`CreateOmicsReg`'
+      - '`CreateOmicsCateg`'
+      - '`IntersectOmicsPwyCollct`'
+      - '`TabulatepValues`'
+      - '`ControlFDR`'
+      - '`RandomControlSample`'

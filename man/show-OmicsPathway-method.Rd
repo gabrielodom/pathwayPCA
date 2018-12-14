@@ -28,15 +28,18 @@ S4 objects print to the screen via the \code{\link[methods]{show}}
 \examples{
   ###  Load the Example Data  ###
   data("colonSurv_df")
-  data("colon_pathwaySet")
+  data("colon_pathwayCollection")
 
   ###  Create an OmicsSurv Object  ###
-  colon_OmicsSurv <- create_OmicsSurv(assayData_df = colonSurv_df[, -(1:2)],
-                                      pathwaySet_ls = colon_pathwaySet,
-                                      eventTime_num = colonSurv_df$OS_time,
-                                      eventObserved_lgl = as.logical(colonSurv_df$OS_event))
+  colon_OmicsSurv <- CreateOmics(
+    assayData_df = colonSurv_df[, -(2:3)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1:3],
+    respType = "surv"
+  )
 
   ###  Print / Show  ###
   colon_OmicsSurv
 
 }
+\keyword{internal}

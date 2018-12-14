@@ -31,6 +31,8 @@
 #'
 #'    NOTE: No missing values allowed.
 #'
+#' @keywords internal
+#'
 #' @importFrom stats median
 #' @importFrom stats quantile
 #'
@@ -38,15 +40,20 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 
 coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   # browser()
 
   junk <- .coxscor(x, y, censoring.status)
   scor <- junk$scor
-  sd <- sqrt(.coxvar(x, y, censoring.status,
-                    coxstuff.obj = junk$coxstuff.obj))
+  coxVar_num <- .coxvar(
+    x, y, censoring.status,
+    coxstuff.obj = junk$coxstuff.obj
+  )
+  # The .coxvar() function can return practical 0s that are numerically negative
+  coxVar_num[coxVar_num < 0] <- 0
+  sd <- sqrt(coxVar_num)
 
   if(is.null(s0.perc)) fudge <- median(sd)
   if(!is.null(s0.perc)){
@@ -69,23 +76,23 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
 }
 
 
-.coxscor <- function(x, y, ic, offset = rep(0, length(y))){
+.coxscor <- function(X1, Y1, IC1, Offset1 = rep(0, length(Y1))){
   # browser()
 
-  # computes cox scor function for rows of nx by n matrix  x
+  # computes cox scor function for rows of nx by n matrix  X1
   # first put everything in time order
-  n <- length(y)
-  nx <- nrow(x)
-  yy <- y + (ic == 0) * (1e-05)
+  n <- length(Y1)
+  nx <- nrow(X1)
+  yy <- Y1 + (IC1 == 0) * (1e-05)
   otag <- order(yy)
-  y <- y[otag]
-  ic <- ic[otag]
-  x <- x[, otag, drop = FALSE]
+  Y1 <- Y1[otag]
+  IC1 <- IC1[otag]
+  X1 <- X1[, otag, drop = FALSE]
   #compute  unique failure times, d=# of deaths at each failure time,
   #dd= expanded version of d to length n, s=sum of covariates at each
-  # failure time, nn=#obs in each risk set, nno=sum(exp(offset)) at each failure time
-  offset <- offset[otag]
-  a <- .coxstuff(x, y, ic, offset = offset)
+  # failure time, nn=#obs in each risk set, nno=sum(exp(Offset1)) at each failure time
+  Offset1 <- Offset1[otag]
+  a <- .coxstuff(X1, Y1, IC1, Offset1)
   nf <- a$nf
   fail.times <- a$fail.times
   s <- a$s
@@ -98,8 +105,8 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   for(i in (1:nf)){
 
     w <- w + s[, i]
-    oo <- (1:n)[y >= fail.times[i]]
-    r <- rowSums(x[, oo, drop = F] * exp(offset[oo]))
+    oo <- (1:n)[Y1 >= fail.times[i]]
+    r <- rowSums(X1[, oo, drop = F] * exp(Offset1[oo]))
     w <- w - (d[i] / nno[i]) * r
 
   }
@@ -108,23 +115,23 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
 }
 
 
-.coxvar <- function(x, y, ic,
-                   offset = rep(0, length(y)),
+.coxvar <- function(X2, Y2, IC2,
+                   Offset2 = rep(0, length(Y2)),
                    coxstuff.obj = NULL){
 
   # computes information elements (var) for cox
-  # x is nx by n matrix of expression  values
-  nx <- nrow(x)
-  n <- length(y)
-  yy <- y + (ic == 0) * (1e-06)
+  # X2 is nx by n matrix of expression  values
+  nx <- nrow(X2)
+  n <- length(Y2)
+  yy <- Y2 + (IC2 == 0) * (1e-06)
   otag <- order(yy)
-  y <- y[otag]
-  ic <- ic[otag]
-  x <- x[, otag, drop = FALSE]
-  offset <- offset[otag]
+  Y2 <- Y2[otag]
+  IC2 <- IC2[otag]
+  X2 <- X2[, otag, drop = FALSE]
+  Offset2 <- Offset2[otag]
 
   if(is.null(coxstuff.obj)) {
-    coxstuff.obj <- .coxstuff(x, y, ic, offset = offset)
+    coxstuff.obj <- .coxstuff(X2, Y2, IC2, Offset2)
   }
 
   nf <- coxstuff.obj$nf
@@ -135,19 +142,19 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   nn <- coxstuff.obj$nn
   nno <- coxstuff.obj$nno
 
-  x2 <- x ^ 2
-  oo <- (1:n)[y >= fail.times[1] ]
-  sx <- (1 / nno[1]) * rowSums(x[, oo] * exp(offset[oo]))
-  s <- (1 / nno[1]) * rowSums(x2[, oo] * exp(offset[oo]))
+  X2sq <- X2 ^ 2
+  oo <- (1:n)[Y2 >= fail.times[1] ]
+  sx <- (1 / nno[1]) * rowSums(X2[, oo] * exp(Offset2[oo]))
+  s <- (1 / nno[1]) * rowSums(X2sq[, oo] * exp(Offset2[oo]))
   w <- d[1] * (s - sx * sx)
 
   for(i in 2:nf){
 
-    oo <- (1:n)[y >= fail.times[i - 1] & y < fail.times[i]]
+    oo <- (1:n)[Y2 >= fail.times[i - 1] & Y2 < fail.times[i]]
     sx <- (1 / nno[i]) *
-      (nno[i - 1] * sx - rowSums(x[, oo, drop = FALSE] * exp(offset[oo])))
+      (nno[i - 1] * sx - rowSums(X2[, oo, drop = FALSE] * exp(Offset2[oo])))
     s <- (1 / nno[i]) *
-      (nno[i - 1] * s - rowSums(x2[, oo, drop = FALSE] * exp(offset[oo])))
+      (nno[i - 1] * s - rowSums(X2sq[, oo, drop = FALSE] * exp(Offset2[oo])))
     w <- w + d[i] * (s - sx * sx)
 
   }
@@ -156,46 +163,46 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
 
 }
 
-.coxstuff <- function(x, y, ic, offset = rep(0, length(y))){
+.coxstuff <- function(X3, Y3, IC3, Offset3 = rep(0, length(Y3))){
 
-  fail.times <- unique(y[ic == 1])
+  fail.times <- unique(Y3[IC3 == 1])
   nf <- length(fail.times)
-  n <- length(y)
+  n <- length(Y3)
   nn <- rep(0, nf)
   nno <- rep(0, nf)
 
   for(i in 1:nf){
 
-    nn[i] <- sum(y >= fail.times[i])
-    nno[i] <- sum(exp(offset)[y >= fail.times[i]])
+    nn[i] <- sum(Y3 >= fail.times[i])
+    nno[i] <- sum(exp(Offset3)[Y3 >= fail.times[i]])
 
   }
 
-  s <- matrix(0, ncol = nf, nrow = nrow(x))
+  s <- matrix(0, ncol = nf, nrow = nrow(X3))
   d <- rep(0, nf)
 
   #expand d out to a vector of length n
   for(i in 1:nf){
 
     # Try this:
-    # d[i] <- sum((y == fail.times[i]) & (ic == 1))
+    # d[i] <- sum((Y3 == fail.times[i]) & (IC3 == 1))
     # At each even time, we want to count the number of events
-    o <- (1:n)[(y == fail.times[i]) & (ic == 1)]
+    o <- (1:n)[(Y3 == fail.times[i]) & (IC3 == 1)]
     d[i] <- length(o)
 
   }
 
-  oo <- match(y, fail.times)
-  oo[ic == 0] <- NA
+  oo <- match(Y3, fail.times)
+  oo[IC3 == 0] <- NA
   oo[is.na(oo)] <- max(oo[!is.na(oo)]) + 1
-  s <- t(rowsum(t(x), oo))
+  s <- t(rowsum(t(X3), oo))
 
   if(ncol(s) > nf) s <- s[, -ncol(s)]
 
   dd <- rep(0, n)
 
   for(j in 1:nf){
-    dd[(y == fail.times[j]) & (ic == 1)] <- d[j]
+    dd[(Y3 == fail.times[j]) & (IC3 == 1)] <- d[j]
   }
 
   return(list(fail.times = fail.times,

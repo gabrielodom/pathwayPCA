@@ -1,0 +1,257 @@
+---
+title: "Supervised PCA Walkthrough with pathwayPCA"
+author: "Gabriel Odom"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Supervised PCA with pathwayPCA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      cache = FALSE,
+                      comment = "#>")
+```
+
+
+# Overview
+This vignette is half of the third chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow. This vignette builds on the material covered in the ["Import and Tidy Data"](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and ["Creating -Omics Data Objects"](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes. This guide will outline the major steps needed analyze `Omics*`-class objects with pathway-level supervised PCA. We will consider three examples: survival, regression, and binary responses. The main goal of pathway supervised PCA is to discover potential relationships between pathways (bundles of genes) and a response. This package (in its current form) should not be used for prediction, or regressing on multiple variables, but should simply be used to screen or identify potential pathways for futher inspection.
+
+### Outline
+Before we move on, we will outline our steps. After reading this vignette, you should
+
+1. Understand the basics of the supervised PCA pathway-significance testing approach.
+2. Be able to apply supervised PCA to analyze survival (`OmicsSurv`), regression (`OmicsReg`), or classification (`OmicsCateg`) data containers.
+
+### Load Packages
+Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+```
+devtools::install_github("gabrielodom/pathwayPCA")
+```
+```{r}
+library(pathwayPCA)
+library(parallel)
+```
+
+
+### Load `Omics*` Data
+```{r data_setup, echo = FALSE}
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+colon_OmicsSurv <- CreateOmicsSurv(
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
+  pathwayCollection_ls = colon_pathwayCollection,
+  eventTime_num = as.numeric(colonSurv_df$OS_time),
+  eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+)
+
+colon_OmicsReg <- CreateOmicsReg(
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response_num = as.numeric(colonSurv_df$OS_time)
+)
+
+colon_OmicsCateg <- CreateOmicsCateg(
+  assayData_df = colonSurv_df[, -(1:3)],
+  sampleIDs_char = colonSurv_df[, 1, drop = TRUE],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response_fact = as.factor(colonSurv_df$OS_event)
+)
+```
+Because you have already read through the [Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html) and [Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) vignettes, we will pick up with the `colon_OmicsSurv` object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding subject information (such as weight, type of cancer, or survival time and censoring indicator), and a gene set list. The `colon_OmicsSurv` data container we constructed in [Chapter 3](https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html) has all of this.
+```{r data_show}
+colon_OmicsSurv
+```
+
+*******************************************************************************
+
+</br>
+
+
+# Clean Up the Pathway List
+The analysis functions within the `pathwayPCA::` package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that aren't recorded in the data frame, then we will necessarily create missing (`NA`) predictors. To circumvent this issue, we should check if each gene in each pathway is recorded in the data frame, and remove the genes for which we have not recorded expression levels.
+
+However, if we remove genes from the pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a pathway. Thus, we will also check to make sure that each pathway still has three or more genes present after we have removed the genes without corresponding expression levels. The `IntersectOmicsPwyCollct()` function performs these two actions simultaneously. This function takes in a valid `Omics*`-class object, removed the unexpressed genes from each pathway, subsequently trims the pathways that have fewer than three genes, and finally returns an object of the same `Omics*` class as the input. If there are any pathways that are removed due to this execution, the `pathways` list within the `pathwayCollection` object within each `Omics*` object will have a character vector of the pathways removed stored as the `"missingPaths"` attribute. Access this attribute with the `attr()` function.
+
+This function is called and executed within the `SuperPCA_pVals()` function.
+
+<!-- We will use this function to clean each of our `Omics*` data objects. -->
+<!-- ```{r clean_OmicsObjs} -->
+<!-- tumourClean_OmicsSurv <- IntersectOmicsPwyCollct(tumour_OmicsSurv) -->
+<!-- tumourClean_OmicsReg <- IntersectOmicsPwyCollct(tumour_OmicsReg) -->
+<!-- tumourClean_OmicsCateg <- IntersectOmicsPwyCollct(tumour_OmicsCateg) -->
+<!-- ``` -->
+<!-- As we can see, none of the pathways we started with have been removed. -->
+<!-- ```{r missingPaths} -->
+<!-- attr(tumourClean_OmicsSurv@pathwayCollection$pathways, "missingPaths") -->
+<!-- ``` -->
+
+
+
+## Calculate Pathway-Specific Model $p$-Values
+We now have a clean set of `Omics*` objects. We will
+
+1. Extract the first principal components from each expressed pathway in the MS design matrix
+2. Test their association with the response matrix or vector
+3. Adjust the pathway $p$-values for False Discovery Rate (FDR)
+4. Return a sorted data frame of the adjusted $p$-values for each pathway
+
+Of note: we use the FDR adjustments executed in the `mt.rawp2adjp` function from the Bioconductor package [`multtest`](https://www.bioconductor.org/packages/3.7/bioc/manuals/multtest/man/multtest.pdf). We copied the code from this function into our package, and made some slight modifications. However, we do not depend on this package directly. We acknowledge their work in this area and express our gratitude.
+
+
+### Survival Response
+We will use all but two of our available cores, and use the Hochberg (1988) and Sidak Step-Down FDR-adjustment procedures.
+```{r surv_pvals}
+a <- Sys.time()
+surv_pVals_df <- SuperPCA_pVals(
+  object = colon_OmicsSurv,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Hoch", "SidakSD")
+)
+Sys.time() - a
+```
+
+
+### Regression Response
+We will use the Holm (1979) and Benjamini and Hochberg (1995) FDR-adjustment procedures.
+```{r reg_pvals}
+b <- Sys.time()
+reg_pVals_df <- SuperPCA_pVals(
+  object = colon_OmicsReg,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("Holm", "BH")
+)
+Sys.time() - b
+```
+
+
+### Binary Classification Response
+We will use the Sidak Single-Step and Benjamini and Yekutieli (2001) FDR-adjustment procedures.
+```{r categ_pvals}
+d <- Sys.time()
+categ_pVals_df <- SuperPCA_pVals(
+  object = colon_OmicsCateg,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("SidakSS", "BY")
+)
+Sys.time() - d
+```
+
+
+
+## Subset the Top Pathways
+Now that we have the pathway-specific $p$-values, we can inspect the top pathways by significance. We will first subset the data frame returned by the `SuperPCA_pVals()` function, then plot the most significant $p$-values using the `ggplot2::` package. For graphics, we will need two new packages:
+```{r graphcs_packages}
+library(tidyverse)
+library(reshape2)
+```
+
+For each pathway $p$-value data frame, we will select the top pathways, and transform the data for better graphics. Then, we will plot the pathway $p$-values for the most significant pathways as a horizontal bar chart. The thick vertical black line is at $p = 0.05$, and the thin vertical black line is at $p = 0.10$.
+
+### Significant Survival Pathways
+```{r surv_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+surv_melt_df <- surv_pVals_df$pVals_df %>%
+  select(-terms, - setsize, -trim_size) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(surv_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "Hochberg", "SidakSD"),
+                      labels = c("None", "Hochberg", "Sidak SD")) +
+  ggtitle("Colon Pathways by Survival Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+### Significant Regression Pathways
+```{r reg_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+reg_melt_df <- reg_pVals_df$pVals_df %>%
+  select(-terms, - setsize, -trim_size) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(reg_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "Holm", "BH"),
+                      labels = c("None", "Holm", "BH")) +
+  ggtitle("Colon Pathways by Regression Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+### Significant Binary Classification Pathways
+```{r categ_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+# Melt the data
+categ_melt_df <- categ_pVals_df$pVals_df %>%
+  select(-terms, - setsize, -trim_size) %>%
+  melt(id.vars = "pathways") %>%
+  mutate(score = -log(value)) %>%
+  mutate(pathways = factor(pathways,
+                           levels = rev(unique(pathways)),
+                           ordered = TRUE))
+
+# Plot Melted Data
+ggplot(categ_melt_df) +
+  aes(x = pathways, y = score, fill = variable) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_discrete(name = "FDR Adjustment",
+                      breaks = c("rawp", "SidakSS", "BY"),
+                      labels = c("None", "Sidak SS", "BY")) +
+  ggtitle("Colon Pathways by Binary Classification Response") +
+  xlab("Pathways") +
+  ylab("Log p-Value") +
+  geom_hline(yintercept = -log(0.05), size = 2) +
+  geom_hline(yintercept = -log(0.1)) +
+  coord_flip()
+```
+
+
+
+<!-- ## Rank Significant Genes -->
+<!-- Given that we have so far only considered collections of genes, rather than the genes themselves, we can inspect which genes show up the most often in the top-ranked pathways. Our method is to build a matrix of pathways and their genes: each column is a pathway, and each row is a gene. The $i, j$ entry of this matrix is a 1 if gene $i$ is contained in pathway $j$ (after trimming to the genes measured in the supplied assay). Now consider the adjusted $p$-values of pathway $j$, $p_{1j}, p_{2j}, \ldots, p_{Aj}$, where $a \in \{1, 2, \ldots A\}$ are the FDR adjustment methods; we define the pathway score for this pathway as -->
+<!-- \[ -->
+<!-- S_j := - \frac{1}{A}\sum\limits_{a = 1}^A \log(p_{aj}). -->
+<!-- \] -->
+<!-- We then mulitply each of the columns in the matrix by its respective score. -->
+
+<!-- Now consider the rows of this matrix. Each row is a gene, and the $j^{th}$ entry in the row is equal to $S_j$, if the gene is included in pathway $j$, and 0 otherwise. These genes can be compared by the raw row sum of scores, or by the average of the non-zero scores. The `topGenes()` function returns the top 5% of both. As we can see, most of the genes included in the `summedRank` vector are the in the list of "usual suspects" for colon cancer. -->
+<!-- ```{r topSurvGenes} -->
+<!-- topGenes(object = colon_OmicsSurv, pVals_df = surv_pVals_df, percentile = 0.02) -->
+<!-- ``` -->
+

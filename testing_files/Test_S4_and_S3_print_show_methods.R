@@ -57,10 +57,10 @@ print(test_OmicsSurv)
 
 
 
-######  Print for pathwaySet objects  #########################################
+######  Print for pathwayCollection objects  ##################################
 print <- function(x) UseMethod("print")
 
-print.pathwaySet <- function(x){
+print.pathwayCollection <- function(x){
 
   classes_char <- class(gene_set_ls)
   cat("Object with Class(es) '",

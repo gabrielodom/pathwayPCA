@@ -13,13 +13,12 @@ Description: Apply the Supervised PCA and Adaptive, Elastic-Net, Sparse PCA
   each pathway. Return the model fit statistic p-values, and adjust these values
   for False Discovery Rate. Return a data frame of the pathways sorted by their
   adjusted p-values. This package has corresponding vignettes hosted in the
-  ``User Guides'' page of <https://gabrielodom.github.io/pathwayPCA/index.html>,
+  ''User Guides'' page of <https://gabrielodom.github.io/pathwayPCA/index.html>,
   and the website for the development information is hosted at
   <https://github.com/gabrielodom/pathwayPCA>.
 License: GPL-2
 Depends: R (>= 2.10)
 Imports:
-    corpcor,
     lars,
     methods,
     parallel,
@@ -28,54 +27,65 @@ Suggests:
     knitr,
     reshape2,
     rmarkdown,
+    survminer,
     tidyverse
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Collate: 
+    'CreatePathwayCollection.R'
     'createClass_OmicsPath.R'
     'createClass_validOmics.R'
     'accessClass_OmicsPath.R'
-    'accessClass_OmicsRegCateg.R'
     'createClass_OmicsSurv.R'
     'accessClass_OmicsSurv.R'
-    'adjust_and_sort_pValues.R'
+    'accessClass_OmicsRegCateg.R'
+    'createClass_OmicsCateg.R'
+    'createClass_OmicsReg.R'
+    'accessClass_OmicsPathData.R'
+    'accessClass_pathwayCollection.R'
+    'accessClass_pcOut.R'
     'aesPC_calculate_AESPCA.R'
     'aesPC_calculate_LARS.R'
-    'subsetExpressed-omes.R'
     'aesPC_extract_OmicsPath_PCs.R'
     'aesPC_permtest_CoxPH.R'
-    'createClass_OmicsCateg.R'
     'aesPC_permtest_GLM.R'
-    'createClass_OmicsReg.R'
-    'aesPC_permtest_LS.R'
+    'aesPC_permtest_LM.R'
     'aesPC_unknown_matrixNorm.R'
     'aesPC_wrapper.R'
-    'calculate_matrixRoot.R'
-    'calculate_multtest_pvalues.R'
-    'create_Omics_All.R'
-    'create_Omics_Wrapper.R'
-    'create_pathwaySet.R'
+    'createOmics_All.R'
+    'createOmics_CheckAssay.R'
+    'createOmics_CheckPathwayCollection.R'
+    'createOmics_CheckSampleIDs.R'
+    'createOmics_JoinPhenoAssay.R'
+    'createOmics_TrimPathwayCollection.R'
+    'createOmics_Wrapper.R'
     'data_colonSubset.R'
     'data_genesetSubset.R'
+    'data_wikipathways.R'
     'pathwayPCA.R'
     'printClass_Omics_All.R'
-    'printClass_pathwaySet.R'
-    'read_gmt.R'
+    'printClass_pathwayCollection.R'
     'superPC_model_CoxPH.R'
     'superPC_model_GLM.R'
     'superPC_model_LS.R'
     'superPC_model_tStats.R'
+    'superPC_model_train.R'
     'superPC_modifiedSVD.R'
     'superPC_optimWeibullParams.R'
     'superPC_optimWeibull_pValues.R'
-    'superPC_pathway_pValues.R'
     'superPC_pathway_tControl.R'
     'superPC_pathway_tScores.R'
     'superPC_permuteSamples.R'
-    'superPC_train.R'
     'superPC_wrapper.R'
-    'transpose_assay.R'
+    'utils_adjust_and_sort_pValues.R'
+    'utils_load_test_data_onto_PCs.R'
+    'utils_multtest_pvalues.R'
+    'utils_read_gmt.R'
+    'utils_transpose_assay.R'
+    'utils_write_gmt.R'
 VignetteBuilder: knitr
-URL: https://github.com/gabrielodom/pathwayPCA, https://gabrielodom.github.io/pathwayPCA/
+URL:
+  https://gabrielodom.github.io/pathwayPCA/;
+  https://github.com/gabrielodom/pathwayPCA
 BugReports: https://github.com/gabrielodom/pathwayPCA/issues

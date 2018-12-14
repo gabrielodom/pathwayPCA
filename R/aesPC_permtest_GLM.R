@@ -1,19 +1,22 @@
 #' AES-PCA permutation test of categorical response for pathway PCs
 #'
 #' @description Given an \code{OmicsCateg} object and a list of pathway PCs from
-#'   the \code{\link{extract_aesPCs}} function, test if each expressed pathway
-#'   in the bio-assay design matrix is significantly related to the categorical
-#'   response.
+#'   the \code{\link{ExtractAESPCs}} function, test if each pathway with
+#'   features recorded in the bio-assay design matrix is significantly related
+#'   to the categorical response.
 #'
 #' @param OmicsCateg A data object of class \code{OmicsCateg}, created by the
-#'   \code{\link{create_OmicsCateg}} function.
+#'   \code{\link{CreateOmics}} function.
 #' @param pathwayPCs_ls A list of pathway PC matrices returned by the
-#'   \code{\link{extract_aesPCs}} function.
-#' @param numReps How many permuted models to fit? Defaults to 1000.
+#'   \code{\link{ExtractAESPCs}} function.
+#' @param numReps How many permutations to estimate the \eqn{p}-value? Defaults
+#'    to 0 (that is, to estimate the \eqn{p}-value parametrically). If
+#'    \code{numReps} > 0, then the non-parametric, permutation \eqn{p}-value
+#'    will be returned based on the number of random samples specified.
 #' @param parallel Should the computation be completed in parallel? Defaults to
 #'   \code{FALSE}.
 #' @param numCores If \code{parallel = TRUE}, how many cores should be used for
-#'   computation? Defaults to \code{NULL}.
+#'   computation? Internally defaults to the number of available cores minus 2.
 #' @param ... Dots for additional internal arguments (currently unused).
 #'
 #' @return A named vector of pathway permutation \eqn{p}-values.
@@ -26,23 +29,22 @@
 #'   principal components as the predictor matrix.
 #'
 #'   Then, this function will create \code{numReps} permutations of the
-#'   classification response, fit models to each of these premuted responses
+#'   categorical response, fit models to each of these permuted responses
 #'   (holding the path predictor matrix fixed), and calculate the AIC of each
 #'   model. This function will return a named vector of permutation
 #'   \eqn{p}-values, where the value for each pathway is the proportion of
 #'   models for which the AIC of the permuted response model is less than the
-#'   AIC of the original model.
+#'   AIC of the original model.  Note that the AIC and log-likelihood are
+#'   proportional because the number of parameters in each pathway is constant.
 #'
 #'   In future versions, this function will also be able to calculate permuted
 #'   \eqn{p}-values for multinomial logistic regression and proportional odds
 #'   logistic regression models, for n-ary and ordered categorical responses,
 #'   respectively.
 #'
-#' @seealso \code{\link{create_OmicsCateg}}; \code{\link{extract_aesPCs}};
+#' @seealso \code{\link{CreateOmics}}; \code{\link{ExtractAESPCs}};
 #'   \code{\link[stats]{glm}}; \code{\link[stats]{binomial}};
-#'   \code{\link{sample_Classifresp}}
-#'
-#' @export
+#'   \code{\link{SampleCateg}}
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsCateg.R
@@ -50,33 +52,38 @@
 #'
 #' @importFrom methods setGeneric
 #'
+#' @keywords internal
+#'
+#' @export
+#'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#' @rdname permTest_OmicsCateg
-setGeneric("permTest_OmicsCateg",
+#' @rdname PermTestCateg
+setGeneric("PermTestCateg",
            function(OmicsCateg,
                     pathwayPCs_ls,
-                    numReps = 1000,
+                    numReps = 0L,
                     parallel = FALSE,
                     numCores = NULL,
                     ...){
-             standardGeneric("permTest_OmicsCateg")
+             standardGeneric("PermTestCateg")
            }
 )
 
-#' @importFrom stats glm
 #' @importFrom stats AIC
+#' @importFrom stats anova
 #' @importFrom stats binomial
-#' @importFrom parallel makeCluster
-#' @importFrom parallel clusterExport
+#' @importFrom stats glm
 #' @importFrom parallel clusterEvalQ
+#' @importFrom parallel clusterExport
+#' @importFrom parallel makeCluster
 #' @importFrom parallel parSapply
 #' @importFrom parallel stopCluster
 #'
-#' @rdname permTest_OmicsCateg
-setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
+#' @rdname PermTestCateg
+setMethod(f = "PermTestCateg", signature = "OmicsCateg",
           definition = function(OmicsCateg,
                                 pathwayPCs_ls,
                                 numReps = 1000,
@@ -87,7 +94,7 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
             ###  Function Setup  ###
             # The distribution object will be passed in either indirectly or
             #   directly through the OmicsCateg object. I will probably put some
-            #   sort of class / ordering check in the create_OmicsCateg()
+            #   sort of class / ordering check in the CreateOmicsCateg()
             #   function to add a slot or attribute for "binary", "n_ary" or
             #   "ordered" responses. Then, all I need is a switch here to define
             #   the "dist" object.
@@ -96,67 +103,99 @@ setMethod(f = "permTest_OmicsCateg", signature = "OmicsCateg",
             #   the apply statements. No thanks. I don't like how inneficient
             #   this is.
             permute_CategFit <- function(pathwayPCs_mat,
-                                         obj_OmicsCateg,
-                                         numReps_int = numReps,
-                                         parametric = FALSE){
+                                         response,
+                                         nullMod,
+                                         numReps_int = numReps){
               # browser()
 
               ###  True Model  ###
-              response <- obj_OmicsCateg@response
-              trueAIC <- AIC(glm(response ~ pathwayPCs_mat, family = binomial))
+              pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
+              true_mod <- glm(response ~ pathwayPCs_mat, family = binomial)
 
+              ###  p-Values  ###
+              # Switch between real and permutation p-value
+              if(numReps_int == 0){
+                # Real score-based p-value
 
-              ###  Permuted Model  ###
-              permuteAIC_fun <- function(){
+                mod_anova <- anova(nullMod, true_mod, test = "Chisq")
+                out_num <- mod_anova[2, "Pr(>Chi)"]
 
-                perm_resp <- sample_Classifresp(obj_OmicsCateg@response,
-                                            parametric = parametric)
-                AIC(glm(perm_resp ~ pathwayPCs_mat, family = binomial))
+              } else {
+                # Permutation p-value
+
+                permuteAIC_fun <- function(){
+
+                  perm_resp <- SampleCateg(
+                    response,
+                    parametric = FALSE
+                  )
+
+                  AIC(glm(perm_resp ~ pathwayPCs_mat, family = binomial))
+
+                }
+
+                trueAIC <- AIC(true_mod)
+                permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
+                out_num <- mean(permAIC < trueAIC)
 
               }
 
-              permAIC <- replicate(n = numReps_int, expr = permuteAIC_fun())
-
               ###  Return  ###
-              mean(permAIC < trueAIC)
+              out_num
 
             }
 
             ###  Computation  ###
             # browser()
+            response <- OmicsCateg@response
+            null_mod <- glm(response ~ 1, family = binomial)
 
             if(parallel){
               # browser()
 
               ###  Parallel Computing Setup  ###
-              message("Initializing Computing Cluster")
-              # require(parallel)
+              message("Initializing Computing Cluster: ", appendLF = FALSE)
               clust <- makeCluster(numCores)
-              clustVars_vec <- c(deparse(quote(OmicsCateg)),
-                                 deparse(quote(numReps)))
-              clusterExport(cl = clust,
-                            varlist = clustVars_vec,
-                            envir = environment())
-              invisible(clusterEvalQ(cl = clust, library(pathwayPCA)))
+              clustVars_vec <- c(
+                deparse(quote(response)),
+                deparse(quote(numReps)),
+                deparse(quote(null_mod))
+              )
+              clusterExport(
+                cl = clust,
+                varlist = clustVars_vec,
+                envir = environment()
+              )
+              invisible(
+                clusterEvalQ(cl = clust, library(pathwayPCA))
+              )
               message("DONE")
 
               ###  Extract PCs  ###
-              message("Extracting Pathway p-Values in Parallel")
-              pValues_vec <- parSapply(cl = clust,
-                                       pathwayPCs_ls,
-                                       permute_CategFit,
-                                       obj_OmicsCateg = OmicsCateg,
-                                       numReps_int = numReps)
+              message("Extracting Pathway p-Values in Parallel: ",
+                      appendLF = FALSE)
+              pValues_vec <- parSapply(
+                cl = clust,
+                pathwayPCs_ls,
+                permute_CategFit,
+                response = response,
+                numReps_int = numReps,
+                nullMod = null_mod
+              )
               stopCluster(clust)
               message("DONE")
 
             } else {
 
-              message("Extracting Pathway p-Values Serially")
-              pValues_vec <- sapply(pathwayPCs_ls,
-                                    permute_CategFit,
-                                    obj_OmicsCateg = OmicsCateg,
-                                    numReps_int = numReps)
+              message("Extracting Pathway p-Values Serially: ",
+                      appendLF = FALSE)
+              pValues_vec <- sapply(
+                pathwayPCs_ls,
+                permute_CategFit,
+                response = response,
+                numReps_int = numReps,
+                nullMod = null_mod
+              )
               message("DONE")
 
             }

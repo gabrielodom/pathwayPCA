@@ -55,9 +55,9 @@
 #'
 #'   See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf}.
 #'
-#' @seealso \code{\link{superpc.train}}; \code{\link{superPCA_pVals}}
+#' @seealso \code{\link{superpc.train}}; \code{\link{SuperPCA_pVals}}
 #'
-#' @export
+#' @keywords internal
 #'
 #' @importFrom stats binomial
 #' @importFrom stats glm
@@ -67,9 +67,11 @@
 #' @importFrom survival coxph.control
 #' @importFrom survival Surv
 #'
+#' @export
+#'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
-#'   # Use superPCA_pVals() instead
+#'   # Use SuperPCA_pVals() instead
 
 superpc.st <- function(fit,
                        data,
@@ -131,7 +133,13 @@ superpc.st <- function(fit,
 
   kept.thresholds <- which(thresh_probs >= threshold.ignore)
 
+  # browser()
   for(i in kept.thresholds){
+    # For many pathways, the first 10-15 of these thresholds yield identical
+    #   results for the PCs 1 and 2. Additionally, all thresholds but the last
+    #   two yield rather similar results. The last two are nearly spherical:
+    #   the eigenvalues are within 30% of each other. The first 18 thresholds
+    #   have the first eigenvalue at twice the size of the second
     # browser()
 
     # cat(i)
@@ -186,13 +194,30 @@ superpc.st <- function(fit,
   } # END for i
 
 
-  junk <- list(thresholds = thresholds,
-               n.threshold = n.threshold,
-               scor = scor,
-               tscor = tscor,
-               type = type)
-  class(junk) <- "superpc.st"
-  return(junk)
+  ###  Return the SuperPCA Results for the "Best" t-Score  ###
+  # Find the most t-statistic(s), then pick the one that corresponds to the most
+  #   extreme threshold
+  bestT_idx <- which(abs(tscor[1,]) == max(abs(tscor[1,])))
+  bestFeatures <- abs(cur.tt) + epsilon > thresholds[max(bestT_idx)]
+  bestSVD <- mysvd(data$x[bestFeatures, ], n.components = n.PCs)
+  bestLoadings_mat <- diag(bestSVD$d, ncol = length(bestSVD$d)) %*% t(bestSVD$u)
+  rownames(bestLoadings_mat) <- paste0("PC", 1:n.PCs)
+  colnames(bestLoadings_mat) <- names(bestSVD$feature.means)
+  bestPCs_mat <- as.matrix(bestSVD$v, ncol = n.PCs)
+
+
+  ###  Return  ###
+  out_ls <- list(
+    thresholds = thresholds,
+    n.threshold = n.threshold,
+    scor = scor,
+    tscor = tscor,
+    PCs_mat = bestPCs_mat,
+    Loadings_mat = bestLoadings_mat,
+    type = type
+  )
+  class(out_ls) <- "superpc.st"
+  out_ls
 
 }
 

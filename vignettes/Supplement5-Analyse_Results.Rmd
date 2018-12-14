@@ -1,0 +1,427 @@
+---
+title: "Suppl. Ch.  5 - Visualizing the Results"
+author: "Gabriel Odom"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+  word_document:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Visualizing the Results}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      cache = FALSE,
+                      comment = "#>")
+```
+
+
+# 1. Overview
+This vignette is the fifth chapter in the "Pathway Significance Testing with `pathwayPCA`" workflow, providing a detailed perspective to the [Inspect Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#inspect-results) section of the Quickstart Guide. This vignette will discuss graphing the pathway-specific $p$-values, FDR values, and associated log-scores. Also, we will discuss how to plot the gene- or protein-specific loadings within a certain pathway and further how to plot the correlation between a gene or protein within a pathway and the principal component representing that pathway.
+
+Before we move on, we will outline our steps. After reading this vignette, you should be able to
+
+1. Plot the log-score rank of the top pathways.
+2. Plot the feature loadings for a single pathway.
+3. Plot the correlations between a pathway principal component and the features within that pathway.
+
+## 1.1 Packages
+First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/).
+```{r packageLoad, message=FALSE}
+library(tidyverse)
+library(pathwayPCA)
+```
+
+## 1.2 Example Results
+First, we will replicate the data setup from the previous vignette chapters on importing data and creating data objects ( [Chapter 2: Import and Tidy Data](https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html) and [Chapter 3: Creating -Omics Data Objects](https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html), respectively). See these chapters for detailed explination of the code below.
+```{r load_data}
+# Load Data: see Chapter 2
+data("colonSurv_df")
+data("colon_pathwayCollection")
+
+# Create -Omics Container: see Chapter 3
+colon_OmicsSurv <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection_ls = colon_pathwayCollection,
+  response = colonSurv_df[, 1:3],
+  respType = "surv"
+)
+```
+
+We will resume inspection of the analysis results from the [chapter 4 vignette](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html) for the AESPCA method.
+```{r show_AESPCA}
+# AESPCA Analysis: see Chapter 4
+colonSurv_aespcOut <- AESPCA_pVals(
+  object = colon_OmicsSurv,
+  numReps = 0,
+  numPCs = 2,
+  parallel = TRUE,
+  numCores = 2,
+  adjustpValues = TRUE,
+  adjustment = c("BH", "Bonf")
+)
+```
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+# 2. Plot Pathway Significance Levels
+The first element of this results data object is a data frame of pathways and their significance levels (`pVals_df`).
+```{r viewPathwayRanks}
+colonSurv_aespcOut$pVals_df
+```
+
+Given the $p$-values from these pathways, we will now graph their score (negative log of the $p$-value) and description for the top 15 most-significant pathways.
+
+## 2.1 Trim Pathway Names
+Because pathway names are quite long, we truncate names longer than 35 characters for better display in the graphs.
+```{r match_abbrev_to_name}
+pVals_df <- 
+  colonSurv_aespcOut$pVals_df %>% 
+  mutate(
+    terms = ifelse(
+      str_length(terms) > 35,
+      paste0(str_sub(terms, 1, 33), "..."),
+      terms
+    )
+  )
+
+pVals_df
+```
+
+## 2.2 Tidy the Pathway Results
+For the data frame containing the survival data pathway $p$-values, we will transform the data for better graphics. This code takes in the pathway $p$-values data frame from the AESPCA method output and [gathers](https://rpubs.com/mm-c/gather-and-spread) it into a "tidy" data frame (compatible with `ggplot`). We also add on a column for the negative natural logarithm of the pathway $p$-values (called `score`) and recode the label of the $p$-value adjustment method.
+```{r subset_top_genes}
+colonOutGather_df <-
+  # Take in the results data frame,
+  pVals_df %>%
+  # remove the columns we don't need,
+  select(-pathways, -n_tested) %>%
+  # "tidy" the data,
+  gather(variable, value, -terms) %>%
+  # add the score variable, and
+  mutate(score = -log(value)) %>%
+  # store the adjustment methods as a factor
+  mutate(variable = factor(variable)) %>% 
+  mutate(
+    variable = recode_factor(
+      variable,
+      rawp = "None",
+      FDR_BH = "Hochberg",
+      FWER_Bonferroni = "Bonferroni"
+    )
+  )
+```
+
+
+## 2.3 Plot Significant Survival Pathways for One Adjustment
+Now we will plot the pathway $p$-values for the most significant pathways as a horizontal bar chart. For more information on how to modify `ggplot` graphs, or to learn how to create your own, please see Chang's [R Graphics Cookbook](https://www.amazon.com/dp/1449316956/ref=cm_sw_su_dp?tag=ggplot2-20) or Wickham's [`ggplot2`: Elegant Graphics for Data Analysis](http://ggplot2.org/book/).
+
+First, we select the rows of the $p$-values data frame which correspond to the adjustment method we are interested in. We will select the Benjamini and Hochberg FDR-adjustment method.
+```{r BH_pvals}
+BHpVals_df <- 
+  colonOutGather_df %>% 
+  filter(variable == "Hochberg") %>% 
+  select(-variable)
+```
+
+Now we plot the pathway significance level for the pathways based on this FDR-adjustment method.
+```{r bar_plots, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+ggplot(BHpVals_df) +
+  # set overall appearance of the plot
+  theme_bw() +
+  # Define the dependent and independent variables
+  aes(x = reorder(terms, score), y = score) +
+  # From the defined variables, create a vertical bar chart
+  geom_col(position = "dodge", fill = "#F47321") +
+  # Set main and axis titles
+  ggtitle("AES-PCA Significant Pathways: Colon Cancer") +
+  xlab("Pathways") +
+  ylab("Negative Log BH-FDR") +
+  # Add a line showing the alpha = 0.01 level
+  geom_hline(yintercept = -log(0.01), size = 2, color = "#005030") +
+  # Flip the x and y axes
+  coord_flip()
+```
+
+
+## 2.4 Plot Significant Survival Pathways for All Adjustments
+If we were interested in comparing adjustment methods, we can. This figure shows that a few of the simulated pathways are significant at the $\alpha = 0.01$ for either the Benjamini and Hochberg or Bonferroni FWER approaches. The vertical black line is at $-\log(p = 0.01)$. This figure is slightly different from the figures shown in the [Graph Top Pathways](https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html#graph-of-top-pathways) subsection of the Quickstart Guide.
+```{r surv_aes_pval_plot, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+ggplot(colonOutGather_df) +
+  # set overall appearance of the plot
+  theme_bw() +
+  # Define the dependent and independent variables
+  aes(x = reorder(terms, score), y = score) +
+  # From the defined variables, create a vertical bar chart
+  geom_col(position = "dodge", aes(fill = variable)) +
+  # Set the legend, main titles, and axis titles
+  scale_fill_discrete(guide = FALSE) +
+  ggtitle("AES-PCA Significant Colon Pathways by FWER Adjustment") +
+  xlab("Pathways") +
+  ylab("Negative Log p-Value") +
+  # Add a line showing the alpha = 0.01 level
+  geom_hline(yintercept = -log(0.01), size = 1) +
+  # Flip the x and y axes
+  coord_flip() + 
+  # Create a subplot for each p-value adjustment method
+  facet_grid(. ~ variable)
+```
+
+</br>
+
+*******************************************************************************
+
+</br>
+
+# 3. Inspecting the Driving Genes
+Now that we have a few significant pathways, we can look at the loadings of each gene onto the first AES-PC from these pathways.
+```{r significant_pathway_keys}
+pVals_df %>% 
+  filter(FDR_BH < 0.01) %>% 
+  select(pathways)
+```
+
+
+## 3.1 Extract Pathway Decomposition
+We will chose the top two significant pathways for closer inspection, and we want to ascertain which genes load onto the pathway PCs. Notice that the pathway loadings are named by the internal pathway key, so we need to use the `getPathPCL()` to match this key to its pathway and extract the pathway PCs and loadings (PC & L) list from the `colonSurv_aespcOut` object. Here are the loading vectors and pathway details from `pathway491`:
+```{r path491_PCL}
+pathway491_ls <- getPathPCLs(colonSurv_aespcOut, "pathway491")
+pathway491_ls
+```
+
+This tells us that `pathway491` represents the [EPHB forward signaling](http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=PID_EPHB_FWD_PATHWAY) pathway.
+
+We can also extract the PCs and loadings vectors for `pathway177` (the [Asthma](http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=KEGG_ASTHMA) pathway), which we will compare later.
+```{r pathway177_PCL}
+pathway177_ls <- getPathPCLs(colonSurv_aespcOut, "pathway177")
+```
+
+
+## 3.2 Gene Loadings
+### 3.2.1 Wrangle Pathway Loadings
+Given the loading vectors from the EPHB forward signaling pathway, we need to wrangle them into a data frame that the `ggplot()` function can use. For this, we've written a function that you can modify as you need. This function takes in the pathway PC & L list returned by the `getPathPCLs()` function and returns a data frame with all the components necessary for a plot of the gene loadings. For more aesthetically-pleasing plots, we set the default for one PC or loading vector per figure.
+```{r TidyLoading_fun}
+TidyLoading <- function(pathwayPCL, numPCs = 1){
+  
+  # Remove rows with 0 loading from the first numPCs columns
+  loadings_df <- pathwayPCL$Loadings
+  totLoad_num  <- rowSums(abs(
+    loadings_df[, 2:(numPCs + 1), drop = FALSE]
+  ))
+  keepRows_idx <- totLoad_num > 0
+  loadings_df <- loadings_df[keepRows_idx, , drop = FALSE]
+  
+  # Sort the value on first feature
+  load_df <- loadings_df %>% 
+    arrange(desc(PC1))
+  
+  # Wrangle the sorted loadings:
+  gg_df <- load_df %>%
+    # make the featureID column a factor,
+    mutate(featureID = factor(featureID, levels = featureID)) %>% 
+    # rename the ID column,
+    rename(ID = featureID) %>% 
+    # "tidy" the data, and
+    gather(Feature, Value, -ID) %>% 
+    # add the up / down indicator.
+    mutate(Direction = ifelse(Value > 0, "Up", "Down"))
+  
+  # Add the pathway name and description
+  attr(gg_df, "PathName") <- pathwayPCL$term
+  attr(gg_df, "Description") <- pathwayPCL$description
+  
+  gg_df
+  
+}
+```
+
+We can use this function to "tidy up" the loadings from the EPHB forward signaling pathway:
+```{r TidyLoadings}
+tidyLoad491_df <- TidyLoading(pathwayPCL = pathway491_ls)
+tidyLoad491_df
+```
+
+```{r TidyLoadings110, echo=FALSE}
+tidyLoad177_df <- TidyLoading(pathwayPCL = pathway177_ls)
+```
+
+
+### 3.2.2 Plot the Gene Loadings
+We also wrote a function to create a `ggplot` graph object which uses this tidy data frame.
+```{r PathwayBarChart_fun}
+PathwayBarChart <- function(ggData_df, y_lab,
+                            colours = c(Up = "#009292", Down = "#920000"),
+                            label_size = 5,
+                            sigFigs = 0,
+                            ...){
+  
+  # Base plot layer
+  p1 <- ggplot(ggData_df, aes(x = ID, y = Value, color = Direction))
+  
+  # Add geometric layer and split by Feature
+  p1 <- p1 +
+    geom_col(aes(fill = Direction), width = 0.5) +
+    facet_wrap(~Feature, nrow = length(unique(ggData_df$Feature)))
+  
+  # Add Gene Labels
+  p1 <- p1 +
+    geom_text(
+      aes(y = 0, label = ID),
+      vjust = "middle",
+      hjust = ifelse(ggData_df$Direction == "Up", "top", "bottom"),
+      size = label_size, angle = 90, color = "black"
+    )
+  
+  # Add Value Labels
+  p1 <- p1 +
+    geom_text(
+      aes(label = ifelse(ggData_df$Value == 0, "", round(Value, sigFigs))),
+      vjust = ifelse(ggData_df$Direction == "Up", "top", "bottom"),
+      hjust = "middle",
+      size = label_size, color = "black"
+    )
+  
+  # Set the Theme
+  p1 <- p1 +
+    scale_y_continuous(expand = c(0.15, 0.15)) +
+    theme_classic() +
+    theme(
+      axis.title.x = element_blank(),
+      axis.text.x  = element_blank(),
+      axis.ticks.x = element_blank(),
+      strip.text   = element_text(size = 14),
+      legend.position = "none"
+    )
+  
+  # Titles, Subtitles, and Labels
+  pathName <- attr(ggData_df, "PathName")
+  pathDesc <- attr(ggData_df, "Description")
+  if(is.na(pathDesc)){
+    p1 <- p1 + ggtitle(pathName) + ylab(y_lab)
+  } else {
+    p1 <- p1 + labs(title = pathName, subtitle = pathDesc, y = y_lab)
+  }
+  
+  # Return
+  p1
+  
+}
+```
+
+This is the resulting loading bar plot for the EPHB forward signaling pathway (because all of the loadings are between -1 and 1, we set the significant figures to 2):
+```{r pathway491_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+PathwayBarChart(
+  ggData_df = tidyLoad491_df,
+  y_lab = "PC Loadings",
+  sigFigs = 2
+)
+```
+
+For comparison, this is the bar plot for the asthma pathway (`pathway177` in our -Omics data container):
+```{r pathway177_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+PathwayBarChart(
+  ggData_df = tidyLoad177_df,
+  y_lab = "PC Loadings",
+  sigFigs = 2
+)
+```
+
+
+
+## 3.3 Gene Correlations with PCs
+### 3.3.1 Calculate Pathway Correlations
+Additionally, we can calculate the correlation between gene expression in the assay corresponding to the EPHB forward signaling pathway and the PC vectors extracted from this pathway. Thus, we need to extract the recorded gene levels corresponding to the non-zero loadings for the PCs, calculate the Spearman correlations between these values and their extracted PCs, then wrangle these correlations into a data frame that the `ggplot()` function can use. We have written an additional function that you can modify as you need. This function takes in the `Omics` data container (that you created in Chapter 3) and the PC & L list returned by `getPathPCLs()`. This function returns a data frame with all the components necessary for a plot of the assay-PC correlations.
+```{r TidyCorrelation_fun}
+TidyCorrelation <- function(Omics, pathwayPCL, numPCs = 1){
+  
+  loadings_df <- pathwayPCL$Loadings
+  totLoad_num  <- rowSums(abs(
+    loadings_df[, 2:(numPCs + 1), drop = FALSE]
+  ))
+  keepRows_idx <- totLoad_num > 0
+  loadings_df <- loadings_df[keepRows_idx, , drop = FALSE]
+  
+  geneNames <- loadings_df$featureID
+  geneCorr_mat <- t(
+    cor(
+      pathwayPCL$PCs[, -1],
+      getAssay(Omics)[geneNames],
+      method = "spearman"
+    )
+  )
+  colnames(geneCorr_mat) <- paste0("PC", 1:ncol(geneCorr_mat))
+
+  pathwayPCL$Loadings <- data.frame(
+    featureID = rownames(geneCorr_mat),
+    geneCorr_mat,
+    stringsAsFactors = FALSE,
+    row.names = NULL
+  )
+  
+  TidyLoading(pathwayPCL, numPCs = numPCs)
+  
+}
+```
+
+We can use this function to "tidy up" the loadings from the EPHB forward signaling pathway:
+```{r TidyCorrelation}
+tidyCorr491_df <- TidyCorrelation(
+  Omics = colon_OmicsSurv,
+  pathwayPCL = pathway491_ls
+)
+tidyCorr491_df
+```
+```{r TidyCorrelation2, echo=FALSE}
+tidyCorr177_df <- TidyCorrelation(
+  Omics = colon_OmicsSurv,
+  pathwayPCL = pathway177_ls
+)
+```
+
+### 3.3.2 Plot the Assay-PC Correlation
+This is the resulting correlation bar plot for the EPHB forward signaling pathway:
+```{r pathway491_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+PathwayBarChart(
+  ggData_df = tidyCorr491_df,
+  y_lab = "Assay-PC Correlations",
+  sigFigs = 1
+)
+```
+
+And this is the same figure for the asthma pathway.
+```{r pathway177_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+PathwayBarChart(
+  ggData_df = tidyCorr177_df,
+  y_lab = "Assay-PC Correlations",
+  sigFigs = 1
+)
+```
+
+
+*******************************************************************************
+
+</br>
+
+# 4. Review
+We have has covered in this vignette:
+
+1. Plotting the log-score rank of the top pathways.
+2. Plotting the feature loadings for a single pathway.
+3. Plotting the correlations between a pathway principal component and the features within that pathway.
+
+We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our `*_pVals()` functions. If you have any questions, comments, complaints, or suggestions, please [submit an issue ticket](https://github.com/gabrielodom/pathwayPCA/issues/new) and give us some feedback. Also you can visit our [development page](https://github.com/gabrielodom/pathwayPCA).
+
+Here is the R session information for this vignette:
+```{r sessionDetails}
+sessionInfo()
+```

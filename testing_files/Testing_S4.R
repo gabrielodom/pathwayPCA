@@ -3,8 +3,8 @@
 
 library(methods)
 library(pathwayPCA)
-load("data/ovarianFiltered_df.rda")
-load("data/genesets_ls.rda")
+data("colonSurv_df")
+data("colon_pathwayCollection")
 
 
 
@@ -16,50 +16,60 @@ load("data/genesets_ls.rda")
 ######  Load S4 Classes  ######################################################
 
 # Pathway Extraction only
-testOmicsPath <- create_OmicsPath(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = genesets_ls)
+testOmicsPath <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection
+)
 
 
 # Survival (numeric and factor response)
-Y_time <- rnorm(58, mean = 78, sd = 6)
-Y_event <- sample(c(FALSE, TRUE), 58, replace = TRUE, prob = c(0.2, 1 - 0.2))
-testOmicsSurv <- create_OmicsSurv(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = genesets_ls,
-                                  eventTime = Y_time,
-                                  eventObserved = Y_event)
-testOmicsSurv <- create_OmicsSurv(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = genesets_ls,
-                                  eventTime = Y_time[-1],
-                                  eventObserved = Y_event)
-testOmicsSurv <- create_OmicsSurv(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                  pathwaySet = genesets_ls,
-                                  eventTime = Y_time,
-                                  eventObserved = Y_event[-1])
+testOmicsSurv <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[, 1:3],
+  respType = "survival"
+)
+testOmicsSurv <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[-1, 1:3],
+  respType = "survival"
+)
 
 
 # Regression (continuous response)
-Y_reg <- rnorm(58)
-testOmicsReg <- create_OmicsReg(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                pathwaySet = genesets_ls,
-                                response = Y_reg)
-testOmicsReg <- create_OmicsReg(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                pathwaySet = genesets_ls,
-                                response = Y_reg[-1])
+testOmicsReg <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[, 1:2],
+  respType = "regression"
+)
+testOmicsReg <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[-1, 1:2],
+  respType = "regression"
+)
 
 
 # Classification (factor response)
-Y_class <- factor(sample(c("A", "B", "C"), 58, replace = TRUE))
-testOmicsCateg <- create_OmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                    pathwaySet = genesets_ls,
-                                    response = Y_class)
-testOmicsCateg <- create_OmicsCateg(assayData_df = ovarianFiltered_df[, -(1:3)],
-                                    pathwaySet = genesets_ls,
-                                    response = Y_class[-1])
+testOmicsCateg <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[, c(1, 3)],
+  respType = "categorical"
+)
+testOmicsCateg <- CreateOmics(
+  assayData_df = colonSurv_df[, -(2:3)],
+  pathwayCollection = colon_pathwayCollection,
+  response = colonSurv_df[-1, c(1, 3)],
+  respType = "categorical"
+)
 
 
 ######  Create Functions for these S4 Classes  ################################
 
-# MIGRATED TO R/subsetExpressed-omes.R FILE
+# MIGRATED TO R/createOmics_TrimPathwayCollection.R FILE
 
 
 

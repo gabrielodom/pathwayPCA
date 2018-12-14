@@ -39,8 +39,10 @@ tControl_max <- matrixAbsMax(tControl4240_mat)
 # Exported to superPC_optimWeibullParams.R
 
 # Test
-pOptim <- weibullMix_optimParams(max_tControl_vec = tControl_max,
-                                 pathwaySize_vec = unlist(geneset$setsize))
+pOptim <- OptimGumbelMixParams(
+  max_tControl_vec = tControl_max,
+  pathwaySize_vec = unlist(geneset$setsize)
+)
 
 
 
@@ -53,11 +55,13 @@ pOptim <- weibullMix_optimParams(max_tControl_vec = tControl_max,
 # EXPORTED TO superPC_pathway_pValues
 
 # Test
-spcaPathwayPvals_df <- pathway_pValues(optimParams_vec = pOptim,
-                                       max_tScores_vec = tScore_max,
-                                       genelist_ls = geneset,
-                                       FDRadjust = TRUE,
-                                       multTestProc = "BH")
+spcaPathwayPvals_df <- pathway_pValues(
+  optimParams_vec = pOptim,
+  max_tScores_vec = tScore_max,
+  genelist_ls = geneset,
+  FDRadjust = TRUE,
+  multTestProc = "BH"
+)
 # # Reorder the rows by p-value
 # spcaPathwayPvals_df[order(spcaPathwayPvals_df$BH, spcaPathwayPvals_df$rawp), ]
 

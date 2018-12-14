@@ -43,5 +43,6 @@ This function calculates the Sxx, Syy, and Sxy sums from the gene-
 }
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use superPCA_pVals() instead
+  # Use SuperPCA_pVals() instead
 }
+\keyword{internal}

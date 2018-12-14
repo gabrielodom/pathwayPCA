@@ -21,9 +21,9 @@
 #'    death indicator from an \code{OmicsSurv} object. However, we recommend
 #'    that users simply create a new, valid \code{OmicsSurv} object instead of
 #'    modifying an existing one. The validity of edited objects is checked with
-#'    the \code{\link{valid_OmicsSurv}} function.
+#'    the \code{\link{ValidOmicsSurv}} function.
 #'
-#' @seealso \code{\link{create_OmicsSurv}}
+#' @seealso \code{\link{CreateOmics}}
 #'
 #'
 #' @include createClass_validOmics.R
@@ -35,12 +35,26 @@
 #'
 #' @examples
 #' \dontrun{
-#'   getEventTime(colon_OmicsSurv)
-#'   getEvent(colon_OmicsSurv)
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
 #'
-#'   getEventTime(colon_OmicsSurv) <- newTime_num
-#'   getEvent(colon_OmicsSurv) <- newEvent_lgl
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "survival"
+#'   )
+#'
+#'   getEventTime(colon_Omics)
+#'   getEvent(colon_Omics)
+#'
+#'   getEventTime(colon_Omics) <- newTime_num
+#'   getEvent(colon_Omics) <- newEvent_lgl
 #' }
+#'
+#' @name SubsetOmicsSurv
+#' @rdname get_set_OmicsSurv
+NULL
 
 
 

@@ -51,3 +51,4 @@ LARS is described in detail in Efron, Hastie, Johnstone and
 \seealso{
 \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}
 }
+\keyword{internal}

@@ -10,17 +10,25 @@
 #' @param event_vec The death / event observation indicator vector for survival
 #'    response. This is coded as 0 for a right-censoring occurence and 1 for a
 #'    recorded event.
+#' @param respType What type of response has been supplied. Options are
+#'    \code{"none"}, \code{"survival"}, \code{"regression"}, and
+#'    \code{"categorical"}. Defaults to \code{"none"} to match the default
+#'    \code{response = NULL} value.
 #' @param parametric Should the random sample be taken using a parametric
-#'    bootstrap sample? Defaults to \code{FALSE}.
+#'    bootstrap sample? Defaults to \code{TRUE}.
 #'
-#' @return A permutation of the supplied response (if \code{parametric = TRUE}).
-#'    Otherwise, a parametric bootstrap sample of the response.
+#' @return If \code{parametric = FALSE}, a permutation of the supplied response
+#'    is returned (for AES-PCA). If \code{parametric = TRUE}, we return a
+#'    parametric bootstrap sample of the response.
 #'
 #' @details The distributions (for \code{parametric = TRUE}) are Weibull for
-#'    survival times, Normal for regression, and n-ary Multinomial for
-#'    classification. Distributional parameters are estimated with their maximum
-#'    likelihood estimates. When \code{parametric = FALSE}, the response vector
-#'    or survival matrix is simply permuted by row.
+#'    survival times, Normal for regression response, and n-ary Multinomial for
+#'    categorical response. Distributional parameters are estimated with their
+#'    maximum likelihood estimates. When \code{parametric = FALSE}, the response
+#'    vector or survival matrix is randomly ordered by row. This option should
+#'    only be used when called from the AES-PCA method.
+#'
+#' @keywords internal
 #'
 #' @importFrom survival Surv
 #' @importFrom survival survreg
@@ -35,9 +43,9 @@
 #'
 #' @examples
 #'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
-#'   # Use AESPCA_pVals() or superPCA_pVals() instead
+#'   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 #'
-#' @name randomControlSample
+#' @name RandomControlSample
 #' @rdname permuteSamps
 NULL
 
@@ -45,9 +53,38 @@ NULL
 
 #' @export
 #' @rdname permuteSamps
-sample_Survivalresp <- function(response_vec,
-                                event_vec,
-                                parametric = FALSE){
+SampleResponses <- function(response_vec,
+                            event_vec = NULL,
+                            respType = c("survival",
+                                         "regression",
+                                         "categorical"),
+                            parametric = TRUE){
+
+  switch(respType,
+         survival = {
+           SampleSurv(
+             response_vec, event_vec, parametric = parametric
+           )
+         },
+         regression = {
+           SampleReg(
+             response_vec, parametric = parametric
+           )
+         },
+         categorical = {
+           SampleCateg(
+             response_vec, parametric = parametric
+           )
+         })
+
+}
+
+
+#' @export
+#' @rdname permuteSamps
+SampleSurv <- function(response_vec,
+                       event_vec,
+                       parametric = TRUE){
 
   # browser()
   n <- length(event_vec)
@@ -91,8 +128,8 @@ sample_Survivalresp <- function(response_vec,
 
 #' @export
 #' @rdname permuteSamps
-sample_Regresp <- function(response_vec,
-                           parametric = FALSE){
+SampleReg <- function(response_vec,
+                      parametric = TRUE){
 
   # browser()
   n <- length(response_vec)
@@ -113,8 +150,8 @@ sample_Regresp <- function(response_vec,
 
 #' @export
 #' @rdname permuteSamps
-sample_Classifresp <- function(response_vec,
-                               parametric = FALSE){
+SampleCateg <- function(response_vec,
+                        parametric = TRUE){
 
   # browser()
   responseType <- class(response_vec)
