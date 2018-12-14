@@ -37,7 +37,7 @@ If you find bugs in our code, or you feel that some functionality is poorly expl
 ## Development Principles
 *******************************************************************************
 
-We aim to write a package to collect, organize, and document a suite of existing `R` scripts and files. The purpose of this is to ensure that biologists and bioinformaticians will be easily able to apply our work to their existing data. Our core values for this project are as follows:
+We aim to write a package to collect, organize, and document a suite of existing `R` scripts and files. The purpose of this is to ensure that biologists and bioinformaticians will be easily able to apply our work to their existing data. This package will address pathway to response attribution only. Our core values for this project are as follows:
 
   - Rely on as few external packages as possbile. This will require more development work at the beginning, but it will make future development, bug fixes, patches, and enhancements much easier.
   - Document *everything*. Once again, this will require more up-front work, but it will yield more informed end-users and make transitioning between development teams seamless.
