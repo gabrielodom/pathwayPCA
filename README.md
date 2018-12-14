@@ -14,8 +14,14 @@ Initial Date: 2017-10-19
 
 ## Introduction
 *******************************************************************************
+With the advance in high-throughput technology for molecular assays, multi-omics datasets have become increasingly available. However, most currently available pathway analysis software does not provide estimates on sample-specific pathway activities, and provides little or no functionalities for analyzing multiple types of omics data simultaneously. To address these challenges, we present pathwayPCA, a unique integrative pathway analysis software that utilizes modern statistical methodology on principal component analysis (PCA) and gene selection. 
+The main features of pathwayPCA include: 
 
-This package enables users to test for significant relationships between phenotype data and principal components extracted from pathway-specific expression data subsets. The principal components can be extracted with adaptive, elastic-net, sparse (AES) and Supervised principal component analysis (PCA) methods. Please see our User Guides for instruction on using the functions in this package. We plan to release this package on Bioconductor with the Fall 2018 release.
+1.	Performing pathway analysis for datasets with binary, continuous, or survival outcomes with computational efficiency. 
+2.	Extracting relevant genes from pathways using the SuperPCA and AESPCA approaches.
+3.	Computing PCs based on the selected genes. These estimated latent variables represent pathway activity for individual subjects, which can be used to perform integrative pathway analysis, such as multi-omics analysis, or predicting survival time.
+4.	Can be used to analyze studies with complex experimental designs that include multiple covariates and/or interaction effects. For example, testing whether pathway associations with clinical phenotype are different between male and female subjects.
+5.	Performing analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.
 
 <br>
 
