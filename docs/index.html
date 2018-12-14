@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Pathways for Statistically Significant Relationships • pathwayPCA</title>
+<title>Integrative Pathway Analysis with Modern PCA Methodology and Gene Selection • pathwayPCA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Test Pathways for Statistically Significant Relationships">
+<script src="pkgdown.js"></script><meta property="og:title" content="Integrative Pathway Analysis with Modern PCA Methodology and Gene Selection">
 <meta property="og:description" content="Apply the Supervised PCA and Adaptive, Elastic-Net, Sparse PCA
   methods to extract principal components from each pathway. Use these pathway-
   specific principal components as the design matrix relating the response to
@@ -109,7 +109,15 @@
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <hr>
-<p>This package enables users to test for significant relationships between phenotype data and principal components extracted from pathway-specific expression data subsets. The principal components can be extracted with adaptive, elastic-net, sparse (AES) and Supervised principal component analysis (PCA) methods. Please see our User Guides for instruction on using the functions in this package. We plan to release this package on Bioconductor with the Fall 2018 release.</p>
+<p>With the advance in high-throughput technology for molecular assays, multi-omics datasets have become increasingly available. However, most currently available pathway analysis software do not provide estimates on sample-specific pathway activities, and provide little or no functionalities for analyzing multiple types of omics data simultaneously. To address these challenges, we present pathwayPCA, a unique integrative pathway analysis software that utilizes modern statistical methodology on principal component analysis (PCA) and gene selection.</p>
+<p>The main features of pathwayPCA include:</p>
+<ol>
+<li>Performing pathway analysis for datasets with binary, continuous, or survival outcomes with computational efficiency.</li>
+<li>Extracting relevant genes from pathways using the SuperPCA and AESPCA approaches.</li>
+<li>Computing PCs based on the selected genes. These estimated latent variables represent pathway activity for individual subjects, which can be used to perform integrative pathway analysis, such as multi-omics analysis, or predicting survival time.</li>
+<li>Can be used to analyze studies with complex experimental designs that include multiple covariates and/or interaction effects. For example, testing whether pathway associations with clinical phenotype are different between male and female subjects.</li>
+<li>Performing analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.</li>
+</ol>
 <p><br></p>
 </div>
 <div id="help-tickets" class="section level2">
