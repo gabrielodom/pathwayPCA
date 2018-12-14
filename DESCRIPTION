@@ -1,7 +1,7 @@
 Package: pathwayPCA
 Type: Package
 Title: Test Pathways for Statistically Significant Relationships
-Version: 0.0.0.9000
+Version: 1.0.0.0
 Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", role = c("aut","cre")),
   person("James", "Ban", email = "yuguang.ban@med.miami.edu", role = c("aut")),
   person("Lily", "Wang", email = "lily.wang@med.miami.edu", role = c("aut")),

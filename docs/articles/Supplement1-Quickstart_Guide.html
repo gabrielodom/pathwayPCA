@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.0</span>
       </span>
     </div>
 
@@ -430,21 +430,21 @@ colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../refer
 <span class="co">#&gt; # A tibble: 15 x 5</span>
 <span class="co">#&gt;    pathways    n_tested terms                                  rawp FDR_BH</span>
 <span class="co">#&gt;  * &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                 &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway1211      104 REACTOME_SIGNALING_BY_INSULIN_RECE~ 0.00418 0.0281</span>
-<span class="co">#&gt;  2 pathway536        44 PID_TNF_PATHWAY                     0.00520 0.0281</span>
-<span class="co">#&gt;  3 pathway87         86 KEGG_ERBB_SIGNALING_PATHWAY         0.00627 0.0281</span>
-<span class="co">#&gt;  4 pathway781       180 REACTOME_PHOSPHOLIPID_METABOLISM    0.00913 0.0281</span>
-<span class="co">#&gt;  5 pathway757        83 REACTOME_INSULIN_RECEPTOR_SIGNALLI~ 0.0111  0.0281</span>
-<span class="co">#&gt;  6 pathway491        40 PID_EPHB_FWD_PATHWAY                0.0112  0.0281</span>
-<span class="co">#&gt;  7 pathway176        54 KEGG_NON_SMALL_CELL_LUNG_CANCER     0.0181  0.0388</span>
-<span class="co">#&gt;  8 pathway390        29 BIOCARTA_TNFR1_PATHWAY              0.0446  0.0835</span>
-<span class="co">#&gt;  9 pathway177        26 KEGG_ASTHMA                         0.0557  0.0928</span>
-<span class="co">#&gt; 10 pathway413        23 ST_GA12_PATHWAY                     0.0799  0.115 </span>
-<span class="co">#&gt; 11 pathway60         45 KEGG_RETINOL_METABOLISM             0.0914  0.115 </span>
-<span class="co">#&gt; 12 pathway3          26 KEGG_PENTOSE_PHOSPHATE_PATHWAY      0.0966  0.115 </span>
-<span class="co">#&gt; 13 pathway187        16 BIOCARTA_RELA_PATHWAY               0.100   0.115 </span>
-<span class="co">#&gt; 14 pathway120        73 KEGG_ANTIGEN_PROCESSING_AND_PRESEN~ 0.198   0.212 </span>
-<span class="co">#&gt; 15 pathway266        11 BIOCARTA_SET_PATHWAY                0.468   0.468</span></code></pre></div>
+<span class="co">#&gt;  1 pathway87         86 KEGG_ERBB_SIGNALING_PATHWAY         0.00432 0.0285</span>
+<span class="co">#&gt;  2 pathway757        83 REACTOME_INSULIN_RECEPTOR_SIGNALLI~ 0.00777 0.0285</span>
+<span class="co">#&gt;  3 pathway491        40 PID_EPHB_FWD_PATHWAY                0.00798 0.0285</span>
+<span class="co">#&gt;  4 pathway1211      104 REACTOME_SIGNALING_BY_INSULIN_RECE~ 0.00807 0.0285</span>
+<span class="co">#&gt;  5 pathway536        44 PID_TNF_PATHWAY                     0.00951 0.0285</span>
+<span class="co">#&gt;  6 pathway176        54 KEGG_NON_SMALL_CELL_LUNG_CANCER     0.0129  0.0323</span>
+<span class="co">#&gt;  7 pathway781       180 REACTOME_PHOSPHOLIPID_METABOLISM    0.0180  0.0385</span>
+<span class="co">#&gt;  8 pathway390        29 BIOCARTA_TNFR1_PATHWAY              0.0330  0.0618</span>
+<span class="co">#&gt;  9 pathway177        26 KEGG_ASTHMA                         0.0414  0.0691</span>
+<span class="co">#&gt; 10 pathway413        23 ST_GA12_PATHWAY                     0.0605  0.0908</span>
+<span class="co">#&gt; 11 pathway60         45 KEGG_RETINOL_METABOLISM             0.0680  0.0918</span>
+<span class="co">#&gt; 12 pathway3          26 KEGG_PENTOSE_PHOSPHATE_PATHWAY      0.0734  0.0918</span>
+<span class="co">#&gt; 13 pathway120        73 KEGG_ANTIGEN_PROCESSING_AND_PRESEN~ 0.152   0.168 </span>
+<span class="co">#&gt; 14 pathway187        16 BIOCARTA_RELA_PATHWAY               0.157   0.168 </span>
+<span class="co">#&gt; 15 pathway266        11 BIOCARTA_SET_PATHWAY                0.470   0.470</span></code></pre></div>
 </div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
@@ -469,16 +469,16 @@ colonOutGather_df
 <span class="co">#&gt; # A tibble: 30 x 4</span>
 <span class="co">#&gt;    terms                                        variable   value score</span>
 <span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00418  5.48</span>
-<span class="co">#&gt;  2 PID_TNF_PATHWAY                              None     0.00520  5.26</span>
-<span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00627  5.07</span>
-<span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00913  4.70</span>
-<span class="co">#&gt;  5 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.0111   4.50</span>
-<span class="co">#&gt;  6 PID_EPHB_FWD_PATHWAY                         None     0.0112   4.49</span>
-<span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.0181   4.01</span>
-<span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0446   3.11</span>
-<span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0557   2.89</span>
-<span class="co">#&gt; 10 ST_GA12_PATHWAY                              None     0.0799   2.53</span>
+<span class="co">#&gt;  1 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00432  5.44</span>
+<span class="co">#&gt;  2 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00777  4.86</span>
+<span class="co">#&gt;  3 PID_EPHB_FWD_PATHWAY                         None     0.00798  4.83</span>
+<span class="co">#&gt;  4 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00807  4.82</span>
+<span class="co">#&gt;  5 PID_TNF_PATHWAY                              None     0.00951  4.65</span>
+<span class="co">#&gt;  6 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.0129   4.35</span>
+<span class="co">#&gt;  7 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.0180   4.02</span>
+<span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0330   3.41</span>
+<span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0414   3.18</span>
+<span class="co">#&gt; 10 ST_GA12_PATHWAY                              None     0.0605   2.80</span>
 <span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">
@@ -535,10 +535,10 @@ colonOutGather_df
 <span class="co">#&gt; [8] base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] bindrcpp_0.2.2        pathwayPCA_0.0.0.9000 forcats_0.3.0        </span>
-<span class="co">#&gt;  [4] stringr_1.3.1         dplyr_0.7.8           purrr_0.2.5          </span>
-<span class="co">#&gt;  [7] readr_1.3.0           tidyr_0.8.2           tibble_1.4.2         </span>
-<span class="co">#&gt; [10] ggplot2_3.1.0         tidyverse_1.2.1      </span>
+<span class="co">#&gt;  [1] bindrcpp_0.2.2     pathwayPCA_1.0.0.0 forcats_0.3.0     </span>
+<span class="co">#&gt;  [4] stringr_1.3.1      dplyr_0.7.8        purrr_0.2.5       </span>
+<span class="co">#&gt;  [7] readr_1.3.0        tidyr_0.8.2        tibble_1.4.2      </span>
+<span class="co">#&gt; [10] ggplot2_3.1.0      tidyverse_1.2.1   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.0       lubridate_1.7.4  lattice_0.20-38  assertthat_0.2.0</span>
