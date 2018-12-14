@@ -5,7 +5,7 @@ date: "March 20, 2018"
 output: html_document
 ---
 
-### `pathwayPCA`: A Bioconductor package for extracting principal components from expressed pathways
+### `pathwayPCA`:  an R package for integrative pathway analysis with modern PCA methodology and gene selection
 
 Initial Date: 2017-10-19
 

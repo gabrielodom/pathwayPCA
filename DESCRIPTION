@@ -1,6 +1,6 @@
 Package: pathwayPCA
 Type: Package
-Title: Test Pathways for Statistically Significant Relationships
+Title: Integrative Pathway Analysis with Modern PCA Methodology and Gene Selection
 Version: 1.0.0.0
 Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", role = c("aut","cre")),
   person("James", "Ban", email = "yuguang.ban@med.miami.edu", role = c("aut")),
