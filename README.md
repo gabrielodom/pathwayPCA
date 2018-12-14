@@ -15,6 +15,7 @@ Initial Date: 2017-10-19
 ## Introduction
 *******************************************************************************
 With the advance in high-throughput technology for molecular assays, multi-omics datasets have become increasingly available. However, most currently available pathway analysis software does not provide estimates on sample-specific pathway activities, and provides little or no functionalities for analyzing multiple types of omics data simultaneously. To address these challenges, we present pathwayPCA, a unique integrative pathway analysis software that utilizes modern statistical methodology on principal component analysis (PCA) and gene selection. 
+
 The main features of pathwayPCA include: 
 
 1.	Performing pathway analysis for datasets with binary, continuous, or survival outcomes with computational efficiency. 
