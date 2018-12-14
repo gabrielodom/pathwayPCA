@@ -12,6 +12,10 @@
 #'    feature names must match a subset of the column names of \code{design_df}
 #'    exactly, as pathway-specific test-data subsetting is performed by column
 #'    name.
+#' @param sampleID Are the sample IDs in the first column of \code{design_df}
+#'    or in accessible by \code{rownames(design_df)}? Defaults to the first
+#'    column. If your data does not have sample IDs for some reason, set this
+#'    to \code{rowNames}.
 #'
 #' @return A data frame with the PCs from each pathway concatenated by column.
 #'    If you have the \code{tidyverse} loaded, this object will display as a
@@ -55,8 +59,10 @@
 #'
 #' }
 #'
-LoadOntoPCs <- function(design_df, loadings_ls){
+LoadOntoPCs <- function(design_df, loadings_ls,
+                        sampleID = c("firstCol", "rowNames")){
   # browser()
+  sampleID <- match.arg(sampleID)
 
   ###  PCs List  ###
   PCs_ls <- lapply(loadings_ls, function(x){
@@ -90,9 +96,22 @@ LoadOntoPCs <- function(design_df, loadings_ls){
 
   }
 
-  ###  Return  ###
+  ###  Preserve Column Names  ###
   out_df <- as.data.frame(out_mat)
   colnames(out_df) <- names_char
+
+  ###  Sample IDs  ###
+  if(sampleID == "firstCol"){
+    out_df <- data.frame(
+      SampleID = design_df[, 1, drop = TRUE],
+      out_df,
+      stringsAsFactors = FALSE
+    )
+  } else {
+    rownames(out_df) <- rownames(design_df)
+  }
+
+  ###  Return  ###
   class(out_df) <- c("tbl_df", "tbl", "data.frame")
   out_df
 }

@@ -4,7 +4,7 @@
 \alias{LoadOntoPCs}
 \title{Calculate Test Data PCs from Training-Data Estimated Loadings}
 \usage{
-LoadOntoPCs(design_df, loadings_ls)
+LoadOntoPCs(design_df, loadings_ls, sampleID = c("firstCol", "rowNames"))
 }
 \arguments{
 \item{design_df}{A test data frame with rows as samples and named features
@@ -17,6 +17,11 @@ These lists of loadings will have feature names as their row names. Such
 feature names must match a subset of the column names of \code{design_df}
 exactly, as pathway-specific test-data subsetting is performed by column
 name.}
+
+\item{sampleID}{Are the sample IDs in the first column of \code{design_df}
+or in accessible by \code{rownames(design_df)}? Defaults to the first
+column. If your data does not have sample IDs for some reason, set this
+to \code{rowNames}.}
 }
 \value{
 A data frame with the PCs from each pathway concatenated by column.
