@@ -690,6 +690,15 @@ Now that you have an idea of what questions can be answered with this package, p
 - [Chapter 4: Test Pathway Significance](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html)
 - [Chapter 5: Visualizing the Results](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html)
 
+# 6. References
+Chen, X., Wang, L., Smith, J.D. and Zhang, B. (2008) Supervised principal component analysis for gene set enrichment of microarray data with continuous or survival outcomes. Bioinformatics, 24, 2474-2481.
+
+Chen, X., Wang, L., Hu, B., Guo, M., Barnard, J. and Zhu, X. (2010) Pathway-based analysis for genome-wide association studies using supervised principal components. Genetic epidemiology, 34, 716-724.
+
+Chen, X. (2011) Adaptive elastic-net sparse principal component analysis for pathway association testing. Statistical applications in genetics and molecular biology, 10.
+
+
+
 Here is the R session information for this vignette:
 ```{r sessionDetails}
 sessionInfo()
