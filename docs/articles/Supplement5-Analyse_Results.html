@@ -612,10 +612,9 @@ redscale =<span class="st"> </span><span class="kw"><a href="https://www.rdocume
 Totalpalette &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(bluescale,redscale)
 
 copyCol &lt;-<span class="st">  </span>Totalpalette[circlePlotData<span class="op">$</span>copyNumOrder]
-proteoCol &lt;-<span class="st"> </span>Totalpalette[circlePlotData<span class="op">$</span>proteinOrder]
-
-
-##draw circle
+proteoCol &lt;-<span class="st"> </span>Totalpalette[circlePlotData<span class="op">$</span>proteinOrder]</code></pre></div>
+<p>blue represent negative PC1 score, red represent positive PC1 score</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##draw circle
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(circlize)
 <span class="co">#&gt; ========================================</span>
 <span class="co">#&gt; circlize version 0.4.4</span>
@@ -647,7 +646,7 @@ factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</s
                  <span class="dt">factors =</span> factors, <span class="dt">col =</span> <span class="st">"#2d2d2d"</span>, <span class="dt">font =</span> <span class="dv">2</span>,
                  <span class="dt">adj =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"adj"</span>), <span class="dt">cex =</span> <span class="fl">1.5</span>,
                  <span class="dt">facing =</span> <span class="st">"downward"</span>,<span class="dt">niceFacing =</span> <span class="ot">TRUE</span>))</code></pre></div>
-<p><img src="Supplement5-Analyse_Results_files/figure-html/circle%20plot%20of%20IL-1%20pathway%20copyNum%20and%20proteomics%20pc1%20score,%20blue%20represent%20negative%20PC1%20score,%20red%20represent%20positive%20PC1%20score-1.png" width="700"></p>
+<p><img src="Supplement5-Analyse_Results_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
 <hr>
 <p></p>
 </div>

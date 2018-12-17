@@ -504,7 +504,7 @@ In section 2.2.5 above, we have seen that there can be considerable heterogeneit
 ```{r fig.width=5, fig.height=5, echo=FALSE}
 library(png)
 library(grid)
-img <- readPNG("circosPlot.PNG")
+img <- readPNG("circlePlot.PNG")
 grid.raster(img)
 ```
 

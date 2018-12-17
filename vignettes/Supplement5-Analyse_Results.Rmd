@@ -411,7 +411,7 @@ PathwayBarChart(
 estimate pathway activities for each patient, both for protein expressions and copy number expressions separately
 
 This is the circle plot for the IL-1 signaling pathway:
-```{r circle plot of IL-1 pathway copyNum and proteomics pc1 score, blue represent negative PC1 score, red represent positive PC1 score}
+```{r circle plot of IL-1 pathway copyNum and proteomics pc1 score}
 ##load data(already ordered by copyNumber PC1 score)
 circlePlotData<-readRDS("circlePlotData.RDS")
 ##set color scales
@@ -422,8 +422,10 @@ Totalpalette <- c(bluescale,redscale)
 
 copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
 proteoCol <- Totalpalette[circlePlotData$proteinOrder]
+```
 
-
+blue represent negative PC1 score, red represent positive PC1 score
+```{r}
 ##draw circle
 library(circlize)
 ##set parameters

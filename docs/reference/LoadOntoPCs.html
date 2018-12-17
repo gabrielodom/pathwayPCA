@@ -136,7 +136,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>LoadOntoPCs</span>(<span class='no'>design_df</span>, <span class='no'>loadings_ls</span>)</pre>
+    <pre class="usage"><span class='fu'>LoadOntoPCs</span>(<span class='no'>design_df</span>, <span class='no'>loadings_ls</span>, <span class='kw'>sampleID</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"firstCol"</span>, <span class='st'>"rowNames"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +155,13 @@ These lists of loadings will have feature names as their row names. Such
 feature names must match a subset of the column names of <code>design_df</code>
 exactly, as pathway-specific test-data subsetting is performed by column
 name.</p></td>
+    </tr>
+    <tr>
+      <th>sampleID</th>
+      <td><p>Are the sample IDs in the first column of <code>design_df</code>
+or in accessible by <code><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames(design_df)</a></code>? Defaults to the first
+column. If your data does not have sample IDs for some reason, set this
+to <code>rowNames</code>.</p></td>
     </tr>
     </table>
     
@@ -220,11 +227,11 @@ name.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/gabrielodom'>Gabriel Odom</a>, James Ban, <a href='http://biostat.med.miami.edu/people/primary-faculty/lily-wang-ph.d'>Lily Wang</a>, <a href='http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d'>Steven Chen</a>.</p>
+  <p>Developed by <a href='https://github.com/gabrielodom'>Gabriel Odom</a>, James Ban, Lizhong Liu, <a href='http://biostat.med.miami.edu/people/primary-faculty/lily-wang-ph.d'>Lily Wang</a>, <a href='http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d'>Steven Chen</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
 </div>
       </footer>
    </div>
