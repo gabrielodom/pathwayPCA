@@ -407,12 +407,56 @@ PathwayBarChart(
 )
 ```
 
+# 4. Plot patient-specific pathway activities 
+estimate pathway activities for each patient, both for protein expressions and copy number expressions separately
+
+This is the circle plot for the IL-1 signaling pathway:
+```{r circle plot of IL-1 pathway copyNum and proteomics pc1 score}
+##load data(already ordered by copyNumber PC1 score)
+circlePlotData<-readRDS("circlePlotData.RDS")
+##set color scales
+library(grDevices)
+bluescale = colorRampPalette(c("blue", "white"))(45)
+redscale = colorRampPalette(c("white", "red"))(38)
+Totalpalette <- c(bluescale,redscale)
+
+copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
+proteoCol <- Totalpalette[circlePlotData$proteinOrder]
+
+
+##draw circle
+library(circlize)
+##set parameters
+npathway = 83
+factors = 1:83
+circos.clear()
+circos.par("gap.degree" = 0, "cell.padding" = c(0, 0, 0, 0),
+           start.degree = 360/40, track.margin = c(0, 0), "clock.wise" = FALSE)
+circos.initialize(factors = factors, xlim = c(0, 3))
+
+##for proteoOmics
+circos.trackPlotRegion(ylim = c(0, 3), factors = factors, bg.col = proteoCol,
+                       track.height = 0.3)
+##for copy Number
+circos.trackPlotRegion(ylim = c(0, 3), factors = factors, bg.col = copyCol,
+                       track.height = 0.3)
+##labels
+suppressMessages(circos.trackText(rep(-3, npathway), rep(-3.8,npathway),
+                 labels = "PID_IL1",
+                 factors = factors, col = "#2d2d2d", font = 2,
+                 adj = par("adj"), cex = 1.5,
+                 facing = "downward",niceFacing = TRUE))
+
+```
+blue represent PC1 score < 0
+red represent PC1 score > 0
+
 
 *******************************************************************************
 
 </br>
 
-# 4. Review
+# 5. Review
 We have has covered in this vignette:
 
 1. Plotting the log-score rank of the top pathways.
