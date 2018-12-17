@@ -424,7 +424,7 @@ copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
 proteoCol <- Totalpalette[circlePlotData$proteinOrder]
 ```
 
-blue represent negative PC1 score, red represent positive PC1 score
+Blue stands for negative PC1 score, Red stands for positive PC1 score
 ```{r}
 ##draw circle
 library(circlize)
