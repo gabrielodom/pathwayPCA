@@ -504,8 +504,8 @@ In section 2.2.5 above, we have seen that there can be considerable heterogeneit
 ```{r fig.width=5, fig.height=5, echo=FALSE}
 library(png)
 library(grid)
-img <- readPNG("circosPlot.png")
- grid.raster(img)
+img <- readPNG("circosPlot.PNG")
+grid.raster(img)
 ```
 
 The figure above is a circos plot of normalized copy number (outer circle) and protein expression (inner circle) pathway activities for the IL-1 signaling pathway in the ovarian cancer dataset samples. Each bar correspond to a patient sample. Red color indicates higher expression values and more pathway activity for the sample. Blue color indicates lower expression values and lower pathway activity for the sample. Note that only some of the patients have concordant changes in copy number and protein expression.
