@@ -424,14 +424,15 @@ copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
 proteoCol <- Totalpalette[circlePlotData$proteinOrder]
 ```
 
-Blue stands for negative PC1 score, Red stands for positive PC1 score
+Blue stands for negative PC1 score, Red stands for positive PC1 score.
+
 Inner loop stands for copyNumbers, outer loop stands for Proteomics
 ```{r}
 ##draw circle
 library(circlize)
 ##set parameters
 npathway = 83
-factors = 1:83
+factors = 1:83.
 circos.clear()
 circos.par("gap.degree" = 0, "cell.padding" = c(0, 0, 0, 0),
            start.degree = 360/40, track.margin = c(0, 0), "clock.wise" = FALSE)

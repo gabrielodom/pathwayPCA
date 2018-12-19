@@ -613,7 +613,8 @@ Totalpalette &lt;-<span class="st"> </span><span class="kw"><a href="https://www
 
 copyCol &lt;-<span class="st">  </span>Totalpalette[circlePlotData<span class="op">$</span>copyNumOrder]
 proteoCol &lt;-<span class="st"> </span>Totalpalette[circlePlotData<span class="op">$</span>proteinOrder]</code></pre></div>
-<p>Blue stands for negative PC1 score, Red stands for positive PC1 score Inner loop stands for copyNumbers, outer loop stands for Proteomics</p>
+<p>Blue stands for negative PC1 score, Red stands for positive PC1 score.</p>
+<p>Inner loop stands for copyNumbers, outer loop stands for Proteomics</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##draw circle
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(circlize)
 <span class="co">#&gt; ========================================</span>
@@ -628,7 +629,7 @@ proteoCol &lt;-<span class="st"> </span>Totalpalette[circlePlotData<span class="
 <span class="co">#&gt; ========================================</span>
 ##set parameters
 npathway =<span class="st"> </span><span class="dv">83</span>
-factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">83</span>
+factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="fl">83.</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/circlize/topics/circos.clear">circos.clear</a></span>()
 <span class="kw"><a href="https://www.rdocumentation.org/packages/circlize/topics/circos.par">circos.par</a></span>(<span class="st">"gap.degree"</span> =<span class="st"> </span><span class="dv">0</span>, <span class="st">"cell.padding"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),
            <span class="dt">start.degree =</span> <span class="dv">360</span><span class="op">/</span><span class="dv">40</span>, <span class="dt">track.margin =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"clock.wise"</span> =<span class="st"> </span><span class="ot">FALSE</span>)
