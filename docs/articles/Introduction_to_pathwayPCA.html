@@ -92,7 +92,7 @@
       <h1>Integrative Pathway Analysis with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom, Lily Wang, Xi Chen</h4>
             
-            <h4 class="date">2018-12-17</h4>
+            <h4 class="date">2018-12-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Introduction_to_pathwayPCA.Rmd"><code>vignettes/Introduction_to_pathwayPCA.Rmd</code></a></small>
       <div class="hidden name"><code>Introduction_to_pathwayPCA.Rmd</code></div>
@@ -675,7 +675,15 @@ NFKB1_cor
 <h2 class="hasAnchor">
 <a href="#an-integrative-view-on-patient-specific-pathway-activities" class="anchor"></a>3.3 An integrative view on patient-specific pathway activities</h2>
 <p>In section 2.2.5 above, we have seen that there can be considerable heterogeneity in pathway activities between the patients. One possible reason could be that copy number changes might not have lead to changes in protein expression for some of the patients. <code>pathwayPCA</code> can be used to estimate pathway activities for each patient, both for protein expressions and copy number expressions separately. These estimates can then be viewed jointly using a circo plot.</p>
-<p><img src="Introduction_to_pathwayPCA_files/figure-html/unnamed-chunk-1-1.png" width="480"></p>
+<div class="figure">
+<img src="circlePlot.PNG" style="width:90.0%">
+</div>
+<!-- ```{r fig.width=5, fig.height=5, echo=FALSE} -->
+<!-- library(png) -->
+<!-- library(grid) -->
+<!-- img <- readPNG("circlePlot.PNG") -->
+<!-- grid.raster(img) -->
+<!-- ``` -->
 <p>The figure above is a circos plot of normalized copy number (outer circle) and protein expression (inner circle) pathway activities for the IL-1 signaling pathway in the ovarian cancer dataset samples. Each bar correspond to a patient sample. Red color indicates higher expression values and more pathway activity for the sample. Blue color indicates lower expression values and lower pathway activity for the sample. Note that only some of the patients have concordant changes in copy number and protein expression.</p>
 <p></p>
 <hr>
@@ -918,16 +926,14 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 <span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
-<span class="co">#&gt; [1] grid      stats     graphics  grDevices utils     datasets  methods  </span>
-<span class="co">#&gt; [8] base     </span>
+<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] png_0.1-7          survminer_0.4.3    ggpubr_0.2        </span>
-<span class="co">#&gt;  [4] magrittr_1.5       survival_2.43-1    bindrcpp_0.2.2    </span>
-<span class="co">#&gt;  [7] pathwayPCA_1.0.0.0 forcats_0.3.0      stringr_1.3.1     </span>
-<span class="co">#&gt; [10] dplyr_0.7.8        purrr_0.2.5        readr_1.1.1       </span>
-<span class="co">#&gt; [13] tidyr_0.8.2        tibble_1.4.2       ggplot2_3.1.0.9000</span>
-<span class="co">#&gt; [16] tidyverse_1.2.1   </span>
+<span class="co">#&gt;  [1] survminer_0.4.3    ggpubr_0.2         magrittr_1.5      </span>
+<span class="co">#&gt;  [4] survival_2.43-1    bindrcpp_0.2.2     pathwayPCA_1.0.0.0</span>
+<span class="co">#&gt;  [7] forcats_0.3.0      stringr_1.3.1      dplyr_0.7.8       </span>
+<span class="co">#&gt; [10] purrr_0.2.5        readr_1.1.1        tidyr_0.8.2       </span>
+<span class="co">#&gt; [13] tibble_1.4.2       ggplot2_3.1.0.9000 tidyverse_1.2.1   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] Rcpp_1.0.0        lubridate_1.7.4   lattice_0.20-38  </span>
@@ -944,14 +950,14 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 <span class="co">#&gt; [34] tidyselect_0.2.5  km.ci_0.5-2       gridExtra_2.3    </span>
 <span class="co">#&gt; [37] roxygen2_6.1.1    fansi_0.4.0       crayon_1.3.4     </span>
 <span class="co">#&gt; [40] withr_2.1.2       MASS_7.3-51.1     commonmark_1.6   </span>
-<span class="co">#&gt; [43] xtable_1.8-3      nlme_3.1-137      jsonlite_1.5     </span>
-<span class="co">#&gt; [46] gtable_0.2.0      KMsurv_0.1-5      scales_1.0.0     </span>
-<span class="co">#&gt; [49] cli_1.0.1         stringi_1.2.4     fs_1.2.6         </span>
-<span class="co">#&gt; [52] xml2_1.2.0        survMisc_0.5.5    cmprsk_2.2-7     </span>
-<span class="co">#&gt; [55] tools_3.4.4       glue_1.3.0        hms_0.4.2        </span>
-<span class="co">#&gt; [58] parallel_3.4.4    yaml_2.2.0        colorspace_1.3-2 </span>
-<span class="co">#&gt; [61] rvest_0.3.2       memoise_1.1.0     knitr_1.20       </span>
-<span class="co">#&gt; [64] bindr_0.1.1       haven_1.1.2</span></code></pre></div>
+<span class="co">#&gt; [43] grid_3.4.4        xtable_1.8-3      nlme_3.1-137     </span>
+<span class="co">#&gt; [46] jsonlite_1.5      gtable_0.2.0      KMsurv_0.1-5     </span>
+<span class="co">#&gt; [49] scales_1.0.0      cli_1.0.1         stringi_1.2.4    </span>
+<span class="co">#&gt; [52] fs_1.2.6          xml2_1.2.0        survMisc_0.5.5   </span>
+<span class="co">#&gt; [55] cmprsk_2.2-7      tools_3.4.4       glue_1.3.0       </span>
+<span class="co">#&gt; [58] hms_0.4.2         parallel_3.4.4    yaml_2.2.0       </span>
+<span class="co">#&gt; [61] colorspace_1.3-2  rvest_0.3.2       memoise_1.1.0    </span>
+<span class="co">#&gt; [64] knitr_1.20        bindr_0.1.1       haven_1.1.2</span></code></pre></div>
 </div>
   </div>
 
