@@ -3,10 +3,10 @@ title: "Integrative Pathway Analysis with pathwayPCA"
 author: "Gabriel Odom, Lily Wang, Xi Chen"
 date: "`r Sys.Date()`"
 output:
-  word_document:
+  rmarkdown::html_vignette:
     toc: true
     toc_depth: 2
-  rmarkdown::html_vignette:
+  word_document:
     toc: true
     toc_depth: 2
 vignette: >
@@ -501,12 +501,14 @@ ggplot(data = NFKB1data_df) +
 
 In section 2.2.5 above, we have seen that there can be considerable heterogeneity in pathway activities between the patients. One possible reason could be that copy number changes might not have lead to changes in protein expression for some of the patients. `pathwayPCA` can be used to estimate pathway activities for each patient, both for protein expressions and copy number expressions separately. These estimates can then be viewed jointly using a circo plot.
 
-```{r fig.width=5, fig.height=5, echo=FALSE}
-library(png)
-library(grid)
-img <- readPNG("circlePlot.PNG")
-grid.raster(img)
-```
+![](circlePlot.PNG){width=90%}
+
+<!-- ```{r fig.width=5, fig.height=5, echo=FALSE} -->
+<!-- library(png) -->
+<!-- library(grid) -->
+<!-- img <- readPNG("circlePlot.PNG") -->
+<!-- grid.raster(img) -->
+<!-- ``` -->
 
 The figure above is a circos plot of normalized copy number (outer circle) and protein expression (inner circle) pathway activities for the IL-1 signaling pathway in the ovarian cancer dataset samples. Each bar correspond to a patient sample. Red color indicates higher expression values and more pathway activity for the sample. Blue color indicates lower expression values and lower pathway activity for the sample. Note that only some of the patients have concordant changes in copy number and protein expression.
 
