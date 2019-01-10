@@ -1,10 +1,3 @@
----
-title: "README"
-author: "Gabriel J. Odom, Yuguang James Ban, Lizhong Liu, Lily Wang & Xi Steven Chen"
-date: "March 20, 2018"
-output: html_document
----
-
 ### `pathwayPCA`:  an R package for integrative pathway analysis with modern PCA methodology and gene selection
 
 Initial Date: 2017-10-19
