@@ -33,6 +33,10 @@ knitr::opts_chunk$set(collapse = TRUE,
 5. Perform analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.
 6. Can be extended to studies with complex experimental designs, with multiple covariates, and with interaction effects, e.g., testing whether pathway association with clinical phenotype is different between male and female subjects.
 
+`pathwayPCA` is a package for R, so you need [R](https://cloud.r-project.org/) first. We also strongly recommend the [RStudio](https://www.rstudio.com/products/rstudio/download/) integrated development environment as a user-friendly graphical wrapper for R. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+```
+devtools::install_github("gabrielodom/pathwayPCA")
+```
 
 Throughout this vignette, we will make use of the `tidyverse` suite of utility packages (https://www.tidyverse.org/). The `tidyverse` and `pathwayPCA` can be loaded into R using: 
 ```{r packLoad, message=FALSE}

@@ -39,36 +39,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    User Guides
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Version Logs</a>
-</li>
+<li class="dropdown-header">User Guides</li>
+<li class="dropdown-header">Version Logs</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -92,7 +64,7 @@
       <h1>Integrative Pathway Analysis with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom, Lily Wang, Xi Chen</h4>
             
-            <h4 class="date">2018-12-19</h4>
+            <h4 class="date">2019-01-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Introduction_to_pathwayPCA.Rmd"><code>vignettes/Introduction_to_pathwayPCA.Rmd</code></a></small>
       <div class="hidden name"><code>Introduction_to_pathwayPCA.Rmd</code></div>
@@ -113,6 +85,8 @@
 <li>Perform analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.</li>
 <li>Can be extended to studies with complex experimental designs, with multiple covariates, and with interaction effects, e.g., testing whether pathway association with clinical phenotype is different between male and female subjects.</li>
 </ol>
+<p><code>pathwayPCA</code> is a package for R, so you need <a href="https://cloud.r-project.org/">R</a> first. We also strongly recommend the <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a> integrated development environment as a user-friendly graphical wrapper for R. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
 <p>Throughout this vignette, we will make use of the <code>tidyverse</code> suite of utility packages (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>). The <code>tidyverse</code> and <code>pathwayPCA</code> can be loaded into R using:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pathwayPCA)</code></pre></div>
@@ -262,18 +236,18 @@ DONE</code></pre></div>
 <p>For this ovarian cancer dataset, the top 10 most significant pathways identified by AES-PCA are:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovarian_aespcOut<span class="op">$</span>pVals_df
 <span class="co">#&gt; # A tibble: 324 x 6</span>
-<span class="co">#&gt;    pathways n_tested terms  description                        rawp FDR_BH</span>
-<span class="co">#&gt;  * &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 path22         30 WP195  IL-1 signaling pathway          0.00247  0.279</span>
-<span class="co">#&gt;  2 path253        16 WP3858 Toll-like Receptor Signaling    0.00463  0.279</span>
-<span class="co">#&gt;  3 path410        18 WP363  Wnt Signaling Pathway           0.00485  0.279</span>
-<span class="co">#&gt;  4 path33         24 WP2447 Amyotrophic lateral sclerosis … 0.00582  0.279</span>
-<span class="co">#&gt;  5 path128        22 WP2036 TNF related weak inducer of ap… 0.00641  0.279</span>
-<span class="co">#&gt;  6 path95         12 WP3298 Melatonin metabolism and effec… 0.00688  0.279</span>
-<span class="co">#&gt;  7 path249        13 WP3850 Factors and pathways affecting… 0.00700  0.279</span>
-<span class="co">#&gt;  8 path208        10 WP3617 Photodynamic therapy-induced N… 0.00714  0.279</span>
-<span class="co">#&gt;  9 path133         8 WP34   Ovarian Infertility Genes       0.00801  0.279</span>
-<span class="co">#&gt; 10 path242        14 WP3851 TLR4 Signaling and Tolerance    0.00870  0.279</span>
+<span class="co">#&gt;    pathways n_tested terms  description                         rawp FDR_BH</span>
+<span class="co">#&gt;  * &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;                              &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 path22         30 WP195  IL-1 signaling pathway           0.00247  0.279</span>
+<span class="co">#&gt;  2 path253        16 WP3858 Toll-like Receptor Signaling     0.00463  0.279</span>
+<span class="co">#&gt;  3 path410        18 WP363  Wnt Signaling Pathway            0.00485  0.279</span>
+<span class="co">#&gt;  4 path33         24 WP2447 Amyotrophic lateral sclerosis (~ 0.00582  0.279</span>
+<span class="co">#&gt;  5 path128        22 WP2036 TNF related weak inducer of apo~ 0.00641  0.279</span>
+<span class="co">#&gt;  6 path95         12 WP3298 Melatonin metabolism and effects 0.00688  0.279</span>
+<span class="co">#&gt;  7 path249        13 WP3850 Factors and pathways affecting ~ 0.00700  0.279</span>
+<span class="co">#&gt;  8 path208        10 WP3617 Photodynamic therapy-induced NF~ 0.00714  0.279</span>
+<span class="co">#&gt;  9 path133         8 WP34   Ovarian Infertility Genes        0.00801  0.279</span>
+<span class="co">#&gt; 10 path242        14 WP3851 TLR4 Signaling and Tolerance     0.00870  0.279</span>
 <span class="co">#&gt; # ... with 314 more rows</span></code></pre></div>
 <p>In this table, <code>n_tested</code> indicates the number of genes in both the pathway and assay data, i.e. the number of genes in a pathway that we actually tested for association with phenotype in AESPCA.</p>
 <p>We can graph the p-values of the pathways using the following commands:</p>
@@ -431,16 +405,16 @@ wp195Data_df
 <span class="co">#&gt; # A tibble: 83 x 33</span>
 <span class="co">#&gt;    sampleID EventTime EventObs   ATF2  MAPK14    AKT1   IKBKB   NFKB1</span>
 <span class="co">#&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 TCGA.09…      2279 TRUE      0.623 -0.995   0.958  -1.71   -0.730 </span>
-<span class="co">#&gt;  2 TCGA.13…      3785 TRUE      1.17   1.71    0.575  -0.751   0.783 </span>
-<span class="co">#&gt;  3 TCGA.13…      2154 TRUE     -0.130 -0.127  -0.542  -0.915   0.418 </span>
-<span class="co">#&gt;  4 TCGA.13…      2553 TRUE      0.482 -0.0588 -0.292  -0.422  -0.488 </span>
-<span class="co">#&gt;  5 TCGA.13…      2856 TRUE      0.130  0.610   1.25   -0.950   0.393 </span>
-<span class="co">#&gt;  6 TCGA.13…      2749 TRUE     -0.823  0.266   1.79   -0.522  -0.0498</span>
-<span class="co">#&gt;  7 TCGA.13…      3500 FALSE    -0.704  0.516  -0.519  -0.494   0.104 </span>
-<span class="co">#&gt;  8 TCGA.23…      1018 TRUE      0.270 -0.419  -3.63    0.0331 -0.114 </span>
-<span class="co">#&gt;  9 TCGA.23…      1768 TRUE     -2.61  -1.81   -0.0214  0.811   1.17  </span>
-<span class="co">#&gt; 10 TCGA.24…      1646 TRUE      0.270 -0.622   1.23   -0.924  -0.954 </span>
+<span class="co">#&gt;  1 TCGA.09~      2279 TRUE      0.623 -0.995   0.958  -1.71   -0.730 </span>
+<span class="co">#&gt;  2 TCGA.13~      3785 TRUE      1.17   1.71    0.575  -0.751   0.783 </span>
+<span class="co">#&gt;  3 TCGA.13~      2154 TRUE     -0.130 -0.127  -0.542  -0.915   0.418 </span>
+<span class="co">#&gt;  4 TCGA.13~      2553 TRUE      0.482 -0.0588 -0.292  -0.422  -0.488 </span>
+<span class="co">#&gt;  5 TCGA.13~      2856 TRUE      0.130  0.610   1.25   -0.950   0.393 </span>
+<span class="co">#&gt;  6 TCGA.13~      2749 TRUE     -0.823  0.266   1.79   -0.522  -0.0498</span>
+<span class="co">#&gt;  7 TCGA.13~      3500 FALSE    -0.704  0.516  -0.519  -0.494   0.104 </span>
+<span class="co">#&gt;  8 TCGA.23~      1018 TRUE      0.270 -0.419  -3.63    0.0331 -0.114 </span>
+<span class="co">#&gt;  9 TCGA.23~      1768 TRUE     -2.61  -1.81   -0.0214  0.811   1.17  </span>
+<span class="co">#&gt; 10 TCGA.24~      1646 TRUE      0.270 -0.622   1.23   -0.924  -0.954 </span>
 <span class="co">#&gt; # ... with 73 more rows, and 25 more variables: PIK3R1 &lt;dbl&gt;, PLCG1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   MAPK1 &lt;dbl&gt;, MAPK9 &lt;dbl&gt;, MAP2K1 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, MAP2K6 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   PTPN11 &lt;dbl&gt;, REL &lt;dbl&gt;, RELA &lt;dbl&gt;, MAP3K7 &lt;dbl&gt;, IKBKG &lt;dbl&gt;,</span>
@@ -453,8 +427,8 @@ NFKB1_df &lt;-<span class="st"> </span>
 <span class="st">  </span>wp195Data_df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(EventTime, EventObs, NFKB1)
 
-wp195_mod &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/coxph">coxph</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1,
+wp195_mod &lt;-<span class="st"> </span><span class="kw">coxph</span>(
+  <span class="kw">Surv</span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1,
   <span class="dt">data =</span> NFKB1_df
 )
 
@@ -484,14 +458,14 @@ NFKB1_df &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">NFKB1_Expr =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(NFKB1 <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/median">median</a></span>(NFKB1), <span class="st">"High"</span>, <span class="st">"Low"</span>))
 
 <span class="co"># Fit the survival model</span>
-NFKB1_fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/survfit">survfit</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1_Expr,
+NFKB1_fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
+  <span class="kw">Surv</span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1_Expr,
   <span class="dt">data =</span> NFKB1_df
 )</code></pre></div>
 <p>Finally, we can plot these K-M curves over NFKB1 protein expression.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(survminer)
 
-<span class="kw"><a href="https://www.rdocumentation.org/packages/survminer/topics/ggsurvplot">ggsurvplot</a></span>(
+<span class="kw">ggsurvplot</span>(
   NFKB1_fit, <span class="dt">conf.int =</span> <span class="ot">FALSE</span>, 
   <span class="dt">xlab =</span> <span class="st">"Time in Days"</span>,
   <span class="dt">palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#f47321"</span>, <span class="st">"#005030"</span>)
@@ -584,18 +558,18 @@ SigBoth_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(PROT
 <p>The results showed there are 23 pathways significantly associated with survival in both CNV and protein data. Here are the top-10 most significant pathways (sorted by protein data significance):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">SigBoth_df
 <span class="co">#&gt; # A tibble: 23 x 4</span>
-<span class="co">#&gt;    terms  description                                   rawp_PROT rawp_CNV</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                                             &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 WP195  IL-1 signaling pathway                          0.00247 0.0222  </span>
-<span class="co">#&gt;  2 WP363  Wnt Signaling Pathway                           0.00485 0.0486  </span>
-<span class="co">#&gt;  3 WP2036 TNF related weak inducer of apoptosis (TWEAK…   0.00641 0.0226  </span>
-<span class="co">#&gt;  4 WP3850 Factors and pathways affecting insulin-like …   0.00700 0.0366  </span>
-<span class="co">#&gt;  5 WP2203 Thymic Stromal LymphoPoietin (TSLP) Signalin…   0.0156  0.0181  </span>
-<span class="co">#&gt;  6 WP4136 Fibrin Complement Receptor 3 Signaling Pathw…   0.0160  0.000358</span>
-<span class="co">#&gt;  7 WP384  Apoptosis Modulation by HSP70                   0.0165  0.0311  </span>
-<span class="co">#&gt;  8 WP2018 RANKL/RANK (Receptor activator of NFKB (liga…   0.0170  0.000418</span>
-<span class="co">#&gt;  9 WP560  TGF-beta Receptor Signaling                     0.0205  0.0355  </span>
-<span class="co">#&gt; 10 WP2380 Brain-Derived Neurotrophic Factor (BDNF) sig…   0.0206  0.0113  </span>
+<span class="co">#&gt;    terms  description                                    rawp_PROT rawp_CNV</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                                              &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 WP195  IL-1 signaling pathway                           0.00247 0.0222  </span>
+<span class="co">#&gt;  2 WP363  Wnt Signaling Pathway                            0.00485 0.0486  </span>
+<span class="co">#&gt;  3 WP2036 TNF related weak inducer of apoptosis (TWEAK)~   0.00641 0.0226  </span>
+<span class="co">#&gt;  4 WP3850 Factors and pathways affecting insulin-like g~   0.00700 0.0366  </span>
+<span class="co">#&gt;  5 WP2203 Thymic Stromal LymphoPoietin (TSLP) Signaling~   0.0156  0.0181  </span>
+<span class="co">#&gt;  6 WP4136 Fibrin Complement Receptor 3 Signaling Pathway   0.0160  0.000358</span>
+<span class="co">#&gt;  7 WP384  Apoptosis Modulation by HSP70                    0.0165  0.0311  </span>
+<span class="co">#&gt;  8 WP2018 RANKL/RANK (Receptor activator of NFKB (ligan~   0.0170  0.000418</span>
+<span class="co">#&gt;  9 WP560  TGF-beta Receptor Signaling                      0.0205  0.0355  </span>
+<span class="co">#&gt; 10 WP2380 Brain-Derived Neurotrophic Factor (BDNF) sign~   0.0206  0.0113  </span>
 <span class="co">#&gt; # ... with 13 more rows</span></code></pre></div>
 <p>As discussed in section 2.2.3, we can also identify relevant genes with nonzero loadings that drives pathway significance in both CNV and protein pathway analysis. The “IL-1 signaling pathway” (WP195) is significant in both CNV and protein data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Copy Number Loadings</span>
@@ -662,11 +636,11 @@ NFKB1_cor
   ) <span class="op">+</span>
 <span class="st">  </span><span class="co"># Include the correlation on the graph</span>
 <span class="st">  </span><span class="kw">annotate</span>(
-    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="fl">-0.6</span>,
+    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="op">-</span><span class="fl">0.6</span>,
     <span class="dt">label =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"rho = "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(NFKB1_cor<span class="op">$</span>estimate, <span class="dv">3</span>))
   ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">annotate</span>(
-    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="fl">-0.7</span>,
+    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="op">-</span><span class="fl">0.7</span>,
     <span class="dt">label =</span> <span class="st">"p-val &lt; 10^-5"</span>
   )</code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/NFKB1plot-1.png" width="384"></p>
@@ -756,8 +730,8 @@ h(t) = h_0(t) \exp\left[ \beta_0 + \beta_1\text{PC}_1 + \beta_2\text{male} + \be
   data_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(resp_df, PC_df)
   
   <span class="co"># Construct a survival model with sex interaction</span>
-  sex_mod &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/coxph">coxph</a></span>(
-    <span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status) <span class="op">~</span><span class="st"> </span>PC1 <span class="op">+</span><span class="st"> </span>male <span class="op">+</span><span class="st"> </span>PC1 <span class="op">*</span><span class="st"> </span>male, <span class="dt">data =</span> data_df
+  sex_mod &lt;-<span class="st"> </span><span class="kw">coxph</span>(
+    <span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>PC1 <span class="op">+</span><span class="st"> </span>male <span class="op">+</span><span class="st"> </span>PC1 <span class="op">*</span><span class="st"> </span>male, <span class="dt">data =</span> data_df
   )
   <span class="co"># Extract the model fit statistics for the interaction</span>
   modStats_mat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(
@@ -805,26 +779,28 @@ interactions_df &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">arrange</span>(<span class="st">`</span><span class="dt">Pr...z..</span><span class="st">`</span>)
+<span class="co">#&gt; Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</span>
+<span class="co">#&gt; This warning is displayed once per session.</span>
 
 interactions_df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="st">`</span><span class="dt">Pr...z..</span><span class="st">`</span> <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)
 <span class="co">#&gt; # A tibble: 14 x 7</span>
-<span class="co">#&gt;    terms  description               coef exp.coef. se.coef.     z Pr...z..</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 WP1559 TFs Regulate miRNAs re… -0.597     0.550    0.216 -2.76  0.00573</span>
-<span class="co">#&gt;  2 WP453  Inflammatory Response … -0.272     0.762    0.109 -2.50  0.0126 </span>
-<span class="co">#&gt;  3 WP3893 Development and hetero… -0.329     0.719    0.137 -2.40  0.0166 </span>
-<span class="co">#&gt;  4 WP3929 Chemokine signaling pa… -0.252     0.777    0.109 -2.32  0.0206 </span>
-<span class="co">#&gt;  5 WP2849 Hematopoietic Stem Cel… -0.278     0.757    0.129 -2.16  0.0305 </span>
-<span class="co">#&gt;  6 WP1423 Ganglio Sphingolipid M… -0.487     0.615    0.230 -2.11  0.0346 </span>
-<span class="co">#&gt;  7 WP3892 Development of pulmona… -0.316     0.729    0.151 -2.10  0.0360 </span>
-<span class="co">#&gt;  8 WP3678 Amplification and Expa… -0.357     0.700    0.171 -2.09  0.0363 </span>
-<span class="co">#&gt;  9 WP4141 PI3K/AKT/mTOR - VitD3 …  0.314     1.37     0.153  2.05  0.0407 </span>
-<span class="co">#&gt; 10 WP3941 Oxidative Damage        -0.354     0.702    0.176 -2.01  0.0442 </span>
-<span class="co">#&gt; 11 WP3863 T-Cell antigen Recepto… -0.233     0.792    0.117 -1.99  0.0462 </span>
-<span class="co">#&gt; 12 WP3872 Regulation of Apoptosi…  0.267     1.31     0.135  1.98  0.0472 </span>
-<span class="co">#&gt; 13 WP3672 LncRNA-mediated mechan… -0.392     0.675    0.198 -1.98  0.0475 </span>
-<span class="co">#&gt; 14 WP3967 miR-509-3p alteration … -0.299     0.741    0.151 -1.98  0.0481</span></code></pre></div>
+<span class="co">#&gt;    terms  description                coef exp.coef. se.coef.     z Pr...z..</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 WP1559 TFs Regulate miRNAs rel~ -0.597     0.550    0.216 -2.76  0.00573</span>
+<span class="co">#&gt;  2 WP453  Inflammatory Response P~ -0.272     0.762    0.109 -2.50  0.0126 </span>
+<span class="co">#&gt;  3 WP3893 Development and heterog~ -0.329     0.719    0.137 -2.40  0.0166 </span>
+<span class="co">#&gt;  4 WP3929 Chemokine signaling pat~ -0.252     0.777    0.109 -2.32  0.0206 </span>
+<span class="co">#&gt;  5 WP2849 Hematopoietic Stem Cell~ -0.278     0.757    0.129 -2.16  0.0305 </span>
+<span class="co">#&gt;  6 WP1423 Ganglio Sphingolipid Me~ -0.487     0.615    0.230 -2.11  0.0346 </span>
+<span class="co">#&gt;  7 WP3892 Development of pulmonar~ -0.316     0.729    0.151 -2.10  0.0360 </span>
+<span class="co">#&gt;  8 WP3678 Amplification and Expan~ -0.357     0.700    0.171 -2.09  0.0363 </span>
+<span class="co">#&gt;  9 WP4141 PI3K/AKT/mTOR - VitD3 S~  0.314     1.37     0.153  2.05  0.0407 </span>
+<span class="co">#&gt; 10 WP3941 Oxidative Damage         -0.354     0.702    0.176 -2.01  0.0442 </span>
+<span class="co">#&gt; 11 WP3863 T-Cell antigen Receptor~ -0.233     0.792    0.117 -1.99  0.0462 </span>
+<span class="co">#&gt; 12 WP3872 Regulation of Apoptosis~  0.267     1.31     0.135  1.98  0.0472 </span>
+<span class="co">#&gt; 13 WP3672 LncRNA-mediated mechani~ -0.392     0.675    0.198 -1.98  0.0475 </span>
+<span class="co">#&gt; 14 WP3967 miR-509-3p alteration o~ -0.299     0.741    0.151 -1.98  0.0481</span></code></pre></div>
 <p>The results showed the most significant pathway is <a href="https://www.wikipathways.org/index.php/Pathway:WP1559">WP1559</a> (“TFs Regulate miRNAs related to cardiac hypertrophy”). We can inspect the model results for this pathway directly.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(interactions_ls[[<span class="st">"WP1559"</span>]]<span class="op">$</span>model)
 <span class="co">#&gt; Call:</span>
@@ -873,12 +849,12 @@ kidneySurvWP1559grouped_df &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>male, <span class="op">-</span>PC1, <span class="op">-</span>direction)</code></pre></div>
 <p>Now we can plot survial curves for the four groups.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the survival model</span>
-fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/survfit">survfit</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status) <span class="op">~</span><span class="st"> </span>group,
+fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
+  <span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>group,
   <span class="dt">data =</span> kidneySurvWP1559grouped_df
 )
 
-<span class="kw"><a href="https://www.rdocumentation.org/packages/survminer/topics/ggsurvplot">ggsurvplot</a></span>(
+<span class="kw">ggsurvplot</span>(
   fit, <span class="dt">conf.int =</span> <span class="ot">FALSE</span>, 
   <span class="dt">xlab =</span> <span class="st">"Time in Days"</span>,
   <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.4</span>, <span class="dv">1</span>)
@@ -909,55 +885,53 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 <p>Chen, X. (2011) Adaptive elastic-net sparse principal component analysis for pathway association testing. Statistical applications in genetics and molecular biology, 10.</p>
 <p>The R session information for this vignette is:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R version 3.4.4 (2018-03-15)</span>
-<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">#&gt; Running under: Ubuntu 18.04.1 LTS</span>
+<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
+<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
+<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS: /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3</span>
-<span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
-<span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
+<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
+<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
+<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
+<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] survminer_0.4.3    ggpubr_0.2         magrittr_1.5      </span>
-<span class="co">#&gt;  [4] survival_2.43-1    bindrcpp_0.2.2     pathwayPCA_1.0.0.0</span>
+<span class="co">#&gt;  [4] survival_2.43-3    bindrcpp_0.2.2     pathwayPCA_1.0.0.0</span>
 <span class="co">#&gt;  [7] forcats_0.3.0      stringr_1.3.1      dplyr_0.7.8       </span>
-<span class="co">#&gt; [10] purrr_0.2.5        readr_1.1.1        tidyr_0.8.2       </span>
-<span class="co">#&gt; [13] tibble_1.4.2       ggplot2_3.1.0.9000 tidyverse_1.2.1   </span>
+<span class="co">#&gt; [10] purrr_0.3.0        readr_1.3.1        tidyr_0.8.2       </span>
+<span class="co">#&gt; [13] tibble_2.0.1       ggplot2_3.1.0      tidyverse_1.2.1   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.0        lubridate_1.7.4   lattice_0.20-38  </span>
-<span class="co">#&gt;  [4] zoo_1.8-4         assertthat_0.2.0  rprojroot_1.3-2  </span>
-<span class="co">#&gt;  [7] digest_0.6.18     utf8_1.1.4        R6_2.3.0         </span>
-<span class="co">#&gt; [10] cellranger_1.1.0  plyr_1.8.4        backports_1.1.2  </span>
-<span class="co">#&gt; [13] lars_1.2          evaluate_0.12     httr_1.3.1       </span>
-<span class="co">#&gt; [16] pillar_1.3.0      rlang_0.3.0.1     lazyeval_0.2.1   </span>
-<span class="co">#&gt; [19] readxl_1.1.0      data.table_1.11.8 rstudioapi_0.8   </span>
-<span class="co">#&gt; [22] Matrix_1.2-14     rmarkdown_1.10    pkgdown_1.2.0    </span>
-<span class="co">#&gt; [25] desc_1.2.0        labeling_0.3      splines_3.4.4    </span>
-<span class="co">#&gt; [28] munsell_0.5.0     broom_0.5.0       compiler_3.4.4   </span>
-<span class="co">#&gt; [31] modelr_0.1.2      pkgconfig_2.0.2   htmltools_0.3.6  </span>
-<span class="co">#&gt; [34] tidyselect_0.2.5  km.ci_0.5-2       gridExtra_2.3    </span>
-<span class="co">#&gt; [37] roxygen2_6.1.1    fansi_0.4.0       crayon_1.3.4     </span>
-<span class="co">#&gt; [40] withr_2.1.2       MASS_7.3-51.1     commonmark_1.6   </span>
-<span class="co">#&gt; [43] grid_3.4.4        xtable_1.8-3      nlme_3.1-137     </span>
-<span class="co">#&gt; [46] jsonlite_1.5      gtable_0.2.0      KMsurv_0.1-5     </span>
-<span class="co">#&gt; [49] scales_1.0.0      cli_1.0.1         stringi_1.2.4    </span>
-<span class="co">#&gt; [52] fs_1.2.6          xml2_1.2.0        survMisc_0.5.5   </span>
-<span class="co">#&gt; [55] cmprsk_2.2-7      tools_3.4.4       glue_1.3.0       </span>
-<span class="co">#&gt; [58] hms_0.4.2         parallel_3.4.4    yaml_2.2.0       </span>
-<span class="co">#&gt; [61] colorspace_1.3-2  rvest_0.3.2       memoise_1.1.0    </span>
-<span class="co">#&gt; [64] knitr_1.20        bindr_0.1.1       haven_1.1.2</span></code></pre></div>
+<span class="co">#&gt;  [1] Rcpp_1.0.0         lubridate_1.7.4    lattice_0.20-38   </span>
+<span class="co">#&gt;  [4] zoo_1.8-4          assertthat_0.2.0   rprojroot_1.3-2   </span>
+<span class="co">#&gt;  [7] digest_0.6.18      utf8_1.1.4         R6_2.3.0          </span>
+<span class="co">#&gt; [10] cellranger_1.1.0   plyr_1.8.4         backports_1.1.3   </span>
+<span class="co">#&gt; [13] lars_1.2           evaluate_0.12      httr_1.4.0        </span>
+<span class="co">#&gt; [16] pillar_1.3.1       rlang_0.3.1        lazyeval_0.2.1    </span>
+<span class="co">#&gt; [19] readxl_1.2.0       data.table_1.12.0  rstudioapi_0.9.0  </span>
+<span class="co">#&gt; [22] Matrix_1.2-15      rmarkdown_1.11     pkgdown_1.3.0.9000</span>
+<span class="co">#&gt; [25] desc_1.2.0         labeling_0.3       splines_3.5.2     </span>
+<span class="co">#&gt; [28] munsell_0.5.0      broom_0.5.1        compiler_3.5.2    </span>
+<span class="co">#&gt; [31] modelr_0.1.2       xfun_0.4           pkgconfig_2.0.2   </span>
+<span class="co">#&gt; [34] htmltools_0.3.6    tidyselect_0.2.5   km.ci_0.5-2       </span>
+<span class="co">#&gt; [37] gridExtra_2.3      roxygen2_6.1.1     fansi_0.4.0       </span>
+<span class="co">#&gt; [40] crayon_1.3.4       withr_2.1.2        MASS_7.3-51.1     </span>
+<span class="co">#&gt; [43] commonmark_1.7     grid_3.5.2         xtable_1.8-3      </span>
+<span class="co">#&gt; [46] nlme_3.1-137       jsonlite_1.6       gtable_0.2.0      </span>
+<span class="co">#&gt; [49] KMsurv_0.1-5       scales_1.0.0       cli_1.0.1         </span>
+<span class="co">#&gt; [52] stringi_1.2.4      fs_1.2.6           xml2_1.2.0        </span>
+<span class="co">#&gt; [55] survMisc_0.5.5     generics_0.0.2     cmprsk_2.2-7      </span>
+<span class="co">#&gt; [58] tools_3.5.2        glue_1.3.0         hms_0.4.2         </span>
+<span class="co">#&gt; [61] parallel_3.5.2     yaml_2.2.0         colorspace_1.4-0  </span>
+<span class="co">#&gt; [64] rvest_0.3.2        memoise_1.1.0      knitr_1.21        </span>
+<span class="co">#&gt; [67] bindr_0.1.1        haven_2.0.0</span></code></pre></div>
 </div>
   </div>
 
@@ -1002,7 +976,7 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumen
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
 </div>
