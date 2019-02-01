@@ -22,6 +22,8 @@
 #' @param file Either a character string naming a file or a connection open for
 #'    writing. File names should end in \code{.gmt} for clarity
 #'
+#' @return NULL. Output written to the file path specified.
+#'
 #' @details See the Broad Institute's "Data Formats" page for a description of
 #'    the Gene Matrix Transposed file format:
 #'    \url{https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29}

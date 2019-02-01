@@ -106,7 +106,7 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
 
     w <- w + s[, i]
     oo <- (1:n)[Y1 >= fail.times[i]]
-    r <- rowSums(X1[, oo, drop = F] * exp(Offset1[oo]))
+    r <- rowSums(X1[, oo, drop = FALSE] * exp(Offset1[oo]))
     w <- w - (d[i] / nno[i]) * r
 
   }

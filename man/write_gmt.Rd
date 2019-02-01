@@ -27,6 +27,9 @@ list contains the following two or three elements:
 \item{file}{Either a character string naming a file or a connection open for
 writing. File names should end in \code{.gmt} for clarity}
 }
+\value{
+NULL. Output written to the file path specified.
+}
 \description{
 Write a \code{pathwayCollection} object as a pathways list file
    in Gene Matrix Transposed (\code{.gmt}) format.

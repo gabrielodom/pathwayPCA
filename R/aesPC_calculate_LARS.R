@@ -144,7 +144,7 @@ lars.lsa <- function(Sigma0, b0, n,
       }
 
       # END IF
-    }	else {
+    } else {
       # any(drops) is TRUE
       action <- -dropid
       # END IF(!any(drops)) ELSE
@@ -158,7 +158,7 @@ lars.lsa <- function(Sigma0, b0, n,
 
     if (length(active) >= m) {
       gamhat <- Cmax / A
-    }	else {
+    } else {
 
       a <- drop(w %*% Sigma[active, -c(active, ignores), drop = FALSE])
       gam <- c((Cmax - C) / (A - a), (Cmax + C) / (A + a))
@@ -182,7 +182,7 @@ lars.lsa <- function(Sigma0, b0, n,
         gamhat <- zmin
         drops <- z1 == zmin
 
-      }	else {
+      } else {
         drops <- FALSE
       }
 
@@ -238,7 +238,7 @@ lars.lsa <- function(Sigma0, b0, n,
     tmp <- sort(BIC, ind = TRUE)
     beta.bic <- beta[tmp$ix[1], ]
 
-  }	else {
+  } else {
 
     tmp1 <- dof == para
     beta.bic <- beta[tmp1, ]
