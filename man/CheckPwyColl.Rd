@@ -43,5 +43,9 @@ If there are no names, create them. If there are missing names,
 }
 \examples{
  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
+
+  data("colon_pathwayCollection")
+  CheckPwyColl(colon_pathwayCollection)
+
 }
 \keyword{internal}

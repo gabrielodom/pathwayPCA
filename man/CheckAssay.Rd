@@ -35,5 +35,9 @@ This function checks that the data frame is not a matrix, that the
 }
 \examples{
  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
+
+ data("colonSurv_df")
+ CheckAssay(colonSurv_df[, -(1:3)])
+
 }
 \keyword{internal}

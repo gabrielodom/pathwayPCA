@@ -25,5 +25,9 @@ This function checks that the sample IDs are unique, then coerces
 }
 \examples{
  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
+
+ data("colonSurv_df")
+ CheckSampleIDs(colonSurv_df[, -(2:3)])
+
 }
 \keyword{internal}

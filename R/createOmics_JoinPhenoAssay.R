@@ -31,6 +31,13 @@
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
+#'
+#'  data("colonSurv_df")
+#'  JoinPhenoAssay(
+#'    pheno_df = colonSurv_df[, 1:3],
+#'    assay_df = colonSurv_df[, -(2:3)]
+#'  )
+#'
 JoinPhenoAssay <- function(pheno_df, assay_df){
 
   phSamp_char  <- pheno_df[, 1, drop = TRUE]

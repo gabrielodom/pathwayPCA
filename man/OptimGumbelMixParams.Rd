@@ -72,6 +72,29 @@ The likelihood function is equation (4) in Chen et al (2008): a
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead.
+
+
+  ###  Load the Example Data  ###
+  data("colon_pathwayCollection")
+
+
+  ###  Simulate Maximum Absolute Control t-Values  ###
+  # The SuperPCA algorithm defaults to 20 threshold values; the example
+  #   pathway collection has 15 pathways.
+  t_mat <- matrix(rt(15 * 20, df = 5), nrow = 15)
+
+  absMax <- function(vec){
+    vec[which.max(abs(vec))]
+  }
+  tAbsMax_num <- apply(t_mat, 1, absMax)
+
+
+  ###  Calculate Optimal Parameters for the Gumbel Distribution  ###
+  OptimGumbelMixParams(
+    max_tControl_vec = tAbsMax_num,
+    pathwaySize_vec = lengths(colon_pathwayCollection$pathways)
+  )
+
 }
 \seealso{
 \code{\link[stats]{optim}}; \code{\link{GumbelMixpValues}};

@@ -19,6 +19,10 @@
 #'
 #' @examples
 #'  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
+#'
+#'  data("colonSurv_df")
+#'  CheckSampleIDs(colonSurv_df[, -(2:3)])
+#'
 CheckSampleIDs <- function(df){
   # browser()
 

@@ -186,8 +186,49 @@ Value mixture distribution parameters returned by the
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use SuperPCA_pVals() instead.
+    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY.</span>
+  <span class='co'># Use SuperPCA_pVals() instead.</span>
+
+
+  <span class='co'>###  Load the Example Data  ###</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
+  <span class='no'>n_int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lengths'>lengths</a></span>(<span class='no'>colon_pathwayCollection</span>$<span class='no'>pathways</span>)
+
+
+  <span class='co'>###  Simulate Maximum Absolute Control t-Values  ###</span>
+  <span class='co'># The SuperPCA algorithm defaults to 20 threshold values; the example</span>
+  <span class='co'>#   pathway collection has 15 pathways.</span>
+  <span class='no'>t_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>rt</a></span>(<span class='fl'>15</span> * <span class='fl'>20</span>, <span class='kw'>df</span> <span class='kw'>=</span> <span class='fl'>5</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>15</span>)
+
+  <span class='no'>absMax</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>vec</span>){
+    <span class='no'>vec</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which.min'>which.max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>abs</a></span>(<span class='no'>vec</span>))]
+  }
+  <span class='no'>tAbsMax_num</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='no'>t_mat</span>, <span class='fl'>1</span>, <span class='no'>absMax</span>)
+
+
+  <span class='co'>###  Calculate Optimal Parameters for the Gumbel Distribution  ###</span>
+  <span class='no'>optParams_num</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='OptimGumbelMixParams.html'>OptimGumbelMixParams</a></span>(
+    <span class='kw'>max_tControl_vec</span> <span class='kw'>=</span> <span class='no'>tAbsMax_num</span>,
+    <span class='kw'>pathwaySize_vec</span> <span class='kw'>=</span> <span class='no'>n_int</span>
+  )
+
+
+  <span class='co'>###  Simulate Maximum Absolute t-Values  ###</span>
+  <span class='no'>tObs_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>rt</a></span>(<span class='fl'>15</span> * <span class='fl'>20</span>, <span class='kw'>df</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>15</span>)
+  <span class='no'>tObsAbsMax_num</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='no'>tObs_mat</span>, <span class='fl'>1</span>, <span class='no'>absMax</span>)
+
+
+  <span class='co'>###  Calculate Observed-t-score p-Values  ###</span>
+  <span class='fu'>GumbelMixpValues</span>(
+    <span class='kw'>tScore_vec</span> <span class='kw'>=</span> <span class='no'>tObsAbsMax_num</span>,
+    <span class='kw'>pathwaySize_vec</span> <span class='kw'>=</span> <span class='no'>n_int</span>,
+    <span class='kw'>optimParams_vec</span> <span class='kw'>=</span> <span class='no'>optParams_num</span>
+  )</div><div class='output co'>#&gt;     pathway3    pathway60    pathway87   pathway120   pathway176   pathway177 
+#&gt; 7.137635e-04 9.406554e-05 4.084340e-01 3.163840e-02 4.101602e-01 3.271382e-01 
+#&gt;   pathway187   pathway266   pathway390   pathway413   pathway491   pathway536 
+#&gt; 7.038259e-10 1.529733e-01 9.921075e-02 2.379129e-04 1.503963e-01 4.634339e-02 
+#&gt;   pathway757   pathway781  pathway1211 
+#&gt; 5.558501e-02 1.265024e-01 9.823038e-02 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

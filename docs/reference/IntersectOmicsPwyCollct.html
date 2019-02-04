@@ -212,8 +212,22 @@ genes present after trimming. Defaults to <code>TRUE</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
+    <pre class="examples"><div class='input'><span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.</span>
 
+  <span class='co'>###  Load the Example Data  ###</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
+
+  <span class='co'>###  Create an OmicsSurv Object  ###</span>
+  <span class='no'>colon_Omics</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateOmics.html'>CreateOmics</a></span>(
+    <span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)],
+    <span class='kw'>pathwayCollection_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>
+  )</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>  ======  Creating object of class OmicsPathway  ======</span></div><div class='output co'>#&gt; <span class='message'>The input pathway database included 676 unique features.</span></div><div class='output co'>#&gt; <span class='message'>The input assay dataset included 656 features.</span></div><div class='output co'>#&gt; <span class='message'>Only pathways with at least 3 or more features included in the assay dataset are</span>
+#&gt; <span class='message'>  tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
+#&gt; <span class='message'>  this criterion.</span></div><div class='output co'>#&gt; <span class='message'>Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
+#&gt; <span class='message'>  both assay data and pathway database are considered for analysis. There are 615</span>
+#&gt; <span class='message'>  such features shared by the input assay and pathway database.</span></div><div class='input'>
 
 </div></pre>
   </div>

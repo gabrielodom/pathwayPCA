@@ -38,5 +38,12 @@ Don't use this function. This is simply a wrapper around the
 }
 \examples{
   # DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
+
+ data("colonSurv_df")
+ JoinPhenoAssay(
+   pheno_df = colonSurv_df[, 1:3],
+   assay_df = colonSurv_df[, -(2:3)]
+ )
+
 }
 \keyword{internal}
