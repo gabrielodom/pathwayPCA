@@ -184,8 +184,7 @@ writing. File names should end in <code>.gmt</code> for clarity</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-  <span class='co'># Toy pathway set</span>
+    <pre class="examples"><div class='input'>  <span class='co'># Toy pathway set</span>
   <span class='no'>toy_pathwayCollection</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
     <span class='kw'>pathways</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
       <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C1orf27"</span>, <span class='st'>"NR5A1"</span>, <span class='st'>"BLOC1S4"</span>, <span class='st'>"C4orf50"</span>),
@@ -196,10 +195,12 @@ writing. File names should end in <code>.gmt</code> for clarity</p></td>
     <span class='kw'>description</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"these are"</span>, <span class='st'>"totally made up"</span>, <span class='st'>"pathways"</span>)
   )
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>toy_pathwayCollection</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pathwayCollection"</span>, <span class='st'>"list"</span>)
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>toy_pathwayCollection</span>)
+  <span class='no'>toy_pathwayCollection</span></div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: 
+#&gt;  $ pathways   :List of 3
+#&gt;  $ TERMS      : chr [1:3] "C-or-f_paths" ...
+#&gt;  $ description: chr [1:3] "these are" ...</div><div class='input'>
+  # write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
 
-  <span class='fu'>write_gmt</span>(<span class='no'>toy_pathwayCollection</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>"example_pathway.gmt"</span>)
-<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

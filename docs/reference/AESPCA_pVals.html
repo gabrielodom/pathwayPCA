@@ -260,8 +260,7 @@ definitions and citations.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-  <span class='co'>###  Load the Example Data  ###</span>
+    <pre class="examples"><div class='input'>  <span class='co'>###  Load the Example Data  ###</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
 
@@ -271,18 +270,21 @@ definitions and citations.</p></td>
     <span class='kw'>pathwayCollection_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>,
     <span class='kw'>response</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fl'>1</span>:<span class='fl'>3</span>],
     <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"surv"</span>
-  )
-
+  )</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>  ======  Creating object of class OmicsSurv  =======</span></div><div class='output co'>#&gt; <span class='message'>The input pathway database included 676 unique features.</span></div><div class='output co'>#&gt; <span class='message'>The input assay dataset included 656 features.</span></div><div class='output co'>#&gt; <span class='message'>Only pathways with at least 3 or more features included in the assay dataset are</span>
+#&gt; <span class='message'>  tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
+#&gt; <span class='message'>  this criterion.</span></div><div class='output co'>#&gt; <span class='message'>Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
+#&gt; <span class='message'>  both assay data and pathway database are considered for analysis. There are 615</span>
+#&gt; <span class='message'>  such features shared by the input assay and pathway database.</span></div><div class='input'>
   <span class='co'>###  Calculate Pathway p-Values  ###</span>
-  <span class='no'>colonSurv_pVals_df</span> <span class='kw'>&lt;-</span> <span class='fu'>AESPCA_pVals</span>(
+  <span class='no'>colonSurv_aespc</span> <span class='kw'>&lt;-</span> <span class='fu'>AESPCA_pVals</span>(
     <span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>colon_Omics</span>,
-    <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
+    <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>0</span>,
     <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='fl'>16</span>,
+    <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='fl'>2</span>,
     <span class='kw'>adjustpValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
     <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Hoch"</span>, <span class='st'>"SidakSD"</span>)
-  )
-<span class='co'># }</span><div class='input'>
+  )</div><div class='output co'>#&gt; <span class='message'>Part 1: Calculate Pathway AES-PCs</span></div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Extracting Pathway PCs in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Part 2: Calculate Pathway p-Values</span></div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Extracting Pathway p-Values in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

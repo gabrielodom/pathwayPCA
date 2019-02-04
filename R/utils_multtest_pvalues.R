@@ -111,6 +111,38 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
+#'
+#'
+#'   ###  Load the Example Data  ###
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
+#'
+#'   ###  Create an OmicsSurv Object  ###
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "surv"
+#'   )
+#'
+#'   ###  Extract Pathway PCs and Loadings  ###
+#'   colonPCs_ls <- ExtractAESPCs(
+#'     object = colon_Omics,
+#'     parallel = TRUE,
+#'     numCores = 2
+#'   )
+#'
+#'   ###  Pathway p-Values  ###
+#'   pVals <- PermTestSurv(
+#'     OmicsSurv = colon_Omics,
+#'     pathwayPCs_ls = colonPCs_ls$PCs,
+#'     parallel = TRUE,
+#'     numCores = 2
+#'   )
+#'
+#'   ###  Adjust p-Values  ###
+#'   ControlFDR(rawp = pVals)
+#'
 ControlFDR <- function(rawp,
                        proc = c("BH", "BY", "ABH", "TSBH",
                                 "Bonferroni", "Holm", "Hochberg",

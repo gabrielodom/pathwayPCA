@@ -60,6 +60,26 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
+#'
+#'   ###  Load the Example Data  ###
+#'   data("colonSurv_df")
+#'   data("colon_pathwayCollection")
+#'
+#'   ###  Create an OmicsSurv Object  ###
+#'   colon_Omics <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "surv"
+#'   )
+#'
+#'   ###  Extract Pathway PCs and Loadings  ###
+#'   ExtractAESPCs(
+#'     object = colon_Omics,
+#'     parallel = TRUE,
+#'     numCores = 2
+#'   )
+#'
 #' @rdname ExtractAESPCs
 setGeneric("ExtractAESPCs",
            function(object, numPCs = 1,

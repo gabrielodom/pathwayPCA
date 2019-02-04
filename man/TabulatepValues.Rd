@@ -16,8 +16,9 @@ AES-PCA. Otherwise, when the analysis was performed with Supervised PCA, a
 named vector of \eqn{p}-values from the \code{\link{GumbelMixpValues}}
 function.}
 
-\item{genesets_ls}{A list of known gene pathways. This pathway list must
-contain:
+\item{genesets_ls}{A list of known gene pathways, trimmed to match the given
+assay data by the \code{\link{IntersectOmicsPwyCollct}} function. This
+pathway list must contain:
 \itemize{
   \item{\code{pathways} : }{A named list of character vectors where each
      vector contains the names of the genes in that specific pathway.}
@@ -79,5 +80,41 @@ This is a wrapper function for the \code{\link{ControlFDR}}
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
+
+
+  ###  Load the Example Data  ###
+  data("colonSurv_df")
+  data("colon_pathwayCollection")
+
+  ###  Create an OmicsSurv Object  ###
+  colon_Omics <- CreateOmics(
+    assayData_df = colonSurv_df[, -(2:3)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1:3],
+    respType = "surv"
+  )
+
+  ###  Extract Pathway PCs and Loadings  ###
+  colonPCs_ls <- ExtractAESPCs(
+    object = colon_Omics,
+    parallel = TRUE,
+    numCores = 2
+  )
+
+  ###  Pathway p-Values  ###
+  pVals <- PermTestSurv(
+    OmicsSurv = colon_Omics,
+    pathwayPCs_ls = colonPCs_ls$PCs,
+    parallel = TRUE,
+    numCores = 2
+  )
+
+  ###  Create Table of p-Values  ###
+  trimmed_PC <- getTrimPathwayCollection(colon_Omics)
+  TabulatepValues(
+    pVals_vec = pVals,
+    genesets_ls = trimmed_PC
+  )
+
 }
 \keyword{internal}

@@ -9,7 +9,7 @@
 PermTestReg(OmicsReg, pathwayPCs_ls, numReps = 0L, parallel = FALSE,
   numCores = NULL, ...)
 
-\S4method{PermTestReg}{OmicsReg}(OmicsReg, pathwayPCs_ls, numReps = 1000,
+\S4method{PermTestReg}{OmicsReg}(OmicsReg, pathwayPCs_ls, numReps = 0L,
   parallel = FALSE, numCores = NULL, ...)
 }
 \arguments{
@@ -61,6 +61,34 @@ This function takes in a list of the first principal components
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use AESPCA_pVals() instead
+
+
+  ###  Load the Example Data  ###
+  data("colonSurv_df")
+  data("colon_pathwayCollection")
+
+  ###  Create an OmicsSurv Object  ###
+  colon_Omics <- CreateOmics(
+    assayData_df = colonSurv_df[, -(2:3)],
+    pathwayCollection_ls = colon_pathwayCollection,
+    response = colonSurv_df[, 1:2],
+    respType = "reg"
+  )
+
+  ###  Extract Pathway PCs and Loadings  ###
+  colonPCs_ls <- ExtractAESPCs(
+    object = colon_Omics,
+    parallel = TRUE,
+    numCores = 2
+  )
+
+  ###  Pathway p-Values  ###
+  PermTestReg(
+    OmicsReg = colon_Omics,
+    pathwayPCs_ls = colonPCs_ls$PCs,
+    parallel = TRUE,
+    numCores = 2
+  )
 
 }
 \seealso{

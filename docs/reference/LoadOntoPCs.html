@@ -183,7 +183,7 @@ to <code>rowNames</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'>
   <span class='co'>###  Load the Data  ###</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
@@ -194,23 +194,43 @@ to <code>rowNames</code>.</p></td>
     <span class='kw'>pathwayCollection_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>,
     <span class='kw'>response</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fl'>1</span>:<span class='fl'>3</span>],
     <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"survival"</span>
-  )
-
-  <span class='co'>###  Extract SuperPCs  ###</span>
-  <span class='no'>colon_superpc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SuperPCA_pVals.html'>SuperPCA_pVals</a></span>(
-    <span class='no'>colon_Omics</span>,
+  )</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>  ======  Creating object of class OmicsSurv  =======</span></div><div class='output co'>#&gt; <span class='message'>The input pathway database included 676 unique features.</span></div><div class='output co'>#&gt; <span class='message'>The input assay dataset included 656 features.</span></div><div class='output co'>#&gt; <span class='message'>Only pathways with at least 3 or more features included in the assay dataset are</span>
+#&gt; <span class='message'>  tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
+#&gt; <span class='message'>  this criterion.</span></div><div class='output co'>#&gt; <span class='message'>Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
+#&gt; <span class='message'>  both assay data and pathway database are considered for analysis. There are 615</span>
+#&gt; <span class='message'>  such features shared by the input assay and pathway database.</span></div><div class='input'>
+  <span class='co'>###  Extract AESPCs  ###</span>
+  <span class='no'>colonSurv_aespc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='AESPCA_pVals.html'>AESPCA_pVals</a></span>(
+    <span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>colon_Omics</span>,
+    <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>0</span>,
     <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='st'>"BH"</span>
-  )
-
+    <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+    <span class='kw'>adjustpValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Hoch"</span>, <span class='st'>"SidakSD"</span>)
+  )</div><div class='output co'>#&gt; <span class='message'>Part 1: Calculate Pathway AES-PCs</span></div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Extracting Pathway PCs in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Part 2: Calculate Pathway p-Values</span></div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Extracting Pathway p-Values in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='input'>
   <span class='co'>###  Project Data onto Pathway First PCs  ###</span>
   <span class='fu'>LoadOntoPCs</span>(
     <span class='kw'>design_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>,
-    <span class='kw'>loadings_ls</span> <span class='kw'>=</span> <span class='no'>colon_superpc</span>$<span class='no'>loadings_ls</span>
-  )
+    <span class='kw'>loadings_ls</span> <span class='kw'>=</span> <span class='no'>colonSurv_aespc</span>$<span class='no'>loadings_ls</span>
+  )</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 250 x 16</span><span>
+#&gt;    SampleID pathway757 pathway491 pathway781 pathway1211 pathway536 pathway60
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> subj1          3.82      -</span><span style='color: #BB0000;'>21.0</span><span>       15.3       1.86        15.6      26.9
+#&gt; </span><span style='color: #555555;'> 2</span><span> subj2          3.00      -</span><span style='color: #BB0000;'>20.8</span><span>       15.8       0.814       16.0      27.8
+#&gt; </span><span style='color: #555555;'> 3</span><span> subj3          2.84      -</span><span style='color: #BB0000;'>21.7</span><span>       17.5       0.896       17.1      25.4
+#&gt; </span><span style='color: #555555;'> 4</span><span> subj4          4.68      -</span><span style='color: #BB0000;'>19.2</span><span>       12.1       2.77        14.4      28.0
+#&gt; </span><span style='color: #555555;'> 5</span><span> subj5          4.12      -</span><span style='color: #BB0000;'>21.4</span><span>       15.6       2.24        16.9      27.6
+#&gt; </span><span style='color: #555555;'> 6</span><span> subj6          3.92      -</span><span style='color: #BB0000;'>20.0</span><span>       14.6       1.85        16.1      26.1
+#&gt; </span><span style='color: #555555;'> 7</span><span> subj7          4.50      -</span><span style='color: #BB0000;'>19.7</span><span>       13.9       2.47        14.3      26.8
+#&gt; </span><span style='color: #555555;'> 8</span><span> subj8          3.65      -</span><span style='color: #BB0000;'>21.2</span><span>       16.2       1.83        16.1      26.0
+#&gt; </span><span style='color: #555555;'> 9</span><span> subj9          3.35      -</span><span style='color: #BB0000;'>20.8</span><span>       15.3       1.39        15.3      25.6
+#&gt; </span><span style='color: #555555;'>10</span><span> subj10         4.58      -</span><span style='color: #BB0000;'>20.0</span><span>       15.4       2.64        15.2      26.2
+#&gt; </span><span style='color: #555555;'># ... with 240 more rows, and 9 more variables: pathway87 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   pathway3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, pathway187 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, pathway120 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, pathway413 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
+#&gt; #   pathway390 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, pathway266 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, pathway176 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, pathway177 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 
-<span class='co'># }</span><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

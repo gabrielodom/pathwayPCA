@@ -147,7 +147,7 @@
 
 <span class='co'># S4 method for OmicsCateg</span>
 <span class='fu'>PermTestCateg</span>(<span class='no'>OmicsCateg</span>, <span class='no'>pathwayPCs_ls</span>,
-  <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>numReps</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,9 +218,44 @@ computation? Internally defaults to the number of available cores minus 2.</p></
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
-  # Use AESPCA_pVals() instead
+    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY.</span>
+  <span class='co'># Use AESPCA_pVals() instead</span>
 
+
+  <span class='co'>###  Load the Example Data  ###</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
+
+  <span class='co'>###  Create an OmicsSurv Object  ###</span>
+  <span class='no'>colon_Omics</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateOmics.html'>CreateOmics</a></span>(
+    <span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)],
+    <span class='kw'>pathwayCollection_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>,
+    <span class='kw'>response</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>3</span>)],
+    <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"categ"</span>
+  )</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>  ======  Creating object of class OmicsCateg  =======</span></div><div class='output co'>#&gt; <span class='message'>The input pathway database included 676 unique features.</span></div><div class='output co'>#&gt; <span class='message'>The input assay dataset included 656 features.</span></div><div class='output co'>#&gt; <span class='message'>Only pathways with at least 3 or more features included in the assay dataset are</span>
+#&gt; <span class='message'>  tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
+#&gt; <span class='message'>  this criterion.</span></div><div class='output co'>#&gt; <span class='message'>Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
+#&gt; <span class='message'>  both assay data and pathway database are considered for analysis. There are 615</span>
+#&gt; <span class='message'>  such features shared by the input assay and pathway database.</span></div><div class='input'>
+  <span class='co'>###  Extract Pathway PCs and Loadings  ###</span>
+  <span class='no'>colonPCs_ls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ExtractAESPCs.html'>ExtractAESPCs</a></span>(
+    <span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>colon_Omics</span>,
+    <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='fl'>2</span>
+  )</div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Extracting Pathway PCs in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='input'>
+  <span class='co'>###  Pathway p-Values  ###</span>
+  <span class='fu'>PermTestCateg</span>(
+    <span class='kw'>OmicsCateg</span> <span class='kw'>=</span> <span class='no'>colon_Omics</span>,
+    <span class='kw'>pathwayPCs_ls</span> <span class='kw'>=</span> <span class='no'>colonPCs_ls</span>$<span class='no'>PCs</span>,
+    <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='fl'>2</span>
+  )</div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Extracting Pathway p-Values in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt;     pathway3    pathway60    pathway87   pathway120   pathway176   pathway177 
+#&gt; 4.512889e-02 2.537242e-03 2.524317e-02 5.281966e-01 5.872779e-01 9.617078e-01 
+#&gt;   pathway187   pathway266   pathway390   pathway413   pathway491   pathway536 
+#&gt; 9.628327e-01 8.379757e-01 9.149896e-01 3.213556e-01 1.465683e-04 2.689981e-03 
+#&gt;   pathway757   pathway781  pathway1211 
+#&gt; 6.279562e-05 5.325894e-04 5.546808e-04 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
