@@ -161,7 +161,7 @@ This `ovarian_aespcOut` object contains 3 components: a table of pathway $p$-val
 names(ovarian_aespcOut)
 ```
 
-### 2.2.3 The pathway analysis results
+### 2.3.3 The pathway analysis results
 For this ovarian cancer dataset, the top 10 most significant pathways identified by AES-PCA are:
 ```{r headPVals}
 ovarian_aespcOut$pVals_df
@@ -208,7 +208,7 @@ ggplot(ovOutGather_df) +
   coord_flip()
 ```
 
-### 2.2.4 Extract relevant genes from significant pathways  
+### 2.3.4 Extract relevant genes from significant pathways  
 Because pathways are defined *a priori*, typically within each pathway, only a subset of genes are relevant to the phenotype and contribute to pathway significance. In AESPCA, these relevant genes are the genes with nonzero loadings in the first PC of AESPCs.
 
 For example, for the "IL-1 signaling pathway" (Wikipathways [WP195](https://www.wikipathways.org/index.php/Pathway:WP195)), we can extract the principal components and their protein loadings using the `getPathPCLs()` function:
@@ -250,7 +250,8 @@ ggplot(data = wp195Loadings_df) +
   # Set main and axis titles
   labs(
     title = "Gene Loadings on IL-1 Signaling Pathway",
-    x = "Protein"
+    x = "Protein",
+    y = "Loadings of PC1"
   ) +
   # Remove the legend
   guides(fill = FALSE)
@@ -258,7 +259,7 @@ ggplot(data = wp195Loadings_df) +
 
 Alternatively, we can also plot the correlation of each gene with first PC for each gene. These correlations can be computed by using the `TidyCorrelation()` function in Section 3.3. of additional vignette “Chapter 5 - Visualizing the Results”.
 
-### 2.2.5 Subject-specific PCA estimates   
+### 2.3.5 Subject-specific PCA estimates   
 In the study of complex diseases, there is often considerable heterogeneity among different subjects with regard to underlying causes of disease and benefit of particular treatment. Therefore, in addition to identifying disease-relevant pathways for the entire patient group, successful (personalized) treatment regimens will also depend upon knowing if a particular pathway is dysregulated for an individual patient.
 
 To this end, we can also assess subject-specific pathway activity. As we saw earlier, the `getPathPCLs()` function also returns subject-specific estimates for the individual pathway PCs.
