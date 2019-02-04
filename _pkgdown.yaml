@@ -17,8 +17,24 @@ navbar:
     home: ~
     articles:
       text: User Guides
+      menu:
+      - text: Integrative Pathway Analysis with pathwayPCA
+        href: articles/Introduction_to_pathwayPCA.html
+      - text: -------
+      - text: "Supplemental Material"
+      - text: Quick-start Guide
+        href: articles/Supplement1-Quickstart_Guide.html
+      - text: Import and Tidy Data
+        href: articles/Supplement2-Importing_Data.html
+      - text: Creating -Omics Data Objects
+        href: articles/Supplement3-Create_Omics_Objects.html
+      - text: Pathway-PCA Methods
+        href: articles/Supplement4-Methods_Walkthrough.html
+      - text: Result Visualization Guide
+        href: articles/Supplement5-Analyse_Results.html
     news:
       text: Version Logs
+      href: news/index.html
 
 reference:
   - title: Pathway Collections
