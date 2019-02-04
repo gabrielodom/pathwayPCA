@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -39,36 +39,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    User Guides
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
-    </li>
-    <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Version Logs</a>
-</li>
+<li class="dropdown-header">User Guides</li>
+<li class="dropdown-header">Version Logs</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -92,7 +64,7 @@
       <h1>Suppl. Ch. 1 - Quickstart Guide for New R Users</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2018-12-19</h4>
+            <h4 class="date">2019-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supplement1-Quickstart_Guide.Rmd"><code>vignettes/Supplement1-Quickstart_Guide.Rmd</code></a></small>
       <div class="hidden name"><code>Supplement1-Quickstart_Guide.Rmd</code></div>
@@ -173,16 +145,16 @@ assayT_df
 <span class="co">#&gt; # A tibble: 36 x 18</span>
 <span class="co">#&gt;    Sample SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 T2110…  5.37  9.77  7.74  4.68    8.27  8.32    6.78   4.70    7.63</span>
-<span class="co">#&gt;  2 T2110…  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63</span>
-<span class="co">#&gt;  3 T2110…  5.89  8.11  7.00  5.78    8.20  8.39    6.57   4.89    8.15</span>
-<span class="co">#&gt;  4 T2110…  5.62  8.67  8.59  5.64    8.07  8.64    6.47   4.98    8.13</span>
-<span class="co">#&gt;  5 T2110…  5.49  9.83  8.13  5.73    9.38  8.15    6.43   5.03    7.70</span>
-<span class="co">#&gt;  6 T2110…  5.58  9.85  8.55  5.13    9.40  8.71    6.56   4.87    7.75</span>
-<span class="co">#&gt;  7 T2110…  5.32 10.0   6.99  5.86    8.08  9.25    6.86   4.72    7.88</span>
-<span class="co">#&gt;  8 T2110…  5.49  9.72  7.47  5.16    6.67  7.37    6.70   4.92    7.50</span>
-<span class="co">#&gt;  9 T2110…  5.57  9.88  7.97  5.40    7.91  8.06    6.58   5.06    8.16</span>
-<span class="co">#&gt; 10 T2110…  5.16  9.87  7.42  5.50    7.43  8.68    6.55   4.85    8.20</span>
+<span class="co">#&gt;  1 T2110~  5.37  9.77  7.74  4.68    8.27  8.32    6.78   4.70    7.63</span>
+<span class="co">#&gt;  2 T2110~  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63</span>
+<span class="co">#&gt;  3 T2110~  5.89  8.11  7.00  5.78    8.20  8.39    6.57   4.89    8.15</span>
+<span class="co">#&gt;  4 T2110~  5.62  8.67  8.59  5.64    8.07  8.64    6.47   4.98    8.13</span>
+<span class="co">#&gt;  5 T2110~  5.49  9.83  8.13  5.73    9.38  8.15    6.43   5.03    7.70</span>
+<span class="co">#&gt;  6 T2110~  5.58  9.85  8.55  5.13    9.40  8.71    6.56   4.87    7.75</span>
+<span class="co">#&gt;  7 T2110~  5.32 10.0   6.99  5.86    8.08  9.25    6.86   4.72    7.88</span>
+<span class="co">#&gt;  8 T2110~  5.49  9.72  7.47  5.16    6.67  7.37    6.70   4.92    7.50</span>
+<span class="co">#&gt;  9 T2110~  5.57  9.88  7.97  5.40    7.91  8.06    6.58   5.06    8.16</span>
+<span class="co">#&gt; 10 T2110~  5.16  9.87  7.42  5.50    7.43  8.68    6.55   4.85    8.20</span>
 <span class="co">#&gt; # ... with 26 more rows, and 8 more variables: MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   SOAT2 &lt;dbl&gt;</span></code></pre></div>
@@ -225,16 +197,16 @@ exSurv_df
 <span class="co">#&gt; # A tibble: 36 x 20</span>
 <span class="co">#&gt;    Sample eventTime eventObserved SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7</span>
 <span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 T2110…     14.2  TRUE           5.37  9.77  7.74  4.68    8.27  8.32</span>
-<span class="co">#&gt;  2 T2110…      1    TRUE           5.52  9.78  8.06  5.12    8.21  8.33</span>
-<span class="co">#&gt;  3 T2110…      6.75 FALSE          5.89  8.11  7.00  5.78    8.20  8.39</span>
-<span class="co">#&gt;  4 T2110…      8.5  TRUE           5.62  8.67  8.59  5.64    8.07  8.64</span>
-<span class="co">#&gt;  5 T2110…      7.25 FALSE          5.49  9.83  8.13  5.73    9.38  8.15</span>
-<span class="co">#&gt;  6 T2110…      5    TRUE           5.58  9.85  8.55  5.13    9.40  8.71</span>
-<span class="co">#&gt;  7 T2110…     20    TRUE           5.32 10.0   6.99  5.86    8.08  9.25</span>
-<span class="co">#&gt;  8 T2110…     13.2  FALSE          5.49  9.72  7.47  5.16    6.67  7.37</span>
-<span class="co">#&gt;  9 T2110…      7.75 FALSE          5.57  9.88  7.97  5.40    7.91  8.06</span>
-<span class="co">#&gt; 10 T2110…      9    FALSE          5.16  9.87  7.42  5.50    7.43  8.68</span>
+<span class="co">#&gt;  1 T2110~     14.2  TRUE           5.37  9.77  7.74  4.68    8.27  8.32</span>
+<span class="co">#&gt;  2 T2110~      1    TRUE           5.52  9.78  8.06  5.12    8.21  8.33</span>
+<span class="co">#&gt;  3 T2110~      6.75 FALSE          5.89  8.11  7.00  5.78    8.20  8.39</span>
+<span class="co">#&gt;  4 T2110~      8.5  TRUE           5.62  8.67  8.59  5.64    8.07  8.64</span>
+<span class="co">#&gt;  5 T2110~      7.25 FALSE          5.49  9.83  8.13  5.73    9.38  8.15</span>
+<span class="co">#&gt;  6 T2110~      5    TRUE           5.58  9.85  8.55  5.13    9.40  8.71</span>
+<span class="co">#&gt;  7 T2110~     20    TRUE           5.32 10.0   6.99  5.86    8.08  9.25</span>
+<span class="co">#&gt;  8 T2110~     13.2  FALSE          5.49  9.72  7.47  5.16    6.67  7.37</span>
+<span class="co">#&gt;  9 T2110~      7.75 FALSE          5.57  9.88  7.97  5.40    7.91  8.06</span>
+<span class="co">#&gt; 10 T2110~      9    FALSE          5.16  9.87  7.42  5.50    7.43  8.68</span>
 <span class="co">#&gt; # ... with 26 more rows, and 11 more variables: CYP27B1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   DHCR24 &lt;dbl&gt;, HSD17B7 &lt;dbl&gt;, MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></code></pre></div>
@@ -331,7 +303,7 @@ colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../refer
 <span class="co">#&gt; #   EFNB3 &lt;dbl&gt;, RRAS &lt;dbl&gt;, GRB7 &lt;dbl&gt;, SYNJ1 &lt;dbl&gt;, EPHB3 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;, MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;, RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;, TF &lt;dbl&gt;, …</span></code></pre></div>
+<span class="co">#&gt; #   EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;, TF &lt;dbl&gt;, ...</span></code></pre></div>
 </div>
 <div id="view-the-pathwaycollection-list" class="section level3">
 <h3 class="hasAnchor">
@@ -428,23 +400,23 @@ colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../refer
 <p>For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently (use the <code>head</code> function to print the top pathways instead).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_superpcOut<span class="op">$</span>pVals_df
 <span class="co">#&gt; # A tibble: 15 x 5</span>
-<span class="co">#&gt;    pathways    n_tested terms                                  rawp FDR_BH</span>
-<span class="co">#&gt;  * &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                 &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway1211      104 REACTOME_SIGNALING_BY_INSULIN_RECE… 0.00172 0.0160</span>
-<span class="co">#&gt;  2 pathway536        44 PID_TNF_PATHWAY                     0.00227 0.0160</span>
-<span class="co">#&gt;  3 pathway87         86 KEGG_ERBB_SIGNALING_PATHWAY         0.00424 0.0160</span>
-<span class="co">#&gt;  4 pathway781       180 REACTOME_PHOSPHOLIPID_METABOLISM    0.00426 0.0160</span>
-<span class="co">#&gt;  5 pathway491        40 PID_EPHB_FWD_PATHWAY                0.00811 0.0214</span>
-<span class="co">#&gt;  6 pathway757        83 REACTOME_INSULIN_RECEPTOR_SIGNALLI… 0.00856 0.0214</span>
-<span class="co">#&gt;  7 pathway176        54 KEGG_NON_SMALL_CELL_LUNG_CANCER     0.0149  0.0319</span>
-<span class="co">#&gt;  8 pathway390        29 BIOCARTA_TNFR1_PATHWAY              0.0423  0.0792</span>
-<span class="co">#&gt;  9 pathway177        26 KEGG_ASTHMA                         0.0555  0.0925</span>
-<span class="co">#&gt; 10 pathway187        16 BIOCARTA_RELA_PATHWAY               0.0793  0.114 </span>
-<span class="co">#&gt; 11 pathway413        23 ST_GA12_PATHWAY                     0.0837  0.114 </span>
-<span class="co">#&gt; 12 pathway3          26 KEGG_PENTOSE_PHOSPHATE_PATHWAY      0.106   0.123 </span>
-<span class="co">#&gt; 13 pathway60         45 KEGG_RETINOL_METABOLISM             0.107   0.123 </span>
-<span class="co">#&gt; 14 pathway120        73 KEGG_ANTIGEN_PROCESSING_AND_PRESEN… 0.257   0.276 </span>
-<span class="co">#&gt; 15 pathway266        11 BIOCARTA_SET_PATHWAY                0.476   0.476</span></code></pre></div>
+<span class="co">#&gt;    pathways    n_tested terms                                   rawp FDR_BH</span>
+<span class="co">#&gt;  * &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 pathway1211      104 REACTOME_SIGNALING_BY_INSULIN_RECEP~ 0.00319 0.0219</span>
+<span class="co">#&gt;  2 pathway536        44 PID_TNF_PATHWAY                      0.00400 0.0219</span>
+<span class="co">#&gt;  3 pathway87         86 KEGG_ERBB_SIGNALING_PATHWAY          0.00534 0.0219</span>
+<span class="co">#&gt;  4 pathway757        83 REACTOME_INSULIN_RECEPTOR_SIGNALLIN~ 0.00801 0.0219</span>
+<span class="co">#&gt;  5 pathway491        40 PID_EPHB_FWD_PATHWAY                 0.00872 0.0219</span>
+<span class="co">#&gt;  6 pathway781       180 REACTOME_PHOSPHOLIPID_METABOLISM     0.00874 0.0219</span>
+<span class="co">#&gt;  7 pathway176        54 KEGG_NON_SMALL_CELL_LUNG_CANCER      0.0118  0.0254</span>
+<span class="co">#&gt;  8 pathway390        29 BIOCARTA_TNFR1_PATHWAY               0.0238  0.0447</span>
+<span class="co">#&gt;  9 pathway177        26 KEGG_ASTHMA                          0.0278  0.0464</span>
+<span class="co">#&gt; 10 pathway60         45 KEGG_RETINOL_METABOLISM              0.0368  0.0505</span>
+<span class="co">#&gt; 11 pathway413        23 ST_GA12_PATHWAY                      0.0370  0.0505</span>
+<span class="co">#&gt; 12 pathway3          26 KEGG_PENTOSE_PHOSPHATE_PATHWAY       0.0418  0.0522</span>
+<span class="co">#&gt; 13 pathway120        73 KEGG_ANTIGEN_PROCESSING_AND_PRESENT~ 0.0639  0.0738</span>
+<span class="co">#&gt; 14 pathway187        16 BIOCARTA_RELA_PATHWAY                0.155   0.166 </span>
+<span class="co">#&gt; 15 pathway266        11 BIOCARTA_SET_PATHWAY                 0.217   0.217</span></code></pre></div>
 </div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
@@ -469,16 +441,16 @@ colonOutGather_df
 <span class="co">#&gt; # A tibble: 30 x 4</span>
 <span class="co">#&gt;    terms                                        variable   value score</span>
 <span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00172  6.36</span>
-<span class="co">#&gt;  2 PID_TNF_PATHWAY                              None     0.00227  6.09</span>
-<span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00424  5.46</span>
-<span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00426  5.46</span>
-<span class="co">#&gt;  5 PID_EPHB_FWD_PATHWAY                         None     0.00811  4.82</span>
-<span class="co">#&gt;  6 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00856  4.76</span>
-<span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.0149   4.21</span>
-<span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0423   3.16</span>
-<span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0555   2.89</span>
-<span class="co">#&gt; 10 BIOCARTA_RELA_PATHWAY                        None     0.0793   2.53</span>
+<span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00319  5.75</span>
+<span class="co">#&gt;  2 PID_TNF_PATHWAY                              None     0.00400  5.52</span>
+<span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00534  5.23</span>
+<span class="co">#&gt;  4 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00801  4.83</span>
+<span class="co">#&gt;  5 PID_EPHB_FWD_PATHWAY                         None     0.00872  4.74</span>
+<span class="co">#&gt;  6 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00874  4.74</span>
+<span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.0118   4.44</span>
+<span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0238   3.74</span>
+<span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0278   3.58</span>
+<span class="co">#&gt; 10 KEGG_RETINOL_METABOLISM                      None     0.0368   3.30</span>
 <span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">
@@ -517,48 +489,51 @@ colonOutGather_df
 </ul>
 <p>Here is the R session information for this vignette:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R version 3.4.4 (2018-03-15)</span>
-<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">#&gt; Running under: Ubuntu 18.04.1 LTS</span>
+<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
+<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
+<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS: /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3</span>
-<span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
-<span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
+<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
+<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
+<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
+<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
+<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
 <span class="co">#&gt; [1] parallel  stats     graphics  grDevices utils     datasets  methods  </span>
 <span class="co">#&gt; [8] base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] bindrcpp_0.2.2     pathwayPCA_1.0.0.0 forcats_0.3.0     </span>
-<span class="co">#&gt;  [4] stringr_1.3.1      dplyr_0.7.8        purrr_0.2.5       </span>
-<span class="co">#&gt;  [7] readr_1.1.1        tidyr_0.8.2        tibble_1.4.2      </span>
-<span class="co">#&gt; [10] ggplot2_3.1.0.9000 tidyverse_1.2.1   </span>
+<span class="co">#&gt;  [1] bindrcpp_0.2.2    pathwayPCA_0.99.1 forcats_0.3.0    </span>
+<span class="co">#&gt;  [4] stringr_1.3.1     dplyr_0.7.8       purrr_0.3.0      </span>
+<span class="co">#&gt;  [7] readr_1.3.1       tidyr_0.8.2       tibble_2.0.1     </span>
+<span class="co">#&gt; [10] ggplot2_3.1.0     tidyverse_1.2.1  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] tidyselect_0.2.5 splines_3.4.4    haven_1.1.2      lattice_0.20-38 </span>
-<span class="co">#&gt;  [5] colorspace_1.3-2 htmltools_0.3.6  yaml_2.2.0       utf8_1.1.4      </span>
-<span class="co">#&gt;  [9] survival_2.43-1  rlang_0.3.0.1    pkgdown_1.2.0    pillar_1.3.0    </span>
-<span class="co">#&gt; [13] withr_2.1.2      glue_1.3.0       modelr_0.1.2     readxl_1.1.0    </span>
-<span class="co">#&gt; [17] bindr_0.1.1      plyr_1.8.4       munsell_0.5.0    commonmark_1.6  </span>
-<span class="co">#&gt; [21] gtable_0.2.0     cellranger_1.1.0 rvest_0.3.2      memoise_1.1.0   </span>
-<span class="co">#&gt; [25] evaluate_0.12    labeling_0.3     knitr_1.20       fansi_0.4.0     </span>
-<span class="co">#&gt; [29] lars_1.2         broom_0.5.0      Rcpp_1.0.0       backports_1.1.2 </span>
-<span class="co">#&gt; [33] scales_1.0.0     desc_1.2.0       jsonlite_1.5     fs_1.2.6        </span>
-<span class="co">#&gt; [37] hms_0.4.2        digest_0.6.18    stringi_1.2.4    grid_3.4.4      </span>
-<span class="co">#&gt; [41] rprojroot_1.3-2  cli_1.0.1        tools_3.4.4      magrittr_1.5    </span>
-<span class="co">#&gt; [45] lazyeval_0.2.1   crayon_1.3.4     pkgconfig_2.0.2  Matrix_1.2-14   </span>
-<span class="co">#&gt; [49] MASS_7.3-51.1    xml2_1.2.0       lubridate_1.7.4  assertthat_0.2.0</span>
-<span class="co">#&gt; [53] rmarkdown_1.10   roxygen2_6.1.1   httr_1.3.1       rstudioapi_0.8  </span>
-<span class="co">#&gt; [57] R6_2.3.0         nlme_3.1-137     compiler_3.4.4</span></code></pre></div>
+<span class="co">#&gt;  [1] Rcpp_1.0.0         lubridate_1.7.4    lattice_0.20-38   </span>
+<span class="co">#&gt;  [4] assertthat_0.2.0   rprojroot_1.3-2    digest_0.6.18     </span>
+<span class="co">#&gt;  [7] utf8_1.1.4         R6_2.3.0           cellranger_1.1.0  </span>
+<span class="co">#&gt; [10] plyr_1.8.4         backports_1.1.3    lars_1.2          </span>
+<span class="co">#&gt; [13] evaluate_0.12      httr_1.4.0         pillar_1.3.1      </span>
+<span class="co">#&gt; [16] rlang_0.3.1        lazyeval_0.2.1     readxl_1.2.0      </span>
+<span class="co">#&gt; [19] rstudioapi_0.9.0   Matrix_1.2-15      rmarkdown_1.11    </span>
+<span class="co">#&gt; [22] pkgdown_1.3.0.9000 desc_1.2.0         labeling_0.3      </span>
+<span class="co">#&gt; [25] splines_3.5.2      munsell_0.5.0      broom_0.5.1       </span>
+<span class="co">#&gt; [28] compiler_3.5.2     modelr_0.1.2       xfun_0.4          </span>
+<span class="co">#&gt; [31] pkgconfig_2.0.2    htmltools_0.3.6    tidyselect_0.2.5  </span>
+<span class="co">#&gt; [34] roxygen2_6.1.1     fansi_0.4.0        crayon_1.3.4      </span>
+<span class="co">#&gt; [37] withr_2.1.2        MASS_7.3-51.1      commonmark_1.7    </span>
+<span class="co">#&gt; [40] grid_3.5.2         nlme_3.1-137       jsonlite_1.6      </span>
+<span class="co">#&gt; [43] gtable_0.2.0       magrittr_1.5       scales_1.0.0      </span>
+<span class="co">#&gt; [46] cli_1.0.1          stringi_1.2.4      fs_1.2.6          </span>
+<span class="co">#&gt; [49] xml2_1.2.0         generics_0.0.2     tools_3.5.2       </span>
+<span class="co">#&gt; [52] glue_1.3.0         hms_0.4.2          survival_2.43-3   </span>
+<span class="co">#&gt; [55] yaml_2.2.0         colorspace_1.4-0   rvest_0.3.2       </span>
+<span class="co">#&gt; [58] memoise_1.1.0      knitr_1.21         bindr_0.1.1       </span>
+<span class="co">#&gt; [61] haven_2.0.0</span></code></pre></div>
 </div>
   </div>
 
@@ -608,7 +583,7 @@ colonOutGather_df
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
 </div>

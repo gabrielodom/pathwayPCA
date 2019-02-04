@@ -144,11 +144,11 @@ ovarian_aespcOut <- AESPCA_pVals(
   object = ov_OmicsSurv,
   # One principal component per pathway
   numPCs = 1,
-  # # Use parallel computing with 2 cores
-  # parallel = TRUE,
-  # numCores = 2,
-  # User serial computing
-  parallel = FALSE,
+  # Use parallel computing with 2 cores
+  parallel = TRUE,
+  numCores = 2,
+  # # Use serial computing
+  # parallel = FALSE,
   # Estimate the p-values parametrically
   numReps = 0,
   # Control FDR via Benjamini-Hochberg
