@@ -89,7 +89,6 @@
 #' @importFrom survival is.Surv
 #'
 #' @examples
-#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -123,7 +122,6 @@
 #'     response = colonSurv_df[, c(1,3)],
 #'     respType = "cat"
 #'   )
-#' }
 #'
 #' @export
 CreateOmics <- function(assayData_df,

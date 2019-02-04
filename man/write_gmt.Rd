@@ -40,7 +40,6 @@ See the Broad Institute's "Data Formats" page for a description of
    \url{https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29}
 }
 \examples{
-\dontrun{
   # Toy pathway set
   toy_pathwayCollection <- list(
     pathways = list(
@@ -52,10 +51,9 @@ See the Broad Institute's "Data Formats" page for a description of
     description = c("these are", "totally made up", "pathways")
   )
   class(toy_pathwayCollection) <- c("pathwayCollection", "list")
-  print(toy_pathwayCollection)
+  toy_pathwayCollection
 
-  write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
-}
+  # write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
 
 }
 \seealso{

@@ -34,7 +34,6 @@
 #' @importFrom methods validObject
 #'
 #' @examples
-#' \dontrun{
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
 #'
@@ -47,10 +46,6 @@
 #'
 #'   getEventTime(colon_Omics)
 #'   getEvent(colon_Omics)
-#'
-#'   getEventTime(colon_Omics) <- newTime_num
-#'   getEvent(colon_Omics) <- newEvent_lgl
-#' }
 #'
 #' @name SubsetOmicsSurv
 #' @rdname get_set_OmicsSurv

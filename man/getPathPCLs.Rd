@@ -53,7 +53,6 @@ Match the supplied pathway character string to either the
    Finally, return a list of the PCs, loadings, and the pathway ID and name.
 }
 \examples{
-\dontrun{
 
   ###  Load Data  ###
   data("colonSurv_df")
@@ -72,6 +71,7 @@ Match the supplied pathway character string to either the
     colon_Omics,
     numPCs = 2,
     parallel = TRUE,
+    numCores = 2,
     adjustment = "BH"
   )
 
@@ -81,6 +81,5 @@ Match the supplied pathway character string to either the
     "KEGG_PENTOSE_PHOSPHATE_PATHWAY"
   )
 
-}
 
 }

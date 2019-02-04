@@ -87,7 +87,6 @@ This function is a wrapper around the four \code{CreateOmics*}
    \code{\link{IntersectOmicsPwyCollct}} function.
 }
 \examples{
-\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colon_pathwayCollection")
@@ -121,7 +120,6 @@ This function is a wrapper around the four \code{CreateOmics*}
     response = colonSurv_df[, c(1,3)],
     respType = "cat"
   )
-}
 
 }
 \seealso{

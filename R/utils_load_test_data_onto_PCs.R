@@ -30,7 +30,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'
 #'   ###  Load the Data  ###
 #'   data("colonSurv_df")
@@ -44,20 +43,22 @@
 #'     respType = "survival"
 #'   )
 #'
-#'   ###  Extract SuperPCs  ###
-#'   colon_superpc <- SuperPCA_pVals(
-#'     colon_Omics,
+#'   ###  Extract AESPCs  ###
+#'   colonSurv_aespc <- AESPCA_pVals(
+#'     object = colon_Omics,
+#'     numReps = 0,
 #'     parallel = TRUE,
-#'     adjustment = "BH"
+#'     numCores = 2,
+#'     adjustpValues = TRUE,
+#'     adjustment = c("Hoch", "SidakSD")
 #'   )
 #'
 #'   ###  Project Data onto Pathway First PCs  ###
 #'   LoadOntoPCs(
 #'     design_df = colonSurv_df,
-#'     loadings_ls = colon_superpc$loadings_ls
+#'     loadings_ls = colonSurv_aespc$loadings_ls
 #'   )
 #'
-#' }
 #'
 LoadOntoPCs <- function(design_df, loadings_ls,
                         sampleID = c("firstCol", "rowNames")){

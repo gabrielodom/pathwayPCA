@@ -33,7 +33,6 @@
 #' @seealso \code{\link{print.pathwayCollection}}; \code{\link{read_gmt}}
 #'
 #' @examples
-#' \dontrun{
 #'   # Toy pathway set
 #'   toy_pathwayCollection <- list(
 #'     pathways = list(
@@ -45,10 +44,9 @@
 #'     description = c("these are", "totally made up", "pathways")
 #'   )
 #'   class(toy_pathwayCollection) <- c("pathwayCollection", "list")
-#'   print(toy_pathwayCollection)
+#'   toy_pathwayCollection
 #'
-#'   write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
-#' }
+#'   # write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
 #'
 write_gmt <- function(pathwayCollection, file){
 

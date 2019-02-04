@@ -55,20 +55,18 @@ These functions can be useful to set or extract the response vector
    \code{\link{OmicsPathway-class}}.
 }
 \examples{
-\dontrun{
   data("colonSurv_df")
   data("colon_pathwayCollection")
 
   colon_Omics <- CreateOmics(
     assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
-    response = colonSurv_df[, c(1, 3)],
+    response = colonSurv_df[, c(1, 2)],
     respType = "reg"
   )
 
   getResponse(colon_Omics)
-  getResponse(colon_Omics) <- newResponse_num
-}
+
 }
 \seealso{
 \code{\link{CreateOmics}}

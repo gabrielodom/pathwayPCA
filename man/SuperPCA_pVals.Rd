@@ -87,7 +87,6 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
   \url{https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html}
 }
 \examples{
-\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colon_pathwayCollection")
@@ -101,14 +100,13 @@ This is a wrapper function for the \code{\link{pathway_tScores}},
   )
 
   ###  Calculate Pathway p-Values  ###
-  colonSurv_pVals_df <- SuperPCA_pVals(
+  colonSurv_superpc <- SuperPCA_pVals(
     object = colon_OmicsSurv,
     parallel = TRUE,
-    numCores = 16,
+    numCores = 2,
     adjustpValues = TRUE,
     adjustment = c("Hoch", "SidakSD")
   )
-}
 
 }
 \seealso{

@@ -35,7 +35,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
 #'
@@ -51,7 +50,6 @@
 #'     "KEGG_RETINOL_METABOLISM"
 #'   )
 #'
-#' }
 #'
 #' @rdname SubsetPathwayData
 setGeneric("SubsetPathwayData",

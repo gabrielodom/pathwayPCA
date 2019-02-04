@@ -87,7 +87,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -101,15 +100,14 @@
 #'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
-#'   colonSurv_pVals_df <- AESPCA_pVals(
+#'   colonSurv_aespc <- AESPCA_pVals(
 #'     object = colon_Omics,
-#'     numReps = 5000,
+#'     numReps = 0,
 #'     parallel = TRUE,
-#'     numCores = 16,
+#'     numCores = 2,
 #'     adjustpValues = TRUE,
 #'     adjustment = c("Hoch", "SidakSD")
 #'   )
-#' }
 #'
 #' @rdname AESPCA_pVals
 setGeneric("AESPCA_pVals",

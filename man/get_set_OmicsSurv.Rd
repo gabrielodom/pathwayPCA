@@ -60,7 +60,6 @@ These functions can be useful to set or extract the event time or
    the \code{\link{ValidOmicsSurv}} function.
 }
 \examples{
-\dontrun{
   data("colonSurv_df")
   data("colon_pathwayCollection")
 
@@ -73,10 +72,6 @@ These functions can be useful to set or extract the event time or
 
   getEventTime(colon_Omics)
   getEvent(colon_Omics)
-
-  getEventTime(colon_Omics) <- newTime_num
-  getEvent(colon_Omics) <- newEvent_lgl
-}
 
 }
 \seealso{

@@ -49,15 +49,15 @@ This function uses \code{R}'s \code{\link{readChar}} function to
    \url{https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29}
 }
 \examples{
-\dontrun{
   # If you have installed the package:
-  data_path <- system.file("extdata", "c2.cp.v6.0.symbols.gmt",
-                            package = "pathwayPCA", mustWork = TRUE)
+  data_path <- system.file(
+    "extdata", "c2.cp.v6.0.symbols.gmt",
+    package = "pathwayPCA", mustWork = TRUE
+  )
   geneset_ls <- read_gmt(data_path)
 
-  # If you are using the development version from GitHub:
-  geneset_ls <- read_gmt("inst/extdata/c2.cp.v6.0.symbols.gmt")
-}
+  # # If you are using the development version from GitHub:
+  # geneset_ls <- read_gmt("inst/extdata/c2.cp.v6.0.symbols.gmt")
 
 }
 \seealso{

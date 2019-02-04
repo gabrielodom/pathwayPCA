@@ -37,7 +37,6 @@ This function subsets the assay by the matching gene symbols or IDs
    in the specified pathway.
 }
 \examples{
-\dontrun{
   data("colonSurv_df")
   data("colon_pathwayCollection")
 
@@ -53,6 +52,5 @@ This function subsets the assay by the matching gene symbols or IDs
     "KEGG_RETINOL_METABOLISM"
   )
 
-}
 
 }

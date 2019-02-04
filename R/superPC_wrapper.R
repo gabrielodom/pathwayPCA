@@ -75,7 +75,6 @@
 #' @importFrom methods setGeneric
 #'
 #' @examples
-#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -89,14 +88,13 @@
 #'   )
 #'
 #'   ###  Calculate Pathway p-Values  ###
-#'   colonSurv_pVals_df <- SuperPCA_pVals(
+#'   colonSurv_superpc <- SuperPCA_pVals(
 #'     object = colon_OmicsSurv,
 #'     parallel = TRUE,
-#'     numCores = 16,
+#'     numCores = 2,
 #'     adjustpValues = TRUE,
 #'     adjustment = c("Hoch", "SidakSD")
 #'   )
-#' }
 #'
 #' @rdname SuperPCA_pVals
 setGeneric("SuperPCA_pVals",

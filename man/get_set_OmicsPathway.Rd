@@ -102,23 +102,16 @@ These functions can be useful to set or extract the assay data or
    details on trimmed pathway collection.
 }
 \examples{
-\dontrun{
   data("colonSurv_df")
   data("colon_pathwayCollection")
 
   colon_Omics <- CreateOmics(
     assayData_df = colonSurv_df[, -(2:3)],
-    pathwayCollection_ls = colon_pathwayCollection,
-    response = colonSurv_df[, 1:3],
-    respType = "survival"
+    pathwayCollection_ls = colon_pathwayCollection
   )
 
-  getAssay(colon_OmicsSurv)
-  getPathwayCollection(colon_OmicsSurv)
-
-  getAssay(colon_OmicsSurv) <- newAssay_df
-  getPathwayCollection(colon_OmicsSurv) <- new_pathwayCollection
-}
+  getAssay(colon_Omics)
+  getPathwayCollection(colon_Omics)
 
 }
 \seealso{

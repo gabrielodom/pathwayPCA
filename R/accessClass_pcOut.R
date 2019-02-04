@@ -31,7 +31,6 @@
 #'    }
 #'
 #' @examples
-#' \dontrun{
 #'
 #'   ###  Load Data  ###
 #'   data("colonSurv_df")
@@ -50,6 +49,7 @@
 #'     colon_Omics,
 #'     numPCs = 2,
 #'     parallel = TRUE,
+#'     numCores = 2,
 #'     adjustment = "BH"
 #'   )
 #'
@@ -59,7 +59,6 @@
 #'     "KEGG_PENTOSE_PHOSPHATE_PATHWAY"
 #'   )
 #'
-#' }
 #'
 #' @rdname getPathPCLs
 #' @export getPathPCLs
