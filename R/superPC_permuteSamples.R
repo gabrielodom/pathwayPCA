@@ -112,7 +112,7 @@ SampleSurv <- function(response_vec,
     # Randomly censor some of the observations
     pCensor <- mean(event_vec == 0)
     event_ind <- runif(n) >= pCensor
-    for(m in 1:n){
+    for(m in seq_len(n)){
 
       if(!event_ind[m]){
         times_vec[m] <- runif(1, min = 0, max = times_vec[m])

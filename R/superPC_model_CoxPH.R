@@ -102,10 +102,10 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   nno <- a$nno
   w <- rep(0, nx)
 
-  for(i in (1:nf)){
+  for(i in seq_len(nf)){
 
     w <- w + s[, i]
-    oo <- (1:n)[Y1 >= fail.times[i]]
+    oo <- seq_len(n)[Y1 >= fail.times[i]]
     r <- rowSums(X1[, oo, drop = FALSE] * exp(Offset1[oo]))
     w <- w - (d[i] / nno[i]) * r
 
@@ -143,14 +143,14 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   nno <- coxstuff.obj$nno
 
   X2sq <- X2 ^ 2
-  oo <- (1:n)[Y2 >= fail.times[1] ]
+  oo <- seq_len(n)[Y2 >= fail.times[1] ]
   sx <- (1 / nno[1]) * rowSums(X2[, oo] * exp(Offset2[oo]))
   s <- (1 / nno[1]) * rowSums(X2sq[, oo] * exp(Offset2[oo]))
   w <- d[1] * (s - sx * sx)
 
   for(i in 2:nf){
 
-    oo <- (1:n)[Y2 >= fail.times[i - 1] & Y2 < fail.times[i]]
+    oo <- seq_len(n)[Y2 >= fail.times[i - 1] & Y2 < fail.times[i]]
     sx <- (1 / nno[i]) *
       (nno[i - 1] * sx - rowSums(X2[, oo, drop = FALSE] * exp(Offset2[oo])))
     s <- (1 / nno[i]) *
@@ -171,7 +171,7 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   nn <- rep(0, nf)
   nno <- rep(0, nf)
 
-  for(i in 1:nf){
+  for(i in seq_len(nf)){
 
     nn[i] <- sum(Y3 >= fail.times[i])
     nno[i] <- sum(exp(Offset3)[Y3 >= fail.times[i]])
@@ -182,12 +182,12 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   d <- rep(0, nf)
 
   #expand d out to a vector of length n
-  for(i in 1:nf){
+  for(i in seq_len(nf)){
 
     # Try this:
     # d[i] <- sum((Y3 == fail.times[i]) & (IC3 == 1))
     # At each even time, we want to count the number of events
-    o <- (1:n)[(Y3 == fail.times[i]) & (IC3 == 1)]
+    o <- seq_len(n)[(Y3 == fail.times[i]) & (IC3 == 1)]
     d[i] <- length(o)
 
   }
@@ -201,7 +201,7 @@ coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
 
   dd <- rep(0, n)
 
-  for(j in 1:nf){
+  for(j in seq_len(nf)){
     dd[(Y3 == fail.times[j]) & (IC3 == 1)] <- d[j]
   }
 

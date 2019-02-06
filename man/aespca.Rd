@@ -58,6 +58,10 @@ This function calculates the loadings and reduced-dimension
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() instead.
+
+  data("colonSurv_df")
+  aespca(as.matrix(colonSurv_df[, 5:50]))
+
 }
 \seealso{
 \code{\link{normalize}}; \code{\link{lars.lsa}};

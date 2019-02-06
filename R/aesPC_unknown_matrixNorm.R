@@ -61,7 +61,7 @@ normalize <- function(B, d){
 
   # This loop moves over columns: it swaps the signs of each value in a column
   #   if the first value in that column is < 0.
-  for (i in 1:d){
+  for (i in seq_len(d)){
     # browser()
 
     # Check for non-"zero" values in the ith column

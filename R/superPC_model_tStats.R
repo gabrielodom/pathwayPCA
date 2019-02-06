@@ -119,7 +119,7 @@ superpc.st <- function(fit,
   } else {
 
     cur.tt1 <- sort(cur.tt, decreasing = TRUE)
-    cur.tt1 <- cur.tt1[1:500]
+    cur.tt1 <- cur.tt1[seq_len(500)]
     thresholds <- quantile(cur.tt1, probs = thresh_probs)
 
   }
@@ -153,14 +153,14 @@ superpc.st <- function(fit,
                        center = FALSE,
                        scale = cur.svd$d)
     n.PCs.eff <- min(sum(cur.features), n.PCs)
-    cur.v <- as.matrix(cur.v.all[, 1:n.PCs.eff])
+    cur.v <- as.matrix(cur.v.all[, seq_len(n.PCs.eff)])
 
-    for(k in 1:n.PCs){
+    for(k in seq_len(n.PCs)){
 
       switch(type,
              survival = {
 
-               junk <- coxph(response ~ cur.v[, 1:k],
+               junk <- coxph(response ~ cur.v[, seq_len(k)],
                              control = coxph.control(iter.max = 10))
                scor[k, i]  <- 2 * (junk$loglik[2] - junk$loglik[1])
                # Technically a z-score
@@ -169,14 +169,14 @@ superpc.st <- function(fit,
              },
              regression = {
 
-               junk <- summary(lm(response ~ cur.v[, 1:k]))
+               junk <- summary(lm(response ~ cur.v[, seq_len(k)]))
                scor[k, i]  <- junk$fstat[1]
                tscor[k, i] <- junk$coef[k + 1, 3]
 
              },
              binary = {
 
-               junk <- summary(glm(response ~ cur.v[, 1:k],
+               junk <- summary(glm(response ~ cur.v[, seq_len(k)],
                                    family = binomial(link = "logit")))
                scor[k, i]  <- junk$null.deviance - junk$deviance
                tscor[k, i] <- junk$coef[k + 1, 3]
@@ -201,7 +201,7 @@ superpc.st <- function(fit,
   bestFeatures <- abs(cur.tt) + epsilon > thresholds[max(bestT_idx)]
   bestSVD <- mysvd(data$x[bestFeatures, ], n.components = n.PCs)
   bestLoadings_mat <- diag(bestSVD$d, ncol = length(bestSVD$d)) %*% t(bestSVD$u)
-  rownames(bestLoadings_mat) <- paste0("PC", 1:n.PCs)
+  rownames(bestLoadings_mat) <- paste0("PC", seq_len(n.PCs))
   colnames(bestLoadings_mat) <- names(bestSVD$feature.means)
   bestPCs_mat <- as.matrix(bestSVD$v, ncol = n.PCs)
 

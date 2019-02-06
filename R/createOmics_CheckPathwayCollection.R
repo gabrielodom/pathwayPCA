@@ -61,7 +61,7 @@ the CreatePathwayCollection() function."
   #   name rule to append a period then integers to the end of the name string.
   if(is.null(names(pwyColl_ls$pathways))){
 
-    pathNames <- paste0("path", 1:length(pwyColl_ls$pathways))
+    pathNames <- paste0("path", seq_len(length(pwyColl_ls$pathways)))
     names(pwyColl_ls$pathways) <- pathNames
 
   } else if(anyNA(names(pwyColl_ls$pathways))){

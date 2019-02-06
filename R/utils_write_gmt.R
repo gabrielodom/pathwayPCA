@@ -72,7 +72,7 @@ write_gmt <- function(pathwayCollection, file){
 
 
   ###  Write a list in .gmt form  ###
-  out_ls <- lapply(1:nPaths, function(i){
+  out_ls <- lapply(seq_len(nPaths), function(i){
     c(TERMS_char[i], desc_char[i], pathways_ls[[i]])
   })
 

@@ -49,6 +49,10 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() instead.
+#'
+#'   data("colonSurv_df")
+#'   aespca(as.matrix(colonSurv_df[, 5:50]))
+#'
 aespca <- function(X,
                    d = 1,
                    max.iter = 10,
@@ -89,13 +93,13 @@ aespca <- function(X,
     return(obj)
   }
 
-  A <- svdGram$v[, 1:d, drop = FALSE]
+  A <- svdGram$v[, seq_len(d), drop = FALSE]
 
 
   ###  LARS Setup  ###
   # For each eigenvector, swap the signs of the vector elements if the first
   #   entry is negative. This is Equation (2.4) of Efron et al (2003).
-  for(i in 1:d){
+  for(i in seq_len(d)){
     A[, i] <- A[, i] * sign(A[1, i])
   }
   # SEE THE COMMENTS IN THE "Details" SECTION OF ?normalize
@@ -103,7 +107,7 @@ aespca <- function(X,
 
   ###  Initial Values for while() Loop  ###
   temp <- B <- A0 <- A
-  dimnames(A0) <- dimnames(B) <- list(vn, paste0("PC", 1:d))
+  dimnames(A0) <- dimnames(B) <- list(vn, paste0("PC", seq_len(d)))
   k <- 0; diff <- 1
 
 
@@ -114,7 +118,7 @@ aespca <- function(X,
     k <- k + 1
     LARSerror <- rep(FALSE, d)
 
-    for(i in 1:d){
+    for(i in seq_len(d)){
 
       xtx1 <- xtx
       lfit <- tryCatch(
@@ -147,12 +151,12 @@ aespca <- function(X,
 
       message("LARS algorithm encountered an error. Using SVD instead.")
 
-      A <- svdGram$v[, 1:d, drop = FALSE]
-      for(i in 1:d){
+      A <- svdGram$v[, seq_len(d), drop = FALSE]
+      for(i in seq_len(d)){
         A[, i] <- A[, i] * sign(A[1, i])
       }
       B <- A0 <- A
-      dimnames(A0) <- dimnames(B) <- list(vn, paste0("PC", 1:d))
+      dimnames(A0) <- dimnames(B) <- list(vn, paste0("PC", seq_len(d)))
       break
 
     }
@@ -175,7 +179,7 @@ aespca <- function(X,
 
   oldscore <- score <- matrix(0, nrow = n, ncol = d)
 
-  for(i in 1:d){
+  for(i in seq_len(d)){
 
     score[, i] <- X %*% B[, i]
     oldscore[, i] <- X %*% A0[, i]

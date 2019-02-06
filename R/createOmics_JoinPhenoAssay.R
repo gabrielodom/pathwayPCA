@@ -68,7 +68,7 @@ JoinPhenoAssay <- function(pheno_df, assay_df){
     class(out_df) <- outClass_char
 
     out_ls <- list(
-      assay    = out_df[, -(1:ncol(pheno_df))],
+      assay    = out_df[, -seq_len(ncol(pheno_df))],
       response = out_df[, 2:ncol(pheno_df), drop = FALSE],
       sampleID = out_df[, 1, drop = TRUE]
     )

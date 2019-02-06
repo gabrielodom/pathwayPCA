@@ -190,7 +190,7 @@ TabulatepValues <- function(pVals_vec,
 
         # "TSBH" is some procedure in the middle of the proc list
         orderedNames <- c(
-          proc_vec[1:(TSBHplace_idx - 1)],
+          proc_vec[seq_len(TSBHplace_idx - 1)],
           TSBHnames,
           proc_vec[(TSBHplace_idx + 1):nProcs]
         )

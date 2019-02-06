@@ -30,7 +30,7 @@ CheckSampleIDs <- function(df){
 
   ###  Check for Row Names  ###
   dfRowNames <- row.names(df)
-  genericRowNames <- as.character(1:nrow(df))
+  genericRowNames <- as.character(seq_len(nrow(df)))
   defaultNames <- is.null(dfRowNames) || identical(dfRowNames, genericRowNames)
   if(!defaultNames){
     warning("Row names will be ignored. Sample IDs must be in the first column of the data

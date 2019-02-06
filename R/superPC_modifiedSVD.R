@@ -62,9 +62,9 @@ mysvd <- function(mat, method = svd, n.components = NULL){
   nc <- min(ncol(junk$u), n.components)
 
   list(
-    u = junk$u[, 1:nc],
-    d = junk$d[1:nc],
-    v = junk$v[, 1:nc],
+    u = junk$u[, seq_len(nc)],
+    d = junk$d[seq_len(nc)],
+    v = junk$v[, seq_len(nc)],
     feature.means = feature.means
   )
 

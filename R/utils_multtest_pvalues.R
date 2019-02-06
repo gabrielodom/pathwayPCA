@@ -270,7 +270,7 @@ ControlFDR <- function(rawp,
   if(is.element("BY", proc)){
 
     tmp <- spval
-    a_cumseq <- sum(1 / (1:mgood))
+    a_cumseq <- sum(1 / seq_len(mgood))
     tmp[m] <- min(a_cumseq * spval[m], 1)
 
     for(i in (m - 1):1){
@@ -296,7 +296,7 @@ ControlFDR <- function(rawp,
     tmp <- spval
     h0.m <- rep(0, mgood)
 
-    for(k in 1:mgood){
+    for(k in seq_len(mgood)){
       h0.m[k] <- (mgood + 1 - k) / (1 - spval[k])
     }
 
@@ -345,7 +345,7 @@ ControlFDR <- function(rawp,
     h0.TSBH <- rep(0, a_len)
     names(h0.TSBH) <- paste("h0.TSBH", alpha, sep = "_")
 
-    for(i in 1:a_len){
+    for(i in seq_len(a_len)){
 
       h0.TSBH[i] <- mgood - sum(tmp < alpha[i] / (1 + alpha[i]), na.rm = TRUE)
       adjp2[, 1 + i] <- tmp * h0.TSBH[i] / mgood
@@ -363,7 +363,7 @@ ControlFDR <- function(rawp,
     list(adjp = as.matrix(adjp_df),
          index = index,
          h0.ABH = h0.ABH[1],
-         h0.TSBH = h0.TSBH[1:a_len])
+         h0.TSBH = h0.TSBH[seq_len(a_len)])
 
   } else {
     adjp_df[order(index), ]
