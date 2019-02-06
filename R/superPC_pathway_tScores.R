@@ -47,6 +47,31 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
+#'
+#'   data("colon_pathwayCollection")
+#'   data("colonSurv_df")
+#'
+#'   colon_OmicsSurv <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "surv"
+#'   )
+#'
+#'   asthmaGenes_char <-
+#'     getTrimPathwayCollection(colon_OmicsSurv)[["KEGG_ASTHMA"]]$IDs
+#'   resp_mat <- matrix(
+#'     c(getEventTime(colon_OmicsSurv), getEvent(colon_OmicsSurv)),
+#'     ncol = 2
+#'   )
+#'
+#'   pathway_tScores(
+#'     pathway_vec = asthmaGenes_char,
+#'     geneArray_df = t(getAssay(colon_OmicsSurv)),
+#'     response_mat = resp_mat,
+#'     responseType = "survival"
+#'   )
+#'
 pathway_tScores <- function(pathway_vec,
                             geneArray_df,
                             response_mat,

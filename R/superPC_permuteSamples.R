@@ -45,6 +45,15 @@
 #'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
 #'   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 #'
+#'   data("colon_pathwayCollection")
+#'   data("colonSurv_df")
+#'
+#'   SampleResponses(
+#'     response_vec = colonSurv_df$OS_time,
+#'     event_vec = colonSurv_df$OS_event,
+#'     respType = "survival"
+#'   )
+#'
 #' @name RandomControlSample
 #' @rdname permuteSamps
 NULL
@@ -96,9 +105,9 @@ SampleSurv <- function(response_vec,
     surv_obj <- Surv(response_vec, event_vec)
     null_mod <- survreg(surv_obj ~ 1, dist = "weibull")
 
-    times_vec <- rweibull(n,
-                          shape = 1 / null_mod$scale,
-                          scale = exp(null_mod$coef))
+    times_vec <- rweibull(
+      n, shape = 1 / null_mod$scale, scale = exp(null_mod$coef)
+    )
 
     # Randomly censor some of the observations
     pCensor <- mean(event_vec == 0)

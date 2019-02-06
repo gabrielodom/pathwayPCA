@@ -109,6 +109,7 @@ Collate:
     'superPC_optimWeibull_pValues.R'
     'superPC_pathway_tControl.R'
     'superPC_pathway_tScores.R'
+    'superPC_pathway_tValues.R'
     'superPC_permuteSamples.R'
     'superPC_wrapper.R'
     'utils_adjust_and_sort_pValues.R'

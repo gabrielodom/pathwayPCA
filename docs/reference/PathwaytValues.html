@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate pathway-specific Student's \(t\)-scores for supervised PCA — pathway_tScores • pathwayPCA</title>
+<title>Calculate pathway-specific Student's \(t\)-scores from a null distribution
+   or the true distribution for supervised PCA — PathwaytValues • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +31,17 @@
 
 
 
-<meta property="og:title" content="Calculate pathway-specific Student's \(t\)-scores for supervised PCA — pathway_tScores" />
+<meta property="og:title" content="Calculate pathway-specific Student's \(t\)-scores from a null distribution
+   or the true distribution for supervised PCA — PathwaytValues" />
 
-<meta property="og:description" content="Extract principal components (PCs) from the gene pathway, and
-   return the test statistics associated with the first numPCs
-   principal components at a set of threshold values." />
+<meta property="og:description" content="If we sample from the null, distribution, first parametrically
+   resample the response vector before model analysis (f we calculate Student
+   t statistics from the true distribution instead, the response matrix is
+   untouched). Then extract principal components (PCs) from the gene pathway,
+   and return the test statistics associated with the first numPCs
+   principal components at a set of threshold values based on the values of
+   the parametrically resampled response (for the null distribution) or the
+   response itself (for the true distribution)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,22 +134,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate pathway-specific Student's \(t\)-scores for supervised PCA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_tScores.R'><code>R/superPC_pathway_tScores.R</code></a></small>
-    <div class="hidden name"><code>pathway_tScores.Rd</code></div>
+    <h1>Calculate pathway-specific Student's \(t\)-scores from a null distribution
+   or the true distribution for supervised PCA</h1>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_pathway_tValues.R'><code>R/superPC_pathway_tValues.R</code></a></small>
+    <div class="hidden name"><code>PathwaytValues.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Extract principal components (PCs) from the gene pathway, and
-   return the test statistics associated with the first <code>numPCs</code>
-   principal components at a set of threshold values.</p>
+    <p>If we sample from the null, distribution, first parametrically
+   resample the response vector before model analysis (f we calculate Student
+   t statistics from the true distribution instead, the response matrix is
+   untouched). Then extract principal components (PCs) from the gene pathway,
+   and return the test statistics associated with the first <code>numPCs</code>
+   principal components at a set of threshold values based on the values of
+   the parametrically resampled response (for the null distribution) or the
+   response itself (for the true distribution).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pathway_tScores</span>(<span class='no'>pathway_vec</span>, <span class='no'>geneArray_df</span>, <span class='no'>response_mat</span>,
+    <pre class="usage"><span class='fu'>PathwaytValues</span>(<span class='no'>pathway_vec</span>, <span class='no'>geneArray_df</span>, <span class='no'>response_mat</span>,
   <span class='kw'>responseType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"survival"</span>, <span class='st'>"regression"</span>, <span class='st'>"categorical"</span>),
-  <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>min.features</span> <span class='kw'>=</span> <span class='fl'>3</span>)</pre>
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>min.features</span> <span class='kw'>=</span> <span class='fl'>3</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,14 +176,21 @@ measurements for that sample.</p></td>
       <th>response_mat</th>
       <td><p>A response matrix corresponding to <code>responseType</code>.
 For <code>"regression"</code> and <code>"categorical"</code>, this will be an
-\(N \times 1\) matrix of response values. For <code>"survival"</code>, this
-will be an \(N \times 2\) matrix with event times in the first column
-and observed event indicator in the second.</p></td>
+\(N \times 1\) factor matrix of response values. For <code>"survival"</code>,
+this will be an \(N \times 2\) matrix with event times in the first
+column and observed event indicator in the second. You can create a factor
+matrix of a factor <code>a</code> with the command <code>dim(a) &lt;- c(k, 1)</code>,
+where <code>k = length(a)</code>.</p></td>
     </tr>
     <tr>
       <th>responseType</th>
       <td><p>A character string. Options are <code>"survival"</code>,
 <code>"regression"</code>, and <code>"categorical"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>control</th>
+      <td><p>Should the responses be parametrically resampled to generate
+a control distribution? Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>n.threshold</th>
@@ -192,9 +212,14 @@ function which use the same pathway list. Defaults to 3.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with <code>numPCs</code> rows and <code>n.threshold</code> columns.
-   The matrix values are model \(t\)-statisics for each PC included (rows)
-   at each threshold level (columns).</p>
+    <p>If <code>control = TRUE</code>, a matrix with <code>numPCs</code> rows and
+   <code>n.threshold</code> columns. The matrix values are model
+   \(t\)-statisics for each PC included (rows) at each threshold level
+   (columns).</p>
+<p>If <code>control = TRUE</code>, the same matrix as above is contained as the
+   <code>tscor</code> element of a list (the first element). The other list
+   elements are <code>PCs_mat</code> (the matrix of PCs) and <code>loadings</code> (the
+   matrix of -Ome loadings corresponding to the PCs).</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -206,10 +231,16 @@ function which use the same pathway list. Defaults to 3.</p></td>
    <code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></code>) or <code>parSapply</code> (shown in
    <code><a href='https://www.rdocumentation.org/packages/parallel/topics/clusterApply'>clusterApply</a></code>), then transposing the resulting
    matrix.</p>
+<p>If <code>control = TRUE</code>, the <code><a href='permuteSamps.html'>RandomControlSample</a></code> suite of
+   functions first parametrically bootstrapps the response. This control
+   response will be used to contrstruct a null distribution against which to
+   compare the results calculated with the original response values.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='superpc.train.html'>superpc.train</a></code>; <code><a href='superpc.st.html'>superpc.st</a></code></p></div>
+    <div class='dont-index'><p><code><a href='pathway_tScores.html'>pathway_tScores</a></code>; <code><a href='pathway_tControl.html'>pathway_tControl</a></code>;
+   <code><a href='permuteSamps.html'>RandomControlSample</a></code>; <code><a href='superpc.train.html'>superpc.train</a></code>;
+   <code><a href='superpc.st.html'>superpc.st</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -237,7 +268,7 @@ function which use the same pathway list. Defaults to 3.</p></td>
     <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>
   )
 
-  <span class='fu'>pathway_tScores</span>(
+  <span class='fu'>PathwaytValues</span>(
     <span class='kw'>pathway_vec</span> <span class='kw'>=</span> <span class='no'>asthmaGenes_char</span>,
     <span class='kw'>geneArray_df</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='get_set_OmicsPathway.html'>getAssay</a></span>(<span class='no'>colon_OmicsSurv</span>)),
     <span class='kw'>response_mat</span> <span class='kw'>=</span> <span class='no'>resp_mat</span>,
@@ -509,6 +540,18 @@ function which use the same pathway list. Defaults to 3.</p></td>
 #&gt;          IL13       IL4       IL5
 #&gt; PC1 -7.671155 -10.32223 -9.624757
 #&gt; </div><div class='input'>
+  <span class='fu'>PathwaytValues</span>(
+    <span class='kw'>pathway_vec</span> <span class='kw'>=</span> <span class='no'>asthmaGenes_char</span>,
+    <span class='kw'>geneArray_df</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='get_set_OmicsPathway.html'>getAssay</a></span>(<span class='no'>colon_OmicsSurv</span>)),
+    <span class='kw'>response_mat</span> <span class='kw'>=</span> <span class='no'>resp_mat</span>,
+    <span class='kw'>responseType</span> <span class='kw'>=</span> <span class='st'>"survival"</span>,
+    <span class='kw'>control</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )</div><div class='output co'>#&gt;           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+#&gt; [1,] -1.175562 -1.175562 -1.175562 -1.175562 -1.175562 -1.175562 -1.175562
+#&gt;           [,8]      [,9]     [,10]     [,11]     [,12]     [,13]     [,14]
+#&gt; [1,] -1.175562 -1.175562 -1.175562 -1.175562 -1.175562 -1.175562 -1.175562
+#&gt;          [,15]    [,16]    [,17]    [,18]   [,19]   [,20]
+#&gt; [1,] -1.175562 1.191165 1.344074 1.342888 1.62566 1.87588</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

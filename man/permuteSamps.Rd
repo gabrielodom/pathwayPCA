@@ -57,5 +57,14 @@ The distributions (for \code{parametric = TRUE}) are Weibull for
   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 
+  data("colon_pathwayCollection")
+  data("colonSurv_df")
+
+  SampleResponses(
+    response_vec = colonSurv_df$OS_time,
+    event_vec = colonSurv_df$OS_event,
+    respType = "survival"
+  )
+
 }
 \keyword{internal}

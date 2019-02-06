@@ -102,6 +102,37 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
 \examples{
 # DO NOT CALL THESE FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 
+  data("colon_pathwayCollection")
+  data("colonSurv_df")
+
+  CreateOmicsPath(
+    assayData_df = colonSurv_df[, -(1:3)],
+    sampleIDs_char = colonSurv_df$sampleID,
+    pathwayCollection_ls = colon_pathwayCollection
+  )
+
+  CreateOmicsSurv(
+    assayData_df = colonSurv_df[, -(1:3)],
+    sampleIDs_char = colonSurv_df$sampleID,
+    pathwayCollection_ls = colon_pathwayCollection,
+    eventTime_num = colonSurv_df$OS_time,
+    eventObserved_lgl = as.logical(colonSurv_df$OS_event)
+  )
+
+  CreateOmicsReg(
+    assayData_df = colonSurv_df[, -(1:3)],
+    sampleIDs_char = colonSurv_df$sampleID,
+    pathwayCollection_ls = colon_pathwayCollection,
+    response_num = colonSurv_df$OS_time
+  )
+
+  CreateOmicsCateg(
+    assayData_df = colonSurv_df[, -(1:3)],
+    sampleIDs_char = colonSurv_df$sampleID,
+    pathwayCollection_ls = colon_pathwayCollection,
+    response_fact = as.factor(colonSurv_df$OS_event)
+  )
+
 }
 \seealso{
 \code{\link[=OmicsPathway-class]{OmicsPathway}},

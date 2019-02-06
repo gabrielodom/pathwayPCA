@@ -1,11 +1,11 @@
 #' Calculate pathway-specific Student's \eqn{t}-scores from a null distribution
 #'    for supervised PCA
 #'
-#' @description Randomly permute or parametrically resample the response vector
-#'    before model analysis. Then extract principal components (PCs) from the
-#'    gene pathway, and return the test statistics associated with the first
-#'    \code{numPCs} principal components at a set of threshold values based on
-#'    the permuted values of the response.
+#' @description Parametrically resample the response vector before model
+#'    analysis. Then extract principal components (PCs) from the gene pathway,
+#'    and return the test statistics associated with the first \code{numPCs}
+#'    principal components at a set of threshold values based on the resampled
+#'    values of the response.
 #'
 #' @param pathway_vec A character vector of the measured -Omes in the chosen
 #'    gene pathway. These should match a subset of the rownames of the gene
@@ -55,6 +55,31 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
+#'
+#'   data("colon_pathwayCollection")
+#'   data("colonSurv_df")
+#'
+#'   colon_OmicsSurv <- CreateOmics(
+#'     assayData_df = colonSurv_df[, -(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "surv"
+#'   )
+#'
+#'   asthmaGenes_char <-
+#'     getTrimPathwayCollection(colon_OmicsSurv)[["KEGG_ASTHMA"]]$IDs
+#'   resp_mat <- matrix(
+#'     c(getEventTime(colon_OmicsSurv), getEvent(colon_OmicsSurv)),
+#'     ncol = 2
+#'   )
+#'
+#'   pathway_tControl(
+#'     pathway_vec = asthmaGenes_char,
+#'     geneArray_df = t(getAssay(colon_OmicsSurv)),
+#'     response_mat = resp_mat,
+#'     responseType = "survival"
+#'   )
+#'
 pathway_tControl <- function(pathway_vec,
                              geneArray_df,
                              response_mat,
