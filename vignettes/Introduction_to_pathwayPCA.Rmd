@@ -212,7 +212,7 @@ ggplot(ovOutGather_df) +
   coord_flip()
 ```
 
-### 2.3.4 Extract relevant genes from significant pathways  
+### 2.3.4 Extract relevant genes from significant pathways 
 Because pathways are defined *a priori*, typically only a subset of genes within each pathway are relevant to the phenotype and contribute to pathway significance. In AESPCA, these relevant genes are the genes with nonzero loadings in the first PC of AESPCs.
 
 For example, for the "IL-1 signaling pathway" (Wikipathways [WP195](https://www.wikipathways.org/index.php/Pathway:WP195)), we can extract the **PC**s and their protein **L**oadings using the `getPathPCLs()` function:
@@ -254,7 +254,7 @@ ggplot(data = wp195Loadings_df) +
   labs(
     title = "Gene Loadings on IL-1 Signaling Pathway",
     x = "Protein",
-    y = "Loading on PC1"
+    y = "Loadings of PC1"
   ) +
   # Remove the legend
   guides(fill = FALSE)
