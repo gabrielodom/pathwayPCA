@@ -535,9 +535,15 @@ The accompanying Circos plot shown normalized copy number (outer circle) and pro
 
 ## 4.1 Data setup and AESPCA analysis
 For this example, we used TCGA KIRP RNAseq dataset downloaded from Xena datahub. First, we load the KIRP data, create an `Omics` data container, and extract first AESPC from each pathway.
-```{r kidneyData}
+```{r kidneyData, eval=FALSE}
 # Load Data
 kidney_df <- readRDS(paste0(dataDir_path, "/KIRP_Surv_RNAseq_inner.RDS"))
+```
+```{r kidneyDataTrue, echo=FALSE}
+# The full data is too large (19.4Mb), so we are going to load the subset that
+#   matches the pathway collection to save space. We are ignoring the other 15k
+#   genes anyway.
+kidney_df <- readRDS(paste0(dataDir_path, "/KIRP_RNAseq_WPsubset_20190207.RDS"))
 ```
 
 ```{r kidneyOmics, eval=FALSE}
