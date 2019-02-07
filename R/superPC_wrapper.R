@@ -292,8 +292,16 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
             # Lily told me that we only care about the t-scores from the first
             #   PC, so we will only extract the absolute maxima from the first
             #   row of the t-value matrices
-            tScoreMax_num <- sapply(tScores_ls, function(ls) absMax(ls$tscor[1, ]) )
-            tControlMax_num <- sapply(tControl_ls, function(x) absMax(x[1, ]) )
+            tScoreMax_num <- vapply(
+              tScores_ls,
+              function(ls) absMax(ls$tscor[1, ]) ,
+              FUN.VALUE = numeric(1)
+            )
+            tControlMax_num <- vapply(
+              tControl_ls,
+              function(x) absMax(x[1, ]) ,
+              FUN.VALUE = numeric(1)
+            )
 
 
             ###  Calculate Raw Pathway p-Values  ###

@@ -217,12 +217,13 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
 
               message("Extracting Pathway p-Values Serially: ",
                       appendLF = FALSE)
-              pValues_vec <- sapply(
+              pValues_vec <- vapply(
                 pathwayPCs_ls,
                 permute_CategFit,
                 response = response,
                 numReps_int = numReps,
-                nullMod = null_mod
+                nullMod = null_mod,
+                FUN.VALUE = numeric(1)
               )
               message("DONE")
 

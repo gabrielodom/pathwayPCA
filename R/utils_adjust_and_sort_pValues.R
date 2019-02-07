@@ -199,14 +199,22 @@ TabulatepValues <- function(pVals_vec,
 
     }
 
+    # browser()
+
     adjusted_df <- adjusted_df[, orderedNames, drop = FALSE]
 
     fwerNames <- c("Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD")
-    newAdjNames <- sapply(orderedNames, function(i){
-      ifelse(i %in% fwerNames,
-             paste0("FWER_", i),
-             paste0("FDR_", i))
-    })
+    newAdjNames <- vapply(
+      orderedNames,
+      function(i){
+        ifelse(
+          i %in% fwerNames,
+          paste0("FWER_", i),
+          paste0("FDR_", i)
+        )
+      },
+      FUN.VALUE = character(1)
+    )
     colnames(adjusted_df) <- newAdjNames
 
     pVals_df <- cbind(pVals_df, adjusted_df)

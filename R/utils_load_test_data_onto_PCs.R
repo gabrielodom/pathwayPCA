@@ -80,7 +80,7 @@ LoadOntoPCs <- function(design_df, loadings_ls,
   })
 
   ###  Check for Missing PCs  ###
-  error_idx <- sapply(PCs_ls, is.null)
+  error_idx <- vapply(PCs_ls, is.null, logical(1))
   if(any(error_idx)){
 
     message(sprintf("PC extraction failed for %i pathway(s). These pathway(s) are:",

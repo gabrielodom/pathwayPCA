@@ -80,11 +80,11 @@ for more information.
   if(anyNA(df2)){
     stop("Missing observations are not permitted in the assay data.")
   }
-  if(any(sapply(df2, function(x) {!is.numeric(x)}))){
+  if(any(vapply(df2, function(x){ !is.numeric(x) }, logical(1)))){
     stop("Non-numeric values are not permitted in the assay data.")
   }
 
-  smallVars <- sapply(df2, sd) < sqrt(epsilon)
+  smallVars <- vapply(df2, sd, numeric(1)) < sqrt(epsilon)
   if(any(smallVars)){
 
     var0Genes <- colnames(df2)[smallVars]

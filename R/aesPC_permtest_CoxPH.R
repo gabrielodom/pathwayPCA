@@ -204,11 +204,12 @@ setMethod(f = "PermTestSurv", signature = "OmicsSurv",
             } else {
 
               message("Extracting Pathway p-Values Serially")
-              pValues_vec <- sapply(
+              pValues_vec <- vapply(
                 pathwayPCs_ls,
                 permute_SurvFit,
                 resp_Surv = response,
-                numReps_int = numReps
+                numReps_int = numReps,
+                FUN.VALUE = numeric(1)
               )
               message("DONE")
 
