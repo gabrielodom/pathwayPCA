@@ -54,10 +54,13 @@ This function uses \code{R}'s \code{\link{readChar}} function to
     "extdata", "c2.cp.v6.0.symbols.gmt",
     package = "pathwayPCA", mustWork = TRUE
   )
-  geneset_ls <- read_gmt(data_path)
+  geneset_ls <- read_gmt(data_path, description = TRUE)
 
   # # If you are using the development version from GitHub:
-  # geneset_ls <- read_gmt("inst/extdata/c2.cp.v6.0.symbols.gmt")
+  # geneset_ls <- read_gmt(
+  #   "inst/extdata/c2.cp.v6.0.symbols.gmt",
+  #   description = TRUE
+  # )
 
 }
 \seealso{

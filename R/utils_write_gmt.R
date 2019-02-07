@@ -77,7 +77,7 @@ write_gmt <- function(pathwayCollection, file){
   })
 
   ###  Collapse the list  ###
-  out_char <- sapply(out_ls, paste, collapse = "\t")
+  out_char <- vapply(out_ls, paste, collapse = "\t", FUN.VALUE = character(1))
 
   ###  Write the File  ###
   writeLines(out_char, con = file)

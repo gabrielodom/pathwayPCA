@@ -46,12 +46,17 @@
 #'     "extdata", "c2.cp.v6.0.symbols.gmt",
 #'     package = "pathwayPCA", mustWork = TRUE
 #'   )
-#'   geneset_ls <- read_gmt(data_path)
+#'   geneset_ls <- read_gmt(data_path, description = TRUE)
 #'
 #'   # # If you are using the development version from GitHub:
-#'   # geneset_ls <- read_gmt("inst/extdata/c2.cp.v6.0.symbols.gmt")
+#'   # geneset_ls <- read_gmt(
+#'   #   "inst/extdata/c2.cp.v6.0.symbols.gmt",
+#'   #   description = TRUE
+#'   # )
 #'
 read_gmt <- function(file, description = FALSE, delim = "\t"){
+
+  # browser()
 
   # Read the file as a single character vector, split it by line, then split
   #   each line by "tab"
@@ -60,7 +65,7 @@ read_gmt <- function(file, description = FALSE, delim = "\t"){
   geneset_ls <- strsplit(text_vec, split = delim)
 
   # Extract the pathway names
-  geneset_names <- sapply(geneset_ls, `[[`, 1)
+  geneset_names <- vapply(geneset_ls, `[[`, 1, FUN.VALUE = character(1))
 
   # Extract the genes
   genes_ls <- lapply(geneset_ls, function(x){
@@ -72,12 +77,14 @@ read_gmt <- function(file, description = FALSE, delim = "\t"){
   })
 
   # Create the pathwayCollection output
-  out <- list(pathways = genes_ls,
-              TERMS = geneset_names)
+  out <- list(
+    pathways = genes_ls,
+    TERMS = geneset_names
+  )
 
   if(description){
 
-    geneset_descr <- sapply(geneset_ls, `[[`, 2)
+    geneset_descr <- vapply(geneset_ls, `[[`, 2, FUN.VALUE = character(1))
     out$description <- geneset_descr
 
   }
