@@ -92,7 +92,7 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
 
             # Delete the genes from the pathways if they aren't recorded in our
             #   data matrix
-            newPaths <- sapply(paths_ls, function(x){
+            newPaths <- lapply(paths_ls, function(x){
               x[x %in% genelist]
             })
 
@@ -100,7 +100,7 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
             trimSetsize <- ifelse(newPathsLen < trim, 0, newPathsLen)
 
             # Remove any pathway that now has fewer than "trim" genes
-            newPaths_trim <- sapply(seq_along(newPaths), function(i){
+            newPaths_trim <- lapply(seq_along(newPaths), function(i){
 
               if(trimSetsize[i] == 0){
                 NULL
@@ -118,7 +118,7 @@ setMethod(f = "IntersectOmicsPwyCollct", signature = "OmicsPathway",
             #   us an empty list. Filter(), however, can handle NULL and
             #   integer(0) / character(0) list entries, which is why we use it
             #   above.
-            nullPaths <- which(sapply(newPaths_trim, is.null))
+            nullPaths <- which(vapply(newPaths_trim, is.null, logical(1)))
             TERMS_char <- object@pathwayCollection$TERMS
             description_char <- object@pathwayCollection$description
             setsize_int <- object@pathwayCollection$setsize
