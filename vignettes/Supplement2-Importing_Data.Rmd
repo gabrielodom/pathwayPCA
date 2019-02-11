@@ -31,6 +31,9 @@ Before we move on, we will outline our steps. After reading this vignette, you s
 First, load the `pathwayPCA` package and the [`tidyverse` package suite](https://www.tidyverse.org/).
 ```{r packageLoad, message=FALSE}
 library(tidyverse)
+# Set tibble data frame print options
+options(tibble.max_extra_cols = 10)
+
 library(pathwayPCA)
 ```
 
@@ -175,6 +178,41 @@ This output would normally be a 1 by 1 `tibble` (which isn't terribly helpful), 
 - If we need the third column of `assayT_df`, but we want the result back as a vector instead of a `tibble`, we call the column by name:
 ```{r subset_3rdcol_byname}
 assayT_df$LSS
+```
+
+## 3.4 Data from a `SummarizedExperiment` Object
+Oftentimes, genomic experiment data is stored in a `SummarizedExperiment`-class object. If your assay and response data are stored in such an object, use the following function to extract the necessary information and return it as a tidy data frame:
+```{r, stdExpr2tidydf}
+SE2Tidy <- function(summExperiment, whichAssay = 1){
+
+  ###  Assay  ###
+  assay_mat <- summExperiment@assays[[whichAssay]]
+  dimnames(assay_mat)[1:2] <- dimnames(summExperiment)
+  assay_df <- pathwayPCA::TransposeAssay(
+    assay_df = data.frame(assay_mat),
+    omeNames = "rowNames"
+  )
+
+  ###  Response  ###
+  samps_df <- as.data.frame(summExperiment@colData)
+
+  ###  Return Joined Data Frame  ###
+  out_df <- merge(samps_df, assay_df, by = "row.names")
+
+}
+```
+
+Because `SummarizedExperiment` objects can have more than one assay, specify the index for the assay of your choice with the `whichAssay` argument. Here is an example using the `airway` data:
+```{r stdExpr_Example}
+library(SummarizedExperiment)
+data(airway, package = "airway")
+
+airway_df <- SE2Tidy(airway)
+```
+
+Now we can look at a nice summary of the tidied assay and response data. This will drop all of the gene-specific metadata, as well as any experiment metadata. However, `pathwayPCA` can't make use of this data anyway, so we haven't lost much.
+```{r}
+airway_df
 ```
 
 *******************************************************************************

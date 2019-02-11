@@ -308,16 +308,33 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
             message("Calculating Pathway p-Values: ", appendLF = FALSE)
             genesPerPathway_vec <- unlist(pathwayGeneSets_ls$setsize)
             genesPerPathway_vec <- genesPerPathway_vec[names(paths_ls)]
-            optParams_vec <- OptimGumbelMixParams(
-              max_tControl_vec = tControlMax_num,
-              pathwaySize_vec = genesPerPathway_vec,
-              ...
+
+            # Attempt to Fit the Distribution
+            optParams_vec <- try(
+              OptimGumbelMixParams(
+                max_tControl_vec = tControlMax_num,
+                pathwaySize_vec = genesPerPathway_vec,
+                ...
+              ),
+              silent = TRUE
             )
-            pvalues_vec <- GumbelMixpValues(
-              tScore_vec = tScoreMax_num,
-              pathwaySize_vec = genesPerPathway_vec,
-              optimParams_vec = optParams_vec
-            )
+            if(class(optParams_vec) == "try-error"){
+
+warning("Gumbel Mixture Distribution parameter estimation failed. Re-call SuperPCA_pVals()
+  as soon as possible.", immediate. = TRUE)
+              pvalues_vec <- rep(1, length(tScoreMax_num))
+              adjustpValues <- FALSE
+
+            } else {
+
+              pvalues_vec <- GumbelMixpValues(
+                tScore_vec = tScoreMax_num,
+                pathwaySize_vec = genesPerPathway_vec,
+                optimParams_vec = optParams_vec
+              )
+
+            }
+
             message("DONE")
 
             if(adjustpValues){
