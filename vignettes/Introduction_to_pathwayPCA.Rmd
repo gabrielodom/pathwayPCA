@@ -72,7 +72,8 @@ We can obtain datasets 1 and 2 for the ovarian cancer dataset by loading the `ov
 dataDir_path <- system.file(
   "extdata", package = "pathwayPCA", mustWork = TRUE
 )
-ovSurv_df <- readRDS(paste0(dataDir_path, "/ovarian_PNNL_survival.RDS"))
+githubURL3 <- "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/ovarian_PNNL_survival.RDS"
+ovSurv_df <- readRDS(url(githubURL3))
 ```
 
 The `ovSurv_df` dataset is a data frame with protein expression levels and survival outcome matched by sample IDs. The variables (columns) include overall survival time and censoring status, as well as expression data for 5162 proteins for each of the 83 samples.
@@ -347,7 +348,8 @@ While copy number alterations are common genomic aberrations in ovarian carcer, 
 We can identify copy number (CNV) pathways significantly associated with survival in the same way as we did for protein expressions. This gene level CNV data was downloaded from UCSC Xena Functional Genomics Browser (http://xena.ucsc.edu/).
 
 ```{r CNVsetup}
-copyNumberClean_df <- readRDS(paste0(dataDir_path, "/OV_surv_x_CNV2.RDS"))
+githubURL2 <- "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/OV_surv_x_CNV2.RDS"
+copyNumberClean_df <- readRDS(url(githubURL2))
 ```
 
 And now we create an `Omics` data container.
@@ -537,13 +539,14 @@ The accompanying Circos plot shown normalized copy number (outer circle) and pro
 For this example, we used TCGA KIRP RNAseq dataset downloaded from Xena datahub. First, we load the KIRP data, create an `Omics` data container, and extract first AESPC from each pathway.
 ```{r kidneyData, eval=FALSE}
 # Load Data
-kidney_df <- readRDS(paste0(dataDir_path, "/KIRP_Surv_RNAseq_inner.RDS"))
+#kidney_df <- readRDS(paste0(dataDir_path, "/KIRP_Surv_RNAseq_inner.RDS"))
 ```
 ```{r kidneyDataTrue, echo=FALSE}
 # The full data is too large (19.4Mb), so we are going to load the subset that
 #   matches the pathway collection to save space. We are ignoring the other 15k
 #   genes anyway.
-kidney_df <- readRDS(paste0(dataDir_path, "/KIRP_RNAseq_WPsubset_20190207.RDS"))
+githubURL <- "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/KIRP_RNAseq_WPsubset_20190207.RDS"
+kidney_df <- readRDS(url(githubURL))
 ```
 
 ```{r kidneyOmics, eval=FALSE}
@@ -591,7 +594,9 @@ Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame
 DONE
 ```
 ```{r kidneyAESPCAload, echo=FALSE}
-kidney_aespcOut <- readRDS("KIRP_protein_aespcOut.RDS")
+#kidney_aespcOut <- readRDS("KIRP_protein_aespcOut.RDS")
+githubURL4 <- "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/KIRP_protein_aespcOut.RDS"
+kidney_aespcOut <- readRDS(url(githubURL4))
 ```
 
 <!-- This takes 1 minute and 40 seconds.  -->

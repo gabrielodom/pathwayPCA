@@ -32,7 +32,8 @@ Suggests:
     rmarkdown,
     survminer,
     tidyverse,
-    circlize
+    circlize,
+    Rcurl
 biocViews:
     CopyNumberVariation,
     DNAMethylation,
