@@ -246,19 +246,19 @@ TidyLoading <- function(pathwayPCL, numPCs = 1){
 ```
 
 We can use this function to "tidy up" the loadings from the EPHB forward signaling pathway:
-```{r TidyLoadings}
+```{r TidyLoadings, eval=FALSE}
 tidyLoad491_df <- TidyLoading(pathwayPCL = pathway491_ls)
 tidyLoad491_df
 ```
 
-```{r TidyLoadings110, echo=FALSE}
+```{r TidyLoadings110, echo=FALSE, eval=FALSE}
 tidyLoad177_df <- TidyLoading(pathwayPCL = pathway177_ls)
 ```
 
 
 ### 3.2.2 Plot the Gene Loadings
 We also wrote a function to create a `ggplot` graph object which uses this tidy data frame.
-```{r PathwayBarChart_fun}
+```{r PathwayBarChart_fun, eval=FALSE}
 PathwayBarChart <- function(ggData_df, y_lab,
                             colours = c(Up = "#009292", Down = "#920000"),
                             label_size = 5,
@@ -319,7 +319,8 @@ PathwayBarChart <- function(ggData_df, y_lab,
 ```
 
 This is the resulting loading bar plot for the EPHB forward signaling pathway (because all of the loadings are between -1 and 1, we set the significant figures to 2):
-```{r pathway491_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+```{r, eval=FALSE}
+#  pathway491_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
 PathwayBarChart(
   ggData_df = tidyLoad491_df,
   y_lab = "PC Loadings",
@@ -328,7 +329,8 @@ PathwayBarChart(
 ```
 
 For comparison, this is the bar plot for the asthma pathway (`pathway177` in our -Omics data container):
-```{r pathway177_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+```{r, eval=FALSE}
+# pathway177_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
 PathwayBarChart(
   ggData_df = tidyLoad177_df,
   y_lab = "PC Loadings",
@@ -341,7 +343,7 @@ PathwayBarChart(
 ## 3.3 Gene Correlations with PCs
 ### 3.3.1 Calculate Pathway Correlations
 Additionally, we can calculate the correlation between gene expression in the assay corresponding to the EPHB forward signaling pathway and the PC vectors extracted from this pathway. Thus, we need to extract the recorded gene levels corresponding to the non-zero loadings for the PCs, calculate the Spearman correlations between these values and their extracted PCs, then wrangle these correlations into a data frame that the `ggplot()` function can use. We have written an additional function that you can modify as you need. This function takes in the `Omics` data container (that you created in Chapter 3) and the PC & L list returned by `getPathPCLs()`. This function returns a data frame with all the components necessary for a plot of the assay-PC correlations.
-```{r TidyCorrelation_fun}
+```{r TidyCorrelation_fun, eval=FALSE}
 TidyCorrelation <- function(Omics, pathwayPCL, numPCs = 1){
   
   loadings_df <- pathwayPCL$Loadings
@@ -374,14 +376,14 @@ TidyCorrelation <- function(Omics, pathwayPCL, numPCs = 1){
 ```
 
 We can use this function to "tidy up" the loadings from the EPHB forward signaling pathway:
-```{r TidyCorrelation}
+```{r TidyCorrelation, eval=FALSE}
 tidyCorr491_df <- TidyCorrelation(
   Omics = colon_OmicsSurv,
   pathwayPCL = pathway491_ls
 )
 tidyCorr491_df
 ```
-```{r TidyCorrelation2, echo=FALSE}
+```{r TidyCorrelation2, echo=FALSE, eval=FALSE}
 tidyCorr177_df <- TidyCorrelation(
   Omics = colon_OmicsSurv,
   pathwayPCL = pathway177_ls
@@ -390,7 +392,8 @@ tidyCorr177_df <- TidyCorrelation(
 
 ### 3.3.2 Plot the Assay-PC Correlation
 This is the resulting correlation bar plot for the EPHB forward signaling pathway:
-```{r pathway491_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+```{r, eval=FALSE}
+#  pathway491_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
 PathwayBarChart(
   ggData_df = tidyCorr491_df,
   y_lab = "Assay-PC Correlations",
@@ -399,7 +402,8 @@ PathwayBarChart(
 ```
 
 And this is the same figure for the asthma pathway.
-```{r pathway177_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+```{r, eval=FALSE}
+# pathway177_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
 PathwayBarChart(
   ggData_df = tidyCorr177_df,
   y_lab = "Assay-PC Correlations",
@@ -412,44 +416,70 @@ estimate pathway activities for each patient, both for protein expressions and c
 
 This is the circle plot for the IL-1 signaling pathway:
 ```{r circle plot of IL-1 pathway copyNum and proteomics pc1 score}
-##load data(already ordered by copyNumber PC1 score)
-circlePlotData<-readRDS("circlePlotData.RDS")
-##set color scales
+# Load data (already ordered by copyNumber PC1 score)
+circlePlotData <- readRDS("circlePlotData.RDS")
+
+# Set color scales
 library(grDevices)
-bluescale = colorRampPalette(c("blue", "white"))(45)
-redscale = colorRampPalette(c("white", "red"))(38)
+bluescale <- colorRampPalette(c("blue", "white"))(45)
+redscale  <- colorRampPalette(c("white", "red"))(38)
 Totalpalette <- c(bluescale,redscale)
 
+# Apply colours
 copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
 proteoCol <- Totalpalette[circlePlotData$proteinOrder]
 ```
 
-Blue stands for negative PC1 score, Red stands for positive PC1 score.
-
-Inner loop stands for copyNumbers, outer loop stands for Proteomics
+Blue stands for negative PC1 score, Red stands for positive PC1 score. The inner loop stands for copy numbers, outer loop stands for protein expression.
 ```{r}
-##draw circle
 library(circlize)
-##set parameters
-npathway = 83
-factors = 1:83.
+
+# Set parameters
+nPathway <- 83
+factors  <- 1:nPathway
+
+# Plot Setup
 circos.clear()
-circos.par("gap.degree" = 0, "cell.padding" = c(0, 0, 0, 0),
-           start.degree = 360/40, track.margin = c(0, 0), "clock.wise" = FALSE)
+circos.par(
+  "gap.degree" = 0,
+  "cell.padding" = c(0, 0, 0, 0),
+  start.degree = 360/40,
+  track.margin = c(0, 0),
+  "clock.wise" = FALSE
+)
 circos.initialize(factors = factors, xlim = c(0, 3))
 
-##for proteoOmics
-circos.trackPlotRegion(ylim = c(0, 3), factors = factors, bg.col = proteoCol,
-                       track.height = 0.3)
-##for copy Number
-circos.trackPlotRegion(ylim = c(0, 3), factors = factors, bg.col = copyCol,
-                       track.height = 0.3)
-##labels
-suppressMessages(circos.trackText(rep(-3, npathway), rep(-3.8,npathway),
-                 labels = "PID_IL1",
-                 factors = factors, col = "#2d2d2d", font = 2,
-                 adj = par("adj"), cex = 1.5,
-                 facing = "downward",niceFacing = TRUE))
+# ProteoOmics
+circos.trackPlotRegion(
+  ylim = c(0, 3),
+  factors = factors,
+  bg.col = proteoCol,
+  track.height = 0.3
+)
+
+# Copy Number
+circos.trackPlotRegion(
+  ylim = c(0, 3),
+  factors = factors,
+  bg.col = copyCol,
+  track.height = 0.3
+)
+
+# Add labels
+suppressMessages(
+  circos.trackText(
+    rep(-3, nPathway),
+    rep(-3.8,nPathway),
+    labels = "PID_IL1",
+    factors = factors,
+    col = "#2d2d2d",
+    font = 2,
+    adj = par("adj"),
+    cex = 1.5,
+    facing = "downward",
+    niceFacing = TRUE
+  )
+)
 ```
 
 

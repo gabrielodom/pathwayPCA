@@ -27,13 +27,16 @@ Imports:
     survival,
     utils
 Suggests:
+    airway,
+    circlize,
+    grDevices,
     knitr,
+    RCurl,
     reshape2,
     rmarkdown,
+    SummarizedExperiment,
     survminer,
-    tidyverse,
-    circlize,
-    Rcurl
+    tidyverse
 biocViews:
     CopyNumberVariation,
     DNAMethylation,
