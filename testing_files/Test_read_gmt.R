@@ -82,7 +82,7 @@ system.time(geneset_ls <- read_gmt("inst/extdata/c2.cp.v6.0.symbols.gmt"))
 GSA.read.gmt <- function (filename){
 
   a = scan(filename, what = list("", ""), sep = "\t", quote = NULL,
-           fill = T, flush = T, multi.line = F)
+           fill = TRUE, flush = TRUE, multi.line = FALSE)
   geneset.names = a[1][[1]]
   geneset.descriptions = a[2][[1]]
   dd = scan(filename, what = "", sep = "\t", quote = NULL)
@@ -101,7 +101,7 @@ GSA.read.gmt <- function (filename){
   }
   genesets = vector("list", nn)
   for (i in 1:(nn - 1)) {
-    cat(i, fill = T)
+    cat(i, fill = TRUE)
     i1 = ox[i] + 2
     i2 = ox[i + 1] - 1
     geneset.descriptions[i] = dd[ox[i] + 1]

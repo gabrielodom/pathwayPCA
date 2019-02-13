@@ -73,6 +73,7 @@
 #' @include createClass_OmicsCateg.R
 #'
 #' @importFrom methods setGeneric
+#' @importFrom methods is
 #'
 #' @examples
 #'   ###  Load the Example Data  ###
@@ -318,7 +319,7 @@ setMethod(f = "SuperPCA_pVals", signature = "OmicsPathway",
               ),
               silent = TRUE
             )
-            if(class(optParams_vec) == "try-error"){
+            if(is(optParams_vec, "try-error")){
 
 warning("Gumbel Mixture Distribution parameter estimation failed. Re-call SuperPCA_pVals()
   as soon as possible.", immediate. = TRUE)
