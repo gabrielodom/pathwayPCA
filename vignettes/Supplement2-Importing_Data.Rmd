@@ -186,7 +186,7 @@ Oftentimes, genomic experiment data is stored in a `SummarizedExperiment`-class 
 SE2Tidy <- function(summExperiment, whichAssay = 1){
 
   ###  Assay  ###
-  assay_mat <- summExperiment@assays[[whichAssay]]
+  assay_mat <- slot(summExperiment, "assays")[[whichAssay]]
   dimnames(assay_mat)[1:2] <- dimnames(summExperiment)
   assay_df <- pathwayPCA::TransposeAssay(
     assay_df = data.frame(assay_mat),
@@ -194,10 +194,12 @@ SE2Tidy <- function(summExperiment, whichAssay = 1){
   )
 
   ###  Response  ###
-  samps_df <- as.data.frame(summExperiment@colData)
+  samps_df <- as.data.frame(
+    slot(summExperiment, "colData")
+  )
 
   ###  Return Joined Data Frame  ###
-  out_df <- merge(samps_df, assay_df, by = "row.names")
+  merge(samps_df, assay_df, by = "row.names")
 
 }
 ```
@@ -212,7 +214,7 @@ airway_df <- SE2Tidy(airway)
 
 Now we can look at a nice summary of the tidied assay and response data. This will drop all of the gene-specific metadata, as well as any experiment metadata. However, `pathwayPCA` can't make use of this data anyway, so we haven't lost much.
 ```{r}
-airway_df
+airway_df[, 1:20]
 ```
 
 *******************************************************************************

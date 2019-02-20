@@ -44,5 +44,19 @@ This function calculates the Sxx, Syy, and Sxy sums from the gene-
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
+  
+  
+  p <- 500
+  n <- 50
+
+  x_mat <- matrix(rnorm(n * p), nrow = p, ncol = n)
+  time_int <- rpois(n, lambda = 365 * 2)
+  
+  olsTrain_fun(
+    x = x_mat,
+    y = time_int
+  )
+  
+  
 }
 \keyword{internal}

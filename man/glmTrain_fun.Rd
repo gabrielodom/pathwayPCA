@@ -34,5 +34,24 @@ While this function currently supports any GLM family from the
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
+  
+  
+  p <- 500
+  n <- 50
+
+  x_mat <- matrix(rnorm(n * p), nrow = p, ncol = n)
+  obs_logi <- sample(
+    c(FALSE, TRUE),
+    size = n,
+    replace = TRUE,
+    prob = c(0.2, 0.8)
+  )
+
+  glmTrain_fun(
+    x = x_mat,
+    y = obs_logi
+  )
+  
+  
 }
 \keyword{internal}

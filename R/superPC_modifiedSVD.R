@@ -40,6 +40,24 @@
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
+#'   
+#'   
+#'   data("colon_pathwayCollection")
+#'   data("colonSurv_df")
+#'   
+#'   colon_OmicsSurv <- CreateOmics(
+#'     assayData_df = colonSurv_df[,-(2:3)],
+#'     pathwayCollection_ls = colon_pathwayCollection,
+#'     response = colonSurv_df[, 1:3],
+#'     respType = "surv"
+#'   )
+#'   
+#'   asthmaGenes_char <-
+#'     getTrimPathwayCollection(colon_OmicsSurv)[["KEGG_ASTHMA"]]$IDs
+#'   
+#'   mysvd(t(getAssay(colon_OmicsSurv))[asthmaGenes_char, ])
+#'   
+#'   
 
 mysvd <- function(mat, method = svd, n.components = NULL){
 

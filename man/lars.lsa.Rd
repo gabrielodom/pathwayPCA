@@ -47,6 +47,20 @@ LARS is described in detail in Efron, Hastie, Johnstone and
 \examples{
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use AESPCA_pVals() instead
+  
+  X_mat <- as.matrix(colonSurv_df[, 5:50])
+  X_mat <- scale(X_mat)
+  
+  XtX <- t(X_mat) \%*\% X_mat
+  A_mat <- svd(XtX)$v
+  
+  lars.lsa(
+    Sigma0 = XtX,
+    b0 = A_mat[1, ] * sign(A_mat[1, 1]),
+    n = ncol(X_mat)
+  )
+  
+  
 }
 \seealso{
 \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}
