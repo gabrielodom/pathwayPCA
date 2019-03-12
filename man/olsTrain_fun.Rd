@@ -45,7 +45,7 @@ This function calculates the Sxx, Syy, and Sxy sums from the gene-
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
   
-  
+\dontrun{
   p <- 500
   n <- 50
 
@@ -56,7 +56,7 @@ This function calculates the Sxx, Syy, and Sxy sums from the gene-
     x = x_mat,
     y = time_int
   )
-  
+}
   
 }
 \keyword{internal}

@@ -29,13 +29,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead.
 #'
-#'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colon_pathwayCollection")
 #'   n_int <- lengths(colon_pathwayCollection$pathways)
@@ -70,6 +69,7 @@
 #'     pathwaySize_vec = n_int,
 #'     optimParams_vec = optParams_num
 #'   )
+#' }
 #'
 GumbelMixpValues <- function(tScore_vec,
                              pathwaySize_vec,

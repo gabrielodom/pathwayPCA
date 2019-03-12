@@ -57,6 +57,7 @@ The distributions (for \code{parametric = TRUE}) are Weibull for
   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 
+\dontrun{
   data("colon_pathwayCollection")
   data("colonSurv_df")
 
@@ -65,6 +66,7 @@ The distributions (for \code{parametric = TRUE}) are Weibull for
     event_vec = colonSurv_df$OS_event,
     respType = "survival"
   )
+}
 
 }
 \keyword{internal}

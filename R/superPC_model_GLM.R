@@ -24,13 +24,12 @@
 #' @importFrom stats binomial
 #' @importFrom stats glm
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'   
-#'   
+#' \dontrun{   
 #'   p <- 500
 #'   n <- 50
 #' 
@@ -46,7 +45,7 @@
 #'     x = x_mat,
 #'     y = obs_logi
 #'   )
-#'   
+#' }
 #'   
 glmTrain_fun <- function(x, y, family = binomial){
 

@@ -48,7 +48,7 @@ See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf},
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
   
-  
+\dontrun{
   p <- 500
   n <- 50
 
@@ -67,7 +67,7 @@ See \url{https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf},
     y = time_int,
     censoring.status = !obs_logi
   )
-  
+}
   
 }
 \keyword{internal}

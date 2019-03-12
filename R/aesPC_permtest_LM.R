@@ -48,13 +48,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -81,6 +80,7 @@
 #'     parallel = TRUE,
 #'     numCores = 2
 #'   )
+#' }
 #'
 #' @rdname PermTestReg
 setGeneric("PermTestReg",

@@ -47,7 +47,6 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @include createClass_validOmics.R
 #' @include createClass_OmicsPath.R
@@ -55,6 +54,7 @@
 #' @examples
 #' # DO NOT CALL THIS FUNCTION DIRECTLY. USE CreateOmics() INSTEAD.
 #'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -64,6 +64,7 @@
 #'     assayData_df = colonSurv_df[, -(2:3)],
 #'     pathwayCollection_ls = colon_pathwayCollection
 #'   )
+#' }
 #'
 #'
 #' @importFrom methods setGeneric

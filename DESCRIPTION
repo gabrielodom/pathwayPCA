@@ -7,7 +7,6 @@ Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", rol
   person("Lizhong", "Liu", email = "lxl816@miami.edu", role = c("aut")),
   person("Lily", "Wang", email = "lily.wang@med.miami.edu", role = c("aut")),
   person("Steven", "Chen", email = "steven.chen@med.miami.edu", role = c("aut")))
-Maintainer: Gabriel Odom <gabriel.odom@med.miami.edu>
 Description: Apply the Supervised PCA and Adaptive, Elastic-Net, Sparse PCA
   methods to extract principal components from each pathway. Use these pathway-
   specific principal components as the design matrix relating the response to

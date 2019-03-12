@@ -48,6 +48,7 @@ LARS is described in detail in Efron, Hastie, Johnstone and
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use AESPCA_pVals() instead
   
+\dontrun{
   X_mat <- as.matrix(colonSurv_df[, 5:50])
   X_mat <- scale(X_mat)
   
@@ -59,7 +60,7 @@ LARS is described in detail in Efron, Hastie, Johnstone and
     b0 = A_mat[1, ] * sign(A_mat[1, 1]),
     n = ncol(X_mat)
   )
-  
+}
   
 }
 \seealso{

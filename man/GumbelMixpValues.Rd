@@ -40,7 +40,7 @@ The likelihood function is equation (4) in Chen et al (2008): a
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead.
 
-
+\dontrun{
   ###  Load the Example Data  ###
   data("colon_pathwayCollection")
   n_int <- lengths(colon_pathwayCollection$pathways)
@@ -75,6 +75,7 @@ The likelihood function is equation (4) in Chen et al (2008): a
     pathwaySize_vec = n_int,
     optimParams_vec = optParams_num
   )
+}
 
 }
 \seealso{

@@ -61,7 +61,7 @@ This function takes in a list of the first principal components
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use AESPCA_pVals() instead
 
-
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colon_pathwayCollection")
@@ -88,6 +88,7 @@ This function takes in a list of the first principal components
     parallel = TRUE,
     numCores = 2
   )
+}
 
 }
 \seealso{

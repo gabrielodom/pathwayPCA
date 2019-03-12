@@ -33,13 +33,14 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
 #'
+#' \dontrun{
 #'   data("colon_pathwayCollection")
 #'   CheckPwyColl(colon_pathwayCollection)
+#' }
 #'
 CheckPwyColl <- function(pwyColl_ls){
   # browser()

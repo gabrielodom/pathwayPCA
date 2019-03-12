@@ -31,13 +31,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'   
-#'   
+#' \dontrun{
 #'   p <- 500
 #'   n <- 50
 #' 
@@ -48,7 +47,7 @@
 #'     x = x_mat,
 #'     y = time_int
 #'   )
-#'   
+#' }
 #'   
 olsTrain_fun <- function(x, y, s0.perc = NULL){
   # browser()

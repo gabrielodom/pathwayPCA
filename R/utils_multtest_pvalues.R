@@ -106,13 +106,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 #'
-#'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -142,6 +141,7 @@
 #'
 #'   ###  Adjust p-Values  ###
 #'   ControlFDR(rawp = pVals)
+#' }
 #'
 ControlFDR <- function(rawp,
                        proc = c("BH", "BY", "ABH", "TSBH",
