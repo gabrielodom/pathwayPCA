@@ -70,7 +70,7 @@ getPathPCLs <- function(pcOut, pathway_char, ...){
 #'
 #' @rdname getPathPCLs
 #' @method getPathPCLs superpcOut
-#' @S3method getPathPCLs superpcOut
+#' @export
 getPathPCLs.superpcOut <- function(pcOut, pathway_char, ...){
   # browser()
 
@@ -142,5 +142,5 @@ getPathPCLs.superpcOut <- function(pcOut, pathway_char, ...){
 #'
 #' @rdname getPathPCLs
 #' @method getPathPCLs aespcOut
-#' @S3method getPathPCLs aespcOut
+#' @export
 getPathPCLs.aespcOut <- getPathPCLs.superpcOut

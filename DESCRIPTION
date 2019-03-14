@@ -81,6 +81,7 @@ Collate:
     'accessClass_OmicsPathData.R'
     'accessClass_pathwayCollection.R'
     'accessClass_pcOut.R'
+    'accessClass_pcOutpVals.R'
     'aesPC_calculate_AESPCA.R'
     'aesPC_calculate_LARS.R'
     'aesPC_extract_OmicsPath_PCs.R'

@@ -277,9 +277,9 @@ colonCateg_superpcOut <- SuperPCA_pVals(
 Now that we have the pathway-specific $p$-values, we can inspect the top pathways ordered by significance. Further, we can assess the loadings of each gene, or the first principal component, corresponding to each pathway.
 
 ## 5.1 Table of $p$-Values
-For a quick and easy view of the pathway significance testing results, we can simply print the `pVals_df` data frame in the output object. (Note: if you are not using the `tidyverse` package suite, your results will print differently. Use the `head` function to print the top pathways instead.)
+For a quick and easy view of the pathway significance testing results, we can simply access the $p$-values data frame in the output object with the `getPathpVals()` function. (Note: if you are not using the `tidyverse` package suite, your results will print differently.)
 ```{r viewPathwayRanks}
-colonSurv_aespcOut$pVals_df
+getPathpVals(colonSurv_aespcOut)
 ```
 
 ## 5.2 Pathway PC and Loading Vectors

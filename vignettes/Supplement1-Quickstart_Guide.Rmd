@@ -239,19 +239,25 @@ This section is a quick overview of the material covered in the [Visualizing the
 - `loadings_ls`: a list of the matrices of the loading vectors that correspond to the principal components in `PCs_ls`.
 
 ## 5.1 Analysis Output Table
-For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. If you are not using the `tidyverse` package suite, your results will print differently (use the `head` function to print the top pathways instead).
+For a quick and easy view of the pathway significance testing results, we can use the `getPathpVals()` function to access and subset the output data frame. If you are not using the `tidyverse` package suite, your results will print differently.
 ```{r viewPathwayRanks}
-colon_superpcOut$pVals_df
+getPathpVals(colon_superpcOut)
 ```
+
+This function has the following modifying arguments:
+
+- `score = FALSE`: . Return the raw $p$-values. Return the $p$-value score, $-\log(p)$, instead of the unadjusted (raw) $p$-values with `score = FALSE`.
+- `numPaths = 20`: Return the top 20 pathways by $p$-value score.
+- `alpha = NULL`: Return all pathways with raw $p$-values less than `alpha`. If you specify `alpha`, then do not specify `numPaths`.
 
 ## 5.2 Graph of Top Pathways
 To visualize the significance of the pathways based on FDR or uncorrected $p$-values, we can use the [`ggplot2` package](http://ggplot2.org/) to create summary graphics of the analysis results.
 
 ### 5.2.1 Tidy Up the Data
-In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `SuperPCA_pVals` functions. The following code takes in the $p$-values data frame (`colon_superpcOut$pVals_df`) from the Supervised PCA method, modifies it to be compatible with the `ggplot` function, and saves the new data frame (`colonOutGather_df`).
+In order to take advantage of the publication-quality graphics created with the `ggplot2` package, we first need to tidy the data frames returned by the `AESPCA_pVals` and `SuperPCA_pVals` functions. The following code takes in the $p$-values data frame from the Supervised PCA method, modifies it to be compatible with the `ggplot` function, and saves the new data frame (`colonOutGather_df`).
 ```{r tidyOutput}
-colonOutGather_df <- colon_superpcOut$pVals_df %>%
-  select(-pathways, -n_tested) %>%
+colonOutGather_df <-
+  getPathpVals(colon_superpcOut) %>%
   gather(variable, value, -terms) %>%
   mutate(score = -log(value)) %>%
   mutate(variable = factor(variable)) %>% 

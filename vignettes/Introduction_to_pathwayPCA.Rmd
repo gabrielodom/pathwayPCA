@@ -183,25 +183,15 @@ names(ovarian_aespcOut)
 ### 2.3.3 The pathway analysis results
 For this ovarian cancer dataset, the top 10 most significant pathways identified by AES-PCA are:
 ```{r headPVals}
-ovarian_aespcOut$pVals_df
+getPathpVals(ovarian_aespcOut, numPaths = 10)
 ```
 
-In this table, `n_tested` indicates the number of genes in both the pathway and assay data, i.e. the number of genes in a pathway that we actually tested for association with phenotype in AESPCA. 
-
-Before constructing a graph of the $p$-values, we modify the data frame of pathway $p$-values using the following commands: 
+Before constructing a graph of the $p$-values, we extract the top 20 pathways (the default value for `numPaths` is 20): 
 ```{r subset_top_genes}
-ovOutGather_df <-
-  # Take in the results data frame,
-  ovarian_aespcOut$pVals_df %>%
-  # add the score variable,
-  mutate(score = -log(rawp)) %>%
-  # subset the top 20 pathways, and
-  slice(1:20) %>% 
-  # remove the columns we don't need
-  select(-pathways, -n_tested, -rawp, -FDR_BH)
+ovOutGather_df <- getPathpVals(ovarian_aespcOut, score = TRUE)
 ```
 
-Now we plot the pathway significance level for the top 20 pathways.
+Now we plot the pathway significance level for the top 20 pathways. In this figure, `score` indicates the negative natural logarithm of the unadjusted $p$-values for each pathway.
 ```{r pathway_bar_plots, fig.height = 5, fig.width = 8}
 ggplot(ovOutGather_df) +
   # set overall appearance of the plot
@@ -425,17 +415,16 @@ Next, we identify the intersection of significant pathways based on both CNV and
 ```{r multiOmicsPvals}
 # Copy Number
 CNVpvals_df <- 
-  ovCNV_aespcOut$pVals_df %>% 
+  getPathpVals(ovCNV_aespcOut, alpha = 0.05) %>% 
   mutate(rawp_CNV = rawp) %>% 
-  select(description, rawp_CNV) %>% 
-  filter(rawp_CNV < 0.05)
+  select(description, rawp_CNV)
 
 # Proteomics
 PROTpvals_df <- 
-  ovarian_aespcOut$pVals_df %>% 
+  getPathpVals(ovarian_aespcOut, alpha = 0.05) %>% 
   mutate(rawp_PROT = rawp) %>% 
-  select(terms, description, rawp_PROT) %>% 
-  filter(rawp_PROT < 0.05)
+  select(description, rawp_PROT)
+
 
 # Intersection
 SigBoth_df <- inner_join(PROTpvals_df, CNVpvals_df, by = "description")
