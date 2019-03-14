@@ -33,10 +33,7 @@ Before we move on, we will outline our steps. After reading this vignette, you s
 3. Be able to apply AES-PCA or Supervised PCA to analyze `Omics` data objects with survival, regression, or classification response.
 
 ## 1.2 Load Packages
-Before we begin, make sure you have the latest version of the package. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA/tree/devel) from [GitHub](https://github.com/):
-```
-devtools::install_github("gabrielodom/pathwayPCA", ref = "devel")
-```
+Before we begin, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package (it comes with `R` automatically). We also recommend the `tidyverse` package to help you run some of the examples in these vignettes (while the `tidyverse` package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package).
 ```{r packLoad, message=FALSE}
 library(parallel)
 library(tidyverse)

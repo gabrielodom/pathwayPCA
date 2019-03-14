@@ -31,11 +31,23 @@ This guide will serve as a brief overview to the pathway significance testing wo
 4. Test Pathway Significance ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html))
 5. Visualize Results ([*vignette*](https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html))
 
-Before we get started, you need the `pathwayPCA` package to run your analysis. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+## Installing the Package
+`pathwayPCA` is a package for R, so you need [R](https://cloud.r-project.org/) first. We also strongly recommend the [RStudio](https://www.rstudio.com/products/rstudio/download/) integrated development environment as a user-friendly graphical wrapper for R.
+
+### Stable Build
+The stable build of our package will be available on Bioconductor in May of 2019. To access Bioconductor packages, first install BiocManager, then use BiocManager to install this package:
+```
+install.packages("BiocManager")
+BiocManager::install("pathwayPCA")
+```
+
+### Development Build
+Because we are currently in the development phase for version 2 of this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
 ```
 devtools::install_github("gabrielodom/pathwayPCA")
 ```
 
+## Loading Packages
 Also, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the `parallel` package (it comes with `R` automatically). We also recommend the `tidyverse` package to help you run some of the examples in these vignettes (while the `tidyverse` package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package). 
 ```
 install.packages("tidyverse")

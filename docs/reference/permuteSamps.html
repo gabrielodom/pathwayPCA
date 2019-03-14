@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
       </span>
     </div>
 
@@ -85,22 +85,20 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
     </li>
   </ul>
 </li>
@@ -197,9 +195,10 @@ bootstrap sample? Defaults to <code>TRUE</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THESE FUNCTIONS DIRECTLY.</span>
-  <span class='co'># Use AESPCA_pVals() or SuperPCA_pVals() instead</span>
+    <pre class="examples"><div class='input'>  # DO NOT CALL THESE FUNCTIONS DIRECTLY.
+  # Use AESPCA_pVals() or SuperPCA_pVals() instead
 
+</div><span class='co'># NOT RUN {</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
 
@@ -207,73 +206,8 @@ bootstrap sample? Defaults to <code>TRUE</code>.</p></td>
     <span class='kw'>response_vec</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_time</span>,
     <span class='kw'>event_vec</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>$<span class='no'>OS_event</span>,
     <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"survival"</span>
-  )</div><div class='output co'>#&gt; $response_vec
-#&gt;   [1]  34.0749565   3.6784209 199.8912139 158.6626779   6.8984210 376.8397640
-#&gt;   [7]  13.8435509 186.1716092  17.0208140   0.8535502 191.7464613  13.9210846
-#&gt;  [13] 304.9216947   1.6010998  27.6854503  48.1316873 195.8836185   1.3171466
-#&gt;  [19]  28.0757536 159.8194795  50.9875412  15.4199048 108.3042141  12.6268193
-#&gt;  [25]  72.2352444  87.1178012  27.3710683   1.0561437  73.0434995  31.1264310
-#&gt;  [31] 231.7256753 416.4933773  12.1043445 260.8695004  27.7661878 205.4192093
-#&gt;  [37] 304.9255630   5.6241431  16.6454315  19.5388443  18.9594597 338.7218774
-#&gt;  [43]  25.2911933 195.4675158  97.8495616 110.0705093 233.5342235  92.6218503
-#&gt;  [49] 129.3807719 197.3627670  67.5645116  46.7738726  46.5496049 749.6508860
-#&gt;  [55]   0.4356056  53.0298018 635.9921923 210.5163166  46.0107539  93.1713553
-#&gt;  [61]  46.9874536  41.1340108 176.0432251  16.0191265  29.9738007  70.5325831
-#&gt;  [67]  46.2846019 136.7698406  74.8972328 152.1355897  11.5768951  36.0240396
-#&gt;  [73] 111.2171461 112.3344322 431.1419388  29.2627862  72.0756422 484.8356017
-#&gt;  [79] 284.7395393  16.3405419 122.0220301  85.1523040  98.3205710  40.9825531
-#&gt;  [85]   5.9001042  73.2486337   1.1221074   4.1641478   0.7107276  99.4079845
-#&gt;  [91] 254.1991919   2.9464282   6.8072680  71.2021687 200.0374111 195.5287478
-#&gt;  [97] 162.7468954 111.6430209  96.2105065 144.3549661  16.3067341  33.7242443
-#&gt; [103]  23.5785130  52.3437194  99.2293865  89.0068283 164.7180779  16.0913403
-#&gt; [109] 570.7526180 179.5076271  47.2298889   7.7882545  34.0401819 390.3674926
-#&gt; [115]  40.5365149 189.4703965   4.1135735  47.2669211 131.1211889  54.3502816
-#&gt; [121]  34.4544429   0.2799212  63.3662271 171.6177554  42.0212809  33.0739473
-#&gt; [127] 174.6078773 309.3083045 174.0383265 190.4587129  72.0482221 180.7570960
-#&gt; [133]   8.5339844  44.2837204   8.4189726 166.2233025   0.8243824  38.9188156
-#&gt; [139]   6.3980586   3.0288678   5.0977145  27.2589195 137.8031745  21.1886625
-#&gt; [145]  46.0440709 113.1071766   6.7557898 144.0001851 397.8514876  26.4638397
-#&gt; [151]  63.4653143  32.0663483   0.7460259  74.1892289 730.4837673  70.0278374
-#&gt; [157]  21.2185320  49.7952841 180.7801298  34.2847443  44.3064273  20.2901593
-#&gt; [163]   8.2328834  39.9797813  56.5448352  49.1338978  95.3209868 231.3469872
-#&gt; [169]  57.8689915  17.8021598   5.2333377  17.3697800  97.6948892  27.7458273
-#&gt; [175]  19.8888704 326.4084254  85.6159888 104.0250338 147.5702420  34.2122119
-#&gt; [181] 430.2970834  12.9549958   7.4735955 194.8242255   3.3791126  41.1220608
-#&gt; [187]  26.7136949  85.3050226   5.0729877 209.2132540  12.7731723   2.4596495
-#&gt; [193] 150.0337995  31.8166393 190.5759853  11.0733204 140.9020101 120.3122461
-#&gt; [199]  56.9314154  80.3412408  74.6069506  46.7686974   3.3155918  88.3705217
-#&gt; [205] 257.3610087   9.6298745 101.0036141  22.1454387  88.0545877 176.5105188
-#&gt; [211]  87.4190134 247.5434673  39.1632915  35.8993548  49.5823182  22.6589552
-#&gt; [217]   1.7975882  54.7929943 214.0107979  27.5703863  19.9221883 218.4752494
-#&gt; [223]  54.6671200 122.9268792  25.7106076 111.1061815  67.4403586  23.3501975
-#&gt; [229]  23.3988386  88.6107141 395.3270738 313.3483525  63.1840243  60.4919750
-#&gt; [235]  73.2274645  77.8000796  50.2642444  18.8867090   4.6144069   6.5865475
-#&gt; [241]  49.4517867  25.6309002 405.7193431 129.0836635  12.0300267  21.3933991
-#&gt; [247]  24.6817219   2.1672012  37.6852923  29.6772354
-#&gt; 
-#&gt; $event_vec
-#&gt;   [1]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE
-#&gt;  [13]  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
-#&gt;  [25]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
-#&gt;  [37]  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE
-#&gt;  [49]  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
-#&gt;  [61] FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE
-#&gt;  [73]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE
-#&gt;  [85] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE
-#&gt;  [97] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE
-#&gt; [109]  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE
-#&gt; [121]  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE
-#&gt; [133] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
-#&gt; [145] FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE
-#&gt; [157]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE
-#&gt; [169]  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-#&gt; [181]  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
-#&gt; [193] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE
-#&gt; [205]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE
-#&gt; [217] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE
-#&gt; [229] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE
-#&gt; [241]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE
-#&gt; </div><div class='input'>
+  )
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -297,7 +231,7 @@ bootstrap sample? Defaults to <code>TRUE</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>
