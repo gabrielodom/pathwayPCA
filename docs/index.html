@@ -127,14 +127,16 @@
 <h3 class="hasAnchor">
 <a href="#stable-build" class="anchor"></a>Stable Build</h3>
 <p>The stable build of our package will be available on Bioconductor in May of 2019. To access Bioconductor packages, first install BiocManager, then use BiocManager to install this package:</p>
-<pre><code>install.packages("BiocManager")
-BiocManager::install("pathwayPCA")</code></pre>
+<pre><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("BiocManager")
+BiocManager::install("pathwayPCA")</a></code></pre>
 </div>
 <div id="development-build" class="section level3">
 <h3 class="hasAnchor">
 <a href="#development-build" class="anchor"></a>Development Build</h3>
 <p>Because we are currently in the development phase for version 2 of this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
+<p>If you are using R version 3.5 or later, and want access to the frozen build for this version, please use</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("gabrielodom/pathwayPCA", ref = "stable_3_5")</a></code></pre>
 <p><br></p>
 </div>
 </div>

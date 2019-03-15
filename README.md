@@ -36,6 +36,11 @@ Because we are currently in the development phase for version 2 of this package,
 devtools::install_github("gabrielodom/pathwayPCA")
 ```
 
+If you are using R version 3.5 or later, and want access to the frozen build for this version, please use
+```
+devtools::install_github("gabrielodom/pathwayPCA", ref = "stable_3_5")
+```
+
 <br>
 
 ## Help Tickets
