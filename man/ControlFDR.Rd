@@ -117,7 +117,7 @@ This function computes adjusted \eqn{p}-values for simple multiple
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 
-
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colon_pathwayCollection")
@@ -147,6 +147,7 @@ This function computes adjusted \eqn{p}-values for simple multiple
 
   ###  Adjust p-Values  ###
   ControlFDR(rawp = pVals)
+}
 
 }
 \seealso{

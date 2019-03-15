@@ -54,13 +54,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use AESPCA_pVals() instead
 #'
-#'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -87,6 +86,7 @@
 #'     parallel = TRUE,
 #'     numCores = 2
 #'   )
+#' }
 #'
 #' @rdname PermTestCateg
 setGeneric("PermTestCateg",
@@ -138,6 +138,13 @@ setMethod(f = "PermTestCateg", signature = "OmicsCateg",
 
               ###  True Model  ###
               pathwayPCs_mat <- as.matrix(pathwayPCs_mat)
+              
+              # We have an instance where all loadings and PC-values can be
+              #   identically 0 (See Issue #69), so we add a catch for this:
+              if(sum(abs(pathwayPCs_mat)) < .Machine$double.eps){
+                return(1)
+              }
+              
               true_mod <- glm(response ~ pathwayPCs_mat, family = binomial)
 
               ###  p-Values  ###

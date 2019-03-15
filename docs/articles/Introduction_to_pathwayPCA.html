@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
       </span>
     </div>
 
@@ -49,22 +49,20 @@
 <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
-    <li class="divider">
-    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
     </li>
   </ul>
 </li>
@@ -94,7 +92,7 @@
       <h1>Integrative Pathway Analysis with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom, Lily Wang, Xi Chen</h4>
             
-            <h4 class="date">2019-02-06</h4>
+            <h4 class="date">2019-03-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Introduction_to_pathwayPCA.Rmd"><code>vignettes/Introduction_to_pathwayPCA.Rmd</code></a></small>
       <div class="hidden name"><code>Introduction_to_pathwayPCA.Rmd</code></div>
@@ -115,14 +113,34 @@
 <li>Perform analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.</li>
 <li>Analyze studies with complex experimental designs, with multiple covariates, and with interaction effects, e.g., testing whether pathway association with clinical phenotype is different between male and female subjects.</li>
 </ol>
-<p>The development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> can be installed from <a href="https://github.com/">GitHub</a>:</p>
+<div id="installing-the-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installing-the-package" class="anchor"></a>Installing the Package</h2>
+<p><code>pathwayPCA</code> is a package for R, so you need <a href="https://cloud.r-project.org/">R</a> first. We also strongly recommend the <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a> integrated development environment as a user-friendly graphical wrapper for R.</p>
+<div id="stable-build" class="section level3">
+<h3 class="hasAnchor">
+<a href="#stable-build" class="anchor"></a>Stable Build</h3>
+<p>The stable build of our package will be available on Bioconductor in May of 2019. To access Bioconductor packages, first install BiocManager, then use BiocManager to install this package:</p>
+<pre><code>install.packages("BiocManager")
+BiocManager::install("pathwayPCA")</code></pre>
+</div>
+<div id="development-build" class="section level3">
+<h3 class="hasAnchor">
+<a href="#development-build" class="anchor"></a>Development Build</h3>
+<p>Because we are currently in the development phase for version 2 of this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
+</div>
+</div>
+<div id="loading-packages" class="section level2">
+<h2 class="hasAnchor">
+<a href="#loading-packages" class="anchor"></a>Loading Packages</h2>
 <p>Throughout this vignette, we will make use of the <code>tidyverse</code> suite of utility packages (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>). The <code>tidyverse</code> and <code>pathwayPCA</code> can be loaded into R using:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pathwayPCA)</code></pre></div>
 <p></p>
 <hr>
 <p></p>
+</div>
 </div>
 <div id="case-study-identifying-significant-pathways-in-protein-expressions-associated-with-survival-outcome-in-ovarian-cancer-data" class="section level1">
 <h1 class="hasAnchor">
@@ -144,11 +162,11 @@
 <div id="expression-and-phenotype-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#expression-and-phenotype-data" class="anchor"></a>2.2.1 Expression and Phenotype Data</h3>
-<p>We can obtain datasets 1 and 2 for the ovarian cancer dataset by loading the <code>ovarian_PNNL_survival.RDS</code> data file included in the <code>pathwayPCA</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dataDir_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(
-  <span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>
-)
-ovSurv_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(dataDir_path, <span class="st">"/ovarian_PNNL_survival.RDS"</span>))</code></pre></div>
+<p>We can obtain datasets 1 and 2 for the ovarian cancer dataset by loading the <code>ovarian_PNNL_survival.RDS</code> data file included in the <code>pathwayPCAdata</code> supplement repository: <a href="https://github.com/lizhongliu1996/pathwayPCAdata" class="uri">https://github.com/lizhongliu1996/pathwayPCAdata</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gitHubPath_char &lt;-<span class="st"> "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/"</span>
+ovSurv_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(
+  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">url</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(gitHubPath_char, <span class="st">"ovarian_PNNL_survival.RDS"</span>))
+)</code></pre></div>
 <p>The <code>ovSurv_df</code> dataset is a data frame with protein expression levels and survival outcome matched by sample IDs. The variables (columns) include overall survival time and censoring status, as well as expression data for 5162 proteins for each of the 83 samples.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovSurv_df [<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
 <span class="co">#&gt; # A tibble: 5 x 5</span>
@@ -175,7 +193,10 @@ Content type '' length 174868 bytes (170 KB)
 downloaded 170 KB</code></pre>
 <pre><code>#&gt; [1] "wikipathways-20190110-gmt-Homo_sapiens.gmt"</code></pre>
 <p><code>pathwayPCA</code> includes the June 2018 Wikipathways collection for <em>homo sapiens</em>, which can be loaded using the <code>read_gmt</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wikipathways_PC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dataDir_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(
+  <span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>
+)
+wikipathways_PC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(
   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(dataDir_path, <span class="st">"/wikipathways_human_symbol.gmt"</span>),
   <span class="dt">description =</span> <span class="ot">TRUE</span>
 )</code></pre></div>
@@ -520,7 +541,9 @@ NFKB1_fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 <h2 class="hasAnchor">
 <a href="#creating-copy-number-omics-data-object-for-pathway-analysis" class="anchor"></a>3.1 Creating copy number <code>Omics</code> data object for pathway analysis</h2>
 <p>We can identify copy number (CNV) pathways significantly associated with survival in the same way as we did for protein expressions. This gene level CNV data was downloaded from UCSC Xena Functional Genomics Browser (<a href="http://xena.ucsc.edu/" class="uri">http://xena.ucsc.edu/</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">copyNumberClean_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(dataDir_path, <span class="st">"/OV_surv_x_CNV2.RDS"</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">copyNumberClean_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(
+  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">url</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(gitHubPath_char, <span class="st">"OV_surv_x_CNV2.RDS"</span>))
+)</code></pre></div>
 <p>And now we create an <code>Omics</code> data container.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovCNV_Surv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
   <span class="dt">assayData_df =</span> copyNumberClean_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],
@@ -706,9 +729,10 @@ NFKB1_cor
 <div id="data-setup-and-aespca-analysis" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-setup-and-aespca-analysis" class="anchor"></a>4.1 Data setup and AESPCA analysis</h2>
-<p>For this example, we used TCGA KIRP RNAseq dataset downloaded from Xena datahub. First, we load the KIRP data, create an <code>Omics</code> data container, and extract first AESPC from each pathway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load Data</span>
-kidney_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(dataDir_path, <span class="st">"/KIRP_Surv_RNAseq_inner.RDS"</span>))</code></pre></div>
+<p>For this example, we used TCGA KIRP RNAseq dataset downloaded from Xena datahub. First, we load the KIRP data, create an <code>Omics</code> data container, and extract first AESPC from each pathway. Because the full data is large (19.4Mb), we have moved it to a supplemental data package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kidney_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(
+  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">url</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(gitHubPath_char, <span class="st">"KIRP_Surv_RNAseq_inner.RDS"</span>))
+)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create Omics Container</span>
 kidney_Omics &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
   <span class="dt">assayData_df =</span> kidney_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>)],
@@ -924,7 +948,7 @@ fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 <p>Chen, X. (2011) Adaptive elastic-net sparse principal component analysis for pathway association testing. Statistical applications in genetics and molecular biology, 10.</p>
 <p>The R session information for this vignette is:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
+<span class="co">#&gt; R Under development (unstable) (2019-02-12 r76095)</span>
 <span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
 <span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
 <span class="co">#&gt; </span>
@@ -942,35 +966,35 @@ fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] survminer_0.4.3   ggpubr_0.2        magrittr_1.5     </span>
-<span class="co">#&gt;  [4] survival_2.43-3   bindrcpp_0.2.2    pathwayPCA_0.99.1</span>
-<span class="co">#&gt;  [7] forcats_0.3.0     stringr_1.3.1     dplyr_0.7.8      </span>
+<span class="co">#&gt;  [4] survival_2.43-3   bindrcpp_0.2.2    pathwayPCA_0.99.3</span>
+<span class="co">#&gt;  [7] forcats_0.3.0     stringr_1.4.0     dplyr_0.7.8      </span>
 <span class="co">#&gt; [10] purrr_0.3.0       readr_1.3.1       tidyr_0.8.2      </span>
 <span class="co">#&gt; [13] tibble_2.0.1      ggplot2_3.1.0     tidyverse_1.2.1  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.0         lubridate_1.7.4    lattice_0.20-38   </span>
-<span class="co">#&gt;  [4] zoo_1.8-4          assertthat_0.2.0   rprojroot_1.3-2   </span>
-<span class="co">#&gt;  [7] digest_0.6.18      utf8_1.1.4         R6_2.3.0          </span>
-<span class="co">#&gt; [10] cellranger_1.1.0   plyr_1.8.4         backports_1.1.3   </span>
-<span class="co">#&gt; [13] lars_1.2           evaluate_0.12      httr_1.4.0        </span>
-<span class="co">#&gt; [16] pillar_1.3.1       rlang_0.3.1        lazyeval_0.2.1    </span>
-<span class="co">#&gt; [19] readxl_1.2.0       data.table_1.12.0  rstudioapi_0.9.0  </span>
-<span class="co">#&gt; [22] Matrix_1.2-15      rmarkdown_1.11     pkgdown_1.3.0.9000</span>
-<span class="co">#&gt; [25] desc_1.2.0         labeling_0.3       splines_3.5.2     </span>
-<span class="co">#&gt; [28] munsell_0.5.0      broom_0.5.1        compiler_3.5.2    </span>
-<span class="co">#&gt; [31] modelr_0.1.2       xfun_0.4           pkgconfig_2.0.2   </span>
-<span class="co">#&gt; [34] htmltools_0.3.6    tidyselect_0.2.5   km.ci_0.5-2       </span>
-<span class="co">#&gt; [37] gridExtra_2.3      roxygen2_6.1.1     fansi_0.4.0       </span>
-<span class="co">#&gt; [40] crayon_1.3.4       withr_2.1.2        MASS_7.3-51.1     </span>
-<span class="co">#&gt; [43] commonmark_1.7     grid_3.5.2         xtable_1.8-3      </span>
-<span class="co">#&gt; [46] nlme_3.1-137       jsonlite_1.6       gtable_0.2.0      </span>
-<span class="co">#&gt; [49] KMsurv_0.1-5       scales_1.0.0       cli_1.0.1         </span>
-<span class="co">#&gt; [52] stringi_1.2.4      fs_1.2.6           xml2_1.2.0        </span>
-<span class="co">#&gt; [55] survMisc_0.5.5     generics_0.0.2     cmprsk_2.2-7      </span>
-<span class="co">#&gt; [58] tools_3.5.2        glue_1.3.0         hms_0.4.2         </span>
-<span class="co">#&gt; [61] parallel_3.5.2     yaml_2.2.0         colorspace_1.4-0  </span>
-<span class="co">#&gt; [64] rvest_0.3.2        memoise_1.1.0      knitr_1.21        </span>
-<span class="co">#&gt; [67] bindr_0.1.1        haven_2.0.0</span></code></pre></div>
+<span class="co">#&gt;  [1] Rcpp_1.0.0        lubridate_1.7.4   lattice_0.20-38  </span>
+<span class="co">#&gt;  [4] zoo_1.8-4         assertthat_0.2.0  rprojroot_1.3-2  </span>
+<span class="co">#&gt;  [7] digest_0.6.18     utf8_1.1.4        R6_2.3.0         </span>
+<span class="co">#&gt; [10] cellranger_1.1.0  plyr_1.8.4        backports_1.1.3  </span>
+<span class="co">#&gt; [13] lars_1.2          evaluate_0.13     httr_1.4.0       </span>
+<span class="co">#&gt; [16] pillar_1.3.1      rlang_0.3.1       lazyeval_0.2.1   </span>
+<span class="co">#&gt; [19] readxl_1.2.0      data.table_1.12.0 rstudioapi_0.9.0 </span>
+<span class="co">#&gt; [22] Matrix_1.2-15     rmarkdown_1.11    pkgdown_1.3.0    </span>
+<span class="co">#&gt; [25] desc_1.2.0        labeling_0.3      splines_3.6.0    </span>
+<span class="co">#&gt; [28] munsell_0.5.0     broom_0.5.1       compiler_3.6.0   </span>
+<span class="co">#&gt; [31] modelr_0.1.3      xfun_0.4          pkgconfig_2.0.2  </span>
+<span class="co">#&gt; [34] htmltools_0.3.6   tidyselect_0.2.5  km.ci_0.5-2      </span>
+<span class="co">#&gt; [37] gridExtra_2.3     roxygen2_6.1.1    fansi_0.4.0      </span>
+<span class="co">#&gt; [40] crayon_1.3.4      withr_2.1.2       MASS_7.3-51.1    </span>
+<span class="co">#&gt; [43] commonmark_1.7    grid_3.6.0        xtable_1.8-3     </span>
+<span class="co">#&gt; [46] nlme_3.1-137      jsonlite_1.6      gtable_0.2.0     </span>
+<span class="co">#&gt; [49] KMsurv_0.1-5      scales_1.0.0      cli_1.0.1        </span>
+<span class="co">#&gt; [52] stringi_1.3.1     fs_1.2.6          xml2_1.2.0       </span>
+<span class="co">#&gt; [55] survMisc_0.5.5    generics_0.0.2    cmprsk_2.2-7     </span>
+<span class="co">#&gt; [58] tools_3.6.0       glue_1.3.0        hms_0.4.2        </span>
+<span class="co">#&gt; [61] parallel_3.6.0    yaml_2.2.0        colorspace_1.4-0 </span>
+<span class="co">#&gt; [64] rvest_0.3.2       memoise_1.1.0     knitr_1.21       </span>
+<span class="co">#&gt; [67] bindr_0.1.1       haven_2.0.0</span></code></pre></div>
 </div>
   </div>
 
@@ -979,7 +1003,12 @@ fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">1. Introduction</a></li>
+<li>
+<a href="#introduction">1. Introduction</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#installing-the-package">Installing the Package</a></li>
+      <li><a href="#loading-packages">Loading Packages</a></li>
+      </ul>
+</li>
       <li>
 <a href="#case-study-identifying-significant-pathways-in-protein-expressions-associated-with-survival-outcome-in-ovarian-cancer-data">2. Case study: identifying significant pathways in protein expressions associated with survival outcome in ovarian cancer data</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#ovarian-cancer-dataset">2.1. Ovarian cancer dataset</a></li>
@@ -1015,7 +1044,7 @@ fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>

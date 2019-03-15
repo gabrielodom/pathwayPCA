@@ -60,6 +60,7 @@ This is a wrapper function to call \code{\link{superpc.train}}
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
 
+\dontrun{
   data("colon_pathwayCollection")
   data("colonSurv_df")
 
@@ -83,6 +84,7 @@ This is a wrapper function to call \code{\link{superpc.train}}
     response_mat = resp_mat,
     responseType = "survival"
   )
+}
 
 }
 \seealso{

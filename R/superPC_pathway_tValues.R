@@ -66,12 +66,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'
+#' \dontrun{
 #'   data("colon_pathwayCollection")
 #'   data("colonSurv_df")
 #'
@@ -103,6 +103,7 @@
 #'     responseType = "survival",
 #'     control = TRUE
 #'   )
+#' }
 #'
 PathwaytValues <- function(pathway_vec,
                            geneArray_df,

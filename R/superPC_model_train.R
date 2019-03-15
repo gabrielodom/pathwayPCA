@@ -41,13 +41,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'   
-#'   
+#' \dontrun{
 #'   data("colon_pathwayCollection")
 #'   data("colonSurv_df")
 #'   
@@ -72,7 +71,7 @@
 #'     data = data_ls,
 #'     type = "surv"
 #'   )
-#'   
+#' }
 #'   
 superpc.train <- function(data,
                           type = c("survival", "regression", "categorical"),

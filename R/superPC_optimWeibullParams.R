@@ -57,7 +57,6 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @importFrom stats as.formula
 #' @importFrom stats deriv
@@ -67,7 +66,7 @@
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead.
 #'
-#'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colon_pathwayCollection")
 #'
@@ -88,6 +87,7 @@
 #'     max_tControl_vec = tAbsMax_num,
 #'     pathwaySize_vec = lengths(colon_pathwayCollection$pathways)
 #'   )
+#' }
 #'
 OptimGumbelMixParams <- function(max_tControl_vec,
                                  pathwaySize_vec,

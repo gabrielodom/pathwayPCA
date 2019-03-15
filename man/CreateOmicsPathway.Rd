@@ -105,6 +105,7 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
   data("colon_pathwayCollection")
   data("colonSurv_df")
 
+\dontrun{
   CreateOmicsPath(
     assayData_df = colonSurv_df[, -(1:3)],
     sampleIDs_char = colonSurv_df$sampleID,
@@ -132,6 +133,7 @@ Valid \code{OmicsReg} and \code{OmicsCateg} objects with have one response
     pathwayCollection_ls = colon_pathwayCollection,
     response_fact = as.factor(colonSurv_df$OS_event)
   )
+}
 
 }
 \seealso{

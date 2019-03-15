@@ -81,7 +81,7 @@ This is a wrapper function for the \code{\link{ControlFDR}}
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 
-
+\dontrun{
   ###  Load the Example Data  ###
   data("colonSurv_df")
   data("colon_pathwayCollection")
@@ -115,6 +115,7 @@ This is a wrapper function for the \code{\link{ControlFDR}}
     pVals_vec = pVals,
     genesets_ls = trimmed_PC
   )
+}
 
 }
 \keyword{internal}

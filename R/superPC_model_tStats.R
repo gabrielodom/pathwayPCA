@@ -67,13 +67,12 @@
 #' @importFrom survival coxph.control
 #' @importFrom survival Surv
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'   
-#'   
+#' \dontrun{
 #'   data("colon_pathwayCollection")
 #'   data("colonSurv_df")
 #'   
@@ -103,7 +102,7 @@
 #'     fit = superpcFit,
 #'     data = data_ls
 #'   )
-#'   
+#' } 
 #'   
 superpc.st <- function(fit,
                        data,

@@ -49,7 +49,7 @@ The \code{mysvd} function takes in a tall -Omics data matrix,
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
   
-  
+\dontrun{
   data("colon_pathwayCollection")
   data("colonSurv_df")
   
@@ -64,7 +64,7 @@ The \code{mysvd} function takes in a tall -Omics data matrix,
     getTrimPathwayCollection(colon_OmicsSurv)[["KEGG_ASTHMA"]]$IDs
   
   mysvd(t(getAssay(colon_OmicsSurv))[asthmaGenes_char, ])
-  
+}
   
 }
 \keyword{internal}

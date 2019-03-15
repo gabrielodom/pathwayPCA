@@ -7,5 +7,6 @@
 #'   250 subjects. The first two columns are the Overall Survival time
 #'   (\code{OS_time}) and death indicator (\code{OS_event}).
 #'
-#' @source Xi Steven Chen
+#' @source GEO GSE17538
+#'   \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE17538}
 "colonSurv_df"

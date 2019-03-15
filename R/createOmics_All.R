@@ -64,6 +64,7 @@
 #'   data("colon_pathwayCollection")
 #'   data("colonSurv_df")
 #'
+#' \dontrun{
 #'   CreateOmicsPath(
 #'     assayData_df = colonSurv_df[, -(1:3)],
 #'     sampleIDs_char = colonSurv_df$sampleID,
@@ -91,8 +92,8 @@
 #'     pathwayCollection_ls = colon_pathwayCollection,
 #'     response_fact = as.factor(colonSurv_df$OS_event)
 #'   )
+#' }
 #'
-#' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsPath <- function(assayData_df,
                             sampleIDs_char,
@@ -122,7 +123,6 @@ CreateOmicsPath <- function(assayData_df,
 #'   indicating right-censoring. The values will be \code{FALSE} if the
 #'   observation was censored (i.e., we did not observe an event).
 #'
-#' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsSurv <- function(assayData_df,
                             sampleIDs_char,
@@ -152,7 +152,6 @@ CreateOmicsSurv <- function(assayData_df,
 #' @param response_num A \code{numeric} vector of length \eqn{N}: the dependent
 #'   variable in an ordinary regression exercise.
 #'
-#' @export
 #' @rdname CreateOmicsPathway
 CreateOmicsReg <- function(assayData_df,
                            sampleIDs_char,
@@ -174,7 +173,7 @@ CreateOmicsReg <- function(assayData_df,
 
 #' @param response_fact A \code{factor} vector of length \eqn{N}: the dependent
 #'   variable of a generalized linear regression exercise.
-#' @export
+#' 
 #' @rdname CreateOmicsPathway
 CreateOmicsCateg <- function(assayData_df,
                              sampleIDs_char,

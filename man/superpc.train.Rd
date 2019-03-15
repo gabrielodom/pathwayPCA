@@ -54,7 +54,7 @@ This function is a \code{\link{switch}} call to
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
   
-  
+\dontrun{
   data("colon_pathwayCollection")
   data("colonSurv_df")
   
@@ -79,7 +79,7 @@ This function is a \code{\link{switch}} call to
     data = data_ls,
     type = "surv"
   )
-  
+}
   
 }
 \seealso{
