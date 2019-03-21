@@ -4,28 +4,33 @@
 \alias{write_gmt}
 \title{Write a \code{pathwayCollection} Object to a \code{.gmt} File}
 \usage{
-write_gmt(pathwayCollection, file)
+write_gmt(pathwayCollection, file, setType = c("pathways", "genes",
+  "regions"))
 }
 \arguments{
-\item{pathwayCollection}{A \code{pathwayCollection} list of pathways. This
+\item{pathwayCollection}{A \code{pathwayCollection} list of sets. This
 list contains the following two or three elements:
 \itemize{
-  \item{\code{pathways} : }{A named list of character vectors. Each vector
-    contains the names of the individual genes within that pathway as a
-    vector of character strings. Genes can be represented by HGNC gene
-    symbols, Entrez IDs, Ensembl IDs, GO terms, etc. }
+  \item{'setType' : }{A named list of character vectors. Each vector
+    contains the names of the individual genes, sites, or CpGs within
+    that set as a vector of character strings. If you are using genes, 
+    these genes can be represented by HGNC gene symbols, Entrez IDs,
+    Ensembl IDs, GO terms, etc.}
   \item{\code{TERMS} : }{A character vector the same length as the
-    \code{pathways} list with the proper names of the pathways.}
+    'setType' list with the proper names of the sets.}
   \item{\code{description} : }{An optional character vector the same
-    length as the \code{pathways} list with a note on that pathway (such
-    as a url to the description of the pathway). If this element of the
-    \code{pathwayCollection} is \code{NULL}, then the file will be written
-    with \code{""} (the empty character string) as its second field in
-    each line.}
+    length as the 'setType' list with a note on that set (such as a url
+    to the description if the set is a pathway). If this element of the
+    \code{pathwayCollection} is \code{NULL}, then the file will be
+    written with \code{""} (the empty character string) as its second
+    field in each line.}
 }}
 
 \item{file}{Either a character string naming a file or a connection open for
-writing. File names should end in \code{.gmt} for clarity}
+writing. File names should end in \code{.gmt} for clarity.}
+
+\item{setType}{What is the type of the set: pathway set of gene, gene sites
+in RNA or DNA, or regions of CpGs. Defaults to \code{''pathway''}.}
 }
 \value{
 NULL. Output written to the file path specified.

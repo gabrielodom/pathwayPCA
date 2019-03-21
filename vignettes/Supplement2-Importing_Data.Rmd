@@ -81,14 +81,18 @@ This object will be the list supplied to the `pathwayCollection_ls` argument in 
 ## 2.3 Creating Your Own `pathwayCollection` List
 Additionally, you can create a `pathwayCollection` object from scratch with the `CreatePathwayCollection` function. This may be useful to users who have their pathway information stored in some form other than a `.gmt` file. You must supply a list of vectors of gene names to the `pathways` argument, and a vector of the proper names of each pathway to the `TERMS` argument. You could also store any other pertinant pathway information by passing a `<name> = <value>` pair to this function.
 ```{r create_test_pathwayCollection}
-myPathways_ls <- list(pathway1 = c("Gene1", "Gene2"),
-                      pathway2 = c("Gene3", "Gene4", "Gene5"),
-                      pathway3 = "Gene6")
-myPathway_names <- c("KEGG_IMPORTANT_PATHWAY_1",
-                     "KEGG_IMPORTANT_PATHWAY_2",
-                     "SOME_OTHER_PATHWAY")
+myPathways_ls <- list(
+  pathway1 = c("Gene1", "Gene2"),
+  pathway2 = c("Gene3", "Gene4", "Gene5"),
+  pathway3 = "Gene6"
+)
+myPathway_names <- c(
+  "KEGG_IMPORTANT_PATHWAY_1",
+  "KEGG_IMPORTANT_PATHWAY_2",
+  "SOME_OTHER_PATHWAY"
+)
 CreatePathwayCollection(
-  pathways = myPathways_ls,
+  sets_ls = myPathways_ls,
   TERMS = myPathway_names,
   website = "URL_TO_PATHWAY_CITATION"
 )
