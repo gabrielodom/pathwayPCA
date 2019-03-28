@@ -13,7 +13,7 @@ test_that("SuperPCA_pVals gives correct class results", {
     respType = "surv"
   )
   
-  expect_s4_class(SuperPCA_pVals(
+  expect_s3_class(SuperPCA_pVals(
                   object = colon_OmicsSurv,
                   parallel = TRUE,
                   numCores = 15,
@@ -29,7 +29,7 @@ test_that("SuperPCA_pVals gives correct class results", {
     respType = "reg"
   )
   
-  expect_s4_class(SuperPCA_pVals(
+  expect_s3_class(SuperPCA_pVals(
                   object = colon_OmicsReg,
                   parallel = TRUE,
                   numCores = 15,
@@ -45,7 +45,7 @@ test_that("SuperPCA_pVals gives correct class results", {
     respType = "categ"
   )
   
-  expect_s4_class(SuperPCA_pVals(
+  expect_s3_class(SuperPCA_pVals(
                   object = colon_OmicsReg,
                   parallel = TRUE,
                   numCores = 15,

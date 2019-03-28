@@ -12,22 +12,22 @@ test_that("AESPCA_pVals gives correct class results", {
   )
   
   #aespca
-  expect_s4_class(AESPCA_pVals(
+  expect_s3_class(AESPCA_pVals(
     object = colon_OmicsSurv,
     numPCs = 2,
-    numReps = 10000,
+    numReps = 10,
     parallel = TRUE,
-    numCores = 15,
+    numCores = 4,
     adjustment = "BY"
   ), class = "aespcOut")
   
   # Regular PCA
-  expect_s4_class(AESPCA_pVals(
+  expect_s3_class(AESPCA_pVals(
     object = colon_OmicsSurv,
     numPCs = 1,
-    numReps = 5000,
+    numReps = 10,
     parallel = TRUE,
-    numCores = 15,
+    numCores = 4,
     asPCA = TRUE,
     adjustment = "BY"
   ), class = "aespcOut")
