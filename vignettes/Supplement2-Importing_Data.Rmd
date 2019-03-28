@@ -185,30 +185,7 @@ assayT_df$LSS
 ```
 
 ## 3.4 Data from a `SummarizedExperiment` Object
-Oftentimes, genomic experiment data is stored in a `SummarizedExperiment`-class object. If your assay and response data are stored in such an object, use the following function to extract the necessary information and return it as a tidy data frame:
-```{r, stdExpr2tidydf}
-SE2Tidy <- function(summExperiment, whichAssay = 1){
-
-  ###  Assay  ###
-  assay_mat <- slot(summExperiment, "assays")[[whichAssay]]
-  dimnames(assay_mat)[1:2] <- dimnames(summExperiment)
-  assay_df <- pathwayPCA::TransposeAssay(
-    assay_df = data.frame(assay_mat),
-    omeNames = "rowNames"
-  )
-
-  ###  Response  ###
-  samps_df <- as.data.frame(
-    slot(summExperiment, "colData")
-  )
-
-  ###  Return Joined Data Frame  ###
-  merge(samps_df, assay_df, by = "row.names")
-
-}
-```
-
-Because `SummarizedExperiment` objects can have more than one assay, specify the index for the assay of your choice with the `whichAssay` argument. Here is an example using the `airway` data:
+Oftentimes, genomic experiment data is stored in a `SummarizedExperiment`-class object. If your assay and response data are stored in such an object, use the `SE2Tidy()` function to extract the necessary information and return it as a tidy data frame. Because `SummarizedExperiment` objects can have more than one assay, you must specify the index for the assay of your choice with the `whichAssay` argument. Here is an example using the `airway` data:
 ```{r stdExpr_Example}
 library(SummarizedExperiment)
 data(airway, package = "airway")
