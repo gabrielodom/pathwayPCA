@@ -7,10 +7,11 @@ test_that("getPathPCLs gives correct errors", {
     url(paste0(gitHubPath_char, "colon_aespcOut.rds"))
   )
   
-  expect_error(getPathPCLs(), 
+  expect_error(getPathPCLs(colon_aespcOut,
+                           "KEGG_PENTOSE_PHOSPHATE_PATHWAY"), 
                "")
   
-  
+
   
   
   
