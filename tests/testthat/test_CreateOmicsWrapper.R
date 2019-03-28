@@ -3,7 +3,7 @@ context("CreateOmics")
 test_that("CreateOmics gives correct errors", {
   
   expect_error(CreateOmics(), 
-  "argument 'assayData_df' is missing, with no default")
+  "argument \"assayData_df\" is missing, with no default")
   
   expect_error(CreateOmics(response = "12"), 
   "Response type required when a response is given.")
