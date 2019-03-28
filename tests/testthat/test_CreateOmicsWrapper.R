@@ -15,31 +15,50 @@ test_that("CreateOmics gives correct errors", {
 
 test_that("CreateOmics gives correct messages", {
   
+  data("colonSurv_df")
+  data("colon_pathwayCollection")
+  
   # Pathway
-  expect_message(CreateOmics(assayData_df = joinedExperiment_df[, -c(1:3)],
-                             pathwayCollection_ls = gene_set_ls),
-                             "Creating object of class OmicsPathway.")
+  expect_message(
+    CreateOmics(
+      assayData_df = colonSurv_df[, -(2:3)],
+      pathwayCollection_ls = colon_pathwayCollection
+    ),
+    "Creating object of class OmicsPathway."
+  )
 
   # Survival
-  expect_error(CreateOmics(assayData_df = joinedExperiment_df[, -c(1:3)],
-                           pathwayCollection_ls = gene_set_ls,
-                           response = joinedExperiment_df[, 2:3],
-                           respType = "s"),
-                           "Creating object of class OmicsSurv.")
+  expect_message(
+    CreateOmics(
+      assayData_df = colonSurv_df[, -c(2:3)],
+      pathwayCollection_ls = colon_pathwayCollection,
+      response = colonSurv_df[, 1:3],
+      respType = "s"
+    ),
+    "Creating object of class OmicsSurv."
+  )
 
   # Regression
-  expect_error(CreateOmics(assayData_df = joinedExperiment_df[, -c(1:3)],
-                           pathwayCollection_ls = gene_set_ls,
-                           response = joinedExperiment_df[, 2],
-                           respType = "r"),
-                           "Creating object of class OmicsReg.")
+  expect_message(
+    CreateOmics(
+      assayData_df = colonSurv_df[, -c(2:3)],
+      pathwayCollection_ls = colon_pathwayCollection,
+      response = colonSurv_df[, 1:2],
+      respType = "r"
+    ),
+    "Creating object of class OmicsReg."
+  )
 
   # Categorical
-  expect_error(CreateOmics(assayData_df = joinedExperiment_df[, -c(1:3)],
-                           pathwayCollection_ls = gene_set_ls,
-                           response = joinedExperiment_df[, 3],
-                           respType = "c"),
-                           "Creating object of class OmicsCateg.")
+  expect_message(
+    CreateOmics(
+      assayData_df = colonSurv_df[, -c(2:3)],
+      pathwayCollection_ls = colon_pathwayCollection,
+      response = colonSurv_df[, c(1,3)],
+      respType = "c"
+    ),
+    "Creating object of class OmicsCateg."
+  )
 
 })
 

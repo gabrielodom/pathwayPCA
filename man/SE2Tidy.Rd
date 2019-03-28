@@ -7,9 +7,10 @@
 SE2Tidy(summExperiment, whichAssay = 1)
 }
 \arguments{
-\item{summExperiment}{A \code{\link{SummarizedExperiment}} object}
+\item{summExperiment}{A \code{\link[SummarizedExperiment]{SummarizedExperiment}}
+object}
 
-\item{whichAssay}{Because \code{\link{SummarizedExperiment}} objects can
+\item{whichAssay}{Because \code{SummarizedExperiment} objects can
 store multiple related assays, which assay will be paired with a given
 pathway collection to create an \code{Omics*}-class data container?
 Defaults to 1, for the first assay in the object.}
@@ -19,14 +20,14 @@ The transposition of the assay in \code{summExperiment} to tidy form
 }
 \description{
 Extract the assay information from a
-   \code{\link{SummarizedExperiment}}-object, transpose it, and and return
-   it as a tidy data frame that contains assay measurements, feature names,
-   and sample IDs
+   \code{\link[SummarizedExperiment]{SummarizedExperiment}}-object, transpose
+   it, and and return it as a tidy data frame that contains assay
+   measurements, feature names, and sample IDs
 }
 \details{
 This function is designed to extract and transpose a "tall" assay
    data frames (where genes or proteins are the rows and patient or tumour
-   samples are the columns) from a \code{\link{SummarizedExperiment}} object.
+   samples are the columns) from a \code{SummarizedExperiment} object.
    This function also transposes the row (feature) names to column names and
    the column (sample) names to row names via the
    \code{\link{TransposeAssay}} function.

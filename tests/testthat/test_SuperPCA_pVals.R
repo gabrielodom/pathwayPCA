@@ -1,11 +1,11 @@
 context("SuperPCA_pVals")
 
-test_that("SuperPCA_pVals gives correct class results", {
+data("colon_pathwayCollection")
+data("colonSurv_df")
+
+###  Survival  ###
+test_that("Survival SuperPCA_pVals has correct class", {
   
-  data("colon_pathwayCollection")
-  data("colonSurv_df")
-  
-  ######  Survival  #############################################################
   colon_OmicsSurv <- CreateOmics(
     assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
@@ -13,44 +13,60 @@ test_that("SuperPCA_pVals gives correct class results", {
     respType = "surv"
   )
   
-  expect_s3_class(SuperPCA_pVals(
-                  object = colon_OmicsSurv,
-                  parallel = TRUE,
-                  numCores = 15,
-                  adjustpValues = TRUE,
-                  adjustment = c("BH", "SidakSS")
-                 ), class = "superpcOut")
+  expect_s3_class(
+    SuperPCA_pVals(
+      object = colon_OmicsSurv,
+      parallel = TRUE,
+      numCores = 2,
+      adjustpValues = TRUE,
+      adjustment = "BH"
+    ), class = "superpcOut"
+  )
   
-  ######  Regression  ###########################################################
+})
+
+
+###  Regression  ###
+test_that("Regression SuperPCA_pVals gives correct class", {
+
   colon_OmicsReg <- CreateOmics(
     assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
     response = colonSurv_df[, 1:2],
     respType = "reg"
   )
-  
-  expect_s3_class(SuperPCA_pVals(
-                  object = colon_OmicsReg,
-                  parallel = TRUE,
-                  numCores = 15,
-                  adjustpValues = TRUE,
-                  adjustment = c("BH", "SidakSS")
-                 ), class = "superpcOut")
-  
-  ######  Categorical  ##########################################################
+
+  expect_s3_class(
+    SuperPCA_pVals(
+      object = colon_OmicsReg,
+      parallel = TRUE,
+      numCores = 2,
+      adjustpValues = TRUE,
+      adjustment = "BH"
+    ), class = "superpcOut"
+  )
+
+})
+
+
+###  Categorical  ###
+test_that("Categorical SuperPCA_pVals gives correct class", {
+
   colon_OmicsCateg <- CreateOmics(
     assayData_df = colonSurv_df[, -(2:3)],
     pathwayCollection_ls = colon_pathwayCollection,
     response = colonSurv_df[, c(1, 3)],
     respType = "categ"
   )
-  
-  expect_s3_class(SuperPCA_pVals(
-                  object = colon_OmicsReg,
-                  parallel = TRUE,
-                  numCores = 15,
-                  adjustpValues = TRUE,
-                  adjustment = c("BH", "SidakSS")
-                ), class = "superpcOut")
-  
+
+  expect_s3_class(
+    SuperPCA_pVals(
+      object = colon_OmicsCateg,
+      parallel = TRUE,
+      numCores = 2,
+      adjustpValues = TRUE,
+      adjustment = "BH"
+    ), class = "superpcOut"
+  )
+
 })

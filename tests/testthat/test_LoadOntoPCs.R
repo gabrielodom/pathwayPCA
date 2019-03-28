@@ -1,20 +1,22 @@
 context("LoadOntoPCs")
 
+data("colonSurv_df")
+
+gitHubPath_char <-
+  "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/"
+colon_aespcOut <- readRDS(
+  url(paste0(gitHubPath_char, "colon_aespcOut.rds"))
+)
 
 
-test_that("LoadOntoPCs gives correct errors", {
+test_that("LoadOntoPCs returns df with correct classes", {
   
-  data(c)
-  
-  gitHubPath_char <- "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/"
-  colon_aespcOut <- readRDS(
-    url(paste0(gitHubPath_char, "colon_aespcOut.rds"))
+  expect_s3_class(
+    LoadOntoPCs(
+      design_df = colonSurv_df,
+      loadings_ls = colon_aespcOut$loadings_ls
+    ),
+    c("tbl_df", "tbl", "data.frame")
   )
-  
-  expect_error(LoadOntoPCs(design_df =  ,
-                           loadings_ls = colon_aespcOut), 
-                           sampleID = c("firstCol"),
-               "")
-
   
 })
