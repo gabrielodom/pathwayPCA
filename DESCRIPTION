@@ -35,7 +35,8 @@ Suggests:
     rmarkdown,
     SummarizedExperiment,
     survminer,
-    tidyverse
+    tidyverse,
+    testthat
 biocViews:
     CopyNumberVariation,
     DNAMethylation,
@@ -120,6 +121,7 @@ Collate:
     'utils_load_test_data_onto_PCs.R'
     'utils_multtest_pvalues.R'
     'utils_read_gmt.R'
+    'utils_stdExpr_2_tidyAssay.R'
     'utils_transpose_assay.R'
     'utils_write_gmt.R'
 VignetteBuilder: knitr

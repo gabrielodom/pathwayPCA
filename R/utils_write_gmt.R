@@ -3,24 +3,27 @@
 #' @description Write a \code{pathwayCollection} object as a pathways list file
 #'    in Gene Matrix Transposed (\code{.gmt}) format.
 #'
-#' @param pathwayCollection A \code{pathwayCollection} list of pathways. This
+#' @param pathwayCollection A \code{pathwayCollection} list of sets. This
 #'    list contains the following two or three elements:
 #'    \itemize{
-#'      \item{\code{pathways} : }{A named list of character vectors. Each vector
-#'        contains the names of the individual genes within that pathway as a
-#'        vector of character strings. Genes can be represented by HGNC gene
-#'        symbols, Entrez IDs, Ensembl IDs, GO terms, etc. }
+#'      \item{'setType' : }{A named list of character vectors. Each vector
+#'        contains the names of the individual genes, sites, or CpGs within
+#'        that set as a vector of character strings. If you are using genes, 
+#'        these genes can be represented by HGNC gene symbols, Entrez IDs,
+#'        Ensembl IDs, GO terms, etc.}
 #'      \item{\code{TERMS} : }{A character vector the same length as the
-#'        \code{pathways} list with the proper names of the pathways.}
+#'        'setType' list with the proper names of the sets.}
 #'      \item{\code{description} : }{An optional character vector the same
-#'        length as the \code{pathways} list with a note on that pathway (such
-#'        as a url to the description of the pathway). If this element of the
-#'        \code{pathwayCollection} is \code{NULL}, then the file will be written
-#'        with \code{""} (the empty character string) as its second field in
-#'        each line.}
+#'        length as the 'setType' list with a note on that set (such as a url
+#'        to the description if the set is a pathway). If this element of the
+#'        \code{pathwayCollection} is \code{NULL}, then the file will be
+#'        written with \code{""} (the empty character string) as its second
+#'        field in each line.}
 #'    }
 #' @param file Either a character string naming a file or a connection open for
-#'    writing. File names should end in \code{.gmt} for clarity
+#'    writing. File names should end in \code{.gmt} for clarity.
+#' @param setType What is the type of the set: pathway set of gene, gene sites
+#'    in RNA or DNA, or regions of CpGs. Defaults to \code{''pathway''}.
 #'
 #' @return NULL. Output written to the file path specified.
 #'
@@ -48,13 +51,15 @@
 #'
 #'   # write_gmt(toy_pathwayCollection, file = "example_pathway.gmt")
 #'
-write_gmt <- function(pathwayCollection, file){
+write_gmt <- function(pathwayCollection, file,
+                      setType = c("pathways", "genes", "regions")){
 
   ###  Setup  ###
-  pathways_ls <- pathwayCollection$pathways
-  TERMS_char  <- pathwayCollection$TERMS
-  desc_char   <- pathwayCollection$description
-  nPaths      <- length(pathways_ls)
+  setType    <- match.arg(setType)
+  sets_ls    <- pathwayCollection[setType]
+  TERMS_char <- pathwayCollection$TERMS
+  desc_char  <- pathwayCollection$description
+  nPaths     <- length(sets_ls)
 
   if(is.null(desc_char)){
     desc_char <- rep("", nPaths)
@@ -63,17 +68,17 @@ write_gmt <- function(pathwayCollection, file){
 
   ###  Error Checking  ###
   if(nPaths != length(TERMS_char)){
-    stop("Number of pathways should match number of TERMS.")
+    stop("Number of sets should match number of TERMS.")
   }
   if(nPaths != length(desc_char)){
-    stop("Number of pathways should match number of pathway descriptions.")
+    stop("Number of sets should match number of set descriptions.")
   }
-  pathways_ls[which(lengths(pathways_ls) == 0)] <- NA_character_
+  sets_ls[which(lengths(sets_ls) == 0)] <- NA_character_
 
 
   ###  Write a list in .gmt form  ###
   out_ls <- lapply(seq_len(nPaths), function(i){
-    c(TERMS_char[i], desc_char[i], pathways_ls[[i]])
+    c(TERMS_char[i], desc_char[i], sets_ls[[i]])
   })
 
   ###  Collapse the list  ###
