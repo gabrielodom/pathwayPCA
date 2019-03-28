@@ -7,8 +7,8 @@
 SE2Tidy(summExperiment, whichAssay = 1)
 }
 \arguments{
-\item{summExperiment}{A \code{\link[SummarizedExperiment]{SummarizedExperiment}}
-object}
+\item{summExperiment}{A
+\code{\link[SummarizedExperiment]{SummarizedExperiment-class}} object}
 
 \item{whichAssay}{Because \code{SummarizedExperiment} objects can
 store multiple related assays, which assay will be paired with a given
@@ -20,8 +20,8 @@ The transposition of the assay in \code{summExperiment} to tidy form
 }
 \description{
 Extract the assay information from a
-   \code{\link[SummarizedExperiment]{SummarizedExperiment}}-object, transpose
-   it, and and return it as a tidy data frame that contains assay
+   \code{\link[SummarizedExperiment]{SummarizedExperiment-class}}-object,
+   transpose it, and and return it as a tidy data frame that contains assay
    measurements, feature names, and sample IDs
 }
 \details{

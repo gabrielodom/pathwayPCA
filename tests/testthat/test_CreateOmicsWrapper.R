@@ -61,5 +61,3 @@ test_that("CreateOmics gives correct messages", {
   )
 
 })
-
-

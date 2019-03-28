@@ -35,8 +35,7 @@ Suggests:
     rmarkdown,
     SummarizedExperiment,
     survminer,
-    tidyverse,
-    testthat
+    tidyverse
 biocViews:
     CopyNumberVariation,
     DNAMethylation,

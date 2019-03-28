@@ -1,12 +1,12 @@
 #' Tidy a SummarizedExperiment Assay
 #'
 #' @description Extract the assay information from a
-#'    \code{\link[SummarizedExperiment]{SummarizedExperiment}}-object, transpose
-#'    it, and and return it as a tidy data frame that contains assay
+#'    \code{\link[SummarizedExperiment]{SummarizedExperiment-class}}-object,
+#'    transpose it, and and return it as a tidy data frame that contains assay
 #'    measurements, feature names, and sample IDs
 #'
-#' @param summExperiment A \code{\link[SummarizedExperiment]{SummarizedExperiment}}
-#'    object
+#' @param summExperiment A
+#'    \code{\link[SummarizedExperiment]{SummarizedExperiment-class}} object
 #' @param whichAssay Because \code{SummarizedExperiment} objects can
 #'    store multiple related assays, which assay will be paired with a given
 #'    pathway collection to create an \code{Omics*}-class data container?
@@ -36,7 +36,7 @@ SE2Tidy <- function(summExperiment, whichAssay = 1){
   
   ###  Assay  ###
   assay_mat <- slot(summExperiment, "assays")[[whichAssay]]
-  dimnames(assay_mat)[1:2] <- dimnames(summExperiment)
+  dimnames(assay_mat)[c(1,2)] <- dimnames(summExperiment)
   assay_df <- TransposeAssay(
     assay_df = data.frame(assay_mat),
     omeNames = "rowNames"
