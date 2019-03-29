@@ -56,7 +56,8 @@ write_gmt <- function(pathwayCollection, file,
 
   ###  Setup  ###
   setType    <- match.arg(setType)
-  sets_ls    <- pathwayCollection[setType]
+  # Per Issue #70, we need sets_ls to be a list of 3, not a list of 1.
+  sets_ls    <- pathwayCollection[setType][[1]]
   TERMS_char <- pathwayCollection$TERMS
   desc_char  <- pathwayCollection$description
   nPaths     <- length(sets_ls)
