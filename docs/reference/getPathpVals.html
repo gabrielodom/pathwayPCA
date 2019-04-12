@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test pathways with Supervised PCA — SuperPCA_pVals • pathwayPCA</title>
+<title>Extract Table of \(p\)-values from a <code>superpcOut</code>- or <code>aespcOut</code>-
+   class Object. — getPathpVals • pathwayPCA</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +31,13 @@
 
 
 
-<meta property="og:title" content="Test pathways with Supervised PCA — SuperPCA_pVals" />
+<meta property="og:title" content="Extract Table of \(p\)-values from a <code>superpcOut</code>- or <code>aespcOut</code>-
+   class Object. — getPathpVals" />
 
-<meta property="og:description" content="Given a supervised OmicsPath object (one of
-   OmicsSurv, OmicsReg, or OmicsCateg), extract the
-   first \(k\) principal components (PCs) from each pathway-subset of the
-   -Omics assay design matrix, test their association with the response
-   matrix, and return a data frame of the adjusted \(p\)-values for each
-   pathway." />
+<meta property="og:description" content="Given an object of class aespcOut or superpcOut,
+   as returned by the functions AESPCA_pVals or
+   SuperPCA_pVals, respectively, return a data frame of the
+   \(p\)-values for the top pathways." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -128,149 +128,145 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Test pathways with Supervised PCA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/superPC_wrapper.R'><code>R/superPC_wrapper.R</code></a></small>
-    <div class="hidden name"><code>SuperPCA_pVals.Rd</code></div>
+    <h1>Extract Table of \(p\)-values from a <code>superpcOut</code>- or <code>aespcOut</code>-
+   class Object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/accessClass_pcOutpVals.R'><code>R/accessClass_pcOutpVals.R</code></a></small>
+    <div class="hidden name"><code>getPathpVals.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Given a supervised <code>OmicsPath</code> object (one of
-   <code>OmicsSurv</code>, <code>OmicsReg</code>, or <code>OmicsCateg</code>), extract the
-   first \(k\) principal components (PCs) from each pathway-subset of the
-   -Omics assay design matrix, test their association with the response
-   matrix, and return a data frame of the adjusted \(p\)-values for each
-   pathway.</p>
+    <p>Given an object of class <code>aespcOut</code> or <code>superpcOut</code>,
+   as returned by the functions <code><a href='AESPCA_pVals.html'>AESPCA_pVals</a></code> or
+   <code><a href='SuperPCA_pVals.html'>SuperPCA_pVals</a></code>, respectively, return a data frame of the
+   \(p\)-values for the top pathways.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>SuperPCA_pVals</span>(<span class='no'>object</span>, <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adjustpValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Bonferroni"</span>, <span class='st'>"Holm"</span>, <span class='st'>"Hochberg"</span>, <span class='st'>"SidakSS"</span>, <span class='st'>"SidakSD"</span>,
-  <span class='st'>"BH"</span>, <span class='st'>"BY"</span>, <span class='st'>"ABH"</span>, <span class='st'>"TSBH"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>getPathpVals</span>(<span class='no'>pcOut</span>, <span class='kw'>score</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numPaths</span> <span class='kw'>=</span> <span class='fl'>20L</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for OmicsPathway</span>
-<span class='fu'>SuperPCA_pVals</span>(<span class='no'>object</span>, <span class='kw'>n.threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>adjustpValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Bonferroni"</span>, <span class='st'>"Holm"</span>,
-  <span class='st'>"Hochberg"</span>, <span class='st'>"SidakSS"</span>, <span class='st'>"SidakSD"</span>, <span class='st'>"BH"</span>, <span class='st'>"BY"</span>, <span class='st'>"ABH"</span>, <span class='st'>"TSBH"</span>), <span class='no'>...</span>)</pre>
+<span class='co'># S3 method for superpcOut</span>
+<span class='fu'>getPathpVals</span>(<span class='no'>pcOut</span>, <span class='kw'>score</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numPaths</span> <span class='kw'>=</span> <span class='fl'>20L</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for aespcOut</span>
+<span class='fu'>getPathpVals</span>(<span class='no'>pcOut</span>, <span class='kw'>score</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numPaths</span> <span class='kw'>=</span> <span class='fl'>20L</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>An object of superclass <code>OmicsPathway</code> with a response
-matrix or vector.</p></td>
+      <th>pcOut</th>
+      <td><p>An object of classes <code>superpcOut</code> or <code>aespcOut</code> as
+returned by the <code><a href='SuperPCA_pVals.html'>SuperPCA_pVals</a></code> or <code><a href='AESPCA_pVals.html'>AESPCA_pVals</a></code>
+functions, respectively.</p></td>
     </tr>
     <tr>
-      <th>n.threshold</th>
-      <td><p>The number of bins into which to split the feature scores
-in the fit object returned internally by the <code><a href='superpc.train.html'>superpc.train</a></code>
-function to the <code><a href='pathway_tScores.html'>pathway_tScores</a></code> and
-<code><a href='pathway_tControl.html'>pathway_tControl</a></code> functions. Defaults to 20. Smaller values
-may result in less accurate pathway \(p\)-values while larger values
-increase computation time.</p></td>
+      <th>score</th>
+      <td><p>Should the unadjusted \(p\)-values be returned transformed to
+negative natural logarithm scores or left as is? Defaults to <code>FALSE</code>;
+that is, the raw \(p\)-values are returned instead of the transformed
+\(p\)-values.</p></td>
     </tr>
     <tr>
-      <th>numPCs</th>
-      <td><p>The number of PCs to extract from each pathway. Defaults to 1.</p></td>
+      <th>numPaths</th>
+      <td><p>The number of top pathways by raw \(p\)-value. Defaults to
+the top 20 pathways. We do not permit users to specify <code>numPaths</code>
+and <code>alpha</code> concurrently.</p></td>
     </tr>
     <tr>
-      <th>parallel</th>
-      <td><p>Should the computation be completed in parallel? Defaults to
-<code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>numCores</th>
-      <td><p>If <code>parallel = TRUE</code>, how many cores should be used for
-computation? Internally defaults to the number of available cores minus 1.</p></td>
-    </tr>
-    <tr>
-      <th>adjustpValues</th>
-      <td><p>Should you adjust the \(p\)-values for multiple
-comparisons? Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>adjustment</th>
-      <td><p>Character vector of procedures. The returned data frame
-will be sorted in ascending order by the first procedure in this vector,
-with ties broken by the unadjusted \(p\)-value. If only one procedure is
-selected, then it is necessarily the first procedure. See the documentation
-for the <code><a href='ControlFDR.html'>ControlFDR</a></code> function for the adjustment procedure
-definitions and citations.</p></td>
+      <th>alpha</th>
+      <td><p>The significance threshold for raw \(p\)-values. Defaults to
+<code>NULL</code>. If <code>alpha</code> is given, then <code>numPaths</code> will be
+ignored.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Dots for additional internal arguments.</p></td>
+      <td><p>Dots for additional arguments (currently unused).</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with columns:</p><ul>
-<li><p><code>pathways</code> : The names of the pathways in the <code>Omics*</code>
-    object (given in <code>object@trimPathwayCollection$pathways</code>.)</p></li>
-<li><p><code>setsize</code> : The number of genes in each of the original
-    pathways (given in the <code>object@trimPathwayCollection$setsize</code>
-    object).</p></li>
-<li><p><code>terms</code> : The pathway description, as given in the
-    <code>object@trimPathwayCollection$TERMS</code> object.</p></li>
-<li><p><code>rawp</code> : The unadjusted \(p\)-values of each pathway.</p></li>
-<li><p><code>...</code> : Additional columns as specified through the
-    <code>adjustment</code> argument.</p></li>
+    <p>A data frame with the following columns:</p><ul>
+<li><p><code>terms</code> : The pathway name, as given in the
+      <code>object@trimPathwayCollection$TERMS</code> object.</p></li>
+<li><p><code>description</code> : (OPTIONAL) The pathway description, as given
+      in the <code>object@trimPathwayCollection$description</code> object, if
+      supplied.</p></li>
+<li><p><code>rawp</code> : The unadjusted \(p\)-values of each pathway.
+      Included if <code>score = FALSE</code>.</p></li>
+<li><p><code>...</code> : Additional columns of FDR-adjusted \(p\)-values
+      as specified through the <code>adjustment</code> argument of the
+      <code><a href='SuperPCA_pVals.html'>SuperPCA_pVals</a></code> or <code><a href='AESPCA_pVals.html'>AESPCA_pVals</a></code> functions.</p></li>
+<li><p><code>score</code> : The negative natural logarithm of the unadjusted
+      \(p\)-values of each pathway. Included if <code>score = TRUE</code>.</p></li>
 </ul>
 
-<p>The data frame will be sorted in ascending order by the method specified
-  first in the <code>adjustment</code> argument. If <code>adjustpValues = FALSE</code>,
-  then the data frame will be sorted by the raw \(p\)-values. If you have
-  the suggested <code>tidyverse</code> package suite loaded, then this data frame
-  will print as a <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>. Otherwise, it will print as
-  a data frame.</p>
+<p><code>NULL</code></p>
+<p><code>NULL</code></p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is a wrapper function for the <code><a href='pathway_tScores.html'>pathway_tScores</a></code>,
-  <code><a href='pathway_tControl.html'>pathway_tControl</a></code>, <code><a href='OptimGumbelMixParams.html'>OptimGumbelMixParams</a></code>,
-  <code><a href='GumbelMixpValues.html'>GumbelMixpValues</a></code>, and <code><a href='TabulatepValues.html'>TabulatepValues</a></code>
-  functions.</p>
-<p>Please see our Quickstart Guide for this package:
-  <a href='https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html'>https://gabrielodom.github.io/pathwayPCA/articles/Supplement1-Quickstart_Guide.html</a></p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='CreateOmics.html'>CreateOmics</a></code>; <code><a href='TabulatepValues.html'>TabulatepValues</a></code>;
-   <code><a href='pathway_tScores.html'>pathway_tScores</a></code>; <code><a href='pathway_tControl.html'>pathway_tControl</a></code>;
-   <code><a href='OptimGumbelMixParams.html'>OptimGumbelMixParams</a></code>; <code><a href='GumbelMixpValues.html'>GumbelMixpValues</a></code>;
-   <code><a href='https://www.rdocumentation.org/packages/parallel/topics/clusterApply'>clusterApply</a></code></p></div>
+    <p>Row-subset the <code>pVals_df</code> entry of an object of class
+   <code>aespcOut</code> or <code>superpcOut</code> by the number of pathways requested
+   (via the <code>nPaths</code> argument) or by the unadjusted significance level
+   for each pathway (via the <code>alpha</code> argument). Return a data frame of
+   the pathway names, FDR-adjusted significance levels (if available), and
+   the raw score (negative natural logarithm of the \(p\)-values) of each
+   pathway.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'>###  Load the Example Data  ###</span>
+    <pre class="examples"><div class='input'>
+  <span class='co'>###  Load Data  ###</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
 
-  <span class='co'>###  Create an OmicsSurv Object  ###</span>
-  <span class='no'>colon_OmicsSurv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateOmics.html'>CreateOmics</a></span>(
+  <span class='co'>###  Create -Omics Container  ###</span>
+  <span class='no'>colon_Omics</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CreateOmics.html'>CreateOmics</a></span>(
     <span class='kw'>assayData_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)],
     <span class='kw'>pathwayCollection_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>,
     <span class='kw'>response</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fl'>1</span>:<span class='fl'>3</span>],
-    <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"surv"</span>
+    <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"survival"</span>
   )</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>  ======  Creating object of class OmicsSurv  =======</span></div><div class='output co'>#&gt; <span class='message'>The input pathway database included 676 unique features.</span></div><div class='output co'>#&gt; <span class='message'>The input assay dataset included 656 features.</span></div><div class='output co'>#&gt; <span class='message'>Only pathways with at least 3 or more features included in the assay dataset are</span>
 #&gt; <span class='message'>  tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
 #&gt; <span class='message'>  this criterion.</span></div><div class='output co'>#&gt; <span class='message'>Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
 #&gt; <span class='message'>  both assay data and pathway database are considered for analysis. There are 615</span>
 #&gt; <span class='message'>  such features shared by the input assay and pathway database.</span></div><div class='input'>
-  <span class='co'>###  Calculate Pathway p-Values  ###</span>
-  <span class='no'>colonSurv_superpc</span> <span class='kw'>&lt;-</span> <span class='fu'>SuperPCA_pVals</span>(
-    <span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>colon_OmicsSurv</span>,
+  <span class='co'>###  Calculate Supervised PCA Pathway p-Values  ###</span>
+  <span class='no'>colon_superpc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SuperPCA_pVals.html'>SuperPCA_pVals</a></span>(
+    <span class='no'>colon_Omics</span>,
+    <span class='kw'>numPCs</span> <span class='kw'>=</span> <span class='fl'>2</span>,
     <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
     <span class='kw'>numCores</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-    <span class='kw'>adjustpValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Hoch"</span>, <span class='st'>"SidakSD"</span>)
+    <span class='kw'>adjustment</span> <span class='kw'>=</span> <span class='st'>"BH"</span>
   )</div><div class='output co'>#&gt; <span class='message'>Initializing Computing Cluster: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Calculating Pathway Test Statistics in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Calculating Pathway Critical Values in Parallel: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Calculating Pathway p-Values: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='output co'>#&gt; <span class='message'>Adjusting p-Values and Sorting Pathway p-Value Data Frame: </span></div><div class='output co'>#&gt; <span class='message'>DONE</span></div><div class='input'>
-</div></pre>
+  <span class='co'>###  Extract Table of p-Values  ###</span>
+  <span class='co'># Top 5 Pathways</span>
+  <span class='fu'>getPathpVals</span>(
+    <span class='no'>colon_superpc</span>,
+    <span class='kw'>numPaths</span> <span class='kw'>=</span> <span class='fl'>5</span>
+  )</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
+#&gt;   terms                                     rawp FDR_BH
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> KEGG_ERBB_SIGNALING_PATHWAY            0.008</span><span style='text-decoration: underline;'>97</span><span> 0.039</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> REACTOME_SIGNALING_BY_INSULIN_RECEPTOR 0.010</span><span style='text-decoration: underline;'>1</span><span>  0.039</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> PID_TNF_PATHWAY                        0.012</span><span style='text-decoration: underline;'>3</span><span>  0.039</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> REACTOME_PHOSPHOLIPID_METABOLISM       0.015</span><span style='text-decoration: underline;'>6</span><span>  0.039</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> PID_EPHB_FWD_PATHWAY                   0.015</span><span style='text-decoration: underline;'>8</span><span>  0.039</span><span style='text-decoration: underline;'>6</span><span></div><div class='input'>
+  <span class='co'># Pathways with Unadjusted p-Values &lt; 0.01</span>
+  <span class='fu'>getPathpVals</span>(
+    <span class='no'>colon_superpc</span>,
+    <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>
+  )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
+#&gt;   terms                          rawp FDR_BH
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> KEGG_ERBB_SIGNALING_PATHWAY 0.008</span><span style='text-decoration: underline;'>97</span><span> 0.039</span><span style='text-decoration: underline;'>6</span><span></div><div class='input'>
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -280,8 +276,6 @@ definitions and citations.</p></td>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@
       <h1>Suppl. Ch. 1 - Quickstart Guide for New R Users</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2019-03-14</h4>
+            <h4 class="date">2019-04-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supplement1-Quickstart_Guide.Rmd"><code>vignettes/Supplement1-Quickstart_Guide.Rmd</code></a></small>
       <div class="hidden name"><code>Supplement1-Quickstart_Guide.Rmd</code></div>
@@ -445,26 +445,35 @@ colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../refer
 <div id="analysis-output-table" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysis-output-table" class="anchor"></a>5.1 Analysis Output Table</h2>
-<p>For a quick and easy view of the pathway significance testing results, we can simply print the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently (use the <code>head</code> function to print the top pathways instead).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_superpcOut<span class="op">$</span>pVals_df
-<span class="co">#&gt; # A tibble: 15 x 5</span>
-<span class="co">#&gt;    pathways    n_tested terms                                  rawp  FDR_BH</span>
-<span class="co">#&gt;  * &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;                                 &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 pathway87         86 KEGG_ERBB_SIGNALING_PATHWAY         6.57e-5 9.86e-4</span>
-<span class="co">#&gt;  2 pathway491        40 PID_EPHB_FWD_PATHWAY                2.12e-4 1.08e-3</span>
-<span class="co">#&gt;  3 pathway757        83 REACTOME_INSULIN_RECEPTOR_SIGNALL~  2.17e-4 1.08e-3</span>
-<span class="co">#&gt;  4 pathway176        54 KEGG_NON_SMALL_CELL_LUNG_CANCER     5.84e-4 2.19e-3</span>
-<span class="co">#&gt;  5 pathway390        29 BIOCARTA_TNFR1_PATHWAY              3.78e-3 1.13e-2</span>
-<span class="co">#&gt;  6 pathway177        26 KEGG_ASTHMA                         6.12e-3 1.53e-2</span>
-<span class="co">#&gt;  7 pathway1211      104 REACTOME_SIGNALING_BY_INSULIN_REC~  7.82e-3 1.68e-2</span>
-<span class="co">#&gt;  8 pathway536        44 PID_TNF_PATHWAY                     9.42e-3 1.77e-2</span>
-<span class="co">#&gt;  9 pathway413        23 ST_GA12_PATHWAY                     1.32e-2 2.20e-2</span>
-<span class="co">#&gt; 10 pathway781       180 REACTOME_PHOSPHOLIPID_METABOLISM    1.71e-2 2.54e-2</span>
-<span class="co">#&gt; 11 pathway60         45 KEGG_RETINOL_METABOLISM             1.88e-2 2.54e-2</span>
-<span class="co">#&gt; 12 pathway3          26 KEGG_PENTOSE_PHOSPHATE_PATHWAY      2.03e-2 2.54e-2</span>
-<span class="co">#&gt; 13 pathway120        73 KEGG_ANTIGEN_PROCESSING_AND_PRESE~  1.08e-1 1.24e-1</span>
-<span class="co">#&gt; 14 pathway187        16 BIOCARTA_RELA_PATHWAY               1.61e-1 1.72e-1</span>
-<span class="co">#&gt; 15 pathway266        11 BIOCARTA_SET_PATHWAY                4.06e-1 4.06e-1</span></code></pre></div>
+<p>For a quick and easy view of the pathway significance testing results, we can use the <code><a href="../reference/getPathpVals.html">getPathpVals()</a></code> function to access and subset the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(colon_superpcOut)
+<span class="co">#&gt; # A tibble: 15 x 3</span>
+<span class="co">#&gt;    terms                                            rawp  FDR_BH</span>
+<span class="co">#&gt;    &lt;chr&gt;                                           &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       0.000293 0.00291</span>
+<span class="co">#&gt;  2 PID_TNF_PATHWAY                              0.000388 0.00291</span>
+<span class="co">#&gt;  3 REACTOME_PHOSPHOLIPID_METABOLISM             0.00117  0.00586</span>
+<span class="co">#&gt;  4 KEGG_ERBB_SIGNALING_PATHWAY                  0.00157  0.00587</span>
+<span class="co">#&gt;  5 PID_EPHB_FWD_PATHWAY                         0.00356  0.00920</span>
+<span class="co">#&gt;  6 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.00368  0.00920</span>
+<span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              0.00739  0.0158 </span>
+<span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       0.0274   0.0514 </span>
+<span class="co">#&gt;  9 KEGG_ASTHMA                                  0.0385   0.0642 </span>
+<span class="co">#&gt; 10 BIOCARTA_RELA_PATHWAY                        0.0566   0.0849 </span>
+<span class="co">#&gt; 11 ST_GA12_PATHWAY                              0.0654   0.0892 </span>
+<span class="co">#&gt; 12 KEGG_RETINOL_METABOLISM                      0.0853   0.102  </span>
+<span class="co">#&gt; 13 KEGG_PENTOSE_PHOSPHATE_PATHWAY               0.0883   0.102  </span>
+<span class="co">#&gt; 14 KEGG_ANTIGEN_PROCESSING_AND_PRESENTATION     0.274    0.293  </span>
+<span class="co">#&gt; 15 BIOCARTA_SET_PATHWAY                         0.333    0.333</span></code></pre></div>
+<p>This function has the following modifying arguments:</p>
+<ul>
+<li>
+<code>score = FALSE</code>: . Return the raw <span class="math inline">\(p\)</span>-values. Return the <span class="math inline">\(p\)</span>-value score, <span class="math inline">\(-\log(p)\)</span>, instead of the unadjusted (raw) <span class="math inline">\(p\)</span>-values with <code>score = FALSE</code>.</li>
+<li>
+<code>numPaths = 20</code>: Return the top 20 pathways by <span class="math inline">\(p\)</span>-value score.</li>
+<li>
+<code>alpha = NULL</code>: Return all pathways with raw <span class="math inline">\(p\)</span>-values less than <code>alpha</code>. If you specify <code>alpha</code>, then do not specify <code>numPaths</code>.</li>
+</ul>
 </div>
 <div id="graph-of-top-pathways" class="section level2">
 <h2 class="hasAnchor">
@@ -473,9 +482,9 @@ colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../refer
 <div id="tidy-up-the-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tidy-up-the-data" class="anchor"></a>5.2.1 Tidy Up the Data</h3>
-<p>In order to take advantage of the publication-quality graphics created with the <code>ggplot2</code> package, we first need to tidy the data frames returned by the <code>AESPCA_pVals</code> and <code>SuperPCA_pVals</code> functions. The following code takes in the <span class="math inline">\(p\)</span>-values data frame (<code>colon_superpcOut$pVals_df</code>) from the Supervised PCA method, modifies it to be compatible with the <code>ggplot</code> function, and saves the new data frame (<code>colonOutGather_df</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonOutGather_df &lt;-<span class="st"> </span>colon_superpcOut<span class="op">$</span>pVals_df <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pathways, <span class="op">-</span>n_tested) <span class="op">%&gt;%</span>
+<p>In order to take advantage of the publication-quality graphics created with the <code>ggplot2</code> package, we first need to tidy the data frames returned by the <code>AESPCA_pVals</code> and <code>SuperPCA_pVals</code> functions. The following code takes in the <span class="math inline">\(p\)</span>-values data frame from the Supervised PCA method, modifies it to be compatible with the <code>ggplot</code> function, and saves the new data frame (<code>colonOutGather_df</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonOutGather_df &lt;-
+<span class="st">  </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(colon_superpcOut) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(variable, value, <span class="op">-</span>terms) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> <span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(value)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(variable)) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -487,18 +496,18 @@ graphMax &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdo
 
 colonOutGather_df
 <span class="co">#&gt; # A tibble: 30 x 4</span>
-<span class="co">#&gt;    terms                                        variable     value score</span>
-<span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.0000657  9.63</span>
-<span class="co">#&gt;  2 PID_EPHB_FWD_PATHWAY                         None     0.000212   8.46</span>
-<span class="co">#&gt;  3 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.000217   8.44</span>
-<span class="co">#&gt;  4 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.000584   7.45</span>
-<span class="co">#&gt;  5 BIOCARTA_TNFR1_PATHWAY                       None     0.00378    5.58</span>
-<span class="co">#&gt;  6 KEGG_ASTHMA                                  None     0.00612    5.10</span>
-<span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00782    4.85</span>
-<span class="co">#&gt;  8 PID_TNF_PATHWAY                              None     0.00942    4.66</span>
-<span class="co">#&gt;  9 ST_GA12_PATHWAY                              None     0.0132     4.33</span>
-<span class="co">#&gt; 10 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.0171     4.07</span>
+<span class="co">#&gt;    terms                                        variable    value score</span>
+<span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.000293  8.13</span>
+<span class="co">#&gt;  2 PID_TNF_PATHWAY                              None     0.000388  7.85</span>
+<span class="co">#&gt;  3 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00117   6.75</span>
+<span class="co">#&gt;  4 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00157   6.46</span>
+<span class="co">#&gt;  5 PID_EPHB_FWD_PATHWAY                         None     0.00356   5.64</span>
+<span class="co">#&gt;  6 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00368   5.60</span>
+<span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.00739   4.91</span>
+<span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0274    3.60</span>
+<span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0385    3.26</span>
+<span class="co">#&gt; 10 BIOCARTA_RELA_PATHWAY                        None     0.0566    2.87</span>
 <span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">
@@ -555,28 +564,32 @@ colonOutGather_df
 <span class="co">#&gt; [8] base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] bindrcpp_0.2.2    pathwayPCA_0.99.3 forcats_0.3.0    </span>
-<span class="co">#&gt;  [4] stringr_1.4.0     dplyr_0.7.8       purrr_0.3.0      </span>
-<span class="co">#&gt;  [7] readr_1.3.1       tidyr_0.8.2       tibble_2.0.1     </span>
-<span class="co">#&gt; [10] ggplot2_3.1.0     tidyverse_1.2.1  </span>
+<span class="co">#&gt;  [1] pathwayPCA_0.99.5 forcats_0.4.0     stringr_1.4.0    </span>
+<span class="co">#&gt;  [4] dplyr_0.8.0.1     purrr_0.3.2       readr_1.3.1      </span>
+<span class="co">#&gt;  [7] tidyr_0.8.3       tibble_2.1.1      ggplot2_3.1.0    </span>
+<span class="co">#&gt; [10] tidyverse_1.2.1  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.0       lubridate_1.7.4  lattice_0.20-38  assertthat_0.2.0</span>
-<span class="co">#&gt;  [5] rprojroot_1.3-2  digest_0.6.18    utf8_1.1.4       R6_2.3.0        </span>
-<span class="co">#&gt;  [9] cellranger_1.1.0 plyr_1.8.4       backports_1.1.3  lars_1.2        </span>
-<span class="co">#&gt; [13] evaluate_0.13    httr_1.4.0       pillar_1.3.1     rlang_0.3.1     </span>
-<span class="co">#&gt; [17] lazyeval_0.2.1   readxl_1.2.0     rstudioapi_0.9.0 Matrix_1.2-15   </span>
-<span class="co">#&gt; [21] rmarkdown_1.11   pkgdown_1.3.0    desc_1.2.0       labeling_0.3    </span>
-<span class="co">#&gt; [25] splines_3.6.0    munsell_0.5.0    broom_0.5.1      compiler_3.6.0  </span>
-<span class="co">#&gt; [29] modelr_0.1.3     xfun_0.4         pkgconfig_2.0.2  htmltools_0.3.6 </span>
-<span class="co">#&gt; [33] tidyselect_0.2.5 roxygen2_6.1.1   fansi_0.4.0      crayon_1.3.4    </span>
-<span class="co">#&gt; [37] withr_2.1.2      MASS_7.3-51.1    commonmark_1.7   grid_3.6.0      </span>
-<span class="co">#&gt; [41] nlme_3.1-137     jsonlite_1.6     gtable_0.2.0     magrittr_1.5    </span>
-<span class="co">#&gt; [45] scales_1.0.0     cli_1.0.1        stringi_1.3.1    fs_1.2.6        </span>
-<span class="co">#&gt; [49] xml2_1.2.0       generics_0.0.2   tools_3.6.0      glue_1.3.0      </span>
-<span class="co">#&gt; [53] hms_0.4.2        survival_2.43-3  yaml_2.2.0       colorspace_1.4-0</span>
-<span class="co">#&gt; [57] rvest_0.3.2      memoise_1.1.0    knitr_1.21       bindr_0.1.1     </span>
-<span class="co">#&gt; [61] haven_2.0.0</span></code></pre></div>
+<span class="co">#&gt;  [1] tidyselect_0.2.5  xfun_0.6          splines_3.6.0    </span>
+<span class="co">#&gt;  [4] haven_2.1.0       lattice_0.20-38   colorspace_1.4-1 </span>
+<span class="co">#&gt;  [7] generics_0.0.2    htmltools_0.3.6   yaml_2.2.0       </span>
+<span class="co">#&gt; [10] utf8_1.1.4        survival_2.44-1.1 rlang_0.3.3      </span>
+<span class="co">#&gt; [13] pkgdown_1.3.0     pillar_1.3.1      withr_2.1.2      </span>
+<span class="co">#&gt; [16] glue_1.3.1        modelr_0.1.4      readxl_1.3.1     </span>
+<span class="co">#&gt; [19] plyr_1.8.4        munsell_0.5.0     commonmark_1.7   </span>
+<span class="co">#&gt; [22] gtable_0.3.0      cellranger_1.1.0  rvest_0.3.2      </span>
+<span class="co">#&gt; [25] memoise_1.1.0     evaluate_0.13     labeling_0.3     </span>
+<span class="co">#&gt; [28] knitr_1.22        fansi_0.4.0       lars_1.2         </span>
+<span class="co">#&gt; [31] broom_0.5.1       Rcpp_1.0.1        backports_1.1.3  </span>
+<span class="co">#&gt; [34] scales_1.0.0      desc_1.2.0        jsonlite_1.6     </span>
+<span class="co">#&gt; [37] fs_1.2.7          hms_0.4.2         digest_0.6.18    </span>
+<span class="co">#&gt; [40] stringi_1.4.3     grid_3.6.0        rprojroot_1.3-2  </span>
+<span class="co">#&gt; [43] cli_1.1.0         tools_3.6.0       magrittr_1.5     </span>
+<span class="co">#&gt; [46] lazyeval_0.2.2    crayon_1.3.4      pkgconfig_2.0.2  </span>
+<span class="co">#&gt; [49] Matrix_1.2-17     MASS_7.3-51.4     xml2_1.2.0       </span>
+<span class="co">#&gt; [52] lubridate_1.7.4   assertthat_0.2.1  rmarkdown_1.12   </span>
+<span class="co">#&gt; [55] roxygen2_6.1.1    httr_1.4.0        rstudioapi_0.10  </span>
+<span class="co">#&gt; [58] R6_2.4.0          nlme_3.1-137      compiler_3.6.0</span></code></pre></div>
 </div>
   </div>
 

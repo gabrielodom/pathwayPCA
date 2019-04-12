@@ -5,7 +5,6 @@
 * Added a `NEWS.md` file to track changes to the package.
 * Built website.
 
-===============================================================================
 
 
 
@@ -14,7 +13,7 @@
 
 See the issues within the "Bioconductor Submission" and "Vignette Work"
 milestones for detailed descriptions of these changes, their discussion, and
-motivation: https://github.com/gabrielodom/pathwayPCA/issues
+motivation: <https://github.com/gabrielodom/pathwayPCA/issues>
 
 * Standardized naming conventions to UpperCamelCase for consistency
 * Changed class name pathwaySet -> pathwayCollection
@@ -41,7 +40,6 @@ package, so this is the new main vignette. I broke off the plots from chapter 4
 into their own chapter. The five vignettes I wrote are now supplemental chapters
 * updated vignettes and website
 
-===============================================================================
 
 
 
@@ -49,6 +47,16 @@ into their own chapter. The five vignettes I wrote are now supplemental chapters
 ### 2019-02-01
 
 We are submitting to Bioconductor soon, so we are resolving as many of the
-`BiocCheck()` ERRORs, WARNINGs, and NOTEs. See https://github.com/gabrielodom/pathwayPCA/issues/64
+`BiocCheck()` ERRORs, WARNINGs, and NOTEs. See <https://github.com/gabrielodom/pathwayPCA/issues/64>
 
-===============================================================================
+
+
+
+# pathwayPCA 0.99.5
+### 2019-04-12
+
+We have been accepted to Bioconductor!
+See <https://github.com/Bioconductor/Contributions/issues/1000>
+
+
+

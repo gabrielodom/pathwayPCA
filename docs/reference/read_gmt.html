@@ -32,9 +32,9 @@
 
 <meta property="og:title" content="Read a <code>.gmt</code> file in as a <code>pathwayCollection</code> object — read_gmt" />
 
-<meta property="og:description" content="Read a pathways list file in Gene Matrix Transposed
-   (.gmt) format, with special performance consideration for large
-   files. Present this object as a pathwayCollection object." />
+<meta property="og:description" content="Read a set list file in Gene Matrix Transposed (.gmt)
+   format, with special performance consideration for large files. Present
+   this object as a pathwayCollection object." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -132,13 +132,14 @@
 
     <div class="ref-description">
     
-    <p>Read a pathways list file in Gene Matrix Transposed
-   (<code>.gmt</code>) format, with special performance consideration for large
-   files. Present this object as a <code>pathwayCollection</code> object.</p>
+    <p>Read a set list file in Gene Matrix Transposed (<code>.gmt</code>)
+   format, with special performance consideration for large files. Present
+   this object as a <code>pathwayCollection</code> object.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_gmt</span>(<span class='no'>file</span>, <span class='kw'>description</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>"\t"</span>)</pre>
+    <pre class="usage"><span class='fu'>read_gmt</span>(<span class='no'>file</span>, <span class='kw'>setType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pathways"</span>, <span class='st'>"genes"</span>, <span class='st'>"regions"</span>),
+  <span class='kw'>description</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>delim</span> <span class='kw'>=</span> <span class='st'>"\t"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,6 +149,11 @@
       <td><p>A path to a file or a connection. This file must be a <code>.gmt</code>
 file, otherwise input will likely be nonsense. See the "Details" section
 for more information.</p></td>
+    </tr>
+    <tr>
+      <th>setType</th>
+      <td><p>What is the type of the set: pathway set of gene, gene sites
+in RNA or DNA, or regions of CpGs. Defaults to <code>''pathway''</code>.</p></td>
     </tr>
     <tr>
       <th>description</th>
@@ -164,18 +170,19 @@ delimited, this defaults to <code>"\t"</code>.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>pathwayCollection</code> list of pathways. This list has three
+    <p>A <code>pathwayCollection</code> list of sets. This list has three
    elements:</p><ul>
-<li><p><code>pathways</code> : A named list of character vectors. Each vector
-     contains the names of the individual genes within that pathway as a
-     vector of character strings.</p></li>
-<li><p><code>TERMS</code> : A character vector the same length as the
-     <code>pathways</code> list with the proper names of the pathways.</p></li>
+<li><p>'setType' : A named list of character vectors. Each vector
+     contains the names of the individual genes, sites, or CpGs within that
+     set as a vector of character strings. The name of this list entry is
+     equal to the value specified in <code>setType</code>.</p></li>
+<li><p><code>TERMS</code> : A character vector the same length as the 'setType'
+     list with the proper names of the sets.</p></li>
 <li><p><code>description</code> :  (OPTIONAL) A character vector the same length
-     as the <code>pathways</code> list with a note on that pathway (for the
-     <code>.gmt</code> file included with this package, this field contains
-     hyperlinks to the MSigDB description card for that pathway). This field
-     is included when <code>description = TRUE</code>.</p></li>
+     as the 'setType' list with a note on that set (for the <code>.gmt</code> file
+     included with this package, this field contains hyperlinks to the
+     MSigDB description card for that pathway). This field is included when
+     <code>description = TRUE</code>.</p></li>
 </ul>
 
     

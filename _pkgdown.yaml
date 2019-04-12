@@ -54,6 +54,7 @@ reference:
       - '`OmicsCateg-class`'
       - '`ValidOmicsSurv`'
       - '`TransposeAssay`'
+      - '`SE2Tidy`'
       - '`CreateOmics`'
       - '`show,OmicsPathway-method`'
       - '`getAssay`'
@@ -76,6 +77,7 @@ reference:
       - '`SuperPCA_pVals`'
       - '`SubsetPathwayData`'
       - '`getPathPCLs`'
+      - '`getPathpVals`'
       - '`LoadOntoPCs`'
   - title: Example Data Sets
     desc: Data for function examples
