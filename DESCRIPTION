@@ -136,6 +136,6 @@ Collate:
     'utils_write_gmt.R'
 VignetteBuilder: knitr
 URL:
-  https://gabrielodom.github.io/pathwayPCA/;  
-  https://github.com/gabrielodom/pathwayPCA
+  <https://gabrielodom.github.io/pathwayPCA/>  
+  <https://github.com/gabrielodom/pathwayPCA>
 BugReports: https://github.com/gabrielodom/pathwayPCA/issues
