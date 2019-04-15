@@ -10,7 +10,7 @@ output:
     toc: true
     toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{Quickstart Guide}
+  %\VignetteIndexEntry{Suppl. 1. Quickstart Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

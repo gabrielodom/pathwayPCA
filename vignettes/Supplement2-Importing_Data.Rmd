@@ -8,7 +8,7 @@ output:
   word_document:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Importing Data}
+  %\VignetteIndexEntry{Suppl. 2. Importing Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

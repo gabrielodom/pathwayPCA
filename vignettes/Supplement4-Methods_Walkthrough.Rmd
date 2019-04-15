@@ -10,7 +10,7 @@ output:
     toc: true
     toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{Test Pathway Significance}
+  %\VignetteIndexEntry{Suppl. 4. Test Pathway Significance}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
