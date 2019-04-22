@@ -5,8 +5,6 @@
 * Added a `NEWS.md` file to track changes to the package.
 * Built website.
 
-===============================================================================
-
 
 
 # pathwayPCA 0.98.0
@@ -41,8 +39,6 @@ package, so this is the new main vignette. I broke off the plots from chapter 4
 into their own chapter. The five vignettes I wrote are now supplemental chapters
 * updated vignettes and website
 
-===============================================================================
-
 
 
 # pathwayPCA 0.99.1
@@ -51,4 +47,3 @@ into their own chapter. The five vignettes I wrote are now supplemental chapters
 We are submitting to Bioconductor soon, so we are resolving as many of the
 `BiocCheck()` ERRORs, WARNINGs, and NOTEs. See https://github.com/gabrielodom/pathwayPCA/issues/64
 
-===============================================================================
