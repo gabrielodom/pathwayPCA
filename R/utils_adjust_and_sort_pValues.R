@@ -63,13 +63,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() or SuperPCA_pVals() instead.
 #'
-#'
+#' \dontrun{
 #'   ###  Load the Example Data  ###
 #'   data("colonSurv_df")
 #'   data("colon_pathwayCollection")
@@ -103,6 +102,7 @@
 #'     pVals_vec = pVals,
 #'     genesets_ls = trimmed_PC
 #'   )
+#' }
 #'
 TabulatepValues <- function(pVals_vec,
                             genesets_ls,

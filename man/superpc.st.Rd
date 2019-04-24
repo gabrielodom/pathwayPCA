@@ -76,7 +76,7 @@ NOTE: the number of thresholds at which to test (\code{n.threshold})
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
   
-  
+\dontrun{
   data("colon_pathwayCollection")
   data("colonSurv_df")
   
@@ -106,7 +106,7 @@ NOTE: the number of thresholds at which to test (\code{n.threshold})
     fit = superpcFit,
     data = data_ls
   )
-  
+} 
   
 }
 \seealso{

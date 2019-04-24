@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -85,22 +85,20 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
     </li>
   </ul>
 </li>
@@ -180,101 +178,16 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.</span>
+    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 
+</div><span class='co'># NOT RUN {</span>
  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
  <span class='fu'>JoinPhenoAssay</span>(
    <span class='kw'>pheno_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fl'>1</span>:<span class='fl'>3</span>],
    <span class='kw'>assay_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)]
- )</div><div class='output co'>#&gt; $assay
-#&gt; <span style='color: #555555;'># A tibble: 250 x 656</span><span>
-#&gt;      JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1 PRKCA  ELK1  NRG1  PAK2  MTOR  PAK4
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  9.29  5.48  8.21  8.03  5.49  6.65  8.26  8.94  7.38  7.50  7.32  6.96 10.0 
-#&gt; </span><span style='color: #555555;'> 2</span><span>  9.13  6.35  8.33  7.94  6.26  7.02  8.39  9.61  7.53  7.68  6.80  6.96 10.2 
-#&gt; </span><span style='color: #555555;'> 3</span><span>  9.37  5.67  7.82  7.74  6.05  7.52  8.69  8.40  7.25  7.33  7.48  7.15  9.48
-#&gt; </span><span style='color: #555555;'> 4</span><span> 10.6   4.94  8.79  7.64  5.37  6.87  7.81  9.80  7.79  8.38  6.16  6.48 10.6 
-#&gt; </span><span style='color: #555555;'> 5</span><span>  8.70  5.60  8.75  8.05  6.07  6.49  8.45  8.21  7.60  6.65  7.04  6.66  9.89
-#&gt; </span><span style='color: #555555;'> 6</span><span>  9.78  5.36  7.56  8.07  5.90  6.39  8.87  8.22  7.35  7.83  7.39  6.90  9.78
-#&gt; </span><span style='color: #555555;'> 7</span><span>  9.22  5.05  8.20  7.80  5.55  6.86  8.28  8.97  7.43  7.20  7.04  6.96 10.0 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 10.3   5.33  7.82  7.89  6.27  6.25  8.66  9.71  7.38  7.09  7.22  7.11  9.95
-#&gt; </span><span style='color: #555555;'> 9</span><span> 10.8   5.07  7.63  7.69  5.48  7.57  8.36  9.69  6.66  7.22  6.99  6.89  9.84
-#&gt; </span><span style='color: #555555;'>10</span><span>  9.52  5.50  7.48  7.53  5.71  7.33  8.54  8.14  6.88  7.31  7.01  6.82  9.90
-#&gt; </span><span style='color: #555555;'># ... with 240 more rows, and 643 more variables: MAP2K4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EIF4EBP1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   BAD </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PRKCG </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NRG3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAPK9 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ERBB4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAPK10 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   PTK2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ERBB2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ERBB3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAP2K2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, TGFA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, BRAF </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   MAP2K1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAP2K7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ABL1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NRG2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, AKT1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ABL2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   AKT2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, SHC4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, RPS6KB1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, RPS6KB2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, AKT3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   NRAS </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GRB2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, AREG </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, STAT5B </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAPK3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   STAT5A </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PAK6 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, SOS1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MYC </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAPK1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NCK1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   PIK3R5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NRG4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, HRAS </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, MAPK8 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EGFR </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GSK3B </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   CBLB </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, KRAS </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CBL </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, SHC3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CDKN1B </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CDKN1A </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   EGF </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EREG </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ARAF </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NCK2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, SRC </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PIK3R3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   CAMK2A </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CAMK2B </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CAMK2D </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CAMK2G </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PAK1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   CBLC </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CRK </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PIK3CA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PIK3CB </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CRKL </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   PIK3CD </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GAB1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PLCG1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PLCG2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, SHC2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   HBEGF </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PIK3CG </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PIK3R1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PIK3R2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EPHB2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   EPHB4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EFNA5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PXN </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CDC42 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EFNB3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, RRAS </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   GRB7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, SYNJ1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EPHB3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EFNB1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, DNM1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   MAP4K4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GRIA1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EPHB1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ROCK1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ITSN1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   RAP1A </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, RAC1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, RAP1B </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, EFNB2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, WASL </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, TF </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   KALRN </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, RASA1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, CASP9 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, E2F1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ...</span><span>
-#&gt; 
-#&gt; $response
-#&gt; </span><span style='color: #555555;'># A tibble: 250 x 2</span><span>
-#&gt;    OS_time OS_event
-#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  64.9          0
-#&gt; </span><span style='color: #555555;'> 2</span><span>  59.8          0
-#&gt; </span><span style='color: #555555;'> 3</span><span>  62.4          0
-#&gt; </span><span style='color: #555555;'> 4</span><span>  54.5          0
-#&gt; </span><span style='color: #555555;'> 5</span><span>  46.3          1
-#&gt; </span><span style='color: #555555;'> 6</span><span>  55.9          0
-#&gt; </span><span style='color: #555555;'> 7</span><span>  58.0          0
-#&gt; </span><span style='color: #555555;'> 8</span><span>  54.0          0
-#&gt; </span><span style='color: #555555;'> 9</span><span>   0.427        1
-#&gt; </span><span style='color: #555555;'>10</span><span>  41.4          0
-#&gt; </span><span style='color: #555555;'># ... with 240 more rows</span><span>
-#&gt; 
-#&gt; $sampleID
-#&gt;   [1] "subj1"   "subj2"   "subj3"   "subj4"   "subj5"   "subj6"   "subj7"  
-#&gt;   [8] "subj8"   "subj9"   "subj10"  "subj11"  "subj12"  "subj13"  "subj14" 
-#&gt;  [15] "subj15"  "subj16"  "subj17"  "subj18"  "subj19"  "subj20"  "subj21" 
-#&gt;  [22] "subj22"  "subj23"  "subj24"  "subj25"  "subj26"  "subj27"  "subj28" 
-#&gt;  [29] "subj29"  "subj30"  "subj31"  "subj32"  "subj33"  "subj34"  "subj35" 
-#&gt;  [36] "subj36"  "subj37"  "subj38"  "subj39"  "subj40"  "subj41"  "subj42" 
-#&gt;  [43] "subj43"  "subj44"  "subj45"  "subj46"  "subj47"  "subj48"  "subj49" 
-#&gt;  [50] "subj50"  "subj51"  "subj52"  "subj53"  "subj54"  "subj55"  "subj56" 
-#&gt;  [57] "subj57"  "subj58"  "subj59"  "subj60"  "subj61"  "subj62"  "subj63" 
-#&gt;  [64] "subj64"  "subj65"  "subj66"  "subj67"  "subj68"  "subj69"  "subj70" 
-#&gt;  [71] "subj71"  "subj72"  "subj73"  "subj74"  "subj75"  "subj76"  "subj77" 
-#&gt;  [78] "subj78"  "subj79"  "subj80"  "subj81"  "subj82"  "subj83"  "subj84" 
-#&gt;  [85] "subj85"  "subj86"  "subj87"  "subj88"  "subj89"  "subj90"  "subj91" 
-#&gt;  [92] "subj92"  "subj93"  "subj94"  "subj95"  "subj96"  "subj97"  "subj98" 
-#&gt;  [99] "subj99"  "subj100" "subj101" "subj102" "subj103" "subj104" "subj105"
-#&gt; [106] "subj106" "subj107" "subj108" "subj109" "subj110" "subj111" "subj112"
-#&gt; [113] "subj113" "subj114" "subj115" "subj116" "subj117" "subj118" "subj119"
-#&gt; [120] "subj120" "subj121" "subj122" "subj123" "subj124" "subj125" "subj126"
-#&gt; [127] "subj127" "subj128" "subj129" "subj130" "subj131" "subj132" "subj133"
-#&gt; [134] "subj134" "subj135" "subj136" "subj137" "subj138" "subj139" "subj140"
-#&gt; [141] "subj141" "subj142" "subj143" "subj144" "subj145" "subj146" "subj147"
-#&gt; [148] "subj148" "subj149" "subj150" "subj151" "subj152" "subj153" "subj154"
-#&gt; [155] "subj155" "subj156" "subj157" "subj158" "subj159" "subj160" "subj161"
-#&gt; [162] "subj162" "subj163" "subj164" "subj165" "subj166" "subj167" "subj168"
-#&gt; [169] "subj169" "subj170" "subj171" "subj172" "subj173" "subj174" "subj175"
-#&gt; [176] "subj176" "subj177" "subj178" "subj179" "subj180" "subj181" "subj182"
-#&gt; [183] "subj183" "subj184" "subj185" "subj186" "subj187" "subj188" "subj189"
-#&gt; [190] "subj190" "subj191" "subj192" "subj193" "subj194" "subj195" "subj196"
-#&gt; [197] "subj197" "subj198" "subj199" "subj200" "subj201" "subj202" "subj203"
-#&gt; [204] "subj204" "subj205" "subj206" "subj207" "subj208" "subj209" "subj210"
-#&gt; [211] "subj211" "subj212" "subj213" "subj214" "subj215" "subj216" "subj217"
-#&gt; [218] "subj218" "subj219" "subj220" "subj221" "subj222" "subj223" "subj224"
-#&gt; [225] "subj225" "subj226" "subj227" "subj228" "subj229" "subj230" "subj231"
-#&gt; [232] "subj232" "subj233" "subj234" "subj235" "subj236" "subj237" "subj238"
-#&gt; [239] "subj239" "subj240" "subj241" "subj242" "subj243" "subj244" "subj245"
-#&gt; [246] "subj246" "subj247" "subj248" "subj249" "subj250"
-#&gt; </div><div class='input'>
-</div></span></pre>
+ )
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -297,7 +210,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

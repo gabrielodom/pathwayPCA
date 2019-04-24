@@ -35,7 +35,7 @@ While this function currently supports any GLM family from the
   # DO NOT CALL THIS FUNCTION DIRECTLY.
   # Use SuperPCA_pVals() instead
   
-  
+\dontrun{   
   p <- 500
   n <- 50
 
@@ -51,7 +51,7 @@ While this function currently supports any GLM family from the
     x = x_mat,
     y = obs_logi
   )
-  
+}
   
 }
 \keyword{internal}

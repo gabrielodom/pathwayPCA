@@ -44,14 +44,15 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Call this function through AESPCA_pVals() instead.
 #'
+#' \dontrun{
 #'   data("colonSurv_df")
 #'   aespca(as.matrix(colonSurv_df[, 5:50]))
+#' }
 #'
 aespca <- function(X,
                    d = 1,

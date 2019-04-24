@@ -45,6 +45,7 @@
 #'   # DO NOT CALL THESE FUNCTIONS DIRECTLY.
 #'   # Use AESPCA_pVals() or SuperPCA_pVals() instead
 #'
+#' \dontrun{
 #'   data("colon_pathwayCollection")
 #'   data("colonSurv_df")
 #'
@@ -53,6 +54,7 @@
 #'     event_vec = colonSurv_df$OS_event,
 #'     respType = "survival"
 #'   )
+#' }
 #'
 #' @name RandomControlSample
 #' @rdname permuteSamps
@@ -60,7 +62,6 @@ NULL
 
 
 
-#' @export
 #' @rdname permuteSamps
 SampleResponses <- function(response_vec,
                             event_vec = NULL,
@@ -89,7 +90,6 @@ SampleResponses <- function(response_vec,
 }
 
 
-#' @export
 #' @rdname permuteSamps
 SampleSurv <- function(response_vec,
                        event_vec,
@@ -135,7 +135,6 @@ SampleSurv <- function(response_vec,
 
 
 
-#' @export
 #' @rdname permuteSamps
 SampleReg <- function(response_vec,
                       parametric = TRUE){
@@ -157,7 +156,6 @@ SampleReg <- function(response_vec,
 
 
 
-#' @export
 #' @rdname permuteSamps
 SampleCateg <- function(response_vec,
                         parametric = TRUE){

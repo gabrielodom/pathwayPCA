@@ -46,6 +46,9 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/getPathPCLs.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/getPathpVals.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/get_set_OmicsPathway.html</loc>
   </url>
   <url>
@@ -100,6 +103,9 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathwayPCA-package.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/PathwaytValues.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/pathway_tControl.html</loc>
   </url>
   <url>
@@ -122,6 +128,9 @@
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/read_gmt.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/SE2Tidy.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/show-OmicsPathway-method.html</loc>

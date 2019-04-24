@@ -10,7 +10,7 @@ output:
     toc: true
     toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{Visualizing the Results}
+  %\VignetteIndexEntry{Suppl. 5. Visualizing the Results}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -27,16 +27,17 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
 #'
+#' \dontrun{
 #'  data("colonSurv_df")
 #'  JoinPhenoAssay(
 #'    pheno_df = colonSurv_df[, 1:3],
 #'    assay_df = colonSurv_df[, -(2:3)]
 #'  )
+#' }
 #'
 JoinPhenoAssay <- function(pheno_df, assay_df){
 

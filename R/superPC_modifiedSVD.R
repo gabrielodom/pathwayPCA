@@ -35,13 +35,12 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'   
-#'   
+#' \dontrun{
 #'   data("colon_pathwayCollection")
 #'   data("colonSurv_df")
 #'   
@@ -56,7 +55,7 @@
 #'     getTrimPathwayCollection(colon_OmicsSurv)[["KEGG_ASTHMA"]]$IDs
 #'   
 #'   mysvd(t(getAssay(colon_OmicsSurv))[asthmaGenes_char, ])
-#'   
+#' }
 #'   
 
 mysvd <- function(mat, method = svd, n.components = NULL){

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -49,22 +49,20 @@
 <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
-    <li class="divider">
-    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
     </li>
   </ul>
 </li>
@@ -94,7 +92,7 @@
       <h1>Suppl. Ch. 5 - Visualizing the Results</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2019-02-04</h4>
+            <h4 class="date">2019-04-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supplement5-Analyse_Results.Rmd"><code>vignettes/Supplement5-Analyse_Results.Rmd</code></a></small>
       <div class="hidden name"><code>Supplement5-Analyse_Results.Rmd</code></div>
@@ -417,21 +415,7 @@ pathway491_ls
 }</code></pre></div>
 <p>We can use this function to “tidy up” the loadings from the EPHB forward signaling pathway:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidyLoad491_df &lt;-<span class="st"> </span><span class="kw">TidyLoading</span>(<span class="dt">pathwayPCL =</span> pathway491_ls)
-tidyLoad491_df
-<span class="co">#&gt; # A tibble: 26 x 4</span>
-<span class="co">#&gt;    ID    Feature   Value Direction</span>
-<span class="co">#&gt;    &lt;fct&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    </span>
-<span class="co">#&gt;  1 EPHB2 PC1      0.242  Up       </span>
-<span class="co">#&gt;  2 EPHB4 PC1      0.168  Up       </span>
-<span class="co">#&gt;  3 MAPK3 PC1      0.0451 Up       </span>
-<span class="co">#&gt;  4 EFNB3 PC1     -0.0371 Down     </span>
-<span class="co">#&gt;  5 RAP1A PC1     -0.0448 Down     </span>
-<span class="co">#&gt;  6 NCK1  PC1     -0.184  Down     </span>
-<span class="co">#&gt;  7 ROCK1 PC1     -0.218  Down     </span>
-<span class="co">#&gt;  8 RAP1B PC1     -0.238  Down     </span>
-<span class="co">#&gt;  9 MAPK1 PC1     -0.265  Down     </span>
-<span class="co">#&gt; 10 SYNJ1 PC1     -0.280  Down     </span>
-<span class="co">#&gt; # ... with 16 more rows</span></code></pre></div>
+tidyLoad491_df</code></pre></div>
 </div>
 <div id="plot-the-gene-loadings" class="section level3">
 <h3 class="hasAnchor">
@@ -495,19 +479,19 @@ tidyLoad491_df
   
 }</code></pre></div>
 <p>This is the resulting loading bar plot for the EPHB forward signaling pathway (because all of the loadings are between -1 and 1, we set the significant figures to 2):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PathwayBarChart</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  pathway491_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"</span>
+<span class="kw">PathwayBarChart</span>(
   <span class="dt">ggData_df =</span> tidyLoad491_df,
   <span class="dt">y_lab =</span> <span class="st">"PC Loadings"</span>,
   <span class="dt">sigFigs =</span> <span class="dv">2</span>
 )</code></pre></div>
-<p><img src="Supplement5-Analyse_Results_files/figure-html/pathway491_loadings_bar_chart-1.png" width="100%" height="60%"></p>
 <p>For comparison, this is the bar plot for the asthma pathway (<code>pathway177</code> in our -Omics data container):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PathwayBarChart</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># pathway177_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"</span>
+<span class="kw">PathwayBarChart</span>(
   <span class="dt">ggData_df =</span> tidyLoad177_df,
   <span class="dt">y_lab =</span> <span class="st">"PC Loadings"</span>,
   <span class="dt">sigFigs =</span> <span class="dv">2</span>
 )</code></pre></div>
-<p><img src="Supplement5-Analyse_Results_files/figure-html/pathway177_loadings_bar_chart-1.png" width="100%" height="60%"></p>
 </div>
 </div>
 <div id="gene-correlations-with-pcs" class="section level2">
@@ -551,52 +535,25 @@ tidyLoad491_df
   <span class="dt">Omics =</span> colon_OmicsSurv,
   <span class="dt">pathwayPCL =</span> pathway491_ls
 )
-tidyCorr491_df
-<span class="co">#&gt;        ID Feature       Value Direction</span>
-<span class="co">#&gt; 1   EPHB2     PC1  0.48756885        Up</span>
-<span class="co">#&gt; 2   EPHB4     PC1  0.42455590        Up</span>
-<span class="co">#&gt; 3   MAPK3     PC1  0.33756419        Up</span>
-<span class="co">#&gt; 4   RAP1A     PC1 -0.29517214      Down</span>
-<span class="co">#&gt; 5   EFNB3     PC1 -0.31177022      Down</span>
-<span class="co">#&gt; 6   MAPK1     PC1 -0.44113346      Down</span>
-<span class="co">#&gt; 7   ROCK1     PC1 -0.50611242      Down</span>
-<span class="co">#&gt; 8   RAP1B     PC1 -0.52530894      Down</span>
-<span class="co">#&gt; 9    NCK1     PC1 -0.54333836      Down</span>
-<span class="co">#&gt; 10 PIK3CA     PC1 -0.61548850      Down</span>
-<span class="co">#&gt; 11  SYNJ1     PC1 -0.65350665      Down</span>
-<span class="co">#&gt; 12  ITSN1     PC1 -0.74234263      Down</span>
-<span class="co">#&gt; 13 MAP4K4     PC1 -0.74507829      Down</span>
-<span class="co">#&gt; 14  EPHB2     PC2  0.20538918        Up</span>
-<span class="co">#&gt; 15  EPHB4     PC2  0.07888067        Up</span>
-<span class="co">#&gt; 16  MAPK3     PC2  0.07749823        Up</span>
-<span class="co">#&gt; 17  RAP1A     PC2 -0.10685319      Down</span>
-<span class="co">#&gt; 18  EFNB3     PC2 -0.16173775      Down</span>
-<span class="co">#&gt; 19  MAPK1     PC2  0.67115788        Up</span>
-<span class="co">#&gt; 20  ROCK1     PC2 -0.30859295      Down</span>
-<span class="co">#&gt; 21  RAP1B     PC2 -0.04189417      Down</span>
-<span class="co">#&gt; 22   NCK1     PC2  0.06723602        Up</span>
-<span class="co">#&gt; 23 PIK3CA     PC2  0.23174041        Up</span>
-<span class="co">#&gt; 24  SYNJ1     PC2 -0.09783440      Down</span>
-<span class="co">#&gt; 25  ITSN1     PC2  0.06114568        Up</span>
-<span class="co">#&gt; 26 MAP4K4     PC2  0.12289233        Up</span></code></pre></div>
+tidyCorr491_df</code></pre></div>
 </div>
 <div id="plot-the-assay-pc-correlation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot-the-assay-pc-correlation" class="anchor"></a>3.3.2 Plot the Assay-PC Correlation</h3>
 <p>This is the resulting correlation bar plot for the EPHB forward signaling pathway:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PathwayBarChart</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  pathway491_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"</span>
+<span class="kw">PathwayBarChart</span>(
   <span class="dt">ggData_df =</span> tidyCorr491_df,
   <span class="dt">y_lab =</span> <span class="st">"Assay-PC Correlations"</span>,
   <span class="dt">sigFigs =</span> <span class="dv">1</span>
 )</code></pre></div>
-<p><img src="Supplement5-Analyse_Results_files/figure-html/pathway491_correlations_bar_chart-1.png" width="100%" height="60%"></p>
 <p>And this is the same figure for the asthma pathway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PathwayBarChart</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># pathway177_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"</span>
+<span class="kw">PathwayBarChart</span>(
   <span class="dt">ggData_df =</span> tidyCorr177_df,
   <span class="dt">y_lab =</span> <span class="st">"Assay-PC Correlations"</span>,
   <span class="dt">sigFigs =</span> <span class="dv">1</span>
 )</code></pre></div>
-<p><img src="Supplement5-Analyse_Results_files/figure-html/pathway177_correlations_bar_chart-1.png" width="100%" height="60%"></p>
 </div>
 </div>
 </div>
@@ -605,22 +562,22 @@ tidyCorr491_df
 <a href="#plot-patient-specific-pathway-activities" class="anchor"></a>4. Plot patient-specific pathway activities</h1>
 <p>estimate pathway activities for each patient, both for protein expressions and copy number expressions separately</p>
 <p>This is the circle plot for the IL-1 signaling pathway:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##load data(already ordered by copyNumber PC1 score)
-circlePlotData&lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"circlePlotData.RDS"</span>)
-##set color scales
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data (already ordered by copyNumber PC1 score)</span>
+circlePlotData &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(<span class="st">"circlePlotData.RDS"</span>)
+
+<span class="co"># Set color scales</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(grDevices)
-bluescale =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colorRamp">colorRampPalette</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"blue"</span>, <span class="st">"white"</span>))(<span class="dv">45</span>)
-redscale =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colorRamp">colorRampPalette</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"white"</span>, <span class="st">"red"</span>))(<span class="dv">38</span>)
+bluescale &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colorRamp">colorRampPalette</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"blue"</span>, <span class="st">"white"</span>))(<span class="dv">45</span>)
+redscale  &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colorRamp">colorRampPalette</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"white"</span>, <span class="st">"red"</span>))(<span class="dv">38</span>)
 Totalpalette &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(bluescale,redscale)
 
+<span class="co"># Apply colours</span>
 copyCol &lt;-<span class="st">  </span>Totalpalette[circlePlotData<span class="op">$</span>copyNumOrder]
 proteoCol &lt;-<span class="st"> </span>Totalpalette[circlePlotData<span class="op">$</span>proteinOrder]</code></pre></div>
-<p>Blue stands for negative PC1 score, Red stands for positive PC1 score.</p>
-<p>Inner loop stands for copyNumbers, outer loop stands for Proteomics</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##draw circle
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(circlize)
+<p>Blue stands for negative PC1 score, Red stands for positive PC1 score. The inner loop stands for copy numbers, outer loop stands for protein expression.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(circlize)
 <span class="co">#&gt; ========================================</span>
-<span class="co">#&gt; circlize version 0.4.5</span>
+<span class="co">#&gt; circlize version 0.4.6</span>
 <span class="co">#&gt; CRAN page: https://cran.r-project.org/package=circlize</span>
 <span class="co">#&gt; Github page: https://github.com/jokergoo/circlize</span>
 <span class="co">#&gt; Documentation: http://jokergoo.github.io/circlize_book/book/</span>
@@ -629,27 +586,54 @@ proteoCol &lt;-<span class="st"> </span>Totalpalette[circlePlotData<span class="
 <span class="co">#&gt; Gu, Z. circlize implements and enhances circular visualization </span>
 <span class="co">#&gt;   in R. Bioinformatics 2014.</span>
 <span class="co">#&gt; ========================================</span>
-##set parameters
-npathway =<span class="st"> </span><span class="dv">83</span>
-factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">83</span>.
+
+<span class="co"># Set parameters</span>
+nPathway &lt;-<span class="st"> </span><span class="dv">83</span>
+factors  &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>nPathway
+
+<span class="co"># Plot Setup</span>
 <span class="kw">circos.clear</span>()
-<span class="kw">circos.par</span>(<span class="st">"gap.degree"</span> =<span class="st"> </span><span class="dv">0</span>, <span class="st">"cell.padding"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),
-           <span class="dt">start.degree =</span> <span class="dv">360</span><span class="op">/</span><span class="dv">40</span>, <span class="dt">track.margin =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"clock.wise"</span> =<span class="st"> </span><span class="ot">FALSE</span>)
+<span class="kw">circos.par</span>(
+  <span class="st">"gap.degree"</span> =<span class="st"> </span><span class="dv">0</span>,
+  <span class="st">"cell.padding"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),
+  <span class="dt">start.degree =</span> <span class="dv">360</span><span class="op">/</span><span class="dv">40</span>,
+  <span class="dt">track.margin =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>),
+  <span class="st">"clock.wise"</span> =<span class="st"> </span><span class="ot">FALSE</span>
+)
 <span class="kw">circos.initialize</span>(<span class="dt">factors =</span> factors, <span class="dt">xlim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">3</span>))
 
-##for proteoOmics
-<span class="kw">circos.trackPlotRegion</span>(<span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="dt">factors =</span> factors, <span class="dt">bg.col =</span> proteoCol,
-                       <span class="dt">track.height =</span> <span class="fl">0.3</span>)
-##for copy Number
-<span class="kw">circos.trackPlotRegion</span>(<span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="dt">factors =</span> factors, <span class="dt">bg.col =</span> copyCol,
-                       <span class="dt">track.height =</span> <span class="fl">0.3</span>)
-##labels
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw">circos.trackText</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="op">-</span><span class="dv">3</span>, npathway), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="op">-</span><span class="fl">3.8</span>,npathway),
-                 <span class="dt">labels =</span> <span class="st">"PID_IL1"</span>,
-                 <span class="dt">factors =</span> factors, <span class="dt">col =</span> <span class="st">"#2d2d2d"</span>, <span class="dt">font =</span> <span class="dv">2</span>,
-                 <span class="dt">adj =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"adj"</span>), <span class="dt">cex =</span> <span class="fl">1.5</span>,
-                 <span class="dt">facing =</span> <span class="st">"downward"</span>,<span class="dt">niceFacing =</span> <span class="ot">TRUE</span>))</code></pre></div>
-<p><img src="Supplement5-Analyse_Results_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
+<span class="co"># ProteoOmics</span>
+<span class="kw">circos.trackPlotRegion</span>(
+  <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">3</span>),
+  <span class="dt">factors =</span> factors,
+  <span class="dt">bg.col =</span> proteoCol,
+  <span class="dt">track.height =</span> <span class="fl">0.3</span>
+)
+
+<span class="co"># Copy Number</span>
+<span class="kw">circos.trackPlotRegion</span>(
+  <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">3</span>),
+  <span class="dt">factors =</span> factors,
+  <span class="dt">bg.col =</span> copyCol,
+  <span class="dt">track.height =</span> <span class="fl">0.3</span>
+)
+
+<span class="co"># Add labels</span>
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(
+  <span class="kw">circos.trackText</span>(
+    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="op">-</span><span class="dv">3</span>, nPathway),
+    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="op">-</span><span class="fl">3.8</span>,nPathway),
+    <span class="dt">labels =</span> <span class="st">"PID_IL1"</span>,
+    <span class="dt">factors =</span> factors,
+    <span class="dt">col =</span> <span class="st">"#2d2d2d"</span>,
+    <span class="dt">font =</span> <span class="dv">2</span>,
+    <span class="dt">adj =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/par">par</a></span>(<span class="st">"adj"</span>),
+    <span class="dt">cex =</span> <span class="fl">1.5</span>,
+    <span class="dt">facing =</span> <span class="st">"downward"</span>,
+    <span class="dt">niceFacing =</span> <span class="ot">TRUE</span>
+  )
+)</code></pre></div>
+<p><img src="Supplement5-Analyse_Results_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <hr>
 <p></p>
 </div>
@@ -665,7 +649,7 @@ factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</s
 <p>We are exploring options to connect this package to other pathway-testing software. We are further considering other summary functions and/or graphics to help display the output of our <code>*_pVals()</code> functions. If you have any questions, comments, complaints, or suggestions, please <a href="https://github.com/gabrielodom/pathwayPCA/issues/new">submit an issue ticket</a> and give us some feedback. Also you can visit our <a href="https://github.com/gabrielodom/pathwayPCA">development page</a>.</p>
 <p>Here is the R session information for this vignette:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
+<span class="co">#&gt; R Under development (unstable) (2019-02-12 r76095)</span>
 <span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
 <span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
 <span class="co">#&gt; </span>
@@ -682,34 +666,34 @@ factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</s
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] circlize_0.4.5    bindrcpp_0.2.2    pathwayPCA_0.99.1</span>
-<span class="co">#&gt;  [4] forcats_0.3.0     stringr_1.3.1     dplyr_0.7.8      </span>
-<span class="co">#&gt;  [7] purrr_0.3.0       readr_1.3.1       tidyr_0.8.2      </span>
-<span class="co">#&gt; [10] tibble_2.0.1      ggplot2_3.1.0     tidyverse_1.2.1  </span>
+<span class="co">#&gt;  [1] circlize_0.4.6    pathwayPCA_0.99.5 forcats_0.4.0    </span>
+<span class="co">#&gt;  [4] stringr_1.4.0     dplyr_0.8.0.1     purrr_0.3.2      </span>
+<span class="co">#&gt;  [7] readr_1.3.1       tidyr_0.8.3       tibble_2.1.1     </span>
+<span class="co">#&gt; [10] ggplot2_3.1.0     tidyverse_1.2.1  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.0          lubridate_1.7.4     lattice_0.20-38    </span>
-<span class="co">#&gt;  [4] assertthat_0.2.0    rprojroot_1.3-2     digest_0.6.18      </span>
-<span class="co">#&gt;  [7] utf8_1.1.4          R6_2.3.0            cellranger_1.1.0   </span>
+<span class="co">#&gt;  [1] Rcpp_1.0.1          lubridate_1.7.4     lattice_0.20-38    </span>
+<span class="co">#&gt;  [4] assertthat_0.2.1    rprojroot_1.3-2     digest_0.6.18      </span>
+<span class="co">#&gt;  [7] utf8_1.1.4          R6_2.4.0            cellranger_1.1.0   </span>
 <span class="co">#&gt; [10] plyr_1.8.4          backports_1.1.3     lars_1.2           </span>
-<span class="co">#&gt; [13] evaluate_0.12       httr_1.4.0          pillar_1.3.1       </span>
-<span class="co">#&gt; [16] GlobalOptions_0.1.0 rlang_0.3.1         lazyeval_0.2.1     </span>
-<span class="co">#&gt; [19] readxl_1.2.0        rstudioapi_0.9.0    Matrix_1.2-15      </span>
-<span class="co">#&gt; [22] rmarkdown_1.11      pkgdown_1.3.0.9000  desc_1.2.0         </span>
-<span class="co">#&gt; [25] labeling_0.3        splines_3.5.2       munsell_0.5.0      </span>
-<span class="co">#&gt; [28] broom_0.5.1         compiler_3.5.2      modelr_0.1.2       </span>
-<span class="co">#&gt; [31] xfun_0.4            pkgconfig_2.0.2     shape_1.4.4        </span>
+<span class="co">#&gt; [13] evaluate_0.13       httr_1.4.0          pillar_1.3.1       </span>
+<span class="co">#&gt; [16] GlobalOptions_0.1.0 rlang_0.3.3         lazyeval_0.2.2     </span>
+<span class="co">#&gt; [19] readxl_1.3.1        rstudioapi_0.10     Matrix_1.2-17      </span>
+<span class="co">#&gt; [22] rmarkdown_1.12      pkgdown_1.3.0       desc_1.2.0         </span>
+<span class="co">#&gt; [25] labeling_0.3        splines_3.6.0       munsell_0.5.0      </span>
+<span class="co">#&gt; [28] broom_0.5.1         compiler_3.6.0      modelr_0.1.4       </span>
+<span class="co">#&gt; [31] xfun_0.6            pkgconfig_2.0.2     shape_1.4.4        </span>
 <span class="co">#&gt; [34] htmltools_0.3.6     tidyselect_0.2.5    roxygen2_6.1.1     </span>
 <span class="co">#&gt; [37] fansi_0.4.0         crayon_1.3.4        withr_2.1.2        </span>
-<span class="co">#&gt; [40] MASS_7.3-51.1       commonmark_1.7      grid_3.5.2         </span>
-<span class="co">#&gt; [43] nlme_3.1-137        jsonlite_1.6        gtable_0.2.0       </span>
-<span class="co">#&gt; [46] magrittr_1.5        scales_1.0.0        cli_1.0.1          </span>
-<span class="co">#&gt; [49] stringi_1.2.4       reshape2_1.4.3      fs_1.2.6           </span>
-<span class="co">#&gt; [52] xml2_1.2.0          generics_0.0.2      tools_3.5.2        </span>
-<span class="co">#&gt; [55] glue_1.3.0          hms_0.4.2           parallel_3.5.2     </span>
-<span class="co">#&gt; [58] survival_2.43-3     yaml_2.2.0          colorspace_1.4-0   </span>
-<span class="co">#&gt; [61] rvest_0.3.2         memoise_1.1.0       knitr_1.21         </span>
-<span class="co">#&gt; [64] bindr_0.1.1         haven_2.0.0</span></code></pre></div>
+<span class="co">#&gt; [40] MASS_7.3-51.4       commonmark_1.7      grid_3.6.0         </span>
+<span class="co">#&gt; [43] nlme_3.1-137        jsonlite_1.6        gtable_0.3.0       </span>
+<span class="co">#&gt; [46] magrittr_1.5        scales_1.0.0        cli_1.1.0          </span>
+<span class="co">#&gt; [49] stringi_1.4.3       reshape2_1.4.3      fs_1.2.7           </span>
+<span class="co">#&gt; [52] xml2_1.2.0          generics_0.0.2      tools_3.6.0        </span>
+<span class="co">#&gt; [55] glue_1.3.1          hms_0.4.2           parallel_3.6.0     </span>
+<span class="co">#&gt; [58] survival_2.44-1.1   yaml_2.2.0          colorspace_1.4-1   </span>
+<span class="co">#&gt; [61] rvest_0.3.2         memoise_1.1.0       knitr_1.22         </span>
+<span class="co">#&gt; [64] haven_2.1.0</span></code></pre></div>
 </div>
   </div>
 
@@ -753,7 +737,7 @@ factors =<span class="st"> </span><span class="dv">1</span><span class="op">:</s
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>

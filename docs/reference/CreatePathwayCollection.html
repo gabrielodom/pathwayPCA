@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -83,22 +83,20 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
     </li>
   </ul>
 </li>
@@ -138,30 +136,36 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>CreatePathwayCollection</span>(<span class='no'>pathways</span>, <span class='no'>TERMS</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>CreatePathwayCollection</span>(<span class='no'>sets_ls</span>, <span class='no'>TERMS</span>, <span class='kw'>setType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pathways"</span>, <span class='st'>"genes"</span>,
+  <span class='st'>"regions"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pathways</th>
+      <th>sets_ls</th>
       <td><p>A named list of character vectors. Each vector should contain
-the names of the individual genes or proteins within that pathway as a
-vector of character strings. The names contained in these vectors should
-have non-empty overlap with the feature names of the assay data frame that
-will be paired with this list in the subsequent analysis. The names of the
-pathways (the list elements themselves) should be the a shorthand
-representation of the full pathway name, but this is not required.</p></td>
+the names of the individual genes, proteins, sits, or CpGs within that
+set as a vector of character strings. If you create this pathway
+collection to integrate with data of class <code>Omics</code>*, the names
+contained in these vectors should have non-empty overlap with the feature
+names of the assay data frame that will be paired with this list in the
+subsequent analysis.</p></td>
     </tr>
     <tr>
       <th>TERMS</th>
-      <td><p>A character vector the same length as the <code>pathways</code> list
-with the proper names of the pathways.</p></td>
+      <td><p>A character vector the same length as the <code>sets_ls</code> list
+with the proper names of the sets.</p></td>
+    </tr>
+    <tr>
+      <th>setType</th>
+      <td><p>What is the type of the set: pathway set of gene, gene sites
+in RNA or DNA, or regions of CpGs. Defaults to <code>''pathway''</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Additional vectors or data components related to the
-<code>pathways</code> list. These values should be passed as a name-value pair.
+<code>sets_ls</code> list. These values should be passed as a name-value pair.
 See "Details" for more information.</p></td>
     </tr>
     </table>
@@ -172,9 +176,9 @@ See "Details" for more information.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function checks the pathwy list and pathway term inputs and
-   then creates a <code>pathwayCollection</code> object from them. Pass additional
-   list elements (such as the <code>description</code> of each pathway) using the
+    <p>This function checks the set list and set term inputs and then
+   creates a <code>pathwayCollection</code> object from them. Pass additional
+   list elements (such as the <code>description</code> of each set) using the
    form <code>tag = value</code> through the <code>...</code> argument (as in the
    <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></code> function). Because some functions in the
    <code>pathwayPCA</code> package add and edit elements of <code>pathwayCollection</code>
@@ -190,7 +194,7 @@ See "Details" for more information.</p></td>
     <pre class="examples"><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
 
   <span class='fu'>CreatePathwayCollection</span>(
-    <span class='kw'>pathways</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>$<span class='no'>pathways</span>,
+    <span class='kw'>sets_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>$<span class='no'>pathways</span>,
     <span class='kw'>TERMS</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>$<span class='no'>TERMS</span>
   )</div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: 
 #&gt;  $ pathways:List of 15
@@ -220,7 +224,7 @@ See "Details" for more information.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

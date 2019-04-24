@@ -21,9 +21,24 @@ The main features of pathwayPCA include:
 
 ## Installing the Package
 *******************************************************************************
-`pathwayPCA` is a package for R, so you need [R](https://cloud.r-project.org/) first. We also strongly recommend the [RStudio](https://www.rstudio.com/products/rstudio/download/) integrated development environment as a user-friendly graphical wrapper for R. Because we are currently in the development phase for this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
+`pathwayPCA` is a package for R, so you need [R](https://cloud.r-project.org/) first. We also strongly recommend the [RStudio](https://www.rstudio.com/products/rstudio/download/) integrated development environment as a user-friendly graphical wrapper for R.
+
+### Stable Build
+The stable build of our package will be available on Bioconductor in May of 2019. To access Bioconductor packages, first install BiocManager, then use BiocManager to install this package:
+```
+install.packages("BiocManager")
+BiocManager::install("pathwayPCA")
+```
+
+### Development Build
+Because we are currently in the development phase for version 2 of this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the `devtools::` package (https://github.com/r-lib/devtools) and either [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (for Windows) or [Xcode](https://developer.apple.com/xcode/) (for Mac). Then you can install the development version of the [`pathwayPCA` package](https://github.com/gabrielodom/pathwayPCA) from [GitHub](https://github.com/):
 ```
 devtools::install_github("gabrielodom/pathwayPCA")
+```
+
+If you are using R version 3.5 or later, and want access to the frozen build for this version, please use
+```
+devtools::install_github("gabrielodom/pathwayPCA", ref = "stable_3_5")
 ```
 
 <br>

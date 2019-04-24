@@ -23,15 +23,16 @@
 #'
 #' @keywords internal
 #'
-#' @export
 #'
 #' @importFrom stats sd
 #'
 #' @examples
 #'  # DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().
 #'
+#' \dontrun{
 #'  data("colonSurv_df")
 #'  CheckAssay(colonSurv_df[, -(1:3)])
+#' }
 #'
 CheckAssay <- function(df, removeNear0 = TRUE, epsilon = 10^-6){
   # browser()

@@ -36,13 +36,12 @@
 #' @importFrom stats median
 #' @importFrom stats quantile
 #'
-#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
 #'   # Use SuperPCA_pVals() instead
 #'   
-#'   
+#' \dontrun{
 #'   p <- 500
 #'   n <- 50
 #' 
@@ -61,7 +60,7 @@
 #'     y = time_int,
 #'     censoring.status = !obs_logi
 #'   )
-#'   
+#' }
 #'   
 coxTrain_fun <- function(x, y, censoring.status, s0.perc = NULL){
   # browser()

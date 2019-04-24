@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
       </span>
     </div>
 
@@ -84,22 +84,20 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
     </li>
   </ul>
 </li>
@@ -213,9 +211,10 @@ function which use the same pathway list. Defaults to 3.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY.</span>
-  <span class='co'># Use SuperPCA_pVals() instead</span>
+    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
+  # Use SuperPCA_pVals() instead
 
+</div><span class='co'># NOT RUN {</span>
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
 
@@ -224,12 +223,8 @@ function which use the same pathway list. Defaults to 3.</p></td>
     <span class='kw'>pathwayCollection_ls</span> <span class='kw'>=</span> <span class='no'>colon_pathwayCollection</span>,
     <span class='kw'>response</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fl'>1</span>:<span class='fl'>3</span>],
     <span class='kw'>respType</span> <span class='kw'>=</span> <span class='st'>"surv"</span>
-  )</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>  ======  Creating object of class OmicsSurv  =======</span></div><div class='output co'>#&gt; <span class='message'>The input pathway database included 676 unique features.</span></div><div class='output co'>#&gt; <span class='message'>The input assay dataset included 656 features.</span></div><div class='output co'>#&gt; <span class='message'>Only pathways with at least 3 or more features included in the assay dataset are</span>
-#&gt; <span class='message'>  tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
-#&gt; <span class='message'>  this criterion.</span></div><div class='output co'>#&gt; <span class='message'>Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
-#&gt; <span class='message'>  both assay data and pathway database are considered for analysis. There are 615</span>
-#&gt; <span class='message'>  such features shared by the input assay and pathway database.</span></div><div class='input'>
+  )
+
   <span class='no'>asthmaGenes_char</span> <span class='kw'>&lt;-</span>
     <span class='fu'><a href='get_set_OmicsPathway.html'>getTrimPathwayCollection</a></span>(<span class='no'>colon_OmicsSurv</span>)<span class='kw'>[[</span><span class='st'>"KEGG_ASTHMA"</span>]]$<span class='no'>IDs</span>
   <span class='no'>resp_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(
@@ -242,273 +237,8 @@ function which use the same pathway list. Defaults to 3.</p></td>
     <span class='kw'>geneArray_df</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='get_set_OmicsPathway.html'>getAssay</a></span>(<span class='no'>colon_OmicsSurv</span>)),
     <span class='kw'>response_mat</span> <span class='kw'>=</span> <span class='no'>resp_mat</span>,
     <span class='kw'>responseType</span> <span class='kw'>=</span> <span class='st'>"survival"</span>
-  )</div><div class='output co'>#&gt; $tscor
-#&gt;           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
-#&gt; [1,] 0.0827069 0.0827069 0.0827069 0.0827069 0.0827069 0.0827069 0.0827069
-#&gt;           [,8]      [,9]     [,10]     [,11]     [,12]     [,13]     [,14]
-#&gt; [1,] 0.0827069 0.0827069 0.0827069 0.0827069 0.0827069 0.0827069 0.0827069
-#&gt;          [,15]      [,16]      [,17]      [,18]     [,19]    [,20]
-#&gt; [1,] 0.0827069 -0.1279488 -0.1124734 -0.1448635 -2.080275 4.123281
-#&gt; 
-#&gt; $PCs_mat
-#&gt;                 [,1]
-#&gt;   [1,] -0.0743144003
-#&gt;   [2,] -0.1268998431
-#&gt;   [3,]  0.0338964113
-#&gt;   [4,] -0.2639639006
-#&gt;   [5,] -0.0932900013
-#&gt;   [6,] -0.0500180419
-#&gt;   [7,] -0.1388266697
-#&gt;   [8,]  0.0102483640
-#&gt;   [9,]  0.0165607319
-#&gt;  [10,] -0.0265786066
-#&gt;  [11,]  0.0859267723
-#&gt;  [12,]  0.0502468313
-#&gt;  [13,]  0.0345940122
-#&gt;  [14,]  0.0653062492
-#&gt;  [15,] -0.0962333484
-#&gt;  [16,]  0.0048922521
-#&gt;  [17,]  0.0459595579
-#&gt;  [18,] -0.1007759211
-#&gt;  [19,] -0.1221602784
-#&gt;  [20,]  0.0752055804
-#&gt;  [21,] -0.0562020674
-#&gt;  [22,] -0.0034935986
-#&gt;  [23,]  0.0224267928
-#&gt;  [24,]  0.0343906819
-#&gt;  [25,] -0.0325632804
-#&gt;  [26,] -0.0230570016
-#&gt;  [27,] -0.1012271195
-#&gt;  [28,]  0.0436915399
-#&gt;  [29,]  0.0806940411
-#&gt;  [30,]  0.0400029247
-#&gt;  [31,] -0.0399286993
-#&gt;  [32,]  0.0215132310
-#&gt;  [33,]  0.0149014382
-#&gt;  [34,] -0.0483419397
-#&gt;  [35,] -0.0258555365
-#&gt;  [36,]  0.0558288250
-#&gt;  [37,] -0.1438364285
-#&gt;  [38,]  0.0607667592
-#&gt;  [39,]  0.0321477356
-#&gt;  [40,]  0.0846278911
-#&gt;  [41,]  0.0428792902
-#&gt;  [42,] -0.0373689773
-#&gt;  [43,]  0.0133294672
-#&gt;  [44,] -0.0158547522
-#&gt;  [45,]  0.0416066012
-#&gt;  [46,]  0.0644613360
-#&gt;  [47,]  0.0331179716
-#&gt;  [48,]  0.0133097271
-#&gt;  [49,]  0.0735486673
-#&gt;  [50,]  0.0538081246
-#&gt;  [51,] -0.0128366106
-#&gt;  [52,]  0.0336663612
-#&gt;  [53,]  0.1330015048
-#&gt;  [54,]  0.0405837975
-#&gt;  [55,]  0.0452252858
-#&gt;  [56,] -0.0232864829
-#&gt;  [57,] -0.0671664608
-#&gt;  [58,]  0.0819924125
-#&gt;  [59,]  0.0107646434
-#&gt;  [60,] -0.0270236962
-#&gt;  [61,]  0.0292367275
-#&gt;  [62,]  0.0347727336
-#&gt;  [63,]  0.0125078153
-#&gt;  [64,] -0.0687185834
-#&gt;  [65,]  0.0225580961
-#&gt;  [66,] -0.0114975479
-#&gt;  [67,]  0.0210508288
-#&gt;  [68,] -0.0478832248
-#&gt;  [69,] -0.0809767887
-#&gt;  [70,]  0.0610222327
-#&gt;  [71,] -0.0478129729
-#&gt;  [72,] -0.1063968933
-#&gt;  [73,] -0.0462983344
-#&gt;  [74,] -0.0067124806
-#&gt;  [75,] -0.0453717229
-#&gt;  [76,]  0.0143768128
-#&gt;  [77,] -0.0554814059
-#&gt;  [78,] -0.1144897276
-#&gt;  [79,] -0.1186649005
-#&gt;  [80,]  0.0399872919
-#&gt;  [81,] -0.0349070615
-#&gt;  [82,] -0.0002560836
-#&gt;  [83,]  0.0102275770
-#&gt;  [84,]  0.0653640586
-#&gt;  [85,]  0.0190063838
-#&gt;  [86,] -0.0268213716
-#&gt;  [87,]  0.1330958741
-#&gt;  [88,]  0.1236324759
-#&gt;  [89,]  0.0630497584
-#&gt;  [90,] -0.0107823644
-#&gt;  [91,]  0.0338219284
-#&gt;  [92,] -0.0672448214
-#&gt;  [93,]  0.0793908046
-#&gt;  [94,] -0.0004119185
-#&gt;  [95,] -0.0103747089
-#&gt;  [96,]  0.0552529722
-#&gt;  [97,] -0.0162081820
-#&gt;  [98,] -0.0151003813
-#&gt;  [99,]  0.0052195138
-#&gt; [100,]  0.0726759828
-#&gt; [101,]  0.0413291891
-#&gt; [102,] -0.0977824252
-#&gt; [103,]  0.0045608539
-#&gt; [104,] -0.0201133944
-#&gt; [105,] -0.0364249343
-#&gt; [106,]  0.0001162970
-#&gt; [107,]  0.0220039258
-#&gt; [108,]  0.0024528849
-#&gt; [109,] -0.0592344952
-#&gt; [110,] -0.0384279826
-#&gt; [111,]  0.0161916662
-#&gt; [112,] -0.0345894666
-#&gt; [113,]  0.0200424348
-#&gt; [114,] -0.0343184290
-#&gt; [115,]  0.0186599642
-#&gt; [116,]  0.0451011864
-#&gt; [117,] -0.0357877835
-#&gt; [118,] -0.0123928836
-#&gt; [119,]  0.0122529536
-#&gt; [120,] -0.0122327518
-#&gt; [121,]  0.0369467884
-#&gt; [122,] -0.2329290376
-#&gt; [123,] -0.0450581687
-#&gt; [124,] -0.0646288405
-#&gt; [125,] -0.2685657542
-#&gt; [126,] -0.1871642632
-#&gt; [127,] -0.0435952522
-#&gt; [128,] -0.0929958361
-#&gt; [129,]  0.0845071334
-#&gt; [130,] -0.0472799303
-#&gt; [131,] -0.0014112104
-#&gt; [132,] -0.0112307608
-#&gt; [133,]  0.0710488005
-#&gt; [134,]  0.0027275039
-#&gt; [135,] -0.0329773798
-#&gt; [136,] -0.0437340032
-#&gt; [137,] -0.0227372890
-#&gt; [138,]  0.0381077273
-#&gt; [139,] -0.0783842201
-#&gt; [140,] -0.0116390954
-#&gt; [141,] -0.0897737607
-#&gt; [142,]  0.0080100456
-#&gt; [143,]  0.0764253301
-#&gt; [144,]  0.0017417323
-#&gt; [145,]  0.0342765280
-#&gt; [146,]  0.0671007508
-#&gt; [147,]  0.0293605623
-#&gt; [148,] -0.0057262834
-#&gt; [149,]  0.0506149622
-#&gt; [150,] -0.0029331718
-#&gt; [151,] -0.0636072061
-#&gt; [152,]  0.0161164481
-#&gt; [153,]  0.0050760317
-#&gt; [154,]  0.0154903035
-#&gt; [155,] -0.0166232816
-#&gt; [156,]  0.0146871922
-#&gt; [157,]  0.0369091777
-#&gt; [158,] -0.0505013485
-#&gt; [159,] -0.0760566784
-#&gt; [160,] -0.0159686329
-#&gt; [161,]  0.0375800672
-#&gt; [162,]  0.0094294360
-#&gt; [163,]  0.0082965401
-#&gt; [164,]  0.0127486921
-#&gt; [165,]  0.0800753883
-#&gt; [166,] -0.0121996410
-#&gt; [167,]  0.0064191301
-#&gt; [168,]  0.0943065141
-#&gt; [169,] -0.0160441552
-#&gt; [170,] -0.0336309313
-#&gt; [171,]  0.0338863831
-#&gt; [172,]  0.0131366950
-#&gt; [173,] -0.0053322892
-#&gt; [174,] -0.0081122448
-#&gt; [175,]  0.0265449608
-#&gt; [176,]  0.0420688243
-#&gt; [177,]  0.0149694387
-#&gt; [178,]  0.0589530698
-#&gt; [179,]  0.0499253310
-#&gt; [180,]  0.0412168290
-#&gt; [181,]  0.1495374807
-#&gt; [182,] -0.0261450571
-#&gt; [183,]  0.0212756614
-#&gt; [184,]  0.0326079786
-#&gt; [185,]  0.0251323747
-#&gt; [186,] -0.0599430782
-#&gt; [187,] -0.0066332953
-#&gt; [188,]  0.0300970513
-#&gt; [189,]  0.0449070125
-#&gt; [190,] -0.0228299740
-#&gt; [191,] -0.0706623542
-#&gt; [192,] -0.0586075640
-#&gt; [193,] -0.0075153081
-#&gt; [194,]  0.0806123274
-#&gt; [195,]  0.0184997705
-#&gt; [196,]  0.0256173169
-#&gt; [197,]  0.0092534113
-#&gt; [198,] -0.0512645166
-#&gt; [199,] -0.0428845486
-#&gt; [200,]  0.1403145383
-#&gt; [201,]  0.0957865863
-#&gt; [202,]  0.0190179823
-#&gt; [203,]  0.0402533672
-#&gt; [204,] -0.0007738408
-#&gt; [205,]  0.0040374893
-#&gt; [206,] -0.0288588096
-#&gt; [207,]  0.0258927472
-#&gt; [208,] -0.0684889177
-#&gt; [209,] -0.0008304502
-#&gt; [210,] -0.0351044157
-#&gt; [211,]  0.0994881192
-#&gt; [212,]  0.0999521507
-#&gt; [213,]  0.1276209100
-#&gt; [214,] -0.0374691008
-#&gt; [215,] -0.0049715770
-#&gt; [216,]  0.0716949933
-#&gt; [217,] -0.0217144395
-#&gt; [218,]  0.0572874845
-#&gt; [219,] -0.0314409597
-#&gt; [220,] -0.0831629023
-#&gt; [221,]  0.0327084499
-#&gt; [222,] -0.0143454792
-#&gt; [223,] -0.0088722765
-#&gt; [224,]  0.1084309952
-#&gt; [225,]  0.0178378234
-#&gt; [226,]  0.0167791054
-#&gt; [227,]  0.0028895656
-#&gt; [228,] -0.0173955831
-#&gt; [229,] -0.0468654481
-#&gt; [230,]  0.0150006269
-#&gt; [231,]  0.0468517866
-#&gt; [232,]  0.1045298627
-#&gt; [233,] -0.1816165914
-#&gt; [234,] -0.0013629308
-#&gt; [235,] -0.0171883491
-#&gt; [236,] -0.0211888435
-#&gt; [237,] -0.0271410256
-#&gt; [238,]  0.1613798993
-#&gt; [239,]  0.0310481996
-#&gt; [240,] -0.0117055467
-#&gt; [241,] -0.0669093330
-#&gt; [242,] -0.0428818708
-#&gt; [243,]  0.0268056377
-#&gt; [244,]  0.0675593572
-#&gt; [245,] -0.0048106403
-#&gt; [246,]  0.0202029944
-#&gt; [247,]  0.0714730090
-#&gt; [248,]  0.0342941952
-#&gt; [249,] -0.0586484135
-#&gt; [250,]  0.0564261758
-#&gt; 
-#&gt; $loadings
-#&gt;       HLA-DOB       IL3       EPX   FCER1G       IL9    CD40LG    CD40
-#&gt; PC1 -5.827311 -10.54705 -12.21232 6.723922 -8.307234 -10.27447 6.25925
-#&gt;          IL13       IL4       IL5
-#&gt; PC1 -7.671155 -10.32223 -9.624757
-#&gt; </div><div class='input'>
+  )
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -534,7 +264,7 @@ function which use the same pathway list. Defaults to 3.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>
