@@ -5,7 +5,7 @@
 \title{Read a \code{.gmt} file in as a \code{pathwayCollection} object}
 \usage{
 read_gmt(file, setType = c("pathways", "genes", "regions"),
-  description = FALSE, delim = "\\t")
+  description = FALSE, nChars = 1e+07, delim = "\\t")
 }
 \arguments{
 \item{file}{A path to a file or a connection. This file must be a \code{.gmt}
@@ -18,6 +18,12 @@ in RNA or DNA, or regions of CpGs. Defaults to \code{''pathway''}.}
 \item{description}{Should the "description" field (the second field in the
 \code{.gmt} file on each line) be included in the output? Defaults to
 \code{FALSE}.}
+
+\item{nChars}{The number of characters to read from a connection. The largest
+\code{.gmt} file we have encountered is the full C5 pathway collection
+from MSigDB (5917 pathways), which has roughly 5 million characters in
+UTF-8 encoding. Therefore, we default this argument to be twice the size
+of the largest pathway collection we have seen so far, 10,000,000.}
 
 \item{delim}{The \code{.gmt} delimiter. As proper \code{.gmt} files are tab
 delimited, this defaults to \code{"\\t"}.}

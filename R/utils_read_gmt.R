@@ -12,6 +12,11 @@
 #' @param description Should the "description" field (the second field in the
 #'    \code{.gmt} file on each line) be included in the output? Defaults to
 #'    \code{FALSE}.
+#' @param nChars The number of characters to read from a connection. The largest
+#'    \code{.gmt} file we have encountered is the full C5 pathway collection
+#'    from MSigDB (5917 pathways), which has roughly 5 million characters in
+#'    UTF-8 encoding. Therefore, we default this argument to be twice the size
+#'    of the largest pathway collection we have seen so far, 10,000,000.
 #' @param delim The \code{.gmt} delimiter. As proper \code{.gmt} files are tab
 #'    delimited, this defaults to \code{"\\t"}.
 #'
@@ -58,13 +63,19 @@
 #'   # )
 #'
 read_gmt <- function(file, setType = c("pathways", "genes", "regions"),
-                     description = FALSE, delim = "\t"){
+                     description = FALSE, nChars = 10000000, delim = "\t"){
 
   # browser()
 
   # Read the file as a single character vector, split it by line, then split
   #   each line by "tab"
-  text_char <- readChar(file, file.info(file)$size, useBytes = TRUE)
+  if(is.character(file)){
+    nChars <- file.info(file)$size
+  } else if(!inherits(file, "connection")){
+    stop("'file' must be a character string or connection.", call. = FALSE)
+  } 
+  
+  text_char <- readChar(file, nchars = nChars, useBytes = TRUE)
   text_vec <- strsplit(text_char, "\n", fixed = TRUE, useBytes = TRUE)[[1]]
   geneset_ls <- strsplit(text_vec, split = delim)
 
@@ -94,6 +105,10 @@ read_gmt <- function(file, setType = c("pathways", "genes", "regions"),
     geneset_descr <- vapply(geneset_ls, `[[`, 2, FUN.VALUE = character(1))
     out$description <- geneset_descr
 
+  }
+  
+  if(inherits(file, "connection")){
+    close(file)
   }
 
   class(out) <- c("pathwayCollection", "list")
