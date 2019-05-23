@@ -297,6 +297,22 @@ wp195Data_df <- SubsetPathwayData(ov_OmicsSurv, "WP195")
 wp195Data_df
 ```
 
+In order to plot a heatmap of the proteins in this pathway, we need to "gather" the data frame into three columns.
+```{r gatherWP195}
+wp195gather_df <- wp195Data_df %>% 
+  select(-EventTime, -EventObs) %>% 
+  gather(protein, value, -sampleID)
+```
+
+Now for the heatmap:
+```{r heatmapWP195}
+ggplot(wp195gather_df, aes(x = protein, y = sampleID)) +
+  geom_tile(aes(fill = value)) +
+  scale_fill_gradient2(low = "red", mid = "black", high = "green") +
+  labs(x = "Proteins", y = "Subjects", fill = "Protein level") +
+  theme(axis.text.x  = element_text(angle = 90))
+```
+
 We can also perform analysis for individual genes belonging to the pathway: 
 ```{r dataSubsetMod}
 library(survival)
