@@ -3,7 +3,7 @@
 \name{SubsetPathwayCollection}
 \alias{SubsetPathwayCollection}
 \alias{[[.pathwayCollection}
-\title{Subset a \code{pathwayCollection}-class Object.}
+\title{Subset a \code{pathwayCollection}-class Object by Pathway.}
 \usage{
 \method{[[}{pathwayCollection}(x, name_char)
 }

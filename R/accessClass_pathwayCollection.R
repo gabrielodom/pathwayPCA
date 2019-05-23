@@ -1,4 +1,4 @@
-#' Subset a \code{pathwayCollection}-class Object.
+#' Subset a \code{pathwayCollection}-class Object by Pathway.
 #'
 #' @description The subset method for pathways lists as returned by the
 #'    \code{\link{read_gmt}} function.
