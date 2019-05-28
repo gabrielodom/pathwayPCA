@@ -93,12 +93,13 @@ length(ovCNVsignifPaths)   # 128
 # 2. protein
 length(ovProtSignifPaths) # 50
 # 3. both protein and CNV = 22
-length(
+posPos <- length(
   intersect(
     ovCNVsignifPaths,
     ovProtSignifPaths
   )
 )
+posPos
 # (or 23 by description, because we have two WnT signalling pathways)
 
 # 4. CNV but not protein = 106 (104)
@@ -119,7 +120,7 @@ length(
 
 # 6. pathways recorded for proteins, not significant for proteins, but
 #   significant for CNV = 84 (82)
-length(
+negPos <- length(
   intersect(
     ovCNVsignifPaths,
     setdiff(
@@ -128,10 +129,11 @@ length(
     )
   )
 )
+negPos
 
-# 7. pathways recorded for CNV, not significant for CNV, but significant for
+# 7. pathways recorded for proteins, not significant for CNV, but significant for
 #   proteins = 28 (27)
-length(
+posNeg <- length(
   intersect(
     ovProtSignifPaths,
     setdiff(
@@ -140,6 +142,7 @@ length(
     )
   )
 )
+posNeg
 
 # 8. Significant in either = 156
 length(
@@ -167,31 +170,14 @@ length(
 
 
 ###  Fisher's Exact Test  ###
-# # Significant for CNV vs Significant for Protein (by TERMS)
-# fisher.test(
-#   x = matrix(c(22, 28, 106, 168), ncol = 2),
-#   alternative = "greater"
-# )
-# 
-# # by description
-# fisher.test(
-#   x = matrix(c(23, 27, 104, 170), ncol = 2),
-#   alternative = "greater"
-# )
-
 # within 324 protein pathways
 # We can only look for pathways recorded in the Protein data
-# by TERMS
-sum(c(22, 28, 84, 190))
-fisher.test(
-  x = matrix(c(22, 28, 84, 190), ncol = 2),
-  alternative = "greater"
-)
 
-sum(c(23, 27, 82, 192))
-# by description
+negNeg <- 324 - sum(c(posPos, posNeg, negPos))
+negNeg
+
 fisher.test(
-  x = matrix(c(23, 27, 82, 192), ncol = 2),
+  x = matrix(c(posPos, posNeg, negPos, negNeg), ncol = 2),
   alternative = "greater"
 )
 

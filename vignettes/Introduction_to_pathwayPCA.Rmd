@@ -31,7 +31,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 1. Test pathway association with binary, continuous, or survival phenotypes.
 2. Extract relevant genes in the pathways using the SuperPCA and AESPCA approaches.
-3. Compute *principal components* (PCs) based on the selected genes. These estimated latent variables represent pathway activities for individual subjects, which can then be used to perform integrative pathway analysis, such as multi-omics analysis.
+3. Compute *principal components* (PCs) based on the *selected genes*. These estimated latent variables represent pathway activities for individual subjects, which can then be used to perform integrative pathway analysis, such as multi-omics analysis.
 4. Extract relevant genes that drive pathway significance as well as data corresponding to these relevant genes for additional in-depth analysis.
 5. Perform analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.
 6. Analyze studies with complex experimental designs, with multiple covariates, and with interaction effects, e.g., testing whether pathway association with clinical phenotype is different between male and female subjects.
@@ -300,6 +300,7 @@ wp195Data_df
 In order to plot a heatmap of the proteins in this pathway, we need to "gather" the data frame into three columns.
 ```{r gatherWP195}
 wp195gather_df <- wp195Data_df %>% 
+  arrange(EventTime) %>% 
   select(-EventTime, -EventObs) %>% 
   gather(protein, value, -sampleID)
 ```
@@ -310,7 +311,8 @@ ggplot(wp195gather_df, aes(x = protein, y = sampleID)) +
   geom_tile(aes(fill = value)) +
   scale_fill_gradient2(low = "red", mid = "black", high = "green") +
   labs(x = "Proteins", y = "Subjects", fill = "Protein level") +
-  theme(axis.text.x  = element_text(angle = 90))
+  theme(axis.text.x  = element_text(angle = 90)) +
+  coord_flip()
 ```
 
 We can also perform analysis for individual genes belonging to the pathway: 
@@ -336,7 +338,9 @@ NFKB1_df <-
   # Group subjects by gene expression
   mutate(NFKB1_Expr = ifelse(NFKB1 > median(NFKB1), "High", "Low")) %>% 
   # Re-code time to years
-  mutate(EventTime = EventTime / 365.25) 
+  mutate(EventTime = EventTime / 365.25) %>% 
+  # Ignore any events past 10 years
+  filter(EventTime <= 10) 
 
 # Fit the survival model
 NFKB1_fit <- survfit(
@@ -463,7 +467,7 @@ SigBoth_df <- inner_join(PROTpvals_df, CNVpvals_df, by = "description")
 <!-- ) -->
 <!-- ``` -->
 
-The results showed there are 23 pathways significantly associated with survival in both CNV and protein data (*p*-value = 0.02088; Fisher's Exact Test). Here are the top-10 most significant pathways (sorted by protein data significance): 
+The results showed there are 23 pathways significantly associated with survival in both CNV and protein data, which is significantly more than expected by chance (*p*-value = 0.02088; Fisher's Exact Test; shown in `multi_pathway_overlap_fishers.R`). Here are the top-10 most significant pathways (sorted by protein data significance): 
 ```{r intersectPaths}
 SigBoth_df
 ```
