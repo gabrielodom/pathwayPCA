@@ -306,7 +306,7 @@ wp195gather_df <- wp195Data_df %>%
 ```
 
 Now for the heatmap:
-```{r heatmapWP195}
+```{r heatmapWP195, fig.width=8, fig.asp=0.62}
 ggplot(wp195gather_df, aes(x = protein, y = sampleID)) +
   geom_tile(aes(fill = value)) +
   scale_fill_gradient2(low = "red", mid = "black", high = "green") +
