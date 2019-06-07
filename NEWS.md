@@ -7,7 +7,6 @@
 
 
 
-
 # pathwayPCA 0.98.0
 ### 2018-12-13
 
@@ -42,13 +41,12 @@ into their own chapter. The five vignettes I wrote are now supplemental chapters
 
 
 
-
 # pathwayPCA 0.99.1
 ### 2019-02-01
 
 We are submitting to Bioconductor soon, so we are resolving as many of the
-`BiocCheck()` ERRORs, WARNINGs, and NOTEs. See <https://github.com/gabrielodom/pathwayPCA/issues/64>
-
+`BiocCheck()` ERRORs, WARNINGs, and NOTEs. See
+<https://github.com/gabrielodom/pathwayPCA/issues/64>
 
 
 
@@ -60,3 +58,8 @@ See <https://github.com/Bioconductor/Contributions/issues/1000>
 
 
 
+# pathwayPCA 1.1.1
+### 2019-06-06
+
+Our build on Bioconductor 3.9 devel fails for the second vignette. This patch
+resolves this issue.
