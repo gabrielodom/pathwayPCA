@@ -4,8 +4,8 @@ language: r
 use_bioc: true
 bioc_required: true
 r:
-  # - bioc-release
-  - bioc-devel
+  - bioc-release
+  # - bioc-devel
   # - oldrel
   # - release
   # - devel
