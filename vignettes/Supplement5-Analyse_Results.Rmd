@@ -77,7 +77,7 @@ colonSurv_aespcOut <- AESPCA_pVals(
 # 2. Plot Pathway Significance Levels
 The first element of this results data object is a data frame of pathways and their significance levels (`pVals_df`).
 ```{r viewPathwayRanks}
-colonSurv_aespcOut$pVals_df
+getPathpVals(colonSurv_aespcOut)
 ```
 
 Given the $p$-values from these pathways, we will now graph their score (negative log of the $p$-value) and description for the top 15 most-significant pathways.
@@ -86,7 +86,7 @@ Given the $p$-values from these pathways, we will now graph their score (negativ
 Because pathway names are quite long, we truncate names longer than 35 characters for better display in the graphs.
 ```{r match_abbrev_to_name}
 pVals_df <- 
-  colonSurv_aespcOut$pVals_df %>% 
+  getPathpVals(colonSurv_aespcOut) %>% 
   mutate(
     terms = ifelse(
       str_length(terms) > 35,
@@ -104,8 +104,6 @@ For the data frame containing the survival data pathway $p$-values, we will tran
 colonOutGather_df <-
   # Take in the results data frame,
   pVals_df %>%
-  # remove the columns we don't need,
-  select(-pathways, -n_tested) %>%
   # "tidy" the data,
   gather(variable, value, -terms) %>%
   # add the score variable, and
@@ -188,22 +186,22 @@ Now that we have a few significant pathways, we can look at the loadings of each
 ```{r significant_pathway_keys}
 pVals_df %>% 
   filter(FDR_BH < 0.01) %>% 
-  select(pathways)
+  select(terms)
 ```
 
 
 ## 3.1 Extract Pathway Decomposition
-We will chose the top two significant pathways for closer inspection, and we want to ascertain which genes load onto the pathway PCs. Notice that the pathway loadings are named by the internal pathway key, so we need to use the `getPathPCL()` to match this key to its pathway and extract the pathway PCs and loadings (PC & L) list from the `colonSurv_aespcOut` object. Here are the loading vectors and pathway details from `pathway491`:
+We will chose the top two significant pathways for closer inspection, and we want to ascertain which genes load onto the pathway PCs. Notice that the pathway loadings are named by the internal pathway key, so we need to use the `getPathPCL()` to match this key to its pathway and extract the pathway PCs and loadings (PC & L) list from the `colonSurv_aespcOut` object. Here are the loading vectors and pathway details from `PID_EPHB_FWD_PATHWAY`:
 ```{r path491_PCL}
-pathway491_ls <- getPathPCLs(colonSurv_aespcOut, "pathway491")
+pathway491_ls <- getPathPCLs(colonSurv_aespcOut, "PID_EPHB_FWD_PATHWAY")
 pathway491_ls
 ```
 
 This tells us that `pathway491` represents the [EPHB forward signaling](http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=PID_EPHB_FWD_PATHWAY) pathway.
 
-We can also extract the PCs and loadings vectors for `pathway177` (the [Asthma](http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=KEGG_ASTHMA) pathway), which we will compare later.
+We can also extract the PCs and loadings vectors for `KEGG_ASTHMA` (the [Asthma](http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=KEGG_ASTHMA) pathway), which we will compare later.
 ```{r pathway177_PCL}
-pathway177_ls <- getPathPCLs(colonSurv_aespcOut, "pathway177")
+pathway177_ls <- getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
 ```
 
 
