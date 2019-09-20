@@ -27,7 +27,7 @@ Description: pathwayPCA is an integrative analysis tool that implements the
   Chen et al. (2010) <https://doi.org/10.1002/gepi.20532>; and
   Chen (2011) <https://doi.org/10.2202/1544-6115.1697>.
 License: GPL-3
-Depends: R (>= 3.6)
+Depends: R (>= 3.1)
 Imports:
     lars,
     methods,
