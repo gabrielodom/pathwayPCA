@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Cox Proportional Hazards model for supervised PCA — coxTrain_fun • pathwayPCA</title>
+<title>Check if a long atomic vector contains a short atomic vector — Contains • pathwayPCA</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Train Cox Proportional Hazards model for supervised PCA — coxTrain_fun" />
-<meta property="og:description" content="Main and utility functions for training the Cox PH model." />
+<meta property="og:title" content="Check if a long atomic vector contains a short atomic vector — Contains" />
+<meta property="og:description" content="Check if any or all of the elements of a short atomic vector
+   are contained within a supplied long atomic vector." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,88 +127,81 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Cox Proportional Hazards model for supervised PCA</h1>
+    <h1>Check if a long atomic vector contains a short atomic vector</h1>
     
-    <div class="hidden name"><code>coxTrain_fun.Rd</code></div>
+    <div class="hidden name"><code>Contains.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Main and utility functions for training the Cox PH model.</p>
+    <p>Check if any or all of the elements of a short atomic vector
+   are contained within a supplied long atomic vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coxTrain_fun</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>censoring.status</span>, <span class='kw'>s0.perc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>Contains</span>(<span class='no'>long</span>, <span class='no'>short</span>, <span class='kw'>matches</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"any"</span>, <span class='st'>"all"</span>), <span class='kw'>partial</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A "tall" pathway data frame (\(p \times n\)).</p></td>
+      <th>long</th>
+      <td><p>A vector to possibly containing any or all elements of
+<code>short</code></p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>A response vector of follow-up / event times.</p></td>
+      <th>short</th>
+      <td><p>A short vector or scalar, some elements of which may be
+contained in <code>long</code></p></td>
     </tr>
     <tr>
-      <th>censoring.status</th>
-      <td><p>A censoring vector.</p></td>
+      <th>matches</th>
+      <td><p>Should partial set matching of <code>short</code> be allowed?
+Defaults to <code>"any"</code>, signifying that the function should return
+<code>TRUE</code> if any of the elements of <code>short</code> are contained in
+<code>long</code>. The other option is <code>"all"</code>.</p></td>
     </tr>
     <tr>
-      <th>s0.perc</th>
-      <td><p>A stabilization parameter. This is an optional argument to
-each of the functions called internally. Defaults to <code>NULL</code>.</p></td>
+      <th>partial</th>
+      <td><p>Should partial string matching be allowed? Defaults to
+<code>FALSE</code>. Partial string matching means that the character string
+<strong>starts with</strong> the supplied value.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing:</p><ul>
-<li><p><code>tt</code> : The scaled p-dimensional score vector: each value has
-     been divided by the respective standard deviation plus the <code>fudge</code>
-     value.</p></li>
-<li><p><code>numer</code> : The original p-dimensional score vector. From the
-     internal <code>.coxscor</code> function.</p></li>
-<li><p><code>sd</code> : The standard deviations of the scores. From the
-     internal <code>.coxvar</code> function.</p></li>
-<li><p><code>fudge</code> : A regularization scalar added to the standard
-     deviation. If <code>s0.perc</code> is supplied,
-     <code>fudge = quantile(sd, s0.perc)</code>.</p></li>
-</ul>
-
+    <p>A logical scalar. If <code>matches = "any"</code>, this indicates if any
+   of the elements of <code>short</code> are contained in <code>long</code>. If
+   <code>matches = "all"</code>, this indicates if all of the elements of
+   <code>short</code> are contained in <code>long</code>. If <code>partial = TRUE</code>, the
+   returned logical indicates whether or not any of the character strings in
+   <code>long</code> <strong>start with</strong> the character scalar supplied to
+   <code>short</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <a href='https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf'>https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf</a>,
-   Section 5, for a description of Supervised PCA applied to survival data.
-   The internal utility functions defined in this file (<code>.coxscor</code>,
-   <code>.coxvar</code>, and <code>.coxstuff</code>) are not called anywhere else, other
-   than in the <code>coxTrain_fun</code> function itself. Therefore, we do not
-   document these functions.</p>
-<p>NOTE: No missing values allowed.</p>
+    <p>This is a helper function to find out if a gene symbol or some
+   similar character string (or character vector) is contained in a pathway.
+   Currently, this function uses base R, but we can write it in a compiled
+   language (such as C++) to increase speed later.</p>   
+<p>For partial matching (<code>partial = TRUE</code>), <code>long</code> must be an
+   atomic vector of type character, <code>short</code> must be an atomic scalar (a
+   vector with length of 1) of type character, and <code>matches</code> should be
+   set to <code>"any"</code>. Because this function is designed to match gene
+   symbols or CpG locations, we care if the symbol or location starts with
+   the string supplied. For example, if we set <code>short = "PIK"</code>, then we
+   want to find if any of the gene symbols in the supplied <code>long</code>
+   vector belong to the PIK gene family. We don't care if this string appears
+   elsewhere in a gene symbol.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY.</span>
-  <span class='co'># Use SuperPCA_pVals() instead</span>
-
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fl'>500</span>
-  <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
-
-  <span class='no'>x_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span> * <span class='no'>p</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>p</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>n</span>)
-  <span class='no'>x_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>x_mat</span>)
-  <span class='no'>time_int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span>(<span class='no'>n</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>)
-  <span class='no'>obs_logi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>),
-    <span class='kw'>size</span> <span class='kw'>=</span> <span class='no'>n</span>,
-    <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.8</span>)
-  )
-
-  <span class='fu'>coxTrain_fun</span>(
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x_df</span>,
-    <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>time_int</span>,
-    <span class='kw'>censoring.status</span> <span class='kw'>=</span> !<span class='no'>obs_logi</span>
-  )
-}</div></pre>
+    <pre class="examples"><div class='input'>   <span class='fu'>Contains</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>8</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>   <span class='fu'>Contains</span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"!"</span>), <span class='kw'>matches</span> <span class='kw'>=</span> <span class='st'>"any"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>   <span class='fu'>Contains</span>(<span class='no'>LETTERS</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"!"</span>), <span class='kw'>matches</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
+   <span class='no'>genesPI</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+     <span class='st'>"PI4K2A"</span>, <span class='st'>"PI4K2B"</span>, <span class='st'>"PI4KA"</span>, <span class='st'>"PI4KB"</span>, <span class='st'>"PIK3C2A"</span>, <span class='st'>"PIK3C2B"</span>, <span class='st'>"PIK3C2G"</span>,
+     <span class='st'>"PIK3C3"</span>, <span class='st'>"PIK3CA"</span>, <span class='st'>"PIK3CB"</span>, <span class='st'>"PIK3CD"</span>, <span class='st'>"PIK3CG"</span>, <span class='st'>"PIK3R1"</span>, <span class='st'>"PIK3R2"</span>,
+     <span class='st'>"PIK3R3"</span>, <span class='st'>"PIK3R4"</span>, <span class='st'>"PIK3R5"</span>, <span class='st'>"PIK3R6"</span>, <span class='st'>"PIKFYVE"</span>, <span class='st'>"PIP4K2A"</span>,
+     <span class='st'>"PIP4K2B"</span>, <span class='st'>"PIP5K1B"</span>, <span class='st'>"PIP5K1C"</span>, <span class='st'>"PITPNB"</span>
+   )
+   <span class='fu'>Contains</span>(<span class='no'>genesPI</span>, <span class='st'>"PIK3"</span>, <span class='kw'>partial</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -720,7 +720,7 @@ kidneySurvWP1559grouped_df <-
   # add strength indicator
   mutate(direction = ifelse(PC1 > median(PC1), "High", "Low")) %>% 
   # group by interaction of sex and strength on PC
-  mutate(group = paste0(direction, ifelse(male, "_Male", "_Female"))) %>% 
+  mutate(group = paste0(direction, ifelse(male, "_M", "_F"))) %>% 
   # recode time in years
   mutate(time = time / 365.25) %>% 
   # remove summarized columns
@@ -736,10 +736,10 @@ fit <- survfit(
 )
 
 ggsurvplot(
-  fit, conf.int = FALSE, 
+  fit, conf.int = FALSE,
   xlab = "Time in Years",
-  ylim = c(0.4, 1),
-  xlim = c(0, 10)
+  xlim = c(0, 10),
+  ylim = c(0.4, 1)
 )
 ```
 

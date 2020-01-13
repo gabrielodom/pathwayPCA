@@ -8,21 +8,25 @@
 
 <title>Changelog • pathwayPCA</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,7 +34,9 @@
 
 
 
+
 <meta property="og:title" content="Changelog" />
+
 
 
 
@@ -42,6 +48,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -60,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -79,20 +86,22 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -100,14 +109,8 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -115,13 +118,14 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      
     </div>
 
     <div id="pathwaypca-0-0-0-9000" class="section level1">
@@ -176,6 +180,15 @@
 <p>We have been accepted to Bioconductor! See <a href="https://github.com/Bioconductor/Contributions/issues/1000" class="uri">https://github.com/Bioconductor/Contributions/issues/1000</a></p>
 </div>
 </div>
+    <div id="pathwaypca-1-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#pathwaypca-1-1-1" class="anchor"></a>pathwayPCA 1.1.1</h1>
+<div id="section-4" class="section level3">
+<h3 class="hasAnchor">
+<a href="#section-4" class="anchor"></a>2019-06-06</h3>
+<p>Our build on Bioconductor 3.9 devel fails for the second vignette. This patch resolves this issue.</p>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -186,11 +199,13 @@
         <li><a href="#pathwaypca-0-98-0">0.98.0</a></li>
         <li><a href="#pathwaypca-0-99-1">0.99.1</a></li>
         <li><a href="#pathwaypca-0-99-5">0.99.5</a></li>
+        <li><a href="#pathwaypca-1-1-1">1.1.1</a></li>
       </ul>
     </div>
   </div>
 
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -198,13 +213,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

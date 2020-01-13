@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Cox Proportional Hazards model for supervised PCA — coxTrain_fun • pathwayPCA</title>
+<title>Wikipathways Homosapiens Gene Symbols — wikipwsHS_Symbol_pathwayCollection • pathwayPCA</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Train Cox Proportional Hazards model for supervised PCA — coxTrain_fun" />
-<meta property="og:description" content="Main and utility functions for training the Cox PH model." />
+<meta property="og:title" content="Wikipathways Homosapiens Gene Symbols — wikipwsHS_Symbol_pathwayCollection" />
+<meta property="og:description" content="A pathwayCollection object containing the homosapiens
+   pathways list from Wikipathways (https://www.wikipathways.org/)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,96 +127,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Cox Proportional Hazards model for supervised PCA</h1>
+    <h1>Wikipathways Homosapiens Gene Symbols</h1>
     
-    <div class="hidden name"><code>coxTrain_fun.Rd</code></div>
+    <div class="hidden name"><code>wikipwsHS_Symbol_pathwayCollection.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Main and utility functions for training the Cox PH model.</p>
+    <p>A <code>pathwayCollection</code> object containing the homosapiens
+   pathways list from Wikipathways (<a href='https://www.wikipathways.org/'>https://www.wikipathways.org/</a>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coxTrain_fun</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>censoring.status</span>, <span class='kw'>s0.perc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='no'>wikipwsHS_Symbol_pathwayCollection</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A "tall" pathway data frame (\(p \times n\)).</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>A response vector of follow-up / event times.</p></td>
-    </tr>
-    <tr>
-      <th>censoring.status</th>
-      <td><p>A censoring vector.</p></td>
-    </tr>
-    <tr>
-      <th>s0.perc</th>
-      <td><p>A stabilization parameter. This is an optional argument to
-each of the functions called internally. Defaults to <code>NULL</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A list containing:</p><ul>
-<li><p><code>tt</code> : The scaled p-dimensional score vector: each value has
-     been divided by the respective standard deviation plus the <code>fudge</code>
-     value.</p></li>
-<li><p><code>numer</code> : The original p-dimensional score vector. From the
-     internal <code>.coxscor</code> function.</p></li>
-<li><p><code>sd</code> : The standard deviations of the scores. From the
-     internal <code>.coxvar</code> function.</p></li>
-<li><p><code>fudge</code> : A regularization scalar added to the standard
-     deviation. If <code>s0.perc</code> is supplied,
-     <code>fudge = quantile(sd, s0.perc)</code>.</p></li>
+    <p>A <code>pathwayCollection</code> list of three elements:</p><ul>
+<li><p><code>pathways</code> : A named list of 457 character vectors. Each
+     vector contains the Gene Symbols of the individual genes within that
+     pathway as a vector of character strings. The names are the shorthand
+     pathway names.</p></li>
+<li><p><code>TERMS</code> : A character vector of length 457 containing the
+     shorthand names of the gene pathways.</p></li>
+<li><p><code>description</code> : A character vector of length 457 containing
+     the full names of the gene pathways.</p></li>
 </ul>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
+    <p>Dr. Alexander Pico, Wikipathways</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <a href='https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf'>https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf</a>,
-   Section 5, for a description of Supervised PCA applied to survival data.
-   The internal utility functions defined in this file (<code>.coxscor</code>,
-   <code>.coxvar</code>, and <code>.coxstuff</code>) are not called anywhere else, other
-   than in the <code>coxTrain_fun</code> function itself. Therefore, we do not
-   document these functions.</p>
-<p>NOTE: No missing values allowed.</p>
+    <p>This <code>pathwayCollection</code> was sent to us from Dr. Alexander Pico
+   at the Gladstone Institute
+   (<a href='https://gladstone.org/our-science/people/alexander-pico'>https://gladstone.org/our-science/people/alexander-pico</a>).</p>   
+<p>This pathway collection was translated from EntrezIDs to HGNC Symbols with
+   the script <code>convert_EntrezID_to_HGNC_Ensembl.R</code> in <code>scripts</code>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY.</span>
-  <span class='co'># Use SuperPCA_pVals() instead</span>
-
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fl'>500</span>
-  <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
-
-  <span class='no'>x_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span> * <span class='no'>p</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>p</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>n</span>)
-  <span class='no'>x_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>x_mat</span>)
-  <span class='no'>time_int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span>(<span class='no'>n</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>)
-  <span class='no'>obs_logi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>),
-    <span class='kw'>size</span> <span class='kw'>=</span> <span class='no'>n</span>,
-    <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.8</span>)
-  )
-
-  <span class='fu'>coxTrain_fun</span>(
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x_df</span>,
-    <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>time_int</span>,
-    <span class='kw'>censoring.status</span> <span class='kw'>=</span> !<span class='no'>obs_logi</span>
-  )
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

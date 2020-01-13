@@ -8,21 +8,25 @@
 
 <title>Write a <code>pathwayCollection</code> Object to a <code>.gmt</code> File — write_gmt • pathwayPCA</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,11 +34,12 @@
 
 
 
-<meta property="og:title" content="Write a <code>pathwayCollection</code> Object to a <code>.gmt</code> File — write_gmt" />
 
+<meta property="og:title" content="Write a <code>pathwayCollection</code> Object to a <code>.gmt</code> File — write_gmt" />
 <meta property="og:description" content="Write a pathwayCollection object as a pathways list file
    in Gene Matrix Transposed (.gmt) format." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -46,6 +51,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -64,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -83,20 +89,22 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -104,14 +112,8 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,26 +121,25 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Write a <code>pathwayCollection</code> Object to a <code>.gmt</code> File</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/utils_write_gmt.R'><code>R/utils_write_gmt.R</code></a></small>
+    
     <div class="hidden name"><code>write_gmt.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Write a <code>pathwayCollection</code> object as a pathways list file
    in Gene Matrix Transposed (<code>.gmt</code>) format.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>write_gmt</span>(<span class='no'>pathwayCollection</span>, <span class='no'>file</span>, <span class='kw'>setType</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pathways"</span>, <span class='st'>"genes"</span>,
+    <pre class="usage"><span class='fu'>write_gmt</span>(<span class='no'>pathwayCollection</span>, <span class='no'>file</span>, <span class='kw'>setType</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pathways"</span>, <span class='st'>"genes"</span>,
   <span class='st'>"regions"</span>))</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -172,34 +173,31 @@ writing. File names should end in <code>.gmt</code> for clarity.</p></td>
 in RNA or DNA, or regions of CpGs. Defaults to <code>''pathway''</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>NULL. Output written to the file path specified.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>See the Broad Institute's "Data Formats" page for a description of
    the Gene Matrix Transposed file format:
    <a href='https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29'>https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29</a></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='print.pathwayCollection.html'>print.pathwayCollection</a></code>; <code><a href='read_gmt.html'>read_gmt</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Toy pathway set</span>
-  <span class='no'>toy_pathwayCollection</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-    <span class='kw'>pathways</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-      <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C1orf27"</span>, <span class='st'>"NR5A1"</span>, <span class='st'>"BLOC1S4"</span>, <span class='st'>"C4orf50"</span>),
-      <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"TARS2"</span>, <span class='st'>"DUSP5"</span>, <span class='st'>"GPR88"</span>),
-      <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"TRX-CAT3-1"</span>, <span class='st'>"LINC01333"</span>, <span class='st'>"LINC01499"</span>, <span class='st'>"LINC01046"</span>, <span class='st'>"LINC01149"</span>)
+  <span class='no'>toy_pathwayCollection</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    <span class='kw'>pathways</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C1orf27"</span>, <span class='st'>"NR5A1"</span>, <span class='st'>"BLOC1S4"</span>, <span class='st'>"C4orf50"</span>),
+      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TARS2"</span>, <span class='st'>"DUSP5"</span>, <span class='st'>"GPR88"</span>),
+      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRX-CAT3-1"</span>, <span class='st'>"LINC01333"</span>, <span class='st'>"LINC01499"</span>, <span class='st'>"LINC01046"</span>, <span class='st'>"LINC01149"</span>)
     ),
-    <span class='kw'>TERMS</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"C-or-f_paths"</span>, <span class='st'>"randomPath2"</span>, <span class='st'>"randomLINCs"</span>),
-    <span class='kw'>description</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"these are"</span>, <span class='st'>"totally made up"</span>, <span class='st'>"pathways"</span>)
+    <span class='kw'>TERMS</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"C-or-f_paths"</span>, <span class='st'>"randomPath2"</span>, <span class='st'>"randomLINCs"</span>),
+    <span class='kw'>description</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"these are"</span>, <span class='st'>"totally made up"</span>, <span class='st'>"pathways"</span>)
   )
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>toy_pathwayCollection</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pathwayCollection"</span>, <span class='st'>"list"</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>toy_pathwayCollection</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pathwayCollection"</span>, <span class='st'>"list"</span>)
   <span class='no'>toy_pathwayCollection</span></div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: 
 #&gt;  $ pathways   :List of 3
 #&gt;  $ TERMS      : chr [1:3] "C-or-f_paths" ...
@@ -212,18 +210,15 @@ in RNA or DNA, or regions of CpGs. Defaults to <code>''pathway''</code>.</p></td
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -231,13 +226,16 @@ in RNA or DNA, or regions of CpGs. Defaults to <code>''pathway''</code>.</p></td
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

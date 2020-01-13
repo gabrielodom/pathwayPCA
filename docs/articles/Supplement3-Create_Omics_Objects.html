@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Suppl. Ch. 3 - Creating Data Objects • pathwayPCA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Suppl. Ch. 3 - Creating Data Objects">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -49,20 +50,22 @@
 <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -70,14 +73,7 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -86,15 +82,16 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Suppl. Ch. 3 - Creating Data Objects</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2019-04-12</h4>
+            <h4 class="date">2020-01-13</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supplement3-Create_Omics_Objects.Rmd"><code>vignettes/Supplement3-Create_Omics_Objects.Rmd</code></a></small>
+      
       <div class="hidden name"><code>Supplement3-Create_Omics_Objects.Rmd</code></div>
 
     </div>
@@ -115,8 +112,8 @@
 <li>Inspect and edit individual elements contained in these objects.</li>
 </ol>
 <p>First, load the <code>pathwayPCA</code> package and the <a href="https://www.tidyverse.org/"><code>tidyverse</code> package suite</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pathwayPCA)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pathwayPCA)</a></code></pre></div>
 </div>
 <div id="import-data" class="section level2">
 <h2 class="hasAnchor">
@@ -129,61 +126,59 @@
 </ol>
 <p>If you are unsure about any of the three points above (or you don’t know what these mean), please review the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> vignette first. It isn’t very long, but it will help you set up your data in the right way. If your data is not in the proper form, the steps in this vignette may be very difficult.</p>
 <p>For the purpose of example, we will load some “toy” data: a combined assay / phenotype data frame and a <code>pathwayCollection</code> list. These objects already fit the three criteria above. This tidy data set has 656 gene expression measurements (columns) on 250 colon cancer patients (rows).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"colonSurv_df"</span>)
-colonSurv_df
-<span class="co">#&gt; # A tibble: 250 x 659</span>
-<span class="co">#&gt;    sampleID OS_time OS_event   JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 subj1     64.9          0  9.29  5.48  8.21  8.03  5.49  6.65  8.26</span>
-<span class="co">#&gt;  2 subj2     59.8          0  9.13  6.35  8.33  7.94  6.26  7.02  8.39</span>
-<span class="co">#&gt;  3 subj3     62.4          0  9.37  5.67  7.82  7.74  6.05  7.52  8.69</span>
-<span class="co">#&gt;  4 subj4     54.5          0 10.6   4.94  8.79  7.64  5.37  6.87  7.81</span>
-<span class="co">#&gt;  5 subj5     46.3          1  8.70  5.60  8.75  8.05  6.07  6.49  8.45</span>
-<span class="co">#&gt;  6 subj6     55.9          0  9.78  5.36  7.56  8.07  5.90  6.39  8.87</span>
-<span class="co">#&gt;  7 subj7     58.0          0  9.22  5.05  8.20  7.80  5.55  6.86  8.28</span>
-<span class="co">#&gt;  8 subj8     54.0          0 10.3   5.33  7.82  7.89  6.27  6.25  8.66</span>
-<span class="co">#&gt;  9 subj9      0.427        1 10.8   5.07  7.63  7.69  5.48  7.57  8.36</span>
-<span class="co">#&gt; 10 subj10    41.4          0  9.52  5.50  7.48  7.53  5.71  7.33  8.54</span>
-<span class="co">#&gt; # ... with 240 more rows, and 649 more variables: PRKCA &lt;dbl&gt;, ELK1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   NRG1 &lt;dbl&gt;, PAK2 &lt;dbl&gt;, MTOR &lt;dbl&gt;, PAK4 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EIF4EBP1 &lt;dbl&gt;, BAD &lt;dbl&gt;, PRKCG &lt;dbl&gt;, NRG3 &lt;dbl&gt;, MAPK9 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   ERBB4 &lt;dbl&gt;, MAPK10 &lt;dbl&gt;, PTK2 &lt;dbl&gt;, ERBB2 &lt;dbl&gt;, ERBB3 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   MAP2K2 &lt;dbl&gt;, TGFA &lt;dbl&gt;, BRAF &lt;dbl&gt;, MAP2K1 &lt;dbl&gt;, MAP2K7 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   ABL1 &lt;dbl&gt;, NRG2 &lt;dbl&gt;, AKT1 &lt;dbl&gt;, ABL2 &lt;dbl&gt;, AKT2 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   SHC4 &lt;dbl&gt;, RPS6KB1 &lt;dbl&gt;, RPS6KB2 &lt;dbl&gt;, AKT3 &lt;dbl&gt;, NRAS &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   GRB2 &lt;dbl&gt;, AREG &lt;dbl&gt;, STAT5B &lt;dbl&gt;, MAPK3 &lt;dbl&gt;, STAT5A &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PAK6 &lt;dbl&gt;, SOS1 &lt;dbl&gt;, MYC &lt;dbl&gt;, MAPK1 &lt;dbl&gt;, NCK1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PIK3R5 &lt;dbl&gt;, NRG4 &lt;dbl&gt;, HRAS &lt;dbl&gt;, MAPK8 &lt;dbl&gt;, EGFR &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   GSK3B &lt;dbl&gt;, CBLB &lt;dbl&gt;, KRAS &lt;dbl&gt;, CBL &lt;dbl&gt;, SHC3 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   CDKN1B &lt;dbl&gt;, CDKN1A &lt;dbl&gt;, EGF &lt;dbl&gt;, EREG &lt;dbl&gt;, ARAF &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   NCK2 &lt;dbl&gt;, SRC &lt;dbl&gt;, PIK3R3 &lt;dbl&gt;, CAMK2A &lt;dbl&gt;, CAMK2B &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   CAMK2D &lt;dbl&gt;, CAMK2G &lt;dbl&gt;, PAK1 &lt;dbl&gt;, CBLC &lt;dbl&gt;, CRK &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PIK3CA &lt;dbl&gt;, PIK3CB &lt;dbl&gt;, CRKL &lt;dbl&gt;, PIK3CD &lt;dbl&gt;, GAB1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PLCG1 &lt;dbl&gt;, PLCG2 &lt;dbl&gt;, SHC2 &lt;dbl&gt;, HBEGF &lt;dbl&gt;, PIK3CG &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PIK3R1 &lt;dbl&gt;, PIK3R2 &lt;dbl&gt;, EPHB2 &lt;dbl&gt;, EPHB4 &lt;dbl&gt;, EFNA5 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PXN &lt;dbl&gt;, CDC42 &lt;dbl&gt;, EFNB3 &lt;dbl&gt;, RRAS &lt;dbl&gt;, GRB7 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   SYNJ1 &lt;dbl&gt;, EPHB3 &lt;dbl&gt;, EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;, MAP4K4 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;, ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;, RAP1A &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;, EFNB2 &lt;dbl&gt;, ...</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"colonSurv_df"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">colonSurv_df</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; # A tibble: 250 x 659</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;    sampleID OS_time OS_event   JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1 PRKCA</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  1 subj1     64.9          0  9.29  5.48  8.21  8.03  5.49  6.65  8.26  8.94</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  2 subj2     59.8          0  9.13  6.35  8.33  7.94  6.26  7.02  8.39  9.61</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;  3 subj3     62.4          0  9.37  5.67  7.82  7.74  6.05  7.52  8.69  8.40</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  4 subj4     54.5          0 10.6   4.94  8.79  7.64  5.37  6.87  7.81  9.80</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  5 subj5     46.3          1  8.70  5.60  8.75  8.05  6.07  6.49  8.45  8.21</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  6 subj6     55.9          0  9.78  5.36  7.56  8.07  5.90  6.39  8.87  8.22</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;  7 subj7     58.0          0  9.22  5.05  8.20  7.80  5.55  6.86  8.28  8.97</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  8 subj8     54.0          0 10.3   5.33  7.82  7.89  6.27  6.25  8.66  9.71</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  9 subj9      0.427        1 10.8   5.07  7.63  7.69  5.48  7.57  8.36  9.69</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 10 subj10    41.4          0  9.52  5.50  7.48  7.53  5.71  7.33  8.54  8.14</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; # … with 240 more rows, and 648 more variables: ELK1 &lt;dbl&gt;, NRG1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; #   PAK2 &lt;dbl&gt;, MTOR &lt;dbl&gt;, PAK4 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;, EIF4EBP1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; #   BAD &lt;dbl&gt;, PRKCG &lt;dbl&gt;, NRG3 &lt;dbl&gt;, MAPK9 &lt;dbl&gt;, ERBB4 &lt;dbl&gt;, MAPK10 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; #   PTK2 &lt;dbl&gt;, ERBB2 &lt;dbl&gt;, ERBB3 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, TGFA &lt;dbl&gt;, BRAF &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; #   MAP2K1 &lt;dbl&gt;, MAP2K7 &lt;dbl&gt;, ABL1 &lt;dbl&gt;, NRG2 &lt;dbl&gt;, AKT1 &lt;dbl&gt;, ABL2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; #   AKT2 &lt;dbl&gt;, SHC4 &lt;dbl&gt;, RPS6KB1 &lt;dbl&gt;, RPS6KB2 &lt;dbl&gt;, AKT3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; #   NRAS &lt;dbl&gt;, GRB2 &lt;dbl&gt;, AREG &lt;dbl&gt;, STAT5B &lt;dbl&gt;, MAPK3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; #   STAT5A &lt;dbl&gt;, PAK6 &lt;dbl&gt;, SOS1 &lt;dbl&gt;, MYC &lt;dbl&gt;, MAPK1 &lt;dbl&gt;, NCK1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; #   PIK3R5 &lt;dbl&gt;, NRG4 &lt;dbl&gt;, HRAS &lt;dbl&gt;, MAPK8 &lt;dbl&gt;, EGFR &lt;dbl&gt;, GSK3B &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; #   CBLB &lt;dbl&gt;, KRAS &lt;dbl&gt;, CBL &lt;dbl&gt;, SHC3 &lt;dbl&gt;, CDKN1B &lt;dbl&gt;, CDKN1A &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; #   EGF &lt;dbl&gt;, EREG &lt;dbl&gt;, ARAF &lt;dbl&gt;, NCK2 &lt;dbl&gt;, SRC &lt;dbl&gt;, PIK3R3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; #   CAMK2A &lt;dbl&gt;, CAMK2B &lt;dbl&gt;, CAMK2D &lt;dbl&gt;, CAMK2G &lt;dbl&gt;, PAK1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; #   CBLC &lt;dbl&gt;, CRK &lt;dbl&gt;, PIK3CA &lt;dbl&gt;, PIK3CB &lt;dbl&gt;, CRKL &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; #   PIK3CD &lt;dbl&gt;, GAB1 &lt;dbl&gt;, PLCG1 &lt;dbl&gt;, PLCG2 &lt;dbl&gt;, SHC2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; #   HBEGF &lt;dbl&gt;, PIK3CG &lt;dbl&gt;, PIK3R1 &lt;dbl&gt;, PIK3R2 &lt;dbl&gt;, EPHB2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt; #   EPHB4 &lt;dbl&gt;, EFNA5 &lt;dbl&gt;, PXN &lt;dbl&gt;, CDC42 &lt;dbl&gt;, EFNB3 &lt;dbl&gt;, RRAS &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; #   GRB7 &lt;dbl&gt;, SYNJ1 &lt;dbl&gt;, EPHB3 &lt;dbl&gt;, EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; #   MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;, ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; #   RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;, EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;, …</span></a></code></pre></div>
 <p>Notice that the assay and survival response information have already been merged, so we have two additional columns (for Overall Survival Time and its corresponding death indicator). We also have a small collection of 15 pathways which correspond to our example colon cancer assay.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"colon_pathwayCollection"</span>)
-colon_pathwayCollection
-<span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: </span>
-<span class="co">#&gt;  $ pathways:List of 15</span>
-<span class="co">#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(colon_pathwayCollection<span class="op">$</span>pathways, <span class="dt">list.len =</span> <span class="dv">10</span>)
-<span class="co">#&gt; List of 15</span>
-<span class="co">#&gt;  $ pathway3   : chr [1:27] "RPE" "RPIA" "PGM2" "PGLS" ...</span>
-<span class="co">#&gt;  $ pathway60  : chr [1:64] "RPE65" "CYP3A5" "UGT2B28" "CYP4A11" ...</span>
-<span class="co">#&gt;  $ pathway87  : chr [1:87] "JUN" "SOS2" "PAK3" "RAF1" ...</span>
-<span class="co">#&gt;  $ pathway120 : chr [1:89] "HLA-DOA" "HLA-DOB" "KLRC3" "KLRD1" ...</span>
-<span class="co">#&gt;  $ pathway176 : chr [1:54] "CASP9" "SOS2" "E2F1" "PRKCB" ...</span>
-<span class="co">#&gt;  $ pathway177 : chr [1:30] "HLA-DRB4" "HLA-DRB5" "HLA-DOA" "HLA-DOB" ...</span>
-<span class="co">#&gt;  $ pathway187 : chr [1:16] "IKBKG" "CHUK" "EP300" "RELA" ...</span>
-<span class="co">#&gt;  $ pathway266 : chr [1:11] "PRF1" "DFFA" "DFFB" "HMGB2" ...</span>
-<span class="co">#&gt;  $ pathway390 : chr [1:29] "JUN" "BAG4" "CASP8" "MAPK8" ...</span>
-<span class="co">#&gt;  $ pathway413 : chr [1:23] "PLD1" "RAF1" "EPHB2" "VAV1" ...</span>
-<span class="co">#&gt;   [list output truncated]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"colon_pathwayCollection"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">colon_pathwayCollection</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;  $ pathways:List of 15</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(colon_pathwayCollection<span class="op">$</span>pathways, <span class="dt">list.len =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; List of 15</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;  $ pathway3   : chr [1:27] "RPE" "RPIA" "PGM2" "PGLS" ...</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;  $ pathway60  : chr [1:64] "RPE65" "CYP3A5" "UGT2B28" "CYP4A11" ...</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;  $ pathway87  : chr [1:87] "JUN" "SOS2" "PAK3" "RAF1" ...</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;  $ pathway120 : chr [1:89] "HLA-DOA" "HLA-DOB" "KLRC3" "KLRD1" ...</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;  $ pathway176 : chr [1:54] "CASP9" "SOS2" "E2F1" "PRKCB" ...</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;  $ pathway177 : chr [1:30] "HLA-DRB4" "HLA-DRB5" "HLA-DOA" "HLA-DOB" ...</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;  $ pathway187 : chr [1:16] "IKBKG" "CHUK" "EP300" "RELA" ...</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;  $ pathway266 : chr [1:11] "PRF1" "DFFA" "DFFB" "HMGB2" ...</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;  $ pathway390 : chr [1:29] "JUN" "BAG4" "CASP8" "MAPK8" ...</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;  $ pathway413 : chr [1:23] "PLD1" "RAF1" "EPHB2" "VAV1" ...</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt;   [list output truncated]</span></a></code></pre></div>
 <p>The pathway collection and tidy assay (with matched phenotype information) are all the information we need to create an <code>Omics</code>-class data object.</p>
 <hr>
 <p></p>
@@ -214,22 +209,22 @@ colon_pathwayCollection
 </h2>
 <p>Take a quick look back at the structure of our <code>colonSurv_df</code> object. We have a table data frame with the first two columns as subject response information and the rest as an expression design matrix. Look at the types of the columns of this data frame (the <code>&lt;dbl&gt;</code> and <code>&lt;int&gt;</code> tags directly under the column names): these tags tell us that the columns contain “double / numeric” (<code>dbl</code>) and “integer” (<code>int</code>) information. The other tags we could potentially see here are <code>&lt;chr&gt;</code> (character), <code>&lt;lgl&gt;</code> (logical), or <code>&lt;fct&gt;</code> (factor). These tags are important because they identify which “class” of data is in each column.</p>
 <p>Here are some examples of how to change data between types. We inspect the first 10 entries of each object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Original integer column</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(colonSurv_df<span class="op">$</span>OS_event, <span class="dv">10</span>)
-<span class="co">#&gt;  [1] 0 0 0 0 1 0 0 0 1 0</span>
-
-<span class="co"># Integer to Character</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">as.character</a></span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)
-<span class="co">#&gt;  [1] "0" "0" "0" "0" "1" "0" "0" "0" "1" "0"</span>
-
-<span class="co"># Integer to Logical</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/logical">as.logical</a></span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)
-<span class="co">#&gt;  [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE</span>
-
-<span class="co"># Integer to Factor</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)
-<span class="co">#&gt;  [1] 0 0 0 0 1 0 0 0 1 0</span>
-<span class="co">#&gt; Levels: 0 1</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Original integer column</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(colonSurv_df<span class="op">$</span>OS_event, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;  [1] 0 0 0 0 1 0 0 0 1 0</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co"># Integer to Character</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  [1] "0" "0" "0" "0" "1" "0" "0" "0" "1" "0"</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co"># Integer to Logical</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/logical.html">as.logical</a></span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;  [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># Integer to Factor</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(colonSurv_df<span class="op">$</span>OS_event), <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  [1] 0 0 0 0 1 0 0 0 1 0</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; Levels: 0 1</span></a></code></pre></div>
 <p>The <code>CreateOmics</code> function puts the response information into specific classes:</p>
 <ul>
 <li>Survival data is stored as a pair of <code>numeric</code> (time) and <code>logical</code> (death indicator) vectors.</li>
@@ -299,95 +294,95 @@ colon_pathwayCollection
 <code>respType</code>: this will be the word <code>"survival"</code> or an abbreviation of it.</li>
 </ul>
 <p>Also, when you create an <code>Omics*</code>-class object, the <code><a href="../reference/CreateOmics.html">CreateOmics()</a></code> function prints helpful diagnostic messages about the overlap between the features in the supplied assay data and those in the pathway collection.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
-  <span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],
-  <span class="dt">pathwayCollection_ls =</span> colon_pathwayCollection,
-  <span class="dt">response =</span> colonSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],
-  <span class="dt">respType =</span> <span class="st">"surv"</span>
-)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   ======  Creating object of class OmicsSurv  =======</span>
-<span class="co">#&gt; The input pathway database included 676 unique features.</span>
-<span class="co">#&gt; The input assay dataset included 656 features.</span>
-<span class="co">#&gt; Only pathways with at least 3 or more features included in the assay dataset are</span>
-<span class="co">#&gt;   tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
-<span class="co">#&gt;   this criterion.</span>
-<span class="co">#&gt; Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
-<span class="co">#&gt;   both assay data and pathway database are considered for analysis. There are 615</span>
-<span class="co">#&gt;   such features shared by the input assay and pathway database.</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">colon_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">pathwayCollection_ls =</span> colon_pathwayCollection,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">response =</span> colonSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">respType =</span> <span class="st">"surv"</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;   ======  Creating object of class OmicsSurv  =======</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; The input pathway database included 676 unique features.</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; The input assay dataset included 656 features.</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Only pathways with at least 3 or more features included in the assay dataset are</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;   tested (specified by minPathSize parameter). There are 15 pathways which meet</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;   this criterion.</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;   both assay data and pathway database are considered for analysis. There are 615</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;   such features shared by the input assay and pathway database.</span></a></code></pre></div>
 <p>The last three sentences inform you of how strong the overlap is between the genes measured in your data and the genes selected in your pathway collection. This messages tells us that 9% of the 676 total genes included in all pathways were not measured in the assay; zero pathways were removed from the pathways list for having too few genes after gene trimming; and the genes in the pathways list call for 93.8% of the 656 genes measured in the assay. The last number is the most important: it measures how well your pathway collection overlaps with the genes measured in your assay. This number should be as close to 100% as possible. These diagnostic messages depend on the overlap between the pathway collection and the assay, so these messages are response agnostic.</p>
 </div>
 <div id="view-the-new-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#view-the-new-object" class="anchor"></a>3.3 View the New Object</h2>
 <p>In order to view a summary of the contents of the <code>colon_OmicsSurv</code> object, you need simply to print it to the <code>R</code> console.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
-<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span>
-<span class="co">#&gt;   ..@ eventTime            : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
-<span class="co">#&gt;   ..@ eventObserved        : logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
-<span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span>
-<span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span>
-<span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">colon_OmicsSurv</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;   ..@ eventTime            : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;   ..@ eventObserved        : logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a></code></pre></div>
 <p>Also notice that the <code><a href="../reference/CreateOmics.html">CreateOmics()</a></code> function stores a “cleaned” copy of the pathway collection. The object creation functions within the <code>pathwayPCA</code> package subset the feature data frame by the genes in each pathway. Therefore, if we have genes in the pathways that are not recorded in the data frame, then we will necessarily create missing (<code>NA</code>) predictors. To circumvent this issue, we check if each gene in each pathway is recorded in the data frame, and remove from each pathway the genes for which the assay does not have recorded expression levels. However, if we remove genes from pathways which do not have recorded levels in the predictor data frame, we could theoretically remove all the genes from a given pathway. Thus, we also check to make sure that each pathway in the given pathways list still has some minimum number of genes present (defaulting to three or more) after we have removed genes without corresponding expression levels.</p>
-<p>The <code><a href="../reference/IntersectOmicsPwyCollct.html">IntersectOmicsPwyCollct()</a></code> function performs these two actions simultaneously, and this function is called and executed automatically within the object creation step. This function removes the unrecorded genes from each pathway, trims the pathways that have fewer than the minimum number of genes allowed, and returns a “trimmed” pathway collection. If there are any pathways removed by this execution, the <code>pathways</code> list within the <code>trimPathwayCollection</code> object within the <code>Omics</code> object will have a character vector of the pathways removed stored as the <code>"missingPaths"</code> attribute. Access this attribute with the <code><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr()</a></code> function.</p>
+<p>The <code><a href="../reference/IntersectOmicsPwyCollct.html">IntersectOmicsPwyCollct()</a></code> function performs these two actions simultaneously, and this function is called and executed automatically within the object creation step. This function removes the unrecorded genes from each pathway, trims the pathways that have fewer than the minimum number of genes allowed, and returns a “trimmed” pathway collection. If there are any pathways removed by this execution, the <code>pathways</code> list within the <code>trimPathwayCollection</code> object within the <code>Omics</code> object will have a character vector of the pathways removed stored as the <code>"missingPaths"</code> attribute. Access this attribute with the <code><a href="https://rdrr.io/r/base/attr.html">attr()</a></code> function.</p>
 </div>
 <div id="regression-and-classification-omics-data-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#regression-and-classification-omics-data-objects" class="anchor"></a>3.4 Regression and Classification <code>Omics</code> Data Objects</h2>
 <p>We create regression- and categorical-type <code>Omics</code> data objects identically to survival-type <code>Omics</code> objects. We will use the survival time as our toy regression response and the death indicator as the toy classification response.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsReg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
-  <span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],
-  <span class="dt">pathwayCollection_ls =</span> colon_pathwayCollection,
-  <span class="dt">response =</span> colonSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],
-  <span class="dt">respType =</span> <span class="st">"reg"</span>
-)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   ======  Creating object of class OmicsReg  =======</span>
-<span class="co">#&gt; The input pathway database included 676 unique features.</span>
-<span class="co">#&gt; The input assay dataset included 656 features.</span>
-<span class="co">#&gt; Only pathways with at least 3 or more features included in the assay dataset are</span>
-<span class="co">#&gt;   tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
-<span class="co">#&gt;   this criterion.</span>
-<span class="co">#&gt; Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
-<span class="co">#&gt;   both assay data and pathway database are considered for analysis. There are 615</span>
-<span class="co">#&gt;   such features shared by the input assay and pathway database.</span>
-colon_OmicsReg
-<span class="co">#&gt; Formal class 'OmicsReg' [package "pathwayPCA"] with 5 slots</span>
-<span class="co">#&gt;   ..@ response             : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
-<span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span>
-<span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span>
-<span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
-  <span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],
-  <span class="dt">pathwayCollection_ls =</span> colon_pathwayCollection,
-  <span class="dt">response =</span> colonSurv_df[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>)],
-  <span class="dt">respType =</span> <span class="st">"categ"</span>
-)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   ======  Creating object of class OmicsCateg  =======</span>
-<span class="co">#&gt; The input pathway database included 676 unique features.</span>
-<span class="co">#&gt; The input assay dataset included 656 features.</span>
-<span class="co">#&gt; Only pathways with at least 3 or more features included in the assay dataset are</span>
-<span class="co">#&gt;   tested (specified by minPathSize parameter). There are 15 pathways which meet</span>
-<span class="co">#&gt;   this criterion.</span>
-<span class="co">#&gt; Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span>
-<span class="co">#&gt;   both assay data and pathway database are considered for analysis. There are 615</span>
-<span class="co">#&gt;   such features shared by the input assay and pathway database.</span>
-colon_OmicsCateg
-<span class="co">#&gt; Formal class 'OmicsCateg' [package "pathwayPCA"] with 5 slots</span>
-<span class="co">#&gt;   ..@ response             : Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 2 1 ...</span>
-<span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span>
-<span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span>
-<span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">colon_OmicsReg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="dt">pathwayCollection_ls =</span> colon_pathwayCollection,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="dt">response =</span> colonSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">  <span class="dt">respType =</span> <span class="st">"reg"</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;   ======  Creating object of class OmicsReg  =======</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; The input pathway database included 676 unique features.</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; The input assay dataset included 656 features.</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; Only pathways with at least 3 or more features included in the assay dataset are</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   tested (specified by minPathSize parameter). There are 15 pathways which meet</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   this criterion.</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt;   both assay data and pathway database are considered for analysis. There are 615</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt;   such features shared by the input assay and pathway database.</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">colon_OmicsReg</a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; Formal class 'OmicsReg' [package "pathwayPCA"] with 5 slots</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt;   ..@ response             : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">colon_OmicsCateg &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="dt">assayData_df =</span> colonSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">  <span class="dt">pathwayCollection_ls =</span> colon_pathwayCollection,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">  <span class="dt">response =</span> colonSurv_df[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">  <span class="dt">respType =</span> <span class="st">"categ"</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;   ======  Creating object of class OmicsCateg  =======</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; The input pathway database included 676 unique features.</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; The input assay dataset included 656 features.</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; Only pathways with at least 3 or more features included in the assay dataset are</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   tested (specified by minPathSize parameter). There are 15 pathways which meet</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   this criterion.</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; Because pathwayPCA is a self-contained test (PMID: 17303618), only features in</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;   both assay data and pathway database are considered for analysis. There are 615</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;   such features shared by the input assay and pathway database.</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">colon_OmicsCateg</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; Formal class 'OmicsCateg' [package "pathwayPCA"] with 5 slots</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;   ..@ response             : Factor w/ 2 levels "0","1": 1 1 1 1 2 1 1 1 2 1 ...</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -400,61 +395,60 @@ colon_OmicsCateg
 <h2 class="hasAnchor">
 <a href="#example-get-function" class="anchor"></a>4.1 Example “Get” Function</h2>
 <p>The <code>get*</code> functions access the part of the data object you specify. You can save these objects to their own variables, or simply print them to the screen for inspection. Here we print the assay data frame contained in the <code>colon_OmicsSurv</code> object to the screen:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv)
-<span class="co">#&gt; # A tibble: 250 x 656</span>
-<span class="co">#&gt;       JUN    SOS2   PAK3    RAF1  PRKCB    BTC     SHC1   PRKCA   ELK1</span>
-<span class="co">#&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 -0.880  0.367   1.30   0.480  -0.867 -0.790 -2.84e-1  0.0104  1.04 </span>
-<span class="co">#&gt;  2 -1.11   2.15    1.62   0.165   0.547 -0.261 -4.91e-4  1.18    1.49 </span>
-<span class="co">#&gt;  3 -0.752  0.764   0.330 -0.541   0.164  0.452  6.91e-1 -0.950   0.667</span>
-<span class="co">#&gt;  4  1.03  -0.751   2.75  -0.878  -1.09  -0.481 -1.34e+0  1.52    2.23 </span>
-<span class="co">#&gt;  5 -1.73   0.613   2.66   0.550   0.197 -1.02   1.56e-1 -1.29    1.68 </span>
-<span class="co">#&gt;  6 -0.162  0.126  -0.324  0.627  -0.106 -1.17   1.11e+0 -1.27    0.964</span>
-<span class="co">#&gt;  7 -0.980 -0.520   1.28  -0.343  -0.762 -0.489 -2.57e-1  0.0518  1.21 </span>
-<span class="co">#&gt;  8  0.616  0.0633  0.343 -0.0195  0.578 -1.37   6.38e-1  1.37    1.05 </span>
-<span class="co">#&gt;  9  1.35  -0.467  -0.149 -0.718  -0.898  0.527 -6.04e-2  1.32   -1.000</span>
-<span class="co">#&gt; 10 -0.538  0.413  -0.503 -1.27   -0.466  0.178  3.45e-1 -1.40   -0.378</span>
-<span class="co">#&gt; # ... with 240 more rows, and 647 more variables: NRG1 &lt;dbl&gt;, PAK2 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   MTOR &lt;dbl&gt;, PAK4 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;, EIF4EBP1 &lt;dbl&gt;, BAD &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PRKCG &lt;dbl&gt;, NRG3 &lt;dbl&gt;, MAPK9 &lt;dbl&gt;, ERBB4 &lt;dbl&gt;, MAPK10 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PTK2 &lt;dbl&gt;, ERBB2 &lt;dbl&gt;, ERBB3 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, TGFA &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   BRAF &lt;dbl&gt;, MAP2K1 &lt;dbl&gt;, MAP2K7 &lt;dbl&gt;, ABL1 &lt;dbl&gt;, NRG2 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   AKT1 &lt;dbl&gt;, ABL2 &lt;dbl&gt;, AKT2 &lt;dbl&gt;, SHC4 &lt;dbl&gt;, RPS6KB1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   RPS6KB2 &lt;dbl&gt;, AKT3 &lt;dbl&gt;, NRAS &lt;dbl&gt;, GRB2 &lt;dbl&gt;, AREG &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   STAT5B &lt;dbl&gt;, MAPK3 &lt;dbl&gt;, STAT5A &lt;dbl&gt;, PAK6 &lt;dbl&gt;, SOS1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   MYC &lt;dbl&gt;, MAPK1 &lt;dbl&gt;, NCK1 &lt;dbl&gt;, PIK3R5 &lt;dbl&gt;, NRG4 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   HRAS &lt;dbl&gt;, MAPK8 &lt;dbl&gt;, EGFR &lt;dbl&gt;, GSK3B &lt;dbl&gt;, CBLB &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   KRAS &lt;dbl&gt;, CBL &lt;dbl&gt;, SHC3 &lt;dbl&gt;, CDKN1B &lt;dbl&gt;, CDKN1A &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EGF &lt;dbl&gt;, EREG &lt;dbl&gt;, ARAF &lt;dbl&gt;, NCK2 &lt;dbl&gt;, SRC &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PIK3R3 &lt;dbl&gt;, CAMK2A &lt;dbl&gt;, CAMK2B &lt;dbl&gt;, CAMK2D &lt;dbl&gt;, CAMK2G &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PAK1 &lt;dbl&gt;, CBLC &lt;dbl&gt;, CRK &lt;dbl&gt;, PIK3CA &lt;dbl&gt;, PIK3CB &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   CRKL &lt;dbl&gt;, PIK3CD &lt;dbl&gt;, GAB1 &lt;dbl&gt;, PLCG1 &lt;dbl&gt;, PLCG2 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   SHC2 &lt;dbl&gt;, HBEGF &lt;dbl&gt;, PIK3CG &lt;dbl&gt;, PIK3R1 &lt;dbl&gt;, PIK3R2 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EPHB2 &lt;dbl&gt;, EPHB4 &lt;dbl&gt;, EFNA5 &lt;dbl&gt;, PXN &lt;dbl&gt;, CDC42 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EFNB3 &lt;dbl&gt;, RRAS &lt;dbl&gt;, GRB7 &lt;dbl&gt;, SYNJ1 &lt;dbl&gt;, EPHB3 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;, MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;, RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;, TF &lt;dbl&gt;, ...</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; # A tibble: 250 x 656</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;       JUN    SOS2   PAK3    RAF1  PRKCB    BTC     SHC1   PRKCA   ELK1    NRG1</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;  1 -0.880  0.367   1.30   0.480  -0.867 -0.790 -2.84e-1  0.0104  1.04   0.670 </span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;  2 -1.11   2.15    1.62   0.165   0.547 -0.261 -4.91e-4  1.18    1.49   1.30  </span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  3 -0.752  0.764   0.330 -0.541   0.164  0.452  6.91e-1 -0.950   0.667  0.128 </span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  4  1.03  -0.751   2.75  -0.878  -1.09  -0.481 -1.34e+0  1.52    2.23   3.65  </span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  5 -1.73   0.613   2.66   0.550   0.197 -1.02   1.56e-1 -1.29    1.68  -2.15  </span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  6 -0.162  0.126  -0.324  0.627  -0.106 -1.17   1.11e+0 -1.27    0.964  1.79  </span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  7 -0.980 -0.520   1.28  -0.343  -0.762 -0.489 -2.57e-1  0.0518  1.21  -0.312 </span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  8  0.616  0.0633  0.343 -0.0195  0.578 -1.37   6.38e-1  1.37    1.05  -0.703 </span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  9  1.35  -0.467  -0.149 -0.718  -0.898  0.527 -6.04e-2  1.32   -1.000 -0.266 </span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 10 -0.538  0.413  -0.503 -1.27   -0.466  0.178  3.45e-1 -1.40   -0.378  0.0623</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; # … with 240 more rows, and 646 more variables: PAK2 &lt;dbl&gt;, MTOR &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; #   PAK4 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;, EIF4EBP1 &lt;dbl&gt;, BAD &lt;dbl&gt;, PRKCG &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; #   NRG3 &lt;dbl&gt;, MAPK9 &lt;dbl&gt;, ERBB4 &lt;dbl&gt;, MAPK10 &lt;dbl&gt;, PTK2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; #   ERBB2 &lt;dbl&gt;, ERBB3 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, TGFA &lt;dbl&gt;, BRAF &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; #   MAP2K1 &lt;dbl&gt;, MAP2K7 &lt;dbl&gt;, ABL1 &lt;dbl&gt;, NRG2 &lt;dbl&gt;, AKT1 &lt;dbl&gt;, ABL2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; #   AKT2 &lt;dbl&gt;, SHC4 &lt;dbl&gt;, RPS6KB1 &lt;dbl&gt;, RPS6KB2 &lt;dbl&gt;, AKT3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; #   NRAS &lt;dbl&gt;, GRB2 &lt;dbl&gt;, AREG &lt;dbl&gt;, STAT5B &lt;dbl&gt;, MAPK3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; #   STAT5A &lt;dbl&gt;, PAK6 &lt;dbl&gt;, SOS1 &lt;dbl&gt;, MYC &lt;dbl&gt;, MAPK1 &lt;dbl&gt;, NCK1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; #   PIK3R5 &lt;dbl&gt;, NRG4 &lt;dbl&gt;, HRAS &lt;dbl&gt;, MAPK8 &lt;dbl&gt;, EGFR &lt;dbl&gt;, GSK3B &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt; #   CBLB &lt;dbl&gt;, KRAS &lt;dbl&gt;, CBL &lt;dbl&gt;, SHC3 &lt;dbl&gt;, CDKN1B &lt;dbl&gt;, CDKN1A &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt; #   EGF &lt;dbl&gt;, EREG &lt;dbl&gt;, ARAF &lt;dbl&gt;, NCK2 &lt;dbl&gt;, SRC &lt;dbl&gt;, PIK3R3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; #   CAMK2A &lt;dbl&gt;, CAMK2B &lt;dbl&gt;, CAMK2D &lt;dbl&gt;, CAMK2G &lt;dbl&gt;, PAK1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt; #   CBLC &lt;dbl&gt;, CRK &lt;dbl&gt;, PIK3CA &lt;dbl&gt;, PIK3CB &lt;dbl&gt;, CRKL &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt; #   PIK3CD &lt;dbl&gt;, GAB1 &lt;dbl&gt;, PLCG1 &lt;dbl&gt;, PLCG2 &lt;dbl&gt;, SHC2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt; #   HBEGF &lt;dbl&gt;, PIK3CG &lt;dbl&gt;, PIK3R1 &lt;dbl&gt;, PIK3R2 &lt;dbl&gt;, EPHB2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; #   EPHB4 &lt;dbl&gt;, EFNA5 &lt;dbl&gt;, PXN &lt;dbl&gt;, CDC42 &lt;dbl&gt;, EFNB3 &lt;dbl&gt;, RRAS &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; #   GRB7 &lt;dbl&gt;, SYNJ1 &lt;dbl&gt;, EPHB3 &lt;dbl&gt;, EFNB1 &lt;dbl&gt;, DNM1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; #   MAP4K4 &lt;dbl&gt;, GRIA1 &lt;dbl&gt;, EPHB1 &lt;dbl&gt;, ROCK1 &lt;dbl&gt;, ITSN1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; #   RAP1A &lt;dbl&gt;, RAC1 &lt;dbl&gt;, RAP1B &lt;dbl&gt;, EFNB2 &lt;dbl&gt;, WASL &lt;dbl&gt;, TF &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; #   KALRN &lt;dbl&gt;, …</span></a></code></pre></div>
 <p>This function is rather simple: it shows us what object is stored in the <code>assayData_df</code> slot of the <code>colon_OmicsSurv</code> data object. As we should expect, we see all the columns of the <code>colonSurv_df</code> data frame except for the first two (the survival time and event indicator).</p>
 </div>
 <div id="example-set-function" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-set-function" class="anchor"></a>4.2 Example “Set” Function</h2>
 <p>If we needed to edit the assay data frame in the <code>colon_OmicsSurv</code> object, we can use the “replacement” syntax of the <code>getAssay</code> function. These are the “set” functions, and they use the <code>getSLOT(object) &lt;- value</code> syntax. For example, if we wanted to remove all of the genes except for the first ten from the assay data, we can replace this assay data with a subset of the the original <code>colonSurv_df</code> data frame. The <code>SLOT</code> shorthand name is <code>Assay</code>, and the replacement value is the first ten gene expression columns (in columns 3 through 12) of the <code>colonSurv_df</code> data frame: <code>colonSurv_df[, (3:12)]</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, (<span class="dv">3</span><span class="op">:</span><span class="dv">12</span>)]</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, (<span class="dv">3</span><span class="op">:</span><span class="dv">12</span>)]</a></code></pre></div>
 <p>Now, when we inspect the <code>colon_OmicsSurv</code> data object, we see only ten variables measured in the <code>assayData_df</code> slot, instead of our original 656.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
-<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span>
-<span class="co">#&gt;   ..@ eventTime            : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
-<span class="co">#&gt;   ..@ eventObserved        : logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
-<span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  10 variables:</span>
-<span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span>
-<span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span>
-<span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">colon_OmicsSurv</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;   ..@ eventTime            : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;   ..@ eventObserved        : logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  10 variables:</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a></code></pre></div>
 <p>Before we move on, we should resest the data in the <code>assayData_df</code> slot to the full data by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getAssay</a></span>(colon_OmicsSurv) &lt;-<span class="st"> </span>colonSurv_df[, <span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)]</a></code></pre></div>
 </div>
 <div id="table-of-accessors" class="section level2">
 <h2 class="hasAnchor">
@@ -463,8 +457,8 @@ colon_OmicsCateg
 <table class="table">
 <colgroup>
 <col width="30%">
-<col width="17%">
-<col width="52%">
+<col width="16%">
+<col width="53%">
 </colgroup>
 <thead><tr class="header">
 <th>Command</th>
@@ -545,11 +539,11 @@ colon_OmicsCateg
 <h2 class="hasAnchor">
 <a href="#inspect-the-updated-pathwaycollection-list" class="anchor"></a>4.4 Inspect the Updated <code>pathwayCollection</code> List</h2>
 <p>As we mentioned in the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supplement2-Importing_Data.html#import-gmt-files-with-read_gmt">Importing with the <code>read_gmt</code> Function</a> subsection of the previous vignette, the <code>pathwayCollection</code> object will be modified upon <code>Omics</code>-object creation. Before, this list only had two elements, <code>pathways</code> and <code>TERMS</code> (we skipped importing the “description” field). Now, it has a third element: <code>setsize</code>—the number of genes contained in each pathway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwayCollection</a></span>(colon_OmicsSurv)
-<span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: </span>
-<span class="co">#&gt;  $ pathways:List of 15</span>
-<span class="co">#&gt;  $ TERMS   : Named chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span>
-<span class="co">#&gt;  $ setsize : Named int [1:15] 27 64 ...</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwayCollection</a></span>(colon_OmicsSurv)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: </span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;  $ pathways:List of 15</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;  $ TERMS   : Named chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;  $ setsize : Named int [1:15] 27 64 ...</span></a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -565,54 +559,48 @@ colon_OmicsCateg
 </ol>
 <p>Now we are prepared to analyze our created data objects with either AES-PCA or Supervised PCA. Please read vignette chapter 4 next: <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supplement4-Methods_Walkthrough.html">Test Pathway Significance</a>.</p>
 <p>Here is the R session information for this vignette:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R Under development (unstable) (2019-02-12 r76095)</span>
-<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
-<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
-<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
-<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
-<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
-<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attached base packages:</span>
-<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] pathwayPCA_0.99.5 forcats_0.4.0     stringr_1.4.0    </span>
-<span class="co">#&gt;  [4] dplyr_0.8.0.1     purrr_0.3.2       readr_1.3.1      </span>
-<span class="co">#&gt;  [7] tidyr_0.8.3       tibble_2.1.1      ggplot2_3.1.0    </span>
-<span class="co">#&gt; [10] tidyverse_1.2.1  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] tidyselect_0.2.5  xfun_0.6          splines_3.6.0    </span>
-<span class="co">#&gt;  [4] haven_2.1.0       lattice_0.20-38   colorspace_1.4-1 </span>
-<span class="co">#&gt;  [7] generics_0.0.2    htmltools_0.3.6   yaml_2.2.0       </span>
-<span class="co">#&gt; [10] utf8_1.1.4        survival_2.44-1.1 rlang_0.3.3      </span>
-<span class="co">#&gt; [13] pkgdown_1.3.0     pillar_1.3.1      glue_1.3.1       </span>
-<span class="co">#&gt; [16] withr_2.1.2       modelr_0.1.4      readxl_1.3.1     </span>
-<span class="co">#&gt; [19] plyr_1.8.4        munsell_0.5.0     commonmark_1.7   </span>
-<span class="co">#&gt; [22] gtable_0.3.0      cellranger_1.1.0  rvest_0.3.2      </span>
-<span class="co">#&gt; [25] memoise_1.1.0     evaluate_0.13     knitr_1.22       </span>
-<span class="co">#&gt; [28] parallel_3.6.0    fansi_0.4.0       lars_1.2         </span>
-<span class="co">#&gt; [31] broom_0.5.1       Rcpp_1.0.1        backports_1.1.3  </span>
-<span class="co">#&gt; [34] scales_1.0.0      desc_1.2.0        jsonlite_1.6     </span>
-<span class="co">#&gt; [37] fs_1.2.7          hms_0.4.2         digest_0.6.18    </span>
-<span class="co">#&gt; [40] stringi_1.4.3     grid_3.6.0        rprojroot_1.3-2  </span>
-<span class="co">#&gt; [43] cli_1.1.0         tools_3.6.0       magrittr_1.5     </span>
-<span class="co">#&gt; [46] lazyeval_0.2.2    crayon_1.3.4      pkgconfig_2.0.2  </span>
-<span class="co">#&gt; [49] Matrix_1.2-17     MASS_7.3-51.4     xml2_1.2.0       </span>
-<span class="co">#&gt; [52] lubridate_1.7.4   assertthat_0.2.1  rmarkdown_1.12   </span>
-<span class="co">#&gt; [55] roxygen2_6.1.1    httr_1.4.0        rstudioapi_0.10  </span>
-<span class="co">#&gt; [58] R6_2.4.0          nlme_3.1-137      compiler_3.6.0</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt; R version 3.6.2 (2019-12-12)</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; Running under: macOS Catalina 10.15.2</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></a>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt;  [1] pathwayPCA_1.1.3 forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3     </span></a>
+<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt;  [5] purrr_0.3.3      readr_1.3.1      tidyr_1.0.0      tibble_2.1.3    </span></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt;  [9] ggplot2_3.2.1    tidyverse_1.3.0 </span></a>
+<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt;  [1] tidyselect_0.2.5 xfun_0.11        splines_3.6.2    haven_2.2.0     </span></a>
+<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="co">#&gt;  [5] lattice_0.20-38  colorspace_1.4-1 vctrs_0.2.0      generics_0.0.2  </span></a>
+<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="co">#&gt;  [9] htmltools_0.4.0  yaml_2.2.0       utf8_1.1.4       survival_3.1-8  </span></a>
+<a class="sourceLine" id="cb14-25" data-line-number="25"><span class="co">#&gt; [13] rlang_0.4.2      pkgdown_1.4.1    pillar_1.4.2     withr_2.1.2     </span></a>
+<a class="sourceLine" id="cb14-26" data-line-number="26"><span class="co">#&gt; [17] glue_1.3.1       DBI_1.0.0        dbplyr_1.4.2     modelr_0.1.5    </span></a>
+<a class="sourceLine" id="cb14-27" data-line-number="27"><span class="co">#&gt; [21] readxl_1.3.1     lifecycle_0.1.0  munsell_0.5.0    gtable_0.3.0    </span></a>
+<a class="sourceLine" id="cb14-28" data-line-number="28"><span class="co">#&gt; [25] cellranger_1.1.0 rvest_0.3.5      memoise_1.1.0    evaluate_0.14   </span></a>
+<a class="sourceLine" id="cb14-29" data-line-number="29"><span class="co">#&gt; [29] knitr_1.26       parallel_3.6.2   fansi_0.4.0      lars_1.2        </span></a>
+<a class="sourceLine" id="cb14-30" data-line-number="30"><span class="co">#&gt; [33] broom_0.5.2      Rcpp_1.0.3       backports_1.1.5  scales_1.0.0    </span></a>
+<a class="sourceLine" id="cb14-31" data-line-number="31"><span class="co">#&gt; [37] desc_1.2.0       jsonlite_1.6     fs_1.3.1         hms_0.5.2       </span></a>
+<a class="sourceLine" id="cb14-32" data-line-number="32"><span class="co">#&gt; [41] digest_0.6.23    stringi_1.4.3    grid_3.6.2       rprojroot_1.3-2 </span></a>
+<a class="sourceLine" id="cb14-33" data-line-number="33"><span class="co">#&gt; [45] cli_1.1.0        tools_3.6.2      magrittr_1.5     lazyeval_0.2.2  </span></a>
+<a class="sourceLine" id="cb14-34" data-line-number="34"><span class="co">#&gt; [49] crayon_1.3.4     pkgconfig_2.0.3  zeallot_0.1.0    Matrix_1.2-18   </span></a>
+<a class="sourceLine" id="cb14-35" data-line-number="35"><span class="co">#&gt; [53] MASS_7.3-51.4    xml2_1.2.2       reprex_0.3.0     lubridate_1.7.4 </span></a>
+<a class="sourceLine" id="cb14-36" data-line-number="36"><span class="co">#&gt; [57] assertthat_0.2.1 rmarkdown_2.0    httr_1.4.1       rstudioapi_0.10 </span></a>
+<a class="sourceLine" id="cb14-37" data-line-number="37"><span class="co">#&gt; [61] R6_2.4.0         nlme_3.1-142     compiler_3.6.2</span></a></code></pre></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -653,17 +641,20 @@ colon_OmicsCateg
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/gabrielodom">Gabriel Odom</a>, James Ban, Lizhong Liu, <a href="http://biostat.med.miami.edu/people/primary-faculty/lily-wang-ph.d">Lily Wang</a>, <a href="http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d">Steven Chen</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

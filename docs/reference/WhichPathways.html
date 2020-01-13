@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Train Cox Proportional Hazards model for supervised PCA — coxTrain_fun • pathwayPCA</title>
+<title>Filter and Subset a <code>pathwayCollection</code>-class Object by Symbol. — WhichPathways • pathwayPCA</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Train Cox Proportional Hazards model for supervised PCA — coxTrain_fun" />
-<meta property="og:description" content="Main and utility functions for training the Cox PH model." />
+<meta property="og:title" content="Filter and Subset a <code>pathwayCollection</code>-class Object by Symbol. — WhichPathways" />
+<meta property="og:description" content="The filter-subset method for pathways lists as returned by the
+   read_gmt function. This function returns the subset of 
+   pathways which contain the set of symbols requested" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,88 +128,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Train Cox Proportional Hazards model for supervised PCA</h1>
+    <h1>Filter and Subset a <code>pathwayCollection</code>-class Object by Symbol.</h1>
     
-    <div class="hidden name"><code>coxTrain_fun.Rd</code></div>
+    <div class="hidden name"><code>WhichPathways.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Main and utility functions for training the Cox PH model.</p>
+    <p>The filter-subset method for pathways lists as returned by the
+   <code><a href='read_gmt.html'>read_gmt</a></code> function. This function returns the subset of 
+   pathways which contain the set of symbols requested</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coxTrain_fun</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>censoring.status</span>, <span class='kw'>s0.perc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>WhichPathways</span>(<span class='no'>x</span>, <span class='no'>symbols_char</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A "tall" pathway data frame (\(p \times n\)).</p></td>
+      <td><p>An object of class <code>pathwayCollection</code>.</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>A response vector of follow-up / event times.</p></td>
+      <th>symbols_char</th>
+      <td><p>A character vector or scalar of gene symbols or regions</p></td>
     </tr>
     <tr>
-      <th>censoring.status</th>
-      <td><p>A censoring vector.</p></td>
-    </tr>
-    <tr>
-      <th>s0.perc</th>
-      <td><p>A stabilization parameter. This is an optional argument to
-each of the functions called internally. Defaults to <code>NULL</code>.</p></td>
+      <th>...</th>
+      <td><p>Additional arguments passed to the <code><a href='Contains.html'>Contains</a></code> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing:</p><ul>
-<li><p><code>tt</code> : The scaled p-dimensional score vector: each value has
-     been divided by the respective standard deviation plus the <code>fudge</code>
-     value.</p></li>
-<li><p><code>numer</code> : The original p-dimensional score vector. From the
-     internal <code>.coxscor</code> function.</p></li>
-<li><p><code>sd</code> : The standard deviations of the scores. From the
-     internal <code>.coxvar</code> function.</p></li>
-<li><p><code>fudge</code> : A regularization scalar added to the standard
-     deviation. If <code>s0.perc</code> is supplied,
-     <code>fudge = quantile(sd, s0.perc)</code>.</p></li>
-</ul>
-
+    <p>An object of class <code>pathwayCollection</code>, but containing only the
+   sets which contain the symbols supplied to <code>symbols_char</code>. If no sets
+   are found to contain the symbols supplied, this function returns
+   <code>NULL</code> and prints a warning.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <a href='https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf'>https://web.stanford.edu/~hastie/Papers/spca_JASA.pdf</a>,
-   Section 5, for a description of Supervised PCA applied to survival data.
-   The internal utility functions defined in this file (<code>.coxscor</code>,
-   <code>.coxvar</code>, and <code>.coxstuff</code>) are not called anywhere else, other
-   than in the <code>coxTrain_fun</code> function itself. Therefore, we do not
-   document these functions.</p>
-<p>NOTE: No missing values allowed.</p>
+    <p>This function finds the index of each set that contains the symbols
+   supplied, then returns those sets as a new <code>pathwayCollection</code>
+   object. Find pathways that contain geneA OR geneB by passing the argument
+   <code>matches = "any"</code> through <code>...</code> to <code><a href='Contains.html'>Contains</a></code> (this
+   is the default value). Find pathways that contain geneA AND geneB by
+   changing this argument to <code>matches = "all"</code>. Find all genes in a 
+   specified family by passing in one value to <code>short</code> and setting
+   <code>partial = TRUE</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY.</span>
-  <span class='co'># Use SuperPCA_pVals() instead</span>
+    <pre class="examples"><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fl'>500</span>
-  <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
-
-  <span class='no'>x_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span> * <span class='no'>p</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>p</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>n</span>)
-  <span class='no'>x_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>x_mat</span>)
-  <span class='no'>time_int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span>(<span class='no'>n</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>)
-  <span class='no'>obs_logi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>FALSE</span>, <span class='fl'>TRUE</span>),
-    <span class='kw'>size</span> <span class='kw'>=</span> <span class='no'>n</span>,
-    <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-    <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.8</span>)
-  )
-
-  <span class='fu'>coxTrain_fun</span>(
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x_df</span>,
-    <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>time_int</span>,
-    <span class='kw'>censoring.status</span> <span class='kw'>=</span> !<span class='no'>obs_logi</span>
-  )
-}</div></pre>
+  <span class='fu'>WhichPathways</span>(<span class='no'>colon_pathwayCollection</span>, <span class='st'>"MAP"</span>, <span class='kw'>partial</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: 
+#&gt;  $ pathways:List of 8
+#&gt;  $ TERMS   : chr [1:8] "KEGG_ERBB_SIGNALING_PATHWAY" ...</div><div class='input'>
+  <span class='fu'>WhichPathways</span>(
+    <span class='no'>colon_pathwayCollection</span>,
+    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"MAP4K5"</span>, <span class='st'>"RELA"</span>),
+    <span class='kw'>matches</span> <span class='kw'>=</span> <span class='st'>"all"</span>
+  )</div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: 
+#&gt;  $ pathways:List of 1
+#&gt;  $ TERMS   : chr "PID_TNF_PATHWAY"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

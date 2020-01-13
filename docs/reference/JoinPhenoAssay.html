@@ -8,21 +8,25 @@
 
 <title>Merge Phenotype and Assay Data by First Column (Sample ID) — JoinPhenoAssay • pathwayPCA</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +34,14 @@
 
 
 
-<meta property="og:title" content="Merge Phenotype and Assay Data by First Column (Sample ID) — JoinPhenoAssay" />
 
+<meta property="og:title" content="Merge Phenotype and Assay Data by First Column (Sample ID) — JoinPhenoAssay" />
 <meta property="og:description" content="Match the records from the phenotype data to the values in the
    assay data by sample ID. Return rows from each data frame with matches in
    both data frames. The sample ID must be the first column in both data
    frames." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -48,6 +53,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -66,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -85,20 +91,22 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -106,14 +114,8 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -121,27 +123,26 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Merge Phenotype and Assay Data by First Column (Sample ID)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/createOmics_JoinPhenoAssay.R'><code>R/createOmics_JoinPhenoAssay.R</code></a></small>
+    
     <div class="hidden name"><code>JoinPhenoAssay.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Match the records from the phenotype data to the values in the
    assay data by sample ID. Return rows from each data frame with matches in
    both data frames. The sample ID must be the first column in both data
    frames.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>JoinPhenoAssay</span>(<span class='no'>pheno_df</span>, <span class='no'>assay_df</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -154,7 +155,7 @@
       <td><p>Assay data frame with the sample IDs in the first column</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of three elements:</p><ul>
@@ -167,42 +168,37 @@
       frames, ordered by their position in <code>pheno_df</code>.</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Don't use this function. This is simply a wrapper around the
-   <code><a href='https://www.rdocumentation.org/packages/base/topics/merge'>merge</a></code> function with extra checks for the class of the ID
+   <code><a href='https://rdrr.io/r/base/merge.html'>merge</a></code> function with extra checks for the class of the ID
    column. If you want to merge your two data frames by sample ID, you should
    use the <code>inner_join</code> function from the <code>dplyr</code> package instead.
    It's easier. See <a href='https://dplyr.tidyverse.org/reference/join.html'>https://dplyr.tidyverse.org/reference/join.html</a>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.
+    <pre class="examples"><div class='input'>  <span class='co'># DO NOT CALL THIS FUNCTIONS DIRECTLY. USE CreateOmics() INSTEAD.</span>
 
-</div><span class='co'># NOT RUN {</span>
- <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+ <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
  <span class='fu'>JoinPhenoAssay</span>(
    <span class='kw'>pheno_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, <span class='fl'>1</span>:<span class='fl'>3</span>],
    <span class='kw'>assay_df</span> <span class='kw'>=</span> <span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)]
  )
-<span class='co'># }</span><div class='input'>
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -210,13 +206,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

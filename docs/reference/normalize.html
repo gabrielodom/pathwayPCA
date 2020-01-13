@@ -8,21 +8,25 @@
 
 <title>Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA — normalize • pathwayPCA</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +34,13 @@
 
 
 
-<meta property="og:title" content="Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA — normalize" />
 
+<meta property="og:title" content="Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA — normalize" />
 <meta property="og:description" content="Normalize the columns of a project matrix. For each eigenvector,
    swap the signs of the vector elements if the first entry is negative. See
    &quot;Details&quot; for more information." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +52,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -65,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -84,20 +90,22 @@
     <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -105,14 +113,8 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -120,26 +122,25 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Normalize and reconstruct the eigenvalues of a data matrix for supervised PCA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gabrielodom/pathwayPCA/blob/master/R/aesPC_unknown_matrixNorm.R'><code>R/aesPC_unknown_matrixNorm.R</code></a></small>
+    
     <div class="hidden name"><code>normalize.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Normalize the columns of a project matrix. For each eigenvector,
    swap the signs of the vector elements if the first entry is negative. See
    "Details" for more information.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>normalize</span>(<span class='no'>B</span>, <span class='no'>d</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -153,12 +154,11 @@ given by the Singular Value Decomposition of a data matrix or Grammian.</p></td>
       <td><p>The number of columns of <code>B</code> to normalize.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A matrix of the eigenvectors or left singular vectors in <code>B</code>
    transformed to be the left singular values of the original data matrix.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is designed to reconstruct the original first <code>d</code>
@@ -170,7 +170,7 @@ given by the Singular Value Decomposition of a data matrix or Grammian.</p></td>
    sets of singular vectors are equal.</p>
 <p>Consider the internal workings of the <code><a href='aespca.html'>aespca</a></code> function. This
    "sign flipping" changes the eigenvectors of <code>xtx</code> into the
-   left singular vectors of <code><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale(X, , center = TRUE, scale = TRUE)</a></code>.
+   left singular vectors of <code><a href='https://rdrr.io/r/base/scale.html'>scale(X, , center = TRUE, scale = TRUE)</a></code>.
    Instead of calculating the Grammian, regularising it (by adding some small
    \(\lambda\) value to the diagonal), taking the SVD of the regularized
    Grammian, and extracting the first \(d\) eigenvectors, why don't we just
@@ -181,16 +181,14 @@ given by the Singular Value Decomposition of a data matrix or Grammian.</p></td>
    the eigen-values at all, so this whole process is supurfluous. The only
    wrinkle is adapting the <code><a href='lars.lsa.html'>lars.lsa</a></code> and <code><a href='aespca.html'>aespca</a></code>
    functions to only operate on the data matrix.</p>
-<p>Furthermore, the <code><a href='https://www.rdocumentation.org/packages/lars/topics/lars'>lars</a></code> function <em>can</em> take in the
+<p>Furthermore, the <code><a href='https://rdrr.io/pkg/lars/man/lars.html'>lars</a></code> function <em>can</em> take in the
    full data, instead of just a Grammian. As an enhancement, we should either
    update our copy of the lars function in <code><a href='lars.lsa.html'>lars.lsa</a></code>, or make a
-   call to the exported <code><a href='https://www.rdocumentation.org/packages/lars/topics/lars'>lars</a></code> function. ENHANCEMENT.</p>
-    
+   call to the exported <code><a href='https://rdrr.io/pkg/lars/man/lars.html'>lars</a></code> function. ENHANCEMENT.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='aespca.html'>aespca</a></code>; <code><a href='lars.lsa.html'>lars.lsa</a></code>;
    <code><a href='AESPCA_pVals.html'>AESPCA_pVals</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  # DO NOT CALL THIS FUNCTION DIRECTLY.
@@ -201,18 +199,15 @@ given by the Singular Value Decomposition of a data matrix or Grammian.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -220,13 +215,16 @@ given by the Singular Value Decomposition of a data matrix or Grammian.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
