@@ -1,7 +1,7 @@
 Package: pathwayPCA
 Type: Package
 Title: Integrative Pathway Analysis with Modern PCA Methodology and Gene Selection
-Version: 1.1.3
+Version: 1.1.4
 Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", role = c("aut","cre")),
   person("James", "Ban", email = "yuguang.ban@med.miami.edu", role = c("aut")),
   person("Lizhong", "Liu", email = "lxl816@miami.edu", role = c("aut")),

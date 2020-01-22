@@ -210,9 +210,9 @@ ggplot(ovOutGather_df) +
   # Set main and axis titles
   ggtitle("AES-PCA Significant Pathways: Ovarian Cancer") +
   xlab("Pathways") +
-  ylab("Negative Log10 (p-Value)") +
-  # Add a line showing the alpha = 0.0001 level
-  geom_hline(yintercept = -log10(0.0001), size = 1, color = "blue") +
+  ylab("Negative LN (p-Value)") +
+  # Add a line showing the alpha = 0.01 level
+  geom_hline(yintercept = -log(0.01), size = 1, color = "blue") +
   # Flip the x and y axes
   coord_flip()
 ```

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
       <h1>Integrative Pathway Analysis with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom, Lily Wang, Xi Chen</h4>
             
-            <h4 class="date">2020-01-13</h4>
+            <h4 class="date">2020-01-22</h4>
       
       
       <div class="hidden name"><code>Introduction_to_pathwayPCA.Rmd</code></div>
@@ -319,9 +319,9 @@ downloaded 170 KB</code></pre>
 <a class="sourceLine" id="cb16-15" data-line-number="15"><span class="st">  </span><span class="co"># Set main and axis titles</span></a>
 <a class="sourceLine" id="cb16-16" data-line-number="16"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"AES-PCA Significant Pathways: Ovarian Cancer"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-17" data-line-number="17"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Negative Log10 (p-Value)"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="st">  </span><span class="co"># Add a line showing the alpha = 0.0001 level</span></a>
-<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="fl">0.0001</span>), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">"blue"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Negative LN (p-Value)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="st">  </span><span class="co"># Add a line showing the alpha = 0.01 level</span></a>
+<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="fl">0.01</span>), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">"blue"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-21" data-line-number="21"><span class="st">  </span><span class="co"># Flip the x and y axes</span></a>
 <a class="sourceLine" id="cb16-22" data-line-number="22"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/pathway_bar_plots-1.png" width="768"></p>
@@ -968,7 +968,7 @@ h(t) = h_0(t) \exp\left[ \beta_0 + \beta_1\text{PC}_1 + \beta_2\text{male} + \be
 <a class="sourceLine" id="cb50-15" data-line-number="15"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb50-16" data-line-number="16"><span class="co">#&gt; other attached packages:</span></a>
 <a class="sourceLine" id="cb50-17" data-line-number="17"><span class="co">#&gt;  [1] survminer_0.4.6  ggpubr_0.2.3     magrittr_1.5     survival_3.1-8  </span></a>
-<a class="sourceLine" id="cb50-18" data-line-number="18"><span class="co">#&gt;  [5] pathwayPCA_1.1.3 forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3     </span></a>
+<a class="sourceLine" id="cb50-18" data-line-number="18"><span class="co">#&gt;  [5] pathwayPCA_1.1.4 forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3     </span></a>
 <a class="sourceLine" id="cb50-19" data-line-number="19"><span class="co">#&gt;  [9] purrr_0.3.3      readr_1.3.1      tidyr_1.0.0      tibble_2.1.3    </span></a>
 <a class="sourceLine" id="cb50-20" data-line-number="20"><span class="co">#&gt; [13] ggplot2_3.2.1    tidyverse_1.3.0 </span></a>
 <a class="sourceLine" id="cb50-21" data-line-number="21"><span class="co">#&gt; </span></a>
