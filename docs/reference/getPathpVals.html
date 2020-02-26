@@ -247,25 +247,26 @@ ignored.</p></td>
     <span class='no'>colon_superpc</span>,
     <span class='kw'>numPaths</span> <span class='kw'>=</span> <span class='fl'>5</span>
   )</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 3</span><span>
-#&gt;   terms                                           rawp FDR_BH
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       0.004</span><span style='text-decoration: underline;'>59</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> KEGG_ERBB_SIGNALING_PATHWAY                  0.004</span><span style='text-decoration: underline;'>61</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> PID_TNF_PATHWAY                              0.005</span><span style='text-decoration: underline;'>67</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.007</span><span style='text-decoration: underline;'>87</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> PID_EPHB_FWD_PATHWAY                         0.008</span><span style='text-decoration: underline;'>05</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span></div><div class='input'>
+#&gt;   terms                                             rawp   FDR_BH
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> KEGG_ERBB_SIGNALING_PATHWAY                  0.000</span><span style='text-decoration: underline;'>018</span><span>7 0.000</span><span style='text-decoration: underline;'>280</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> PID_EPHB_FWD_PATHWAY                         0.000</span><span style='text-decoration: underline;'>072</span><span>4 0.000</span><span style='text-decoration: underline;'>403</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.000</span><span style='text-decoration: underline;'>080</span><span>5 0.000</span><span style='text-decoration: underline;'>403</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> KEGG_NON_SMALL_CELL_LUNG_CANCER              0.000</span><span style='text-decoration: underline;'>258</span><span>  0.000</span><span style='text-decoration: underline;'>968</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> BIOCARTA_TNFR1_PATHWAY                       0.002</span><span style='text-decoration: underline;'>38</span><span>   0.007</span><span style='text-decoration: underline;'>13</span><span> </div><div class='input'>
   <span class='co'># Pathways with Unadjusted p-Values &lt; 0.01</span>
   <span class='fu'>getPathpVals</span>(
     <span class='no'>colon_superpc</span>,
     <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>
-  )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 5 x 3</span><span>
-#&gt;   terms                                           rawp FDR_BH
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       0.004</span><span style='text-decoration: underline;'>59</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> KEGG_ERBB_SIGNALING_PATHWAY                  0.004</span><span style='text-decoration: underline;'>61</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> PID_TNF_PATHWAY                              0.005</span><span style='text-decoration: underline;'>67</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.007</span><span style='text-decoration: underline;'>87</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> PID_EPHB_FWD_PATHWAY                         0.008</span><span style='text-decoration: underline;'>05</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span></div><div class='input'>
+  )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
+#&gt;   terms                                             rawp   FDR_BH
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> KEGG_ERBB_SIGNALING_PATHWAY                  0.000</span><span style='text-decoration: underline;'>018</span><span>7 0.000</span><span style='text-decoration: underline;'>280</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> PID_EPHB_FWD_PATHWAY                         0.000</span><span style='text-decoration: underline;'>072</span><span>4 0.000</span><span style='text-decoration: underline;'>403</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.000</span><span style='text-decoration: underline;'>080</span><span>5 0.000</span><span style='text-decoration: underline;'>403</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> KEGG_NON_SMALL_CELL_LUNG_CANCER              0.000</span><span style='text-decoration: underline;'>258</span><span>  0.000</span><span style='text-decoration: underline;'>968</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> BIOCARTA_TNFR1_PATHWAY                       0.002</span><span style='text-decoration: underline;'>38</span><span>   0.007</span><span style='text-decoration: underline;'>13</span><span> 
+#&gt; </span><span style='color: #555555;'>6</span><span> KEGG_ASTHMA                                  0.004</span><span style='text-decoration: underline;'>30</span><span>   0.010</span><span style='text-decoration: underline;'>8</span><span>  </div><div class='input'>
 
 </div></span></pre>
   </div>

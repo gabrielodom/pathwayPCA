@@ -441,23 +441,23 @@ BiocManager::install("pathwayPCA")</code></pre>
 <p>For a quick and easy view of the pathway significance testing results, we can use the <code><a href="../reference/getPathpVals.html">getPathpVals()</a></code> function to access and subset the output data frame. If you are not using the <code>tidyverse</code> package suite, your results will print differently.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(colon_superpcOut)</a>
 <a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; # A tibble: 15 x 3</span></a>
-<a class="sourceLine" id="cb18-3" title="3"><span class="co">#&gt;    terms                                            rawp  FDR_BH</span></a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt;    &lt;chr&gt;                                           &lt;dbl&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       0.000506 0.00381</span></a>
-<a class="sourceLine" id="cb18-6" title="6"><span class="co">#&gt;  2 PID_TNF_PATHWAY                              0.000667 0.00381</span></a>
-<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  0.000763 0.00381</span></a>
-<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&gt;  4 PID_EPHB_FWD_PATHWAY                         0.00184  0.00476</span></a>
-<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&gt;  5 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.00187  0.00476</span></a>
-<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt;  6 REACTOME_PHOSPHOLIPID_METABOLISM             0.00191  0.00476</span></a>
-<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              0.00392  0.00840</span></a>
-<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       0.0158   0.0296 </span></a>
-<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt;  9 KEGG_ASTHMA                                  0.0226   0.0376 </span></a>
-<a class="sourceLine" id="cb18-14" title="14"><span class="co">#&gt; 10 ST_GA12_PATHWAY                              0.0398   0.0597 </span></a>
-<a class="sourceLine" id="cb18-15" title="15"><span class="co">#&gt; 11 KEGG_RETINOL_METABOLISM                      0.0514   0.0681 </span></a>
-<a class="sourceLine" id="cb18-16" title="16"><span class="co">#&gt; 12 KEGG_PENTOSE_PHOSPHATE_PATHWAY               0.0545   0.0681 </span></a>
-<a class="sourceLine" id="cb18-17" title="17"><span class="co">#&gt; 13 BIOCARTA_RELA_PATHWAY                        0.0802   0.0925 </span></a>
-<a class="sourceLine" id="cb18-18" title="18"><span class="co">#&gt; 14 KEGG_ANTIGEN_PROCESSING_AND_PRESENTATION     0.181    0.194  </span></a>
-<a class="sourceLine" id="cb18-19" title="19"><span class="co">#&gt; 15 BIOCARTA_SET_PATHWAY                         0.467    0.467</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-3" title="3"><span class="co">#&gt;    terms                                           rawp FDR_BH</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt;    &lt;chr&gt;                                          &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       0.00261 0.0162</span></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="co">#&gt;  2 PID_TNF_PATHWAY                              0.00346 0.0162</span></a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  0.00369 0.0162</span></a>
+<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             0.00603 0.0162</span></a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&gt;  5 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE 0.00641 0.0162</span></a>
+<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt;  6 PID_EPHB_FWD_PATHWAY                         0.00646 0.0162</span></a>
+<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              0.0102  0.0219</span></a>
+<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       0.0242  0.0454</span></a>
+<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt;  9 KEGG_ASTHMA                                  0.0299  0.0499</span></a>
+<a class="sourceLine" id="cb18-14" title="14"><span class="co">#&gt; 10 ST_GA12_PATHWAY                              0.0423  0.0634</span></a>
+<a class="sourceLine" id="cb18-15" title="15"><span class="co">#&gt; 11 KEGG_RETINOL_METABOLISM                      0.0480  0.0634</span></a>
+<a class="sourceLine" id="cb18-16" title="16"><span class="co">#&gt; 12 KEGG_PENTOSE_PHOSPHATE_PATHWAY               0.0507  0.0634</span></a>
+<a class="sourceLine" id="cb18-17" title="17"><span class="co">#&gt; 13 KEGG_ANTIGEN_PROCESSING_AND_PRESENTATION     0.100   0.109 </span></a>
+<a class="sourceLine" id="cb18-18" title="18"><span class="co">#&gt; 14 BIOCARTA_RELA_PATHWAY                        0.102   0.109 </span></a>
+<a class="sourceLine" id="cb18-19" title="19"><span class="co">#&gt; 15 BIOCARTA_SET_PATHWAY                         0.287   0.287</span></a></code></pre></div>
 <p>This function has the following modifying arguments:</p>
 <ul>
 <li>
@@ -489,18 +489,18 @@ BiocManager::install("pathwayPCA")</code></pre>
 <a class="sourceLine" id="cb19-11" title="11"></a>
 <a class="sourceLine" id="cb19-12" title="12">colonOutGather_df</a>
 <a class="sourceLine" id="cb19-13" title="13"><span class="co">#&gt; # A tibble: 30 x 4</span></a>
-<a class="sourceLine" id="cb19-14" title="14"><span class="co">#&gt;    terms                                        variable    value score</span></a>
-<a class="sourceLine" id="cb19-15" title="15"><span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb19-16" title="16"><span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.000506  7.59</span></a>
-<a class="sourceLine" id="cb19-17" title="17"><span class="co">#&gt;  2 PID_TNF_PATHWAY                              None     0.000667  7.31</span></a>
-<a class="sourceLine" id="cb19-18" title="18"><span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.000763  7.18</span></a>
-<a class="sourceLine" id="cb19-19" title="19"><span class="co">#&gt;  4 PID_EPHB_FWD_PATHWAY                         None     0.00184   6.30</span></a>
-<a class="sourceLine" id="cb19-20" title="20"><span class="co">#&gt;  5 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00187   6.28</span></a>
-<a class="sourceLine" id="cb19-21" title="21"><span class="co">#&gt;  6 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00191   6.26</span></a>
-<a class="sourceLine" id="cb19-22" title="22"><span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.00392   5.54</span></a>
-<a class="sourceLine" id="cb19-23" title="23"><span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0158    4.15</span></a>
-<a class="sourceLine" id="cb19-24" title="24"><span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0226    3.79</span></a>
-<a class="sourceLine" id="cb19-25" title="25"><span class="co">#&gt; 10 ST_GA12_PATHWAY                              None     0.0398    3.22</span></a>
+<a class="sourceLine" id="cb19-14" title="14"><span class="co">#&gt;    terms                                        variable   value score</span></a>
+<a class="sourceLine" id="cb19-15" title="15"><span class="co">#&gt;    &lt;chr&gt;                                        &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb19-16" title="16"><span class="co">#&gt;  1 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR       None     0.00261  5.95</span></a>
+<a class="sourceLine" id="cb19-17" title="17"><span class="co">#&gt;  2 PID_TNF_PATHWAY                              None     0.00346  5.67</span></a>
+<a class="sourceLine" id="cb19-18" title="18"><span class="co">#&gt;  3 KEGG_ERBB_SIGNALING_PATHWAY                  None     0.00369  5.60</span></a>
+<a class="sourceLine" id="cb19-19" title="19"><span class="co">#&gt;  4 REACTOME_PHOSPHOLIPID_METABOLISM             None     0.00603  5.11</span></a>
+<a class="sourceLine" id="cb19-20" title="20"><span class="co">#&gt;  5 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE None     0.00641  5.05</span></a>
+<a class="sourceLine" id="cb19-21" title="21"><span class="co">#&gt;  6 PID_EPHB_FWD_PATHWAY                         None     0.00646  5.04</span></a>
+<a class="sourceLine" id="cb19-22" title="22"><span class="co">#&gt;  7 KEGG_NON_SMALL_CELL_LUNG_CANCER              None     0.0102   4.58</span></a>
+<a class="sourceLine" id="cb19-23" title="23"><span class="co">#&gt;  8 BIOCARTA_TNFR1_PATHWAY                       None     0.0242   3.72</span></a>
+<a class="sourceLine" id="cb19-24" title="24"><span class="co">#&gt;  9 KEGG_ASTHMA                                  None     0.0299   3.51</span></a>
+<a class="sourceLine" id="cb19-25" title="25"><span class="co">#&gt; 10 ST_GA12_PATHWAY                              None     0.0423   3.16</span></a>
 <a class="sourceLine" id="cb19-26" title="26"><span class="co">#&gt; # … with 20 more rows</span></a></code></pre></div>
 </div>
 <div id="graph-pathway-ranks" class="section level3">
