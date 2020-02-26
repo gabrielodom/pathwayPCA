@@ -4,8 +4,13 @@
 \alias{read_gmt}
 \title{Read a \code{.gmt} file in as a \code{pathwayCollection} object}
 \usage{
-read_gmt(file, setType = c("pathways", "genes", "regions"),
-  description = FALSE, nChars = 1e+07, delim = "\\t")
+read_gmt(
+  file,
+  setType = c("pathways", "genes", "regions"),
+  description = FALSE,
+  nChars = 1e+07,
+  delim = "\\t"
+)
 }
 \arguments{
 \item{file}{A path to a file or a connection. This file must be a \code{.gmt}

@@ -4,8 +4,7 @@
 \alias{write_gmt}
 \title{Write a \code{pathwayCollection} Object to a \code{.gmt} File}
 \usage{
-write_gmt(pathwayCollection, file, setType = c("pathways", "genes",
-  "regions"))
+write_gmt(pathwayCollection, file, setType = c("pathways", "genes", "regions"))
 }
 \arguments{
 \item{pathwayCollection}{A \code{pathwayCollection} list of sets. This

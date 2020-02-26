@@ -3,7 +3,6 @@
 \docType{package}
 \name{pathwayPCA}
 \alias{pathwayPCA}
-\alias{pathwayPCA-package}
 \title{Extract and Test the Significance of Pathway-Specific Principal
    Components}
 \description{

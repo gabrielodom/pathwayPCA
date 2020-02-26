@@ -42,7 +42,6 @@
 #' @seealso \code{\link{normalize}}; \code{\link{lars.lsa}};
 #'    \code{\link{ExtractAESPCs}}; \code{\link{AESPCA_pVals}}
 #'
-#' @keywords internal
 #'
 #'
 #' @examples

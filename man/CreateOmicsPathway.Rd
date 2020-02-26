@@ -9,14 +9,27 @@
 \usage{
 CreateOmicsPath(assayData_df, sampleIDs_char, pathwayCollection_ls)
 
-CreateOmicsSurv(assayData_df, sampleIDs_char, pathwayCollection_ls,
-  eventTime_num, eventObserved_lgl)
+CreateOmicsSurv(
+  assayData_df,
+  sampleIDs_char,
+  pathwayCollection_ls,
+  eventTime_num,
+  eventObserved_lgl
+)
 
-CreateOmicsReg(assayData_df, sampleIDs_char, pathwayCollection_ls,
-  response_num)
+CreateOmicsReg(
+  assayData_df,
+  sampleIDs_char,
+  pathwayCollection_ls,
+  response_num
+)
 
-CreateOmicsCateg(assayData_df, sampleIDs_char, pathwayCollection_ls,
-  response_fact)
+CreateOmicsCateg(
+  assayData_df,
+  sampleIDs_char,
+  pathwayCollection_ls,
+  response_fact
+)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}

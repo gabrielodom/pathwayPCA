@@ -4,8 +4,11 @@
 \alias{superpc.train}
 \title{Train a supervised PCA model}
 \usage{
-superpc.train(data, type = c("survival", "regression", "categorical"),
-  s0.perc = NULL)
+superpc.train(
+  data,
+  type = c("survival", "regression", "categorical"),
+  s0.perc = NULL
+)
 }
 \arguments{
 \item{data}{A list of test data:

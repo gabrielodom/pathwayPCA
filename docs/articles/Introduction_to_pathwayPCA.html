@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Integrative Pathway Analysis with pathwayPCA • pathwayPCA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Integrative Pathway Analysis with pathwayPCA">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -49,20 +50,22 @@
 <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -70,14 +73,7 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -86,15 +82,16 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Integrative Pathway Analysis with pathwayPCA</h1>
                         <h4 class="author">Gabriel Odom, Lily Wang, Xi Chen</h4>
             
-            <h4 class="date">2019-04-12</h4>
+            <h4 class="date">2020-02-26</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Introduction_to_pathwayPCA.Rmd"><code>vignettes/Introduction_to_pathwayPCA.Rmd</code></a></small>
+      
       <div class="hidden name"><code>Introduction_to_pathwayPCA.Rmd</code></div>
 
     </div>
@@ -104,11 +101,11 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>1. Introduction</h1>
-<p><code>pathwayPCA</code> is an integrative analysis tool that implements the principal component analysis (PCA) based pathway analysis approaches described in Chen et al. (2008), Chen et al. (2010), and Chen (2011). <code>pathwayPCA</code> allows users to:</p>
+<p><code>pathwayPCA</code> is an integrative analysis tool that implements the principal component analysis (PCA) based pathway analysis approaches described in Chen et al. (2008), Chen et al. (2010), and Chen (2011). <code>pathwayPCA</code> allows users to:</p>
 <ol style="list-style-type: decimal">
 <li>Test pathway association with binary, continuous, or survival phenotypes.</li>
 <li>Extract relevant genes in the pathways using the SuperPCA and AESPCA approaches.</li>
-<li>Compute <em>principal components</em> (PCs) based on the selected genes. These estimated latent variables represent pathway activities for individual subjects, which can then be used to perform integrative pathway analysis, such as multi-omics analysis.</li>
+<li>Compute <em>principal components</em> (PCs) based on the <em>selected genes</em>. These estimated latent variables represent pathway activities for individual subjects, which can then be used to perform integrative pathway analysis, such as multi-omics analysis.</li>
 <li>Extract relevant genes that drive pathway significance as well as data corresponding to these relevant genes for additional in-depth analysis.</li>
 <li>Perform analyses with enhanced computational efficiency with parallel computing and enhanced data safety with S4-class data objects.</li>
 <li>Analyze studies with complex experimental designs, with multiple covariates, and with interaction effects, e.g., testing whether pathway association with clinical phenotype is different between male and female subjects.</li>
@@ -128,15 +125,15 @@ BiocManager::install("pathwayPCA")</code></pre>
 <h3 class="hasAnchor">
 <a href="#development-build" class="anchor"></a>Development Build</h3>
 <p>Because we are currently in the development phase for version 2 of this package, you can install the package from GitHub. In order to install a package from GitHub, you will need the <code>devtools::</code> package (<a href="https://github.com/r-lib/devtools" class="uri">https://github.com/r-lib/devtools</a>) and either <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> (for Windows) or <a href="https://developer.apple.com/xcode/">Xcode</a> (for Mac). Then you can install the development version of the <a href="https://github.com/gabrielodom/pathwayPCA"><code>pathwayPCA</code> package</a> from <a href="https://github.com/">GitHub</a>:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
+<pre><code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("gabrielodom/pathwayPCA")</a></code></pre>
 </div>
 </div>
 <div id="loading-packages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-packages" class="anchor"></a>Loading Packages</h2>
 <p>Throughout this vignette, we will make use of the <code>tidyverse</code> suite of utility packages (<a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>). The <code>tidyverse</code> and <code>pathwayPCA</code> can be loaded into R using:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pathwayPCA)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pathwayPCA)</a></code></pre></div>
 <p></p>
 <hr>
 <p></p>
@@ -163,81 +160,81 @@ BiocManager::install("pathwayPCA")</code></pre>
 <h3 class="hasAnchor">
 <a href="#expression-and-phenotype-data" class="anchor"></a>2.2.1 Expression and Phenotype Data</h3>
 <p>We can obtain datasets 1 and 2 for the ovarian cancer dataset by loading the <code>ovarian_PNNL_survival.RDS</code> data file included in the <code>pathwayPCAdata</code> supplement repository: <a href="https://github.com/lizhongliu1996/pathwayPCAdata" class="uri">https://github.com/lizhongliu1996/pathwayPCAdata</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gitHubPath_char &lt;-<span class="st"> "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/"</span>
-ovSurv_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">url</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(gitHubPath_char, <span class="st">"ovarian_PNNL_survival.RDS"</span>))
-)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">gitHubPath_char &lt;-<span class="st"> "https://raw.githubusercontent.com/lizhongliu1996/pathwayPCAdata/master/"</span></a>
+<a class="sourceLine" id="cb4-2" title="2">ovSurv_df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(</a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(gitHubPath_char, <span class="st">"ovarian_PNNL_survival.RDS"</span>))</a>
+<a class="sourceLine" id="cb4-4" title="4">)</a></code></pre></div>
 <p>The <code>ovSurv_df</code> dataset is a data frame with protein expression levels and survival outcome matched by sample IDs. The variables (columns) include overall survival time and censoring status, as well as expression data for 5162 proteins for each of the 83 samples.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovSurv_df [<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]
-<span class="co">#&gt; # A tibble: 5 x 5</span>
-<span class="co">#&gt;   Sample       OS_time OS_death    A1BG      A2M</span>
-<span class="co">#&gt;   &lt;chr&gt;          &lt;int&gt;    &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 TCGA.09.1664    2279        1  0.336  -0.00505</span>
-<span class="co">#&gt; 2 TCGA.13.1484    3785        1 -0.848  -0.434  </span>
-<span class="co">#&gt; 3 TCGA.13.1488    2154        1 -0.0730  0.172  </span>
-<span class="co">#&gt; 4 TCGA.13.1489    2553        1  0.0154 -0.419  </span>
-<span class="co">#&gt; 5 TCGA.13.1494    2856        1 -0.495   0.112</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">ovSurv_df [<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; # A tibble: 5 x 5</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt;   Sample       OS_time OS_death    A1BG      A2M</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt;   &lt;chr&gt;          &lt;int&gt;    &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; 1 TCGA.09.1664    2279        1  0.336  -0.00505</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt; 2 TCGA.13.1484    3785        1 -0.848  -0.434  </span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; 3 TCGA.13.1488    2154        1 -0.0730  0.172  </span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; 4 TCGA.13.1489    2553        1  0.0154 -0.419  </span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt; 5 TCGA.13.1494    2856        1 -0.495   0.112</span></a></code></pre></div>
 </div>
 <div id="pathway-collections" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pathway-collections" class="anchor"></a>2.2.2 Pathway Collections</h3>
 <p>For the collection of pathways in (3), we need to specify a <code>.gmt</code> file, a text file with each row corresponding to one pathway. Each row contains an ID (column <code>TERMS</code>), an optional description (column <code>description</code>), and the genes in the pathway (all subsequent columns). Pathway collections in <code>.gmt</code> form can be downloaded from the MSigDB database at <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp" class="uri">http://software.broadinstitute.org/gsea/msigdb/collections.jsp</a>.</p>
 <p>For <a href="https://www.wikipathways.org/index.php/WikiPathways">WikiPathways</a>, one can download monthly data releases in <code>.gmt</code> format using the <code>dowloadPathwayArchive()</code> function in the <code>rWikiPathways</code> package <a href="https://bioconductor.org/packages/release/bioc/html/rWikiPathways.html">from Bioconductor</a>. For example, the <a href="https://bioconductor.org/packages/release/bioc/vignettes/rWikiPathways/inst/doc/Overview.html#4_give_me_more">following commands</a> downloads the latest release of the human pathways from WikiPathways to your current directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rWikiPathways)
-<span class="co"># library(XML) # necessary if you encounter an error with readHTMLTable</span>
-<span class="kw">downloadPathwayArchive</span>(
-  <span class="dt">organism =</span> <span class="st">"Homo sapiens"</span>, <span class="dt">format =</span> <span class="st">"gmt"</span>
-) </code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rWikiPathways)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co"># library(XML) # necessary if you encounter an error with readHTMLTable</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="kw">downloadPathwayArchive</span>(</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">organism =</span> <span class="st">"Homo sapiens"</span>, <span class="dt">format =</span> <span class="st">"gmt"</span></a>
+<a class="sourceLine" id="cb6-5" title="5">) </a></code></pre></div>
 <pre><code>trying URL 'http://data.wikipathways.org/current/gmt/wikipathways-20190110-gmt-Homo_sapiens.gmt'
 Content type '' length 174868 bytes (170 KB)
 downloaded 170 KB</code></pre>
 <pre><code>#&gt; [1] "wikipathways-20190110-gmt-Homo_sapiens.gmt"</code></pre>
 <p><code>pathwayPCA</code> includes the June 2018 Wikipathways collection for <em>homo sapiens</em>, which can be loaded using the <code>read_gmt</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dataDir_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(
-  <span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>
-)
-wikipathways_PC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(dataDir_path, <span class="st">"/wikipathways_human_symbol.gmt"</span>),
-  <span class="dt">description =</span> <span class="ot">TRUE</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">dataDir_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb9-3" title="3">)</a>
+<a class="sourceLine" id="cb9-4" title="4">wikipathways_PC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(</a>
+<a class="sourceLine" id="cb9-5" title="5">  <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(dataDir_path, <span class="st">"/wikipathways_human_symbol.gmt"</span>),</a>
+<a class="sourceLine" id="cb9-6" title="6">  <span class="dt">description =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb9-7" title="7">)</a></code></pre></div>
 </div>
 <div id="create-an-omicssurv-data-container" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-an-omicssurv-data-container" class="anchor"></a>2.2.3 Create an <code>OmicsSurv</code> Data Container</h3>
 <p>Now that we have these three data components, we create an <code>OmicsSurv</code> data container. Note that when <code>assayData_df</code> and <code>response</code> are supplied from two different files, the user must match and merge these data sets by sample IDs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ov_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
-  <span class="co"># protein expression data</span>
-  <span class="dt">assayData_df =</span> ovSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)], 
-  <span class="co"># pathway collection</span>
-  <span class="dt">pathwayCollection_ls =</span> wikipathways_PC,
-  <span class="co"># survival phenotypes</span>
-  <span class="dt">response =</span> ovSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],
-  <span class="co"># phenotype is survival data</span>
-  <span class="dt">respType =</span> <span class="st">"survival"</span>,
-  <span class="co"># retain pathways with &gt; 5 proteins</span>
-  <span class="dt">minPathSize =</span> <span class="dv">5</span>  
-)
-
-  <span class="op">==</span><span class="er">====</span><span class="st">  </span>Creating object of class OmicsSurv  <span class="op">==</span><span class="er">=====</span>
-The input pathway database included <span class="dv">5831</span> unique features.
-The input assay dataset included <span class="dv">5162</span> features.
-Only pathways with at least <span class="dv">5</span> or more features included <span class="cf">in</span> the assay dataset are
-  <span class="kw">tested</span> (specified by minPathSize parameter). There are <span class="dv">324</span> pathways which meet
-  this criterion.
-Because pathwayPCA is a self<span class="op">-</span>contained <span class="kw">test</span> (PMID<span class="op">:</span><span class="st"> </span><span class="dv">17303618</span>), only features <span class="cf">in</span>
-  both assay data and pathway database are considered <span class="cf">for</span> analysis. There are <span class="dv">2064</span>
-  such features shared by the input assay and pathway database.</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">ov_OmicsSurv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(</a>
+<a class="sourceLine" id="cb10-2" title="2">  <span class="co"># protein expression data</span></a>
+<a class="sourceLine" id="cb10-3" title="3">  <span class="dt">assayData_df =</span> ovSurv_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)], </a>
+<a class="sourceLine" id="cb10-4" title="4">  <span class="co"># pathway collection</span></a>
+<a class="sourceLine" id="cb10-5" title="5">  <span class="dt">pathwayCollection_ls =</span> wikipathways_PC,</a>
+<a class="sourceLine" id="cb10-6" title="6">  <span class="co"># survival phenotypes</span></a>
+<a class="sourceLine" id="cb10-7" title="7">  <span class="dt">response =</span> ovSurv_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb10-8" title="8">  <span class="co"># phenotype is survival data</span></a>
+<a class="sourceLine" id="cb10-9" title="9">  <span class="dt">respType =</span> <span class="st">"survival"</span>,</a>
+<a class="sourceLine" id="cb10-10" title="10">  <span class="co"># retain pathways with &gt; 5 proteins</span></a>
+<a class="sourceLine" id="cb10-11" title="11">  <span class="dt">minPathSize =</span> <span class="dv">5</span>  </a>
+<a class="sourceLine" id="cb10-12" title="12">)</a>
+<a class="sourceLine" id="cb10-13" title="13"></a>
+<a class="sourceLine" id="cb10-14" title="14">  <span class="op">==</span><span class="er">====</span><span class="st">  </span>Creating object of class OmicsSurv  <span class="op">==</span><span class="er">=====</span></a>
+<a class="sourceLine" id="cb10-15" title="15">The input pathway database included <span class="dv">5831</span> unique features.</a>
+<a class="sourceLine" id="cb10-16" title="16">The input assay dataset included <span class="dv">5162</span> features.</a>
+<a class="sourceLine" id="cb10-17" title="17">Only pathways with at least <span class="dv">5</span> or more features included <span class="cf">in</span> the assay dataset are</a>
+<a class="sourceLine" id="cb10-18" title="18">  <span class="kw">tested</span> (specified by minPathSize parameter). There are <span class="dv">324</span> pathways which meet</a>
+<a class="sourceLine" id="cb10-19" title="19">  this criterion.</a>
+<a class="sourceLine" id="cb10-20" title="20">Because pathwayPCA is a self<span class="op">-</span>contained <span class="kw">test</span> (PMID<span class="op">:</span><span class="st"> </span><span class="dv">17303618</span>), only features <span class="cf">in</span></a>
+<a class="sourceLine" id="cb10-21" title="21">  both assay data and pathway database are considered <span class="cf">for</span> analysis. There are <span class="dv">2064</span></a>
+<a class="sourceLine" id="cb10-22" title="22">  such features shared by the input assay and pathway database.</a></code></pre></div>
 <p>To see a summary of the <code>Omics</code> data object we just created, simply type the name of the object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ov_OmicsSurv
-<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span>
-<span class="co">#&gt;   ..@ eventTime            : num [1:83] 2279 3785 2154 2553 2856 ...</span>
-<span class="co">#&gt;   ..@ eventObserved        : logi [1:83] TRUE TRUE TRUE TRUE TRUE TRUE ...</span>
-<span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    83 obs. of  5162 variables:</span>
-<span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:83] "TCGA.09.1664" "TCGA.13.1484" "TCGA.13.1488" "TCGA.13.1489" ...</span>
-<span class="co">#&gt;   ..@ pathwayCollection    :List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span>
-<span class="co">#&gt;   ..@ trimPathwayCollection:List of 5</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">ov_OmicsSurv</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt;   ..@ eventTime            : num [1:83] 2279 3785 2154 2553 2856 ...</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt;   ..@ eventObserved        : logi [1:83] TRUE TRUE TRUE TRUE TRUE TRUE ...</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    83 obs. of  5162 variables:</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:83] "TCGA.09.1664" "TCGA.13.1484" "TCGA.13.1488" "TCGA.13.1489" ...</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="co">#&gt;   ..@ pathwayCollection    :List of 4</span></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="co">#&gt;   ..@ trimPathwayCollection:List of 5</span></a>
+<a class="sourceLine" id="cb11-10" title="10"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a></code></pre></div>
 </div>
 </div>
 <div id="testing-pathway-association-with-phenotypes" class="section level2">
@@ -246,7 +243,7 @@ Because pathwayPCA is a self<span class="op">-</span>contained <span class="kw">
 <div id="method-description" class="section level3">
 <h3 class="hasAnchor">
 <a href="#method-description" class="anchor"></a>2.3.1 Method Description</h3>
-<p>Once we have a valid <code>Omics</code> object, we can perform pathway analysis using the AES-PCA (Adaptive, Elastic-net, Sparse PCA) or Supervised PCA (SuperPCA) methodology described in Chen et al. (2008), Chen et al. (2010), and Chen (2011).</p>
+<p>Once we have a valid <code>Omics</code> object, we can perform pathway analysis using the AES-PCA (Adaptive, Elastic-net, Sparse PCA) or Supervised PCA (SuperPCA) methodology described in Chen et al. (2008), Chen et al. (2010), and Chen (2011).</p>
 <p>Briefly, in the AES-PCA method, we first extract PCs representing activities within each pathway using a dimension reduction approach based on adaptive, elastic-net, sparse principal component analysis (<a href="https://doi.org/10.2202/1544-6115.1697" class="uri">https://doi.org/10.2202/1544-6115.1697</a>). The estimated latent variables are then tested against phenotypes using a permutation test that permutes sample labels. Note that the AESPCA approach does not use the response information to estimate pathway PCs, so it is an unsupervised approach.</p>
 <p>This is in contrast to the SuperPCA approach, where a selected subset of genes most associated with disease outcome are used to estimate the latent variable for a pathway (<a href="https://doi.org/10.1002/gepi.20532" class="uri">https://doi.org/10.1002/gepi.20532</a>). Because of this gene selection step, the test statistics from the SuperPCA model can no longer be approximated well using the Student’s <span class="math inline">\(t\)</span>-distribution. To account for the gene selection step, <code>pathwayPCA</code> estimates <span class="math inline">\(p\)</span>-values from a two-component mixture of Gumbel extreme value distributions instead.</p>
 </div>
@@ -255,78 +252,78 @@ Because pathwayPCA is a self<span class="op">-</span>contained <span class="kw">
 <a href="#implementation" class="anchor"></a>2.3.2 Implementation</h3>
 <p>Because the syntax for performing SuperPCA is nearly identical to the AES-PCA syntax, we will illustrate only the AES-PCA workflow below.</p>
 <p>Note that when the value supplied to the <code>numReps</code> argument is greater than 0, the <code>AESPCA_pvals()</code> function employs a parametric test when estimating pathway significance via the following model: “phenotype ~ intercept + PC1”. Pathway <span class="math inline">\(p\)</span>-values are estimated based on a likelihood ratio test that compares this model to a null model (with intercept only).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovarian_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(
-  <span class="co"># The Omics data container</span>
-  <span class="dt">object =</span> ov_OmicsSurv,
-  <span class="co"># One principal component per pathway</span>
-  <span class="dt">numPCs =</span> <span class="dv">1</span>,
-  <span class="co"># Use parallel computing with 2 cores</span>
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="co"># # Use serial computing</span>
-  <span class="co"># parallel = FALSE,</span>
-  <span class="co"># Estimate the p-values parametrically</span>
-  <span class="dt">numReps =</span> <span class="dv">0</span>,
-  <span class="co"># Control FDR via Benjamini-Hochberg</span>
-  <span class="dt">adjustment =</span> <span class="st">"BH"</span>
-)
-Part <span class="dv">1</span><span class="op">:</span><span class="st"> </span>Calculate Pathway AES<span class="op">-</span>PCs
-Initializing Computing Cluster<span class="op">:</span><span class="st"> </span>DONE
-Extracting Pathway PCs <span class="cf">in</span> Parallel<span class="op">:</span><span class="st"> </span>DONE
-
-Part <span class="dv">2</span><span class="op">:</span><span class="st"> </span>Calculate Pathway p<span class="op">-</span>Values
-Initializing Computing Cluster<span class="op">:</span><span class="st"> </span>DONE
-Extracting Pathway p<span class="op">-</span>Values <span class="cf">in</span> Parallel<span class="op">:</span><span class="st"> </span>DONE
-
-Part <span class="dv">3</span><span class="op">:</span><span class="st"> </span>Adjusting p<span class="op">-</span>Values and Sorting Pathway p<span class="op">-</span>Value Data Frame
-DONE</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">ovarian_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb12-2" title="2">  <span class="co"># The Omics data container</span></a>
+<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">object =</span> ov_OmicsSurv,</a>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="co"># One principal component per pathway</span></a>
+<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">numPCs =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="co"># Use parallel computing with 2 cores</span></a>
+<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb12-8" title="8">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb12-9" title="9">  <span class="co"># # Use serial computing</span></a>
+<a class="sourceLine" id="cb12-10" title="10">  <span class="co"># parallel = FALSE,</span></a>
+<a class="sourceLine" id="cb12-11" title="11">  <span class="co"># Estimate the p-values parametrically</span></a>
+<a class="sourceLine" id="cb12-12" title="12">  <span class="dt">numReps =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb12-13" title="13">  <span class="co"># Control FDR via Benjamini-Hochberg</span></a>
+<a class="sourceLine" id="cb12-14" title="14">  <span class="dt">adjustment =</span> <span class="st">"BH"</span></a>
+<a class="sourceLine" id="cb12-15" title="15">)</a>
+<a class="sourceLine" id="cb12-16" title="16">Part <span class="dv">1</span><span class="op">:</span><span class="st"> </span>Calculate Pathway AES<span class="op">-</span>PCs</a>
+<a class="sourceLine" id="cb12-17" title="17">Initializing Computing Cluster<span class="op">:</span><span class="st"> </span>DONE</a>
+<a class="sourceLine" id="cb12-18" title="18">Extracting Pathway PCs <span class="cf">in</span> Parallel<span class="op">:</span><span class="st"> </span>DONE</a>
+<a class="sourceLine" id="cb12-19" title="19"></a>
+<a class="sourceLine" id="cb12-20" title="20">Part <span class="dv">2</span><span class="op">:</span><span class="st"> </span>Calculate Pathway p<span class="op">-</span>Values</a>
+<a class="sourceLine" id="cb12-21" title="21">Initializing Computing Cluster<span class="op">:</span><span class="st"> </span>DONE</a>
+<a class="sourceLine" id="cb12-22" title="22">Extracting Pathway p<span class="op">-</span>Values <span class="cf">in</span> Parallel<span class="op">:</span><span class="st"> </span>DONE</a>
+<a class="sourceLine" id="cb12-23" title="23"></a>
+<a class="sourceLine" id="cb12-24" title="24">Part <span class="dv">3</span><span class="op">:</span><span class="st"> </span>Adjusting p<span class="op">-</span>Values and Sorting Pathway p<span class="op">-</span>Value Data Frame</a>
+<a class="sourceLine" id="cb12-25" title="25">DONE</a></code></pre></div>
 <p>This <code>ovarian_aespcOut</code> object contains 3 components: a table of pathway <span class="math inline">\(p\)</span>-values, AESPCA-estimated PCs of each sample from each pathway, and the loadings of each protein onto the AESPCs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(ovarian_aespcOut)
-<span class="co">#&gt; [1] "pVals_df"    "PCs_ls"      "loadings_ls"</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(ovarian_aespcOut)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; [1] "pVals_df"    "PCs_ls"      "loadings_ls"</span></a></code></pre></div>
 </div>
 <div id="the-pathway-analysis-results" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-pathway-analysis-results" class="anchor"></a>2.3.3 The pathway analysis results</h3>
 <p>For this ovarian cancer dataset, the top 10 most significant pathways identified by AES-PCA are:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovarian_aespcOut, <span class="dt">numPaths =</span> <span class="dv">10</span>)
-<span class="co">#&gt; # A tibble: 10 x 4</span>
-<span class="co">#&gt;    terms  description                                           rawp FDR_BH</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                                                &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 WP195  IL-1 signaling pathway                             0.00247  0.279</span>
-<span class="co">#&gt;  2 WP3858 Toll-like Receptor Signaling                       0.00463  0.279</span>
-<span class="co">#&gt;  3 WP363  Wnt Signaling Pathway                              0.00485  0.279</span>
-<span class="co">#&gt;  4 WP2447 Amyotrophic lateral sclerosis (ALS)                0.00582  0.279</span>
-<span class="co">#&gt;  5 WP2036 TNF related weak inducer of apoptosis (TWEAK) Sig~ 0.00641  0.279</span>
-<span class="co">#&gt;  6 WP3298 Melatonin metabolism and effects                   0.00688  0.279</span>
-<span class="co">#&gt;  7 WP3850 Factors and pathways affecting insulin-like growt~ 0.00700  0.279</span>
-<span class="co">#&gt;  8 WP3617 Photodynamic therapy-induced NF-kB survival signa~ 0.00714  0.279</span>
-<span class="co">#&gt;  9 WP34   Ovarian Infertility Genes                          0.00801  0.279</span>
-<span class="co">#&gt; 10 WP3851 TLR4 Signaling and Tolerance                       0.00870  0.279</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovarian_aespcOut, <span class="dt">numPaths =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt; # A tibble: 10 x 4</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt;    terms  description                                                rawp FDR_BH</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                                                     &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt;  1 WP195  IL-1 signaling pathway                                  0.00247  0.279</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="co">#&gt;  2 WP3858 Toll-like Receptor Signaling                            0.00463  0.279</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="co">#&gt;  3 WP363  Wnt Signaling Pathway                                   0.00485  0.279</span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="co">#&gt;  4 WP2447 Amyotrophic lateral sclerosis (ALS)                     0.00582  0.279</span></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="co">#&gt;  5 WP2036 TNF related weak inducer of apoptosis (TWEAK) Signalin… 0.00641  0.279</span></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="co">#&gt;  6 WP3298 Melatonin metabolism and effects                        0.00688  0.279</span></a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="co">#&gt;  7 WP3850 Factors and pathways affecting insulin-like growth fac… 0.00700  0.279</span></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="co">#&gt;  8 WP3617 Photodynamic therapy-induced NF-kB survival signaling   0.00714  0.279</span></a>
+<a class="sourceLine" id="cb14-13" title="13"><span class="co">#&gt;  9 WP34   Ovarian Infertility Genes                               0.00801  0.279</span></a>
+<a class="sourceLine" id="cb14-14" title="14"><span class="co">#&gt; 10 WP3851 TLR4 Signaling and Tolerance                            0.00870  0.279</span></a></code></pre></div>
 <p>Before constructing a graph of the <span class="math inline">\(p\)</span>-values, we extract the top 20 pathways (the default value for <code>numPaths</code> is 20):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovOutGather_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovarian_aespcOut, <span class="dt">score =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">ovOutGather_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovarian_aespcOut, <span class="dt">score =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Now we plot the pathway significance level for the top 20 pathways. In this figure, <code>score</code> indicates the negative natural logarithm of the unadjusted <span class="math inline">\(p\)</span>-values for each pathway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(ovOutGather_df) <span class="op">+</span>
-<span class="st">  </span><span class="co"># set overall appearance of the plot</span>
-<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
-<span class="st">  </span><span class="co"># Define the dependent and independent variables</span>
-<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/reorder.factor">reorder</a></span>(terms, score), <span class="dt">y =</span> score) <span class="op">+</span>
-<span class="st">  </span><span class="co"># From the defined variables, create a vertical bar chart</span>
-<span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">position =</span> <span class="st">"dodge"</span>, <span class="dt">fill =</span> <span class="st">"#66FFFF"</span>, <span class="dt">width =</span> <span class="fl">0.7</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Add pathway labels</span>
-<span class="st">  </span><span class="kw">geom_text</span>(
-    <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/reorder.factor">reorder</a></span>(terms, score), <span class="dt">label =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/reorder.factor">reorder</a></span>(description, score), <span class="dt">y =</span> <span class="fl">0.1</span>),
-    <span class="dt">color =</span> <span class="st">"black"</span>,
-    <span class="dt">size =</span> <span class="dv">2</span>, 
-    <span class="dt">hjust =</span> <span class="dv">0</span>
-  ) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set main and axis titles</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"AES-PCA Significant Pathways: Ovarian Cancer"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Negative Log10 (p-Value)"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Add a line showing the alpha = 0.0001 level</span>
-<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log10</a></span>(<span class="fl">0.0001</span>), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">"blue"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Flip the x and y axes</span>
-<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">ggplot</span>(ovOutGather_df) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span><span class="co"># set overall appearance of the plot</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="st">  </span><span class="co"># Define the dependent and independent variables</span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span>(terms, score), <span class="dt">y =</span> score) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="st">  </span><span class="co"># From the defined variables, create a vertical bar chart</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">position =</span> <span class="st">"dodge"</span>, <span class="dt">fill =</span> <span class="st">"#66FFFF"</span>, <span class="dt">width =</span> <span class="fl">0.7</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="st">  </span><span class="co"># Add pathway labels</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="st">  </span><span class="kw">geom_text</span>(</a>
+<a class="sourceLine" id="cb16-10" title="10">    <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span>(terms, score), <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span>(description, score), <span class="dt">y =</span> <span class="fl">0.1</span>),</a>
+<a class="sourceLine" id="cb16-11" title="11">    <span class="dt">color =</span> <span class="st">"black"</span>,</a>
+<a class="sourceLine" id="cb16-12" title="12">    <span class="dt">size =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb16-13" title="13">    <span class="dt">hjust =</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb16-14" title="14">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="st">  </span><span class="co"># Set main and axis titles</span></a>
+<a class="sourceLine" id="cb16-16" title="16"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"AES-PCA Significant Pathways: Ovarian Cancer"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-17" title="17"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Pathways"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-18" title="18"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Negative Log10 (p-Value)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-19" title="19"><span class="st">  </span><span class="co"># Add a line showing the alpha = 0.0001 level</span></a>
+<a class="sourceLine" id="cb16-20" title="20"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="fl">0.0001</span>), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">color =</span> <span class="st">"blue"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-21" title="21"><span class="st">  </span><span class="co"># Flip the x and y axes</span></a>
+<a class="sourceLine" id="cb16-22" title="22"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/pathway_bar_plots-1.png" width="768"></p>
 </div>
 <div id="extract-relevant-genes-from-significant-pathways" class="section level3">
@@ -334,88 +331,88 @@ DONE</code></pre></div>
 <a href="#extract-relevant-genes-from-significant-pathways" class="anchor"></a>2.3.4 Extract relevant genes from significant pathways</h3>
 <p>Because pathways are defined <em>a priori</em>, typically only a subset of genes within each pathway are relevant to the phenotype and contribute to pathway significance. In AESPCA, these relevant genes are the genes with nonzero loadings in the first PC of AESPCs.</p>
 <p>For example, for the “IL-1 signaling pathway” (Wikipathways <a href="https://www.wikipathways.org/index.php/Pathway:WP195">WP195</a>), we can extract the <strong>PC</strong>s and their protein <strong>L</strong>oadings using the <code><a href="../reference/getPathPCLs.html">getPathPCLs()</a></code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wp195PCLs_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(ovarian_aespcOut, <span class="st">"WP195"</span>)
-wp195PCLs_ls
-<span class="co">#&gt; $PCs</span>
-<span class="co">#&gt; # A tibble: 83 x 2</span>
-<span class="co">#&gt;    sampleID         V1</span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 TCGA.09.1664 -2.66 </span>
-<span class="co">#&gt;  2 TCGA.13.1484 -0.459</span>
-<span class="co">#&gt;  3 TCGA.13.1488  0.603</span>
-<span class="co">#&gt;  4 TCGA.13.1489 -1.70 </span>
-<span class="co">#&gt;  5 TCGA.13.1494 -0.726</span>
-<span class="co">#&gt;  6 TCGA.13.1495 -0.316</span>
-<span class="co">#&gt;  7 TCGA.13.1499  0.252</span>
-<span class="co">#&gt;  8 TCGA.23.1123 -0.679</span>
-<span class="co">#&gt;  9 TCGA.23.1124  1.83 </span>
-<span class="co">#&gt; 10 TCGA.24.1103 -1.93 </span>
-<span class="co">#&gt; # ... with 73 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Loadings</span>
-<span class="co">#&gt; # A tibble: 30 x 2</span>
-<span class="co">#&gt;    featureID   PC1</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 ATF2      0    </span>
-<span class="co">#&gt;  2 MAPK14    0    </span>
-<span class="co">#&gt;  3 AKT1      0    </span>
-<span class="co">#&gt;  4 IKBKB     0.527</span>
-<span class="co">#&gt;  5 NFKB1     0.483</span>
-<span class="co">#&gt;  6 PIK3R1    0.352</span>
-<span class="co">#&gt;  7 PLCG1     0    </span>
-<span class="co">#&gt;  8 MAPK1     0    </span>
-<span class="co">#&gt;  9 MAPK9     0    </span>
-<span class="co">#&gt; 10 MAP2K1    0.289</span>
-<span class="co">#&gt; # ... with 20 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $pathway</span>
-<span class="co">#&gt; [1] "path22"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $term</span>
-<span class="co">#&gt; [1] "WP195"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $description</span>
-<span class="co">#&gt; [1] "IL-1 signaling pathway"</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">wp195PCLs_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(ovarian_aespcOut, <span class="st">"WP195"</span>)</a>
+<a class="sourceLine" id="cb17-2" title="2">wp195PCLs_ls</a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&gt; $PCs</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="co">#&gt; # A tibble: 83 x 2</span></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="co">#&gt;    sampleID         V1</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb17-7" title="7"><span class="co">#&gt;  1 TCGA.09.1664 -2.66 </span></a>
+<a class="sourceLine" id="cb17-8" title="8"><span class="co">#&gt;  2 TCGA.13.1484 -0.459</span></a>
+<a class="sourceLine" id="cb17-9" title="9"><span class="co">#&gt;  3 TCGA.13.1488  0.603</span></a>
+<a class="sourceLine" id="cb17-10" title="10"><span class="co">#&gt;  4 TCGA.13.1489 -1.70 </span></a>
+<a class="sourceLine" id="cb17-11" title="11"><span class="co">#&gt;  5 TCGA.13.1494 -0.726</span></a>
+<a class="sourceLine" id="cb17-12" title="12"><span class="co">#&gt;  6 TCGA.13.1495 -0.316</span></a>
+<a class="sourceLine" id="cb17-13" title="13"><span class="co">#&gt;  7 TCGA.13.1499  0.252</span></a>
+<a class="sourceLine" id="cb17-14" title="14"><span class="co">#&gt;  8 TCGA.23.1123 -0.679</span></a>
+<a class="sourceLine" id="cb17-15" title="15"><span class="co">#&gt;  9 TCGA.23.1124  1.83 </span></a>
+<a class="sourceLine" id="cb17-16" title="16"><span class="co">#&gt; 10 TCGA.24.1103 -1.93 </span></a>
+<a class="sourceLine" id="cb17-17" title="17"><span class="co">#&gt; # … with 73 more rows</span></a>
+<a class="sourceLine" id="cb17-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-19" title="19"><span class="co">#&gt; $Loadings</span></a>
+<a class="sourceLine" id="cb17-20" title="20"><span class="co">#&gt; # A tibble: 30 x 2</span></a>
+<a class="sourceLine" id="cb17-21" title="21"><span class="co">#&gt;    featureID   PC1</span></a>
+<a class="sourceLine" id="cb17-22" title="22"><span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb17-23" title="23"><span class="co">#&gt;  1 ATF2      0    </span></a>
+<a class="sourceLine" id="cb17-24" title="24"><span class="co">#&gt;  2 MAPK14    0    </span></a>
+<a class="sourceLine" id="cb17-25" title="25"><span class="co">#&gt;  3 AKT1      0    </span></a>
+<a class="sourceLine" id="cb17-26" title="26"><span class="co">#&gt;  4 IKBKB     0.527</span></a>
+<a class="sourceLine" id="cb17-27" title="27"><span class="co">#&gt;  5 NFKB1     0.483</span></a>
+<a class="sourceLine" id="cb17-28" title="28"><span class="co">#&gt;  6 PIK3R1    0.352</span></a>
+<a class="sourceLine" id="cb17-29" title="29"><span class="co">#&gt;  7 PLCG1     0    </span></a>
+<a class="sourceLine" id="cb17-30" title="30"><span class="co">#&gt;  8 MAPK1     0    </span></a>
+<a class="sourceLine" id="cb17-31" title="31"><span class="co">#&gt;  9 MAPK9     0    </span></a>
+<a class="sourceLine" id="cb17-32" title="32"><span class="co">#&gt; 10 MAP2K1    0.289</span></a>
+<a class="sourceLine" id="cb17-33" title="33"><span class="co">#&gt; # … with 20 more rows</span></a>
+<a class="sourceLine" id="cb17-34" title="34"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-35" title="35"><span class="co">#&gt; $pathway</span></a>
+<a class="sourceLine" id="cb17-36" title="36"><span class="co">#&gt; [1] "path22"</span></a>
+<a class="sourceLine" id="cb17-37" title="37"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-38" title="38"><span class="co">#&gt; $term</span></a>
+<a class="sourceLine" id="cb17-39" title="39"><span class="co">#&gt; [1] "WP195"</span></a>
+<a class="sourceLine" id="cb17-40" title="40"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb17-41" title="41"><span class="co">#&gt; $description</span></a>
+<a class="sourceLine" id="cb17-42" title="42"><span class="co">#&gt; [1] "IL-1 signaling pathway"</span></a></code></pre></div>
 <p>The proteins with non-zero loadings can be extracted using the following lines:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wp195Loadings_df &lt;-<span class="st"> </span>
-<span class="st">  </span>wp195PCLs_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(PC1 <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)
-wp195Loadings_df
-<span class="co">#&gt; # A tibble: 7 x 2</span>
-<span class="co">#&gt;   featureID   PC1</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 IKBKB     0.527</span>
-<span class="co">#&gt; 2 NFKB1     0.483</span>
-<span class="co">#&gt; 3 PIK3R1    0.352</span>
-<span class="co">#&gt; 4 MAP2K1    0.289</span>
-<span class="co">#&gt; 5 MAP2K2    0.150</span>
-<span class="co">#&gt; 6 TAB1      0.328</span>
-<span class="co">#&gt; 7 MYD88     0.389</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">wp195Loadings_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span>wp195PCLs_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(PC1 <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb18-4" title="4">wp195Loadings_df</a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt; # A tibble: 7 x 2</span></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="co">#&gt;   featureID   PC1</span></a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&gt; 1 IKBKB     0.527</span></a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&gt; 2 NFKB1     0.483</span></a>
+<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt; 3 PIK3R1    0.352</span></a>
+<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt; 4 MAP2K1    0.289</span></a>
+<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt; 5 MAP2K2    0.150</span></a>
+<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt; 6 TAB1      0.328</span></a>
+<a class="sourceLine" id="cb18-14" title="14"><span class="co">#&gt; 7 MYD88     0.389</span></a></code></pre></div>
 <p>We can also prepare these loadings for graphics:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wp195Loadings_df &lt;-<span class="st"> </span>
-<span class="st">  </span>wp195Loadings_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># Sort Loading from Strongest to Weakest</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(PC1))) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># Order the Genes by Loading Strength</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">featureID =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(featureID, <span class="dt">levels =</span> featureID)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># Add Directional Indicator (for Colour)</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Direction =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(PC1 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">"Up"</span>, <span class="st">"Down"</span>))) </code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">wp195Loadings_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="st">  </span>wp195Loadings_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="st">  </span><span class="co"># Sort Loading from Strongest to Weakest</span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(PC1))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="st">  </span><span class="co"># Order the Genes by Loading Strength</span></a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">featureID =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(featureID, <span class="dt">levels =</span> featureID)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-7" title="7"><span class="st">  </span><span class="co"># Add Directional Indicator (for Colour)</span></a>
+<a class="sourceLine" id="cb19-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Direction =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(PC1 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">"Up"</span>, <span class="st">"Down"</span>))) </a></code></pre></div>
 <p>Now we will construct a <strong>col</strong>umn chart with <code>ggplot2</code>’s <code>geom_col()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> wp195Loadings_df) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set overall appearance</span>
-<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
-<span class="st">  </span><span class="co"># Define the dependent and independent variables</span>
-<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> featureID, <span class="dt">y =</span> PC1, <span class="dt">fill =</span> Direction) <span class="op">+</span>
-<span class="st">  </span><span class="co"># From the defined variables, create a vertical bar chart</span>
-<span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">width =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">"#005030"</span>, <span class="dt">color =</span> <span class="st">"#f47321"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set main and axis titles</span>
-<span class="st">  </span><span class="kw">labs</span>(
-    <span class="dt">title =</span> <span class="st">"Gene Loadings on IL-1 Signaling Pathway"</span>,
-    <span class="dt">x =</span> <span class="st">"Protein"</span>,
-    <span class="dt">y =</span> <span class="st">"Loadings of PC1"</span>
-  ) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Remove the legend</span>
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> wp195Loadings_df) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="co"># Set overall appearance</span></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="st">  </span><span class="co"># Define the dependent and independent variables</span></a>
+<a class="sourceLine" id="cb20-5" title="5"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> featureID, <span class="dt">y =</span> PC1, <span class="dt">fill =</span> Direction) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-6" title="6"><span class="st">  </span><span class="co"># From the defined variables, create a vertical bar chart</span></a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">width =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">"#005030"</span>, <span class="dt">color =</span> <span class="st">"#f47321"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-8" title="8"><span class="st">  </span><span class="co"># Set main and axis titles</span></a>
+<a class="sourceLine" id="cb20-9" title="9"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb20-10" title="10">    <span class="dt">title =</span> <span class="st">"Gene Loadings on IL-1 Signaling Pathway"</span>,</a>
+<a class="sourceLine" id="cb20-11" title="11">    <span class="dt">x =</span> <span class="st">"Protein"</span>,</a>
+<a class="sourceLine" id="cb20-12" title="12">    <span class="dt">y =</span> <span class="st">"Loadings of PC1"</span></a>
+<a class="sourceLine" id="cb20-13" title="13">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb20-14" title="14"><span class="st">  </span><span class="co"># Remove the legend</span></a>
+<a class="sourceLine" id="cb20-15" title="15"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/graphLoads-1.png" width="624"></p>
 <p>Alternatively, we can also plot the correlation of each gene with first PC for each gene. These correlations can be computed by using the <code>TidyCorrelation()</code> function in <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html#gene-correlations-with-pcs">Section 3.3</a> of additional vignette “Chapter 5 - Visualizing the Results”.</p>
 </div>
@@ -424,20 +421,20 @@ wp195Loadings_df
 <a href="#subject-specific-pca-estimates" class="anchor"></a>2.3.5 Subject-specific PCA estimates</h3>
 <p>In the study of complex diseases, there is often considerable heterogeneity among different subjects with regard to underlying causes of disease and benefit of particular treatment. Therefore, in addition to identifying disease-relevant pathways for the entire patient group, successful (personalized) treatment regimens will also depend upon knowing if a particular pathway is dysregulated for an individual patient.</p>
 <p>To this end, we can also assess subject-specific pathway activity. As we saw earlier, the <code><a href="../reference/getPathPCLs.html">getPathPCLs()</a></code> function also returns subject-specific estimates for the individual pathway PCs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> wp195PCLs_ls<span class="op">$</span>PCs) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set overall appearance</span>
-<span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># Define the independent variable</span>
-<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> V1) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Add the histogram layer</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">10</span>, <span class="dt">color =</span> <span class="st">"#005030"</span>, <span class="dt">fill =</span> <span class="st">"#f47321"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set main and axis titles</span>
-<span class="st">  </span><span class="kw">labs</span>(
-    <span class="dt">title =</span> <span class="st">"Distribution of Sample-specific Estimate of Pathway Activities"</span>,
-    <span class="dt">subtitle =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(wp195PCLs_ls<span class="op">$</span>pathway, <span class="st">": "</span>, wp195PCLs_ls<span class="op">$</span>description),
-    <span class="dt">x =</span> <span class="st">"PC1 Value for Each Sample"</span>,
-    <span class="dt">y =</span> <span class="st">"Count"</span>
-  )</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> wp195PCLs_ls<span class="op">$</span>PCs) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="st">  </span><span class="co"># Set overall appearance</span></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-4" title="4"><span class="st">  </span><span class="co"># Define the independent variable</span></a>
+<a class="sourceLine" id="cb21-5" title="5"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> V1) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="st">  </span><span class="co"># Add the histogram layer</span></a>
+<a class="sourceLine" id="cb21-7" title="7"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">10</span>, <span class="dt">color =</span> <span class="st">"#005030"</span>, <span class="dt">fill =</span> <span class="st">"#f47321"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-8" title="8"><span class="st">  </span><span class="co"># Set main and axis titles</span></a>
+<a class="sourceLine" id="cb21-9" title="9"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb21-10" title="10">    <span class="dt">title =</span> <span class="st">"Distribution of Sample-specific Estimate of Pathway Activities"</span>,</a>
+<a class="sourceLine" id="cb21-11" title="11">    <span class="dt">subtitle =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(wp195PCLs_ls<span class="op">$</span>pathway, <span class="st">": "</span>, wp195PCLs_ls<span class="op">$</span>description),</a>
+<a class="sourceLine" id="cb21-12" title="12">    <span class="dt">x =</span> <span class="st">"PC1 Value for Each Sample"</span>,</a>
+<a class="sourceLine" id="cb21-13" title="13">    <span class="dt">y =</span> <span class="st">"Count"</span></a>
+<a class="sourceLine" id="cb21-14" title="14">  )</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/wp195PCs-1.png" width="624"></p>
 <p>This graph shows there can be considerable heterogeneity in pathway activities between the patients.</p>
 </div>
@@ -445,76 +442,95 @@ wp195Loadings_df
 <h3 class="hasAnchor">
 <a href="#extract-analysis-dataset-for-significant-pathways" class="anchor"></a>2.3.6 Extract analysis dataset for significant pathways</h3>
 <p>Users are often also interested in examining the actual data used for analysis of the top pathways, especially for the relevant genes with the pathway. To extract this dataset, we can use the <code><a href="../reference/SubsetPathwayData.html">SubsetPathwayData()</a></code> function. These commands extract data for the most significant pathway (IL-1 signaling):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wp195Data_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SubsetPathwayData.html">SubsetPathwayData</a></span>(ov_OmicsSurv, <span class="st">"WP195"</span>)
-wp195Data_df
-<span class="co">#&gt; # A tibble: 83 x 33</span>
-<span class="co">#&gt;    sampleID EventTime EventObs   ATF2  MAPK14    AKT1   IKBKB   NFKB1</span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 TCGA.09~      2279 TRUE      0.623 -0.995   0.958  -1.71   -0.730 </span>
-<span class="co">#&gt;  2 TCGA.13~      3785 TRUE      1.17   1.71    0.575  -0.751   0.783 </span>
-<span class="co">#&gt;  3 TCGA.13~      2154 TRUE     -0.130 -0.127  -0.542  -0.915   0.418 </span>
-<span class="co">#&gt;  4 TCGA.13~      2553 TRUE      0.482 -0.0588 -0.292  -0.422  -0.488 </span>
-<span class="co">#&gt;  5 TCGA.13~      2856 TRUE      0.130  0.610   1.25   -0.950   0.393 </span>
-<span class="co">#&gt;  6 TCGA.13~      2749 TRUE     -0.823  0.266   1.79   -0.522  -0.0498</span>
-<span class="co">#&gt;  7 TCGA.13~      3500 FALSE    -0.704  0.516  -0.519  -0.494   0.104 </span>
-<span class="co">#&gt;  8 TCGA.23~      1018 TRUE      0.270 -0.419  -3.63    0.0331 -0.114 </span>
-<span class="co">#&gt;  9 TCGA.23~      1768 TRUE     -2.61  -1.81   -0.0214  0.811   1.17  </span>
-<span class="co">#&gt; 10 TCGA.24~      1646 TRUE      0.270 -0.622   1.23   -0.924  -0.954 </span>
-<span class="co">#&gt; # ... with 73 more rows, and 25 more variables: PIK3R1 &lt;dbl&gt;, PLCG1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   MAPK1 &lt;dbl&gt;, MAPK9 &lt;dbl&gt;, MAP2K1 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, MAP2K6 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   PTPN11 &lt;dbl&gt;, REL &lt;dbl&gt;, RELA &lt;dbl&gt;, MAP3K7 &lt;dbl&gt;, IKBKG &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   TAB1 &lt;dbl&gt;, IRAK1 &lt;dbl&gt;, MYD88 &lt;dbl&gt;, IRAK4 &lt;dbl&gt;, ECSIT &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   TOLLIP &lt;dbl&gt;, MAPK3 &lt;dbl&gt;, MAP2K3 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;, TRAF6 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   UBE2N &lt;dbl&gt;, SQSTM1 &lt;dbl&gt;, MAPKAPK2 &lt;dbl&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">wp195Data_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SubsetPathwayData.html">SubsetPathwayData</a></span>(ov_OmicsSurv, <span class="st">"WP195"</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2">wp195Data_df</a>
+<a class="sourceLine" id="cb22-3" title="3"><span class="co">#&gt; # A tibble: 83 x 33</span></a>
+<a class="sourceLine" id="cb22-4" title="4"><span class="co">#&gt;    sampleID EventTime EventObs   ATF2  MAPK14    AKT1   IKBKB   NFKB1  PIK3R1</span></a>
+<a class="sourceLine" id="cb22-5" title="5"><span class="co">#&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb22-6" title="6"><span class="co">#&gt;  1 TCGA.09…      2279 TRUE      0.623 -0.995   0.958  -1.71   -0.730  -1.36  </span></a>
+<a class="sourceLine" id="cb22-7" title="7"><span class="co">#&gt;  2 TCGA.13…      3785 TRUE      1.17   1.71    0.575  -0.751   0.783   1.17  </span></a>
+<a class="sourceLine" id="cb22-8" title="8"><span class="co">#&gt;  3 TCGA.13…      2154 TRUE     -0.130 -0.127  -0.542  -0.915   0.418   0.430 </span></a>
+<a class="sourceLine" id="cb22-9" title="9"><span class="co">#&gt;  4 TCGA.13…      2553 TRUE      0.482 -0.0588 -0.292  -0.422  -0.488  -2.37  </span></a>
+<a class="sourceLine" id="cb22-10" title="10"><span class="co">#&gt;  5 TCGA.13…      2856 TRUE      0.130  0.610   1.25   -0.950   0.393   0.301 </span></a>
+<a class="sourceLine" id="cb22-11" title="11"><span class="co">#&gt;  6 TCGA.13…      2749 TRUE     -0.823  0.266   1.79   -0.522  -0.0498 -0.0579</span></a>
+<a class="sourceLine" id="cb22-12" title="12"><span class="co">#&gt;  7 TCGA.13…      3500 FALSE    -0.704  0.516  -0.519  -0.494   0.104   1.53  </span></a>
+<a class="sourceLine" id="cb22-13" title="13"><span class="co">#&gt;  8 TCGA.23…      1018 TRUE      0.270 -0.419  -3.63    0.0331 -0.114  -0.0421</span></a>
+<a class="sourceLine" id="cb22-14" title="14"><span class="co">#&gt;  9 TCGA.23…      1768 TRUE     -2.61  -1.81   -0.0214  0.811   1.17    0.559 </span></a>
+<a class="sourceLine" id="cb22-15" title="15"><span class="co">#&gt; 10 TCGA.24…      1646 TRUE      0.270 -0.622   1.23   -0.924  -0.954  -0.912 </span></a>
+<a class="sourceLine" id="cb22-16" title="16"><span class="co">#&gt; # … with 73 more rows, and 24 more variables: PLCG1 &lt;dbl&gt;, MAPK1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb22-17" title="17"><span class="co">#&gt; #   MAPK9 &lt;dbl&gt;, MAP2K1 &lt;dbl&gt;, MAP2K2 &lt;dbl&gt;, MAP2K6 &lt;dbl&gt;, PTPN11 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb22-18" title="18"><span class="co">#&gt; #   REL &lt;dbl&gt;, RELA &lt;dbl&gt;, MAP3K7 &lt;dbl&gt;, IKBKG &lt;dbl&gt;, TAB1 &lt;dbl&gt;, IRAK1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt; #   MYD88 &lt;dbl&gt;, IRAK4 &lt;dbl&gt;, ECSIT &lt;dbl&gt;, TOLLIP &lt;dbl&gt;, MAPK3 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb22-20" title="20"><span class="co">#&gt; #   MAP2K3 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;, TRAF6 &lt;dbl&gt;, UBE2N &lt;dbl&gt;, SQSTM1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb22-21" title="21"><span class="co">#&gt; #   MAPKAPK2 &lt;dbl&gt;</span></a></code></pre></div>
+<p>In order to plot a heatmap of the proteins in this pathway, we need to “gather” the data frame into three columns.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">wp195gather_df &lt;-<span class="st"> </span>wp195Data_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(EventTime) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>EventTime, <span class="op">-</span>EventObs) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="st">  </span><span class="kw">gather</span>(protein, value, <span class="op">-</span>sampleID)</a></code></pre></div>
+<p>Now for the heatmap:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">ggplot</span>(wp195gather_df, <span class="kw">aes</span>(<span class="dt">x =</span> protein, <span class="dt">y =</span> sampleID)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">"red"</span>, <span class="dt">mid =</span> <span class="st">"black"</span>, <span class="dt">high =</span> <span class="st">"green"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Proteins"</span>, <span class="dt">y =</span> <span class="st">"Subjects"</span>, <span class="dt">fill =</span> <span class="st">"Protein level"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x  =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb24-6" title="6"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<p><img src="Introduction_to_pathwayPCA_files/figure-html/heatmapWP195-1.png" width="768"></p>
 <p>We can also perform analysis for individual genes belonging to the pathway:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(survival)
-NFKB1_df &lt;-<span class="st"> </span>
-<span class="st">  </span>wp195Data_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(EventTime, EventObs, NFKB1)
-
-wp195_mod &lt;-<span class="st"> </span><span class="kw">coxph</span>(
-  <span class="kw">Surv</span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1,
-  <span class="dt">data =</span> NFKB1_df
-)
-
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(wp195_mod)
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; coxph(formula = Surv(EventTime, EventObs) ~ NFKB1, data = NFKB1_df)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   n= 83, number of events= 64 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;         coef exp(coef) se(coef)     z Pr(&gt;|z|)   </span>
-<span class="co">#&gt; NFKB1 0.4606    1.5850   0.1521 3.028  0.00246 **</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;       exp(coef) exp(-coef) lower .95 upper .95</span>
-<span class="co">#&gt; NFKB1     1.585     0.6309     1.176     2.136</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Concordance= 0.65  (se = 0.045 )</span>
-<span class="co">#&gt; Likelihood ratio test= 10.7  on 1 df,   p=0.001</span>
-<span class="co">#&gt; Wald test            = 9.17  on 1 df,   p=0.002</span>
-<span class="co">#&gt; Score (logrank) test = 9.49  on 1 df,   p=0.002</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(survival)</a>
+<a class="sourceLine" id="cb25-2" title="2">NFKB1_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="st">  </span>wp195Data_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="st">  </span><span class="kw">select</span>(EventTime, EventObs, NFKB1)</a>
+<a class="sourceLine" id="cb25-5" title="5"></a>
+<a class="sourceLine" id="cb25-6" title="6">wp195_mod &lt;-<span class="st"> </span><span class="kw">coxph</span>(</a>
+<a class="sourceLine" id="cb25-7" title="7">  <span class="kw">Surv</span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1,</a>
+<a class="sourceLine" id="cb25-8" title="8">  <span class="dt">data =</span> NFKB1_df</a>
+<a class="sourceLine" id="cb25-9" title="9">)</a>
+<a class="sourceLine" id="cb25-10" title="10"></a>
+<a class="sourceLine" id="cb25-11" title="11"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(wp195_mod)</a>
+<a class="sourceLine" id="cb25-12" title="12"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb25-13" title="13"><span class="co">#&gt; coxph(formula = Surv(EventTime, EventObs) ~ NFKB1, data = NFKB1_df)</span></a>
+<a class="sourceLine" id="cb25-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb25-15" title="15"><span class="co">#&gt;   n= 83, number of events= 64 </span></a>
+<a class="sourceLine" id="cb25-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb25-17" title="17"><span class="co">#&gt;         coef exp(coef) se(coef)     z Pr(&gt;|z|)   </span></a>
+<a class="sourceLine" id="cb25-18" title="18"><span class="co">#&gt; NFKB1 0.4606    1.5850   0.1521 3.028  0.00246 **</span></a>
+<a class="sourceLine" id="cb25-19" title="19"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb25-20" title="20"><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></a>
+<a class="sourceLine" id="cb25-21" title="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb25-22" title="22"><span class="co">#&gt;       exp(coef) exp(-coef) lower .95 upper .95</span></a>
+<a class="sourceLine" id="cb25-23" title="23"><span class="co">#&gt; NFKB1     1.585     0.6309     1.176     2.136</span></a>
+<a class="sourceLine" id="cb25-24" title="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb25-25" title="25"><span class="co">#&gt; Concordance= 0.65  (se = 0.045 )</span></a>
+<a class="sourceLine" id="cb25-26" title="26"><span class="co">#&gt; Likelihood ratio test= 10.7  on 1 df,   p=0.001</span></a>
+<a class="sourceLine" id="cb25-27" title="27"><span class="co">#&gt; Wald test            = 9.17  on 1 df,   p=0.002</span></a>
+<a class="sourceLine" id="cb25-28" title="28"><span class="co">#&gt; Score (logrank) test = 9.49  on 1 df,   p=0.002</span></a></code></pre></div>
 <p>Additionally, we can estimate Kaplan-Meier survival curves for patients with high or low expression values for individual genes:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Add the direction</span>
-NFKB1_df &lt;-<span class="st"> </span>
-<span class="st">  </span>NFKB1_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">NFKB1_Expr =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(NFKB1 <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/median">median</a></span>(NFKB1), <span class="st">"High"</span>, <span class="st">"Low"</span>))
-
-<span class="co"># Fit the survival model</span>
-NFKB1_fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
-  <span class="kw">Surv</span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1_Expr,
-  <span class="dt">data =</span> NFKB1_df
-)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="co"># Add the direction</span></a>
+<a class="sourceLine" id="cb26-2" title="2">NFKB1_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span>NFKB1_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="st">  </span><span class="co"># Group subjects by gene expression</span></a>
+<a class="sourceLine" id="cb26-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">NFKB1_Expr =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(NFKB1 <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(NFKB1), <span class="st">"High"</span>, <span class="st">"Low"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb26-6" title="6"><span class="st">  </span><span class="co"># Re-code time to years</span></a>
+<a class="sourceLine" id="cb26-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">EventTime =</span> EventTime <span class="op">/</span><span class="st"> </span><span class="fl">365.25</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb26-8" title="8"><span class="st">  </span><span class="co"># Ignore any events past 10 years</span></a>
+<a class="sourceLine" id="cb26-9" title="9"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(EventTime <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>) </a>
+<a class="sourceLine" id="cb26-10" title="10"></a>
+<a class="sourceLine" id="cb26-11" title="11"><span class="co"># Fit the survival model</span></a>
+<a class="sourceLine" id="cb26-12" title="12">NFKB1_fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(</a>
+<a class="sourceLine" id="cb26-13" title="13">  <span class="kw">Surv</span>(EventTime, EventObs) <span class="op">~</span><span class="st"> </span>NFKB1_Expr,</a>
+<a class="sourceLine" id="cb26-14" title="14">  <span class="dt">data =</span> NFKB1_df</a>
+<a class="sourceLine" id="cb26-15" title="15">)</a></code></pre></div>
 <p>Finally, we can plot these K-M curves over NFKB1 protein expression.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(survminer)
-
-<span class="kw">ggsurvplot</span>(
-  NFKB1_fit,
-  <span class="dt">conf.int =</span> <span class="ot">FALSE</span>, <span class="dt">pval =</span> <span class="ot">TRUE</span>,
-  <span class="dt">xlab =</span> <span class="st">"Time in Days"</span>,
-  <span class="dt">palette =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#f47321"</span>, <span class="st">"#005030"</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(survminer)</a>
+<a class="sourceLine" id="cb27-2" title="2"></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="kw">ggsurvplot</span>(</a>
+<a class="sourceLine" id="cb27-4" title="4">  NFKB1_fit,</a>
+<a class="sourceLine" id="cb27-5" title="5">  <span class="dt">conf.int =</span> <span class="ot">FALSE</span>, <span class="dt">pval =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb27-6" title="6">  <span class="dt">xlab =</span> <span class="st">"Time in Years"</span>,</a>
+<a class="sourceLine" id="cb27-7" title="7">  <span class="dt">palette =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#f47321"</span>, <span class="st">"#005030"</span>),</a>
+<a class="sourceLine" id="cb27-8" title="8">  <span class="dt">xlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb27-9" title="9">)</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/NFKB1SurvPlot-1.png" width="576"></p>
 <p></p>
 <hr>
@@ -530,17 +546,17 @@ NFKB1_fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 <h2 class="hasAnchor">
 <a href="#creating-copy-number-omics-data-object-for-pathway-analysis" class="anchor"></a>3.1 Creating copy number <code>Omics</code> data object for pathway analysis</h2>
 <p>We can identify copy number (CNV) pathways significantly associated with survival in the same way as we did for protein expressions. This gene level CNV data was downloaded from UCSC Xena Functional Genomics Browser (<a href="http://xena.ucsc.edu/" class="uri">http://xena.ucsc.edu/</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">copyNumberClean_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">url</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(gitHubPath_char, <span class="st">"OV_surv_x_CNV2.RDS"</span>))
-)</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">copyNumberClean_df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(</a>
+<a class="sourceLine" id="cb28-2" title="2">  <span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(gitHubPath_char, <span class="st">"OV_surv_x_CNV2.RDS"</span>))</a>
+<a class="sourceLine" id="cb28-3" title="3">)</a></code></pre></div>
 <p>And now we create an <code>Omics</code> data container.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovCNV_Surv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
-  <span class="dt">assayData_df =</span> copyNumberClean_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],
-  <span class="dt">pathwayCollection_ls =</span> wikipathways_PC,
-  <span class="dt">response =</span> copyNumberClean_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],
-  <span class="dt">respType =</span> <span class="st">"survival"</span>,
-  <span class="dt">minPathSize =</span> <span class="dv">5</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">ovCNV_Surv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(</a>
+<a class="sourceLine" id="cb29-2" title="2">  <span class="dt">assayData_df =</span> copyNumberClean_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)],</a>
+<a class="sourceLine" id="cb29-3" title="3">  <span class="dt">pathwayCollection_ls =</span> wikipathways_PC,</a>
+<a class="sourceLine" id="cb29-4" title="4">  <span class="dt">response =</span> copyNumberClean_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb29-5" title="5">  <span class="dt">respType =</span> <span class="st">"survival"</span>,</a>
+<a class="sourceLine" id="cb29-6" title="6">  <span class="dt">minPathSize =</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb29-7" title="7">)</a></code></pre></div>
 <pre><code>  ======  Creating object of class OmicsSurv  =======
 The input pathway database included 5831 unique features.
 The input assay dataset included 24776 features.
@@ -551,14 +567,14 @@ Because pathwayPCA is a self-contained test (PMID: 17303618), only features in
   both assay data and pathway database are considered for analysis. There are 5637
   such features shared by the input assay and pathway database.</code></pre>
 <p>Finally, we can apply the AESPCA method to this copy-number data container. Due to the large sample size, this will take a few moments.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ovCNV_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(
-  <span class="dt">object =</span> ovCNV_Surv,
-  <span class="dt">numPCs =</span> <span class="dv">1</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">20</span>,
-  <span class="dt">numReps =</span> <span class="dv">0</span>,
-  <span class="dt">adjustment =</span> <span class="st">"BH"</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">ovCNV_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb31-2" title="2">  <span class="dt">object =</span> ovCNV_Surv,</a>
+<a class="sourceLine" id="cb31-3" title="3">  <span class="dt">numPCs =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb31-4" title="4">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb31-5" title="5">  <span class="dt">numCores =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb31-6" title="6">  <span class="dt">numReps =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb31-7" title="7">  <span class="dt">adjustment =</span> <span class="st">"BH"</span></a>
+<a class="sourceLine" id="cb31-8" title="8">)</a></code></pre></div>
 <pre><code>Part 1: Calculate Pathway AES-PCs
 Initializing Computing Cluster: DONE
 Extracting Pathway PCs in Parallel: DONE
@@ -575,22 +591,22 @@ DONE</code></pre>
 <h2 class="hasAnchor">
 <a href="#identifying-significant-pathways-and-relevant-genes-in-both-cnv-and-protein-level" class="anchor"></a>3.2 Identifying significant pathways and relevant genes in both CNV and protein level</h2>
 <p>Next, we identify the intersection of significant pathways based on both CNV and protein data. First, we will create a data frame of the pathway <span class="math inline">\(p\)</span>-values from both CNV and proteomics.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Copy Number</span>
-CNVpvals_df &lt;-<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovCNV_aespcOut, <span class="dt">alpha =</span> <span class="fl">0.05</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rawp_CNV =</span> rawp) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(description, rawp_CNV)
-
-<span class="co"># Proteomics</span>
-PROTpvals_df &lt;-<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovarian_aespcOut, <span class="dt">alpha =</span> <span class="fl">0.05</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rawp_PROT =</span> rawp) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(description, rawp_PROT)
-
-
-<span class="co"># Intersection</span>
-SigBoth_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(PROTpvals_df, CNVpvals_df, <span class="dt">by =</span> <span class="st">"description"</span>)
-<span class="co"># WnT Signaling Pathway is listed as WP363 and WP428</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co"># Copy Number</span></a>
+<a class="sourceLine" id="cb33-2" title="2">CNVpvals_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovCNV_aespcOut, <span class="dt">alpha =</span> <span class="fl">0.05</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rawp_CNV =</span> rawp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="st">  </span><span class="kw">select</span>(description, rawp_CNV)</a>
+<a class="sourceLine" id="cb33-6" title="6"></a>
+<a class="sourceLine" id="cb33-7" title="7"><span class="co"># Proteomics</span></a>
+<a class="sourceLine" id="cb33-8" title="8">PROTpvals_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb33-9" title="9"><span class="st">  </span><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(ovarian_aespcOut, <span class="dt">alpha =</span> <span class="fl">0.05</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-10" title="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rawp_PROT =</span> rawp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb33-11" title="11"><span class="st">  </span><span class="kw">select</span>(description, rawp_PROT)</a>
+<a class="sourceLine" id="cb33-12" title="12"></a>
+<a class="sourceLine" id="cb33-13" title="13"></a>
+<a class="sourceLine" id="cb33-14" title="14"><span class="co"># Intersection</span></a>
+<a class="sourceLine" id="cb33-15" title="15">SigBoth_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(PROTpvals_df, CNVpvals_df, <span class="dt">by =</span> <span class="st">"description"</span>)</a>
+<a class="sourceLine" id="cb33-16" title="16"><span class="co"># WnT Signaling Pathway is listed as WP363 and WP428</span></a></code></pre></div>
 <!-- We can also create a Venn diagram of these two sets. -->
 <!-- ```{r VennOverlap, message=FALSE} -->
 <!-- library(VennDiagram) -->
@@ -601,103 +617,101 @@ SigBoth_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(PROT
 <!--   col = c("#f47321", "#005030") -->
 <!-- ) -->
 <!-- ``` -->
-<p>The results showed there are 23 pathways significantly associated with survival in both CNV and protein data. Here are the top-10 most significant pathways (sorted by protein data significance):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">SigBoth_df
-<span class="co">#&gt; # A tibble: 23 x 3</span>
-<span class="co">#&gt;    description                                           rawp_PROT rawp_CNV</span>
-<span class="co">#&gt;    &lt;chr&gt;                                                     &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 IL-1 signaling pathway                                  0.00247 0.0222  </span>
-<span class="co">#&gt;  2 Wnt Signaling Pathway                                   0.00485 0.0486  </span>
-<span class="co">#&gt;  3 TNF related weak inducer of apoptosis (TWEAK) Signal~   0.00641 0.0226  </span>
-<span class="co">#&gt;  4 Factors and pathways affecting insulin-like growth f~   0.00700 0.0366  </span>
-<span class="co">#&gt;  5 Thymic Stromal LymphoPoietin (TSLP) Signaling Pathway   0.0156  0.0181  </span>
-<span class="co">#&gt;  6 Fibrin Complement Receptor 3 Signaling Pathway          0.0160  0.000358</span>
-<span class="co">#&gt;  7 Apoptosis Modulation by HSP70                           0.0165  0.0311  </span>
-<span class="co">#&gt;  8 RANKL/RANK (Receptor activator of NFKB (ligand)) Sig~   0.0170  0.000418</span>
-<span class="co">#&gt;  9 TGF-beta Receptor Signaling                             0.0205  0.0355  </span>
-<span class="co">#&gt; 10 Brain-Derived Neurotrophic Factor (BDNF) signaling p~   0.0206  0.0113  </span>
-<span class="co">#&gt; # ... with 13 more rows</span></code></pre></div>
+<p>The results showed there are 23 pathways significantly associated with survival in both CNV and protein data, which is significantly more than expected by chance (<em>p</em>-value = 0.02088; Fisher’s Exact Test; shown in <code>multi_pathway_overlap_fishers.R</code>). Here are the top-10 most significant pathways (sorted by protein data significance):</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">SigBoth_df</a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="co">#&gt; # A tibble: 23 x 3</span></a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="co">#&gt;    description                                                rawp_PROT rawp_CNV</span></a>
+<a class="sourceLine" id="cb34-4" title="4"><span class="co">#&gt;    &lt;chr&gt;                                                          &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb34-5" title="5"><span class="co">#&gt;  1 IL-1 signaling pathway                                       0.00247 0.0222  </span></a>
+<a class="sourceLine" id="cb34-6" title="6"><span class="co">#&gt;  2 Wnt Signaling Pathway                                        0.00485 0.0486  </span></a>
+<a class="sourceLine" id="cb34-7" title="7"><span class="co">#&gt;  3 TNF related weak inducer of apoptosis (TWEAK) Signaling P…   0.00641 0.0226  </span></a>
+<a class="sourceLine" id="cb34-8" title="8"><span class="co">#&gt;  4 Factors and pathways affecting insulin-like growth factor…   0.00700 0.0366  </span></a>
+<a class="sourceLine" id="cb34-9" title="9"><span class="co">#&gt;  5 Thymic Stromal LymphoPoietin (TSLP) Signaling Pathway        0.0156  0.0181  </span></a>
+<a class="sourceLine" id="cb34-10" title="10"><span class="co">#&gt;  6 Fibrin Complement Receptor 3 Signaling Pathway               0.0160  0.000358</span></a>
+<a class="sourceLine" id="cb34-11" title="11"><span class="co">#&gt;  7 Apoptosis Modulation by HSP70                                0.0165  0.0311  </span></a>
+<a class="sourceLine" id="cb34-12" title="12"><span class="co">#&gt;  8 RANKL/RANK (Receptor activator of NFKB (ligand)) Signalin…   0.0170  0.000418</span></a>
+<a class="sourceLine" id="cb34-13" title="13"><span class="co">#&gt;  9 TGF-beta Receptor Signaling                                  0.0205  0.0355  </span></a>
+<a class="sourceLine" id="cb34-14" title="14"><span class="co">#&gt; 10 Brain-Derived Neurotrophic Factor (BDNF) signaling pathway   0.0206  0.0113  </span></a>
+<a class="sourceLine" id="cb34-15" title="15"><span class="co">#&gt; # … with 13 more rows</span></a></code></pre></div>
 <p>Similar to the protein pathway analysis shown in Section 2.3.4, we can also identify relevant genes with nonzero loadings that drives pathway significance in CNV. The “IL-1 signaling pathway” (WP195) is significant in both CNV and protein data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Copy Number Loadings</span>
-CNVwp195_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(ovCNV_aespcOut, <span class="st">"WP195"</span>)
-CNV195load_df &lt;-<span class="st"> </span>
-<span class="st">  </span>CNVwp195_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(PC1) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">PC1_CNV =</span> PC1)
-
-<span class="co"># Protein Loadings</span>
-PROTwp195_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(ovarian_aespcOut, <span class="st">"WP195"</span>)
-PROT195load_df &lt;-<span class="st"> </span>
-<span class="st">  </span>PROTwp195_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(PC1) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">PC1_PROT =</span> PC1)
-
-<span class="co"># Intersection</span>
-<span class="kw">inner_join</span>(CNV195load_df, PROT195load_df)
-<span class="co">#&gt; Joining, by = "featureID"</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
-<span class="co">#&gt;   featureID PC1_CNV PC1_PROT</span>
-<span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 NFKB1       0.113    0.483</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="co"># Copy Number Loadings</span></a>
+<a class="sourceLine" id="cb35-2" title="2">CNVwp195_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(ovCNV_aespcOut, <span class="st">"WP195"</span>)</a>
+<a class="sourceLine" id="cb35-3" title="3">CNV195load_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="st">  </span>CNVwp195_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-5" title="5"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(PC1) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-6" title="6"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">PC1_CNV =</span> PC1)</a>
+<a class="sourceLine" id="cb35-7" title="7"></a>
+<a class="sourceLine" id="cb35-8" title="8"><span class="co"># Protein Loadings</span></a>
+<a class="sourceLine" id="cb35-9" title="9">PROTwp195_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(ovarian_aespcOut, <span class="st">"WP195"</span>)</a>
+<a class="sourceLine" id="cb35-10" title="10">PROT195load_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb35-11" title="11"><span class="st">  </span>PROTwp195_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-12" title="12"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(PC1) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-13" title="13"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">PC1_PROT =</span> PC1)</a>
+<a class="sourceLine" id="cb35-14" title="14"></a>
+<a class="sourceLine" id="cb35-15" title="15"><span class="co"># Intersection</span></a>
+<a class="sourceLine" id="cb35-16" title="16"><span class="kw">inner_join</span>(CNV195load_df, PROT195load_df)</a>
+<a class="sourceLine" id="cb35-17" title="17"><span class="co">#&gt; Joining, by = "featureID"</span></a>
+<a class="sourceLine" id="cb35-18" title="18"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
+<a class="sourceLine" id="cb35-19" title="19"><span class="co">#&gt;   featureID PC1_CNV PC1_PROT</span></a>
+<a class="sourceLine" id="cb35-20" title="20"><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb35-21" title="21"><span class="co">#&gt; 1 NFKB1       0.113    0.483</span></a></code></pre></div>
 <p>The result showed the NFKB1 gene was selected by AESPCA when testing IL-1 signaling pathway (WP195) with survival outcome in both CNV and protein pathway analysis.</p>
 <p>Because the proteomics data were recorded on a subset of the subjects shown in the copy number data, we can further examine the relationship between CNV and protein expressions for this gene.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NFKB1data_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(
-  copyNumberClean_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">select</span>(Sample, NFKB1) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">rename</span>(<span class="dt">CNV_NFKB1 =</span> NFKB1),
-  ovSurv_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">select</span>(Sample, NFKB1) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">rename</span>(<span class="dt">PROT_NFKB1 =</span> NFKB1)
-)
-<span class="co">#&gt; Joining, by = "Sample"</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">NFKB1data_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(</a>
+<a class="sourceLine" id="cb36-2" title="2">  copyNumberClean_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-3" title="3"><span class="st">    </span><span class="kw">select</span>(Sample, NFKB1) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-4" title="4"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">CNV_NFKB1 =</span> NFKB1),</a>
+<a class="sourceLine" id="cb36-5" title="5">  ovSurv_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-6" title="6"><span class="st">    </span><span class="kw">select</span>(Sample, NFKB1) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb36-7" title="7"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">PROT_NFKB1 =</span> NFKB1)</a>
+<a class="sourceLine" id="cb36-8" title="8">)</a>
+<a class="sourceLine" id="cb36-9" title="9"><span class="co">#&gt; Joining, by = "Sample"</span></a></code></pre></div>
 <p>This Pearson test shows that the correlation between CNV and protein expression is highly significant for this gene.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NFKB1_cor &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/cor.test">cor.test</a></span>(NFKB1data_df<span class="op">$</span>CNV_NFKB1, NFKB1data_df<span class="op">$</span>PROT_NFKB1)
-NFKB1_cor
-
-    Pearson<span class="st">'s product-moment correlation</span>
-
-<span class="st">data:  NFKB1data_df$CNV_NFKB1 and NFKB1data_df$PROT_NFKB1</span>
-<span class="st">t = 4.8873, df = 81, p-value = 5.081e-06</span>
-<span class="st">alternative hypothesis: true correlation is not equal to 0</span>
-<span class="st">95 percent confidence interval:</span>
-<span class="st"> 0.2915318 0.6282385</span>
-<span class="st">sample estimates:</span>
-<span class="st">      cor </span>
-<span class="st">0.4772138 </span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">NFKB1_cor &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span>(NFKB1data_df<span class="op">$</span>CNV_NFKB1, NFKB1data_df<span class="op">$</span>PROT_NFKB1)</a>
+<a class="sourceLine" id="cb37-2" title="2">NFKB1_cor</a>
+<a class="sourceLine" id="cb37-3" title="3"></a>
+<a class="sourceLine" id="cb37-4" title="4">    Pearson<span class="st">'s product-moment correlation</span></a>
+<a class="sourceLine" id="cb37-5" title="5"></a>
+<a class="sourceLine" id="cb37-6" title="6"><span class="st">data:  NFKB1data_df$CNV_NFKB1 and NFKB1data_df$PROT_NFKB1</span></a>
+<a class="sourceLine" id="cb37-7" title="7"><span class="st">t = 4.8873, df = 81, p-value = 5.081e-06</span></a>
+<a class="sourceLine" id="cb37-8" title="8"><span class="st">alternative hypothesis: true correlation is not equal to 0</span></a>
+<a class="sourceLine" id="cb37-9" title="9"><span class="st">95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb37-10" title="10"><span class="st"> 0.2915318 0.6282385</span></a>
+<a class="sourceLine" id="cb37-11" title="11"><span class="st">sample estimates:</span></a>
+<a class="sourceLine" id="cb37-12" title="12"><span class="st">      cor </span></a>
+<a class="sourceLine" id="cb37-13" title="13"><span class="st">0.4772138 </span></a></code></pre></div>
 <p>We can then visualize the multi-omics relationship for the NFKB1 gene using a scatterplot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> NFKB1data_df) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set overall appearance</span>
-<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
-<span class="st">  </span><span class="co"># Define the dependent and independent variables</span>
-<span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> CNV_NFKB1, <span class="dt">y =</span> PROT_NFKB1) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Add the scatterplot</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Add a trendline</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Set main and axis titles</span>
-<span class="st">  </span><span class="kw">labs</span>(
-    <span class="dt">title =</span> <span class="st">"NFKB1 Expressions in Multi-Omics Data"</span>,
-    <span class="dt">x =</span> <span class="st">"Copy Number Variation"</span>,
-    <span class="dt">y =</span> <span class="st">"Protein Expression"</span>
-  ) <span class="op">+</span>
-<span class="st">  </span><span class="co"># Include the correlation on the graph</span>
-<span class="st">  </span><span class="kw">annotate</span>(
-    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="op">-</span><span class="fl">0.6</span>,
-    <span class="dt">label =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"rho = "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(NFKB1_cor<span class="op">$</span>estimate, <span class="dv">3</span>))
-  ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">annotate</span>(
-    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="op">-</span><span class="fl">0.7</span>,
-    <span class="dt">label =</span> <span class="st">"p-val &lt; 10^-5"</span>
-  )</code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> NFKB1data_df) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="st">  </span><span class="co"># Set overall appearance</span></a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-4" title="4"><span class="st">  </span><span class="co"># Define the dependent and independent variables</span></a>
+<a class="sourceLine" id="cb38-5" title="5"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> CNV_NFKB1, <span class="dt">y =</span> PROT_NFKB1) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-6" title="6"><span class="st">  </span><span class="co"># Add the scatterplot</span></a>
+<a class="sourceLine" id="cb38-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-8" title="8"><span class="st">  </span><span class="co"># Add a trendline</span></a>
+<a class="sourceLine" id="cb38-9" title="9"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> lm, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-10" title="10"><span class="st">  </span><span class="co"># Set main and axis titles</span></a>
+<a class="sourceLine" id="cb38-11" title="11"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb38-12" title="12">    <span class="dt">title =</span> <span class="st">"NFKB1 Expressions in Multi-Omics Data"</span>,</a>
+<a class="sourceLine" id="cb38-13" title="13">    <span class="dt">x =</span> <span class="st">"Copy Number Variation"</span>,</a>
+<a class="sourceLine" id="cb38-14" title="14">    <span class="dt">y =</span> <span class="st">"Protein Expression"</span></a>
+<a class="sourceLine" id="cb38-15" title="15">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-16" title="16"><span class="st">  </span><span class="co"># Include the correlation on the graph</span></a>
+<a class="sourceLine" id="cb38-17" title="17"><span class="st">  </span><span class="kw">annotate</span>(</a>
+<a class="sourceLine" id="cb38-18" title="18">    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="fl">-0.6</span>,</a>
+<a class="sourceLine" id="cb38-19" title="19">    <span class="dt">label =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"rho = "</span>, <span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(NFKB1_cor<span class="op">$</span>estimate, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb38-20" title="20">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb38-21" title="21"><span class="st">  </span><span class="kw">annotate</span>(</a>
+<a class="sourceLine" id="cb38-22" title="22">    <span class="dt">geom =</span> <span class="st">"text"</span>, <span class="dt">x =</span> <span class="fl">0.5</span>, <span class="dt">y =</span> <span class="fl">-0.7</span>,</a>
+<a class="sourceLine" id="cb38-23" title="23">    <span class="dt">label =</span> <span class="st">"p-val &lt; 10^-5"</span></a>
+<a class="sourceLine" id="cb38-24" title="24">  )</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/NFKB1plot-1.png" width="384"></p>
 </div>
 <div id="an-integrative-view-on-patient-specific-pathway-activities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#an-integrative-view-on-patient-specific-pathway-activities" class="anchor"></a>3.3 An integrative view on patient-specific pathway activities</h2>
 <p>In Section 2.3.5, we have seen that there can be considerable heterogeneity in pathway activities between the patients. One possible reason could be that copy number changes might not result in changes in protein expression for some of the patients. <code>pathwayPCA</code> can be used to estimate pathway activities for each patient, both for protein expressions and copy number expressions separately. These estimates can then be viewed jointly using a Circos plot.</p>
-<div class="figure">
-<img src="circlePlot.PNG" style="width:90.0%">
-</div>
+<p><img src="circlePlot.PNG" style="width:90.0%"></p>
 <!-- ```{r fig.width=5, fig.height=5, echo=FALSE} -->
 <!-- library(png) -->
 <!-- library(grid) -->
@@ -718,17 +732,17 @@ NFKB1_cor
 <h2 class="hasAnchor">
 <a href="#data-setup-and-aespca-analysis" class="anchor"></a>4.1 Data setup and AESPCA analysis</h2>
 <p>For this example, we used TCGA KIRP RNAseq dataset downloaded from Xena datahub. First, we load the KIRP data, create an <code>Omics</code> data container, and extract first AESPC from each pathway. Because the full data is large (19.4Mb), we have moved it to a supplemental data package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kidney_df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">url</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(gitHubPath_char, <span class="st">"KIRP_Surv_RNAseq_inner.RDS"</span>))
-)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create Omics Container</span>
-kidney_Omics &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(
-  <span class="dt">assayData_df =</span> kidney_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>)],
-  <span class="dt">pathwayCollection_ls =</span> wikipathways_PC,
-  <span class="dt">response =</span> kidney_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],
-  <span class="dt">respType =</span> <span class="st">"surv"</span>,
-  <span class="dt">minPathSize =</span> <span class="dv">5</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">kidney_df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(</a>
+<a class="sourceLine" id="cb39-2" title="2">  <span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(gitHubPath_char, <span class="st">"KIRP_Surv_RNAseq_inner.RDS"</span>))</a>
+<a class="sourceLine" id="cb39-3" title="3">)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="co"># Create Omics Container</span></a>
+<a class="sourceLine" id="cb40-2" title="2">kidney_Omics &lt;-<span class="st"> </span><span class="kw"><a href="../reference/CreateOmics.html">CreateOmics</a></span>(</a>
+<a class="sourceLine" id="cb40-3" title="3">  <span class="dt">assayData_df =</span> kidney_df[, <span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>)],</a>
+<a class="sourceLine" id="cb40-4" title="4">  <span class="dt">pathwayCollection_ls =</span> wikipathways_PC,</a>
+<a class="sourceLine" id="cb40-5" title="5">  <span class="dt">response =</span> kidney_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb40-6" title="6">  <span class="dt">respType =</span> <span class="st">"surv"</span>,</a>
+<a class="sourceLine" id="cb40-7" title="7">  <span class="dt">minPathSize =</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb40-8" title="8">)</a></code></pre></div>
 <pre><code>  ======  Creating object of class OmicsSurv  =======
 The input pathway database included 5831 unique features.
 The input assay dataset included 20211 features.
@@ -738,15 +752,15 @@ Only pathways with at least 5 or more features included in the assay dataset are
 Because pathwayPCA is a self-contained test (PMID: 17303618), only features in
   both assay data and pathway database are considered for analysis. There are 5566
   such features shared by the input assay and pathway database.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># AESPCA</span>
-kidney_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(
-  <span class="dt">object =</span> kidney_Omics,
-  <span class="dt">numPCs =</span> <span class="dv">1</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">numReps =</span> <span class="dv">0</span>,
-  <span class="dt">adjustment =</span> <span class="st">"BH"</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="co"># AESPCA</span></a>
+<a class="sourceLine" id="cb42-2" title="2">kidney_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb42-3" title="3">  <span class="dt">object =</span> kidney_Omics,</a>
+<a class="sourceLine" id="cb42-4" title="4">  <span class="dt">numPCs =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb42-5" title="5">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb42-6" title="6">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb42-7" title="7">  <span class="dt">numReps =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb42-8" title="8">  <span class="dt">adjustment =</span> <span class="st">"BH"</span></a>
+<a class="sourceLine" id="cb42-9" title="9">)</a></code></pre></div>
 <pre><code>Part 1: Calculate Pathway AES-PCs
 Initializing Computing Cluster: DONE
 Extracting Pathway PCs in Parallel: DONE
@@ -767,148 +781,151 @@ h(t) = h_0(t) \exp\left[ \beta_0 + \beta_1\text{PC}_1 + \beta_2\text{male} + \be
 \]</span></p>
 <p>In this model, <span class="math inline">\(h(t)\)</span> is expected hazard at time <span class="math inline">\(t\)</span>, <span class="math inline">\(h_0 (t)\)</span> is baseline hazard when all predictors are zero, variable <span class="math inline">\(male\)</span> is an indicator variable for male samples, and <span class="math inline">\(PC_1\)</span> is a pathway’s estimated first principal component based on AESPCA.</p>
 <p>In order to test the sex interaction effect for all pathways, we will write a function which tests the interaction effect for one pathway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TestIntxn &lt;-<span class="st"> </span><span class="cf">function</span>(pathway, pcaOut, resp_df){
-  
-  <span class="co"># For the given pathway, extract the PCs and loadings from the pcaOut list</span>
-  PCL_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(pcaOut, pathway)
-  <span class="co"># Select and rename the PC</span>
-  PC_df &lt;-<span class="st"> </span>PCL_ls<span class="op">$</span>PCs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dt">PC1 =</span> V1)
-  <span class="co"># Bind this PC to the phenotype data</span>
-  data_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(resp_df, PC_df)
-  
-  <span class="co"># Construct a survival model with sex interaction</span>
-  sex_mod &lt;-<span class="st"> </span><span class="kw">coxph</span>(
-    <span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>PC1 <span class="op">+</span><span class="st"> </span>male <span class="op">+</span><span class="st"> </span>PC1 <span class="op">*</span><span class="st"> </span>male, <span class="dt">data =</span> data_df
-  )
-  <span class="co"># Extract the model fit statistics for the interaction</span>
-  modStats_mat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(
-    <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/coef">coef</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(sex_mod))[<span class="st">"PC1:maleTRUE"</span>, ]
-  )
- 
-  <span class="co"># Return a data frame of the pathway and model statistics</span>
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-    <span class="dt">statistics =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(
-      <span class="dt">terms =</span> pathway,
-      <span class="dt">description =</span> PCL_ls<span class="op">$</span>description,
-      modStats_mat,
-      <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>
-    ),
-    <span class="dt">model =</span> sex_mod
-  )
-
-}</code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">TestIntxn &lt;-<span class="st"> </span><span class="cf">function</span>(pathway, pcaOut, resp_df){</a>
+<a class="sourceLine" id="cb44-2" title="2">  </a>
+<a class="sourceLine" id="cb44-3" title="3">  <span class="co"># For the given pathway, extract the PCs and loadings from the pcaOut list</span></a>
+<a class="sourceLine" id="cb44-4" title="4">  PCL_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(pcaOut, pathway)</a>
+<a class="sourceLine" id="cb44-5" title="5">  <span class="co"># Select and rename the PC</span></a>
+<a class="sourceLine" id="cb44-6" title="6">  PC_df &lt;-<span class="st"> </span>PCL_ls<span class="op">$</span>PCs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dt">PC1 =</span> V1)</a>
+<a class="sourceLine" id="cb44-7" title="7">  <span class="co"># Bind this PC to the phenotype data</span></a>
+<a class="sourceLine" id="cb44-8" title="8">  data_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(resp_df, PC_df)</a>
+<a class="sourceLine" id="cb44-9" title="9">  </a>
+<a class="sourceLine" id="cb44-10" title="10">  <span class="co"># Construct a survival model with sex interaction</span></a>
+<a class="sourceLine" id="cb44-11" title="11">  sex_mod &lt;-<span class="st"> </span><span class="kw">coxph</span>(</a>
+<a class="sourceLine" id="cb44-12" title="12">    <span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>PC1 <span class="op">+</span><span class="st"> </span>male <span class="op">+</span><span class="st"> </span>PC1 <span class="op">*</span><span class="st"> </span>male, <span class="dt">data =</span> data_df</a>
+<a class="sourceLine" id="cb44-13" title="13">  )</a>
+<a class="sourceLine" id="cb44-14" title="14">  <span class="co"># Extract the model fit statistics for the interaction</span></a>
+<a class="sourceLine" id="cb44-15" title="15">  modStats_mat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/t.html">t</a></span>(</a>
+<a class="sourceLine" id="cb44-16" title="16">    <span class="kw"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(sex_mod))[<span class="st">"PC1:maleTRUE"</span>, ]</a>
+<a class="sourceLine" id="cb44-17" title="17">  )</a>
+<a class="sourceLine" id="cb44-18" title="18"> </a>
+<a class="sourceLine" id="cb44-19" title="19">  <span class="co"># Return a data frame of the pathway and model statistics</span></a>
+<a class="sourceLine" id="cb44-20" title="20">  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb44-21" title="21">    <span class="dt">statistics =</span> <span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
+<a class="sourceLine" id="cb44-22" title="22">      <span class="dt">terms =</span> pathway,</a>
+<a class="sourceLine" id="cb44-23" title="23">      <span class="dt">description =</span> PCL_ls<span class="op">$</span>description,</a>
+<a class="sourceLine" id="cb44-24" title="24">      modStats_mat,</a>
+<a class="sourceLine" id="cb44-25" title="25">      <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb44-26" title="26">    ),</a>
+<a class="sourceLine" id="cb44-27" title="27">    <span class="dt">model =</span> sex_mod</a>
+<a class="sourceLine" id="cb44-28" title="28">  )</a>
+<a class="sourceLine" id="cb44-29" title="29"></a>
+<a class="sourceLine" id="cb44-30" title="30">}</a></code></pre></div>
 <p>As an example, we can test it on patwhay WP195,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">TestIntxn</span>(<span class="st">"WP195"</span>, kidney_aespcOut, kidney_df[, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>])<span class="op">$</span>model
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; coxph(formula = Surv(time, status) ~ PC1 + male + PC1 * male, </span>
-<span class="co">#&gt;     data = data_df)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                  coef exp(coef) se(coef)      z     p</span>
-<span class="co">#&gt; PC1           0.03278   1.03332  0.08206  0.399 0.690</span>
-<span class="co">#&gt; maleTRUE     -0.38822   0.67826  0.32827 -1.183 0.237</span>
-<span class="co">#&gt; PC1:maleTRUE  0.05649   1.05812  0.10438  0.541 0.588</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Likelihood ratio test=3.97  on 3 df, p=0.2652</span>
-<span class="co">#&gt; n= 320, number of events= 51</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">TestIntxn</span>(<span class="st">"WP195"</span>, kidney_aespcOut, kidney_df[, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>])<span class="op">$</span>model</a>
+<a class="sourceLine" id="cb45-2" title="2"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb45-3" title="3"><span class="co">#&gt; coxph(formula = Surv(time, status) ~ PC1 + male + PC1 * male, </span></a>
+<a class="sourceLine" id="cb45-4" title="4"><span class="co">#&gt;     data = data_df)</span></a>
+<a class="sourceLine" id="cb45-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb45-6" title="6"><span class="co">#&gt;                  coef exp(coef) se(coef)      z     p</span></a>
+<a class="sourceLine" id="cb45-7" title="7"><span class="co">#&gt; PC1           0.03278   1.03332  0.08206  0.399 0.690</span></a>
+<a class="sourceLine" id="cb45-8" title="8"><span class="co">#&gt; maleTRUE     -0.38822   0.67826  0.32827 -1.183 0.237</span></a>
+<a class="sourceLine" id="cb45-9" title="9"><span class="co">#&gt; PC1:maleTRUE  0.05649   1.05812  0.10438  0.541 0.588</span></a>
+<a class="sourceLine" id="cb45-10" title="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb45-11" title="11"><span class="co">#&gt; Likelihood ratio test=3.97  on 3 df, p=0.2652</span></a>
+<a class="sourceLine" id="cb45-12" title="12"><span class="co">#&gt; n= 320, number of events= 51</span></a></code></pre></div>
 <p>We can also apply this function to a list of pathways and select the significant pathways:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths_char &lt;-<span class="st"> </span>kidney_aespcOut<span class="op">$</span>pVals_df<span class="op">$</span>terms
-interactions_ls &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(
-    paths_char,
-    <span class="dt">FUN =</span> TestIntxn,
-    <span class="dt">pcaOut =</span> kidney_aespcOut,
-    <span class="dt">resp_df =</span> kidney_df[, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]
-)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(interactions_ls) &lt;-<span class="st"> </span>paths_char
-
-interactions_df &lt;-<span class="st"> </span>
-<span class="st">  </span><span class="co"># Take list of interactions</span>
-<span class="st">  </span>interactions_ls <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># select the first element (the data frame of model stats)</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="st">`</span><span class="dt">[[</span><span class="st">`</span>, <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># stack these data frames</span>
-<span class="st">  </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># sort the rows by significance</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="st">`</span><span class="dt">Pr...z..</span><span class="st">`</span>)
-<span class="co">#&gt; Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</span>
-<span class="co">#&gt; This warning is displayed once per session.</span>
-
-interactions_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="st">`</span><span class="dt">Pr...z..</span><span class="st">`</span> <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)
-<span class="co">#&gt; # A tibble: 14 x 7</span>
-<span class="co">#&gt;    terms  description                coef exp.coef. se.coef.     z Pr...z..</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 WP1559 TFs Regulate miRNAs rel~ -0.597     0.550    0.216 -2.76  0.00573</span>
-<span class="co">#&gt;  2 WP453  Inflammatory Response P~ -0.272     0.762    0.109 -2.50  0.0126 </span>
-<span class="co">#&gt;  3 WP3893 Development and heterog~ -0.329     0.719    0.137 -2.40  0.0166 </span>
-<span class="co">#&gt;  4 WP3929 Chemokine signaling pat~ -0.252     0.777    0.109 -2.32  0.0206 </span>
-<span class="co">#&gt;  5 WP2849 Hematopoietic Stem Cell~ -0.278     0.757    0.129 -2.16  0.0305 </span>
-<span class="co">#&gt;  6 WP1423 Ganglio Sphingolipid Me~ -0.487     0.615    0.230 -2.11  0.0346 </span>
-<span class="co">#&gt;  7 WP3892 Development of pulmonar~ -0.316     0.729    0.151 -2.10  0.0360 </span>
-<span class="co">#&gt;  8 WP3678 Amplification and Expan~ -0.357     0.700    0.171 -2.09  0.0363 </span>
-<span class="co">#&gt;  9 WP4141 PI3K/AKT/mTOR - VitD3 S~  0.314     1.37     0.153  2.05  0.0407 </span>
-<span class="co">#&gt; 10 WP3941 Oxidative Damage         -0.354     0.702    0.176 -2.01  0.0442 </span>
-<span class="co">#&gt; 11 WP3863 T-Cell antigen Receptor~ -0.233     0.792    0.117 -1.99  0.0462 </span>
-<span class="co">#&gt; 12 WP3872 Regulation of Apoptosis~  0.267     1.31     0.135  1.98  0.0472 </span>
-<span class="co">#&gt; 13 WP3672 LncRNA-mediated mechani~ -0.392     0.675    0.198 -1.98  0.0475 </span>
-<span class="co">#&gt; 14 WP3967 miR-509-3p alteration o~ -0.299     0.741    0.151 -1.98  0.0481</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">paths_char &lt;-<span class="st"> </span>kidney_aespcOut<span class="op">$</span>pVals_df<span class="op">$</span>terms</a>
+<a class="sourceLine" id="cb46-2" title="2">interactions_ls &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(</a>
+<a class="sourceLine" id="cb46-3" title="3">    paths_char,</a>
+<a class="sourceLine" id="cb46-4" title="4">    <span class="dt">FUN =</span> TestIntxn,</a>
+<a class="sourceLine" id="cb46-5" title="5">    <span class="dt">pcaOut =</span> kidney_aespcOut,</a>
+<a class="sourceLine" id="cb46-6" title="6">    <span class="dt">resp_df =</span> kidney_df[, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb46-7" title="7">)</a>
+<a class="sourceLine" id="cb46-8" title="8"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(interactions_ls) &lt;-<span class="st"> </span>paths_char</a>
+<a class="sourceLine" id="cb46-9" title="9"></a>
+<a class="sourceLine" id="cb46-10" title="10">interactions_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb46-11" title="11"><span class="st">  </span><span class="co"># Take list of interactions</span></a>
+<a class="sourceLine" id="cb46-12" title="12"><span class="st">  </span>interactions_ls <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-13" title="13"><span class="st">  </span><span class="co"># select the first element (the data frame of model stats)</span></a>
+<a class="sourceLine" id="cb46-14" title="14"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="st">`</span><span class="dt">[[</span><span class="st">`</span>, <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-15" title="15"><span class="st">  </span><span class="co"># stack these data frames</span></a>
+<a class="sourceLine" id="cb46-16" title="16"><span class="st">  </span><span class="kw">bind_rows</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-17" title="17"><span class="st">  </span><span class="kw">as.tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-18" title="18"><span class="st">  </span><span class="co"># sort the rows by significance</span></a>
+<a class="sourceLine" id="cb46-19" title="19"><span class="st">  </span><span class="kw">arrange</span>(<span class="st">`</span><span class="dt">Pr...z..</span><span class="st">`</span>)</a>
+<a class="sourceLine" id="cb46-20" title="20"><span class="co">#&gt; Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</span></a>
+<a class="sourceLine" id="cb46-21" title="21"><span class="co">#&gt; This warning is displayed once per session.</span></a>
+<a class="sourceLine" id="cb46-22" title="22"></a>
+<a class="sourceLine" id="cb46-23" title="23">interactions_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-24" title="24"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="st">`</span><span class="dt">Pr...z..</span><span class="st">`</span> <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</a>
+<a class="sourceLine" id="cb46-25" title="25"><span class="co">#&gt; # A tibble: 14 x 7</span></a>
+<a class="sourceLine" id="cb46-26" title="26"><span class="co">#&gt;    terms  description                     coef exp.coef. se.coef.     z Pr...z..</span></a>
+<a class="sourceLine" id="cb46-27" title="27"><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb46-28" title="28"><span class="co">#&gt;  1 WP1559 TFs Regulate miRNAs related … -0.597     0.550    0.216 -2.76  0.00573</span></a>
+<a class="sourceLine" id="cb46-29" title="29"><span class="co">#&gt;  2 WP453  Inflammatory Response Pathway -0.272     0.762    0.109 -2.50  0.0126 </span></a>
+<a class="sourceLine" id="cb46-30" title="30"><span class="co">#&gt;  3 WP3893 Development and heterogeneit… -0.329     0.719    0.137 -2.40  0.0166 </span></a>
+<a class="sourceLine" id="cb46-31" title="31"><span class="co">#&gt;  4 WP3929 Chemokine signaling pathway   -0.252     0.777    0.109 -2.32  0.0206 </span></a>
+<a class="sourceLine" id="cb46-32" title="32"><span class="co">#&gt;  5 WP2849 Hematopoietic Stem Cell Diff… -0.278     0.757    0.129 -2.16  0.0305 </span></a>
+<a class="sourceLine" id="cb46-33" title="33"><span class="co">#&gt;  6 WP1423 Ganglio Sphingolipid Metabol… -0.487     0.615    0.230 -2.11  0.0346 </span></a>
+<a class="sourceLine" id="cb46-34" title="34"><span class="co">#&gt;  7 WP3892 Development of pulmonary den… -0.316     0.729    0.151 -2.10  0.0360 </span></a>
+<a class="sourceLine" id="cb46-35" title="35"><span class="co">#&gt;  8 WP3678 Amplification and Expansion … -0.357     0.700    0.171 -2.09  0.0363 </span></a>
+<a class="sourceLine" id="cb46-36" title="36"><span class="co">#&gt;  9 WP4141 PI3K/AKT/mTOR - VitD3 Signal…  0.314     1.37     0.153  2.05  0.0407 </span></a>
+<a class="sourceLine" id="cb46-37" title="37"><span class="co">#&gt; 10 WP3941 Oxidative Damage              -0.354     0.702    0.176 -2.01  0.0442 </span></a>
+<a class="sourceLine" id="cb46-38" title="38"><span class="co">#&gt; 11 WP3863 T-Cell antigen Receptor (TCR… -0.233     0.792    0.117 -1.99  0.0462 </span></a>
+<a class="sourceLine" id="cb46-39" title="39"><span class="co">#&gt; 12 WP3872 Regulation of Apoptosis by P…  0.267     1.31     0.135  1.98  0.0472 </span></a>
+<a class="sourceLine" id="cb46-40" title="40"><span class="co">#&gt; 13 WP3672 LncRNA-mediated mechanisms o… -0.392     0.675    0.198 -1.98  0.0475 </span></a>
+<a class="sourceLine" id="cb46-41" title="41"><span class="co">#&gt; 14 WP3967 miR-509-3p alteration of YAP… -0.299     0.741    0.151 -1.98  0.0481</span></a></code></pre></div>
 <p>The results showed the most significant pathway is <a href="https://www.wikipathways.org/index.php/Pathway:WP1559">WP1559</a> (“TFs Regulate miRNAs related to cardiac hypertrophy”). We can inspect the model results for this pathway directly.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(interactions_ls[[<span class="st">"WP1559"</span>]]<span class="op">$</span>model)
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; coxph(formula = Surv(time, status) ~ PC1 + male + PC1 * male, </span>
-<span class="co">#&gt;     data = data_df)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   n= 320, number of events= 51 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                 coef exp(coef) se(coef)      z Pr(&gt;|z|)    </span>
-<span class="co">#&gt; PC1           0.7534    2.1242   0.1782  4.228 2.36e-05 ***</span>
-<span class="co">#&gt; maleTRUE      0.1825    1.2002   0.4268  0.427  0.66903    </span>
-<span class="co">#&gt; PC1:maleTRUE -0.5974    0.5502   0.2162 -2.763  0.00573 ** </span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;              exp(coef) exp(-coef) lower .95 upper .95</span>
-<span class="co">#&gt; PC1             2.1242     0.4708    1.4980    3.0122</span>
-<span class="co">#&gt; maleTRUE        1.2002     0.8332    0.5199    2.7705</span>
-<span class="co">#&gt; PC1:maleTRUE    0.5502     1.8174    0.3602    0.8406</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Concordance= 0.654  (se = 0.047 )</span>
-<span class="co">#&gt; Likelihood ratio test= 22.51  on 3 df,   p=5e-05</span>
-<span class="co">#&gt; Wald test            = 30.03  on 3 df,   p=1e-06</span>
-<span class="co">#&gt; Score (logrank) test = 33.09  on 3 df,   p=3e-07</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(interactions_ls[[<span class="st">"WP1559"</span>]]<span class="op">$</span>model)</a>
+<a class="sourceLine" id="cb47-2" title="2"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb47-3" title="3"><span class="co">#&gt; coxph(formula = Surv(time, status) ~ PC1 + male + PC1 * male, </span></a>
+<a class="sourceLine" id="cb47-4" title="4"><span class="co">#&gt;     data = data_df)</span></a>
+<a class="sourceLine" id="cb47-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb47-6" title="6"><span class="co">#&gt;   n= 320, number of events= 51 </span></a>
+<a class="sourceLine" id="cb47-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb47-8" title="8"><span class="co">#&gt;                 coef exp(coef) se(coef)      z Pr(&gt;|z|)    </span></a>
+<a class="sourceLine" id="cb47-9" title="9"><span class="co">#&gt; PC1           0.7534    2.1242   0.1782  4.228 2.36e-05 ***</span></a>
+<a class="sourceLine" id="cb47-10" title="10"><span class="co">#&gt; maleTRUE      0.1825    1.2002   0.4268  0.427  0.66903    </span></a>
+<a class="sourceLine" id="cb47-11" title="11"><span class="co">#&gt; PC1:maleTRUE -0.5974    0.5502   0.2162 -2.763  0.00573 ** </span></a>
+<a class="sourceLine" id="cb47-12" title="12"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb47-13" title="13"><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></a>
+<a class="sourceLine" id="cb47-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb47-15" title="15"><span class="co">#&gt;              exp(coef) exp(-coef) lower .95 upper .95</span></a>
+<a class="sourceLine" id="cb47-16" title="16"><span class="co">#&gt; PC1             2.1242     0.4708    1.4980    3.0122</span></a>
+<a class="sourceLine" id="cb47-17" title="17"><span class="co">#&gt; maleTRUE        1.2002     0.8332    0.5199    2.7705</span></a>
+<a class="sourceLine" id="cb47-18" title="18"><span class="co">#&gt; PC1:maleTRUE    0.5502     1.8174    0.3602    0.8406</span></a>
+<a class="sourceLine" id="cb47-19" title="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb47-20" title="20"><span class="co">#&gt; Concordance= 0.654  (se = 0.047 )</span></a>
+<a class="sourceLine" id="cb47-21" title="21"><span class="co">#&gt; Likelihood ratio test= 22.51  on 3 df,   p=5e-05</span></a>
+<a class="sourceLine" id="cb47-22" title="22"><span class="co">#&gt; Wald test            = 30.03  on 3 df,   p=1e-06</span></a>
+<a class="sourceLine" id="cb47-23" title="23"><span class="co">#&gt; Score (logrank) test = 33.09  on 3 df,   p=3e-07</span></a></code></pre></div>
 <p>The results showed that although sex is not significantly associated with survival outcome, the association of pathway gene expression (PC1) with survival is highly dependent on sex of the samples.</p>
 </div>
 <div id="survival-curves-by-sex-interaction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#survival-curves-by-sex-interaction" class="anchor"></a>4.3 Survival curves by sex interaction</h2>
 <p>For visualization, we can divide subjects according to sex and high or low PC-expression, and add a group indicator for the four groups.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Bind the Pheno Data to WP1559's First PC</span>
-kidneyWP1559_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(
-  kidney_df[, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>],
-  <span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(kidney_aespcOut, <span class="st">"WP1559"</span>)<span class="op">$</span>PCs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dt">PC1 =</span> V1)
-)
-
-<span class="co"># Add Grouping Feature</span>
-kidneySurvWP1559grouped_df &lt;-<span class="st"> </span>
-<span class="st">  </span>kidneyWP1559_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># add strength indicator</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">direction =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(PC1 <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/median">median</a></span>(PC1), <span class="st">"High"</span>, <span class="st">"Low"</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># group by interaction of sex and strength on PC</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(direction, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(male, <span class="st">"_Male"</span>, <span class="st">"_Female"</span>))) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># remove summarized columns</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>male, <span class="op">-</span>PC1, <span class="op">-</span>direction)</code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="co"># Bind the Pheno Data to WP1559's First PC</span></a>
+<a class="sourceLine" id="cb48-2" title="2">kidneyWP1559_df &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(</a>
+<a class="sourceLine" id="cb48-3" title="3">  kidney_df[, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>],</a>
+<a class="sourceLine" id="cb48-4" title="4">  <span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(kidney_aespcOut, <span class="st">"WP1559"</span>)<span class="op">$</span>PCs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dt">PC1 =</span> V1)</a>
+<a class="sourceLine" id="cb48-5" title="5">)</a>
+<a class="sourceLine" id="cb48-6" title="6"></a>
+<a class="sourceLine" id="cb48-7" title="7"><span class="co"># Add Grouping Feature</span></a>
+<a class="sourceLine" id="cb48-8" title="8">kidneySurvWP1559grouped_df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb48-9" title="9"><span class="st">  </span>kidneyWP1559_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-10" title="10"><span class="st">  </span><span class="co"># add strength indicator</span></a>
+<a class="sourceLine" id="cb48-11" title="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">direction =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(PC1 <span class="op">&gt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(PC1), <span class="st">"High"</span>, <span class="st">"Low"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-12" title="12"><span class="st">  </span><span class="co"># group by interaction of sex and strength on PC</span></a>
+<a class="sourceLine" id="cb48-13" title="13"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">group =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(direction, <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(male, <span class="st">"_Male"</span>, <span class="st">"_Female"</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-14" title="14"><span class="st">  </span><span class="co"># recode time in years</span></a>
+<a class="sourceLine" id="cb48-15" title="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time =</span> time <span class="op">/</span><span class="st"> </span><span class="fl">365.25</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb48-16" title="16"><span class="st">  </span><span class="co"># remove summarized columns</span></a>
+<a class="sourceLine" id="cb48-17" title="17"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>male, <span class="op">-</span>PC1, <span class="op">-</span>direction)</a></code></pre></div>
 <p>Now we can plot survival curves for the four groups.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the survival model</span>
-fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
-  <span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>group,
-  <span class="dt">data =</span> kidneySurvWP1559grouped_df
-)
-
-<span class="kw">ggsurvplot</span>(
-  fit, <span class="dt">conf.int =</span> <span class="ot">FALSE</span>, 
-  <span class="dt">xlab =</span> <span class="st">"Time in Days"</span>,
-  <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.4</span>, <span class="dv">1</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="co"># Fit the survival model</span></a>
+<a class="sourceLine" id="cb49-2" title="2">fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(</a>
+<a class="sourceLine" id="cb49-3" title="3">  <span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>group,</a>
+<a class="sourceLine" id="cb49-4" title="4">  <span class="dt">data =</span> kidneySurvWP1559grouped_df</a>
+<a class="sourceLine" id="cb49-5" title="5">)</a>
+<a class="sourceLine" id="cb49-6" title="6"></a>
+<a class="sourceLine" id="cb49-7" title="7"><span class="kw">ggsurvplot</span>(</a>
+<a class="sourceLine" id="cb49-8" title="8">  fit, <span class="dt">conf.int =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb49-9" title="9">  <span class="dt">xlab =</span> <span class="st">"Time in Years"</span>,</a>
+<a class="sourceLine" id="cb49-10" title="10">  <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.4</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb49-11" title="11">  <span class="dt">xlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb49-12" title="12">)</a></code></pre></div>
 <p><img src="Introduction_to_pathwayPCA_files/figure-html/plotKidneyGroupedSurv-1.png" width="672"></p>
 <p>These Kaplan-Meier curves showed that while high or low pathway activities were not associated with survival in male subjects (green and purple curves, respectively), female subjects with high pathway activities (red) had significantly worse survival outcomes than those with low pathway activities (blue).</p>
 <p></p>
@@ -934,58 +951,53 @@ fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 <p>Chen, X., Wang, L., Hu, B., Guo, M., Barnard, J. and Zhu, X. (2010) Pathway-based analysis for genome-wide association studies using supervised principal components. Genetic epidemiology, 34, 716-724.</p>
 <p>Chen, X. (2011) Adaptive elastic-net sparse principal component analysis for pathway association testing. Statistical applications in genetics and molecular biology, 10.</p>
 <p>The R session information for this vignette is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R Under development (unstable) (2019-02-12 r76095)</span>
-<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
-<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
-<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
-<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
-<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
-<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attached base packages:</span>
-<span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] survminer_0.4.3   ggpubr_0.2        magrittr_1.5     </span>
-<span class="co">#&gt;  [4] survival_2.44-1.1 pathwayPCA_0.99.5 forcats_0.4.0    </span>
-<span class="co">#&gt;  [7] stringr_1.4.0     dplyr_0.8.0.1     purrr_0.3.2      </span>
-<span class="co">#&gt; [10] readr_1.3.1       tidyr_0.8.3       tibble_2.1.1     </span>
-<span class="co">#&gt; [13] ggplot2_3.1.0     tidyverse_1.2.1  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rcpp_1.0.1        lubridate_1.7.4   lattice_0.20-38  </span>
-<span class="co">#&gt;  [4] zoo_1.8-5         assertthat_0.2.1  rprojroot_1.3-2  </span>
-<span class="co">#&gt;  [7] digest_0.6.18     utf8_1.1.4        R6_2.4.0         </span>
-<span class="co">#&gt; [10] cellranger_1.1.0  plyr_1.8.4        backports_1.1.3  </span>
-<span class="co">#&gt; [13] lars_1.2          evaluate_0.13     httr_1.4.0       </span>
-<span class="co">#&gt; [16] pillar_1.3.1      rlang_0.3.3       lazyeval_0.2.2   </span>
-<span class="co">#&gt; [19] readxl_1.3.1      data.table_1.12.0 rstudioapi_0.10  </span>
-<span class="co">#&gt; [22] Matrix_1.2-17     rmarkdown_1.12    pkgdown_1.3.0    </span>
-<span class="co">#&gt; [25] desc_1.2.0        labeling_0.3      splines_3.6.0    </span>
-<span class="co">#&gt; [28] munsell_0.5.0     broom_0.5.1       compiler_3.6.0   </span>
-<span class="co">#&gt; [31] modelr_0.1.4      xfun_0.6          pkgconfig_2.0.2  </span>
-<span class="co">#&gt; [34] htmltools_0.3.6   tidyselect_0.2.5  km.ci_0.5-2      </span>
-<span class="co">#&gt; [37] gridExtra_2.3     roxygen2_6.1.1    fansi_0.4.0      </span>
-<span class="co">#&gt; [40] crayon_1.3.4      withr_2.1.2       MASS_7.3-51.4    </span>
-<span class="co">#&gt; [43] commonmark_1.7    grid_3.6.0        xtable_1.8-3     </span>
-<span class="co">#&gt; [46] nlme_3.1-137      jsonlite_1.6      gtable_0.3.0     </span>
-<span class="co">#&gt; [49] KMsurv_0.1-5      scales_1.0.0      cli_1.1.0        </span>
-<span class="co">#&gt; [52] stringi_1.4.3     fs_1.2.7          xml2_1.2.0       </span>
-<span class="co">#&gt; [55] survMisc_0.5.5    generics_0.0.2    cmprsk_2.2-7     </span>
-<span class="co">#&gt; [58] tools_3.6.0       glue_1.3.1        hms_0.4.2        </span>
-<span class="co">#&gt; [61] parallel_3.6.0    yaml_2.2.0        colorspace_1.4-1 </span>
-<span class="co">#&gt; [64] rvest_0.3.2       memoise_1.1.0     knitr_1.22       </span>
-<span class="co">#&gt; [67] haven_2.1.0</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb50-2" title="2"><span class="co">#&gt; R version 3.6.2 (2019-12-12)</span></a>
+<a class="sourceLine" id="cb50-3" title="3"><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span></a>
+<a class="sourceLine" id="cb50-4" title="4"><span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span></a>
+<a class="sourceLine" id="cb50-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb50-6" title="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb50-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb50-8" title="8"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb50-9" title="9"><span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span></a>
+<a class="sourceLine" id="cb50-10" title="10"><span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span></a>
+<a class="sourceLine" id="cb50-11" title="11"><span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span></a>
+<a class="sourceLine" id="cb50-12" title="12"><span class="co">#&gt; [4] LC_NUMERIC=C                          </span></a>
+<a class="sourceLine" id="cb50-13" title="13"><span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span></a>
+<a class="sourceLine" id="cb50-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb50-15" title="15"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb50-16" title="16"><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></a>
+<a class="sourceLine" id="cb50-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb50-18" title="18"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb50-19" title="19"><span class="co">#&gt;  [1] survminer_0.4.6  ggpubr_0.2.4     magrittr_1.5     survival_3.1-8  </span></a>
+<a class="sourceLine" id="cb50-20" title="20"><span class="co">#&gt;  [5] pathwayPCA_1.1.4 forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3     </span></a>
+<a class="sourceLine" id="cb50-21" title="21"><span class="co">#&gt;  [9] purrr_0.3.3      readr_1.3.1      tidyr_1.0.0      tibble_2.1.3    </span></a>
+<a class="sourceLine" id="cb50-22" title="22"><span class="co">#&gt; [13] ggplot2_3.2.1    tidyverse_1.3.0 </span></a>
+<a class="sourceLine" id="cb50-23" title="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb50-24" title="24"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb50-25" title="25"><span class="co">#&gt;  [1] httr_1.4.1        jsonlite_1.6      splines_3.6.2     modelr_0.1.5     </span></a>
+<a class="sourceLine" id="cb50-26" title="26"><span class="co">#&gt;  [5] assertthat_0.2.1  cellranger_1.1.0  yaml_2.2.0        pillar_1.4.3     </span></a>
+<a class="sourceLine" id="cb50-27" title="27"><span class="co">#&gt;  [9] backports_1.1.5   lattice_0.20-38   glue_1.3.1        digest_0.6.23    </span></a>
+<a class="sourceLine" id="cb50-28" title="28"><span class="co">#&gt; [13] ggsignif_0.6.0    rvest_0.3.5       colorspace_1.4-1  htmltools_0.4.0  </span></a>
+<a class="sourceLine" id="cb50-29" title="29"><span class="co">#&gt; [17] Matrix_1.2-18     pkgconfig_2.0.3   broom_0.5.3       haven_2.2.0      </span></a>
+<a class="sourceLine" id="cb50-30" title="30"><span class="co">#&gt; [21] xtable_1.8-4      scales_1.1.0      km.ci_0.5-2       KMsurv_0.1-5     </span></a>
+<a class="sourceLine" id="cb50-31" title="31"><span class="co">#&gt; [25] generics_0.0.2    farver_2.0.1      ellipsis_0.3.0    withr_2.1.2      </span></a>
+<a class="sourceLine" id="cb50-32" title="32"><span class="co">#&gt; [29] lazyeval_0.2.2    cli_2.0.0         crayon_1.3.4      readxl_1.3.1     </span></a>
+<a class="sourceLine" id="cb50-33" title="33"><span class="co">#&gt; [33] memoise_1.1.0     evaluate_0.14     fs_1.3.1          fansi_0.4.0      </span></a>
+<a class="sourceLine" id="cb50-34" title="34"><span class="co">#&gt; [37] nlme_3.1-143      MASS_7.3-51.5     xml2_1.2.2        tools_3.6.2      </span></a>
+<a class="sourceLine" id="cb50-35" title="35"><span class="co">#&gt; [41] data.table_1.12.8 hms_0.5.2         lifecycle_0.1.0   munsell_0.5.0    </span></a>
+<a class="sourceLine" id="cb50-36" title="36"><span class="co">#&gt; [45] reprex_0.3.0      compiler_3.6.2    pkgdown_1.4.1     rlang_0.4.2      </span></a>
+<a class="sourceLine" id="cb50-37" title="37"><span class="co">#&gt; [49] grid_3.6.2        rstudioapi_0.10   labeling_0.3      rmarkdown_2.0    </span></a>
+<a class="sourceLine" id="cb50-38" title="38"><span class="co">#&gt; [53] gtable_0.3.0      lars_1.2          DBI_1.1.0         R6_2.4.1         </span></a>
+<a class="sourceLine" id="cb50-39" title="39"><span class="co">#&gt; [57] zoo_1.8-6         gridExtra_2.3     lubridate_1.7.4   knitr_1.26       </span></a>
+<a class="sourceLine" id="cb50-40" title="40"><span class="co">#&gt; [61] survMisc_0.5.5    utf8_1.1.4        zeallot_0.1.0     rprojroot_1.3-2  </span></a>
+<a class="sourceLine" id="cb50-41" title="41"><span class="co">#&gt; [65] desc_1.2.0        stringi_1.4.3     parallel_3.6.2    Rcpp_1.0.3       </span></a>
+<a class="sourceLine" id="cb50-42" title="42"><span class="co">#&gt; [69] vctrs_0.2.1       dbplyr_1.4.2      tidyselect_0.2.5  xfun_0.11</span></a></code></pre></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -1026,17 +1038,20 @@ fit &lt;-<span class="st"> </span><span class="kw">survfit</span>(
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/gabrielodom">Gabriel Odom</a>, James Ban, Lizhong Liu, <a href="http://biostat.med.miami.edu/people/primary-faculty/lily-wang-ph.d">Lily Wang</a>, <a href="http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d">Steven Chen</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

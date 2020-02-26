@@ -4,9 +4,14 @@
 \alias{TabulatepValues}
 \title{Tabulate, adjust, and sort pathway \eqn{p}-values}
 \usage{
-TabulatepValues(pVals_vec, genesets_ls, adjust = TRUE,
-  proc_vec = c("BH", "Bonferroni", "Holm", "Hochberg", "SidakSS",
-  "SidakSD", "BY", "ABH", "TSBH"), ...)
+TabulatepValues(
+  pVals_vec,
+  genesets_ls,
+  adjust = TRUE,
+  proc_vec = c("BH", "Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BY",
+    "ABH", "TSBH"),
+  ...
+)
 }
 \arguments{
 \item{pVals_vec}{A named vector of permutation \eqn{p}-values returned by the

@@ -4,8 +4,12 @@
 \alias{CreatePathwayCollection}
 \title{Manually Create a \code{pathwayCollection}-class Object.}
 \usage{
-CreatePathwayCollection(sets_ls, TERMS, setType = c("pathways", "genes",
-  "regions"), ...)
+CreatePathwayCollection(
+  sets_ls,
+  TERMS,
+  setType = c("pathways", "genes", "regions"),
+  ...
+)
 }
 \arguments{
 \item{sets_ls}{A named list of character vectors. Each vector should contain

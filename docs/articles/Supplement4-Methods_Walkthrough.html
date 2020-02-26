@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Suppl. Ch. 4 - Test Pathway Significance • pathwayPCA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Suppl. Ch. 4 - Test Pathway Significance">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -49,20 +50,22 @@
 <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -70,14 +73,7 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -86,15 +82,16 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Suppl. Ch. 4 - Test Pathway Significance</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2019-04-12</h4>
+            <h4 class="date">2020-02-26</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supplement4-Methods_Walkthrough.Rmd"><code>vignettes/Supplement4-Methods_Walkthrough.Rmd</code></a></small>
+      
       <div class="hidden name"><code>Supplement4-Methods_Walkthrough.Rmd</code></div>
 
     </div>
@@ -119,24 +116,24 @@
 <h2 class="hasAnchor">
 <a href="#load-packages" class="anchor"></a>1.2 Load Packages</h2>
 <p>Before we begin, if you want your analysis to be performed with parallel computing, you will need a package to help you. We recommend the <code>parallel</code> package (it comes with <code>R</code> automatically). We also recommend the <code>tidyverse</code> package to help you run some of the examples in these vignettes (while the <code>tidyverse</code> package suite is required for many of the examples in the vignettes, it is not required for any of the functions in this package).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(parallel)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pathwayPCA)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(parallel)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pathwayPCA)</a></code></pre></div>
 </div>
 <div id="load-omics-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-omics-data" class="anchor"></a>1.3 Load <code>Omics</code> Data</h2>
 <p>Because you have already read through the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Importing_Data.html">Import and Tidy Data</a> and <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating -Omics Data Objects</a> vignettes, we will pick up with the <code>colon_OmicsSurv</code> object we created in the last vignette. For our pathway analysis to be meaningful, we need gene expression data (from a microarray or something similar), corresponding phenotype information (such as weight, type of cancer, or survival time and censoring indicator), and a pathways list. The <code>colon_OmicsSurv</code> data object we constructed in <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Chapter 3</a> has all of this.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colon_OmicsSurv
-<span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span>
-<span class="co">#&gt;   ..@ eventTime            : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span>
-<span class="co">#&gt;   ..@ eventObserved        : logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span>
-<span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span>
-<span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span>
-<span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span>
-<span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span>
-<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">colon_OmicsSurv</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Formal class 'OmicsSurv' [package "pathwayPCA"] with 6 slots</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt;   ..@ eventTime            : num [1:250] 64.9 59.8 62.4 54.5 46.3 ...</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt;   ..@ eventObserved        : logi [1:250] FALSE FALSE FALSE FALSE TRUE FALSE ...</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;   ..@ assayData_df         :Classes 'tbl_df', 'tbl' and 'data.frame':    250 obs. of  656 variables:</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;   ..@ sampleIDs_char       : chr [1:250] "subj1" "subj2" "subj3" "subj4" ...</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt;   ..@ pathwayCollection    :List of 3</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;   ..@ trimPathwayCollection:List of 4</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "pathwayCollection" "list"</span></a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -181,56 +178,56 @@
 <li>
 <code>pathways</code>: The names of the pathways in the <code>Omics</code> object. The names will match those given in</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(<span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwayCollection</a></span>(colon_OmicsSurv)<span class="op">$</span>pathways)
-<span class="co">#&gt;  [1] "pathway3"    "pathway60"   "pathway87"   "pathway120"  "pathway176" </span>
-<span class="co">#&gt;  [6] "pathway177"  "pathway187"  "pathway266"  "pathway390"  "pathway413" </span>
-<span class="co">#&gt; [11] "pathway491"  "pathway536"  "pathway757"  "pathway781"  "pathway1211"</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwayCollection</a></span>(colon_OmicsSurv)<span class="op">$</span>pathways)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt;  [1] "pathway3"    "pathway60"   "pathway87"   "pathway120"  "pathway176" </span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt;  [6] "pathway177"  "pathway187"  "pathway266"  "pathway390"  "pathway413" </span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; [11] "pathway491"  "pathway536"  "pathway757"  "pathway781"  "pathway1211"</span></a></code></pre></div>
 <ul>
 <li>
 <code>n_tested</code>: The number of genes in each of the pathways after trimming to match the given data assay. The number of genes per pathway given in</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getTrimPathwayCollection</a></span>(colon_OmicsSurv)<span class="op">$</span>n_tested
-<span class="co">#&gt;    pathway3   pathway60   pathway87  pathway120  pathway176  pathway177 </span>
-<span class="co">#&gt;          26          45          86          73          54          26 </span>
-<span class="co">#&gt;  pathway187  pathway266  pathway390  pathway413  pathway491  pathway536 </span>
-<span class="co">#&gt;          16          11          29          23          40          44 </span>
-<span class="co">#&gt;  pathway757  pathway781 pathway1211 </span>
-<span class="co">#&gt;          83         180         104</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getTrimPathwayCollection</a></span>(colon_OmicsSurv)<span class="op">$</span>n_tested</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt;    pathway3   pathway60   pathway87  pathway120  pathway176  pathway177 </span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt;          26          45          86          73          54          26 </span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;  pathway187  pathway266  pathway390  pathway413  pathway491  pathway536 </span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt;          16          11          29          23          40          44 </span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;  pathway757  pathway781 pathway1211 </span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;          83         180         104</span></a></code></pre></div>
 <ul>
 <li>
 <code>terms</code>: The pathway description, as given in</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwayCollection</a></span>(colon_OmicsSurv)<span class="op">$</span>TERMS
-<span class="co">#&gt;                                       pathway3 </span>
-<span class="co">#&gt;               "KEGG_PENTOSE_PHOSPHATE_PATHWAY" </span>
-<span class="co">#&gt;                                      pathway60 </span>
-<span class="co">#&gt;                      "KEGG_RETINOL_METABOLISM" </span>
-<span class="co">#&gt;                                      pathway87 </span>
-<span class="co">#&gt;                  "KEGG_ERBB_SIGNALING_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway120 </span>
-<span class="co">#&gt;     "KEGG_ANTIGEN_PROCESSING_AND_PRESENTATION" </span>
-<span class="co">#&gt;                                     pathway176 </span>
-<span class="co">#&gt;              "KEGG_NON_SMALL_CELL_LUNG_CANCER" </span>
-<span class="co">#&gt;                                     pathway177 </span>
-<span class="co">#&gt;                                  "KEGG_ASTHMA" </span>
-<span class="co">#&gt;                                     pathway187 </span>
-<span class="co">#&gt;                        "BIOCARTA_RELA_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway266 </span>
-<span class="co">#&gt;                         "BIOCARTA_SET_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway390 </span>
-<span class="co">#&gt;                       "BIOCARTA_TNFR1_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway413 </span>
-<span class="co">#&gt;                              "ST_GA12_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway491 </span>
-<span class="co">#&gt;                         "PID_EPHB_FWD_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway536 </span>
-<span class="co">#&gt;                              "PID_TNF_PATHWAY" </span>
-<span class="co">#&gt;                                     pathway757 </span>
-<span class="co">#&gt; "REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE" </span>
-<span class="co">#&gt;                                     pathway781 </span>
-<span class="co">#&gt;             "REACTOME_PHOSPHOLIPID_METABOLISM" </span>
-<span class="co">#&gt;                                    pathway1211 </span>
-<span class="co">#&gt;       "REACTOME_SIGNALING_BY_INSULIN_RECEPTOR"</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/get_set_OmicsPathway.html">getPathwayCollection</a></span>(colon_OmicsSurv)<span class="op">$</span>TERMS</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt;                                       pathway3 </span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt;               "KEGG_PENTOSE_PHOSPHATE_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt;                                      pathway60 </span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt;                      "KEGG_RETINOL_METABOLISM" </span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt;                                      pathway87 </span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt;                  "KEGG_ERBB_SIGNALING_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt;                                     pathway120 </span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;     "KEGG_ANTIGEN_PROCESSING_AND_PRESENTATION" </span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;                                     pathway176 </span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt;              "KEGG_NON_SMALL_CELL_LUNG_CANCER" </span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt;                                     pathway177 </span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;                                  "KEGG_ASTHMA" </span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;                                     pathway187 </span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;                        "BIOCARTA_RELA_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="co">#&gt;                                     pathway266 </span></a>
+<a class="sourceLine" id="cb5-17" title="17"><span class="co">#&gt;                         "BIOCARTA_SET_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-18" title="18"><span class="co">#&gt;                                     pathway390 </span></a>
+<a class="sourceLine" id="cb5-19" title="19"><span class="co">#&gt;                       "BIOCARTA_TNFR1_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-20" title="20"><span class="co">#&gt;                                     pathway413 </span></a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="co">#&gt;                              "ST_GA12_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-22" title="22"><span class="co">#&gt;                                     pathway491 </span></a>
+<a class="sourceLine" id="cb5-23" title="23"><span class="co">#&gt;                         "PID_EPHB_FWD_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-24" title="24"><span class="co">#&gt;                                     pathway536 </span></a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt;                              "PID_TNF_PATHWAY" </span></a>
+<a class="sourceLine" id="cb5-26" title="26"><span class="co">#&gt;                                     pathway757 </span></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">#&gt; "REACTOME_INSULIN_RECEPTOR_SIGNALLING_CASCADE" </span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="co">#&gt;                                     pathway781 </span></a>
+<a class="sourceLine" id="cb5-29" title="29"><span class="co">#&gt;             "REACTOME_PHOSPHOLIPID_METABOLISM" </span></a>
+<a class="sourceLine" id="cb5-30" title="30"><span class="co">#&gt;                                    pathway1211 </span></a>
+<a class="sourceLine" id="cb5-31" title="31"><span class="co">#&gt;       "REACTOME_SIGNALING_BY_INSULIN_RECEPTOR"</span></a></code></pre></div>
 <ul>
 <li>
 <code>rawp</code>: The unadjusted <span class="math inline">\(p\)</span>-values of each pathway.</li>
@@ -252,7 +249,7 @@
 <div id="aes-pca-method-sources" class="section level3">
 <h3 class="hasAnchor">
 <a href="#aes-pca-method-sources" class="anchor"></a>3.1.1 AES-PCA Method Sources</h3>
-<p>Adaptive, elastic-net, sparse PCA is a combination of the <a href="https://doi.org/10.1214/08-AOS625">Adaptive Elastic-Net</a> of Zou and Zhang (2009) and <a href="https://doi.org/10.1198/106186006X113430">Sparse PCA</a> of Zou et al. (2006). This method was applied to pathways association testing by <a href="https://doi.org/10.2202/1544-6115.1697">Chen (2011)</a>. Accoding to Chen (2011), the “AES-PCA method removes noisy expression signals and also account[s] for correlation structure between the genes. It is computationally efficient, and the estimation of the PCs does not depend on clinical outcomes.” This package uses a legacy version of the <a href="https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf">LARS algorithm</a> of Efron et al. (2003) to calculate the PCs.</p>
+<p>Adaptive, elastic-net, sparse PCA is a combination of the <a href="https://doi.org/10.1214/08-AOS625">Adaptive Elastic-Net</a> of Zou and Zhang (2009) and <a href="https://doi.org/10.1198/106186006X113430">Sparse PCA</a> of Zou et al. (2006). This method was applied to pathways association testing by <a href="https://doi.org/10.2202/1544-6115.1697">Chen (2011)</a>. Accoding to Chen (2011), the “AES-PCA method removes noisy expression signals and also account[s] for correlation structure between the genes. It is computationally efficient, and the estimation of the PCs does not depend on clinical outcomes.” This package uses a legacy version of the <a href="https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf">LARS algorithm</a> of Efron et al. (2003) to calculate the PCs.</p>
 </div>
 <div id="calculate-pathway-specific-model-p-values" class="section level3">
 <h3 class="hasAnchor">
@@ -284,53 +281,53 @@
 <p>We will use two of our available cores with the parallel computing approach. We will adjust the <span class="math inline">\(p\)</span>-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. We will now describe the computational cost for the non-parametric approach.</p>
 <p>For the tiny <span class="math inline">\(250 \times 656\)</span> assay with 15 associated pathways, calculating pathway <span class="math inline">\(p\)</span>-values with 1000 replicates completes in 28 seconds. If we increase the number of permutations from 1000 to 10,000, this calculation takes 222 seconds (<span class="math inline">\(7.9\times\)</span> longer). Even though we increased the permutations tenfold, the function completed execution less than 10 times longer (as we mentioned above, roughly a quarter of the computing time is extracting the PCs from each pathway, which does not depend on the number of permutations).</p>
 <p>In the example that we show, we will calculate the pathway <span class="math inline">\(p\)</span>-values parametrically, by specifying <code>numReps = 0</code>. Furthermore, the AES-PCA and Supervised PCA functions give some messages concerning the setup and progress of the computation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonSurv_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(
-  <span class="dt">object =</span> colon_OmicsSurv,
-  <span class="dt">numReps =</span> <span class="dv">0</span>,
-  <span class="dt">numPCs =</span> <span class="dv">2</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-  <span class="dt">adjustment =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>)
-)
-<span class="co">#&gt; Part 1: Calculate Pathway AES-PCs</span>
-<span class="co">#&gt; Initializing Computing Cluster: DONE</span>
-<span class="co">#&gt; Extracting Pathway PCs in Parallel: DONE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Part 2: Calculate Pathway p-Values</span>
-<span class="co">#&gt; Initializing Computing Cluster: DONE</span>
-<span class="co">#&gt; Extracting Pathway p-Values in Parallel: DONE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span>
-<span class="co">#&gt; DONE</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">colonSurv_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="dt">object =</span> colon_OmicsSurv,</a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">numReps =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="dt">numPCs =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">adjustment =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>)</a>
+<a class="sourceLine" id="cb6-9" title="9">)</a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; Part 1: Calculate Pathway AES-PCs</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; Initializing Computing Cluster: DONE</span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; Extracting Pathway PCs in Parallel: DONE</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt; Part 2: Calculate Pathway p-Values</span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; Initializing Computing Cluster: DONE</span></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; Extracting Pathway p-Values in Parallel: DONE</span></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt; Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame</span></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt; DONE</span></a></code></pre></div>
 </div>
 <div id="regression-response" class="section level3">
 <h3 class="hasAnchor">
 <a href="#regression-response" class="anchor"></a>3.2.2 Regression Response</h3>
 <p>We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures (as an aside, note that this type of multiple testing violates the independence assumption of the <a href="https://doi.org/10.1214/193940307000000167">Simes inequality</a>). For 1000 permutations, this calculation takes 17 seconds. For 10,000 permutations, this calculation takes 102 seconds (<span class="math inline">\(6.1\times\)</span> longer).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonReg_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(
-  <span class="dt">object =</span> colon_OmicsReg,
-  <span class="dt">numReps =</span> <span class="dv">0</span>,
-  <span class="dt">numPCs =</span> <span class="dv">2</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-  <span class="dt">adjustment =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">colonReg_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="dt">object =</span> colon_OmicsReg,</a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="dt">numReps =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb7-4" title="4">  <span class="dt">numPCs =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb7-5" title="5">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb7-6" title="6">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb7-7" title="7">  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb7-8" title="8">  <span class="dt">adjustment =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>)</a>
+<a class="sourceLine" id="cb7-9" title="9">)</a></code></pre></div>
 </div>
 <div id="binary-classification-response" class="section level3">
 <h3 class="hasAnchor">
 <a href="#binary-classification-response" class="anchor"></a>3.2.3 Binary Classification Response</h3>
 <p>Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. For 1000 permutations, this calculation takes 30 seconds. For 10,000 permutations, this calculation takes 226 seconds (<span class="math inline">\(7.6\times\)</span> longer).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonCateg_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(
-  <span class="dt">object =</span> colon_OmicsCateg,
-  <span class="dt">numReps =</span> <span class="dv">0</span>,
-  <span class="dt">numPCs =</span> <span class="dv">2</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-  <span class="dt">adjustment =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">colonCateg_aespcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/AESPCA_pVals.html">AESPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="dt">object =</span> colon_OmicsCateg,</a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="dt">numReps =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="dt">numPCs =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb8-5" title="5">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-6" title="6">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb8-7" title="7">  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-8" title="8">  <span class="dt">adjustment =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>)</a>
+<a class="sourceLine" id="cb8-9" title="9">)</a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -346,12 +343,12 @@
 <div id="supervised-pca-method-sources" class="section level3">
 <h3 class="hasAnchor">
 <a href="#supervised-pca-method-sources" class="anchor"></a>4.1.1 Supervised PCA Method Sources</h3>
-<p>While PCA is a commonly-applied <em>unsupervised</em> learning technique (i.e., response information is unnecessary), one limitation of this method is that ignoring response information may yield a first PC completely unrelated to outcome. In an effort to bolster this weakness, <a href="https://doi.org/10.1198/016214505000000628">Bair et al. (2006)</a> employed response information to rank predictors by the strength of their association. Then, they extracted PCs from feature design matrix subsets constructed from the predictors most strongly associated with the response. <a href="https://doi.org/10.1093/bioinformatics/btn458">Chen et al. (2008)</a> extend this technique to subsets of biological features within pre-defined biological pathways; they applied the Supervised PCA routine independently to each pathway in a pathway collection. <a href="https://doi.org/10.1002/gepi.20532">Chen et al. (2010)</a> built on this work, testing if pathways were significantly associated with a given biological or clinical response.</p>
+<p>While PCA is a commonly-applied <em>unsupervised</em> learning technique (i.e., response information is unnecessary), one limitation of this method is that ignoring response information may yield a first PC completely unrelated to outcome. In an effort to bolster this weakness, <a href="https://doi.org/10.1198/016214505000000628">Bair et al. (2006)</a> employed response information to rank predictors by the strength of their association. Then, they extracted PCs from feature design matrix subsets constructed from the predictors most strongly associated with the response. <a href="https://doi.org/10.1093/bioinformatics/btn458">Chen et al. (2008)</a> extend this technique to subsets of biological features within pre-defined biological pathways; they applied the Supervised PCA routine independently to each pathway in a pathway collection. <a href="https://doi.org/10.1002/gepi.20532">Chen et al. (2010)</a> built on this work, testing if pathways were significantly associated with a given biological or clinical response.</p>
 </div>
 <div id="calculate-pathway-specific-model-p-values-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#calculate-pathway-specific-model-p-values-1" class="anchor"></a>4.1.2 Calculate Pathway-Specific Model <span class="math inline">\(p\)</span>-Values</h3>
-<p>As thoroughly discussed in Chen et al. (2008), the model fit and regression coefficient test statistics no longer come from their expected distributions. Necessarily, this is due to Supervised PCA’s strength in finding features already associated with outcome. Therefore, for the Supervised PCA method, pathway <span class="math inline">\(p\)</span>-values are calculated from a mixture of extreme value distributions. We use a constrained numerical optimization routine to calculate the maximum likelihood estimates of the mean, precision, and mixing proportion components of a mixture of two Gumbel extreme value distributions (for minima and maxima of a random normal sample). The <span class="math inline">\(p\)</span>-values from the pathways after permuting the response is used to estimate this null distribution, so result accuracy may be degraded for a very small set of pathways.</p>
+<p>As thoroughly discussed in Chen et al. (2008), the model fit and regression coefficient test statistics no longer come from their expected distributions. Necessarily, this is due to Supervised PCA’s strength in finding features already associated with outcome. Therefore, for the Supervised PCA method, pathway <span class="math inline">\(p\)</span>-values are calculated from a mixture of extreme value distributions. We use a constrained numerical optimization routine to calculate the maximum likelihood estimates of the mean, precision, and mixing proportion components of a mixture of two Gumbel extreme value distributions (for minima and maxima of a random normal sample). The <span class="math inline">\(p\)</span>-values from the pathways after permuting the response is used to estimate this null distribution, so result accuracy may be degraded for a very small set of pathways.</p>
 </div>
 <div id="supervised-pca-pros-and-cons" class="section level3">
 <h3 class="hasAnchor">
@@ -375,14 +372,14 @@
 <h3 class="hasAnchor">
 <a href="#survival-response-1" class="anchor"></a>4.2.1 Survival Response</h3>
 <p>We will use two of our available cores with the parallel computing approach. We will adjust the <span class="math inline">\(p\)</span>-values with the Hochberg (1988) and Sidak Step-Down FWER-adjustment procedures. For the tiny <span class="math inline">\(250 \times 656\)</span> assay with 15 associated pathways, this calculation is completed in 6 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is <span class="math inline">\(4.6\times\)</span> faster; for 10,000 permutations, it’s <span class="math inline">\(36.1\times\)</span> faster.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonSurv_superpcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SuperPCA_pVals.html">SuperPCA_pVals</a></span>(
-  <span class="dt">object =</span> colon_OmicsSurv,
-  <span class="dt">numPCs =</span> <span class="dv">2</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-  <span class="dt">adjustment =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">colonSurv_superpcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SuperPCA_pVals.html">SuperPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="dt">object =</span> colon_OmicsSurv,</a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="dt">numPCs =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-5" title="5">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb9-6" title="6">  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb9-7" title="7">  <span class="dt">adjustment =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Hoch"</span>, <span class="st">"SidakSD"</span>)</a>
+<a class="sourceLine" id="cb9-8" title="8">)</a></code></pre></div>
 <pre><code>#&gt; Initializing Computing Cluster: DONE
 #&gt; Calculating Pathway Test Statistics in Parallel: DONE
 #&gt; Calculating Pathway Critical Values in Parallel: DONE
@@ -393,27 +390,27 @@
 <h3 class="hasAnchor">
 <a href="#regression-response-1" class="anchor"></a>4.2.2 Regression Response</h3>
 <p>We can also make a mock regression data set by treating the event time as the necessary continuous response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Holm (1979) FWER- and Benjamini and Hochberg (1995) FDR-adjustment procedures. This calculation took 5 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is <span class="math inline">\(3.4\times\)</span> faster; for 10,000 permutations, it’s <span class="math inline">\(20.7\times\)</span> faster.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonReg_superpcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SuperPCA_pVals.html">SuperPCA_pVals</a></span>(
-  <span class="dt">object =</span> colon_OmicsReg,
-  <span class="dt">numPCs =</span> <span class="dv">2</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-  <span class="dt">adjustment =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">colonReg_superpcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SuperPCA_pVals.html">SuperPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="dt">object =</span> colon_OmicsReg,</a>
+<a class="sourceLine" id="cb11-3" title="3">  <span class="dt">numPCs =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb11-5" title="5">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb11-6" title="6">  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb11-7" title="7">  <span class="dt">adjustment =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Holm"</span>, <span class="st">"BH"</span>)</a>
+<a class="sourceLine" id="cb11-8" title="8">)</a></code></pre></div>
 </div>
 <div id="binary-classification-response-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#binary-classification-response-1" class="anchor"></a>4.2.3 Binary Classification Response</h3>
 <p>Finally, we can simulate a mock classification data set by treating the event indicator as the necessary binary response. For this example, we will adjust the <span class="math inline">\(p\)</span>-values with the Sidak Single-Step FWER- and Benjamini and Yekutieli (2001) FDR-adjustment procedures. This calculation took 8 seconds. If we compare this to AES-PCA at 1000 permutations, Supervised PCA is <span class="math inline">\(3.7\times\)</span> faster; for 10,000 permutations, it’s <span class="math inline">\(27.6\times\)</span> faster.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colonCateg_superpcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SuperPCA_pVals.html">SuperPCA_pVals</a></span>(
-  <span class="dt">object =</span> colon_OmicsCateg,
-  <span class="dt">numPCs =</span> <span class="dv">2</span>,
-  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
-  <span class="dt">numCores =</span> <span class="dv">2</span>,
-  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,
-  <span class="dt">adjustment =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">colonCateg_superpcOut &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SuperPCA_pVals.html">SuperPCA_pVals</a></span>(</a>
+<a class="sourceLine" id="cb12-2" title="2">  <span class="dt">object =</span> colon_OmicsCateg,</a>
+<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">numPCs =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">numCores =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="dt">adjustpValues =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">adjustment =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SidakSS"</span>, <span class="st">"BY"</span>)</a>
+<a class="sourceLine" id="cb12-8" title="8">)</a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -427,91 +424,91 @@
 <h2 class="hasAnchor">
 <a href="#table-of-p-values" class="anchor"></a>5.1 Table of <span class="math inline">\(p\)</span>-Values</h2>
 <p>For a quick and easy view of the pathway significance testing results, we can simply access the <span class="math inline">\(p\)</span>-values data frame in the output object with the <code><a href="../reference/getPathpVals.html">getPathpVals()</a></code> function. (Note: if you are not using the <code>tidyverse</code> package suite, your results will print differently.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(colonSurv_aespcOut)
-<span class="co">#&gt; # A tibble: 15 x 4</span>
-<span class="co">#&gt;    terms                                    rawp FWER_Hochberg FWER_SidakSD</span>
-<span class="co">#&gt;    &lt;chr&gt;                                   &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 PID_EPHB_FWD_PATHWAY                  6.53e-6     0.0000980    0.0000980</span>
-<span class="co">#&gt;  2 REACTOME_PHOSPHOLIPID_METABOLISM      1.96e-4     0.00275      0.00275  </span>
-<span class="co">#&gt;  3 REACTOME_INSULIN_RECEPTOR_SIGNALLI~   4.90e-4     0.00637      0.00635  </span>
-<span class="co">#&gt;  4 KEGG_ASTHMA                           8.21e-4     0.00985      0.00981  </span>
-<span class="co">#&gt;  5 KEGG_ERBB_SIGNALING_PATHWAY           1.47e-3     0.0162       0.0161   </span>
-<span class="co">#&gt;  6 PID_TNF_PATHWAY                       2.60e-3     0.0260       0.0257   </span>
-<span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECE~   4.42e-3     0.0387       0.0390   </span>
-<span class="co">#&gt;  8 KEGG_PENTOSE_PHOSPHATE_PATHWAY        4.84e-3     0.0387       0.0390   </span>
-<span class="co">#&gt;  9 ST_GA12_PATHWAY                       1.48e-2     0.103        0.0990   </span>
-<span class="co">#&gt; 10 KEGG_RETINOL_METABOLISM               2.55e-2     0.153        0.143    </span>
-<span class="co">#&gt; 11 KEGG_NON_SMALL_CELL_LUNG_CANCER       4.69e-2     0.234        0.213    </span>
-<span class="co">#&gt; 12 KEGG_ANTIGEN_PROCESSING_AND_PRESEN~   7.37e-2     0.295        0.264    </span>
-<span class="co">#&gt; 13 BIOCARTA_RELA_PATHWAY                 7.09e-1     0.801        0.975    </span>
-<span class="co">#&gt; 14 BIOCARTA_TNFR1_PATHWAY                7.76e-1     0.801        0.975    </span>
-<span class="co">#&gt; 15 BIOCARTA_SET_PATHWAY                  8.01e-1     0.801        0.975</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/getPathpVals.html">getPathpVals</a></span>(colonSurv_aespcOut)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; # A tibble: 15 x 4</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt;    terms                                         rawp FWER_Hochberg FWER_SidakSD</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt;    &lt;chr&gt;                                        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt;  1 PID_EPHB_FWD_PATHWAY                       6.53e-6     0.0000980    0.0000980</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt;  2 REACTOME_PHOSPHOLIPID_METABOLISM           1.96e-4     0.00275      0.00275  </span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt;  3 REACTOME_INSULIN_RECEPTOR_SIGNALLING_CA…   4.90e-4     0.00637      0.00635  </span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt;  4 KEGG_ASTHMA                                8.21e-4     0.00985      0.00981  </span></a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt;  5 KEGG_ERBB_SIGNALING_PATHWAY                1.47e-3     0.0162       0.0161   </span></a>
+<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt;  6 PID_TNF_PATHWAY                            2.60e-3     0.0260       0.0257   </span></a>
+<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt;  7 REACTOME_SIGNALING_BY_INSULIN_RECEPTOR     4.42e-3     0.0387       0.0390   </span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt;  8 KEGG_PENTOSE_PHOSPHATE_PATHWAY             4.84e-3     0.0387       0.0390   </span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt;  9 ST_GA12_PATHWAY                            1.48e-2     0.103        0.0990   </span></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; 10 KEGG_RETINOL_METABOLISM                    2.55e-2     0.153        0.143    </span></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; 11 KEGG_NON_SMALL_CELL_LUNG_CANCER            4.69e-2     0.234        0.213    </span></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; 12 KEGG_ANTIGEN_PROCESSING_AND_PRESENTATION   7.37e-2     0.295        0.264    </span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt; 13 BIOCARTA_RELA_PATHWAY                      7.09e-1     0.801        0.975    </span></a>
+<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt; 14 BIOCARTA_TNFR1_PATHWAY                     7.76e-1     0.801        0.975    </span></a>
+<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt; 15 BIOCARTA_SET_PATHWAY                       8.01e-1     0.801        0.975</span></a></code></pre></div>
 </div>
 <div id="pathway-pc-and-loading-vectors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pathway-pc-and-loading-vectors" class="anchor"></a>5.2 Pathway PC and Loading Vectors</h2>
 <p>We also may be interested in which genes or proteins “drive” a specific pathway. We can extract the pathway-specific PCs and loadings (PC &amp; L) from either the AESPCA or Supervised PCA output with the <code><a href="../reference/getPathPCLs.html">getPathPCLs()</a></code> function. This function will take in either the proper name of a pathway (as given in the <code>terms</code> column) or the unique pathway identifier (as shown in the <code>pathways</code> column). Note that the PCs and Loadings are stored in tidy data frames, so they will have enhanced printing properties if you have the <code>tidyverse</code> package suite loaded.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">PCLs_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(colonSurv_aespcOut, <span class="st">"KEGG_ASTHMA"</span>)
-PCLs_ls
-<span class="co">#&gt; $PCs</span>
-<span class="co">#&gt; # A tibble: 250 x 3</span>
-<span class="co">#&gt;    sampleID     V1     V2</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 subj1    -1.36   1.98 </span>
-<span class="co">#&gt;  2 subj2    -0.649  3.35 </span>
-<span class="co">#&gt;  3 subj3     1.73  -0.822</span>
-<span class="co">#&gt;  4 subj4    -0.156  7.11 </span>
-<span class="co">#&gt;  5 subj5     2.11   3.70 </span>
-<span class="co">#&gt;  6 subj6     0.284  1.78 </span>
-<span class="co">#&gt;  7 subj7    -1.93   3.21 </span>
-<span class="co">#&gt;  8 subj8     3.28   0.551</span>
-<span class="co">#&gt;  9 subj9    -0.118 -0.458</span>
-<span class="co">#&gt; 10 subj10   -1.56   0.266</span>
-<span class="co">#&gt; # ... with 240 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Loadings</span>
-<span class="co">#&gt; # A tibble: 26 x 3</span>
-<span class="co">#&gt;    featureID    PC1   PC2</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 HLA-DRB4  0      0    </span>
-<span class="co">#&gt;  2 HLA-DOA   0.228  0    </span>
-<span class="co">#&gt;  3 HLA-DOB   0.0851 0.287</span>
-<span class="co">#&gt;  4 IL3       0      0.318</span>
-<span class="co">#&gt;  5 TNF       0      0.153</span>
-<span class="co">#&gt;  6 CCL11     0      0    </span>
-<span class="co">#&gt;  7 EPX       0      0.494</span>
-<span class="co">#&gt;  8 FCER1G    0.331  0    </span>
-<span class="co">#&gt;  9 MS4A2     0      0    </span>
-<span class="co">#&gt; 10 HLA-DMB   0.347  0    </span>
-<span class="co">#&gt; # ... with 16 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $pathway</span>
-<span class="co">#&gt; [1] "pathway177"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $term</span>
-<span class="co">#&gt; [1] "KEGG_ASTHMA"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $description</span>
-<span class="co">#&gt; [1] NA</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">PCLs_ls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/getPathPCLs.html">getPathPCLs</a></span>(colonSurv_aespcOut, <span class="st">"KEGG_ASTHMA"</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2">PCLs_ls</a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt; $PCs</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt; # A tibble: 250 x 3</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt;    sampleID     V1     V2</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="co">#&gt;  1 subj1    -1.36   1.98 </span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="co">#&gt;  2 subj2    -0.649  3.35 </span></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="co">#&gt;  3 subj3     1.73  -0.822</span></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="co">#&gt;  4 subj4    -0.156  7.11 </span></a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="co">#&gt;  5 subj5     2.11   3.70 </span></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="co">#&gt;  6 subj6     0.284  1.78 </span></a>
+<a class="sourceLine" id="cb14-13" title="13"><span class="co">#&gt;  7 subj7    -1.93   3.21 </span></a>
+<a class="sourceLine" id="cb14-14" title="14"><span class="co">#&gt;  8 subj8     3.28   0.551</span></a>
+<a class="sourceLine" id="cb14-15" title="15"><span class="co">#&gt;  9 subj9    -0.118 -0.458</span></a>
+<a class="sourceLine" id="cb14-16" title="16"><span class="co">#&gt; 10 subj10   -1.56   0.266</span></a>
+<a class="sourceLine" id="cb14-17" title="17"><span class="co">#&gt; # … with 240 more rows</span></a>
+<a class="sourceLine" id="cb14-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-19" title="19"><span class="co">#&gt; $Loadings</span></a>
+<a class="sourceLine" id="cb14-20" title="20"><span class="co">#&gt; # A tibble: 26 x 3</span></a>
+<a class="sourceLine" id="cb14-21" title="21"><span class="co">#&gt;    featureID    PC1   PC2</span></a>
+<a class="sourceLine" id="cb14-22" title="22"><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb14-23" title="23"><span class="co">#&gt;  1 HLA-DRB4  0      0    </span></a>
+<a class="sourceLine" id="cb14-24" title="24"><span class="co">#&gt;  2 HLA-DOA   0.228  0    </span></a>
+<a class="sourceLine" id="cb14-25" title="25"><span class="co">#&gt;  3 HLA-DOB   0.0851 0.287</span></a>
+<a class="sourceLine" id="cb14-26" title="26"><span class="co">#&gt;  4 IL3       0      0.318</span></a>
+<a class="sourceLine" id="cb14-27" title="27"><span class="co">#&gt;  5 TNF       0      0.153</span></a>
+<a class="sourceLine" id="cb14-28" title="28"><span class="co">#&gt;  6 CCL11     0      0    </span></a>
+<a class="sourceLine" id="cb14-29" title="29"><span class="co">#&gt;  7 EPX       0      0.494</span></a>
+<a class="sourceLine" id="cb14-30" title="30"><span class="co">#&gt;  8 FCER1G    0.331  0    </span></a>
+<a class="sourceLine" id="cb14-31" title="31"><span class="co">#&gt;  9 MS4A2     0      0    </span></a>
+<a class="sourceLine" id="cb14-32" title="32"><span class="co">#&gt; 10 HLA-DMB   0.347  0    </span></a>
+<a class="sourceLine" id="cb14-33" title="33"><span class="co">#&gt; # … with 16 more rows</span></a>
+<a class="sourceLine" id="cb14-34" title="34"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-35" title="35"><span class="co">#&gt; $pathway</span></a>
+<a class="sourceLine" id="cb14-36" title="36"><span class="co">#&gt; [1] "pathway177"</span></a>
+<a class="sourceLine" id="cb14-37" title="37"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-38" title="38"><span class="co">#&gt; $term</span></a>
+<a class="sourceLine" id="cb14-39" title="39"><span class="co">#&gt; [1] "KEGG_ASTHMA"</span></a>
+<a class="sourceLine" id="cb14-40" title="40"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb14-41" title="41"><span class="co">#&gt; $description</span></a>
+<a class="sourceLine" id="cb14-42" title="42"><span class="co">#&gt; [1] NA</span></a></code></pre></div>
 <p>As an example, we see that the HLA-DRA gene positively loads onto this pathway, and <a href="https://www.ncbi.nlm.nih.gov/pubmed/16367922">has been shown to be related to colorectal cancer</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">PCLs_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(PC1 <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>PC2) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(PC1))
-<span class="co">#&gt; # A tibble: 11 x 2</span>
-<span class="co">#&gt;    featureID    PC1</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 HLA-DPB1  0.472 </span>
-<span class="co">#&gt;  2 HLA-DRA   0.421 </span>
-<span class="co">#&gt;  3 HLA-DPA1  0.372 </span>
-<span class="co">#&gt;  4 HLA-DMB   0.347 </span>
-<span class="co">#&gt;  5 FCER1G    0.331 </span>
-<span class="co">#&gt;  6 HLA-DMA   0.256 </span>
-<span class="co">#&gt;  7 IL10      0.254 </span>
-<span class="co">#&gt;  8 HLA-DOA   0.228 </span>
-<span class="co">#&gt;  9 CD40      0.163 </span>
-<span class="co">#&gt; 10 HLA-DQA1  0.126 </span>
-<span class="co">#&gt; 11 HLA-DOB   0.0851</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">PCLs_ls<span class="op">$</span>Loadings <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(PC1 <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>PC2) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(PC1))</a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="co">#&gt; # A tibble: 11 x 2</span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="co">#&gt;    featureID    PC1</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt;  1 HLA-DPB1  0.472 </span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt;  2 HLA-DRA   0.421 </span></a>
+<a class="sourceLine" id="cb15-10" title="10"><span class="co">#&gt;  3 HLA-DPA1  0.372 </span></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt;  4 HLA-DMB   0.347 </span></a>
+<a class="sourceLine" id="cb15-12" title="12"><span class="co">#&gt;  5 FCER1G    0.331 </span></a>
+<a class="sourceLine" id="cb15-13" title="13"><span class="co">#&gt;  6 HLA-DMA   0.256 </span></a>
+<a class="sourceLine" id="cb15-14" title="14"><span class="co">#&gt;  7 IL10      0.254 </span></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="co">#&gt;  8 HLA-DOA   0.228 </span></a>
+<a class="sourceLine" id="cb15-16" title="16"><span class="co">#&gt;  9 CD40      0.163 </span></a>
+<a class="sourceLine" id="cb15-17" title="17"><span class="co">#&gt; 10 HLA-DQA1  0.126 </span></a>
+<a class="sourceLine" id="cb15-18" title="18"><span class="co">#&gt; 11 HLA-DOB   0.0851</span></a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -527,55 +524,51 @@ PCLs_ls
 </ol>
 <p>Please read vignette chapter 5 next: <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supplement5-Analyse_Results.html">Visualizing the Results</a>.</p>
 <p>Here is the R session information for this vignette:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R Under development (unstable) (2019-02-12 r76095)</span>
-<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
-<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
-<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
-<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
-<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
-<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attached base packages:</span>
-<span class="co">#&gt; [1] parallel  stats     graphics  grDevices utils     datasets  methods  </span>
-<span class="co">#&gt; [8] base     </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] pathwayPCA_0.99.5 forcats_0.4.0     stringr_1.4.0    </span>
-<span class="co">#&gt;  [4] dplyr_0.8.0.1     purrr_0.3.2       readr_1.3.1      </span>
-<span class="co">#&gt;  [7] tidyr_0.8.3       tibble_2.1.1      ggplot2_3.1.0    </span>
-<span class="co">#&gt; [10] tidyverse_1.2.1  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] tidyselect_0.2.5  xfun_0.6          splines_3.6.0    </span>
-<span class="co">#&gt;  [4] haven_2.1.0       lattice_0.20-38   colorspace_1.4-1 </span>
-<span class="co">#&gt;  [7] generics_0.0.2    htmltools_0.3.6   yaml_2.2.0       </span>
-<span class="co">#&gt; [10] utf8_1.1.4        survival_2.44-1.1 rlang_0.3.3      </span>
-<span class="co">#&gt; [13] pkgdown_1.3.0     pillar_1.3.1      withr_2.1.2      </span>
-<span class="co">#&gt; [16] glue_1.3.1        modelr_0.1.4      readxl_1.3.1     </span>
-<span class="co">#&gt; [19] plyr_1.8.4        munsell_0.5.0     commonmark_1.7   </span>
-<span class="co">#&gt; [22] gtable_0.3.0      cellranger_1.1.0  rvest_0.3.2      </span>
-<span class="co">#&gt; [25] memoise_1.1.0     evaluate_0.13     knitr_1.22       </span>
-<span class="co">#&gt; [28] fansi_0.4.0       lars_1.2          broom_0.5.1      </span>
-<span class="co">#&gt; [31] Rcpp_1.0.1        backports_1.1.3   scales_1.0.0     </span>
-<span class="co">#&gt; [34] desc_1.2.0        jsonlite_1.6      fs_1.2.7         </span>
-<span class="co">#&gt; [37] hms_0.4.2         digest_0.6.18     stringi_1.4.3    </span>
-<span class="co">#&gt; [40] grid_3.6.0        rprojroot_1.3-2   cli_1.1.0        </span>
-<span class="co">#&gt; [43] tools_3.6.0       magrittr_1.5      lazyeval_0.2.2   </span>
-<span class="co">#&gt; [46] crayon_1.3.4      pkgconfig_2.0.2   Matrix_1.2-17    </span>
-<span class="co">#&gt; [49] MASS_7.3-51.4     xml2_1.2.0        lubridate_1.7.4  </span>
-<span class="co">#&gt; [52] assertthat_0.2.1  rmarkdown_1.12    roxygen2_6.1.1   </span>
-<span class="co">#&gt; [55] httr_1.4.0        rstudioapi_0.10   R6_2.4.0         </span>
-<span class="co">#&gt; [58] nlme_3.1-137      compiler_3.6.0</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt; R version 3.6.2 (2019-12-12)</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span></a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span></a>
+<a class="sourceLine" id="cb16-12" title="12"><span class="co">#&gt; [4] LC_NUMERIC=C                          </span></a>
+<a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span></a>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb16-16" title="16"><span class="co">#&gt; [1] parallel  stats     graphics  grDevices utils     datasets  methods  </span></a>
+<a class="sourceLine" id="cb16-17" title="17"><span class="co">#&gt; [8] base     </span></a>
+<a class="sourceLine" id="cb16-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-19" title="19"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb16-20" title="20"><span class="co">#&gt;  [1] pathwayPCA_1.1.4 forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3     </span></a>
+<a class="sourceLine" id="cb16-21" title="21"><span class="co">#&gt;  [5] purrr_0.3.3      readr_1.3.1      tidyr_1.0.0      tibble_2.1.3    </span></a>
+<a class="sourceLine" id="cb16-22" title="22"><span class="co">#&gt;  [9] ggplot2_3.2.1    tidyverse_1.3.0 </span></a>
+<a class="sourceLine" id="cb16-23" title="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-24" title="24"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb16-25" title="25"><span class="co">#&gt;  [1] Rcpp_1.0.3       lubridate_1.7.4  lattice_0.20-38  assertthat_0.2.1</span></a>
+<a class="sourceLine" id="cb16-26" title="26"><span class="co">#&gt;  [5] zeallot_0.1.0    rprojroot_1.3-2  digest_0.6.23    utf8_1.1.4      </span></a>
+<a class="sourceLine" id="cb16-27" title="27"><span class="co">#&gt;  [9] R6_2.4.1         cellranger_1.1.0 backports_1.1.5  lars_1.2        </span></a>
+<a class="sourceLine" id="cb16-28" title="28"><span class="co">#&gt; [13] reprex_0.3.0     evaluate_0.14    httr_1.4.1       pillar_1.4.3    </span></a>
+<a class="sourceLine" id="cb16-29" title="29"><span class="co">#&gt; [17] rlang_0.4.2      lazyeval_0.2.2   readxl_1.3.1     rstudioapi_0.10 </span></a>
+<a class="sourceLine" id="cb16-30" title="30"><span class="co">#&gt; [21] Matrix_1.2-18    rmarkdown_2.0    pkgdown_1.4.1    desc_1.2.0      </span></a>
+<a class="sourceLine" id="cb16-31" title="31"><span class="co">#&gt; [25] splines_3.6.2    munsell_0.5.0    broom_0.5.3      compiler_3.6.2  </span></a>
+<a class="sourceLine" id="cb16-32" title="32"><span class="co">#&gt; [29] modelr_0.1.5     xfun_0.11        pkgconfig_2.0.3  htmltools_0.4.0 </span></a>
+<a class="sourceLine" id="cb16-33" title="33"><span class="co">#&gt; [33] tidyselect_0.2.5 fansi_0.4.0      crayon_1.3.4     dbplyr_1.4.2    </span></a>
+<a class="sourceLine" id="cb16-34" title="34"><span class="co">#&gt; [37] withr_2.1.2      MASS_7.3-51.5    grid_3.6.2       nlme_3.1-143    </span></a>
+<a class="sourceLine" id="cb16-35" title="35"><span class="co">#&gt; [41] jsonlite_1.6     gtable_0.3.0     lifecycle_0.1.0  DBI_1.1.0       </span></a>
+<a class="sourceLine" id="cb16-36" title="36"><span class="co">#&gt; [45] magrittr_1.5     scales_1.1.0     cli_2.0.0        stringi_1.4.3   </span></a>
+<a class="sourceLine" id="cb16-37" title="37"><span class="co">#&gt; [49] fs_1.3.1         xml2_1.2.2       generics_0.0.2   vctrs_0.2.1     </span></a>
+<a class="sourceLine" id="cb16-38" title="38"><span class="co">#&gt; [53] tools_3.6.2      glue_1.3.1       hms_0.5.2        survival_3.1-8  </span></a>
+<a class="sourceLine" id="cb16-39" title="39"><span class="co">#&gt; [57] yaml_2.2.0       colorspace_1.4-1 rvest_0.3.5      memoise_1.1.0   </span></a>
+<a class="sourceLine" id="cb16-40" title="40"><span class="co">#&gt; [61] knitr_1.26       haven_2.2.0</span></a></code></pre></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -622,17 +615,20 @@ PCLs_ls
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/gabrielodom">Gabriel Odom</a>, James Ban, Lizhong Liu, <a href="http://biostat.med.miami.edu/people/primary-faculty/lily-wang-ph.d">Lily Wang</a>, <a href="http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d">Steven Chen</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check Input Sample IDs — CheckSampleIDs • pathwayPCA</title>
+<title>Wikipathways Homosapiens Gene Symbols — wikipwsHS_Symbol_pathwayCollection • pathwayPCA</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="Check Input Sample IDs — CheckSampleIDs" />
-<meta property="og:description" content="Check the class of the sample IDs and if they are unique. This
-   assumes that the sample IDs are in the first column." />
+<meta property="og:title" content="Wikipathways Homosapiens Gene Symbols — wikipwsHS_Symbol_pathwayCollection" />
+<meta property="og:description" content="A pathwayCollection object containing the homosapiens
+   pathways list from Wikipathways (https://www.wikipathways.org/)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,53 +127,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check Input Sample IDs</h1>
+    <h1>Wikipathways Homosapiens Gene Symbols</h1>
     
-    <div class="hidden name"><code>CheckSampleIDs.Rd</code></div>
+    <div class="hidden name"><code>wikipwsHS_Symbol_pathwayCollection.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Check the class of the sample IDs and if they are unique. This
-   assumes that the sample IDs are in the first column.</p>
+    <p>A <code>pathwayCollection</code> object containing the homosapiens
+   pathways list from Wikipathways (<a href='https://www.wikipathways.org/'>https://www.wikipathways.org/</a>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CheckSampleIDs</span>(<span class='no'>df</span>)</pre>
+    <pre class="usage"><span class='no'>wikipwsHS_Symbol_pathwayCollection</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>df</th>
-      <td><p>An assay or phenotype data frame supplied to the
-<code><a href='CreateOmics.html'>CreateOmics</a></code> function</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>The same data frame, <strong>if</strong> the sample IDs pass sanity checks,
-   with the sample IDs as a character vector.</p>
+    <p>A <code>pathwayCollection</code> list of three elements:</p><ul>
+<li><p><code>pathways</code> : A named list of 457 character vectors. Each
+     vector contains the Gene Symbols of the individual genes within that
+     pathway as a vector of character strings. The names are the shorthand
+     pathway names.</p></li>
+<li><p><code>TERMS</code> : A character vector of length 457 containing the
+     shorthand names of the gene pathways.</p></li>
+<li><p><code>description</code> : A character vector of length 457 containing
+     the full names of the gene pathways.</p></li>
+</ul>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Dr. Alexander Pico, Wikipathways</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function checks that the sample IDs are unique, then coerces
-   them from factor to character (if necessary), stores these IDs as the
-   first column, then returns the same data frame.</p>
+    <p>This <code>pathwayCollection</code> was sent to us from Dr. Alexander Pico
+   at the Gladstone Institute
+   (<a href='https://gladstone.org/our-science/people/alexander-pico'>https://gladstone.org/our-science/people/alexander-pico</a>).</p>   
+<p>This pathway collection was translated from EntrezIDs to HGNC Symbols with
+   the script <code>convert_EntrezID_to_HGNC_Ensembl.R</code> in <code>scripts</code>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().</span>
-
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
- <span class='fu'>CheckSampleIDs</span>(<span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)])
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
