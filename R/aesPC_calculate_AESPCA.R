@@ -42,7 +42,7 @@
 #' @seealso \code{\link{normalize}}; \code{\link{lars.lsa}};
 #'    \code{\link{ExtractAESPCs}}; \code{\link{AESPCA_pVals}}
 #'
-#'
+#' @export
 #'
 #' @examples
 #'   # DO NOT CALL THIS FUNCTION DIRECTLY.
