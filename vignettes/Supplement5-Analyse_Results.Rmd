@@ -428,7 +428,7 @@ copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
 proteoCol <- Totalpalette[circlePlotData$proteinOrder]
 ```
 
-Blue stands for negative PC1 score, Red stands for positive PC1 score. The inner loop stands for copy numbers, outer loop stands for protein expression.
+Blue stands for negative PC1 score, Red stands for positive PC1 score. The inner loop measures copy number variation, while the outer loop measures protein expression.
 ```{r}
 library(circlize)
 

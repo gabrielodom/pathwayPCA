@@ -202,7 +202,11 @@ ggplot(ovOutGather_df) +
   geom_col(position = "dodge", fill = "#66FFFF", width = 0.7) +
   # Add pathway labels
   geom_text(
-    aes(x = reorder(terms, score), label = reorder(description, score), y = 0.1),
+    aes(
+      x = reorder(terms, score),
+      label = reorder(description, score),
+      y = 0.1
+    ),
     color = "black",
     size = 2, 
     hjust = 0
@@ -526,8 +530,8 @@ ggplot(data = NFKB1data_df) +
   # Set main and axis titles
   labs(
     title = "NFKB1 Expressions in Multi-Omics Data",
-    x = "Copy Number Variation",
-    y = "Protein Expression"
+    x = "Copy Number Variation (Centred and Scaled)",
+    y = "Protein Expression (Centred and Scaled)"
   ) +
   # Include the correlation on the graph
   annotate(
@@ -573,7 +577,7 @@ kidney_df <- readRDS(
 )
 ```
 
-```{r kidneyOmics, eval=FALSE}
+```{r kidneyOmics}
 # Create Omics Container
 kidney_Omics <- CreateOmics(
   assayData_df = kidney_df[, -(2:4)],
@@ -594,7 +598,7 @@ Because pathwayPCA is a self-contained test (PMID: 17303618), only features in
   both assay data and pathway database are considered for analysis. There are 5566
   such features shared by the input assay and pathway database.
 ```
-```{r kidneyAESPCA, eval=FALSE}
+```{r kidneyAESPCA}
 # AESPCA
 kidney_aespcOut <- AESPCA_pVals(
   object = kidney_Omics,
@@ -605,23 +609,24 @@ kidney_aespcOut <- AESPCA_pVals(
   adjustment = "BH"
 )
 ```
-```
-Part 1: Calculate Pathway AES-PCs
-Initializing Computing Cluster: DONE
-Extracting Pathway PCs in Parallel: DONE
 
-Part 2: Calculate Pathway p-Values
-Initializing Computing Cluster: DONE
-Extracting Pathway p-Values in Parallel: DONE
+<!-- ``` -->
+<!-- Part 1: Calculate Pathway AES-PCs -->
+<!-- Initializing Computing Cluster: DONE -->
+<!-- Extracting Pathway PCs in Parallel: DONE -->
 
-Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame
-DONE
-```
-```{r kidneyAESPCAload, echo=FALSE}
-kidney_aespcOut <- readRDS(
-  url(paste0(gitHubPath_char, "KIRP_protein_aespcOut.RDS"))
-)
-```
+<!-- Part 2: Calculate Pathway p-Values -->
+<!-- Initializing Computing Cluster: DONE -->
+<!-- Extracting Pathway p-Values in Parallel: DONE -->
+
+<!-- Part 3: Adjusting p-Values and Sorting Pathway p-Value Data Frame -->
+<!-- DONE -->
+<!-- ``` -->
+<!-- ```{r kidneyAESPCAload, echo=FALSE} -->
+<!-- kidney2_aespcOut <- readRDS( -->
+<!--   url(paste0(gitHubPath_char, "KIRP_protein_aespcOut.RDS")) -->
+<!-- ) -->
+<!-- ``` -->
 
 <!-- This takes 1 minute and 40 seconds.  -->
 
