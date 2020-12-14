@@ -1,9 +1,37 @@
-# pathwayPCA 0.0.0.9000
-### 2018-03-20
+# pathwayPCA 1.1.4
+### 2020-02-26
+
+* Exported the `aespca()` function for use in the `rnaEditr::` package (currently in development)
+* Reduced R's version requirement to 3.1 for legacy user compatibility
+* Cleaned up formatting of examples
+* Updated website
+* Cleaned up examples in vignette 5
+* Reformatted NEWS file to put newest news first (dumb mistake on Gabriel's part)
 
 
-* Added a `NEWS.md` file to track changes to the package.
-* Built website.
+
+# pathwayPCA 1.1.1
+### 2019-06-06
+
+Our build on Bioconductor 3.9 devel fails for the second vignette. This patch
+resolves this issue.
+
+
+
+# pathwayPCA 0.99.5
+### 2019-04-12
+
+We have been accepted to Bioconductor!
+See <https://github.com/Bioconductor/Contributions/issues/1000>
+
+
+
+# pathwayPCA 0.99.1
+### 2019-02-01
+
+We are submitting to Bioconductor soon, so we are resolving as many of the
+`BiocCheck()` ERRORs, WARNINGs, and NOTEs. See
+<https://github.com/gabrielodom/pathwayPCA/issues/64>
 
 
 
@@ -40,26 +68,9 @@ into their own chapter. The five vignettes I wrote are now supplemental chapters
 * updated vignettes and website
 
 
-
-# pathwayPCA 0.99.1
-### 2019-02-01
-
-We are submitting to Bioconductor soon, so we are resolving as many of the
-`BiocCheck()` ERRORs, WARNINGs, and NOTEs. See
-<https://github.com/gabrielodom/pathwayPCA/issues/64>
+# pathwayPCA 0.0.0.9000
+### 2018-03-20
 
 
-
-# pathwayPCA 0.99.5
-### 2019-04-12
-
-We have been accepted to Bioconductor!
-See <https://github.com/Bioconductor/Contributions/issues/1000>
-
-
-
-# pathwayPCA 1.1.1
-### 2019-06-06
-
-Our build on Bioconductor 3.9 devel fails for the second vignette. This patch
-resolves this issue.
+* Added a `NEWS.md` file to track changes to the package.
+* Built website.

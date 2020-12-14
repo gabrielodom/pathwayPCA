@@ -9,11 +9,9 @@
 \usage{
 getPathpVals(pcOut, score = FALSE, numPaths = 20L, alpha = NULL, ...)
 
-\method{getPathpVals}{superpcOut}(pcOut, score = FALSE, numPaths = 20L,
-  alpha = NULL, ...)
+\method{getPathpVals}{superpcOut}(pcOut, score = FALSE, numPaths = 20L, alpha = NULL, ...)
 
-\method{getPathpVals}{aespcOut}(pcOut, score = FALSE, numPaths = 20L,
-  alpha = NULL, ...)
+\method{getPathpVals}{aespcOut}(pcOut, score = FALSE, numPaths = 20L, alpha = NULL, ...)
 }
 \arguments{
 \item{pcOut}{An object of classes \code{superpcOut} or \code{aespcOut} as

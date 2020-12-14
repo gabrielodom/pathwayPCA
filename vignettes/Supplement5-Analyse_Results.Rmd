@@ -210,6 +210,7 @@ pathway177_ls <- getPathPCLs(colonSurv_aespcOut, "KEGG_ASTHMA")
 Given the loading vectors from the EPHB forward signaling pathway, we need to wrangle them into a data frame that the `ggplot()` function can use. For this, we've written a function that you can modify as you need. This function takes in the pathway PC & L list returned by the `getPathPCLs()` function and returns a data frame with all the components necessary for a plot of the gene loadings. For more aesthetically-pleasing plots, we set the default for one PC or loading vector per figure.
 ```{r TidyLoading_fun}
 TidyLoading <- function(pathwayPCL, numPCs = 1){
+  # browser()
   
   # Remove rows with 0 loading from the first numPCs columns
   loadings_df <- pathwayPCL$Loadings
@@ -225,10 +226,9 @@ TidyLoading <- function(pathwayPCL, numPCs = 1){
   
   # Wrangle the sorted loadings:
   gg_df <- load_df %>%
-    # make the featureID column a factor,
-    mutate(featureID = factor(featureID, levels = featureID)) %>% 
-    # rename the ID column,
-    rename(ID = featureID) %>% 
+    # make the featureID column a factor, and rename the ID column,
+    mutate(ID = factor(featureID, levels = featureID)) %>% 
+    select(-featureID) %>% 
     # "tidy" the data, and
     gather(Feature, Value, -ID) %>% 
     # add the up / down indicator.
@@ -244,19 +244,19 @@ TidyLoading <- function(pathwayPCL, numPCs = 1){
 ```
 
 We can use this function to "tidy up" the loadings from the EPHB forward signaling pathway:
-```{r TidyLoadings, eval=FALSE}
+```{r TidyLoadings}
 tidyLoad491_df <- TidyLoading(pathwayPCL = pathway491_ls)
 tidyLoad491_df
 ```
 
-```{r TidyLoadings110, echo=FALSE, eval=FALSE}
+```{r TidyLoadings110, echo=FALSE}
 tidyLoad177_df <- TidyLoading(pathwayPCL = pathway177_ls)
 ```
 
 
 ### 3.2.2 Plot the Gene Loadings
 We also wrote a function to create a `ggplot` graph object which uses this tidy data frame.
-```{r PathwayBarChart_fun, eval=FALSE}
+```{r PathwayBarChart_fun}
 PathwayBarChart <- function(ggData_df, y_lab,
                             colours = c(Up = "#009292", Down = "#920000"),
                             label_size = 5,
@@ -317,8 +317,8 @@ PathwayBarChart <- function(ggData_df, y_lab,
 ```
 
 This is the resulting loading bar plot for the EPHB forward signaling pathway (because all of the loadings are between -1 and 1, we set the significant figures to 2):
-```{r, eval=FALSE}
-#  pathway491_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
+```{r pathway491_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+
 PathwayBarChart(
   ggData_df = tidyLoad491_df,
   y_lab = "PC Loadings",
@@ -327,7 +327,7 @@ PathwayBarChart(
 ```
 
 For comparison, this is the bar plot for the asthma pathway (`pathway177` in our -Omics data container):
-```{r, eval=FALSE}
+```{r}
 # pathway177_loadings_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
 PathwayBarChart(
   ggData_df = tidyLoad177_df,
@@ -341,7 +341,7 @@ PathwayBarChart(
 ## 3.3 Gene Correlations with PCs
 ### 3.3.1 Calculate Pathway Correlations
 Additionally, we can calculate the correlation between gene expression in the assay corresponding to the EPHB forward signaling pathway and the PC vectors extracted from this pathway. Thus, we need to extract the recorded gene levels corresponding to the non-zero loadings for the PCs, calculate the Spearman correlations between these values and their extracted PCs, then wrangle these correlations into a data frame that the `ggplot()` function can use. We have written an additional function that you can modify as you need. This function takes in the `Omics` data container (that you created in Chapter 3) and the PC & L list returned by `getPathPCLs()`. This function returns a data frame with all the components necessary for a plot of the assay-PC correlations.
-```{r TidyCorrelation_fun, eval=FALSE}
+```{r TidyCorrelation_fun}
 TidyCorrelation <- function(Omics, pathwayPCL, numPCs = 1){
   
   loadings_df <- pathwayPCL$Loadings
@@ -374,14 +374,14 @@ TidyCorrelation <- function(Omics, pathwayPCL, numPCs = 1){
 ```
 
 We can use this function to "tidy up" the loadings from the EPHB forward signaling pathway:
-```{r TidyCorrelation, eval=FALSE}
+```{r TidyCorrelation}
 tidyCorr491_df <- TidyCorrelation(
   Omics = colon_OmicsSurv,
   pathwayPCL = pathway491_ls
 )
 tidyCorr491_df
 ```
-```{r TidyCorrelation2, echo=FALSE, eval=FALSE}
+```{r TidyCorrelation2, echo=FALSE}
 tidyCorr177_df <- TidyCorrelation(
   Omics = colon_OmicsSurv,
   pathwayPCL = pathway177_ls
@@ -390,8 +390,8 @@ tidyCorr177_df <- TidyCorrelation(
 
 ### 3.3.2 Plot the Assay-PC Correlation
 This is the resulting correlation bar plot for the EPHB forward signaling pathway:
-```{r, eval=FALSE}
-#  pathway491_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
+```{r pathway491_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
+
 PathwayBarChart(
   ggData_df = tidyCorr491_df,
   y_lab = "Assay-PC Correlations",
@@ -400,8 +400,7 @@ PathwayBarChart(
 ```
 
 And this is the same figure for the asthma pathway.
-```{r, eval=FALSE}
-# pathway177_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"
+```{r pathway177_correlations_bar_chart, fig.height = 6, fig.width = 10.7, out.width = "100%", out.height = "60%"}
 PathwayBarChart(
   ggData_df = tidyCorr177_df,
   y_lab = "Assay-PC Correlations",
@@ -428,7 +427,7 @@ copyCol <-  Totalpalette[circlePlotData$copyNumOrder]
 proteoCol <- Totalpalette[circlePlotData$proteinOrder]
 ```
 
-Blue stands for negative PC1 score, Red stands for positive PC1 score. The inner loop stands for copy numbers, outer loop stands for protein expression.
+Blue stands for negative PC1 score, Red stands for positive PC1 score. The inner loop measures copy number variation, while the outer loop measures protein expression.
 ```{r}
 library(circlize)
 
@@ -466,8 +465,8 @@ circos.trackPlotRegion(
 # Add labels
 suppressMessages(
   circos.trackText(
-    rep(-3, nPathway),
-    rep(-3.8,nPathway),
+    x = rep(-3, nPathway),
+    y = rep(-3.8, nPathway),
     labels = "PID_IL1",
     factors = factors,
     col = "#2d2d2d",

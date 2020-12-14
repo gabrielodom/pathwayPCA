@@ -4,8 +4,16 @@
 \alias{lars.lsa}
 \title{Least Angle Regression and LASSO Regression}
 \usage{
-lars.lsa(Sigma0, b0, n, type = c("lar", "lasso"), max.steps = NULL,
-  eps = .Machine$double.eps, adaptive = TRUE, para = NULL)
+lars.lsa(
+  Sigma0,
+  b0,
+  n,
+  type = c("lar", "lasso"),
+  max.steps = NULL,
+  eps = .Machine$double.eps,
+  adaptive = TRUE,
+  para = NULL
+)
 }
 \arguments{
 \item{Sigma0}{A Grammian / covariance matrix of pathway predictors.}

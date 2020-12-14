@@ -25,6 +25,9 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/colon_pathwayCollection.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/Contains.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/ControlFDR.html</loc>
   </url>
   <url>
@@ -160,7 +163,13 @@
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/ValidOmicsSurv.html</loc>
   </url>
   <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/WhichPathways.html</loc>
+  </url>
+  <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/wikipwsHS_Entrez_pathwayCollection.html</loc>
+  </url>
+  <url>
+    <loc>https://gabrielodom.github.io/pathwayPCA//reference/wikipwsHS_Symbol_pathwayCollection.html</loc>
   </url>
   <url>
     <loc>https://gabrielodom.github.io/pathwayPCA//reference/write_gmt.html</loc>

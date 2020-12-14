@@ -4,9 +4,14 @@
 \alias{ControlFDR}
 \title{Adjust \eqn{p}-values for simple multiple-testing procedures}
 \usage{
-ControlFDR(rawp, proc = c("BH", "BY", "ABH", "TSBH", "Bonferroni",
-  "Holm", "Hochberg", "SidakSS", "SidakSD"), alpha = 0.05,
-  na.rm = FALSE, as.multtest.out = FALSE)
+ControlFDR(
+  rawp,
+  proc = c("BH", "BY", "ABH", "TSBH", "Bonferroni", "Holm", "Hochberg", "SidakSS",
+    "SidakSD"),
+  alpha = 0.05,
+  na.rm = FALSE,
+  as.multtest.out = FALSE
+)
 }
 \arguments{
 \item{rawp}{A vector of raw (unadjusted) \eqn{p}-values for each hypothesis

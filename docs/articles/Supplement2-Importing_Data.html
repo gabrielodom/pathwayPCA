@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Suppl. Ch. 2 - Import and Tidy Data • pathwayPCA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Suppl. Ch. 2 - Import and Tidy Data">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pathwayPCA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -49,20 +50,22 @@
 <li>
       <a href="../articles/Introduction_to_pathwayPCA.html">Integrative Pathway Analysis with pathwayPCA</a>
     </li>
+    <li class="divider">
+    <li class="dropdown-header">Supplemental Material</li>
     <li>
-      <a href="../articles/Supplement1-Quickstart_Guide.html">Suppl. Ch. 1 - Quickstart Guide for New R Users</a>
+      <a href="../articles/Supplement1-Quickstart_Guide.html">Quick-start Guide</a>
     </li>
     <li>
-      <a href="../articles/Supplement2-Importing_Data.html">Suppl. Ch. 2 - Import and Tidy Data</a>
+      <a href="../articles/Supplement2-Importing_Data.html">Import and Tidy Data</a>
     </li>
     <li>
-      <a href="../articles/Supplement3-Create_Omics_Objects.html">Suppl. Ch. 3 - Creating Data Objects</a>
+      <a href="../articles/Supplement3-Create_Omics_Objects.html">Creating -Omics Data Objects</a>
     </li>
     <li>
-      <a href="../articles/Supplement4-Methods_Walkthrough.html">Suppl. Ch. 4 - Test Pathway Significance</a>
+      <a href="../articles/Supplement4-Methods_Walkthrough.html">Pathway-PCA Methods</a>
     </li>
     <li>
-      <a href="../articles/Supplement5-Analyse_Results.html">Suppl. Ch.  5 - Visualizing the Results</a>
+      <a href="../articles/Supplement5-Analyse_Results.html">Result Visualization Guide</a>
     </li>
   </ul>
 </li>
@@ -70,14 +73,7 @@
   <a href="../news/index.html">Version Logs</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/gabrielodom/pathwayPCA">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -86,15 +82,16 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Suppl. Ch. 2 - Import and Tidy Data</h1>
                         <h4 class="author">Gabriel Odom</h4>
             
-            <h4 class="date">2019-04-12</h4>
+            <h4 class="date">2020-02-26</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/gabrielodom/pathwayPCA/blob/master/vignettes/Supplement2-Importing_Data.Rmd"><code>vignettes/Supplement2-Importing_Data.Rmd</code></a></small>
+      
       <div class="hidden name"><code>Supplement2-Importing_Data.Rmd</code></div>
 
     </div>
@@ -112,11 +109,11 @@
 <li>Import phenotype information stored in a <code>.csv</code> file, and join (merge) it to the assay data frame with the <code>inner_join</code> function from the <code>dplyr</code> package.</li>
 </ol>
 <p>First, load the <code>pathwayPCA</code> package and the <a href="https://www.tidyverse.org/"><code>tidyverse</code> package suite</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)
-<span class="co"># Set tibble data frame print options</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">tibble.max_extra_cols =</span> <span class="dv">10</span>)
-
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pathwayPCA)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co"># Set tibble data frame print options</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">tibble.max_extra_cols =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pathwayPCA)</a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -130,9 +127,9 @@
 <p>GMT-formatted files follow a very specific set of rules:</p>
 <ol style="list-style-type: decimal">
 <li>Each row of the file represents a pathway, and only one pathway is allowed per line.</li>
-<li>The first entry in each row is the pathway name; e.g. <code>"KEGG_STEROID_BIOSYNTHESIS"</code>.</li>
-<li>The second entry in each row is an optional brief description of the pathway; e.g. <code>"http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_STEROID_BIOSYNTHESIS"</code>.</li>
-<li>The third to the last entry on each row are the gene names in the pathway; e.g. <code>"SOAT1"  "LSS" "SQLE"  "EBP" "CYP51A1" "DHCR7" "CYP27B1" "DHCR24"  "HSD17B7" "MSMO1" "FDFT1" "SC5DL" "LIPA"  "CEL" "TM7SF2"  "NSDHL" "SOAT2"</code>.</li>
+<li>The first entry in each row is the pathway name; e.g. <code>"KEGG_STEROID_BIOSYNTHESIS"</code>.</li>
+<li>The second entry in each row is an optional brief description of the pathway; e.g. <code>"http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_STEROID_BIOSYNTHESIS"</code>.</li>
+<li>The third to the last entry on each row are the gene names in the pathway; e.g. <code>"SOAT1"  "LSS" "SQLE"  "EBP" "CYP51A1" "DHCR7" "CYP27B1" "DHCR24"  "HSD17B7" "MSMO1" "FDFT1" "SC5DL" "LIPA"  "CEL" "TM7SF2"  "NSDHL" "SOAT2"</code>.</li>
 <li>Each entry in each line is seperated by a tab.</li>
 </ol>
 </div>
@@ -141,15 +138,15 @@
 <a href="#import-gmt-files-with-read_gmt" class="anchor"></a>2.2 Import GMT files with <code>read_gmt</code>
 </h2>
 <p>Based on the clearly-organized <code>.gmt</code> file format, we were able to write a very fast function to read <code>.gmt</code> files into R. The <code>read_gmt</code> function takes in a path specifying where your <code>.gmt</code> file is stored, and outputs a pathways list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gmt_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"c2.cp.v6.0.symbols.gmt"</span>,
-                         <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
-cp_pathwayCollection &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(gmt_path, <span class="dt">description =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">gmt_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"c2.cp.v6.0.symbols.gmt"</span>,</a>
+<a class="sourceLine" id="cb2-2" title="2">                         <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">cp_pathwayCollection &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_gmt.html">read_gmt</a></span>(gmt_path, <span class="dt">description =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>We now carefully discuss the form of this information. This <code>cp_pathwayCollection</code> object has class <code>pathwayCollection</code> and contains the following components:</p>
 <ol style="list-style-type: decimal">
 <li>
 <code>pathways</code>: A list of character vectors. Each character vector should contain a subset of the names of the -Omes measured in your assay data frame. These pathways should not be too short, otherwise we devolve the problem into simply testing individual genes. The <code>pathwayPCA</code> package requires each pathway to have a minimum of three genes recorded in the assay data frame.</li>
 </ol>
-<p><strong>Important</strong>: some protein set lists have proteins markers recorded as character numerics (e.g. “3”), so make sure the feature names of your assay have an overlap with the gene or protein names in the <code>pathwayCollection</code> list. Ensure that there is a non-empty overlap between the gene names in the pathways list and the feature names of the assay. Not every gene in your assay data frame will be in the pathways list, and not every gene in each pathway will have a corresponding measurement in the assay data frame. <em>However, for meaningful results, there should be a significant overlap between the genes measured in the assay data frame and the gene names stored in the pathways list.</em> If your pathways list has very few matching genes in your assay, then your pathway-based analysis results will be significantly degraded. <strong>Make sure your pathways list and assay data are compatible.</strong></p>
+<p><strong>Important</strong>: some protein set lists have proteins markers recorded as character numerics (e.g. “3”), so make sure the feature names of your assay have an overlap with the gene or protein names in the <code>pathwayCollection</code> list. Ensure that there is a non-empty overlap between the gene names in the pathways list and the feature names of the assay. Not every gene in your assay data frame will be in the pathways list, and not every gene in each pathway will have a corresponding measurement in the assay data frame. <em>However, for meaningful results, there should be a significant overlap between the genes measured in the assay data frame and the gene names stored in the pathways list.</em> If your pathways list has very few matching genes in your assay, then your pathway-based analysis results will be significantly degraded. <strong>Make sure your pathways list and assay data are compatible.</strong></p>
 <ol start="2" style="list-style-type: decimal">
 <li>
 <code>TERMS</code>: A character vector comprised of the proper name of each pathway in the pathway collection.</li>
@@ -159,36 +156,36 @@ cp_pathwayCollection &lt;-<span class="st"> </span><span class="kw"><a href="../
 <code>setsize</code>: the number of genes originally recorded in each pathway, stored as an integer vector. NOTE: <em>this information is calculated and added to the pathways list at <code>Omics</code>-class object creation (later in the workflow).</em> This information is useful to measure the ratio of the number of genes from each pathway recorded in your assay to the number of genes defined to be in that pathway. For each pathway, this ratio should be at least 0.5 for best pathway analysis results.</li>
 </ol>
 <p>The object itself has the following structure:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cp_pathwayCollection
-<span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: </span>
-<span class="co">#&gt;  $ pathways   :List of 1329</span>
-<span class="co">#&gt;  $ TERMS      : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span>
-<span class="co">#&gt;  $ description: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">cp_pathwayCollection</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: </span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt;  $ pathways   :List of 1329</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt;  $ TERMS      : chr [1:1329] "KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt;  $ description: chr [1:1329] "http://www.broadinstitute.org/gsea/msigdb/cards/KEGG_GLYCOLYSIS_GLUCONEOGENESIS" ...</span></a></code></pre></div>
 <p>This object will be the list supplied to the <code>pathwayCollection_ls</code> argument in the <code>CreateOmics</code> function.</p>
 </div>
 <div id="creating-your-own-pathwaycollection-list" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-your-own-pathwaycollection-list" class="anchor"></a>2.3 Creating Your Own <code>pathwayCollection</code> List</h2>
 <p>Additionally, you can create a <code>pathwayCollection</code> object from scratch with the <code>CreatePathwayCollection</code> function. This may be useful to users who have their pathway information stored in some form other than a <code>.gmt</code> file. You must supply a list of vectors of gene names to the <code>pathways</code> argument, and a vector of the proper names of each pathway to the <code>TERMS</code> argument. You could also store any other pertinant pathway information by passing a <code>&lt;name&gt; = &lt;value&gt;</code> pair to this function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myPathways_ls &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(
-  <span class="dt">pathway1 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Gene1"</span>, <span class="st">"Gene2"</span>),
-  <span class="dt">pathway2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Gene3"</span>, <span class="st">"Gene4"</span>, <span class="st">"Gene5"</span>),
-  <span class="dt">pathway3 =</span> <span class="st">"Gene6"</span>
-)
-myPathway_names &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(
-  <span class="st">"KEGG_IMPORTANT_PATHWAY_1"</span>,
-  <span class="st">"KEGG_IMPORTANT_PATHWAY_2"</span>,
-  <span class="st">"SOME_OTHER_PATHWAY"</span>
-)
-<span class="kw"><a href="../reference/CreatePathwayCollection.html">CreatePathwayCollection</a></span>(
-  <span class="dt">sets_ls =</span> myPathways_ls,
-  <span class="dt">TERMS =</span> myPathway_names,
-  <span class="dt">website =</span> <span class="st">"URL_TO_PATHWAY_CITATION"</span>
-)
-<span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: </span>
-<span class="co">#&gt;  $ pathways:List of 3</span>
-<span class="co">#&gt;  $ TERMS   : chr [1:3] "KEGG_IMPORTANT_PATHWAY_1" ...</span>
-<span class="co">#&gt;  $ website : chr "URL_TO_PATHWAY_CITATION"</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">myPathways_ls &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="dt">pathway1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Gene1"</span>, <span class="st">"Gene2"</span>),</a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="dt">pathway2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Gene3"</span>, <span class="st">"Gene4"</span>, <span class="st">"Gene5"</span>),</a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="dt">pathway3 =</span> <span class="st">"Gene6"</span></a>
+<a class="sourceLine" id="cb4-5" title="5">)</a>
+<a class="sourceLine" id="cb4-6" title="6">myPathway_names &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<a class="sourceLine" id="cb4-7" title="7">  <span class="st">"KEGG_IMPORTANT_PATHWAY_1"</span>,</a>
+<a class="sourceLine" id="cb4-8" title="8">  <span class="st">"KEGG_IMPORTANT_PATHWAY_2"</span>,</a>
+<a class="sourceLine" id="cb4-9" title="9">  <span class="st">"SOME_OTHER_PATHWAY"</span></a>
+<a class="sourceLine" id="cb4-10" title="10">)</a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="kw"><a href="../reference/CreatePathwayCollection.html">CreatePathwayCollection</a></span>(</a>
+<a class="sourceLine" id="cb4-12" title="12">  <span class="dt">sets_ls =</span> myPathways_ls,</a>
+<a class="sourceLine" id="cb4-13" title="13">  <span class="dt">TERMS =</span> myPathway_names,</a>
+<a class="sourceLine" id="cb4-14" title="14">  <span class="dt">website =</span> <span class="st">"URL_TO_PATHWAY_CITATION"</span></a>
+<a class="sourceLine" id="cb4-15" title="15">)</a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 3 elements: </span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;  $ pathways:List of 3</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt;  $ TERMS   : chr [1:3] "KEGG_IMPORTANT_PATHWAY_1" ...</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt;  $ website : chr "URL_TO_PATHWAY_CITATION"</span></a></code></pre></div>
 </div>
 <div id="importing-a-pathway-collection-from-wikipathways" class="section level2">
 <h2 class="hasAnchor">
@@ -207,10 +204,10 @@ myPathway_names &lt;-<span class="st"> </span><span class="kw"><a href="https://
 <h2 class="hasAnchor">
 <a href="#writing-a-pathwaycollection-object-to-a--gmt-file" class="anchor"></a>2.4 Writing a <code>pathwayCollection</code> Object to a <code>.gmt</code> File</h2>
 <p>Finally, we can save the <code>pathwayCollection</code> object we just created via the <code><a href="../reference/write_gmt.html">write_gmt()</a></code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/write_gmt.html">write_gmt</a></span>(
-  <span class="dt">pathwayCollection =</span> cp_pathwayCollection,
-  <span class="dt">file =</span> <span class="st">"../test.gmt"</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/write_gmt.html">write_gmt</a></span>(</a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="dt">pathwayCollection =</span> cp_pathwayCollection,</a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="dt">file =</span> <span class="st">"../test.gmt"</span></a>
+<a class="sourceLine" id="cb5-4" title="4">)</a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -219,75 +216,71 @@ myPathway_names &lt;-<span class="st"> </span><span class="kw"><a href="https://
 <h1 class="hasAnchor">
 <a href="#import-and-tidy-an-assay-matrix" class="anchor"></a>3. Import and Tidy an Assay Matrix</h1>
 <p>We assume that the assay data (e.g. transcriptomic data) is either in an Excel file or flat text file. For example, your data may look like this:</p>
-<div class="figure">
-<img src="example_assay_data.PNG">
-</div>
+<p><img src="example_assay_data.PNG"></p>
 <p>In this data set, the columns are individual samples. The values in each row are the -Omic expression measurements for the gene in that row.</p>
 <div id="import-with-readr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#import-with-readr" class="anchor"></a>3.1 Import with <code>readr</code>
 </h2>
 <p>To import data files in <code>.csv</code> (comma-separated), <code>.fwf</code> (fixed-width), or <code>.txt</code> (tab-delimited) format, we recommend the <a href="https://readr.tidyverse.org/"><code>readr</code> package</a>. You can <code>.csv</code> files with the <code>read_csv</code> function, fixed-width files with <code>read_fwf</code>, and general delimited files with <code>read_delim</code>. These functions are all from the <code>readr</code> package. Additionally, for data in <code>.xls</code> or <code>.xlsx</code> format, we recommend the <a href="http://readxl.tidyverse.org/"><code>readxl</code></a> package. We would read a <code>.csv</code> data file via</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"ex_assay_subset.csv"</span>,
-                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
-assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_path)
-<span class="co">#&gt; Warning: Missing column names filled in: 'X1' [1]</span>
-<span class="co">#&gt; Parsed with column specification:</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   .default = col_double(),</span>
-<span class="co">#&gt;   X1 = col_character()</span>
-<span class="co">#&gt; )</span>
-<span class="co">#&gt; See spec(...) for full column specifications.</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">assay_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"ex_assay_subset.csv"</span>,</a>
+<a class="sourceLine" id="cb6-2" title="2">                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3">assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_path)</a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; Warning: Missing column names filled in: 'X1' [1]</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;   .default = col_double(),</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;   X1 = col_character()</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; See spec(...) for full column specifications.</span></a></code></pre></div>
 <p>The <code>read_csv</code> function warns us that the name of the first column is missing, but then automatically fills it in as <code>X1</code>. Further, this function prints messages to the screen informing you of the assumptions it makes when importing your data. Specifically, this message tells us that all the imported data is numeric (<code>.default = col_double()</code>) except for the gene name column (<code>X1 = col_character()</code>).</p>
 <p>Let’s inspect our assay data frame. Note that the gene names were imported as a character column, as shown by the <code>&lt;chr&gt;</code> tag at the top of the first column. This data import step stored the row names (the gene names) as the first column, and preserved the column names (sample labels) of the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assay_df
-<span class="co">#&gt; # A tibble: 17 x 37</span>
-<span class="co">#&gt;    X1    T21101311 T21101312 T21101313 T21101314 T21101315 T21101316</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 SOAT1      5.37      5.52      5.89      5.62      5.49      5.58</span>
-<span class="co">#&gt;  2 LSS        9.77      9.78      8.11      8.67      9.83      9.85</span>
-<span class="co">#&gt;  3 SQLE       7.74      8.06      7.00      8.59      8.13      8.55</span>
-<span class="co">#&gt;  4 EBP        4.68      5.12      5.78      5.64      5.73      5.13</span>
-<span class="co">#&gt;  5 CYP5~      8.27      8.21      8.20      8.07      9.38      9.40</span>
-<span class="co">#&gt;  6 DHCR7      8.32      8.33      8.39      8.64      8.15      8.71</span>
-<span class="co">#&gt;  7 CYP2~      6.78      6.47      6.57      6.47      6.43      6.56</span>
-<span class="co">#&gt;  8 DHCR~      4.70      5.06      4.89      4.98      5.03      4.87</span>
-<span class="co">#&gt;  9 HSD1~      7.63      7.63      8.15      8.13      7.70      7.75</span>
-<span class="co">#&gt; 10 MSMO1      7.60      7.33      7.61      5.56      6.30      7.77</span>
-<span class="co">#&gt; 11 FDFT1     10.5      10.6      10.2      10.4       9.99      9.78</span>
-<span class="co">#&gt; 12 SC5DL      9.53      9.35      9.82      9.70      9.50      9.34</span>
-<span class="co">#&gt; 13 LIPA       8.17      6.75      7.36      7.17      6.82      7.82</span>
-<span class="co">#&gt; 14 CEL       10.5       9.85     10.0       9.80     10.6       9.66</span>
-<span class="co">#&gt; 15 TM7S~      9.83     10.5       9.83     10.0      10.3       9.46</span>
-<span class="co">#&gt; 16 NSDHL      6.88      7.47      7.75      6.16      5.94      6.74</span>
-<span class="co">#&gt; 17 SOAT2      7.79      7.68      8.05      7.79      7.74      7.52</span>
-<span class="co">#&gt; # ... with 30 more variables: T21101317 &lt;dbl&gt;, T21101318 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   T21101319 &lt;dbl&gt;, T21101320 &lt;dbl&gt;, T21101321 &lt;dbl&gt;, T21101322 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   T21101323 &lt;dbl&gt;, T21101324 &lt;dbl&gt;, T21101325 &lt;dbl&gt;, T21101326 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   ...</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">assay_df</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; # A tibble: 17 x 37</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt;    X1    T21101311 T21101312 T21101313 T21101314 T21101315 T21101316 T21101317</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt;  1 SOAT1      5.37      5.52      5.89      5.62      5.49      5.58      5.32</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;  2 LSS        9.77      9.78      8.11      8.67      9.83      9.85     10.0 </span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt;  3 SQLE       7.74      8.06      7.00      8.59      8.13      8.55      6.99</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt;  4 EBP        4.68      5.12      5.78      5.64      5.73      5.13      5.86</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;  5 CYP5…      8.27      8.21      8.20      8.07      9.38      9.40      8.08</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt;  6 DHCR7      8.32      8.33      8.39      8.64      8.15      8.71      9.25</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt;  7 CYP2…      6.78      6.47      6.57      6.47      6.43      6.56      6.86</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt;  8 DHCR…      4.70      5.06      4.89      4.98      5.03      4.87      4.72</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;  9 HSD1…      7.63      7.63      8.15      8.13      7.70      7.75      7.88</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt; 10 MSMO1      7.60      7.33      7.61      5.56      6.30      7.77      6.97</span></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt; 11 FDFT1     10.5      10.6      10.2      10.4       9.99      9.78     10.7 </span></a>
+<a class="sourceLine" id="cb7-16" title="16"><span class="co">#&gt; 12 SC5DL      9.53      9.35      9.82      9.70      9.50      9.34      9.30</span></a>
+<a class="sourceLine" id="cb7-17" title="17"><span class="co">#&gt; 13 LIPA       8.17      6.75      7.36      7.17      6.82      7.82      6.88</span></a>
+<a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt; 14 CEL       10.5       9.85     10.0       9.80     10.6       9.66     10.2 </span></a>
+<a class="sourceLine" id="cb7-19" title="19"><span class="co">#&gt; 15 TM7S…      9.83     10.5       9.83     10.0      10.3       9.46      9.76</span></a>
+<a class="sourceLine" id="cb7-20" title="20"><span class="co">#&gt; 16 NSDHL      6.88      7.47      7.75      6.16      5.94      6.74      6.32</span></a>
+<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt; 17 SOAT2      7.79      7.68      8.05      7.79      7.74      7.52      8.04</span></a>
+<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt; # … with 29 more variables: T21101318 &lt;dbl&gt;, T21101319 &lt;dbl&gt;, T21101320 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt; #   T21101321 &lt;dbl&gt;, T21101322 &lt;dbl&gt;, T21101323 &lt;dbl&gt;, T21101324 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt; #   T21101325 &lt;dbl&gt;, T21101326 &lt;dbl&gt;, T21101327 &lt;dbl&gt;, …</span></a></code></pre></div>
 </div>
 <div id="tidy-the-assay-data-frame" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tidy-the-assay-data-frame" class="anchor"></a>3.2 Tidy the Assay Data Frame</h2>
 <p>The assay input to the <code>pathwayPCA</code> package must be in <a href="https://www.jstatsoft.org/article/view/v059i10"><em>tidy data</em></a> format. The “Tidy Data” format requires that each observation be its own row, and each measurement its own column. This means that we must transpose our assay data frame, while preserving the row and column names.</p>
 <p>To do this, we can use the <code>TransposeAssay</code> function. This function takes in a data frame as imported by the three <code>readr</code> functions based on data in a format similar to that shown above: genes are the rows, gene names are the first column, samples are stored in the subsequent columns, and all values in the assay (other than the gene names in the first column) are numeric.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(assayT_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/TransposeAssay.html">TransposeAssay</a></span>(assay_df))
-<span class="co">#&gt; # A tibble: 36 x 18</span>
-<span class="co">#&gt;    Sample SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 T2110~  5.37  9.77  7.74  4.68    8.27  8.32    6.78   4.70    7.63</span>
-<span class="co">#&gt;  2 T2110~  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63</span>
-<span class="co">#&gt;  3 T2110~  5.89  8.11  7.00  5.78    8.20  8.39    6.57   4.89    8.15</span>
-<span class="co">#&gt;  4 T2110~  5.62  8.67  8.59  5.64    8.07  8.64    6.47   4.98    8.13</span>
-<span class="co">#&gt;  5 T2110~  5.49  9.83  8.13  5.73    9.38  8.15    6.43   5.03    7.70</span>
-<span class="co">#&gt;  6 T2110~  5.58  9.85  8.55  5.13    9.40  8.71    6.56   4.87    7.75</span>
-<span class="co">#&gt;  7 T2110~  5.32 10.0   6.99  5.86    8.08  9.25    6.86   4.72    7.88</span>
-<span class="co">#&gt;  8 T2110~  5.49  9.72  7.47  5.16    6.67  7.37    6.70   4.92    7.50</span>
-<span class="co">#&gt;  9 T2110~  5.57  9.88  7.97  5.40    7.91  8.06    6.58   5.06    8.16</span>
-<span class="co">#&gt; 10 T2110~  5.16  9.87  7.42  5.50    7.43  8.68    6.55   4.85    8.20</span>
-<span class="co">#&gt; # ... with 26 more rows, and 8 more variables: MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   SOAT2 &lt;dbl&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">(assayT_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/TransposeAssay.html">TransposeAssay</a></span>(assay_df))</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; # A tibble: 36 x 18</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt;    Sample SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7 MSMO1</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;  1 T2110…  5.37  9.77  7.74  4.68    8.27  8.32    6.78   4.70    7.63  7.60</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;  2 T2110…  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63  7.33</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  3 T2110…  5.89  8.11  7.00  5.78    8.20  8.39    6.57   4.89    8.15  7.61</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  4 T2110…  5.62  8.67  8.59  5.64    8.07  8.64    6.47   4.98    8.13  5.56</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  5 T2110…  5.49  9.83  8.13  5.73    9.38  8.15    6.43   5.03    7.70  6.30</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  6 T2110…  5.58  9.85  8.55  5.13    9.40  8.71    6.56   4.87    7.75  7.77</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  7 T2110…  5.32 10.0   6.99  5.86    8.08  9.25    6.86   4.72    7.88  6.97</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  8 T2110…  5.49  9.72  7.47  5.16    6.67  7.37    6.70   4.92    7.50  5.48</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;  9 T2110…  5.57  9.88  7.97  5.40    7.91  8.06    6.58   5.06    8.16  7.06</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; 10 T2110…  5.16  9.87  7.42  5.50    7.43  8.68    6.55   4.85    8.20  6.15</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt; # … with 26 more rows, and 7 more variables: FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt; #   LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></a></code></pre></div>
 <p>This transposed data frame has the gene names as the column names and the sample names as a column of character (<code>chr</code>) values. Notice that the data itself is 17 genes measured on 36 samples. Before transposition, we had 37 columns because the feature names were stored in the first column. After transposition, we have 36 rows but 18 columns: the first column stores the sample names. This transposed data frame (after filtering to match the response data) will be supplied to the <code>assayData_df</code> argument in the <code>CreateOmics</code> function. (<em>See the <a href="https://gabrielodom.github.io/pathwayPCA/articles/Create_Omics_Objects.html">Creating <code>Omics</code> Data Objects</a> vignette for more information on creating <code>Omics</code>-class objects.</em>)</p>
 </div>
 <div id="subsetting-a-tidy-data-frame" class="section level2">
@@ -297,166 +290,165 @@ assay_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(assay_pa
 <ul>
 <li>If we need the second row of <code>assayT_df</code>—corresponding to Sample “T21101312”—then we type</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assayT_df[<span class="dv">2</span>, ]
-<span class="co">#&gt; # A tibble: 1 x 18</span>
-<span class="co">#&gt;   Sample SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7 MSMO1</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 T2110~  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63  7.33</span>
-<span class="co">#&gt; # ... with 7 more variables: FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">assayT_df[<span class="dv">2</span>, ]</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; # A tibble: 1 x 18</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt;   Sample SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1 DHCR24 HSD17B7 MSMO1</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; 1 T2110…  5.52  9.78  8.06  5.12    8.21  8.33    6.47   5.06    7.63  7.33</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; # … with 7 more variables: FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; #   TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></a></code></pre></div>
 <p>Notice that the <code>tibble</code> object has 1 row and 18 columns. - If we need the third column of <code>assayT_df</code>—corresponding to Gene “LSS”—then we type</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assayT_df[, <span class="dv">3</span>]
-<span class="co">#&gt; # A tibble: 36 x 1</span>
-<span class="co">#&gt;      LSS</span>
-<span class="co">#&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1  9.77</span>
-<span class="co">#&gt;  2  9.78</span>
-<span class="co">#&gt;  3  8.11</span>
-<span class="co">#&gt;  4  8.67</span>
-<span class="co">#&gt;  5  9.83</span>
-<span class="co">#&gt;  6  9.85</span>
-<span class="co">#&gt;  7 10.0 </span>
-<span class="co">#&gt;  8  9.72</span>
-<span class="co">#&gt;  9  9.88</span>
-<span class="co">#&gt; 10  9.87</span>
-<span class="co">#&gt; # ... with 26 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">assayT_df[, <span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; # A tibble: 36 x 1</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt;      LSS</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt;  1  9.77</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt;  2  9.78</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt;  3  8.11</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt;  4  8.67</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt;  5  9.83</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt;  6  9.85</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt;  7 10.0 </span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">#&gt;  8  9.72</span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">#&gt;  9  9.88</span></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="co">#&gt; 10  9.87</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="co">#&gt; # … with 26 more rows</span></a></code></pre></div>
 <p>This <code>tibble</code> object has 36 rows and 1 column. - If we need the intersection of these two (the expression level of Gene “LSS” in Sample “T21101312”), then we type</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assayT_df[<span class="dv">2</span>, <span class="dv">3</span>, drop =<span class="st"> </span><span class="ot">TRUE</span>]
-<span class="co">#&gt; [1] 9.780137</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">assayT_df[<span class="dv">2</span>, <span class="dv">3</span>, drop =<span class="st"> </span><span class="ot">TRUE</span>]</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; [1] 9.780137</span></a></code></pre></div>
 <p>This output would normally be a 1 by 1 <code>tibble</code> (which isn’t terribly helpful), so we add the <code>drop = TRUE</code> argument to “drop” the dimensions of the table. This gives us a single basic number (<em>scalar</em>). - If we need the third column of <code>assayT_df</code>, but we want the result back as a vector instead of a <code>tibble</code>, we call the column by name:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">assayT_df<span class="op">$</span>LSS
-<span class="co">#&gt;  [1]  9.772752  9.780137  8.109067  8.667270  9.828498  9.852128 10.004496</span>
-<span class="co">#&gt;  [8]  9.719076  9.883177  9.871709  7.892335  8.263840  8.215201  9.133894</span>
-<span class="co">#&gt; [15] 10.116890  9.107010  9.820948  9.057552  9.268507  9.382549  7.852329</span>
-<span class="co">#&gt; [22]  8.585521  8.949471  8.931112  9.597493  9.657331  7.800871  9.858547</span>
-<span class="co">#&gt; [29]  9.758955  8.383229 10.562910  9.815668 10.013560 11.094211  9.217539</span>
-<span class="co">#&gt; [36] 10.667547</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">assayT_df<span class="op">$</span>LSS</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt;  [1]  9.772752  9.780137  8.109067  8.667270  9.828498  9.852128 10.004496</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt;  [8]  9.719076  9.883177  9.871709  7.892335  8.263840  8.215201  9.133894</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="co">#&gt; [15] 10.116890  9.107010  9.820948  9.057552  9.268507  9.382549  7.852329</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; [22]  8.585521  8.949471  8.931112  9.597493  9.657331  7.800871  9.858547</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt; [29]  9.758955  8.383229 10.562910  9.815668 10.013560 11.094211  9.217539</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="co">#&gt; [36] 10.667547</span></a></code></pre></div>
 </div>
 <div id="data-from-a-summarizedexperiment-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-from-a-summarizedexperiment-object" class="anchor"></a>3.4 Data from a <code>SummarizedExperiment</code> Object</h2>
 <p>Oftentimes, genomic experiment data is stored in a <code>SummarizedExperiment</code>-class object. If your assay and response data are stored in such an object, use the <code><a href="../reference/SE2Tidy.html">SE2Tidy()</a></code> function to extract the necessary information and return it as a tidy data frame. Because <code>SummarizedExperiment</code> objects can have more than one assay, you must specify the index for the assay of your choice with the <code>whichAssay</code> argument. Here is an example using the <code>airway</code> data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SummarizedExperiment)
-<span class="co">#&gt; Loading required package: GenomicRanges</span>
-<span class="co">#&gt; Loading required package: stats4</span>
-<span class="co">#&gt; Loading required package: BiocGenerics</span>
-<span class="co">#&gt; Loading required package: parallel</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'BiocGenerics'</span>
-<span class="co">#&gt; The following objects are masked from 'package:parallel':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
-<span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
-<span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span>
-<span class="co">#&gt; The following objects are masked from 'package:dplyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     combine, intersect, setdiff, union</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     IQR, mad, sd, var, xtabs</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     anyDuplicated, append, as.data.frame, basename, cbind,</span>
-<span class="co">#&gt;     colMeans, colnames, colSums, dirname, do.call, duplicated,</span>
-<span class="co">#&gt;     eval, evalq, Filter, Find, get, grep, grepl, intersect,</span>
-<span class="co">#&gt;     is.unsorted, lapply, Map, mapply, match, mget, order, paste,</span>
-<span class="co">#&gt;     pmax, pmax.int, pmin, pmin.int, Position, rank, rbind, Reduce,</span>
-<span class="co">#&gt;     rowMeans, rownames, rowSums, sapply, setdiff, sort, table,</span>
-<span class="co">#&gt;     tapply, union, unique, unsplit, which, which.max, which.min</span>
-<span class="co">#&gt; Loading required package: S4Vectors</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'S4Vectors'</span>
-<span class="co">#&gt; The following objects are masked from 'package:dplyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     first, rename</span>
-<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     expand</span>
-<span class="co">#&gt; The following object is masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     expand.grid</span>
-<span class="co">#&gt; Loading required package: IRanges</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'IRanges'</span>
-<span class="co">#&gt; The following objects are masked from 'package:dplyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     collapse, desc, slice</span>
-<span class="co">#&gt; The following object is masked from 'package:purrr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     reduce</span>
-<span class="co">#&gt; The following object is masked from 'package:grDevices':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     windows</span>
-<span class="co">#&gt; Loading required package: GenomeInfoDb</span>
-<span class="co">#&gt; Loading required package: Biobase</span>
-<span class="co">#&gt; Welcome to Bioconductor</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     Vignettes contain introductory material; view with</span>
-<span class="co">#&gt;     'browseVignettes()'. To cite Bioconductor, see</span>
-<span class="co">#&gt;     'citation("Biobase")', and for packages 'citation("pkgname")'.</span>
-<span class="co">#&gt; Loading required package: DelayedArray</span>
-<span class="co">#&gt; Loading required package: matrixStats</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'matrixStats'</span>
-<span class="co">#&gt; The following objects are masked from 'package:Biobase':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     anyMissing, rowMedians</span>
-<span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     count</span>
-<span class="co">#&gt; Loading required package: BiocParallel</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'DelayedArray'</span>
-<span class="co">#&gt; The following objects are masked from 'package:matrixStats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span>
-<span class="co">#&gt; The following object is masked from 'package:purrr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     simplify</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     aperm, apply, rowsum</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(airway, <span class="dt">package =</span> <span class="st">"airway"</span>)
-
-airway_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SE2Tidy.html">SE2Tidy</a></span>(airway)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(SummarizedExperiment)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; Loading required package: GenomicRanges</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt; Loading required package: stats4</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; Loading required package: BiocGenerics</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt; Loading required package: parallel</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; Attaching package: 'BiocGenerics'</span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; The following objects are masked from 'package:parallel':</span></a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span></a>
+<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt;     combine, intersect, setdiff, union</span></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt;     IQR, mad, sd, var, xtabs</span></a>
+<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt;     anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span></a>
+<a class="sourceLine" id="cb13-22" title="22"><span class="co">#&gt;     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span></a>
+<a class="sourceLine" id="cb13-23" title="23"><span class="co">#&gt;     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span></a>
+<a class="sourceLine" id="cb13-24" title="24"><span class="co">#&gt;     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span></a>
+<a class="sourceLine" id="cb13-25" title="25"><span class="co">#&gt;     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span></a>
+<a class="sourceLine" id="cb13-26" title="26"><span class="co">#&gt;     union, unique, unsplit, which, which.max, which.min</span></a>
+<a class="sourceLine" id="cb13-27" title="27"><span class="co">#&gt; Loading required package: S4Vectors</span></a>
+<a class="sourceLine" id="cb13-28" title="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-29" title="29"><span class="co">#&gt; Attaching package: 'S4Vectors'</span></a>
+<a class="sourceLine" id="cb13-30" title="30"><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb13-31" title="31"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-32" title="32"><span class="co">#&gt;     first, rename</span></a>
+<a class="sourceLine" id="cb13-33" title="33"><span class="co">#&gt; The following object is masked from 'package:tidyr':</span></a>
+<a class="sourceLine" id="cb13-34" title="34"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-35" title="35"><span class="co">#&gt;     expand</span></a>
+<a class="sourceLine" id="cb13-36" title="36"><span class="co">#&gt; The following object is masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb13-37" title="37"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-38" title="38"><span class="co">#&gt;     expand.grid</span></a>
+<a class="sourceLine" id="cb13-39" title="39"><span class="co">#&gt; Loading required package: IRanges</span></a>
+<a class="sourceLine" id="cb13-40" title="40"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-41" title="41"><span class="co">#&gt; Attaching package: 'IRanges'</span></a>
+<a class="sourceLine" id="cb13-42" title="42"><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb13-43" title="43"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-44" title="44"><span class="co">#&gt;     collapse, desc, slice</span></a>
+<a class="sourceLine" id="cb13-45" title="45"><span class="co">#&gt; The following object is masked from 'package:purrr':</span></a>
+<a class="sourceLine" id="cb13-46" title="46"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-47" title="47"><span class="co">#&gt;     reduce</span></a>
+<a class="sourceLine" id="cb13-48" title="48"><span class="co">#&gt; The following object is masked from 'package:grDevices':</span></a>
+<a class="sourceLine" id="cb13-49" title="49"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-50" title="50"><span class="co">#&gt;     windows</span></a>
+<a class="sourceLine" id="cb13-51" title="51"><span class="co">#&gt; Loading required package: GenomeInfoDb</span></a>
+<a class="sourceLine" id="cb13-52" title="52"><span class="co">#&gt; Loading required package: Biobase</span></a>
+<a class="sourceLine" id="cb13-53" title="53"><span class="co">#&gt; Welcome to Bioconductor</span></a>
+<a class="sourceLine" id="cb13-54" title="54"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-55" title="55"><span class="co">#&gt;     Vignettes contain introductory material; view with</span></a>
+<a class="sourceLine" id="cb13-56" title="56"><span class="co">#&gt;     'browseVignettes()'. To cite Bioconductor, see</span></a>
+<a class="sourceLine" id="cb13-57" title="57"><span class="co">#&gt;     'citation("Biobase")', and for packages 'citation("pkgname")'.</span></a>
+<a class="sourceLine" id="cb13-58" title="58"><span class="co">#&gt; Loading required package: DelayedArray</span></a>
+<a class="sourceLine" id="cb13-59" title="59"><span class="co">#&gt; Loading required package: matrixStats</span></a>
+<a class="sourceLine" id="cb13-60" title="60"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-61" title="61"><span class="co">#&gt; Attaching package: 'matrixStats'</span></a>
+<a class="sourceLine" id="cb13-62" title="62"><span class="co">#&gt; The following objects are masked from 'package:Biobase':</span></a>
+<a class="sourceLine" id="cb13-63" title="63"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-64" title="64"><span class="co">#&gt;     anyMissing, rowMedians</span></a>
+<a class="sourceLine" id="cb13-65" title="65"><span class="co">#&gt; The following object is masked from 'package:dplyr':</span></a>
+<a class="sourceLine" id="cb13-66" title="66"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-67" title="67"><span class="co">#&gt;     count</span></a>
+<a class="sourceLine" id="cb13-68" title="68"><span class="co">#&gt; Loading required package: BiocParallel</span></a>
+<a class="sourceLine" id="cb13-69" title="69"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-70" title="70"><span class="co">#&gt; Attaching package: 'DelayedArray'</span></a>
+<a class="sourceLine" id="cb13-71" title="71"><span class="co">#&gt; The following objects are masked from 'package:matrixStats':</span></a>
+<a class="sourceLine" id="cb13-72" title="72"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-73" title="73"><span class="co">#&gt;     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span></a>
+<a class="sourceLine" id="cb13-74" title="74"><span class="co">#&gt; The following object is masked from 'package:purrr':</span></a>
+<a class="sourceLine" id="cb13-75" title="75"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-76" title="76"><span class="co">#&gt;     simplify</span></a>
+<a class="sourceLine" id="cb13-77" title="77"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb13-78" title="78"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-79" title="79"><span class="co">#&gt;     aperm, apply, rowsum</span></a>
+<a class="sourceLine" id="cb13-80" title="80"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(airway, <span class="dt">package =</span> <span class="st">"airway"</span>)</a>
+<a class="sourceLine" id="cb13-81" title="81"></a>
+<a class="sourceLine" id="cb13-82" title="82">airway_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/SE2Tidy.html">SE2Tidy</a></span>(airway)</a></code></pre></div>
 <p>Now we can look at a nice summary of the tidied assay and response data. This will drop all of the gene-specific metadata, as well as any experiment metadata. However, <code>pathwayPCA</code> can’t make use of this data anyway, so we haven’t lost much.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airway_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]
-<span class="co">#&gt;    Row.names SampleName    cell   dex albut        Run avgLength</span>
-<span class="co">#&gt; 1 SRR1039508 GSM1275862  N61311 untrt untrt SRR1039508       126</span>
-<span class="co">#&gt; 2 SRR1039509 GSM1275863  N61311   trt untrt SRR1039509       126</span>
-<span class="co">#&gt; 3 SRR1039512 GSM1275866 N052611 untrt untrt SRR1039512       126</span>
-<span class="co">#&gt; 4 SRR1039513 GSM1275867 N052611   trt untrt SRR1039513        87</span>
-<span class="co">#&gt; 5 SRR1039516 GSM1275870 N080611 untrt untrt SRR1039516       120</span>
-<span class="co">#&gt; 6 SRR1039517 GSM1275871 N080611   trt untrt SRR1039517       126</span>
-<span class="co">#&gt; 7 SRR1039520 GSM1275874 N061011 untrt untrt SRR1039520       101</span>
-<span class="co">#&gt; 8 SRR1039521 GSM1275875 N061011   trt untrt SRR1039521        98</span>
-<span class="co">#&gt;   Experiment    Sample    BioSample ENSG00000000003 ENSG00000000005</span>
-<span class="co">#&gt; 1  SRX384345 SRS508568 SAMN02422669             679               0</span>
-<span class="co">#&gt; 2  SRX384346 SRS508567 SAMN02422675             448               0</span>
-<span class="co">#&gt; 3  SRX384349 SRS508571 SAMN02422678             873               0</span>
-<span class="co">#&gt; 4  SRX384350 SRS508572 SAMN02422670             408               0</span>
-<span class="co">#&gt; 5  SRX384353 SRS508575 SAMN02422682            1138               0</span>
-<span class="co">#&gt; 6  SRX384354 SRS508576 SAMN02422673            1047               0</span>
-<span class="co">#&gt; 7  SRX384357 SRS508579 SAMN02422683             770               0</span>
-<span class="co">#&gt; 8  SRX384358 SRS508580 SAMN02422677             572               0</span>
-<span class="co">#&gt;   ENSG00000000419 ENSG00000000457 ENSG00000000460 ENSG00000000938</span>
-<span class="co">#&gt; 1             467             260              60               0</span>
-<span class="co">#&gt; 2             515             211              55               0</span>
-<span class="co">#&gt; 3             621             263              40               2</span>
-<span class="co">#&gt; 4             365             164              35               0</span>
-<span class="co">#&gt; 5             587             245              78               1</span>
-<span class="co">#&gt; 6             799             331              63               0</span>
-<span class="co">#&gt; 7             417             233              76               0</span>
-<span class="co">#&gt; 8             508             229              60               0</span>
-<span class="co">#&gt;   ENSG00000000971 ENSG00000001036 ENSG00000001084 ENSG00000001167</span>
-<span class="co">#&gt; 1            3251            1433             519             394</span>
-<span class="co">#&gt; 2            3679            1062             380             236</span>
-<span class="co">#&gt; 3            6177            1733             595             464</span>
-<span class="co">#&gt; 4            4252             881             493             175</span>
-<span class="co">#&gt; 5            6721            1424             820             658</span>
-<span class="co">#&gt; 6           11027            1439             714             584</span>
-<span class="co">#&gt; 7            5176            1359             696             360</span>
-<span class="co">#&gt; 8            7995            1109             704             269</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">airway_df[, <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt;    Row.names SampleName    cell   dex albut        Run avgLength Experiment</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt; 1 SRR1039508 GSM1275862  N61311 untrt untrt SRR1039508       126  SRX384345</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt; 2 SRR1039509 GSM1275863  N61311   trt untrt SRR1039509       126  SRX384346</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt; 3 SRR1039512 GSM1275866 N052611 untrt untrt SRR1039512       126  SRX384349</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="co">#&gt; 4 SRR1039513 GSM1275867 N052611   trt untrt SRR1039513        87  SRX384350</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="co">#&gt; 5 SRR1039516 GSM1275870 N080611 untrt untrt SRR1039516       120  SRX384353</span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="co">#&gt; 6 SRR1039517 GSM1275871 N080611   trt untrt SRR1039517       126  SRX384354</span></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="co">#&gt; 7 SRR1039520 GSM1275874 N061011 untrt untrt SRR1039520       101  SRX384357</span></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="co">#&gt; 8 SRR1039521 GSM1275875 N061011   trt untrt SRR1039521        98  SRX384358</span></a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="co">#&gt;      Sample    BioSample ENSG00000000003 ENSG00000000005 ENSG00000000419</span></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="co">#&gt; 1 SRS508568 SAMN02422669             679               0             467</span></a>
+<a class="sourceLine" id="cb14-13" title="13"><span class="co">#&gt; 2 SRS508567 SAMN02422675             448               0             515</span></a>
+<a class="sourceLine" id="cb14-14" title="14"><span class="co">#&gt; 3 SRS508571 SAMN02422678             873               0             621</span></a>
+<a class="sourceLine" id="cb14-15" title="15"><span class="co">#&gt; 4 SRS508572 SAMN02422670             408               0             365</span></a>
+<a class="sourceLine" id="cb14-16" title="16"><span class="co">#&gt; 5 SRS508575 SAMN02422682            1138               0             587</span></a>
+<a class="sourceLine" id="cb14-17" title="17"><span class="co">#&gt; 6 SRS508576 SAMN02422673            1047               0             799</span></a>
+<a class="sourceLine" id="cb14-18" title="18"><span class="co">#&gt; 7 SRS508579 SAMN02422683             770               0             417</span></a>
+<a class="sourceLine" id="cb14-19" title="19"><span class="co">#&gt; 8 SRS508580 SAMN02422677             572               0             508</span></a>
+<a class="sourceLine" id="cb14-20" title="20"><span class="co">#&gt;   ENSG00000000457 ENSG00000000460 ENSG00000000938 ENSG00000000971</span></a>
+<a class="sourceLine" id="cb14-21" title="21"><span class="co">#&gt; 1             260              60               0            3251</span></a>
+<a class="sourceLine" id="cb14-22" title="22"><span class="co">#&gt; 2             211              55               0            3679</span></a>
+<a class="sourceLine" id="cb14-23" title="23"><span class="co">#&gt; 3             263              40               2            6177</span></a>
+<a class="sourceLine" id="cb14-24" title="24"><span class="co">#&gt; 4             164              35               0            4252</span></a>
+<a class="sourceLine" id="cb14-25" title="25"><span class="co">#&gt; 5             245              78               1            6721</span></a>
+<a class="sourceLine" id="cb14-26" title="26"><span class="co">#&gt; 6             331              63               0           11027</span></a>
+<a class="sourceLine" id="cb14-27" title="27"><span class="co">#&gt; 7             233              76               0            5176</span></a>
+<a class="sourceLine" id="cb14-28" title="28"><span class="co">#&gt; 8             229              60               0            7995</span></a>
+<a class="sourceLine" id="cb14-29" title="29"><span class="co">#&gt;   ENSG00000001036 ENSG00000001084 ENSG00000001167</span></a>
+<a class="sourceLine" id="cb14-30" title="30"><span class="co">#&gt; 1            1433             519             394</span></a>
+<a class="sourceLine" id="cb14-31" title="31"><span class="co">#&gt; 2            1062             380             236</span></a>
+<a class="sourceLine" id="cb14-32" title="32"><span class="co">#&gt; 3            1733             595             464</span></a>
+<a class="sourceLine" id="cb14-33" title="33"><span class="co">#&gt; 4             881             493             175</span></a>
+<a class="sourceLine" id="cb14-34" title="34"><span class="co">#&gt; 5            1424             820             658</span></a>
+<a class="sourceLine" id="cb14-35" title="35"><span class="co">#&gt; 6            1439             714             584</span></a>
+<a class="sourceLine" id="cb14-36" title="36"><span class="co">#&gt; 7            1359             696             360</span></a>
+<a class="sourceLine" id="cb14-37" title="37"><span class="co">#&gt; 8            1109             704             269</span></a></code></pre></div>
 <hr>
 <p></p>
 </div>
@@ -465,54 +457,52 @@ airway_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/S
 <h1 class="hasAnchor">
 <a href="#import-and-join-response-data" class="anchor"></a>4. Import and Join Response Data</h1>
 <p>We now have an appropriate pathways list and a tidy -Omics assay data frame. All we need now is some response data. Let’s imagine that your phenotype data looks something like this:</p>
-<div class="figure">
-<img src="example_pInfo_data.PNG">
-</div>
+<p><img src="example_pInfo_data.PNG"></p>
 <p>We next import this response information. We can use the <code>read_csv</code> function once again:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"ex_pInfo_subset.csv"</span>,
-                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)
-pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(pInfo_path)
-<span class="co">#&gt; Parsed with column specification:</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   Sample = col_character(),</span>
-<span class="co">#&gt;   eventTime = col_double(),</span>
-<span class="co">#&gt;   eventObserved = col_logical()</span>
-<span class="co">#&gt; )</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">pInfo_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"ex_pInfo_subset.csv"</span>,</a>
+<a class="sourceLine" id="cb15-2" title="2">                          <span class="dt">package =</span> <span class="st">"pathwayPCA"</span>, <span class="dt">mustWork =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb15-3" title="3">pInfo_df &lt;-<span class="st"> </span><span class="kw">read_csv</span>(pInfo_path)</a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="co">#&gt;   Sample = col_character(),</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="co">#&gt;   eventTime = col_double(),</span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co">#&gt;   eventObserved = col_logical()</span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt; )</span></a></code></pre></div>
 <p>This phenotype data frame has a column for the sample labels (<code>Sample</code>) and the response information. In this case, our response is a survival response with an event time and observation indicator.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pInfo_df
-<span class="co">#&gt; # A tibble: 36 x 3</span>
-<span class="co">#&gt;    Sample    eventTime eventObserved</span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;lgl&gt;        </span>
-<span class="co">#&gt;  1 T21101311     14.2  TRUE         </span>
-<span class="co">#&gt;  2 T21101312      1    TRUE         </span>
-<span class="co">#&gt;  3 T21101313      6.75 FALSE        </span>
-<span class="co">#&gt;  4 T21101314      8.5  TRUE         </span>
-<span class="co">#&gt;  5 T21101315      7.25 FALSE        </span>
-<span class="co">#&gt;  6 T21101316      5    TRUE         </span>
-<span class="co">#&gt;  7 T21101317     20    TRUE         </span>
-<span class="co">#&gt;  8 T21101318     13.2  FALSE        </span>
-<span class="co">#&gt;  9 T21101319      7.75 FALSE        </span>
-<span class="co">#&gt; 10 T21101320      9    FALSE        </span>
-<span class="co">#&gt; # ... with 26 more rows</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">pInfo_df</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt; # A tibble: 36 x 3</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="co">#&gt;    Sample    eventTime eventObserved</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;lgl&gt;        </span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt;  1 T21101311     14.2  TRUE         </span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt;  2 T21101312      1    TRUE         </span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt;  3 T21101313      6.75 FALSE        </span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt;  4 T21101314      8.5  TRUE         </span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt;  5 T21101315      7.25 FALSE        </span></a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt;  6 T21101316      5    TRUE         </span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt;  7 T21101317     20    TRUE         </span></a>
+<a class="sourceLine" id="cb16-12" title="12"><span class="co">#&gt;  8 T21101318     13.2  FALSE        </span></a>
+<a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt;  9 T21101319      7.75 FALSE        </span></a>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; 10 T21101320      9    FALSE        </span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="co">#&gt; # … with 26 more rows</span></a></code></pre></div>
 <p>This <code>pInfo</code> data frame has the sample names as a column of character values, just like the transposed assay data frame. This is crucially important for the “joining” step. We can use the <code>inner_join</code> function from the <code>dplyr</code> library to retain only the rows of the <code>assayT_df</code> data frame which have responses in the <code>pInfo</code> data frame and vice versa. This way, every response in the phenotype data has matching genes in the assay, and every recorded gene in the assay matches a response in the phenotype data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">joinedExperiment_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(pInfo_df, assayT_df, <span class="dt">by =</span> <span class="st">"Sample"</span>)
-joinedExperiment_df
-<span class="co">#&gt; # A tibble: 36 x 20</span>
-<span class="co">#&gt;    Sample eventTime eventObserved SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 T2110~     14.2  TRUE           5.37  9.77  7.74  4.68    8.27  8.32</span>
-<span class="co">#&gt;  2 T2110~      1    TRUE           5.52  9.78  8.06  5.12    8.21  8.33</span>
-<span class="co">#&gt;  3 T2110~      6.75 FALSE          5.89  8.11  7.00  5.78    8.20  8.39</span>
-<span class="co">#&gt;  4 T2110~      8.5  TRUE           5.62  8.67  8.59  5.64    8.07  8.64</span>
-<span class="co">#&gt;  5 T2110~      7.25 FALSE          5.49  9.83  8.13  5.73    9.38  8.15</span>
-<span class="co">#&gt;  6 T2110~      5    TRUE           5.58  9.85  8.55  5.13    9.40  8.71</span>
-<span class="co">#&gt;  7 T2110~     20    TRUE           5.32 10.0   6.99  5.86    8.08  9.25</span>
-<span class="co">#&gt;  8 T2110~     13.2  FALSE          5.49  9.72  7.47  5.16    6.67  7.37</span>
-<span class="co">#&gt;  9 T2110~      7.75 FALSE          5.57  9.88  7.97  5.40    7.91  8.06</span>
-<span class="co">#&gt; 10 T2110~      9    FALSE          5.16  9.87  7.42  5.50    7.43  8.68</span>
-<span class="co">#&gt; # ... with 26 more rows, and 11 more variables: CYP27B1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   DHCR24 &lt;dbl&gt;, HSD17B7 &lt;dbl&gt;, MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;, NSDHL &lt;dbl&gt;, ...</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">joinedExperiment_df &lt;-<span class="st"> </span><span class="kw">inner_join</span>(pInfo_df, assayT_df, <span class="dt">by =</span> <span class="st">"Sample"</span>)</a>
+<a class="sourceLine" id="cb17-2" title="2">joinedExperiment_df</a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&gt; # A tibble: 36 x 20</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="co">#&gt;    Sample eventTime eventObserved SOAT1   LSS  SQLE   EBP CYP51A1 DHCR7 CYP27B1</span></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;lgl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="co">#&gt;  1 T2110…     14.2  TRUE           5.37  9.77  7.74  4.68    8.27  8.32    6.78</span></a>
+<a class="sourceLine" id="cb17-7" title="7"><span class="co">#&gt;  2 T2110…      1    TRUE           5.52  9.78  8.06  5.12    8.21  8.33    6.47</span></a>
+<a class="sourceLine" id="cb17-8" title="8"><span class="co">#&gt;  3 T2110…      6.75 FALSE          5.89  8.11  7.00  5.78    8.20  8.39    6.57</span></a>
+<a class="sourceLine" id="cb17-9" title="9"><span class="co">#&gt;  4 T2110…      8.5  TRUE           5.62  8.67  8.59  5.64    8.07  8.64    6.47</span></a>
+<a class="sourceLine" id="cb17-10" title="10"><span class="co">#&gt;  5 T2110…      7.25 FALSE          5.49  9.83  8.13  5.73    9.38  8.15    6.43</span></a>
+<a class="sourceLine" id="cb17-11" title="11"><span class="co">#&gt;  6 T2110…      5    TRUE           5.58  9.85  8.55  5.13    9.40  8.71    6.56</span></a>
+<a class="sourceLine" id="cb17-12" title="12"><span class="co">#&gt;  7 T2110…     20    TRUE           5.32 10.0   6.99  5.86    8.08  9.25    6.86</span></a>
+<a class="sourceLine" id="cb17-13" title="13"><span class="co">#&gt;  8 T2110…     13.2  FALSE          5.49  9.72  7.47  5.16    6.67  7.37    6.70</span></a>
+<a class="sourceLine" id="cb17-14" title="14"><span class="co">#&gt;  9 T2110…      7.75 FALSE          5.57  9.88  7.97  5.40    7.91  8.06    6.58</span></a>
+<a class="sourceLine" id="cb17-15" title="15"><span class="co">#&gt; 10 T2110…      9    FALSE          5.16  9.87  7.42  5.50    7.43  8.68    6.55</span></a>
+<a class="sourceLine" id="cb17-16" title="16"><span class="co">#&gt; # … with 26 more rows, and 10 more variables: DHCR24 &lt;dbl&gt;, HSD17B7 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb17-17" title="17"><span class="co">#&gt; #   MSMO1 &lt;dbl&gt;, FDFT1 &lt;dbl&gt;, SC5DL &lt;dbl&gt;, LIPA &lt;dbl&gt;, CEL &lt;dbl&gt;, TM7SF2 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb17-18" title="18"><span class="co">#&gt; #   NSDHL &lt;dbl&gt;, SOAT2 &lt;dbl&gt;</span></a></code></pre></div>
 <p><strong>This requires you to have a <em>key</em> column in both data frames with the same name.</strong> If the key column was called “Sample” in the <code>pInfo_df</code> data set but “SampleID” in the assay, then the <code>by</code> argument should be changed to <code>by = c("Sample" = "SampleID")</code>. It’s much nicer to just keep them with the same names, however. Moreover, it is vitally important that you check your sample IDs. Obviously the recorded genetic data should pair with the phenotype information, but <strong>it is your responsibility as the user to confirm that the assay rows match the correct responses.</strong> You are ultimately responsible to defend the integrity of your data and to use this package properly.</p>
 <hr>
 <p></p>
@@ -521,30 +511,30 @@ joinedExperiment_df
 <h1 class="hasAnchor">
 <a href="#example-tidy-assay-and-pathways-list" class="anchor"></a>5. Example Tidy Assay and Pathways List</h1>
 <p>Included in this package, we have a small tidy assay and corresponding gene subset list. We will load and inspect this assay. This data set has 656 gene expression measurements on 250 colon cancer patients. Further notice that the assay and overall survival response information have already been matched.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"colonSurv_df"</span>)
-colonSurv_df
-<span class="co">#&gt; # A tibble: 250 x 659</span>
-<span class="co">#&gt;    sampleID OS_time OS_event   JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 subj1     64.9          0  9.29  5.48  8.21  8.03  5.49  6.65  8.26</span>
-<span class="co">#&gt;  2 subj2     59.8          0  9.13  6.35  8.33  7.94  6.26  7.02  8.39</span>
-<span class="co">#&gt;  3 subj3     62.4          0  9.37  5.67  7.82  7.74  6.05  7.52  8.69</span>
-<span class="co">#&gt;  4 subj4     54.5          0 10.6   4.94  8.79  7.64  5.37  6.87  7.81</span>
-<span class="co">#&gt;  5 subj5     46.3          1  8.70  5.60  8.75  8.05  6.07  6.49  8.45</span>
-<span class="co">#&gt;  6 subj6     55.9          0  9.78  5.36  7.56  8.07  5.90  6.39  8.87</span>
-<span class="co">#&gt;  7 subj7     58.0          0  9.22  5.05  8.20  7.80  5.55  6.86  8.28</span>
-<span class="co">#&gt;  8 subj8     54.0          0 10.3   5.33  7.82  7.89  6.27  6.25  8.66</span>
-<span class="co">#&gt;  9 subj9      0.427        1 10.8   5.07  7.63  7.69  5.48  7.57  8.36</span>
-<span class="co">#&gt; 10 subj10    41.4          0  9.52  5.50  7.48  7.53  5.71  7.33  8.54</span>
-<span class="co">#&gt; # ... with 240 more rows, and 649 more variables: PRKCA &lt;dbl&gt;, ELK1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   NRG1 &lt;dbl&gt;, PAK2 &lt;dbl&gt;, MTOR &lt;dbl&gt;, PAK4 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   EIF4EBP1 &lt;dbl&gt;, BAD &lt;dbl&gt;, PRKCG &lt;dbl&gt;, ...</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"colonSurv_df"</span>)</a>
+<a class="sourceLine" id="cb18-2" title="2">colonSurv_df</a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="co">#&gt; # A tibble: 250 x 659</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt;    sampleID OS_time OS_event   JUN  SOS2  PAK3  RAF1 PRKCB   BTC  SHC1 PRKCA</span></a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="co">#&gt;  1 subj1     64.9          0  9.29  5.48  8.21  8.03  5.49  6.65  8.26  8.94</span></a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&gt;  2 subj2     59.8          0  9.13  6.35  8.33  7.94  6.26  7.02  8.39  9.61</span></a>
+<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&gt;  3 subj3     62.4          0  9.37  5.67  7.82  7.74  6.05  7.52  8.69  8.40</span></a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&gt;  4 subj4     54.5          0 10.6   4.94  8.79  7.64  5.37  6.87  7.81  9.80</span></a>
+<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt;  5 subj5     46.3          1  8.70  5.60  8.75  8.05  6.07  6.49  8.45  8.21</span></a>
+<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt;  6 subj6     55.9          0  9.78  5.36  7.56  8.07  5.90  6.39  8.87  8.22</span></a>
+<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt;  7 subj7     58.0          0  9.22  5.05  8.20  7.80  5.55  6.86  8.28  8.97</span></a>
+<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt;  8 subj8     54.0          0 10.3   5.33  7.82  7.89  6.27  6.25  8.66  9.71</span></a>
+<a class="sourceLine" id="cb18-14" title="14"><span class="co">#&gt;  9 subj9      0.427        1 10.8   5.07  7.63  7.69  5.48  7.57  8.36  9.69</span></a>
+<a class="sourceLine" id="cb18-15" title="15"><span class="co">#&gt; 10 subj10    41.4          0  9.52  5.50  7.48  7.53  5.71  7.33  8.54  8.14</span></a>
+<a class="sourceLine" id="cb18-16" title="16"><span class="co">#&gt; # … with 240 more rows, and 648 more variables: ELK1 &lt;dbl&gt;, NRG1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb18-17" title="17"><span class="co">#&gt; #   PAK2 &lt;dbl&gt;, MTOR &lt;dbl&gt;, PAK4 &lt;dbl&gt;, MAP2K4 &lt;dbl&gt;, EIF4EBP1 &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb18-18" title="18"><span class="co">#&gt; #   BAD &lt;dbl&gt;, PRKCG &lt;dbl&gt;, NRG3 &lt;dbl&gt;, …</span></a></code></pre></div>
 <p>We also have a small list of 15 pathways which correspond to our example colon cancer assay. To create a toy example, we have curated this artificial pathways list to include seven significant pathways and eight non-significant pathways.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"colon_pathwayCollection"</span>)
-colon_pathwayCollection
-<span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: </span>
-<span class="co">#&gt;  $ pathways:List of 15</span>
-<span class="co">#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"colon_pathwayCollection"</span>)</a>
+<a class="sourceLine" id="cb19-2" title="2">colon_pathwayCollection</a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="co">#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: </span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="co">#&gt;  $ pathways:List of 15</span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&gt;  $ TERMS   : chr [1:15] "KEGG_PENTOSE_PHOSPHATE_PATHWAY" ...</span></a></code></pre></div>
 <p>The pathways list and tidy assay (with matched phenotype information) are all the information we need to create an <code>Omics</code>-class data object.</p>
 <hr>
 <p></p>
@@ -560,63 +550,65 @@ colon_pathwayCollection
 </ol>
 <p>Now we are prepared to create our first <code>Omics</code>-class object for analysis with either AES-PCA or Supervised PCA. Please read vignette chapter 3: <a href="https://gabrielodom.github.io/pathwayPCA/articles/Supplement3-Create_Omics_Objects.html">Creating <code>Omics</code> Data Objects</a>.</p>
 <p>Here is the R session information for this vignette:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()
-<span class="co">#&gt; R Under development (unstable) (2019-02-12 r76095)</span>
-<span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span>
-<span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span>
-<span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span>
-<span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span>
-<span class="co">#&gt; [4] LC_NUMERIC=C                          </span>
-<span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attached base packages:</span>
-<span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span>
-<span class="co">#&gt; [8] methods   base     </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] SummarizedExperiment_1.13.0 DelayedArray_0.9.9         </span>
-<span class="co">#&gt;  [3] BiocParallel_1.17.18        matrixStats_0.54.0         </span>
-<span class="co">#&gt;  [5] Biobase_2.43.1              GenomicRanges_1.35.1       </span>
-<span class="co">#&gt;  [7] GenomeInfoDb_1.19.3         IRanges_2.17.4             </span>
-<span class="co">#&gt;  [9] S4Vectors_0.21.22           BiocGenerics_0.29.2        </span>
-<span class="co">#&gt; [11] pathwayPCA_0.99.5           forcats_0.4.0              </span>
-<span class="co">#&gt; [13] stringr_1.4.0               dplyr_0.8.0.1              </span>
-<span class="co">#&gt; [15] purrr_0.3.2                 readr_1.3.1                </span>
-<span class="co">#&gt; [17] tidyr_0.8.3                 tibble_2.1.1               </span>
-<span class="co">#&gt; [19] ggplot2_3.1.0               tidyverse_1.2.1            </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] httr_1.4.0             jsonlite_1.6           splines_3.6.0         </span>
-<span class="co">#&gt;  [4] modelr_0.1.4           assertthat_0.2.1       GenomeInfoDbData_1.2.1</span>
-<span class="co">#&gt;  [7] cellranger_1.1.0       yaml_2.2.0             pillar_1.3.1          </span>
-<span class="co">#&gt; [10] backports_1.1.3        lattice_0.20-38        glue_1.3.1            </span>
-<span class="co">#&gt; [13] digest_0.6.18          XVector_0.23.2         rvest_0.3.2           </span>
-<span class="co">#&gt; [16] colorspace_1.4-1       htmltools_0.3.6        Matrix_1.2-17         </span>
-<span class="co">#&gt; [19] plyr_1.8.4             pkgconfig_2.0.2        broom_0.5.1           </span>
-<span class="co">#&gt; [22] haven_2.1.0            zlibbioc_1.29.0        scales_1.0.0          </span>
-<span class="co">#&gt; [25] generics_0.0.2         withr_2.1.2            lazyeval_0.2.2        </span>
-<span class="co">#&gt; [28] cli_1.1.0              survival_2.44-1.1      magrittr_1.5          </span>
-<span class="co">#&gt; [31] crayon_1.3.4           readxl_1.3.1           memoise_1.1.0         </span>
-<span class="co">#&gt; [34] evaluate_0.13          fs_1.2.7               fansi_0.4.0           </span>
-<span class="co">#&gt; [37] nlme_3.1-137           MASS_7.3-51.4          xml2_1.2.0            </span>
-<span class="co">#&gt; [40] tools_3.6.0            hms_0.4.2              munsell_0.5.0         </span>
-<span class="co">#&gt; [43] compiler_3.6.0         pkgdown_1.3.0          rlang_0.3.3           </span>
-<span class="co">#&gt; [46] grid_3.6.0             RCurl_1.95-4.12        rstudioapi_0.10       </span>
-<span class="co">#&gt; [49] bitops_1.0-6           rmarkdown_1.12         gtable_0.3.0          </span>
-<span class="co">#&gt; [52] lars_1.2               roxygen2_6.1.1         R6_2.4.0              </span>
-<span class="co">#&gt; [55] lubridate_1.7.4        knitr_1.22             utf8_1.1.4            </span>
-<span class="co">#&gt; [58] commonmark_1.7         rprojroot_1.3-2        desc_1.2.0            </span>
-<span class="co">#&gt; [61] stringi_1.4.3          Rcpp_1.0.1             tidyselect_0.2.5      </span>
-<span class="co">#&gt; [64] xfun_0.6</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="co">#&gt; R version 3.6.2 (2019-12-12)</span></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="co">#&gt; Running under: Windows 7 x64 (build 7601) Service Pack 1</span></a>
+<a class="sourceLine" id="cb20-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-6" title="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-8" title="8"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb20-9" title="9"><span class="co">#&gt; [1] LC_COLLATE=English_United States.1252 </span></a>
+<a class="sourceLine" id="cb20-10" title="10"><span class="co">#&gt; [2] LC_CTYPE=English_United States.1252   </span></a>
+<a class="sourceLine" id="cb20-11" title="11"><span class="co">#&gt; [3] LC_MONETARY=English_United States.1252</span></a>
+<a class="sourceLine" id="cb20-12" title="12"><span class="co">#&gt; [4] LC_NUMERIC=C                          </span></a>
+<a class="sourceLine" id="cb20-13" title="13"><span class="co">#&gt; [5] LC_TIME=English_United States.1252    </span></a>
+<a class="sourceLine" id="cb20-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-15" title="15"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb20-16" title="16"><span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span></a>
+<a class="sourceLine" id="cb20-17" title="17"><span class="co">#&gt; [8] methods   base     </span></a>
+<a class="sourceLine" id="cb20-18" title="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-19" title="19"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb20-20" title="20"><span class="co">#&gt;  [1] SummarizedExperiment_1.16.1 DelayedArray_0.12.1        </span></a>
+<a class="sourceLine" id="cb20-21" title="21"><span class="co">#&gt;  [3] BiocParallel_1.20.1         matrixStats_0.55.0         </span></a>
+<a class="sourceLine" id="cb20-22" title="22"><span class="co">#&gt;  [5] Biobase_2.46.0              GenomicRanges_1.38.0       </span></a>
+<a class="sourceLine" id="cb20-23" title="23"><span class="co">#&gt;  [7] GenomeInfoDb_1.22.0         IRanges_2.20.1             </span></a>
+<a class="sourceLine" id="cb20-24" title="24"><span class="co">#&gt;  [9] S4Vectors_0.24.1            BiocGenerics_0.32.0        </span></a>
+<a class="sourceLine" id="cb20-25" title="25"><span class="co">#&gt; [11] pathwayPCA_1.1.4            forcats_0.4.0              </span></a>
+<a class="sourceLine" id="cb20-26" title="26"><span class="co">#&gt; [13] stringr_1.4.0               dplyr_0.8.3                </span></a>
+<a class="sourceLine" id="cb20-27" title="27"><span class="co">#&gt; [15] purrr_0.3.3                 readr_1.3.1                </span></a>
+<a class="sourceLine" id="cb20-28" title="28"><span class="co">#&gt; [17] tidyr_1.0.0                 tibble_2.1.3               </span></a>
+<a class="sourceLine" id="cb20-29" title="29"><span class="co">#&gt; [19] ggplot2_3.2.1               tidyverse_1.3.0            </span></a>
+<a class="sourceLine" id="cb20-30" title="30"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb20-31" title="31"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb20-32" title="32"><span class="co">#&gt;  [1] httr_1.4.1             jsonlite_1.6           splines_3.6.2         </span></a>
+<a class="sourceLine" id="cb20-33" title="33"><span class="co">#&gt;  [4] modelr_0.1.5           assertthat_0.2.1       GenomeInfoDbData_1.2.2</span></a>
+<a class="sourceLine" id="cb20-34" title="34"><span class="co">#&gt;  [7] cellranger_1.1.0       yaml_2.2.0             pillar_1.4.3          </span></a>
+<a class="sourceLine" id="cb20-35" title="35"><span class="co">#&gt; [10] backports_1.1.5        lattice_0.20-38        glue_1.3.1            </span></a>
+<a class="sourceLine" id="cb20-36" title="36"><span class="co">#&gt; [13] digest_0.6.23          XVector_0.26.0         rvest_0.3.5           </span></a>
+<a class="sourceLine" id="cb20-37" title="37"><span class="co">#&gt; [16] colorspace_1.4-1       htmltools_0.4.0        Matrix_1.2-18         </span></a>
+<a class="sourceLine" id="cb20-38" title="38"><span class="co">#&gt; [19] pkgconfig_2.0.3        broom_0.5.3            haven_2.2.0           </span></a>
+<a class="sourceLine" id="cb20-39" title="39"><span class="co">#&gt; [22] zlibbioc_1.32.0        scales_1.1.0           generics_0.0.2        </span></a>
+<a class="sourceLine" id="cb20-40" title="40"><span class="co">#&gt; [25] withr_2.1.2            lazyeval_0.2.2         cli_2.0.0             </span></a>
+<a class="sourceLine" id="cb20-41" title="41"><span class="co">#&gt; [28] survival_3.1-8         magrittr_1.5           crayon_1.3.4          </span></a>
+<a class="sourceLine" id="cb20-42" title="42"><span class="co">#&gt; [31] readxl_1.3.1           memoise_1.1.0          evaluate_0.14         </span></a>
+<a class="sourceLine" id="cb20-43" title="43"><span class="co">#&gt; [34] fs_1.3.1               fansi_0.4.0            nlme_3.1-143          </span></a>
+<a class="sourceLine" id="cb20-44" title="44"><span class="co">#&gt; [37] MASS_7.3-51.5          xml2_1.2.2             tools_3.6.2           </span></a>
+<a class="sourceLine" id="cb20-45" title="45"><span class="co">#&gt; [40] hms_0.5.2              lifecycle_0.1.0        munsell_0.5.0         </span></a>
+<a class="sourceLine" id="cb20-46" title="46"><span class="co">#&gt; [43] reprex_0.3.0           compiler_3.6.2         pkgdown_1.4.1         </span></a>
+<a class="sourceLine" id="cb20-47" title="47"><span class="co">#&gt; [46] rlang_0.4.2            grid_3.6.2             RCurl_1.95-4.12       </span></a>
+<a class="sourceLine" id="cb20-48" title="48"><span class="co">#&gt; [49] rstudioapi_0.10        bitops_1.0-6           rmarkdown_2.0         </span></a>
+<a class="sourceLine" id="cb20-49" title="49"><span class="co">#&gt; [52] gtable_0.3.0           lars_1.2               DBI_1.1.0             </span></a>
+<a class="sourceLine" id="cb20-50" title="50"><span class="co">#&gt; [55] R6_2.4.1               lubridate_1.7.4        knitr_1.26            </span></a>
+<a class="sourceLine" id="cb20-51" title="51"><span class="co">#&gt; [58] utf8_1.1.4             zeallot_0.1.0          rprojroot_1.3-2       </span></a>
+<a class="sourceLine" id="cb20-52" title="52"><span class="co">#&gt; [61] desc_1.2.0             stringi_1.4.3          Rcpp_1.0.3            </span></a>
+<a class="sourceLine" id="cb20-53" title="53"><span class="co">#&gt; [64] vctrs_0.2.1            dbplyr_1.4.2           tidyselect_0.2.5      </span></a>
+<a class="sourceLine" id="cb20-54" title="54"><span class="co">#&gt; [67] xfun_0.11</span></a></code></pre></div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -649,17 +641,20 @@ colon_pathwayCollection
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://github.com/gabrielodom">Gabriel Odom</a>, James Ban, Lizhong Liu, <a href="http://biostat.med.miami.edu/people/primary-faculty/lily-wang-ph.d">Lily Wang</a>, <a href="http://biostat.med.miami.edu/people/primary-faculty/xi-steven-chen-ph.d">Steven Chen</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

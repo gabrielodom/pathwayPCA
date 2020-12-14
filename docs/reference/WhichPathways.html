@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check Input Sample IDs — CheckSampleIDs • pathwayPCA</title>
+<title>Filter and Subset a <code>pathwayCollection</code>-class Object by Symbol. — WhichPathways • pathwayPCA</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,10 @@
 
 
 
-<meta property="og:title" content="Check Input Sample IDs — CheckSampleIDs" />
-<meta property="og:description" content="Check the class of the sample IDs and if they are unique. This
-   assumes that the sample IDs are in the first column." />
+<meta property="og:title" content="Filter and Subset a <code>pathwayCollection</code>-class Object by Symbol. — WhichPathways" />
+<meta property="og:description" content="The filter-subset method for pathways lists as returned by the
+   read_gmt function. This function returns the subset of 
+   pathways which contain the set of symbols requested" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,45 +128,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check Input Sample IDs</h1>
+    <h1>Filter and Subset a <code>pathwayCollection</code>-class Object by Symbol.</h1>
     
-    <div class="hidden name"><code>CheckSampleIDs.Rd</code></div>
+    <div class="hidden name"><code>WhichPathways.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Check the class of the sample IDs and if they are unique. This
-   assumes that the sample IDs are in the first column.</p>
+    <p>The filter-subset method for pathways lists as returned by the
+   <code><a href='read_gmt.html'>read_gmt</a></code> function. This function returns the subset of 
+   pathways which contain the set of symbols requested</p>
     </div>
 
-    <pre class="usage"><span class='fu'>CheckSampleIDs</span>(<span class='no'>df</span>)</pre>
+    <pre class="usage"><span class='fu'>WhichPathways</span>(<span class='no'>x</span>, <span class='no'>symbols_char</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>An assay or phenotype data frame supplied to the
-<code><a href='CreateOmics.html'>CreateOmics</a></code> function</p></td>
+      <th>x</th>
+      <td><p>An object of class <code>pathwayCollection</code>.</p></td>
+    </tr>
+    <tr>
+      <th>symbols_char</th>
+      <td><p>A character vector or scalar of gene symbols or regions</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to the <code><a href='Contains.html'>Contains</a></code> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The same data frame, <strong>if</strong> the sample IDs pass sanity checks,
-   with the sample IDs as a character vector.</p>
+    <p>An object of class <code>pathwayCollection</code>, but containing only the
+   sets which contain the symbols supplied to <code>symbols_char</code>. If no sets
+   are found to contain the symbols supplied, this function returns
+   <code>NULL</code> and prints a warning.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function checks that the sample IDs are unique, then coerces
-   them from factor to character (if necessary), stores these IDs as the
-   first column, then returns the same data frame.</p>
+    <p>This function finds the index of each set that contains the symbols
+   supplied, then returns those sets as a new <code>pathwayCollection</code>
+   object. Find pathways that contain geneA OR geneB by passing the argument
+   <code>matches = "any"</code> through <code>...</code> to <code><a href='Contains.html'>Contains</a></code> (this
+   is the default value). Find pathways that contain geneA AND geneB by
+   changing this argument to <code>matches = "all"</code>. Find all genes in a 
+   specified family by passing in one value to <code>short</code> and setting
+   <code>partial = TRUE</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='co'># DO NOT CALL THIS FUNCTION DIRECTLY. CALL FROM WITHIN CreateOmics().</span>
+    <pre class="examples"><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"colon_pathwayCollection"</span>)
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"colonSurv_df"</span>)
- <span class='fu'>CheckSampleIDs</span>(<span class='no'>colonSurv_df</span>[, -(<span class='fl'>2</span>:<span class='fl'>3</span>)])
-}</div></pre>
+  <span class='fu'>WhichPathways</span>(<span class='no'>colon_pathwayCollection</span>, <span class='st'>"MAP"</span>, <span class='kw'>partial</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: 
+#&gt;  $ pathways:List of 8
+#&gt;  $ TERMS   : chr [1:8] "KEGG_ERBB_SIGNALING_PATHWAY" ...</div><div class='input'>
+  <span class='fu'>WhichPathways</span>(
+    <span class='no'>colon_pathwayCollection</span>,
+    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"MAP4K5"</span>, <span class='st'>"RELA"</span>),
+    <span class='kw'>matches</span> <span class='kw'>=</span> <span class='st'>"all"</span>
+  )</div><div class='output co'>#&gt; Object with Class(es) 'pathwayCollection', 'list' [package 'pathwayPCA'] with 2 elements: 
+#&gt;  $ pathways:List of 1
+#&gt;  $ TERMS   : chr "PID_TNF_PATHWAY"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -5,9 +5,16 @@
 \title{Calculate pathway-specific Student's \eqn{t}-scores from a null distribution
    or the true distribution for supervised PCA}
 \usage{
-PathwaytValues(pathway_vec, geneArray_df, response_mat,
+PathwaytValues(
+  pathway_vec,
+  geneArray_df,
+  response_mat,
   responseType = c("survival", "regression", "categorical"),
-  control = FALSE, n.threshold = 20, numPCs = 1, min.features = 3)
+  control = FALSE,
+  n.threshold = 20,
+  numPCs = 1,
+  min.features = 3
+)
 }
 \arguments{
 \item{pathway_vec}{A character vector of the measured -Omes in the chosen

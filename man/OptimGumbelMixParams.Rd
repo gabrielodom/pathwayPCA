@@ -5,9 +5,14 @@
 \title{Calculate the optimal parameters for a mixture of Weibull Extreme Value
    Distributions for supervised PCA}
 \usage{
-OptimGumbelMixParams(max_tControl_vec, pathwaySize_vec, initialVals = c(p
-  = 0.5, mu1 = 1, s1 = 0.5, mu2 = 1, s2 = 0.5), optimMethod = "L-BFGS-B",
-  lowerBD = c(0, -Inf, 0, -Inf, 0), upperBD = c(1, Inf, Inf, Inf, Inf))
+OptimGumbelMixParams(
+  max_tControl_vec,
+  pathwaySize_vec,
+  initialVals = c(p = 0.5, mu1 = 1, s1 = 0.5, mu2 = 1, s2 = 0.5),
+  optimMethod = "L-BFGS-B",
+  lowerBD = c(0, -Inf, 0, -Inf, 0),
+  upperBD = c(1, Inf, Inf, Inf, Inf)
+)
 }
 \arguments{
 \item{max_tControl_vec}{A vector of the maximum absolute \eqn{t}-scores for

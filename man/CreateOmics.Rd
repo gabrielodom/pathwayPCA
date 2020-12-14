@@ -4,9 +4,15 @@
 \alias{CreateOmics}
 \title{Generation Wrapper function for \code{-Omics*}-class objects}
 \usage{
-CreateOmics(assayData_df, pathwayCollection_ls, response = NULL,
+CreateOmics(
+  assayData_df,
+  pathwayCollection_ls,
+  response = NULL,
   respType = c("none", "survival", "regression", "categorical"),
-  centerScale = c(TRUE, TRUE), minPathSize = 3, ...)
+  centerScale = c(TRUE, TRUE),
+  minPathSize = 3,
+  ...
+)
 }
 \arguments{
 \item{assayData_df}{An \eqn{N \times p} data frame with named columns.}

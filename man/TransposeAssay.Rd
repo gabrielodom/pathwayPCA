@@ -4,8 +4,11 @@
 \alias{TransposeAssay}
 \title{Transpose an Assay (Data Frame)}
 \usage{
-TransposeAssay(assay_df, omeNames = c("firstCol", "rowNames"),
-  stringsAsFactors = FALSE)
+TransposeAssay(
+  assay_df,
+  omeNames = c("firstCol", "rowNames"),
+  stringsAsFactors = FALSE
+)
 }
 \arguments{
 \item{assay_df}{A data frame with numeric values to transpose}

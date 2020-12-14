@@ -4,8 +4,7 @@
 \alias{aespca}
 \title{Adaptive, elastic-net, sparse principal component analysis}
 \usage{
-aespca(X, d = 1, max.iter = 10, eps.conv = 0.001, adaptive = TRUE,
-  para = NULL)
+aespca(X, d = 1, max.iter = 10, eps.conv = 0.001, adaptive = TRUE, para = NULL)
 }
 \arguments{
 \item{X}{A pathway design matrix: the data matrix should be \eqn{n \times p},
@@ -69,4 +68,3 @@ This function calculates the loadings and reduced-dimension
 \code{\link{normalize}}; \code{\link{lars.lsa}};
    \code{\link{ExtractAESPCs}}; \code{\link{AESPCA_pVals}}
 }
-\keyword{internal}

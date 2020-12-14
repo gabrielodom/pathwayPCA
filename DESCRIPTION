@@ -1,7 +1,7 @@
 Package: pathwayPCA
 Type: Package
 Title: Integrative Pathway Analysis with Modern PCA Methodology and Gene Selection
-Version: 1.6.2
+Version: 1.6.3
 Authors@R: c(person("Gabriel", "Odom", email = "gabriel.odom@med.miami.edu", role = c("aut","cre")),
   person("James", "Ban", email = "yuguang.ban@med.miami.edu", role = c("aut")),
   person("Lizhong", "Liu", email = "lxl816@miami.edu", role = c("aut")),
@@ -27,7 +27,7 @@ Description: pathwayPCA is an integrative analysis tool that implements the
   Chen et al. (2010) <https://doi.org/10.1002/gepi.20532>; and
   Chen (2011) <https://doi.org/10.2202/1544-6115.1697>.
 License: GPL-3
-Depends: R (>= 3.6)
+Depends: R (>= 3.1)
 Imports:
     lars,
     methods,
@@ -78,7 +78,7 @@ biocViews:
     Pathways
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Collate: 
     'CreatePathwayCollection.R'
     'createClass_OmicsPath.R'
@@ -138,7 +138,5 @@ Collate:
     'utils_transpose_assay.R'
     'utils_write_gmt.R'
 VignetteBuilder: knitr
-URL:
-  <https://gabrielodom.github.io/pathwayPCA/>  
-  <https://github.com/gabrielodom/pathwayPCA>
+URL: <https://gabrielodom.github.io/pathwayPCA/>
 BugReports: https://github.com/gabrielodom/pathwayPCA/issues
