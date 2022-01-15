@@ -4,7 +4,8 @@
 \name{wikipwsHS_Symbol_pathwayCollection}
 \alias{wikipwsHS_Symbol_pathwayCollection}
 \title{Wikipathways Homosapiens Gene Symbols}
-\format{A \code{pathwayCollection} list of three elements:
+\format{
+A \code{pathwayCollection} list of three elements:
 \itemize{
   \item{\code{pathways} : }{A named list of 457 character vectors. Each
      vector contains the Gene Symbols of the individual genes within that
@@ -14,12 +15,13 @@
      shorthand names of the gene pathways.}
   \item{\code{description} : }{A character vector of length 457 containing
      the full names of the gene pathways.}
-}}
+}
+}
 \source{
 Dr. Alexander Pico, Wikipathways
 }
 \usage{
-wikipwsHS_Symbol_pathwayCollection
+data(wikipwsHS_Symbol_pathwayCollection)
 }
 \description{
 A \code{pathwayCollection} object containing the homosapiens

@@ -23,4 +23,5 @@
 #' }
 #'
 #' @source Dr. Alexander Pico, Wikipathways
+#' @usage data(wikipwsHS_Symbol_pathwayCollection)
 "wikipwsHS_Symbol_pathwayCollection"

@@ -4,7 +4,8 @@
 \name{wikipwsHS_Entrez_pathwayCollection}
 \alias{wikipwsHS_Entrez_pathwayCollection}
 \title{Wikipathways Homosapiens EntrezIDs}
-\format{A \code{pathwayCollection} list of three elements:
+\format{
+A \code{pathwayCollection} list of three elements:
 \itemize{
   \item{\code{pathways} : }{A named list of 443 character vectors. Each
      vector contains the Entrez Gene IDs of the individual genes within that
@@ -14,12 +15,13 @@
      shorthand names of the gene pathways.}
   \item{\code{description} : }{A character vector of length 443 containing
      the full names of the gene pathways.}
-}}
+}
+}
 \source{
 Dr. Alexander Pico, Wikipathways
 }
 \usage{
-wikipwsHS_Entrez_pathwayCollection
+data(wikipwsHS_Entrez_pathwayCollection)
 }
 \description{
 A \code{pathwayCollection} object containing the homosapiens

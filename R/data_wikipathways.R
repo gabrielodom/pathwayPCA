@@ -20,4 +20,5 @@
 #' }
 #'
 #' @source Dr. Alexander Pico, Wikipathways
+#' @usage data(wikipwsHS_Entrez_pathwayCollection)
 "wikipwsHS_Entrez_pathwayCollection"

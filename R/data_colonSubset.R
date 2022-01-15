@@ -9,4 +9,5 @@
 #'
 #' @source GEO GSE17538
 #'   \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE17538}
+#' @usage data(colonSurv_df)
 "colonSurv_df"

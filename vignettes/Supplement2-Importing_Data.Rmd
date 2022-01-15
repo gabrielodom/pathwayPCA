@@ -186,7 +186,7 @@ assayT_df$LSS
 
 ## 3.4 Data from a `SummarizedExperiment` Object
 Oftentimes, genomic experiment data is stored in a `SummarizedExperiment`-class object. If your assay and response data are stored in such an object, use the `SE2Tidy()` function to extract the necessary information and return it as a tidy data frame. Because `SummarizedExperiment` objects can have more than one assay, you must specify the index for the assay of your choice with the `whichAssay` argument. Here is an example using the `airway` data:
-```{r stdExpr_Example}
+```{r stdExpr_Example, message=FALSE}
 library(SummarizedExperiment)
 data(airway, package = "airway")
 

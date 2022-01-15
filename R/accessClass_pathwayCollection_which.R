@@ -42,9 +42,10 @@ WhichPathways <- function(x, symbols_char, ...){
   }
   type_char <- names(x)[1]
   
-  symbol_logi <- sapply(
+  symbol_logi <- vapply(
     x[[1]],
     Contains,
+    FUN.VALUE = logical(1),
     short = symbols_char,
     ...
   )

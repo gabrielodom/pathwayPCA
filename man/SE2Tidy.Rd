@@ -16,7 +16,9 @@ pathway collection to create an \code{Omics*}-class data container?
 Defaults to 1, for the first assay in the object.}
 }
 \value{
-The transposition of the assay in \code{summExperiment} to tidy form
+The transposition of the assay in \code{summExperiment} to tidy form,
+   with the column data (from the \code{colData} slot of the object) appended
+   as the first columns of the data frame.
 }
 \description{
 Extract the assay information from a

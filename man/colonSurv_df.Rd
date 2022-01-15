@@ -4,15 +4,17 @@
 \name{colonSurv_df}
 \alias{colonSurv_df}
 \title{Colon Cancer -Omics Data}
-\format{A subset of a data frame containing 656 of 2022 genes measured on
+\format{
+A subset of a data frame containing 656 of 2022 genes measured on
   250 subjects. The first two columns are the Overall Survival time
-  (\code{OS_time}) and death indicator (\code{OS_event}).}
+  (\code{OS_time}) and death indicator (\code{OS_event}).
+}
 \source{
 GEO GSE17538
   \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE17538}
 }
 \usage{
-colonSurv_df
+data(colonSurv_df)
 }
 \description{
 Subset of a colon cancer survival data set, with subject

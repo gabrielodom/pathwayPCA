@@ -17,4 +17,5 @@
 #' }
 #'
 #' @source \url{http://software.broadinstitute.org/gsea/msigdb/collections.jsp}
+#' @usage data(colon_pathwayCollection)
 "colon_pathwayCollection"
