@@ -89,11 +89,17 @@ for more information.
   if(any(smallVars)){
 
     var0Genes <- colnames(df2)[smallVars]
+    # This message hides other messages if more than 500 gene names are printed.
+    #   See: https://github.com/gabrielodom/pathwayPCA/issues/90
     message(
-      sprintf("%i genes have variance < epsilon and will be removed. These gene(s) are:",
+      sprintf("%i genes have variance < epsilon and will be removed. These gene(s) include:",
               length(var0Genes))
     )
-    print(var0Genes)
+    if (length(var0Genes) >= 500) {
+      print(var0Genes[seq_len(500)])
+    } else {
+      print(var0Genes)
+    }
 
     if(removeNear0){
       df2 <- df2[, !smallVars]
@@ -104,12 +110,18 @@ for more information.
 
   ###  Check Column Names  ###
   bad_names <- .detect_invalid_names(colnames(df2))
+  # This message hides other messages if more than 500 gene names are printed.
+  #   See: https://github.com/gabrielodom/pathwayPCA/issues/90
   if(length(bad_names) > 0){
     message(
-      sprintf("%i gene name(s) are invalid. Invalid name(s) are:",
+      sprintf("%i gene name(s) are invalid. Invalid name(s) include:",
               length(bad_names))
     )
-    print(bad_names)
+    if (length(bad_names) >= 500) {
+      print(bad_names[seq_len(500)])
+    } else {
+      print(bad_names)
+    }
     message("These genes may be excluded from analysis. Proper gene names
 contain alphanumeric characters only, and start with a letter.")
   }

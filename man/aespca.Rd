@@ -48,6 +48,11 @@ A function to perform adaptive, elastic-net, sparse principal
 This function calculates the loadings and reduced-dimension
    predictor matrix using both the Singular Value Decomposition and AES-PCA
    Decomposition (as described in Efron et al (2003)) of the data matrix.
+   Note that, if the number of features in the pathway exceeds the number of
+   samples, this decompostion will be an approximation; also, the internal
+   \code{\link{lars.lsa}} function may require more computing time than usual
+   to converge (which is one of the reasons why, in practice, we usually
+   remove pathways that have more than 200-300 features).
 
    See \url{https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf}.
 

@@ -65,7 +65,7 @@ LARS is described in detail in Efron, Hastie, Johnstone and
   
   lars.lsa(
     Sigma0 = XtX,
-    b0 = A_mat[1, ] * sign(A_mat[1, 1]),
+    b0 = A_mat[, 1] * sign(A_mat[1, 1]),
     n = ncol(X_mat)
   )
 }

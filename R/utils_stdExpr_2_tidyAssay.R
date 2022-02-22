@@ -18,6 +18,9 @@
 #'    This function also transposes the row (feature) names to column names and
 #'    the column (sample) names to row names via the
 #'    \code{\link{TransposeAssay}} function.
+#'    
+#'    NOTE: if this function stops working (again), please add a comment here:
+#'    \url{https://github.com/gabrielodom/pathwayPCA/issues/83}
 #'
 #' @return The transposition of the assay in \code{summExperiment} to tidy form,
 #'    with the column data (from the \code{colData} slot of the object) appended
@@ -35,15 +38,10 @@
 #'    airway_df <- SE2Tidy(airway)
 #'
 SE2Tidy <- function(summExperiment, whichAssay = 1){
+  # browser()
   
   ###  Assay  ###
-  assay_mat <- slot(
-    slot(
-      summExperiment,
-      "assays"
-    ),
-    "data"
-  )[[whichAssay]]
+  assay_mat <- slot(summExperiment, "assays")[["data"]][[whichAssay]]
   dimnames(assay_mat)[c(1,2)] <- dimnames(summExperiment)
   assay_df <- TransposeAssay(
     assay_df = data.frame(assay_mat),

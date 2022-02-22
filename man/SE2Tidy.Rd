@@ -33,6 +33,9 @@ This function is designed to extract and transpose a "tall" assay
    This function also transposes the row (feature) names to column names and
    the column (sample) names to row names via the
    \code{\link{TransposeAssay}} function.
+   
+   NOTE: if this function stops working (again), please add a comment here:
+   \url{https://github.com/gabrielodom/pathwayPCA/issues/83}
 }
 \examples{
    # THIS REQUIRES THE SummarizedExperiment PACKAGE.

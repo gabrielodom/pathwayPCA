@@ -48,7 +48,7 @@
 #'   
 #'   lars.lsa(
 #'     Sigma0 = XtX,
-#'     b0 = A_mat[1, ] * sign(A_mat[1, 1]),
+#'     b0 = A_mat[, 1] * sign(A_mat[1, 1]),
 #'     n = ncol(X_mat)
 #'   )
 #' }
@@ -59,6 +59,7 @@ lars.lsa <- function(Sigma0, b0, n,
                      eps = .Machine$double.eps,
                      adaptive = TRUE,
                      para = NULL){
+  # browser()
 
   type <- match.arg(type)
   TYPE <- switch(type, lasso = "LASSO", lar = "LAR")
@@ -108,8 +109,10 @@ lars.lsa <- function(Sigma0, b0, n,
     k <- k + 1
     C <- Cvec[inactive]
     Cmax <- max(abs(C))
-
-    # Add escape hatch. See:
+    
+    
+    # browser()
+    # # The issue is that A can be a vector of NaNs, and there's no escape. See:
     # https://github.com/cran/lars/blob/5b6af0bcd469ee7fc9cffb4d87594fbec84e4a8c/R/lars.R
     if(is.nan(Cmax)){
       break
@@ -169,20 +172,26 @@ lars.lsa <- function(Sigma0, b0, n,
     dropouts <- NULL
     A <- 1 / sqrt(sum(Gi1 * Sign))  # This can easily be NaN
     w <- A * Gi1
-
-    if (length(active) >= m) {
+    
+    dropCols_idx <- c(active, unique(ignores))
+    # Escape for rank deficient cases: when we have p > n, Cmax can get *really*
+    #   tiny without making it past the 100 * eps threshold. In these cases,
+    #   the number of retained columns in Sigma below (to calculate "a") may not
+    #   be equal to the number of kept values in "C". See 
+    #   https://github.com/gabrielodom/pathwayPCA/issues/65
+    if ( length(C) != (m - length(dropCols_idx)) ) {
+      
+      gamhat <- Cmax / A
+      
+    } else if (length(active) >= m) {
       gamhat <- Cmax / A
     } else {
 
-      a <- drop(w %*% Sigma[active, -c(active, ignores), drop = FALSE])
+      a <- drop(w %*% Sigma[active, -dropCols_idx, drop = FALSE])
       gam <- c((Cmax - C) / (A - a), (Cmax + C) / (A + a))
       gamhat <- min(gam[gam > eps], Cmax / A)
 
     }
-
-    ###  Restart Inspection HERE  ###
-    # browser()
-    # # The issue is that A can be a vector of NaNs, and there's no escape
 
     if(type == "lasso"){
 
