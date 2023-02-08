@@ -8,8 +8,8 @@ TabulatepValues(
   pVals_vec,
   genesets_ls,
   adjust = TRUE,
-  proc_vec = c("BH", "Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BY",
-    "ABH", "TSBH"),
+  proc_vec = c("BH", "Bonferroni", "Holm", "Hochberg", "SidakSS", "SidakSD", "BY", "ABH",
+    "TSBH"),
   ...
 )
 }

@@ -41,7 +41,7 @@ SE2Tidy <- function(summExperiment, whichAssay = 1){
   # browser()
   
   ###  Assay  ###
-  assay_mat <- slot(summExperiment, "assays")[["data"]][[whichAssay]]
+  assay_mat <- slot(slot(summExperiment, "assays"), "data")[[whichAssay]]
   dimnames(assay_mat)[c(1,2)] <- dimnames(summExperiment)
   assay_df <- TransposeAssay(
     assay_df = data.frame(assay_mat),

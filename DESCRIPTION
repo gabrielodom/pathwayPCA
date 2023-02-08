@@ -78,7 +78,7 @@ biocViews:
     Pathways
 Encoding: UTF-8
 LazyData: false
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Collate: 
     'CreatePathwayCollection.R'
     'createClass_OmicsPath.R'
